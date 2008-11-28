@@ -1,0 +1,13 @@
+################################################################################
+# Scenario: L_DD_ETHERNET_1002_0001
+# Author  : Abraham Arce
+# Date    : Fri Mar 28 13:59:10 CDT 2008
+################################################################################
+
+# Begin L_DD_ETHERNET_1002_0001
+
+COMMENT_INT comment.sh "To test that the driver supports nfs mounting remote server's nfs mounts"
+
+0000 echo; echo; echo "mount -o nolock -t nfs <nfs.server.ip>:<exported.directory> <where to mount>"; echo; echo
+
+# End L_DD_ETHERNET_1002_0001

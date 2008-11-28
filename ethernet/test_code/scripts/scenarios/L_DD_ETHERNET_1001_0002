@@ -1,0 +1,13 @@
+################################################################################
+# Scenario: L_DD_ETHERNET_1001_0002
+# Author  : Abraham Arce
+# Date    : Fri Mar 28 13:59:10 CDT 2008
+################################################################################
+
+# Begin L_DD_ETHERNET_1001_0002
+
+COMMENT_INT comment.sh "To test that the driver supports carrying out the ftpget and ftpput session"
+
+0000 echo;echo; echo "use ftpget and ftpput to test this scenario";echo;echo
+
+# End L_DD_ETHERNET_1001_0002

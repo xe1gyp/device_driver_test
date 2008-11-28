@@ -1,0 +1,21 @@
+###################################################################################################################
+# Scenario: L_DD_MMC_0003
+# Author  : Misael Lopez Cruz
+# Date    : March 29, 2007
+# Description: Test that driver supports hotplug features
+###################################################################################################################
+
+foo 	echo "L_DD_MMC_0003"
+
+setup	echo -e "n\n p\n 1\n $START_SECTOR_DEV1\n $END_SECTOR_DEV1\n w\n" | fdisk $ROOT_ENTRY_DEV1 && $TESTBIN/mke2fs $PARTITION1_ENTRY_DEV1 && echo "Remove MMC card from slot 1" && $UTILBIN/waitkey && exit 0 || exit 1
+0001	echo "Insert MMC card into slot 1 (To ensure that partition is mounted, insert the card twice)" && sleep 1 && $UTILBIN/waitkey && df | grep $DEFAULT_MOUNT_POINT1 && echo "Remove MMC card from slot 1" && sleep 1 && $UTILBIN/waitkey && (df | grep $DEFAULT_MOUNT_POINT1 && exit 1 || echo "Unmounted successfully") && exit 0 || exit 1
+0002	echo "Insert MMC card into slot 1" && sleep 1 && $UTILBIN/waitkey && df | grep $DEFAULT_MOUNT_POINT1 && echo "Remove MMC card from slot 1" && sleep 1 && $UTILBIN/waitkey && (df | grep $DEFAULT_MOUNT_POINT1 && exit 1 || echo "Unmounted successfully") && exit 0 || exit 1
+0003	echo "Insert MMC card into slot 1" && sleep 1 && $UTILBIN/waitkey && df | grep $DEFAULT_MOUNT_POINT1 && echo "Remove MMC card from slot 1" && sleep 1 && $UTILBIN/waitkey && (df | grep $DEFAULT_MOUNT_POINT1 && exit 1 || echo "Unmounted successfully") && exit 0 || exit 1
+0004	echo "Insert MMC card into slot 1" && sleep 1 &&  $UTILBIN/waitkey && df | grep $DEFAULT_MOUNT_POINT1 && cp $TESTROOT/$BIG_FILE $DEFAULT_MOUNT_POINT1 && sync && echo "Remove MMC card from slot 1" && sleep 1 && $UTILBIN/waitkey && echo "Insert MMC card into slot 1" && sleep 1 && $UTILBIN/waitkey && df | grep $DEFAULT_MOUNT_POINT1 && cmp $TESTROOT/$BIG_FILE $DEFAULT_MOUNT_POINT1/$BIG_FILE && rm $DEFAULT_MOUNT_POINT1/$BIG_FILE && sync && echo "Remove MMC card from slot 1" && sleep 1 && $UTILBIN/waitkey && (df | grep $DEFAULT_MOUNT_POINT1 && exit 1 || echo "Unmounted successfully") && exit 0 || exit 1
+#0005_a	echo "Insert MMC card into slot 1" && sleep 1 && $UTILBIN/waitkey && df | grep $DEFAULT_MOUNT_POINT1 && (cp $TESTROOT/$BIG_FILE $DEFAULT_MOUNT_POINT1 &) && echo "Remove MMC card from slot 1 (Several IO errors are expected!)" && sleep 1 && $UTILBIN/waitkey && (df | grep $DEFAULT_MOUNT_POINT1 && exit 1 || echo "Unmounted successfully") && exit 0 || exit 1
+#0005_b	echo "Insert MMC card into slot 1" && sleep 1 && $UTILBIN/waitkey && df | grep $DEFAULT_MOUNT_POINT1 && echo "Remove MMC card from slot 1" && sleep 1 && $UTILBIN/waitkey && (df | grep $DEFAULT_MOUNT_POINT1 && exit 1 || echo "Unmounted successfully") && exit 0 || exit 1
+0006	echo $HOTPLUG_DISABLE > $HOTPLUG_DEV1 && echo "Insert and remove MMC card into/from slot 1" && sleep 1 && $UTILBIN/waitkey && df | grep $DEFAULT_MOUNT_POINT1 && exit 1 || exit 0
+0007	echo $HOTPLUG_ENABLE > $HOTPLUG_DEV1 && echo "Insert MMC card into slot 1" && sleep 1 && $UTILBIN/waitkey && df | grep $DEFAULT_MOUNT_POINT1 && echo "Remove MMC card from slot 1" && sleep 1 && $UTILBIN/waitkey && (df | grep $DEFAULT_MOUNT_POINT1 && exit 1 || echo "Unmounted successfully") && exit 0 || exit 1
+cleanup	echo "Insert MMC card into slot 1" && sleep 1 && $UTILBIN/waitkey && umount $DEFAULT_MOUNT_POINT1 && echo -e "d\n w\n" | fdisk $ROOT_ENTRY_DEV1 && exit 0 || exit 1
+
+bar 	echo "L_DD_MMC_0003"

@@ -1,0 +1,55 @@
+###############
+# Power Management Configuration Script
+###############
+# if we have a working rtc, this is good.. else use next line
+export POSTFIX=`date "+%Y%m%d-%H%M%S"`
+
+# Load up the defaults
+export TESTROOT=${PWD}
+export TESTBIN=${PWD}/../bin
+export TESTLIB=${PWD}/../lib
+export TESTSCRIPT=${PWD}/helper
+export TESTMODS=${PWD}/../mods
+export TMPBASE=${TESTROOT}/tmp
+export TMPFILE=${TMPBASE}/tmp.$POSTFIX
+export CMDFILE=cmd.$POSTFIX
+export TESTDIR=${TESTROOT}/test
+export PRETTY_PRT=""
+export VERBOSE=""
+export OUTPUTFILE=${TESTROOT}/output.$POSTFIX
+export LOGFILE=${TESTROOT}/log.$POSTFIX
+export PATH="${TESTROOT}:${TESTBIN}:${TESTSCRIPT}:${PATH}"
+export TC_SCENARIO="${TESTROOT}/scenarios"
+export SCENARIO_NAMES=""
+export INTERACTIVE=""
+export STRESS=""
+export UTILBIN=${TESTROOT}/../../utils/bin
+
+# Utilities
+export WAIT_ANSWER=${UTILBIN}/akey
+
+# Logs
+export LOG_OUTPUT="$TESTROOT/log.custom.powermanagement"
+
+# Specific Variables
+export NAME=""
+export MESSAGE_DELAY=5
+export DESCRIPTION=""
+
+export MIN_INT_PER_SECOND=0
+export MAX_INT_PER_SECOND=1500
+
+
+# Power Management
+
+#export DPM_SCRIPT=$TESTSCRIPT/dpm.bash
+export DPM_SCRIPT=$TESTSCRIPT/dpm_test_8x.bash
+export PARAMETERS=""
+export TIME_TO_REPEAT=0
+export QUIT_OPTION=0
+export SCALE_OPTION=6
+export SLEEP_OPTION=4
+export SLOW_OPERATING_POINT=s
+export FAST_OPERATING_POINT=f
+export STRESS_OPERATING_POINTS=7
+export STRESS_FREQUENCIES=6

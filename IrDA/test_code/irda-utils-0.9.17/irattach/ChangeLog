@@ -1,0 +1,43 @@
+2004-01-16  Jean II
+	* Changed ../include/irda.h from GPL to LGPL for external apps.
+	Dag Brattli gave me his explicit approval via e-mail, and I'm the
+	only other person having modified it.
+	Note : the rest of the code is still GPL.
+
+2003-08-18  Jean II
+	* Move start_tty before fork to get error messages on console
+	* Don't restore disc/termio in cleanup if invalid
+	* Set FD_CLOEXEC on ttyfd so that popen does not inherit it (Martin)
+
+2002-07-18  Jean II
+	* Fix "irattach -h/-v" (thanks to Werner Heuser for spotting this)
+
+2002-06-03  Jean II
+	* Added ma600 dongle support
+
+2002-05-22  Jean II
+	* Added act200l dongle support
+
+2002-04-17  Jean II
+	* Merged and corrected patch from Ronny Arild :
+		o proper exit in case of failure
+		o restore initial tty settings
+		o print error in invalid options
+	* Reorganise code, add inline/static
+	* Tighten device name parsing, return error and exit
+	* Fix dongle loading for irport case
+	* Accept module name as first argument and load all module devices
+	* More logical operation order in main()
+
+2002-04-03  Jean II
+	* Addded ep7211 & mcp2120 dongles
+	* Removed hard defined stuff in favor of irda.h
+
+1999-10-09  Dag Brattli  <dagb@cs.uit.no>
+
+	* irattach.c (cleanup): fixed function, so it will actually exit
+	  when a signal arrives
+	
+1999-10-07  Dag Brattli  <dagb@cs.uit.no>
+
+	* Added AirPort support to irattach and dongle_attach

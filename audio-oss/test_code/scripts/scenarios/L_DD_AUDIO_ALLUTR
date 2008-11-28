@@ -1,0 +1,394 @@
+#####################
+# FILENAME: L_DD_AUDIO_0001
+# Author  : Nishanth Menon
+# Date    : Wed Apr 26 11:38:48 CDT 2006
+# Copyright (C) 2006 Texas Instruments
+#
+# Description:
+# The Basic Audio Tests->Devfs checks
+
+foo   echo "L_DD_AUDIO_0001"
+
+# Check if the fs device exists
+0001  cat /proc/devices|grep sound || exit 1
+
+# Check for basic devfs device
+0002a test -c /dev/sound/dsp && test -c /dev/sound/mixer || exit 1
+
+# Check for filesystem devfs device
+0002b test -c /dev/dsp && test -c /dev/mixer || exit 1
+
+# Check if the devices are read/write/fullduplex operable
+# Check individual
+0003a dspopen read $DSP_DEVICE &&  dspopen write $DSP_DEVICE && dspopen readwrite $DSP_DEVICE || exit 1
+0003b dspopen read $MIXER_DEVICE &&  dspopen write $MIXER_DEVICE && dspopen readwrite $MIXER_DEVICE || exit 1
+
+# Check dsp against dsp second opening device should fail
+0004a sleep 2; (dspopen read $DSP_DEVICE &) && (dspopen read  $DSP_DEVICE ) && exit 0 || exit 1
+0004b sleep 2; (dspopen read $DSP_DEVICE &) && (dspopen write $DSP_DEVICE ) && exit 0 || exit 1
+0004c sleep 2; (dspopen read $DSP_DEVICE &) && (dspopen readwrite $DSP_DEVICE ) && exit 0 || exit 1
+004d sleep 2; (dspopen write $DSP_DEVICE &) && (dspopen write $DSP_DEVICE ) && exit 0 || exit 1
+0004e sleep 2; (dspopen write $DSP_DEVICE &) && (dspopen read $DSP_DEVICE ) && exit 0 || exit 1
+0004f sleep 2; (dspopen write $DSP_DEVICE &) && (dspopen readwrite $DSP_DEVICE ) && exit 0 || exit 1
+0004g sleep 2; (dspopen readwrite $DSP_DEVICE &) && (dspopen readwrite $DSP_DEVICE ) && exit 0 || exit 1
+0004h sleep 2; (dspopen readwrite $DSP_DEVICE &) && (dspopen read $DSP_DEVICE ) && exit 0 || exit 1
+0004i sleep 2; (dspopen readwrite $DSP_DEVICE &) && (dspopen write $DSP_DEVICE ) && exit 0 || exit 1
+
+# Mixer against mixer - both should pass
+0004j (dspopen read $MIXER_DEVICE &) && (dspopen read $MIXER_DEVICE ) && exit 0 || exit 1
+
+# Mixer against Dsp - both should pass
+0004k (dspopen read $MIXER_DEVICE &) && (dspopen read $DSP_DEVICE ) && exit 0 || exit 1
+0004l (dspopen read $MIXER_DEVICE &) && (dspopen write $DSP_DEVICE ) && exit 0 || exit 1
+0004m (dspopen read $MIXER_DEVICE &) && (dspopen readwrite $DSP_DEVICE ) && exit 0 || exit 1
+0004n (dspopen read $DSP_DEVICE &) && (dspopen read $MIXER_DEVICE ) && exit 0 || exit 1
+0004o (dspopen write $DSP_DEVICE &) && (dspopen read $MIXER_DEVICE ) && exit 0 || exit 1
+0004p (dspopen readwrite $DSP_DEVICE &) && (dspopen read $MIXER_DEVICE ) && exit 0 || exit 1
+
+bar   echo "L_DD_AUDIO_0001"
+
+#####################
+# FILENAME: L_DD_AUDIO_0002
+# Author  : Nishanth Menon
+# Date    : Wed Apr 26 11:38:48 CDT 2006
+# Copyright (C) 2006 Texas Instruments
+#
+# Description:
+# Check the basic IOCTLS
+
+foo   echo "L_DD_AUDIO_0002"
+
+# Retrieve the formats supported
+0001 dspget -r && dspget -b && dspget -c && dspget -f || exit 1
+# Set the sampling rate
+0002  REPORT=""; for i in $SAMPLE_RATES ; do dspset -r $i && CHECK=`dspget -r|grep "Sample rate is"|cut -d '|' -f 4` && [ $CHECK = $i ] && echo "Sample rate $i pass" || REPORT="$REPORT $i"; done; if [ -z $REPORT ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+# Set the channels
+0003 REPORT=""; for i in $CHANNELS ; do dspset -c $i && CHECK=`dspget -c|grep "No. of channels are"|cut -d '|' -f 4` && [ $CHECK = $i ] && echo "Channel $i pass" || REPORT="$REPORT $i"; done ; if [ -z $REPORT ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+# Set the supported formats
+0004 REPORT=""; for i in $FORMATS ; do dspset -f $i && CHECK=`dspget -f|grep "Format is "|cut -d '|' -f 4` && [ $CHECK = $i ] && echo "Format $i pass" || REPORT="$REPORT $i"; done; if [ -z $REPORT ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+# Set the bit sizes (formats)
+0004a REPORT=""; for i in $BIT_SIZES ; do dspset -b $i && CHECK=`dspget -b|grep "Sample size is"|cut -d '|' -f 4` && [ $CHECK = $i ] && echo "Sample size  $i pass" || REPORT="$REPORT $i"; done; if [ -z $REPORT ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+
+# Check the mixer ioctls
+# left volume check
+0005a REPORT="";for j in $MIXER_DEVICES_L ; do for i in $VOL_CHECK ; do echo $j $i 0;R1="";mixer $j $i 0 2>$TMPFILE && CHECK=`cat $TMPFILE|grep "gain set to"|cut -d ' ' -f 5|cut -d'%' -f1` && [ "$CHECK" != "$i" ] && R1="1";echo -n "vol check $j->$i:"; if [ -z "$R1" ]; then echo "pass" ; else echo "FAIL"; REPORT="$REPORT ($j,$i)";fi;cat $TMPFILE; done; done; if [ -z "$REPORT" ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+0005b REPORT="";for j in $MIXER_DEVICES_R ; do for i in $VOL_CHECK ; do echo $j 0 $i;R1="";mixer $j 0 $i 2>$TMPFILE && CHECK=`cat $TMPFILE|grep "gain set to"|cut -d ' ' -f 7|cut -d'%' -f1` && [ "$CHECK" != "$i" ] && R1="1";echo -n "vol check $j->$i:"; if [ -z "$R1" ]; then echo "pass" ; else "FAIL"; REPORT="$REPORT ($j,$i)";fi;cat $TMPFILE; done; done; if [ -z "$REPORT" ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+0005c REPORT="";for j in $MIXER_DEVICES_R ; do for i in $VOL_CHECK ; do echo $j $i $i;R1="";mixer $j $i $i 2>$TMPFILE && CHECK=`cat $TMPFILE|grep "gain set to"|cut -d ' ' -f 5|cut -d'%' -f1` && [ "$CHECK" != "$i" ] && R1="1";echo -n "vol check $j->$i:"; if [ -z "$R1" ]; then echo "pass" ; else "FAIL"; REPORT="$REPORT ($j,$i)";fi;cat $TMPFILE; done; done; if [ -z "$REPORT" ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+
+#Check against bad devices
+0005d1 REPORT="";for j in $MIXER_LESSBADDEVICES ; do for i in $VOL_CHECK ; do echo $j $i $i;R1="";mixer $j $i $i 2>$TMPFILE && CHECK=`cat $TMPFILE|grep "gain set to"|cut -d ' ' -f 5|cut -d'%' -f1` && [ "$CHECK" != "$i" ] && R1="1";echo -n "vol check $j->$i:"; if [ -z "$R1" ]; then echo "FAIL"; REPORT="$REPORT ($j,$i)"; else echo "(noSet)Pass";fi;cat $TMPFILE; done; done; if [ -z "$REPORT" ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+0005d2 REPORT="";for j in $MIXER_BADDEVICES ; do for i in $VOL_CHECK ; do echo $j $i $i;R1="";mixer $j $i $i 2>$TMPFILE && CHECK=`cat $TMPFILE|grep "gain set to"|cut -d ' ' -f 5|cut -d'%' -f1` && [ "$CHECK" != "$i" ] && R1="1";echo -n "vol check $j->$i:$R1:$CHECK:"; if [ -z "$R1" ]; then echo "(No Set)Pass"; else REPORT="$REPORT ($j,$i)"; echo "Fail";fi;cat $TMPFILE; done; done; if [ -z "$REPORT" ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+
+# Check invalid volume values
+0005e REPORT="";for j in $MIXER_DEVICES_R ; do for i in $VOL_UNCHECK; do echo $j 0 $i;R1="";mixer $j 0 $i 2>$TMPFILE && CHECK=`cat $TMPFILE|grep "gain set to"|cut -d ' ' -f 7|cut -d'%' -f1` && [ "$CHECK" != "$i" ] && R1="1";echo -n "vol check $j->$i:$R1:$CHECK:"; if [ -z "$R1" ]; then echo "(No Set)Pass"; else  echo "FAIL"; REPORT="$REPORT ($j,$i)"; echo "Fail";fi;cat $TMPFILE; done; done; if [ -z "$REPORT" ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+0005f REPORT="";for j in $MIXER_LESSBADDEVICES ; do for i in $VOL_UNCHECK; do echo $j 0 $i;R1="";mixer $j 0 $i 2>$TMPFILE && CHECK=`cat $TMPFILE|grep "gain set to"|cut -d ' ' -f 7|cut -d'%' -f1` && [ "$CHECK" != "$i" ] && R1="1";echo -n "vol check $j->$i:$R1:$CHECK:"; if [ -z "$R1" ]; then echo "(No Set)Pass"; else  echo "FAIL"; REPORT="$REPORT ($j,$i)"; echo "Fail";fi;cat $TMPFILE; done; done; if [ -z "$REPORT" ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+0005g REPORT="";for j in $MIXER_BADDEVICES; do for i in $VOL_UNCHECK; do echo $j 0 $i;R1="";mixer $j 0 $i 2>$TMPFILE && CHECK=`cat $TMPFILE|grep "gain set to"|cut -d ' ' -f 7|cut -d'%' -f1` && [ "$CHECK" != "$i" ] && R1="1";echo -n "vol check $j->$i:$R1:$CHECK:"; if [ -z "$R1" ]; then echo "(No Set)Pass"; else  echo "FAIL"; REPORT="$REPORT ($j,$i)"; echo "Fail";fi;cat $TMPFILE; done; done; if [ -z "$REPORT" ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+
+bar   echo "L_DD_AUDIO_0002"
+
+#####################
+# FILENAME: L_DD_AUDIO_0003
+# Author  : Nishanth Menon
+# Date    : Wed Apr 26 11:38:48 CDT 2006
+# Copyright (C) 2006 Texas Instruments
+#
+# Description:
+# This shall attempt to playback audio using  combinations of:
+# 1.	All supported sample rates
+# 2.	All supported sample sizes
+# 3.	All supported channels
+# 4.	Playback Gain Values
+# 5.	Playback sources
+# 6.	Varied buffer sizes
+# 7.	Power management - scale and deep sleep
+
+foo   echo "L_DD_AUDIO_0003"
+
+# For normal testing we do complete tests for two sample rates - a min and a max
+0001_setup t2_src_changer -i 2 -o 2 -d /dev/sound/dsp ;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+0001 export OUTPUT_DEVICES=1; export SAMPLE_RATES="44100 8000";export BUFFER_SIZES=4096;play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+0001 export OUTPUT_DEVICES=1; export BUFFER_SIZES=4096;play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+#Scale testing - pretty ordinary
+#0002a export OUTPUT_DEVICES=2;export SAMPLE_RATES="44100 8000";export POWER_MANAGEMENT="scale";export BUFFER_SIZES=4096;play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+#0002a export OUTPUT_DEVICES=1;export POWER_MANAGEMENT="scale";export BUFFER_SIZES=4096;play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+# This is painful - some one has to wake up the device..
+#0002b export OUTPUT_DEVICES=2; export SAMPLE_RATES="44100 8000";export POWER_MANAGEMENT="sleep";export BUFFER_SIZES=4096;play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+#0002b export OUTPUT_DEVICES=2; export POWER_MANAGEMENT="sleep";export BUFFER_SIZES=4096;play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+# Torture test - 
+0001b play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+#The following tests Take time ...  and require human intervention to wakeup by pressing key
+#0002d_EXT export POWER_MANAGEMENT="sleep";play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+#0002e_EXT export POWER_MANAGEMENT="scale";play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+0001_final t2_src_changer -i 1 -o 1 -d /dev/sound/dsp ;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+bar   echo "L_DD_AUDIO_0003"
+
+#####################
+# FILENAME: L_DD_AUDIO_0004
+# Author  : Nishanth Menon
+# Date    : Wed Apr 26 11:38:48 CDT 2006
+# Copyright (C) 2006 Texas Instruments
+#
+# Description:
+#--- RECORD SCENARIOS
+# This shall attempt to record audio using  combinations of:
+# 1.	All supported sample rates
+# 2.	All supported sample sizes
+# 3.	All supported channels
+# 4.	Record Gain Values
+# 5.	Record sources
+# 6.	Varied buffer sizes
+# 7.	Power management - scale and deep sleep
+# For normal testing we do complete tests for two sample rates - a min and a max
+
+foo   echo "L_DD_AUDIO_0004"
+
+0001_setup t2_src_changer -i 2 -o 2 -d /dev/sound/dsp ;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+# Time for a support script!!!
+0001a export INPUT_DEVICES=2; export SAMPLE_RATES="44100 8000";export BUFFER_SIZES=4096;record_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+# Torture test - 
+0001b record_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+#Scale testing - pretty ordinary
+#0002a export INPUT_DEVICES=1;export SAMPLE_RATES="44100 8000";export POWER_MANAGEMENT="scale";export BUFFER_SIZES=4096;record_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+# This is painful - some one has to wake up the device..
+#0002b export INPUT_DEVICES=1; export SAMPLE_RATES="44100 8000";export POWER_MANAGEMENT="sleep";export BUFFER_SIZES=4096;record_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+# Paranoia Test - The following tests are downright crazy... run them at risk of ur fingers ;)
+##0002d export POWER_MANAGEMENT="sleep";record_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+##0002e export POWER_MANAGEMENT="scale";record_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+0001_final t2_src_changer -i 1 -o 1 -d /dev/sound/dsp ;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+bar   echo "L_DD_AUDIO_0004"
+
+#####################
+# FILENAME: L_DD_AUDIO_0005
+# Author  : Nishanth Menon
+# Date    : Wed Apr 26 11:38:48 CDT 2006
+# Copyright (C) 2006 Texas Instruments
+#
+# Description:
+#--- Full Duplex SCENARIOS
+# This shall attempt to Fullduplex audio using  combinations of:
+# 1.	All supported sample rates
+# 2.	All supported sample sizes
+# 3.	All supported channels
+# 4.	Record Gain Values
+# 5.	Record sources
+# 6.	Varied buffer sizes
+# 7.	Power management - scale and deep sleep
+# For normal testing we do complete tests for two sample rates - a min and a max
+# IMPORTANT:
+# For Full duplex testing - ensure you dont record and playback on the same headset,
+# Feedback noise can cause issues where the input may not be reproducable on replay.
+
+foo   echo "L_DD_AUDIO_0005"
+
+0001_setup t2_src_changer -i 2 -o 2 -d /dev/sound/dsp ;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+# Time for a support script!!!
+0001 export INPUT_DEVICES=2;export OUTPUT_DEVICES=2; export SAMPLE_RATES="44100 8000";export BUFFER_SIZES=4096;fd_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+#Scale testing - pretty ordinary
+#0002a export INPUT_DEVICES=2;export OUTPUT_DEVICES=1;export SAMPLE_RATES="44100 8000";export POWER_MANAGEMENT="scale";export BUFFER_SIZES=4096;fd_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+# This is painful - some one has to wake up the device..
+#0002b export INPUT_DEVICES=2;export OUTPUT_DEVICES=1; export SAMPLE_RATES="44100 8000";export POWER_MANAGEMENT="sleep";export BUFFER_SIZES=4096;fd_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+# Torture test - 
+0001b fd_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+# Paranoia Test - The following tests are downright crazy... run them at risk of ur fingers ;)
+##0002d_EXT export POWER_MANAGEMENT="sleep";fd_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+##0002e_EXT export POWER_MANAGEMENT="scale";fd_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+0001_final t2_src_changer -i 1 -o 1 -d /dev/sound/dsp ;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+bar   echo "L_DD_AUDIO_0005"
+
+#####################
+# FILENAME: L_DD_AUDIO_0006
+# Author  : Nishanth Menon
+# Date    : Wed Apr 26 11:38:49 CDT 2006
+# Copyright (C) 2006 Texas Instruments
+#
+# Description:
+# Check Mixer Device.
+
+foo   echo "L_DD_AUDIO_0006"
+
+# Retrieve the formats supported
+0001a dspget -D $MIXER_DEVICE -r && dspget -D $MIXER_DEVICE -b && dspget -D $MIXER_DEVICE -c && dspget -D $MIXER_DEVICE -f || exit 1
+# Set the sampling rate
+0001b  REPORT=""; for i in $SAMPLE_RATES ; do dspset -D $MIXER_DEVICE -r $i && CHECK=`dspget -D $MIXER_DEVICE -r|grep "Sample rate is"|cut -d '|' -f 4` && [ $CHECK = $i ] && echo "Sample rate $i pass" || REPORT="$REPORT $i"; done; if [ -z $REPORT ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+# Set the channels
+0001c REPORT=""; for i in $CHANNELS ; do dspset -D $MIXER_DEVICE -c $i && CHECK=`dspget -D $MIXER_DEVICE -c|grep "No. of channels are"|cut -d '|' -f 4` && [ $CHECK = $i ] && echo "Channel $i pass" || REPORT="$REPORT $i"; done ; if [ -z $REPORT ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+# Set the supported formats
+0001d REPORT=""; for i in $FORMATS ; do dspset -D $MIXER_DEVICE -f $i && CHECK=`dspget -D $MIXER_DEVICE -f|grep "Format is "|cut -d '|' -f 4` && [ $CHECK = $i ] && echo "Format $i pass" || REPORT="$REPORT $i"; done; if [ -z $REPORT ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+# Set the bit sizes (formats)
+0001e REPORT=""; for i in $BIT_SIZES ; do dspset -D $MIXER_DEVICE -b $i && CHECK=`dspget -D $MIXER_DEVICE -b|grep "Sample size is"|cut -d '|' -f 4` && [ $CHECK = $i ] && echo "Sample size  $i pass" || REPORT="$REPORT $i"; done; if [ -z $REPORT ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+
+bar   echo "L_DD_AUDIO_0006"
+
+#####################
+# FILENAME: L_DD_AUDIO_0007
+# Author  : Nishanth Menon
+# Date    : Wed Apr 26 11:38:49 CDT 2006
+# Copyright (C) 2006 Texas Instruments
+#
+# Description:
+# Module Tests
+#The proper insert order is:
+# 1. buf
+# 2. audio
+# 3. codec
+# Check for audio files - they should not exist
+# IMPORTANT: The following test sequence is important.. each depend on previous
+
+foo   echo "L_DD_AUDIO_0007"
+
+# No Module should have been loaded and audio should not have been staticly compiled!!
+#0001a test -c /dev/sound/dsp && test -c /dev/sound/mixer || exit 0
+# Check for filesystem devfs device
+#0001b test -c /dev/dsp && test -c /dev/mixer || exit 0
+
+#Insert test - try insterting the modules in wrong order - all should fail
+#0001c (module.sh insert audio && exit 1) ||exit 0
+#0001d (module.sh insert codec && exit 1) ||exit 0
+
+# insert proper one!
+#0001e (module.sh insert buf && exit 0) ||exit 1
+#Re-insert of buf should fail
+#0001f (module.sh insert buf && exit 1) ||exit 0
+
+# Codec should not insert
+#0001g (module.sh insert codec && exit 1) ||exit 0
+
+# Insert of audio should suceed
+#0001h (module.sh insert audio && exit 0) ||exit 1
+# Re-Insert of audio should not suceed
+#0001i (module.sh insert audio && exit 1) ||exit 0
+
+# Insert of codec should suceed
+#0001j (module.sh insert codec && exit 0) ||exit 1
+# Re-Insert of codec should not suceed
+#0001k (module.sh insert codec && exit 1) ||exit 0
+
+# Check for audio files - they should exist now
+#0001m test -c /dev/sound/dsp && test -c /dev/sound/mixer || exit 1
+# Check for filesystem devfs device
+#0001n test -c /dev/dsp && test -c /dev/mixer || exit 1
+
+# Try play of a single song..
+#0001o export MONO_SUPPORT=stereo; export STEREO_DIR_SUPPORT=s; export BIT_SIZE=16; export OUTPUT_DEVICES=1; export SAMPLE_RATES="44100";export BUFFER_SIZES=4096;play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+# Now the fun part, try to remove the device using the following combis:
+# mixer device /dsp device is open 
+# open in read/write/readwrite modes
+# remove the buf/audio/codec modules
+#0002a (dspopen readwrite $DSP_DEVICE &) && sleep 1 && module.sh remove buf && exit 1 ||(wait.sh dspopen;exit 0)
+
+#0002b (dspopen readwrite $DSP_DEVICE &) && sleep 1 && module.sh remove audio && exit 1 ||(wait.sh dspopen;exit 0)
+#0002c (dspopen readwrite $DSP_DEVICE &) && sleep 1 && module.sh remove codec && exit 1 ||(wait.sh dspopen;exit 0)
+#0002d (dspopen readwrite $MIXER_DEVICE &) && sleep 1 && module.sh remove buf && exit 1 ||(wait.sh dspopen;exit 0)
+#0002e (dspopen readwrite $MIXER_DEVICE &) && sleep 1 && module.sh remove audio && exit 1 ||(wait.sh dspopen;exit 0)
+#0002f (dspopen readwrite $MIXER_DEVICE &) && sleep 1 && module.sh remove codec && exit 1 ||(wait.sh dspopen;exit 0)
+
+# Try to remove all previous modules... should not happen
+#0003a (module.sh remove audio && exit 1) ||exit 0
+#0003b (module.sh remove buf && exit 1) ||exit 0
+
+# Clean up:
+#0004a (module.sh remove codec && exit 0) ||exit 1
+#0004b (module.sh remove audio && exit 0) ||exit 1
+#0004c (module.sh remove buf && exit 0) ||exit 1
+
+# Check for audio files - they should not exist
+#0004d test -c /dev/sound/dsp && test -c /dev/sound/mixer || exit 0
+# Check for filesystem devfs device
+#0004e test -c /dev/dsp && test -c /dev/mixer || exit 0
+
+# Iteration test
+#0005 i=0;while [ $i -lt 10 ]; do module.sh insert buf && module.sh insert audio && module.sh insert codec && sleep 2 && test -c /dev/dsp && test -c /dev/mixer && module.sh remove codec && module.sh remove audio && module.sh remove buf || exit 1; i=`expr $i + 1`; echo "Worked $i times"; done
+
+#cleanup module.sh remove codec ; module.sh remove audio ; module.sh remove buf;exit 0
+
+bar   echo "L_DD_AUDIO_0007"
+
+#####################
+# FILENAME: L_DD_AUDIO_0008
+# Author  : Nishanth Menon
+# Date    : Wed Apr 26 11:38:49 CDT 2006
+# Copyright (C) 2006 Texas Instruments
+#
+# Description:
+# Test compatibility with other parallel device operations
+
+foo   echo "L_DD_AUDIO_0008";sleep 1
+
+# Test against keypad
+#0001a (evtest $INPUT_EVENT  |(sleep 2;killall evtest)&) && cat /dev/sound/dsp>/dev/null|(sleep 1;killall cat) && exit 0|| exit 1
+#0001b (cat /dev/sound/dsp>/dev/null|(sleep 2;killall cat) &) && evtest $INPUT_EVENT  |(sleep 1;killall evtest)  && exit 0|| exit 1
+
+# Test against MMC
+#0001c test -b /dev/mmc/blk0/part1 && test -d /mnt && mount /dev/mmc/blk0/part1 /mnt && (cp -rvf $TMPBASE /mnt|(sleep 2;killall cp;echo done) &) && cat /dev/sound/dsp>/dev/null|(sleep 1;killall cat;echo done) && sleep 1 && umount /mnt && exit 0 ||exit 1
+#0001d test -b /dev/mmc/blk0/part1 && test -d /mnt && mount /dev/mmc/blk0/part1 /mnt && (cat /dev/sound/dsp>/dev/null|(sleep 1;killall cat) &) && cp -rvf $TMPBASE /mnt|(sleep 2;killall cp;echo done) && sleep 1 && umount /mnt && exit 0 ||exit 1
+
+bar   echo "L_DD_AUDIO_0008"
+
+#####################
+# FILENAME: L_DD_AUDIO_0009
+# Author  : Nishanth Menon
+# Date    : Wed Apr 26 11:38:49 CDT 2006
+# Copyright (C) 2006 Texas Instruments
+#
+# Description:
+# test standard applications
+
+foo   echo "L_DD_AUDIO_0009"
+
+# test mixer functionality using aumix
+#0001a aumix -v 80 && exit 0 ||exit 1
+
+# Test a test mp3 play using madplay
+#0001b echo $TESTMP3; test -f $TESTMP3 && madplay -q $TESTMP3 && exit 0 ||exit 1
+
+# Take input from onboard mic
+#0001c t2_src_changer -d $MIXER_DEVICE -i 2 && exit 0||exit 1
+
+# Record the data
+#0001d sox -c 2 -r 44100 -t ossdsp $DSP_DEVICE $TMPBASE/foo.wav |(sleep 5;killall sox) && exit 0||exit 1
+#Play the data back to us
+#0001e sox $TMPBASE/foo.wav -c 2 -t ossdsp $DSP_DEVICE && exit 0 || exit 1
+
+#cleanup rm -f $TMPBASE/foo.wav
+
+bar   echo "L_DD_AUDIO_0009"
+
+#####################
+# FILENAME: L_DD_AUDIO_0010
+# Author  : Nishanth Menon
+# Date    : Wed Apr 26 11:38:49 CDT 2006
+# Copyright (C) 2006 Texas Instruments
+#
+# Description:
+# Test Audio codec configuration using i2cdump
+# When the dsp device is open in read/write/readwrite
+# and the same for mixer device.
+# if the dumps are same, then the configuration is assumed to be
+# proper
+
+foo   echo "L_DD_AUDIO_0010"
+
+#0001a (dspopen read /dev/sound/dsp &) && sleep 1 && i2cdump -y 1 0x49 b>dsp_dump && sleep 1 &&  (dspopen read /dev/sound/mixer &) && sleep 1 && i2cdump -y 1 0x49 b>mixer_dump && diff mixer_dump dsp_dump
+#0001b (dspopen write /dev/sound/dsp &) && sleep 1 && i2cdump -y 1 0x49 b>dsp_dump && sleep 1 &&  (dspopen write /dev/sound/mixer &) && sleep 1 && i2cdump -y 1 0x49 b>mixer_dump && diff mixer_dump dsp_dump
+#0001c (dspopen readwrite /dev/sound/dsp &) && sleep 1 && i2cdump -y 1 0x49 b>dsp_dump && sleep 1 &&  (dspopen readwrite /dev/sound/mixer &) && sleep 1 && i2cdump -y 1 0x49 b>mixer_dump && diff mixer_dump dsp_dump
+
+bar   echo "L_DD_AUDIO_0010"

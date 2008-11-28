@@ -1,0 +1,43 @@
+foo   echo "L_DD_AUDIO_0007"
+
+# No Module should have been loaded and audio should not have been staticly compiled!!
+0001a test -c /dev/sound/dsp && test -c /dev/sound/mixer || exit 0
+# Check for filesystem devfs device
+0001b test -c /dev/dsp && test -c /dev/mixer || exit 0
+
+#Insert test - try insterting the modules in wrong order - all should fail
+0001c (module.sh insert audio && exit 1) ||exit 0
+0001d (module.sh insert codec && exit 1) ||exit 0
+
+# insert proper one!
+0001e (module.sh insert buf && exit 0) ||exit 1
+#Re-insert of buf should fail
+0001f (module.sh insert buf && exit 1) ||exit 0
+
+# Codec should not insert
+0001g (module.sh insert codec && exit 1) ||exit 0
+
+# Insert of audio should suceed
+0001h (module.sh insert audio && exit 0) ||exit 1
+# Re-Insert of audio should not suceed
+0001i (module.sh insert audio && exit 1) ||exit 0
+
+# Insert of codec should suceed
+0001j (module.sh insert codec && exit 0) ||exit 1
+# Re-Insert of codec should not suceed
+0001k (module.sh insert codec && exit 1) ||exit 0
+
+# Check for audio files - they should exist now
+0001m test -c /dev/sound/dsp && test -c /dev/sound/mixer || exit 1
+# Check for filesystem devfs device
+0001n test -c /dev/dsp && test -c /dev/mixer || exit 1
+
+# Clean up:
+0004a (module.sh remove codec && exit 0) ||exit 1
+0004b (module.sh remove audio && exit 0) ||exit 1
+0004c (module.sh remove buf && exit 0) ||exit 1
+
+# Check for audio files - they should not exist
+0004d test -c /dev/sound/dsp && test -c /dev/sound/mixer || exit 0
+# Check for filesystem devfs device
+0004e test -c /dev/dsp && test -c /dev/mixer || exit 0

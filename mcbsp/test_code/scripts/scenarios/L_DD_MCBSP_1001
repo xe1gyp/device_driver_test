@@ -1,0 +1,12 @@
+##############################
+# File Name   : L_DD_MCBSP_1001
+# Author      : Abraham Arce
+# Date        : March 08, 2007
+# Description : McBSP Test Suite
+###############################
+
+# Begin L_DD_MCBSP_1001
+
+0001 set -x; echo "Nothing to run"
+
+# End L_DD_MCBSP_1001

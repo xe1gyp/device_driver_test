@@ -1,0 +1,12 @@
+###################################################################################################################
+# Scenario: L_DD_NAND_1001
+# Author  : Misael Lopez Cruz
+# Date    : August 29th, 2006
+# Description: File I/O operations
+###################################################################################################################
+
+# Begin L_DD_NAND_1001
+
+0001	$TESTBIN/flash_eraseall $JFFS_OPTION $MTD_CHAR_DEV1 && $TESTBIN/flash_eraseall $JFFS_OPTION $MTD_CHAR_DEV2 && $TESTBIN/fileio $MTD_BLK_DEV1 $MTD_BLK_DEV2 && exit 0 || exit 1
+
+# End L_DD_NAND_1001

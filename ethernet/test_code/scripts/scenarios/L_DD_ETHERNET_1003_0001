@@ -1,0 +1,14 @@
+################################################################################
+# Scenario: L_DD_ETHERNET_1003_0001
+# Author  : Abraham Arce
+# Date    : Fri Mar 28 13:59:10 CDT 2008
+################################################################################
+
+# Begin L_DD_ETHERNET_1003_0001
+
+COMMENT comment.sh "To test that the driver supports startup and shutdown of the network interface"
+COMMENT comment.sh "This test shall be run using a ramdisk, proceed as follows:"
+ 
+0000 echo; echo; echo "setenv bootargs root=/dev/ram0 rw mem=64M console=ttyS0,115200n8 initrd=0x80600000,32M ramdisk_size=32768 ip=none";echo "tftpboot 80300000 <ramdisk>;bootm";echo "ifconfig eth0 up";echo "ifconfig eth0 down";echo "ifconfig eth0 <ipaddr>"; echo; echo; return 1
+
+# End L_DD_ETHERNET_1003_0001

@@ -1,0 +1,82 @@
+#!/bin/bash
+ 
+#--------------------------------
+# This is a wrapper script for running DPM scripts for 
+# 2.6 kernel and 2.4 kernel MV for scale and suspend
+# Reads the option as a paramter
+# 6-scale
+# 4-deep sleep
+#--------------------------------
+export HOMEDIR=`dirname $0`
+. $HOMEDIR/include.common
+
+function pm-sleep
+{
+	if [ ! -d "$PM_DIR" -o ! -f "$PM_FILE" ]; then
+		echo "Dont have no PM directory or PM file -$PM_DIR/$PM_FILE!!Quitting!! did u mount sysfs??"
+		exit 1
+	fi
+	echo "Going to PM Sleep"
+	echo standby > $PM_FILE
+}
+
+function sleep-test
+{
+	if [ ! -d "$DPM_DIR" ]; then
+		echo "Sleep - Dont have no DPM directory-$DPM_DIR!! Checking PM suspend"
+		pm-sleep
+	else
+	echo "lets go to DPM sleep"
+	echo -e "$SC_DPM_SLEEP_OPTION\n$SC_DPM_QUIT_OPTION to $DPM_SCR"
+	echo -e "$SC_DPM_SLEEP_OPTION\n$SC_DPM_QUIT_OPTION"|$DPM_SCR
+	fi
+}
+
+function stress-test
+{
+	if [ ! -d "$DPM_DIR" ]; then
+		echo "Scale - Dont have no DPM directory-$DPM_DIR!! - givin up!!"
+		exit 1
+	fi
+	echo "Running Scaling"
+	echo -e "$SC_DPM_SCALE_OPTION\n$SC_DPM_QUIT_OPTION to $DPM_SCR"
+	echo -e "$SC_DPM_SCALE_OPTION\n$SC_DPM_QUIT_OPTION"|$DPM_SCR
+}
+
+done=0
+# Check sysfs mount
+K=`mount|grep sysfs`
+if [ -z "$K" ]; then
+	echo -n "sysfs not mounted.. "
+	if [ ! -d "/sys" ]; then
+		 echo -n "creating /sys dir :"
+		mkdir -p /sys
+		if [ $? -ne 0 ]; then
+			echo "Creation of directory failed"
+			exit 1
+		fi
+		echo -n "OK, "
+	fi
+	echo -n "Attempting to mount it: " 
+	mount -t sysfs /sys /sys
+	if [ $? -ne 0 ]; then
+		echo "Mount of sysfs failed"
+		exit 1
+	fi
+	echo "OK"
+fi 
+while [ "$done" -eq 0 ]
+do
+	echo -e "\nWrapper DPM SCRIPT"
+	echo "$DPM_SLEEP_OPTION - Sleep Test: put target to sleep"
+	echo "$DPM_SCALE_OPTION - Stress test: jump between fast and slow frequencies repeatedly"
+	echo "$DPM_QUIT_OPTION - quit"
+	echo -n "Pick one: "
+	read x
+	case "$x" in
+		$DPM_QUIT_OPTION) done=1;;
+		$DPM_SLEEP_OPTION) sleep-test;;
+		$DPM_SCALE_OPTION) stress-test;;
+		*) echo "'$x' is invalid, try again";;
+	esac
+done

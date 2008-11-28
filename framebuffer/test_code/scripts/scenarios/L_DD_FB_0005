@@ -1,0 +1,18 @@
+#####################
+# FILENAME: L_DD_FB_0005
+# Author  : Jose Luis Diaz
+# Date    : Wed Dec 20, 2006
+# Copyright (C) 2008 Texas Instruments
+#
+# Description:
+# Framebuffer (FB) changing display size test
+
+foo   echo "L_DD_FB_0005"
+
+
+COMMENT comment.sh "Verify on LCD, that the FB allows changingthe display size within the limits of the output device."
+
+0001 set -x; sizechg.sh && exit 0 || exit 1
+
+bar   echo "L_DD_FB_0005"
+

@@ -1,0 +1,18 @@
+################################################################################
+# Scenario: L_DD_GPIO_0001_0001
+# Author  : Abraham Arce
+# Date    : Sat May 17 18:29:54 CDT 2008
+# Description: Verify if GPIO driver supports reserve and free of GPIO lines
+################################################################################
+
+# Begin L_DD_GPIO_0001_0001
+
+00 set -x; insmod $TEST_MODULE test=1 gpio=$GPIO_VALID_LINE value=1 && rmmod gpio_test && exit 0 || exit 1
+01 set -x; insmod $TEST_MODULE test=2 gpio=$GPIO_VALID_LINE value=1 && rmmod gpio_test && exit 0 || exit 1
+
+02 set -x; COUNT=20; while [ $COUNT -lt $OMAP_MAX_GPIO_LINES ] ; do insmod $TEST_MODULE test=1 gpio=$COUNT value=1 && rmmod gpio_test ; COUNT=`expr $COUNT + 1` ; done && exit 0 || exit 1
+03 set -x; COUNT=20; while [ $COUNT -lt $OMAP_MAX_GPIO_LINES ] ; do insmod $TEST_MODULE test=2 gpio=$COUNT value=1 && rmmod gpio_test ; COUNT=`expr $COUNT + 1` ; done && exit 0 || exit 1
+
+# End L_DD_GPIO_0001_0001
+
+

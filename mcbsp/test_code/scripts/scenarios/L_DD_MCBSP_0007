@@ -1,0 +1,13 @@
+##############################
+# File Name   : L_DD_MCBSP_0007
+# Author      : Abraham Arce
+# Date        : March 08, 2007
+# Description : McBSP Test Suite
+###############################
+
+# Begin L_DD_MCBSP_0007
+
+#The McBSP driver supports cancelling  the transmit/receive operations this test verifies the same.
+0001 set -x; TRANSFER_VALUES=1000; DELAY=1; interruptmcbsp.sh "0007_0001" "Number of transfers" "6" "no_of_trans=" "$TRANSFER_VALUES" && exit 0 || exit 1
+
+# End L_DD_MCBSP_0007

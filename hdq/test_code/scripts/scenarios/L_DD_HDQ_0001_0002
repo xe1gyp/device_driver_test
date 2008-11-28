@@ -1,0 +1,11 @@
+#####################
+# FILENAME: L_DD_HDQ_0001
+# Author  : Benjamin Mejia
+# Date    : Tue Mar 20, 2007
+# Copyright (C) 2007 Texas Instruments
+
+foo echo "L_DD_HDQ_0001"
+
+0002 set -x; testhdqinvalid.sh "0001_0002" && exit 0 || exit 1
+
+bar echo "L_DD_HDQ_0001"

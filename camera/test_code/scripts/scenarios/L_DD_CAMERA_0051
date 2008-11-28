@@ -1,0 +1,33 @@
+#####################
+# FILENAME: L_DD_CAMERA_0051
+# Author  : Omar Esli Jimenez Villarreal
+# Date    : Tuesday July 08, 2008
+# Copyright (C) 2008 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test capture of video in YUYV format for the supported sizes at 30 frmaes per second.
+
+# Begin "L_DD_CAMERA_0005"
+
+COMMENT comment.sh "Observe that captured video is displayed cleanly on LCD screen for the supported sizes at 30 frames per second."
+
+#0001 set -x; capv.sh "30" "SQCIF" "YUYV"  "2"&& exit 0 || exit 1
+#0002 set -x; capv.sh "30" "QCIF" "YUYV"  "2"&& exit 0 || exit 1
+0001_SAN set -x; capv.sh "30" "QVGA" "YUYV"  "2"&& exit 0 || exit 1
+0002 set -x; capv.sh "30" "CIF" "YUYV"  "2"&& exit 0 || exit 1
+0003_SAN set -x; capv.sh "30" "VGA" "YUYV"  "2"&& exit 0 || exit 1
+0004 set -x; capv.sh "30" "D1NTSC" "YUYV"  "2"&& exit 0 || exit 1
+0005_SAN set -x; capv.sh "30" "D1PAL" "YUYV"  "2"&& exit 0 || exit 1
+
+#EXLUDE, STILL NOT SUPPORTED 
+#0008 set -x; capv.sh "30" "854 480" "YUYV"  "2"&& exit 0 || exit 1
+#0009 set -x; capv.sh "30" "864 480" "YUYV"  "2"&& exit 0 || exit 1
+#0010 set -x; capv.sh "30" "800 480" "YUYV"  "2"&& exit 0 || exit 1
+#0011 set -x; capv.sh "30" "832 560" "YUYV"  "2"&& exit 0 || exit 1
+#0012 set -x; capv.sh "30" "832 672" "YUYV"  "2"&& exit 0 || exit 1
+#0013 set -x; capv.sh "30" "736 560" "YUYV"  "2"&& exit 0 || exit 1
+#0014 set -x; capv.sh "30" "368 288" "YUYV"  "2"&& exit 0 || exit 1
+#0015 set -x; capv.sh "30" "416 336" "YUYV"  "2"&& exit 0 || exit 1
+#0016 set -x; capv.sh "30" "208 176" "YUYV"  "2"&& exit 0 || exit 1
+
+# End "L_DD_CAMERA_0005"

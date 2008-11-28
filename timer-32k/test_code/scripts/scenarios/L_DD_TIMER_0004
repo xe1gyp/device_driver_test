@@ -1,0 +1,13 @@
+###################################################################################################################
+# Scenario: L_DD_TIMER_0004
+# Author  : Misael Lopez Cruz
+# Date    : March 9, 2007
+# Description: This test verifies that if 3 interrupts with different priorities are programmed to be triggered at 
+#              the same time, the one with highest priority gets triggered first, second highest next and so on.
+###################################################################################################################
+
+# Begin L_DD_TIMER_0004
+
+0001    rm -f /pri_int.msg; insmod $TESTMODS/$PRIORITY_MOD && $TESTBIN/priority_parser && rmmod $PRIORITY_MOD && exit 0 || exit 1
+
+# End L_DD_TIMER_0004

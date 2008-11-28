@@ -1,0 +1,18 @@
+CCCR/SDIO Revision register 0x00
+SD specification revision register 0x00
+I/O enable register 0x06
+I/O ready register 0x06
+Interrupt enable register 0x00
+Interrupt pending register 0x00
+I/O abort register 0x00
+BUS interface control register 0x02
+Card capacity register 0x01
+Common CIS pointer 0x00
+Common CIS pointer 0x10
+Common CIS pointer 0x00
+BUS suspend 0x00
+Function select 0x00
+Exec flags 0x00
+Ready flags 0x00
+FN0 Block size 0x12
+FN0 Block size 0x00

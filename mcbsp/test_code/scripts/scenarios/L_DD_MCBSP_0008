@@ -1,0 +1,13 @@
+##############################
+# File Name   : L_DD_MCBSP_0008
+# Author      : Abraham Arce
+# Date        : March 08, 2007
+# Description : McBSP Test Suite
+###############################
+
+# Begin L_DD_MCBSP_0008
+         
+#The McBSP driver supports configuring the "word length" parameter, this test case verifies the same.
+0001 set -x; DELAY=10; testmcbsp.sh "0008_0001" "Word Length" "6" "word_length=" "$WORD_LENGTH_VALUES" && exit 0 || exit 1
+
+# End L_DD_MCBSP_0008

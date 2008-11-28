@@ -1,0 +1,19 @@
+#####################
+# FILENAME: L_DD_CAMERA_2001
+# Author  : Jose Luis Diaz
+# Date    : Wed Dec 20, 2006
+# Copyright (C) 2008 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test capture of video in YUYV format for the supported sizes.
+
+# Begin "L_DD_CAMERA_2001"
+
+COMMENT comment.sh "Observe that captured video is displayed cleanly on LCD screen for the supported sizes."
+
+0001 set -x; cappwd.sh "15" "QCIF" "YUYV" && exit 0 || exit 1
+0002 set -x; prepwd.sh "no" "QCIF" "YUYV" "LCD" && exit 0 || exit 1
+0004 set -x; prepwd2.sh "no" "QCIF" "YUYV" "LCD" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_2001"
+

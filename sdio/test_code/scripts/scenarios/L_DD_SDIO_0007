@@ -1,0 +1,20 @@
+###################################################################################################################
+# Scenario: L_DD_SDIO_0007
+# Author  : Misael Lopez Cruz
+# Date    : September 28, 2006
+# Description: Test power management capability of SDIO device driver
+###################################################################################################################
+
+foo 	echo "L_DD_SDIO_0007"
+
+0001    echo -e "$SLEEP_OPTION\n$QUIT_OPTION\n" | $DPM_SCRIPT && exit 0 || exit 1
+0002    echo -e "$SLEEP_OPTION\n$QUIT_OPTION\n" | $DPM_SCRIPT && exit 0 || exit 1
+0003    rm -f /sdio.msg; echo -e "$SLEEP_OPTION\n$QUIT_OPTION\n" | $DPM_SCRIPT && insmod $TESTMODS/$SDIO_MOD && cmp /sdio.msg $SDIO_MANUF_FILE && rmmod $SDIO_MOD && exit 0 || exit 1
+0004	echo $SUSPEND_COMMAND > $SYSFS_POWER_ENTRY_DEV1 && echo "Insert and remove SDIO card into/from slot 1 several times" && echo "Criteria: SDIO card should be not detected" && sleep 1 && $UTILBIN/akey && exit 0 || exit 1
+0005	echo $SUSPEND_COMMAND > $SYSFS_POWER_ENTRY_DEV1 && echo "Insert and remove SDIO card into/from slot 1 several times" && echo "Criteria: SDIO card should be not detected" && sleep 1 && $UTILBIN/akey && exit 0 || exit 1
+0006    rm -f /sdio.msg; echo $RESUME_COMMAND > $SYSFS_POWER_ENTRY_DEV1 && echo "Insert SDIO card into slot 1" && sleep 1 && $UTILBIN/waitkey && insmod $TESTMODS/$SDIO_MOD && cmp /sdio.msg $SDIO_MANUF_FILE && rmmod $SDIO_MOD && exit 0 || exit 1
+0007	rm -f /sdio.msg; echo -e "$SLOW_MODE\n$QUIT_OPTION\n" | $DPM_SCRIPT && insmod $TESTMODS/$SDIO_MOD && cmp /sdio.msg $SDIO_MANUF_FILE && rmmod $SDIO_MOD && exit 0 || exit 1
+0008	rm -f /sdio.msg; echo -e "$FAST_MODE\n$QUIT_OPTION\n" | $DPM_SCRIPT && insmod $TESTMODS/$SDIO_MOD && cmp /sdio.msg $SDIO_MANUF_FILE && rmmod $SDIO_MOD && exit 0 || exit 1
+0009	rm -f /sdio.msg; echo -e "$SCALE_OPTION\n$QUIT_OPTION\n" | $DPM_SCRIPT && insmod $TESTMODS/$SDIO_MOD && cmp /sdio.msg $SDIO_MANUF_FILE && rmmod $SDIO_MOD && exit 0 || exit 1
+
+bar 	echo "L_DD_SDIO_0007"

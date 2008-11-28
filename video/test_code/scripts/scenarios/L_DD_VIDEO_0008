@@ -1,0 +1,50 @@
+#####################
+# FILENAME: L_DD_VIDEO_0008
+# Author  : Benjamin Mejia
+# Date    : Fri Jan 5, 2007
+
+# Begin "L_DD_VIDEO_0008"
+
+COMMENT comment.sh "The board should be booted with 0 degrees rotation: videoout=omap24xxvout:rotation=0"
+
+0001_COMMENT comment.sh "The images shall be rotated 0 degrees on Video Pipeline 1"
+0001 set -x; $TESTBIN/setrotation 1 0 && exit 0 || exit 1
+00A1 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0001 && exit 0 || exit 1
+#00B1 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0002 && exit 0 || exit 1
+00C1 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0003 && exit 0 || exit 1
+00D1 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0004 && exit 0 || exit 1
+00E1 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0005 && exit 0 || exit 1
+00F1 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0006 && exit 0 || exit 1
+00G1 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0007 && exit 0 || exit 1
+
+0002_COMMENT comment.sh "The images shall be rotated 90 degrees on Video Pipeline 1"
+0002 set -x; $TESTBIN/setrotation 1 90 && exit 0 || exit 1
+00A2 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0001 && exit 0 || exit 1
+#00B2 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0002 && exit 0 || exit 1
+00C2 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0003 && exit 0 || exit 1
+00D2 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0004 && exit 0 || exit 1
+00E2 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0005 && exit 0 || exit 1
+00F2 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0006 && exit 0 || exit 1
+00G2 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0007 && exit 0 || exit 1
+
+0003_COMMENT comment.sh "The images shall be rotated 180 degrees on Video Pipeline 1"
+0003 set -x; $TESTBIN/setrotation 1 180 && exit 0 || exit 1
+00A3 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0001 && exit 0 || exit 1
+#00B3 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0002 && exit 0 || exit 1
+00C3 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0003 && exit 0 || exit 1
+00D3 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0004 && exit 0 || exit 1
+00E3 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0005 && exit 0 || exit 1
+00F3 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0006 && exit 0 || exit 1
+00G3 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0007 && exit 0 || exit 1
+
+0004_COMMENT comment.sh "The images shall be rotated 270 degrees on Video Pipeline 1"
+0004 set -x; $TESTBIN/setrotation 1 270 && exit 0 || exit 1
+00A4 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0001 && exit 0 || exit 1
+#00B4 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0002 && exit 0 || exit 1
+00C4 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0003 && exit 0 || exit 1
+00D4 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0004 && exit 0 || exit 1
+00E4 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0005 && exit 0 || exit 1
+00F4 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0006 && exit 0 || exit 1
+00G4 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0007 && exit 0 || exit 1
+
+# End "L_DD_VIDEO_0008"

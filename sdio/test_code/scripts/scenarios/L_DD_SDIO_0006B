@@ -1,0 +1,12 @@
+##################################################################################################################
+# Scenario: L_DD_SDIO_0006B
+# Author  : Misael Lopez Cruz
+# Date    : April 6, 2007
+# Description: Test hotplug feature of SDIO driver for different kind of SDIO cards.
+###################################################################################################################
+
+foo 	echo "L_DD_SDIO_0006B"
+
+0003	echo "Do you have different SDIO card types?" && sleep 1 && $UTILBIN/choice && CHOICE='Yes' || CHOICE='No' && if [ "$CHOICE" = 'Yes' ]; then (echo "Insert a different SDIO card type" && sleep 1 && $UTILBIN/waitkey && $TESTROOT/test_runner.sh -p L_DD_SDIO_0006A && exit 0 || exit 1) else (echo "Please verify this test case by inspection" && sleep 1 && $UTILBIN/akey && exit 0 || exit 1) fi
+
+bar 	echo "L_DD_SDIO_0006B"

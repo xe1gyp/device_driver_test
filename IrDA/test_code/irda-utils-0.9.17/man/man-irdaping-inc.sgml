@@ -1,0 +1,106 @@
+<!-- 
+
+v0.1 wh 2001/03/26
+
+-->
+
+<REFMETA>
+<REFENTRYTITLE>irdaping</REFENTRYTITLE>
+<MANVOLNUM>8</MANVOLNUM>
+</REFMETA>
+
+<REFNAMEDIV>
+<REFNAME>irdaping</REFNAME> 
+  <REFPURPOSE>
+sends IrDA test frames
+  </REFPURPOSE>
+</REFNAMEDIV>
+
+<REFSYNOPSISDIV>
+<CMDSYNOPSIS>
+  <COMMAND>irdaping</COMMAND>
+  <ARG><REPLACEABLE>daddr</REPLACEABLE></ARG>
+  <ARG><REPLACEABLE>-s framesize</REPLACEABLE></ARG>
+</CMDSYNOPSIS>
+</REFSYNOPSISDIV>
+
+<REFSECT1>
+<TITLE>OPTIONS</TITLE>
+
+<PARA>
+<OPTION>daddr</OPTION> ...
+</PARA>
+
+<PARA>
+<OPTION>-s framesize</OPTION> ...
+</PARA>
+
+</REFSECT1>
+
+<REFSECT1>
+<TITLE>DESCRIPTION</TITLE>
+
+<PARA>
+This is a program similar to <COMMAND>ping(8)</COMMAND>. It sends IrDA test frames (added some userdata which contains the frame number and the time the frame was sent). You can change the size of the frame by using the <COMMAND>-s</COMMAND> option. To get <COMMAND>daddr</COMMAND> you
+may use <COMMAND>irdadump</COMMAND>.
+</PARA>
+
+<PARA>
+<COMMAND>irdaping</COMMAND> must be run as root or installed setuid root, 
+as it requires root privileges.
+</PARA>
+
+</REFSECT1>
+
+<REFSECT1>
+<TITLE>EXAMPLES</TITLE>
+
+<PARA>
+<COMMAND>irdaping &lt;daddr&gt; [-s &lt;framesize&gt;]</COMMAND>
+</PARA>
+
+<PARA>
+You may use an <COMMAND>alias</COMMAND>, which does not use any parameter 
+<COMMAND>alias irping="irdaping \`grep daddr /proc/net/irda/discovery|sed s/.*daddr://\`"</COMMAND>
+It works fine when there is only one discovered client.
+</PARA>
+
+
+</REFSECT1>
+
+<REFSECT1>
+<TITLE>DIAGNOSTICS</TITLE>
+
+<PARA>
+N.N.
+</PARA>
+
+</REFSECT1>
+
+<REFSECT1>
+
+<TITLE>BUGS</TITLE>
+
+<PARA>
+N.N.
+</PARA>
+
+</REFSECT1>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-default-dtd-file:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->
+

@@ -1,0 +1,14 @@
+###################################################################################################################
+# Scenario: L_DD_WDT_0001
+# Author  : Misael Lopez Cruz
+# Date    : March 10, 2007
+# Description: Tests the various ioctls supported by watchdog timer driver.
+###################################################################################################################
+
+# Begin L_DD_WDT_0001
+
+0001	set -x; ($TESTBIN/$TESTWDTIOCTL &) && sleep 3 && killall $TESTWDTIOCTL && exit 0 || exit 1
+0002	set -x; ($TESTBIN/$TESTWDTWRITE &) && sleep 3 && killall $TESTWDTWRITE && exit 0 || exit 1
+0003	set -x; sleep 10 && ps -aux && exit 0 || exit 1
+
+# End L_DD_WDT_0001

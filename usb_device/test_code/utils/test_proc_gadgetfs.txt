@@ -1,0 +1,62 @@
+
+
+ISO-CHRONOUS Testing for MUSB Gadget:
+-------------------------------------
+21-Nov-2007
+Author: Vikram Pandita <vikram.pandita@ti.com>
+
+Step 1) Compile the user side application for Gadgetfs in AIO mode:
+
+   This will require to cross compile the libaio library for ARM:
+   	Refer: CrossCompiling_Libaio_ARM.txt
+
+   Get the source code for gadgetfs test app from:
+   http://www.linux-usb.org/gadget/ Section GadgetFS and compile using cmd: 
+
+   arm-none-linux-gnueabi-gcc -Wall -DAIO -g -o USB_gfs_test usb.c usbstring.c
+   -lpthread -laio -I /vobs/wtbu/OMAPSW_L/linux/kernel_org/2.6_kernel/include
+   -I libaio-0.3.106/usr/include/ -L libaio-0.3.106/usr/lib/
+
+   Output: Test Appliaction (USB_gfs_test)
+
+Step 2) Make Gadget Filesystem as a module 
+   Through menuconfig choose the USB Gadget Support --> Gadget Filesystem 
+   Output: gadgetfs.ko 
+
+Step 3) In the root filesystem /etc/fstab add the following entry
+	none            /dev/gadget     gadgetfs        defaults        0 0
+
+Step 4) Boot the kernel and load the gadgetfs.ko as follows: 
+commands:
+	insmod /gadgetfs.ko
+	mkdir -p /dev/gadget
+	mount /dev/gadget
+
+   Success Message should be: 
+   gadgetfs: USB Gadget filesystem, version 24 Aug 2004
+
+Step 5) Run the GadgetFs test application on OMAP side for ISO mode as
+	Cmd: ./USB_gfs_test -v -r111 -s512 -I0 -a20
+
+Step 6) Connect the USB cable to Linux Host and you should see the device as:
+
+D:  Ver= 2.00 Cls=ff(vend.) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
+P:  Vendor=0525 ProdID=a4a3 Rev= 1.03
+S:  Manufacturer=Licensed to Code, LLC
+S:  Product=My Source/Sink Product
+S:  SerialNumber=111
+C:* #Ifs= 1 Cfg#= 3 Atr=c0 MxPwr=  2mA
+I:  If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=usbtest
+E:  Ad=81(I) Atr=01(Isoc) MxPS= 512 Ivl=1ms
+E:  Ad=01(O) Atr=01(Isoc) MxPS= 512 Ivl=1ms
+E:  Ad=8b(I) Atr=03(Int.) MxPS=   8 Ivl=4ms
+
+
+Step 7) USBTEST is the class driver and so use the standard usbtest application for
+doing the iso test as:
+
+	IN  ISO test: ./test.sh iso-in
+	OUT ISO test: ./test.sh iso-out
+
+Step 8) If you have successfully executed steps till here, you need an ice-cream.
+

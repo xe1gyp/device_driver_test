@@ -1,0 +1,13 @@
+###################################################################################################################
+# Scenario: L_DD_SDIO_0008
+# Author  : Misael Lopez Cruz
+# Date    : April 6, 2007
+# Description: Test case to test the polling mode operation support for SDIO cards.
+###################################################################################################################
+
+foo 	echo "L_DD_SDIO_0008"
+
+0001	rm -f /sdio.msg; echo $POLLING_ENABLE > $SYSFS_POLLING_ENTRY_DEV1 && insmod $TESTMODS/$SDIO_MOD && cmp /sdio.msg $SDIO_MANUF_FILE && rmmod $SDIO_MOD && exit 0 || exit 1
+0002	rm -f /sdio.msg; echo $POLLING_DISABLE > $SYSFS_POLLING_ENTRY_DEV1 && insmod $TESTMODS/$SDIO_MOD && cmp /sdio.msg $SDIO_MANUF_FILE && rmmod $SDIO_MOD && exit 0 || exit 1
+
+bar 	echo "L_DD_SDIO_0008"

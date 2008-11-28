@@ -1,0 +1,47 @@
+###################################################################################################################
+# Scenario: L_DD_MMC_0005_0001
+# Author  : Misael Lopez Cruz
+# Date    : September 20, 2006
+# Description: File I/O operations in a EXT2 file system on the specified partition
+###################################################################################################################
+
+# Begin L_DD_MMC_0005_0001
+
+# 32 128 256 512 1024
+
+01 set -x; mkdir $MOUNT_POINT1; mkdir $MOUNT_POINT3; exit 0
+02 set -x; echo -e "n\n p\n 1\n $START_SECTOR_DEV1\n $END_SECTOR_DEV1\n w\n" | fdisk $ROOT_ENTRY_DEV1 && exit 0 || exit 1
+
+03 set -x; $TESTBIN/mke2fs $PARTITION1_ENTRY_DEV1 && exit 0 || exit 1
+
+04 set -x; mount -t ext2 $PARTITION1_ENTRY_DEV1 $MOUNT_POINT1 && exit 0 || exit 1
+05 set -x; mount | grep $PARTITION1_ENTRY_DEV1 | grep "ext2" && exit 0 || exit 1
+
+0001 set -x; mmc_test_dev0 1 testing1 && mmc_test_dev0 1 testing2 && exit 0 || exit 1
+0002 set -x; mmc_test_dev0 2 testing1 10 && mmc_test_dev0 2 testing2 10 && exit 0 || exit 1
+0003 set -x; mmc_test_dev0 3 testing1 10 && exit 0 || exit 1
+0004 set -x; mmc_test_dev0 4 testing1 && exit 0 || exit 1
+0005 set -x; mmc_test_dev0 5 testing1 && exit 0 || exit 1
+0006 set -x; mmc_test_dev0 6 testing1 test && exit 0 || exit 1
+0007 set -x; mmc_test_dev0 7 && exit 0 || exit 1
+0008 set -x; mmc_test_dev0 8 test 777 && exit 0 || exit 1
+0009 set -x; mmc_test_dev0 9 newdir && exit 0 || exit 1
+0010 set -x; mmc_test_dev0 10 $MOUNT_POINT1/test newdir && exit 0 || exit 1
+0011 set -x; mmc_test_dev0 11 testing2 200308171820 && exit 0 || exit 1
+0012 set -x; mmc_test_dev0 12 newdir rendir && exit 0 || exit 1
+0013 set -x; mmc_test_dev0 13 $MOUNT_POINT1/testing2 $MOUNT_POINT1/rendir/
+0014 set -x; mmc_test_dev0 14 rendir 123
+0015 set -x; mmc_test_dev0 15 $MOUNT_POINT1/rendir/test && mmc_test_dev0 15 $MOUNT_POINT1/rendir/testing2 && mmc_test_dev0 15 $MOUNT_POINT1/test && exit 0 || exit 1
+0016 set -x; mmc_test_dev0 16 rendir && exit 0 || exit 1
+0017 set -x; mmc_test_dev0 17 $TESTROOT/$BIG_FILE $MOUNT_POINT1 && exit 0 || exit 1
+0018 set -x; mmc_test_dev0 18 $TESTROOT/$SMALL_FILES $MOUNT_POINT1 && exit 0 || exit 1
+0019 set -x; cp $TESTROOT/$BIG_FILE $MOUNT_POINT1 && mmc_test_dev0 19 $MOUNT_POINT1/$BIG_FILE $TMPBASE && exit 0 || exit 1
+0020 set -x; cp -r $TESTROOT/$SMALL_FILES $MOUNT_POINT1 && mmc_test_dev0 20 $MOUNT_POINT1/$SMALL_FILES $TMPBASE && exit 0 || exit 1
+0021 set -x; mmc_test_dev0 21 && exit 0 || exit 1
+0022 set -x; mmc_test_dev0 24 testing && exit 0 || exit 1
+0023 set -x; mmc_test_dev0 9 dir && mmc_test_dev0 25 dir && exit 1 || exit 0
+0024 set -x; mmc_test_dev0 1 testing3 && mmc_test_dev0 26 testing3 && exit 0 || exit 1
+
+06 set -x; echo -e "d\n 1\n d\n w\n" | fdisk $ROOT_ENTRY_DEV1 && exit 0 || exit 1
+
+# End L_DD_MMC_0005_0001

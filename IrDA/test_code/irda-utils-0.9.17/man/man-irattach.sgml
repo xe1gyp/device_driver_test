@@ -1,0 +1,108 @@
+<!doctype refentry PUBLIC "-//OASIS//DTD DocBook V4.1//EN" [
+  <!ENTITY lip           "<productname>Linux/IrDA Project</productname>">
+  <!ENTITY ir-tutorial   "<productname>Linux/IrDA-Tutorial</productname>">
+  <!ENTITY ir-howto      "<productname>Infrared-HOWTO</productname>">
+  <!ENTITY ir-hw         "<productname>Infrared-Hardware-Survey</productname>">
+  <!ENTITY sgml          "<abbrev>SGML</abbrev>">
+
+  <!ENTITY man-inc SYSTEM "man-irattach-inc.sgml"> 
+  <!--  FILE has to be replaced with: irattach-inc, irdaping-inc, ... -->
+
+]>
+
+<!-- 
+     Manual pages for Linux/IrDA, DocBook source file
+     (C) 2001 Werner Heuser wehe@tuxmobil.org
+     v0.1 2001/03/26 wh
+
+     Please use docbook-to-man from
+     http://www.oasis-open.org/docbook/tools/dtm/docbook-to-man.tar.gz
+     to convert this SGML source into the man page format.
+-->
+
+<REFENTRY>
+
+  <refentryinfo>
+    <address>
+      <email>wehe@tuxmobil.org</email>
+    </address>
+    <author>
+      <firstname>Werner</firstname>
+      <surname>Heuser</surname>
+    </author>
+    <date>2001-03-26</date>
+  </refentryinfo>
+
+<!-- include start -->
+
+&man-inc;
+
+<!-- include end   -->
+
+  <REFSECT1>
+    <TITLE>SEE ALSO</TITLE>
+
+    <PARA>
+      irattach(8), irdaping(8), irdadump(8), findchip(8), 
+      irpsion5(8), modprobe(8)
+    </PARA>
+
+    <PARA>
+    &lip; http://irda.sourceforge.net -*-
+    &ir-tutorial; http://www.hpl.hp.com/personal/Jean_Tourrilhes/IrDA/index.html -*-
+    &ir-howto; http://tuxmobil.org/howtos.html -*-
+    &ir-hw; http://tuxmobil.org/ir_misc.html
+    </PARA>
+  </REFSECT1>
+
+  <REFSECT1>
+    <TITLE>AUTHOR</TITLE>
+
+    <PARA>
+      This manual page is written by Werner Heuser
+      <email>wehe@tuxmobil.org</email>. It is based on the READMEs
+      from <COMMAND>irda-utils</COMMAND> by the &lip; and the &ir-tutorial;.
+      It was subsequently updated and modified by Jean Tourrilhes
+      <email>jt@hpl.hp.com</email>.
+    </PARA>
+
+  </REFSECT1>
+
+  <REFSECT1>
+    <TITLE>COPYRIGHT</TITLE>
+
+    <PARA>
+      Copyright (c) 2001 Werner Heuser
+      Copyright (c) 2002 Jean Tourrilhes
+    </PARA>
+
+    <PARA>
+      Permission is granted to copy, distribute 
+      and/or modify this document under
+      the terms of the <acronym>GNU</acronym> Free Documentation
+      License (GFDL), Version 1.1 or any later version published by the 
+      Free Software Foundation; with no Invariant Sections, no Front-Cover
+      Texts and no Back-Cover Texts.
+    </PARA>
+
+  </REFSECT1>
+
+</REFENTRY>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-default-dtd-file:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->
+

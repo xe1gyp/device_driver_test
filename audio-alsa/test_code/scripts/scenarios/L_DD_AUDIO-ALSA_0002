@@ -1,0 +1,23 @@
+###################################################################################################################
+# Scenario: L_DD_AUDIO-ALSA_0002
+# Author  : Misael Lopez Cruz
+# Date    : 14 May 2007
+# Description: 
+###################################################################################################################
+
+# Begin L_DD_AUDIO-ALSA_0002
+
+0001	$TESTSCRIPT/EnDisOutput.bash 'Stereo_Headset' 'Playback'
+0002	$TESTSCRIPT/EnDisOutput.bash 'Hands-Free' 'Playback'
+0003	$TESTSCRIPT/EnDisOutput.bash 'Mono_Handset' 'Playback'
+0004	$TESTSCRIPT/EnDisOutput.bash 'USB-CarKit' 'NoPlayback'
+0005	$TESTSCRIPT/EnDisInput.bash 'Mic_Headset' 'Capture'
+0006	$TESTSCRIPT/EnDisInput.bash 'Mic_Main-Mic_Sub' 'Capture'
+0007	$TESTSCRIPT/EnDisInput.bash 'Aux/FM' 'NoCapture'
+0008	$TESTSCRIPT/EnDisInput.bash 'USB-CarKit' 'NoCapture'
+0009	$TESTSCRIPT/OutputVolume.bash
+0010	$TESTSCRIPT/InputVolume.bash
+0011	$TESTSCRIPT/EnDisSidetone.bash
+
+# End  L_DD_AUDIO-ALSA_0002
+

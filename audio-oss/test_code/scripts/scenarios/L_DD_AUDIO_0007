@@ -1,0 +1,84 @@
+#####################
+# FILENAME: L_DD_AUDIO_0007
+# Author  : Nishanth Menon
+# Date    : Wed Apr 26 11:38:49 CDT 2006
+# Copyright (C) 2006 Texas Instruments
+#
+# Description:
+# Module Tests
+#The proper insert order is:
+# 1. buf
+# 2. audio
+# 3. codec
+# Check for audio files - they should not exist
+# IMPORTANT: The following test sequence is important.. each depend on previous
+
+foo   echo "L_DD_AUDIO_0007"
+
+# No Module should have been loaded and audio should not have been staticly compiled!!
+0001a test -c /dev/sound/dsp && test -c /dev/sound/mixer || exit 0
+# Check for filesystem devfs device
+0001b test -c /dev/dsp && test -c /dev/mixer || exit 0
+
+#Insert test - try insterting the modules in wrong order - all should fail
+0001c (module.sh insert audio && exit 1) ||exit 0
+0001d (module.sh insert codec && exit 1) ||exit 0
+
+# insert proper one!
+0001e (module.sh insert buf && exit 0) ||exit 1
+#Re-insert of buf should fail
+0001f (module.sh insert buf && exit 1) ||exit 0
+
+# Codec should not insert
+0001g (module.sh insert codec && exit 1) ||exit 0
+
+# Insert of audio should suceed
+0001h (module.sh insert audio && exit 0) ||exit 1
+# Re-Insert of audio should not suceed
+0001i (module.sh insert audio && exit 1) ||exit 0
+
+# Insert of codec should suceed
+0001j (module.sh insert codec && exit 0) ||exit 1
+# Re-Insert of codec should not suceed
+0001k (module.sh insert codec && exit 1) ||exit 0
+
+# Check for audio files - they should exist now
+0001m test -c /dev/sound/dsp && test -c /dev/sound/mixer || exit 1
+# Check for filesystem devfs device
+0001n test -c /dev/dsp && test -c /dev/mixer || exit 1
+
+# Try play of a single song..
+0001o export MONO_SUPPORT=stereo; export STEREO_DIR_SUPPORT=s; export BIT_SIZE=16; export OUTPUT_DEVICES=1; export SAMPLE_RATES="44100";export BUFFER_SIZES=4096;play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+# Now the fun part, try to remove the device using the following combis:
+# mixer device /dsp device is open 
+# open in read/write/readwrite modes
+# remove the buf/audio/codec modules
+0002a (dspopen readwrite $DSP_DEVICE &) && sleep 1 && module.sh remove buf && exit 1 ||(wait.sh dspopen;exit 0)
+
+0002b (dspopen readwrite $DSP_DEVICE &) && sleep 1 && module.sh remove audio && exit 1 ||(wait.sh dspopen;exit 0)
+0002c (dspopen readwrite $DSP_DEVICE &) && sleep 1 && module.sh remove codec && exit 1 ||(wait.sh dspopen;exit 0)
+0002d (dspopen readwrite $MIXER_DEVICE &) && sleep 1 && module.sh remove buf && exit 1 ||(wait.sh dspopen;exit 0)
+0002e (dspopen readwrite $MIXER_DEVICE &) && sleep 1 && module.sh remove audio && exit 1 ||(wait.sh dspopen;exit 0)
+0002f (dspopen readwrite $MIXER_DEVICE &) && sleep 1 && module.sh remove codec && exit 1 ||(wait.sh dspopen;exit 0)
+
+# Try to remove all previous modules... should not happen
+0003a (module.sh remove audio && exit 1) ||exit 0
+0003b (module.sh remove buf && exit 1) ||exit 0
+
+# Clean up:
+0004a (module.sh remove codec && exit 0) ||exit 1
+0004b (module.sh remove audio && exit 0) ||exit 1
+0004c (module.sh remove buf && exit 0) ||exit 1
+
+# Check for audio files - they should not exist
+0004d test -c /dev/sound/dsp && test -c /dev/sound/mixer || exit 0
+# Check for filesystem devfs device
+0004e test -c /dev/dsp && test -c /dev/mixer || exit 0
+
+# Iteration test
+0005 i=0;while [ $i -lt 10 ]; do module.sh insert buf && module.sh insert audio && module.sh insert codec && sleep 2 && test -c /dev/dsp && test -c /dev/mixer && module.sh remove codec && module.sh remove audio && module.sh remove buf || exit 1; i=`expr $i + 1`; echo "Worked $i times"; done
+
+#cleanup module.sh remove codec ; module.sh remove audio ; module.sh remove buf;exit 0
+
+bar   echo "L_DD_AUDIO_0007"

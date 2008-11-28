@@ -1,0 +1,17 @@
+#####################
+# FILENAME: L_DD_VIDEO_0001
+# Author  : Benjamin Mejia
+# Date    : Fri Jan 5, 2007
+
+# Begin "L_DD_VIDEO_0001"
+
+COMMENT comment.sh "Verify different format are rendered, both pipelines will be sent alternately"
+
+0001 set -x; imgstream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0002 set -x; imgstream.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0003 set -x; imgstream.sh 1 "YUYV 176 144" 	$VIDEOFILES/video_qcif_yuv_75  && exit 0 || exit 1
+0004 set -x; imgstream.sh 2 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75  && exit 0 || exit 1
+0005 set -x; imgstream.sh 1 "RGB32 160 120"  $VIDEOFILES/my.rgb32           && exit 0 || exit 1
+0006 set -x; imgstream.sh 2 "RGB32 160 120"  $VIDEOFILES/my.rgb32           && exit 0 || exit 1
+
+# End "L_DD_VIDEO_0001"

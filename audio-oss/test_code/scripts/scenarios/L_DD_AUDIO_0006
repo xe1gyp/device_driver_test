@@ -1,0 +1,23 @@
+#####################
+# FILENAME: L_DD_AUDIO_0006
+# Author  : Nishanth Menon
+# Date    : Wed Apr 26 11:38:49 CDT 2006
+# Copyright (C) 2006 Texas Instruments
+#
+# Description:
+# Check Mixer Device.
+
+foo   echo "L_DD_AUDIO_0006"
+
+# Retrieve the formats supported
+0001a dspget -D $MIXER_DEVICE -r && dspget -D $MIXER_DEVICE -b && dspget -D $MIXER_DEVICE -c && dspget -D $MIXER_DEVICE -f || exit 1
+# Set the sampling rate
+0001b  REPORT=""; for i in $SAMPLE_RATES ; do dspset -D $MIXER_DEVICE -r $i && CHECK=`dspget -D $MIXER_DEVICE -r|grep "Sample rate is"|cut -d '|' -f 4` && [ $CHECK = $i ] && echo "Sample rate $i pass" || REPORT="$REPORT $i"; done; if [ -z $REPORT ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+# Set the channels
+0001c REPORT=""; for i in $CHANNELS ; do dspset -D $MIXER_DEVICE -c $i && CHECK=`dspget -D $MIXER_DEVICE -c|grep "No. of channels are"|cut -d '|' -f 4` && [ $CHECK = $i ] && echo "Channel $i pass" || REPORT="$REPORT $i"; done ; if [ -z $REPORT ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+# Set the supported formats
+0001d REPORT=""; for i in $FORMATS ; do dspset -D $MIXER_DEVICE -f $i && CHECK=`dspget -D $MIXER_DEVICE -f|grep "Format is "|cut -d '|' -f 4` && [ $CHECK = $i ] && echo "Format $i pass" || REPORT="$REPORT $i"; done; if [ -z $REPORT ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+# Set the bit sizes (formats)
+0001e_EXT REPORT=""; for i in $BIT_SIZES ; do dspset -D $MIXER_DEVICE -b $i && CHECK=`dspget -D $MIXER_DEVICE -b|grep "Sample size is"|cut -d '|' -f 4` && [ $CHECK = $i ] && echo "Sample size  $i pass" || REPORT="$REPORT $i"; done; if [ -z $REPORT ]; then exit 0; else echo "FAILED: $REPORT"; exit 1; fi
+
+bar   echo "L_DD_AUDIO_0006"

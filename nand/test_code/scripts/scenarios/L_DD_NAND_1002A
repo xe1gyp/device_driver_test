@@ -1,0 +1,14 @@
+###################################################################################################################
+# Scenario: L_DD_NAND_1002A
+# Author  : Misael Lopez Cruz
+# Date    : August 29th, 2006
+# Description: Booting using Nand Device
+###################################################################################################################
+
+foo 	echo "L_DD_NAND_1002"
+
+setup   test -d $DEFAULT_MOUNT_POINT || mkdir $DEFAULT_MOUNT_POINT
+0001    $TESTBIN/flash_eraseall $JFFS_OPTIONS $MTD_CHAR_DEV1 && mount -t jffs2 $MTD_BLK_DEV1 $DEFAULT_MOUNT_POINT && cp -r $BOOT_DIRECTORY/* $DEFAULT_MOUNT_POINT && umount $DEFAULT_MOUNT_POINT && echo "Now you can boot using:" && echo "setenv bootargs mem=32M console=ttyS0,115200n8 noinitrd root=/dev/mtdblock$DEV rootfstype=jffs2" && sleep 3 && reboot && exit 0 || exit 1
+cleanup test -d $DEFAULT_MOUNT_POINT && rm -r $DEFAULT_MOUNT_POINT && exit 0 || exit 1
+
+bar 	echo "L_DD_NAND_1002"

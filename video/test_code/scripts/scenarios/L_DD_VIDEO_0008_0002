@@ -1,0 +1,19 @@
+#####################
+# FILENAME: L_DD_VIDEO_0008
+# Author  : Benjamin Mejia
+# Date    : Fri Jan 5, 2007
+
+# Begin "L_DD_VIDEO_0008"
+
+COMMENT comment.sh "The image being rendered should be displayed properly in 90 degree orientation and must use all available screen space appropriately"
+COMMENT comment.sh "The board should be booted with 90 degrees rotation:   videoout=omap24xxvout:rotation=90"
+
+0001 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0001 && exit 0 || exit 1
+#0002 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0002 && exit 0 || exit 1
+0003 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0003 && exit 0 || exit 1
+0004 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0004 && exit 0 || exit 1
+0005 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0005 && exit 0 || exit 1
+0006 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0006 && exit 0 || exit 1
+0007 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0007 && exit 0 || exit 1
+
+# End "L_DD_VIDEO_0008"

@@ -1,0 +1,23 @@
+#####################
+# FILENAME: L_DD_FB_1002
+# Author  : Jose Luis Diaz
+# Date    : Wed Dec 20, 2006
+# Copyright (C) 2008 Texas Instruments
+#
+# Description:
+# Framebuffer (FB) rotation support test
+
+foo   echo "L_DD_FB_1002"
+
+COMMENT comment.sh "Verify that the framebuffer works properly when booted in 16 bits-per-pixel mode with different degrees rotation or Verify that the framebuffer works properly after changing to different degrees orientation from some other default orientation."
+
+0001 set -x; rot.sh "1" && exit 0 || exit 1
+0002 set -x; rot.sh "2" && exit 0 || exit 1
+0003 set -x; rot.sh "3" && exit 0 || exit 1
+0004 set -x; rot.sh "4" && exit 0 || exit 1
+0005 set -x; rot.sh "5" && exit 0 || exit 1
+0006 set -x; rot.sh "6" && exit 0 || exit 1
+0007 set -x; rot.sh "7" && exit 0 || exit 1
+0008 set -x; rot.sh "8" && exit 0 || exit 1
+
+bar   echo "L_DD_FB_1002"

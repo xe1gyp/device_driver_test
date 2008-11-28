@@ -1,0 +1,17 @@
+#####################
+# FILENAME: L_DD_FB_0008
+# Author  : Jose Luis Diaz
+# Date    : Wed Dec 20, 2006
+# Copyright (C) 2008 Texas Instruments
+#
+# Description:
+# Framebuffer (FB) TV output support test
+
+foo   echo "L_DD_FB_0008"
+
+COMMENT comment.sh "Test if driver supports different TV standards, PAL-,D,G,H,I,N , M , N , Nc, 60."
+
+0001 set -x; tvtest.sh && exit 0 || exit 1
+
+bar   echo "L_DD_FB_0008"
+

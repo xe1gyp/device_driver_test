@@ -1,0 +1,55 @@
+		Ethereal capture
+		----------------
+
+	You can now use Ethereal to display your IrDA traces, so you
+can do traffic analysis from a GUI. This is still experimental and is
+a work in progress.
+	There is basically two possibilities :
+	1) Read from capture files
+	2) Read from live IrDA interface
+
+1) Packages
+-----------
+	You will need those packages
+	1) ethereal-0.10.1 or later
+	2) irda-utils 0.9.17-pre2 or later
+	3) libpcap-0.8.2 or later
+	Note : until those packages are released, just grab the latest
+CVS version...
+
+2) Capture file method
+----------------------
+	1) Start generate a capture file using "irdadump -w file.dump"
+	2) Stop capture with CTRL-C
+	3) Start Ethereal
+	4) Open the capture file (File->Open)
+
+3) Live IrDA interface method
+-----------------------------
+	1) Start Ethereal
+	2) Open capture window (Capture->Start)
+	3) Select IrDA interface (for example 'irda0')
+	4) Check "Update list of packets in real time" box
+	5) Start capture on IrDA interface
+
+4) Ethereal IrDA parsing
+------------------------
+	The current IrDA parsing done by Ethereal is quite different
+from what is available in irdadump because not based on the same
+codebase.
+	Decoding output looks very different and fields don't have the
+same name. Some higher layer protocols are not parsed by Ethereal, for
+example Obex and IrNET. On the other hand, Ethereal gives more details
+in some of the fields.
+
+5) Extra
+--------
+	Thanks to Shaun Jackman and Jan Kiszka for the initial work, I
+did heavily modified their code to make it "clean". Thanks to Guy
+Harris for integrating our code in libpcap and Ethereal.
+	I won't be maintaining the Ethereal code, so all questions and
+patches should be addressed to Jan Kiszka.
+
+	Have fun...
+
+	Jean II 16.1.04

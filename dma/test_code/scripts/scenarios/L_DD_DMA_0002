@@ -1,0 +1,17 @@
+###################################################################################################################
+# Scenario: L_DD_DMA_0002
+# Author  : Misael Lopez Cruz
+# Date    : 07 May 2007
+# Description: 
+###################################################################################################################
+
+# Begin L_DD_DMA_0002
+
+0001	$TESTSCRIPT/test_dma.sh 2 $TMPBASE
+0002	$TESTSCRIPT/test_dma.sh 3 $TMPBASE
+0003a	$TESTSCRIPT/test_dma.sh 4 $TMPBASE
+0003b	$TESTSCRIPT/test_dma.sh 5 $TMPBASE
+0003c	$TESTSCRIPT/test_dma.sh 6 $TMPBASE
+0003d	$TESTSCRIPT/test_dma.sh 7 $TMPBASE
+
+# End L_DD_DMA_0002

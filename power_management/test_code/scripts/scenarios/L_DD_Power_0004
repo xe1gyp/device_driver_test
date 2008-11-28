@@ -1,0 +1,15 @@
+###################################################################################################################
+# Scenario: L_DD_Power_0004
+# Author  : Misael Lopez Cruz
+# Date    : 04 Jul 07
+# Description: 
+###################################################################################################################
+
+
+# Begin L_DD_Power_0004
+
+0001_A	echo "LCD should go off and the system should get suspended" && echo "Tap the touchscreen to wakeup the system" && echo -n mem > /sys/power/state && echo "VALIDATION CRITERIA: System must resume and \"Successfully put chip to retention in suspend\" message should be printed" && $UTILBIN/akey && exit 0 || exit 1
+0001_B	echo "LCD should go off and the system should get suspended" && echo "Tap the touchscreen to wakeup the system" && echo -n mem > /sys/power/state && echo "VALIDATION CRITERIA: System must resume and \"Successfully put chip to retention in suspend\" message should be printed" && $UTILBIN/akey && exit 0 || exit 1
+0001_C	echo "LCD should go off and the system should get suspended" && echo "Tap the touchscreen to wakeup the system" && echo -n mem > /sys/power/state && echo "VALIDATION CRITERIA: System must resume and \"Successfully put chip to retention in suspend\" message should be printed" && $UTILBIN/akey && exit 0 || exit 1
+
+# End L_DD_Power_0004

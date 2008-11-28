@@ -1,0 +1,46 @@
+##############################
+# File Name   : L_DD_MCBSP
+# Author      : Abraham Arce
+# Date        : March 08, 2007
+# Description : McBSP Test Suite
+###############################
+
+# Begin L_DD_MCBSP
+
+#This test case verifies if the McBSP driver supports full duplex transmission of data using DMA 
+0001_0001 set -x;testmcbsp.sh "0001_0001" "McBSP ID" "5" "" "None" && exit 0 || exit 1
+
+#The McBSP driver supports configuring the sampling rate, this test case verifies the same.
+0001_0002 set -x; testmcbsp.sh "0001_0002" "Sampling Rate (frequency, hertz)" "7" "sample_rate=" "$SAMPLE_RATES" && exit 0 || exit 1
+
+#The McBSP driver supports configuring the "phase" parameter, this test case verifies the same.
+0002_0001 set -x; testmcbsp.sh "0002_0001" "Phase" "6" "phase=" "$PHASE_VALUES" && exit 0 || exit 1
+
+#The McBSP driver supports configuring the "words per frame" parameter, this test case verifies the same.
+0003_0001 set -x; testmcbsp.sh "0003_0001" "Words" "8" "words_per_frame=" "$WORDS_PER_FRAME" && exit 0 || exit 1
+
+#The McBSP driver supports configuring the "CLKR" parameters, this test case verifies the same.
+0004_0001 set -x; testmcbsp.sh "0004_0001" "CLKR_Polarity" "6" "clkr_polarity=" "$CLKR_POLARITY_VALUES" && exit 0 || exit 1
+
+#The McBSP driver supports configuring the "FSR" parameters, this test case verifies the same.
+0004_0002 set -x; testmcbsp.sh "0004_0002" "FSR_Polarity" "6" "fsr_polarity=" "$FSR_POLARITY_VALUES" && exit 0 || exit 1
+
+#The McBSP driver supports configuring the "CLKX" parameters, this test case verifies the same.
+0005_0001 set -x; testmcbsp.sh "0005_0001" "CLKX_Polarity" "6" "clkx_polarity=" "$CLKX_POLARITY_VALUES" && exit 0 || exit 1
+
+#The McBSP driver supports configuring the "FSX" parameters, this test case verifies the same.
+0005_0002 set -x; testmcbsp.sh "0005_0002" "FSX_Polarity" "6" "fsx_polarity=" "$FSX__POLARITY_VALUES" && exit 0 || exit 1
+
+#The McBSP driver supports configuring the transmit/receive buffer sizes, this test case verifies the same.
+0006_0001 set -x; DELAY=30; testmcbsp.sh "0006_0001" "Buffer size" "6" "buffer_size=" "$BUFFER_SIZE_VALUES" && exit 0 || exit 1
+
+#The McBSP driver supports cancelling  the transmit/receive operations this test verifies the same.
+0007_0001 set -x; TRANSFER_VALUES=1000; DELAY=1; interruptmcbsp.sh "0007_0001" "Number of transfers" "6" "no_of_trans=" "$TRANSFER_VALUES" && exit 0 || exit 1
+          
+#The McBSP driver supports configuring the "word length" parameter, this test case verifies the same.
+0008_0001 set -x; DELAY=10; testmcbsp.sh "0008_0001" "Word Length" "6" "word_length=" "$WORD_LENGTH_VALUES" && exit 0 || exit 1
+
+#The McBSP driver supports configuring the bit ordering, this test case verifies the same.
+0009_0001 set -x; testmcbsp.sh "0009_0001" "Justification" "5" "justification=" "$JUSTIFICATION_VALUES" && exit 0 || exit 1
+
+# End L_DD_MCBSP

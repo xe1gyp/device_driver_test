@@ -1,0 +1,30 @@
+##############################
+# File Name   : L_DD_SNDSERVICES
+# Author      : Abraham Arce
+# Date        : April 04, 2007
+# Description : SOUNDSERVICES Test Suite
+###############################
+
+foo echo "L_DD_SNDSERVICES"
+
+0001_0001A_INT test -x; testsoundser.sh "0001_0001" "turn_on=1" "Verify VIB_LED is turned on or blinking" && exit 0 || exit 1
+0001_0001B_INT test -x; testsoundser.sh "0001_0001" "turn_on=0" "Verify VIB_LED is turned off"            && exit 0 || exit 1
+
+0001_0002A_INT test -x; testsoundser.sh "0001_0002" "turn_on=1 get_status=0" "Verify VIB_LED is turned on or blinking" && exit 0 || exit 1
+0001_0002B_INT test -x; testsoundser.sh "0001_0002" "turn_on=1 get_status=1" "Verify VIB_LED is turned on or blinking" && exit 0 || exit 1
+
+0001_0003A_INT test -x; testsoundser.sh "0001_0003A" "turn_on=1 duty_cycle=0" "Verify VIB_LED is turned on with duty cycle 0" && exit 0 || exit 1
+0001_0003B_INT test -x; testsoundser.sh "0001_0003B" "turn_on=1 duty_cycle=1" "Verify VIB_LED is turned on with duty cycle 1" && exit 0 || exit 1
+0001_0003C_INT test -x; testsoundser.sh "0001_0003C" "turn_on=1 duty_cycle=2" "Verify VIB_LED is turned on with duty cycle 2" && exit 0 || exit 1
+0001_0003D_INT test -x; testsoundser.sh "0001_0003D" "turn_on=1 duty_cycle=3" "Verify VIB_LED is turned on with duty cycle 3" && exit 0 || exit 1
+
+# Sysfs Entry
+0001_0004A_INT test -x; testsysfsentry.sh "0001_0004A" "turn_on=1 duty_cycle=0" "Verify duty cycle 0 is reflected in Sysfs entry" && exit 0 || exit 1
+0001_0004B_INT test -x; testsysfsentry.sh "0001_0004B" "turn_on=1 duty_cycle=1" "Verify duty cycle 1 is reflected in Sysfs entry" && exit 0 || exit 1
+0001_0004C_INT test -x; testsysfsentry.sh "0001_0004C" "turn_on=1 duty_cycle=2" "Verify duty cycle 2 is reflected in Sysfs entry" && exit 0 || exit 1
+0001_0004D_INT test -x; testsysfsentry.sh "0001_0004D" "turn_on=1 duty_cycle=3" "Verify duty cycle 3 is reflected in Sysfs entry" && exit 0 || exit 1
+
+# Negative Testing
+0001_0004D_INT test -x; testsysfsentry.sh "0001_0004D" "turn_on=1 duty_cycle=4" "Negative Testing - shall report an error" && exit 0 || exit 1
+
+bar echo "L_DD_SNDSERVICES"

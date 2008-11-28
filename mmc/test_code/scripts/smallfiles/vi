@@ -1,0 +1,53 @@
+#!/bin/sh
+
+
+
+
+
+find_editor () {
+
+	if [ -f /usr/bin/vim ]; then
+		exec /usr/bin/vim $@
+	else if [ -f /usr/bin/nvi ]; then
+		exec /usr/bin/nvi $@
+	else if [ -f /usr/bin/nano ]; then
+		exec /usr/bin/nano $@
+	else if [ -f /usr/bin/jed ]; then
+		exec /usr/bin/jed $@
+	else 
+		echo "Error: No editor could be found"
+		exit 1
+	fi
+	fi
+	fi
+	fi
+}
+
+if [ ! -z "$EDITOR" ] ; then
+	E=$(which $EDITOR 2>/dev/null)
+	if [ -L "$E" ]
+	then
+		T=$(ls -l $E | awk '{ print $NF }')
+		if [[ $T = */sensible-editor ]]
+		then
+			find_editor $@
+		fi
+	fi
+
+	if [ -f $EDITOR ] ; then
+		exec $EDITOR $@
+	else if [ -f /usr/bin/$EDITOR ] ; then
+		exec /usr/bin/$EDITOR $@
+	else if [ ! -z "`which $EDITOR 2> /dev/null`" ] ; then
+        	exec `which $EDITOR` $@
+	else
+		echo "Error: Could not find the $EDITOR editor specified by eviornment variable EDITOR"
+		exit 1
+	fi
+	fi
+	fi
+
+else
+	find_editor $@
+fi 
+	 

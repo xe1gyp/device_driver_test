@@ -1,0 +1,20 @@
+#####################
+# FILENAME: L_DD_VIDEO_0006
+# Author  : Benjamin Mejia
+# Date    : Fri Jan 5, 2007
+
+# Begin "L_DD_VIDEO_0006"
+
+COMMENT comment.sh "Verify the window position can be changed in the horizantal direction"
+
+ALL set -x; imgstream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+ALL set -x; imgstream.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+
+0001 set -x; winstream.sh 1 "40 0 160 120"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0002 set -x; winstream.sh 2 "40 0 160 120"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0003 set -x; winstream.sh 1 "0 60 160 120"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0004 set -x; winstream.sh 2 "0 60 160 120"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0005 set -x; winstream.sh 1 "40 60 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0006 set -x; winstream.sh 2 "40 60 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+
+# End "L_DD_VIDEO_0006"

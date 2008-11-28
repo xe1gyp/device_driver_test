@@ -1,0 +1,17 @@
+#####################
+# FILENAME: L_DD_FB_0012
+# Author  : Jose Luis Diaz
+# Date    : Wed Dec 20, 2006
+# Copyright (C) 2008 Texas Instruments
+#
+# Description:
+# Framebuffer (FB) power management test
+
+foo   echo "L_DD_FB_0012"
+
+COMMENT comment.sh "Verify that the user can enable and disable the dithering logic i.e. turn it ON and OFF."
+
+0001 set -x; dither.sh "ON" && exit 0 || exit 1
+0002 set -x; dither.sh "OFF" && exit 0 || exit 1
+
+bar   echo "L_DD_FB_0012"

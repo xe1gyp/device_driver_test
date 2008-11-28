@@ -1,0 +1,14 @@
+###################################################################################################################
+# Scenario: L_DD_NOR_0005C
+# Author  : Nishanth Menon, Misael Lopez Cruz
+# Date    : April 5, 2007
+# Description: Test the robustness of the jffs2 filesystem by attempting file operations and restarting power to 
+#              the board etc, trying to copy large files to the filesystem, deleting after filling the filesystem.
+#              Phase 3 - Final check if the remounted filesystem is proper.
+###################################################################################################################
+
+# Begin L_DD_NOR_0005C
+
+0001a  set -x ; mount -t jffs2 $MTD_BLK_DEV1 /mnt && I=`cat /mnt/logfile|grep "Total errors found"|cut -d':' -f2 | grep -v 0`&&  umount /mnt && exit $I ||exit 1
+
+# End L_DD_NOR_0005C

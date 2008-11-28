@@ -1,0 +1,70 @@
+IrDA Utilities
+
+Dag Brattli
+
+Abstract
+
+The IrDA Utils package is a collection of programs, that enables the
+use of the IrDA protocols. Some user-space configuration is required
+in order to make IrDA work for your machine, and some IrDA features
+like IrOBEX is actually implemented in user-space.
+
+1 Introduction
+
+IrDA is an exciting way of communicating with remote devices. IrDA
+uses infrared wireless communication so no cables are required. Speeds
+range from 9600bps to 4Mbps. The types of devices that support IrDA
+are LAN adapters, PDA's, printers, laptops, mobile phones etc.
+
+Linux-IrDA is a GNU implementation of the IrDA protocols specifications
+written from scratch. Linux-IrDA supports most of the IrDA protocols
+like IrLAP, IrLMP, IrIAP, IrTTP, IrLPT, IrLAN, IrCOMM and IrOBEX.
+
+Most of the features are implemented in the kernel, so you must enable
+IrDA support in the kernel before you can use any of the tools and
+programs mentioned in this document.
+
+2 Getting started
+
+First of all you need to install the tools in this package. Make and
+make install should do that for you. By default it will install the
+files in /etc/irda, and in /usr/sbin. If you don't like that, you
+should edit the makefile.
+
+2.2 irattach
+
+irattach uses the irtty module which connects to the Linux TTY and serial
+driver. This works well for most machines, but limits the speed to
+115200bps (IrDA SIR mode). If you want higher speeds, you must use a
+special device driver for the IrDA chipset used by your machine.  Currently
+there are not that many device drivers implemented, mostly because it's
+very hard to get the documentation, and the drivers are in fact quite hard
+to implement even if you are lucky and get the documentation for the
+chipset.
+
+If you are one of the lucky people which have a chipset that is supported,
+then you don't need to use irattach anymore. Now you just have to insmod
+the driver like this:
+
+For more info, please read irattach/README
+
+3 Other programs
+
+irdadump  Is a program that displays all the frames sent, and received
+          on the infrared link. 
+
+irdaping  Makes it possible to try and ping a remote device using
+          IrDA test frames. Not all devices implements support for test
+          frames. 
+
+irkbd     Implements support for the mouse and keyboard protocol as
+          used by the Tekram IR-660 infrared docking station. 
+
+findchip  Tries to find out which IrDA chipset your machine is using. Try
+          out "./findchip -v" to check it out.
+
+irsockets A collections of programs which uses IrDA sockets.
+
+psion     File transfer program for exchanging files with your Psion PDA
+
+Have fun! 

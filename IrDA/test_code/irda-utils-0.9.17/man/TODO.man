@@ -1,0 +1,16 @@
+TODO
+
+* separate header and footer include files
+* more man pages: irkbd, irsockets, ..
+* write DIAGNOSTICS section for every man page
+* format all SGML tags in the right case (for XML compatibility)
+* explain module options in detail, e.g. dongle_id=0xNN
+
+* create man page for the higher layer of the irda stack
+	- ircomm(4) -> /dev/ircommX, based on null/zero/random/lp(4)
+	- irlpt(4) -> /dev/irlptX
+	- irnet(4) -> /dev/irnet
+	- irlan(4) -> irlanX
+	- irda(7) -> IrSock stuff, based on ip/tcp(7) + point to other manpages
+* find a way so that the resulting man page doesn't look crap, or
+  rewrite everything in troff (see Wireless Tools).

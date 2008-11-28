@@ -1,0 +1,42 @@
+Manual pages for Linux/IrDA, DocBook source files.
+(C) 2001-2003 Werner Heuser wehe@tuxmobil.org
+Published under the GPL, see file COPYING for details.
+
+
+1) docbook2man
+
+These SGML sources use `docbook2man' to generate man pages.
+It's available at http://shell.ipoline.com/~elmert/comp/docbook2X/
+Or as Debian/GNU-Linux package as well.
+
+2) Document Structure
+
+Each man page consists of two parts:
+man-<irda-template>.sgml
+man-<irda-template>-inc.sgml
+
+This structure may seem to complicated, but it is used to include the
+man pages into the Infrared-HOWTO http://tuxmobil.org/howtos.html as well.
+
+You may use `docbook-to-man man-[irda-template].sgml > [irda-template].8'
+to generate the according man page. See also Makefile.
+
+
+3) How to Read the Man Pages
+
+Use `man -l FILE' to read the man pages in the current directory.
+Or gzip them and copy them to the appropriate man page directory.
+See also Makefile.
+
+
+5) New Issues
+
+See http://tuxmobil.org/software/irda
+for new issues.
+
+4) Criticism
+
+These man pages are not perfect. Please help to make them better.
+Your recommendations are welcome.
+
+	Werner Heuser <wehe@tuxmobil.org> http://tuxmobil.org

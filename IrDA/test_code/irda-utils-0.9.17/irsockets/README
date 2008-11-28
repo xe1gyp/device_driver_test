@@ -1,0 +1,61 @@
+	Sample directory
+	----------------
+
+	This directory contains a few sample program illustrating how
+to use the socket interface of the IrDA stack (IrSock) and how to
+write your own applications on top of IrSock.
+	Note that applications can also use the OpenObex library on
+top of IrSock (prefered), or run on top of IrComm (discouraged). And
+there is also the option of using TCP/IP over IrDA.
+	If you want more example of use of IrDA, you are encouraged to
+look at the source code of OpenObex and e-Squirt.
+
+	Jean II
+
+irprintf
+--------
+	Sample IrSock server. Wait for connections from irscanf and
+dump on the console everything received over the IrDA socket.
+
+irscanf
+-------
+	Sample IrSock client. Grab anything from the console and sends
+it to the irprintf application. The combination of irscanf and
+irprintf make a crude one way chat over IrDA.
+
+irprintfx/irscanfx
+------------------
+	Same programs as irprintf/irscanf, use internally file
+descriptors instead of stream (and therefore simpler).
+
+irdaspray
+---------
+	Utility to test IrDA performance. Can generate unidirectional
+or bidirectional streams of packets between a Client and a Server.
+	For example :
+		Client : irdaspray -n 10 -b 2000
+		Server : irdaspray -s
+	More command line options and features are available, check
+the source code for details.
+	The code also contains many examples on how to use some of the
+most advanced features of the Linux-IrDA stack, so is a good place to
+start if you want to program something fancy.
+
+send_ultra
+----------
+	Send an Ultra packet (connectionless broadcast)
+
+recv_ultra
+----------
+	Wait and receive some Ultra packets
+
+ias_query
+---------
+	Perform an IAS query to a remote device. This version works.
+	Note that the irdaspray code contains many more example of
+interaction with IAS.
+
+oldies
+------
+	Older applications. Those have some known problems, and some
+portions of the code is bad practice.

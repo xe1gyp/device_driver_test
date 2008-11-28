@@ -1,0 +1,13 @@
+###################################################################################################################
+# Scenario: L_DD_Power_0003
+# Author  : Misael Lopez Cruz
+# Date    : 04 Jul 07
+# Description: 
+###################################################################################################################
+
+
+# Begin L_DD_Power_0003
+
+0001	insmod $TESTMODS/prcm_test.ko opt=0x3F && rmmod prcm_test.ko && cat /prcm_test.msg | grep "All tests passed" && rm -f /prcm_test.msg && echo "Reboot the system after this test" && sleep 1 && $UTILBIN/waitkey && exit 0 || exit 1
+
+# End L_DD_Power_0003

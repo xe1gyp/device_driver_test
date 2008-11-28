@@ -1,0 +1,15 @@
+#####################
+# FILENAME: L_DD_VIDEO_0010
+# Author  : Omar Esli Jimenez Villarreal
+# Date    : Friday, August 08, 2008
+
+# Begin "L_DD_VIDEO_0010"
+
+COMMENT comment.sh "Verify the video is displayed cleanly in both video pipelines simultanuosly"
+
+#0000 set -x;  $TESTBIN/setlink 2&
+0001 set -x;  linkvideo.sh "lcd" "lcd"&& exit 0 || exit 1
+0002 set -x;  linkvideo.sh "lcd" "tv"&& exit 0 || exit 1
+0003 set -x;  linkvideo.sh "tv" "tv"&& exit 0 || exit 1
+
+# End "L_DD_VIDEO_0010"

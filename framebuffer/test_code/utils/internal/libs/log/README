@@ -1,0 +1,12 @@
+
+This contains the logging facilities for the test harness
+and the tests that run in them. It also contains a wrapper
+to run tests.
+
+If you are writting a test, you want to look at the testlog
+libraries. Log.py is for internal ATS use.
+
+For more info on how to use these libraries, consult the
+comments in the respective files. For the python library, you
+can use pydoc to view the documentation. On RH 7.3 systems,
+you must use 'pydoc2'.

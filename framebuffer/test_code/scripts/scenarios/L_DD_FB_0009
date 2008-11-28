@@ -1,0 +1,17 @@
+#####################
+# FILENAME: L_DD_FB_0009
+# Author  : Jose Luis Diaz
+# Date    : Wed Dec 20, 2006
+# Copyright (C) 2008 Texas Instruments
+#
+# Description:
+# Framebuffer (FB) configuration of LCD backlight test
+
+foo   echo "L_DD_FB_0009"
+
+COMMENT comment.sh "Verify that the user can configure the LCD backlight,i.e. turn it OFF and ON."
+
+0001 set -x; backl.sh && exit 0 || exit 1
+
+bar   echo "L_DD_FB_0009"
+

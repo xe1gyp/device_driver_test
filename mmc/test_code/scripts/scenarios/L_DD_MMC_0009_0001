@@ -1,0 +1,12 @@
+###################################################################################################################
+# Scenario: L_DD_MMC_0009_0001
+# Author  : Misael Lopez Cruz
+# Date    : September 20, 2006
+# Description: The MMC/SD driver supports both the MMC1 and MMC2 controllers simultaneously
+###################################################################################################################
+
+# Begin L_DD_MMC_0009_0001
+
+01 echo TBD; exit 1
+
+# End L_DD_MMC_0009_0001

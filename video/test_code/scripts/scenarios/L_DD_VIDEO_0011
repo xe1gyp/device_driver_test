@@ -1,0 +1,22 @@
+#####################
+# FILENAME: L_DD_VID_0011_0001
+# Author  : Carlos Pando
+# Date    : Fri Jan 5, 2007
+# Copyright (C) 2007 Texas Instruments
+#
+# Description:
+# Video (Vid) tests
+
+# Begin "L_DD_VID_0011"
+
+COMMENT comment.sh "Verify the background color of the canvas can be configured"
+#0001 $TESTBIN/fbtest -b | grep "fault" && exit 1 || exit 0 
+COMMENT comment.sh "SENDING GFX PIPELINE TO TV"
+0001 echo tv > /sys/class/display_control/omap_disp_control/graphics
+0001 set -x; background.sh "1" "123456"&& exit 1 || exit 0
+0001 set -x; background.sh "1" "765432"&& exit 1 || exit 0
+COMMENT_INT comment.sh "SENDING GFX PIPELINE TO TV"
+0001 echo lcd > /sys/class/display_control/omap_disp_control/graphics
+#0001 $TESTBIN/fbtest -u | grep "fault" && exit 1 || exit 0 
+
+# End "L_DD_VID_0011"

@@ -1,0 +1,13 @@
+##############################
+# File Name   : L_DD_MCBSP_0002
+# Author      : Abraham Arce
+# Date        : March 08, 2007
+# Description : McBSP Test Suite
+###############################
+
+# Begin L_DD_MCBSP_0002
+
+#The McBSP driver supports configuring the "phase" parameter, this test case verifies the same.
+0001 set -x; testmcbsp.sh "0002_0001" "Phase" "6" "phase=" "$PHASE_VALUES" && exit 0 || exit 1
+
+# End L_DD_MCBSP_0002

@@ -1,0 +1,14 @@
+###################################################################################################################
+# Scenario: L_DD_DMA_0006
+# Author  : Misael Lopez Cruz
+# Date    : 07 May 2007
+# Description: 
+###################################################################################################################
+
+# Begin L_DD_DMA_0006
+
+0001a	$TESTSCRIPT/test_dma_endian.sh 1 $TMPBASE
+0001b	$TESTSCRIPT/test_dma_endian.sh 2 $TMPBASE
+0001c	$TESTSCRIPT/test_dma_endian.sh 3 $TMPBASE
+
+# End L_DD_DMA_0006

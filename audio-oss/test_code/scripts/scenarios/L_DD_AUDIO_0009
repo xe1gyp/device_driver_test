@@ -1,0 +1,28 @@
+#####################
+# FILENAME: L_DD_AUDIO_0009
+# Author  : Nishanth Menon
+# Date    : Wed Apr 26 11:38:49 CDT 2006
+# Copyright (C) 2006 Texas Instruments
+#
+# Description:
+# test standard applications
+
+foo   echo "L_DD_AUDIO_0009"
+
+# test mixer functionality using aumix
+0001a aumix -v 80 && exit 0 ||exit 1
+
+# Test a test mp3 play using madplay
+0001b echo $TESTMP3; test -f $TESTMP3 && madplay -q $TESTMP3 && exit 0 ||exit 1
+
+# Take input from onboard mic
+0001c t2_src_changer -d $MIXER_DEVICE -i 2 && exit 0||exit 1
+
+# Record the data
+0001d sox -c 2 -r 44100 -t ossdsp $DSP_DEVICE $TMPBASE/foo.wav |(sleep 5;killall sox) && exit 0||exit 1
+#Play the data back to us
+0001e sox $TMPBASE/foo.wav -c 2 -t ossdsp $DSP_DEVICE && exit 0 || exit 1
+
+cleanup rm -f $TMPBASE/foo.wav
+
+bar   echo "L_DD_AUDIO_0009"

@@ -1,0 +1,13 @@
+###################################################################################################################
+# Scenario: L_DD_NOR_0004C
+# Author  : Nishanth Menon, Misael Lopez Cruz
+# Date    : April 5, 2007
+# Description: To the flash partition and mounting the same, running filesystem operations on it and un-mounting 
+#              the same.
+###################################################################################################################
+
+# Begin L_DD_NOR_0004C
+
+0001  set -x; mount -t jffs2 $MTD_BLK_DEV1 /mnt && df | grep "$MTD_BLK_DEV1" && cat /mnt/boot_log | grep "Boot: OK" && umount /mnt && exit 0 || exit 1
+
+# End L_DD_NOR_0004C

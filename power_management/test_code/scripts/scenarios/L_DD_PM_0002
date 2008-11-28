@@ -1,0 +1,12 @@
+##############################
+# File Name   : L_DD_PM_0002
+# Author      : Abraham Arce
+# Date        : April 04, 2007
+# Description : Power Management Test Suite
+###############################
+
+foo echo "L_DD_PM_0002"
+
+0001_INT test -x; powermanagement.sh "0002_0001" "$FAST_OPERATING_POINT\n$SLEEP_OPTION\n$QUIT_OPTION" "5" "Sleep Test From Fast Operating Point waiting 30 seconds" && exit 0 || exit 1
+
+bar echo "L_DD_PM_0002"

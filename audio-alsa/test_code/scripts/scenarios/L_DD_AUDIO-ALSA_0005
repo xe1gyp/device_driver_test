@@ -1,0 +1,15 @@
+###################################################################################################################
+# Scenario: L_DD_AUDIO-ALSA_0005
+# Author  : Misael Lopez Cruz
+# Date    : 21 May 2007
+# Description: 
+###################################################################################################################
+
+# Begin L_DD_AUDIO-ALSA_0005
+
+0001	$TESTSCRIPT/FullDuplex.bash 'NoPMDPM'
+#0002	$TESTSCRIPT/FullDuplex.bash 'Sleep'
+#0003	$TESTSCRIPT/FullDuplex.bash 'FreqScaling'
+
+# End L_DD_AUDIO-ALSA_0005
+

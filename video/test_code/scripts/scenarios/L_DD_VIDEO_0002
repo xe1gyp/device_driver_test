@@ -1,0 +1,13 @@
+#####################
+# FILENAME: L_DD_VIDEO_0002
+# Author  : Benjamin Mejia
+# Date    : Fri Jan 5, 2007
+
+# Begin "L_DD_VIDEO_0002"
+
+COMMENT comment.sh "Verify images can be rendered in both Pipelines"
+
+0001 set -x; imgstream.sh 1 "RGB565 160 120" "$VIDEOFILES/video_qqvga_rgb_30 1" && exit 0 || exit 1
+0002 set -x; imgstream.sh 2 "RGB565 160 120" "$VIDEOFILES/video_qqvga_rgb_30 1" && exit 0 || exit 1
+
+# End "L_DD_VIDEO_0002"

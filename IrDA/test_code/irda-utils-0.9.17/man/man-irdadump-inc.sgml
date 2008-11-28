@@ -1,0 +1,188 @@
+<!-- 
+
+v0.1 wh 2001/03/26
+v0.1 wh 2001/08/18
+
+-->
+
+<REFMETA>
+<REFENTRYTITLE>irdadump</REFENTRYTITLE>
+<MANVOLNUM>8</MANVOLNUM>
+</REFMETA>
+
+<REFNAMEDIV>
+<REFNAME>irdadump</REFNAME>
+  <REFPURPOSE>
+monitors the IrDA traffic on one or more links.
+  </REFPURPOSE>
+</REFNAMEDIV>
+
+<REFSYNOPSISDIV>
+<CMDSYNOPSIS>
+  <COMMAND>irdadump</COMMAND>
+  <ARG><REPLACEABLE>-b</REPLACEABLE></ARG>
+  <ARG><REPLACEABLE>-c n</REPLACEABLE></ARG>
+  <ARG><REPLACEABLE>-d</REPLACEABLE></ARG>
+  <ARG><REPLACEABLE>-x</REPLACEABLE></ARG>
+  <ARG><REPLACEABLE>-s n</REPLACEABLE></ARG>
+  <ARG><REPLACEABLE>-t</REPLACEABLE></ARG>
+  <ARG><REPLACEABLE>-l</REPLACEABLE></ARG>
+  <ARG><REPLACEABLE>-v</REPLACEABLE></ARG>
+  <ARG><REPLACEABLE>-i device</REPLACEABLE></ARG>
+</CMDSYNOPSIS>
+</REFSYNOPSISDIV>
+
+<REFSECT1>
+<TITLE>OPTIONS</TITLE>
+
+<PARA>
+<OPTION>-b</OPTION> dump bytes in columns
+</PARA>
+
+<PARA>
+<OPTION>-c n</OPTION> set snapcols for byte printing with -b option
+</PARA>
+
+<PARA>
+<OPTION>-d</OPTION> prints the time difference between the current and the previous frame
+</PARA>
+
+<PARA>
+<OPTION>-x</OPTION> dump frame (bytes and ascii)
+</PARA>
+
+<PARA>
+<OPTION>-s n</OPTION> set snaplen for -b and -x option
+</PARA>
+
+<PARA>
+<OPTION>-t</OPTION> force TTP decoding of unknown connections
+</PARA>
+
+<PARA>
+<OPTION>-l</OPTION> set line buffering on output file
+</PARA>
+
+<PARA>
+<OPTION>-v</OPTION> verbose
+</PARA>
+
+<PARA>
+<OPTION>-i device</OPTION> interface
+</PARA>
+
+</REFSECT1>
+
+<REFSECT1>
+<TITLE>DESCRIPTION</TITLE>
+
+<PARA>
+<COMMAND>irdadump</COMMAND> is a tool for monitoring the IrDA traffic on 
+one or more links. Just write "make" to compile the program. When you run 
+the program, you should be able to see the IrDA traffic (if any). 
+</PARA>
+
+<PARA>
+One advantage of implementing IrDA device drivers as network device drivers is that you should be able to attach sniffers to the device (or actually the packet type). That way, it is possible to use a really handy utility called <COMMAND>irdadump</COMMAND> (instead of <COMMAND>tcpdump</COMMAND>). This will make debugging MUCH easier. Linux-2.2 implements the BPF (Berkeley Packet Filter), so its possible to filter out exactly the frames you want to see.
+You may use <COMMAND>hostname</COMMAND> to separate different machines names.
+Or <COMMAND>grep</COMMAND> to filter the output, too.
+</PARA>
+
+<PARA>
+<COMMAND>irdadump</COMMAND> must be run as root or installed setuid root, 
+as it requires root privileges.
+</PARA>
+
+</REFSECT1>
+
+<REFSECT1>
+<TITLE>EXAMPLES</TITLE>
+
+<PARA>
+The output should look something like this:
+
+<PROGRAMLISTING>
+/ # ./irdadump 
+20:11:45.412199 xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=0
+20:11:45.492137 xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=1
+20:11:45.572137 xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=2
+20:11:45.652208 xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=3
+20:11:45.732137 xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=4
+20:11:45.812137 xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=5
+20:11:45.892175 xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=255 Linux
+20:11:45.902362 xid:rsp 0xf7be8388 &lt; 0x0015c23b S=6 s=5 ACTiSYS IR100M
+20:11:48.412197 xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=0
+20:11:48.492656 xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=1
+20:11:48.572177 xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=2
+20:11:48.652169 xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=3
+20:11:48.732177 xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=4
+20:11:48.812153 xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=5
+20:11:48.822371 xid:rsp 0xf7be8388 &lt; 0x0015c23b S=6 s=4 ACTiSYS IR100M
+
+15 packets received by filter
+</PROGRAMLISTING>
+
+Turning on the "-d" option will make irdadump print the time difference
+between the current and the previous frame:
+
+<PROGRAMLISTING>
+/ # ./irdadump -d
+20:11:18.412475 (0982.06 ms) xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=0
+20:11:18.492345 (0079.87 ms) xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=1
+20:11:18.572376 (0080.03 ms) xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=2
+20:11:18.652979 (0080.60 ms) xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=3
+20:11:18.732354 (0079.38 ms) xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=4
+20:11:18.755093 (0022.74 ms) xid:rsp 0xf7be8388 &lt; 0x0015c23b S=6 s=3 ACTiSYS IR100M
+20:11:18.812350 (0057.26 ms) xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=5
+20:11:18.892518 (0080.17 ms) xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=255 Linux
+20:11:21.412486 (2519.97 ms) xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=0
+20:11:21.492395 (0079.91 ms) xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=1
+20:11:21.572368 (0079.97 ms) xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=2
+20:11:21.652405 (0080.04 ms) xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=3
+20:11:21.732458 (0080.05 ms) xid:cmd 0x0015c23b &gt; 0xffffffff S=6 s=4
+</PROGRAMLISTING>
+<COMMAND>irdadump</COMMAND> must be run as root or installed setuid root, 
+as it requires root privileges.
+</PARA>
+
+<PARA>
+<COMMAND>irdadump -d -x -s 256</COMMAND> will check the contents of the frames. This should tell us if the frames have malformed content, or if the irda stack is doing something wrong.
+</PARA>
+
+</REFSECT1>
+
+<REFSECT1>
+<TITLE>DIAGNOSTICS</TITLE>
+
+<PARA>
+N.N.
+</PARA>
+
+</REFSECT1>
+
+<REFSECT1>
+
+<TITLE>BUGS</TITLE>
+
+<PARA>
+N.N.
+</PARA>
+
+</REFSECT1>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-default-dtd-file:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->

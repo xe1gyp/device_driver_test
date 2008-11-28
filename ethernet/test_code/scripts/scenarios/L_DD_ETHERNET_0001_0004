@@ -1,0 +1,35 @@
+################################################################################
+# Scenario: L_DD_ETHERNET_0001_0004
+# Author  : Abraham Arce
+# Date    : Fri Mar 28 13:59:10 CDT 2008
+################################################################################
+
+# Begin L_DD_ETHERNET_0001_0004
+
+COMMENT comment.sh "To test that the driver is able to support the changing of MTU"
+
+# Initial Setup
+SETUP ifconfig eth0 -promisc; ifconfig | grep eth0 && ifconfig | grep MTU: | sed -e 's@MTU:@@' | sed q | awk '{print $5}' > /tmp/MTU1 && exit 0 || exit 1
+
+A ifconfig eth0 mtu 500 && exit 0 || exit 1
+B ifconfig eth0 -promisc; ifconfig | grep eth0 && ifconfig | grep MTU: | sed -e 's@MTU:@@' | sed q | awk '{print $5}' > /tmp/MTU2 && exit 0 || exit 1
+C cat /tmp/MTU2 | grep 500 && exit 0 || exit 1;
+
+D ifconfig eth0 mtu 1000 && exit 0 || exit 1
+E ifconfig eth0 -promisc; ifconfig | grep eth0 && ifconfig | grep MTU: | sed -e 's@MTU:@@' | sed q | awk '{print $5}' > /tmp/MTU2 && exit 0 || exit 1
+F cat /tmp/MTU2 | grep 1000 && exit 0 || exit 1
+
+G ifconfig eth0 mtu 1500 && exit 0 || exit 1;
+H ifconfig eth0 -promisc; ifconfig | grep eth0 && ifconfig | grep MTU: | sed -e 's@MTU:@@' | sed q | awk '{print $5}' > /tmp/MTU2 && exit 0 || exit 1
+I cat /tmp/MTU2 | grep 1500 && exit 0 || exit 1;
+
+# The next value is not allowed
+
+J ifconfig eth0 mtu 2500 && exit 1 || exit 0;
+K ifconfig eth0 -promisc; ifconfig | grep eth0 && ifconfig | grep MTU: | sed -e 's@MTU:@@' | sed q | awk '{print $5}' > /tmp/MTU2 && exit 0 || exit 1
+L cat /tmp/MTU2 | grep 2500 && exit 1 || exit 0;
+
+# Final Setup, MTU set to 1500
+FINAL ifconfig eth0 mtu 1500 && exit 0 || exit 1
+
+# End L_DD_ETHERNET_0001_0004

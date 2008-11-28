@@ -1,0 +1,16 @@
+###################################################################################################################
+# Scenario: L_DD_AUDIO-ALSA_0003
+# Author  : Misael Lopez Cruz
+# Date    : 21 May 2007
+# Description: 
+###################################################################################################################
+
+# Begin L_DD_AUDIO-ALSA_0003
+
+0001	$TESTSCRIPT/Playback.bash 'NoPMDPM'
+#0002	$TESTSCRIPT/Playback.bash 'Sleep'
+#0003	$TESTSCRIPT/Playback.bash 'FreqScaling'
+#0004	$TESTSCRIPT/MultiplePlayback.bash
+
+# End L_DD_AUDIO-ALSA_0003
+

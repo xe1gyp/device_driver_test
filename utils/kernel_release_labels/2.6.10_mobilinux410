@@ -1,0 +1,115 @@
+# Kernel Release : 2.6.10_mobilinux410
+
+driver=$1
+
+# Common Variables
+export DPM_SCRIPT=$TESTSCRIPT/dpm_test_8x.bash
+export QUIT_OPTION=0
+export SCALE_OPTION=6
+export SLEEP_OPTION=4
+export SLOW_MODE='s'
+export FAST_MODE='f'
+
+case $driver in
+
+	"audio-alsa")
+
+  # PM commands
+	export SYSFS_POWER_ENTRY=''
+	export SUSPEND_COMMAND='-n 7'
+	export RESUME_COMMAND='-n 0'
+	
+	;;
+
+	"hdq")
+	
+	export HDQ_SYSFS_CMD="/sys/devices/platform/omap_hdq.0/cmd"
+	export HDQ_SYSFS_RESULT="/sys/devices/platform/omap_hdq.0/result"
+	
+	;;
+
+	"i2c")
+
+	#The main bus on which the tests will be conducted.
+	export I2C_TEST_BUS1=1
+	export I2C_TEST_BUS2=0
+	export I2C_DEV="0 1"
+
+	export SYSFS_SYSTEM_POWER_ENTRY=/sys/power/state
+	export SYSFS_SYSTEM_POWER_SLEEP=mem
+	export SYSFS_POWER_ENTRY_1="/sys/devices/L4CORE/OMAP24xx\ I2C\ 03/power/state"
+	export SYSFS_POWER_ENTRY_2="/sys/devices/L4CORE/OMAP24xx\ I2C\ 13/power/state"	
+	export RESUME=0
+	export STATE1=1
+	export STATE2=2
+	export SUSPEND=3
+	;;
+	
+	"nand")
+	
+	
+	;;
+	
+	"norflash")
+	
+	# NOR default device
+	export DEFAULT_DEVICE=SIBLEY
+	MAIN_PARTITION=7
+	AUX_PARTITION=`echo $MAIN_PARTITION-1|bc`
+	
+	;;
+	
+	"sdio")
+	
+	# PM commands
+	export SYSFS_POWER_ENTRY_DEV1='/sys/devices/L3/omap2430-mmc12/power/state'
+	export SUSPEND_COMMAND='-n 7'
+	export RESUME_COMMAND='-n 0'
+	# SDIO polling switch
+	export SYSFS_POLLING_ENTRY_DEV1='/sys/devices/L3/omap2430-mmc12/sdio_polling1_switch'
+	export POLLING_ENABLE='Enable'
+	export POLLING_DISABLE='Disable'
+	# Hotplug commands
+	export HOTPLUG_DEV1='/sys/devices/L3/omap2430-mmc12/mmc1_card_detect'
+	export HOTPLUG_ENABLE='Enable'
+	export HOTPLUG_DISABLE='Disable'
+	# Proc names
+	export PROC_ENTRY_DEV1='omap2430-mmc1'
+	
+	;;
+	
+	"timer-32k")
+
+	# PM commands
+	export SYSFS_POWER_ENTRY='/sys/devices/L3/omap2430-mmc12/power/state'
+	export D0_CONSTANT=0
+	export D1_CONSTANT=5
+	export D2_CONSTANT=6
+	export D3_CONSTANT=7
+	# Kernel and Timer path
+	export WDT_DEV_ENTRY='/dev/omap_wdt'
+	export KDIR='kernel_mv/2.6_kernel-arm11'
+	export TIME_PATH='arch/arm/mach-omap2/time.c'	
+	
+	;;	
+	
+	"watchdog")
+
+	# PM commands
+	export SYSFS_POWER_ENTRY='/sys/devices/L3/omap2430-mmc12/power/state'
+	export D0_CONSTANT=0
+	export D1_CONSTANT=5
+	export D2_CONSTANT=6
+	export D3_CONSTANT=7
+	# Kernel and Timer path
+	export WDT_DEV_ENTRY='/dev/omap_wdt'
+	export KDIR='kernel_mv/2.6_kernel-arm11'
+	export TIME_PATH='arch/arm/mach-omap2/time.c'	
+
+	;;
+	
+
+	*)
+	commands;;
+
+esac

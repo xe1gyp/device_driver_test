@@ -1,0 +1,15 @@
+#####################
+# FILENAME: L_DD_VIDEO_0021
+# Author  : Omar Esli Jimenez Villarreal
+# Date    : Wednesday , Nov 5 2008
+
+# Begin "L_DD_VIDEO_0021"
+
+COMMENT comment.sh "Verify the tv detection capability works fine"
+
+0001 set -x; tv_detect.sh "CONNECTED" "LCD" "RGB565 160 120" $VIDEOFILES"/video_qqvga_rgb_30 1" "0 0 160 120"&& exit 0 || exit 1
+0002 set -x; tv_detect.sh "CONNECTED" "TV" "RGB565 160 120" $VIDEOFILES"/video_qqvga_rgb_30 1" "0 0 160 120"&& exit 0 || exit 1
+0003 set -x; tv_detect.sh "DISCONNECTED" "LCD" "RGB565 160 120" $VIDEOFILES"/video_qqvga_rgb_30 1" "0 0 160 120"&& exit 0 || exit 1
+0004 set -x; tv_detect.sh "DISCONNECTED" "TV" "RGB565 160 120" $VIDEOFILES"/video_qqvga_rgb_30 1" "0 0 160 120"&& exit 0 || exit 1
+
+# End "L_DD_VIDEO_0021"

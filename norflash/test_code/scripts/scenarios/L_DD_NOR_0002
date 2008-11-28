@@ -1,0 +1,36 @@
+###################################################################################################################
+# Scenario: L_DD_NOR_0002
+# Author  : Nishanth Menon, Misael Lopez Cruz
+# Date    : April 5, 2007
+# Description: Test the flash driver's sector operations by erasing writing and reading back data from sector 
+#              boundaries.
+###################################################################################################################
+
+# Begin L_DD_NOR_0002
+
+setup  set -x; $TESTBIN/flash_eraseall $MTD_CHAR_DEV1
+
+# Basic erase, erase the entire flash.
+0001_EXT  set -x; mtd_debug erase $MTD_CHAR_DEV1 0 $MAX_SIZE
+
+# ID sector_test.sh Device ERASE_SEC_START ERASE_SECTORSIZE START_RW SIZE_RW
+0002  set -x; sector_test.sh $MTD_CHAR_DEV1 X SECTORSIZE X SECTORSIZE && RES=0 || RES=1; exit $RES
+
+# In case of Sibley the following op should put it into object mode and the write should fail (object mode)
+0003  set -x; sector_test.sh $MTD_CHAR_DEV1 X SECTORSIZE X_P SECTORSIZE && RES=0 || RES=1;if [ $DEFAULT_DEVICE = "SIBLEY" ]; then  exit $(( 1 - $RES)); else exit $RES; fi
+0004  set -x; sector_test.sh $MTD_CHAR_DEV1 X SECTORSIZE X SECTORSIZE_1 && RES=0 || RES=1; exit $RES
+
+#Another sibley failure test
+0005  set -x; sector_test.sh $MTD_CHAR_DEV1 X SECTORSIZE X_P SECTORSIZE_2 && RES=0 || RES=1;if [ $DEFAULT_DEVICE = "SIBLEY" ]; then  exit $(( 1 - $RES)); else exit $RES; fi
+0006  set -x; sector_test.sh $MTD_CHAR_DEV1 X SECTORSIZE2 X SECTORSIZE2 && RES=0 || RES=1; exit $RES
+0007  set -x; sector_test.sh $MTD_CHAR_DEV1 X SECTORSIZE2 X SECTORSIZE_1 && RES=0 || RES=1; exit $RES
+0008  set -x; sector_test.sh $MTD_CHAR_DEV1 X SECTORSIZE2 X SECTORSIZE_P && RES=0 || RES=1; exit $RES
+0009  set -x; sector_test.sh $MTD_CHAR_DEV1 X SECTORSIZE2 X SECTORSIZE2_1 && RES=0 || RES=1; exit $RES
+
+# Following tests will fail for Sibley due to object mode behavior
+0010  set -x; sector_test.sh $MTD_CHAR_DEV1 X SECTORSIZE2 X_P SECTORSIZE2 && RES=0 || RES=1;if [ $DEFAULT_DEVICE = "SIBLEY" ]; then  exit $(( 1 - $RES)); else exit $RES; fi
+0011  set -x; sector_test.sh $MTD_CHAR_DEV1 X SECTORSIZE2 X_P SECTORSIZE && RES=0 || RES=1;if [ $DEFAULT_DEVICE = "SIBLEY" ]; then  exit $(( 1 - $RES)); else exit $RES; fi
+0012  set -x; sector_test.sh $MTD_CHAR_DEV1 X SECTORSIZE2 X_P SECTORSIZE_P && RES=0 || RES=1;if [ $DEFAULT_DEVICE = "SIBLEY" ]; then  exit $(( 1 - $RES)); else exit $RES; fi
+0013  set -x; sector_test.sh $MTD_CHAR_DEV1 X SECTORSIZE2 X_P SECTORSIZE2_1 && RES=0 || RES=1;if [ $DEFAULT_DEVICE = "SIBLEY" ]; then  exit $(( 1 - $RES)); else exit $RES; fi
+
+# End L_DD_NOR_0002

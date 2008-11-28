@@ -1,0 +1,43 @@
+#####################
+# FILENAME: L_DD_AUDIO_0003
+# Author  : Nishanth Menon
+# Date    : Wed Apr 26 11:38:48 CDT 2006
+# Copyright (C) 2006 Texas Instruments
+#
+# Description:
+# This shall attempt to playback audio using  combinations of:
+# 1.	All supported sample rates
+# 2.	All supported sample sizes
+# 3.	All supported channels
+# 4.	Playback Gain Values
+# 5.	Playback sources
+# 6.	Varied buffer sizes
+# 7.	Power management - scale and deep sleep
+
+foo   echo "L_DD_AUDIO_0003"
+
+# For normal testing we do complete tests for two sample rates - a min and a max
+0001_setup t2_src_changer -i 2 -o 2 -d /dev/sound/dsp ;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+0001 export OUTPUT_DEVICES=2; export SAMPLE_RATES="44100 8000";export BUFFER_SIZES=4096;play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+#0001 export OUTPUT_DEVICES=2; export SAMPLE_RATES="8000";export BUFFER_SIZES=4096;play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+#0001 export OUTPUT_DEVICES=2; export BUFFER_SIZES=4096;play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+#Scale testing - pretty ordinary
+#0002a export OUTPUT_DEVICES=2;export SAMPLE_RATES="44100 8000";export POWER_MANAGEMENT="scale";export BUFFER_SIZES=4096;play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+#0002a export OUTPUT_DEVICES=2;export POWER_MANAGEMENT="scale";export BUFFER_SIZES=4096;play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+# This is painful - some one has to wake up the device..
+#0002b export OUTPUT_DEVICES=2; export SAMPLE_RATES="8000";export POWER_MANAGEMENT="sleep";export BUFFER_SIZES=4096;play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+#0002b export OUTPUT_DEVICES=2; export POWER_MANAGEMENT="sleep";export BUFFER_SIZES=4096;play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+# Torture test - 
+#0001b play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+#The following tests Take time ...  and require human intervention to wakeup by pressing key
+#0002d_EXT export POWER_MANAGEMENT="sleep";play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+#0002e_EXT export POWER_MANAGEMENT="scale";play_wrapper.sh;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+0001_final t2_src_changer -i 1 -o 1 -d /dev/sound/dsp ;if [ $? -ne 0 ]; then exit 1; else exit 0; fi
+
+bar   echo "L_DD_AUDIO_0003"

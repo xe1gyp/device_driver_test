@@ -1,0 +1,42 @@
+################################################################################
+# Scenario: L_DD_I2C_0001
+# Author  : Nishanth Menon
+# Date    : Tue Jun 13 12:23:42 CDT 2006
+# Description: 
+# Run a basic test - use default setup
+################################################################################
+
+# Begin L_DD_I2C_0001
+
+# Initial setup
+#setup mod.sh insert && exit 0 || exit 1
+
+# Check each of the device
+0001 set -x;for i in $I2C_DEV; do if [ ! -c $I2C_DEV_PATH/$i ]; then exit 1 ; fi; done && exit 0
+
+# Check each of the bus -> probe all addresses 
+0002 set -x;for i in $I2C_DEV; do i2cdetect -a -y $i || exit 1; done && exit 0
+
+# Check each of the bus -> uses only quick write commands for probing
+0003 set -x;for i in $I2C_DEV; do i2cdetect -a -y -q $i || exit 1; done && exit 0
+
+# Check each of the bus -> uses only read byte commands for probing
+0004 set -x;for i in $I2C_DEV; do i2cdetect -a -y -r $i || exit 1; done && exit 0
+
+# Check each of the bus -> uses Ten Bit addressing mode
+0005 set -x;for i in $I2C_DEV; do i2cdetect -a -y -t $i || exit 1; done && exit 0
+
+# Check each of the bus -> uses i2c dev's read and write calls to probe the chips
+0006 set -x;for i in $I2C_DEV; do i2cdetect -a -y -i $i || exit 1; done && exit 0
+
+# Check each of the bus -> limit the probing range
+0007 set -x;for i in $I2C_DEV; do COUNTER=0 ; until [ $COUNTER -gt 85 ] ; do i2cdetect -a -y -i $i 0 $COUNTER; let COUNTER=$COUNTER+1 ; done || exit 1; done && exit 0
+
+# Negative Testing
+# Check each of the bus -> uses High speed mode
+# 0008 set -x;for i in $I2C_DEV; do i2cdetect -a -y -h $i && exit 1 || exit 0; done && echo "Success"
+
+# Clean up
+#cleanup mod.sh remove && exit 0 || exit 1
+
+# End L_DD_I2C_0001

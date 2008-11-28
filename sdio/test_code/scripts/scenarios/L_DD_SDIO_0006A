@@ -1,0 +1,13 @@
+###################################################################################################################
+# Scenario: L_DD_SDIO_0006A
+# Author  : Misael Lopez Cruz
+# Date    : April 6, 2007
+# Description: Test hotplug feature of SDIO device driver
+###################################################################################################################
+
+foo 	echo "L_DD_SDIO_0006A"
+
+0001	rm -f /sdio.msg; echo "Insert SDIO card into slot 1" && sleep 1 && $UTILBIN/waitkey && insmod $TESTMODS/$SDIO_MOD && cmp /sdio.msg $SDIO_MANUF_FILE && rmmod $SDIO_MOD && echo "Remove SDIO card from slot 1" && sleep 1 && $UTILBIN/waitkey && exit 0 || exit 1
+0002	rm -f /sdio.msg; echo "Insert SDIO card into slot 1" && sleep 1 && $UTILBIN/waitkey && insmod $TESTMODS/$SDIO_MOD && cmp /sdio.msg $SDIO_MANUF_FILE && rmmod $SDIO_MOD && echo "Remove SDIO card from slot 1" && sleep 1 && $UTILBIN/waitkey && exit 0 || exit 1
+
+bar 	echo "L_DD_SDIO_0006A"

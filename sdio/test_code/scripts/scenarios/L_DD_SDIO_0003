@@ -1,0 +1,13 @@
+###################################################################################################################
+# Scenario: L_DD_SDIO_0003
+# Author  : Misael Lopez Cruz
+# Date    : September 28, 2006
+# Description: Test the data transfer of SDIO driver in CPU mode
+###################################################################################################################
+
+foo 	echo "L_DD_SDIO_0003"
+
+0001_a	cat $FS_LOGFILE | grep "$SDIO_TYPE detected" && cat /proc/devices | grep 'mmc' && cat /proc/interrupts | grep "$PROC_ENTRY_DEV1" && exit 0 || exit 1
+0001_b	rm -f /sdio.msg; insmod $TESTMODS/$SDIO_MOD && cmp /sdio.msg $SDIO_MANUF_FILE && rmmod $SDIO_MOD && exit 0 || exit 1
+
+bar 	echo "L_DD_SDIO_0003"

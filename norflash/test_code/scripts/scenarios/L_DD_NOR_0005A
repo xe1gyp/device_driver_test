@@ -1,0 +1,14 @@
+###################################################################################################################
+# Scenario: L_DD_NOR_0005A
+# Author  : Nishanth Menon, Misael Lopez Cruz
+# Date    : April 4, 2007
+# Description: Test the robustness of the jffs2 filesystem by attempting file operations and restarting power to 
+#              the board etc, trying to copy large files to the filesystem, deleting after filling the filesystem.
+#              Phase 1 - Execute makefiles and create crc to run tests on. Reboot required.
+###################################################################################################################
+
+# Begin L_DD_NOR_0005A
+
+0001a  set -x; $TESTBIN/flash_eraseall $JFFS_OPTION $MTD_CHAR_DEV1 && mount -t jffs2 $MTD_BLK_DEV1 /mnt && ls /mnt && umount /mnt && mount -t jffs2 $MTD_BLK_DEV1 /mnt && cd /mnt && sleep 10 && $TESTBIN/makefiles && ($TESTBIN/checkfs &) && sleep 30 && reboot || exit 1
+
+# End L_DD_NOR_0005A

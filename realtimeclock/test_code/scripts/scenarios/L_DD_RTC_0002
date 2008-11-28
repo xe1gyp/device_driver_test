@@ -1,0 +1,14 @@
+###################################################################################################################
+# Scenario: L_DD_RTC_0002
+# Author  : Misael Lopez Cruz
+# Date    : Octuber 5, 2006
+# Description: Test if RTC interrupts can be enable/disable
+###################################################################################################################
+
+foo 	echo L_DD_RTC_0002
+
+0001	set -x; echo -e "$INT_SEC\n" | $TESTBIN/perinton && echo -n "5\n" | $TESTBIN/getperint1 | grep '1 2 3 4 5' && echo -e "5\n" | $TESTBIN/getperint2 | grep '1 2 3 4 5' && $TESTBIN/perintoff && exit 0 || exit 1
+
+0002	set -x; echo -e "$INT_SEC\n" | $TESTBIN/perinton && $TESTBIN/perintoff && exit 0 || exit 1
+
+bar 	echo L_DD_RTC_0002

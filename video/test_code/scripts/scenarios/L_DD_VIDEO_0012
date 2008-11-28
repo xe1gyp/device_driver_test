@@ -1,0 +1,56 @@
+#####################
+# FILENAME: L_DD_VID_0012
+# Author  : Benjamin Mejia
+# Date    : Mon Feb 26, 2007
+# Copyright (C) 2007 Texas Instruments
+#
+# Description:
+# Video (Vid) tests
+
+foo   echo "L_DD_VID_0012"
+
+0001A set -x; video1pm.sh "0012_0001_A"  "$RESUME $STATE1 $STATE2 $SUSPEND $RESUME" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test suspend/resume for video-1..." && exit 0 || exit 1
+0001B set -x; video1pm.sh "0012_0001_B" "DPM 5 TIMES" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test DPM-Freq-Scaling 5 times for video-1..."  && exit 0 || exit 1
+0001C set -x; video1pm.sh "0012_0001_C" "SLEEP 5 TIMES" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test DPM-Sleep 5 times for video-1..."  && exit 0 || exit 1
+
+0002A set -x; video2pm.sh "0012_0002_A"  "$RESUME $STATE1 $STATE2 $SUSPEND $RESUME" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test suspend/resume for video-2..." && exit 0 || exit 1
+0002B set -x; video2pm.sh "0012_0002_B" "DPM 5 TIMES" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test DPM-Freq-Scaling 5 times for video-2..."  && exit 0 || exit 1
+0002C set -x; video2pm.sh "0012_0002_C" "SLEEP 5 TIMES" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test DPM-Sleep 5 times for video-2..."  && exit 0 || exit 1
+
+SETUP echo 'lcd' > /sys/class/display_control/omap_disp_control/video1;
+0003A set -x; lcdpm.sh "0012_0003_A"  "$RESUME $STATE1 $STATE2 $SUSPEND $RESUME" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test suspend/resume for video-1..." && exit 0 || exit 1
+0003B set -x; lcdpm.sh "0012_0003_B" "DPM 5 TIMES" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test DPM-Freq-Scaling 5 times for video-1..."  && exit 0 || exit 1
+0003C set -x; lcdpm.sh "0012_0003_C" "SLEEP 5 TIMES" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test DPM-Sleep 5 times for video-1..."  && exit 0 || exit 1
+
+SETUP echo 'lcd' > /sys/class/display_control/omap_disp_control/video2;
+0003D set -x; lcdpm.sh "0012_0003_D"  "$RESUME $STATE1 $STATE2 $SUSPEND $RESUME" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test suspend/resume for video-2..." && exit 0 || exit 1
+0003E set -x; lcdpm.sh "0012_0003_E" "DPM 5 TIMES" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test DPM-Freq-Scaling 5 times for video-2..."  && exit 0 || exit 1
+0003F set -x; lcdpm.sh "0012_0003_F" "SLEEP 5 TIMES" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test DPM-Sleep 5 times for video-2..."  && exit 0 || exit 1
+
+SETUP echo 'tv' > /sys/class/display_control/omap_disp_control/video1;
+0004A set -x; tvpm.sh "0012_0004_A"  "$RESUME $STATE1 $STATE2 $SUSPEND $RESUME" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test suspend/resume for video-1..." && exit 0 || exit 1
+0004B set -x; tvpm.sh "0012_0004_B" "DPM 5 TIMES" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test DPM-Freq-Scaling 5 times for video-1..."  && exit 0 || exit 1
+0004C set -x; tvpm.sh "0012_0004_C" "SLEEP 5 TIMES" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test DPM-Sleep 5 times for video-1..."  && exit 0 || exit 1
+
+SETUP echo 'tv' > /sys/class/display_control/omap_disp_control/video2;
+0004D set -x; tvpm.sh "0012_0004_D"  "$RESUME $STATE1 $STATE2 $SUSPEND $RESUME" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test suspend/resume for video-2..." && exit 0 || exit 1
+0004E set -x; tvpm.sh "0012_0004_E" "DPM 5 TIMES" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test DPM-Freq-Scaling 5 times for video-2..."  && exit 0 || exit 1
+0004F set -x; tvpm.sh "0012_0004_F" "SLEEP 5 TIMES" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test DPM-Sleep 5 times for video-2..."  && exit 0 || exit 1
+
+0005A set -x; video1pm.sh "0012_0001_A"  "$RESUME $SUSPEND $RESUME $SUSPEND $RESUME $SUSPEND $RESUME" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test suspend/resume for video-1..." && exit 0 || exit 1
+0005B set -x; video2pm.sh "0012_0002_A"  "$RESUME $SUSPEND $RESUME $SUSPEND $RESUME $SUSPEND $RESUME" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test suspend/resume for video-2..." && exit 0 || exit 1
+
+SETUP echo 'lcd' > /sys/class/display_control/omap_disp_control/video1;
+0005C set -x; lcdpm.sh "0012_0003_A"  "$RESUME $SUSPEND $RESUME $SUSPEND $RESUME $SUSPEND $RESUME" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test suspend/resume for video-1..." && exit 0 || exit 1
+
+SETUP echo 'lcd' > /sys/class/display_control/omap_disp_control/video2;
+0005D set -x; lcdpm.sh "0012_0003_D"  "$RESUME $SUSPEND $RESUME $SUSPEND $RESUME $SUSPEND $RESUME" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test suspend/resume for video-2..." && exit 0 || exit 1
+
+SETUP echo 'tv' > /sys/class/display_control/omap_disp_control/video1;
+0005E set -x; tvpm.sh "0012_0004_A"  "$RESUME $SUSPEND $RESUME $SUSPEND $RESUME $SUSPEND $RESUME" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test suspend/resume for video-1..." && exit 0 || exit 1
+
+SETUP echo 'tv' > /sys/class/display_control/omap_disp_control/video2;
+0005F set -x; tvpm.sh "0012_0004_D"  "$RESUME $SUSPEND $RESUME $SUSPEND $RESUME $SUSPEND $RESUME" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test suspend/resume for video-2..." && exit 0 || exit 1
+
+
+bar   echo "L_DD_VID_0012"

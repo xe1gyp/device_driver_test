@@ -1,0 +1,35 @@
+###################################################################################################################
+# Scenario: L_DD_MMC_0002_0005
+# Author  : Misael Lopez Cruz
+# Date    : September 20, 2006
+# Description: Creates multiple partitions and formats on the MMC card
+###################################################################################################################
+
+# Begin L_DD_MMC_0002_0005
+
+01 set -x; mkdir $MOUNT_POINT1; mkdir $MOUNT_POINT3; exit 0
+02 set -x; echo -e "n\n p\n 1\n $START_SECTOR_DEV1\n $MIDDLE_SECTOR_DEV1\n n\n p\n 2\n $(echo $MIDDLE_SECTOR_DEV1+1|bc)\n $END_SECTOR_DEV1\n w\n" | fdisk $ROOT_ENTRY_DEV1 && exit 0 || exit 1
+
+03 set -x; $TESTBIN/mkdosfs $PARTITION1_ENTRY_DEV1 && exit 0 || exit 1
+04 set -x; mount -t vfat $PARTITION1_ENTRY_DEV1 $MOUNT_POINT1 && exit 0 || exit 1
+05 set -x; mount | grep $PARTITION1_ENTRY_DEV1 | grep "vfat" && exit 0 || exit 1
+
+06 set -x; $TESTBIN/mke2fs $PARTITION2_ENTRY_DEV1 && exit 0 || exit 1
+07 set -x; mount -t ext2 $PARTITION2_ENTRY_DEV1 $MOUNT_POINT3 && exit 0 || exit 1
+08 set -x; mount | grep $PARTITION2_ENTRY_DEV1 | grep "ext2" && exit 0 || exit 1
+
+09 set -x; (cp $TESTROOT/$BIG_FILE $MOUNT_POINT1 &) && (cp $TESTROOT/$BIG_FILE $MOUNT_POINT3 &) && sync && exit 0 || exit 1
+
+10 set -x; umount $MOUNT_POINT1 && exit 0 || exit
+11 set -x; umount $MOUNT_POINT3 && exit 0 || exit
+12 set -x; mount -t vfat $PARTITION1_ENTRY_DEV1 $MOUNT_POINT1 && exit 0 || exit 1
+13 set -x; mount -t ext2 $PARTITION2_ENTRY_DEV1 $MOUNT_POINT3 && exit 0 || exit 1
+
+14 set -x; cmp $MOUNT_POINT1/$BIG_FILE $MOUNT_POINT3/$BIG_FILE && exit 0 || exit 1
+
+15 set -x; umount $MOUNT_POINT1 && exit 0 || exit
+16 set -x; umount $MOUNT_POINT3 && exit 0 || exit
+ 
+17 set -x; echo -e "d\n 1\n d\n w\n" | fdisk $ROOT_ENTRY_DEV1 && exit 0 || exit 1
+
+# End L_DD_MMC_0002_0005

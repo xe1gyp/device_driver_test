@@ -1,0 +1,12 @@
+###################################################################################################################
+# Scenario: L_DD_TIMER_0002
+# Author  : Misael Lopez Cruz
+# Date    : March 9, 2007
+# Description: Test if the values read from timer are consecutives.
+###################################################################################################################
+
+# Begin L_DD_TIMER_0002
+
+0001	rm -f /timer.msg; insmod $TESTMODS/$TIMER_MOD && $TESTBIN/timer_parser && rmmod $TIMER_MOD && exit 0 || exit 1
+
+# End L_DD_TIMER_0002

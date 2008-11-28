@@ -1,0 +1,12 @@
+###################################################################################################################
+# Scenario: L_DD_TIMER_0003
+# Author  : Misael Lopez Cruz
+# Date    : March 9, 2007
+# Description: Verified by code inspection.
+###################################################################################################################
+
+# Begin L_DD_TIMER_0003
+
+0001	echo "Verify this test case by code inspection in the file: $KDIR/$TIME_PATH" && sleep 1 && $UTILBIN/akey && exit 0 || exit 1
+
+# End L_DD_TIMER_0003

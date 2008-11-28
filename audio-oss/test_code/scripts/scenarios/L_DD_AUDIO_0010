@@ -1,0 +1,20 @@
+#####################
+# FILENAME: L_DD_AUDIO_0010
+# Author  : Nishanth Menon
+# Date    : Wed Apr 26 11:38:49 CDT 2006
+# Copyright (C) 2006 Texas Instruments
+#
+# Description:
+# Test Audio codec configuration using i2cdump
+# When the dsp device is open in read/write/readwrite
+# and the same for mixer device.
+# if the dumps are same, then the configuration is assumed to be
+# proper
+
+foo   echo "L_DD_AUDIO_0010"
+
+0001a (dspopen read /dev/sound/dsp &) && sleep 1 && i2cdump -y 1 0x49 b > dsp_dump && sleep 1 &&  (dspopen read /dev/sound/mixer &) && sleep 1 && i2cdump -y 1 0x49 b > mixer_dump && diff mixer_dump dsp_dump
+0001b (dspopen write /dev/sound/dsp &) && sleep 1 && i2cdump -y 1 0x49 b > dsp_dump && sleep 1 &&  (dspopen write /dev/sound/mixer &) && sleep 1 && i2cdump -y 1 0x49 b > mixer_dump && diff mixer_dump dsp_dump
+0001c (dspopen readwrite /dev/sound/dsp &) && sleep 1 && i2cdump -y 1 0x49 b > dsp_dump && sleep 1 &&  (dspopen readwrite /dev/sound/mixer &) && sleep 1 && i2cdump -y 1 0x49 b > mixer_dump && diff mixer_dump dsp_dump
+
+bar   echo "L_DD_AUDIO_0010"

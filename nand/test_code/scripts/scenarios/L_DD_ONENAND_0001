@@ -1,0 +1,18 @@
+###################################################################################################################
+# Scenario: L_DD_ONENAND_0001
+# Author  : Misael Lopez Cruz
+# Date    : August 29th, 2006
+# Description: Lock and unlock tests
+###################################################################################################################
+
+foo 	echo "L_DD_ONENAND_0001"
+
+0001_a	lock_unlock_test.sh 'Lock' 0 1 && exit 1 || exit 0
+0001_b	lock_unlock_test.sh 'Unlock' 0 1 && exit 0 || exit 1
+0002_a	lock_unlock_test.sh 'Lock' 0 4 && exit 1 || exit 0
+0002_b	lock_unlock_test.sh 'Unlock' 0 4 && exit 0 || exit 1
+0003_a	lock_unlock_test.sh 'Lock' 0 2 && exit 1 || exit 0
+0003_b	lock_unlock_test.sh 'Unlock' 0 2 && exit 0 || exit 1
+0004	lock_unlock_test.sh 'Unlock' $DEV_SIZE 1 && exit 1 || exit 0
+
+bar 	echo "L_DD_ONENAND_0001"

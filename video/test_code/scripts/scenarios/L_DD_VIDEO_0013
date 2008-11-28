@@ -1,0 +1,31 @@
+#####################
+# FILENAME: L_DD_VID_0013
+# Author  : Benjamin Mejia
+# Date    : Mon Feb 26, 2007
+# Copyright (C) 2007 Texas Instruments
+#
+# Description:
+# Video (Vid) tests
+
+# Begin "L_DD_VID_0013"
+
+0001_COMMENT comment.sh "Verify the Color conversion coefficients can be changed."
+0001 $TESTBIN/setimg 1 YUYV 176 144 | grep "fault" && exit 1 || exit 0; sleep 1; 
+0001 $TESTBIN/setcolorconv 1 1 2 3 4 5 6 7 8 9 | grep "fault" && exit 1 || exit 0; sleep 1; 
+0001 $TESTBIN/streaming 1 $VIDEOFILES/video_qcif_yuv_75 | grep "fault" && exit 1 || exit 0; sleep 1; 
+
+0002_COMMENT comment.sh "Verify the Color conversion coefficients can be reset to default values"
+0002 $TESTBIN/setdefcolcon 1 0 | grep "fault" && exit 1 || exit 0; sleep 1; 
+0002 $TESTBIN/streaming 1 $VIDEOFILES/video_qcif_yuv_75 | grep "fault" && exit 1 || exit 0; sleep 1; 
+
+0003_COMMENT comment.sh "Verify the Color conversion coefficients can be changed on Video Pipeline 2"
+0003 $TESTBIN/setimg 2 YUYV 176 144 | grep "fault" && exit 1 || exit 0; sleep 1; 
+0003 $TESTBIN/setcolorconv 2 1 2 3 4 5 6 7 8 9 | grep "fault" && exit 1 || exit 0; sleep 1; 
+0003 $TESTBIN/streaming 2 $VIDEOFILES/video_qcif_yuv_75 | grep "fault" && exit 1 || exit 0; sleep 1; 
+
+
+0004_COMMENT comment.sh "Verify the Color conversion coefficients can be reset to default values on Video Pipeline 2"
+0004 $TESTBIN/setdefcolcon 2 0 | grep "fault" && exit 1 || exit 0; sleep 1; 
+0004 $TESTBIN/streaming 2 $VIDEOFILES/video_qcif_yuv_75 | grep "fault" && exit 1 || exit 0; sleep 1; 
+
+# End "L_DD_VID_0013"

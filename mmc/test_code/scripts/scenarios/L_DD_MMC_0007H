@@ -1,0 +1,16 @@
+###################################################################################################################
+# Scenario: L_DD_MMC_0007H
+# Author  : Misael Lopez Cruz
+# Date    : April 4, 2007
+# Description: Test if MMC driver supports booting from a SD card
+###################################################################################################################
+
+# Begin L_DD_MMC_0007H
+
+setup  	mkdir $MOUNT_POINT1; mount -t ext2 $PARTITION1_ENTRY_DEV1 $MOUNT_POINT1 && exit 0 || exit 1
+
+0001	cat $MOUNT_POINT1/mmc_log | grep "Boot: OK" && rm $MOUNT_POINT1/mmc_log && exit 0 || exit 1
+
+cleanup umount $MOUNT_POINT1 && echo -e "d\n w\n" | fdisk $ROOT_ENTRY_DEV1 && exit 0 || exit 1
+
+# End L_DD_MMC_0007H

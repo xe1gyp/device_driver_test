@@ -1,0 +1,13 @@
+###################################################################################################################
+# Scenario: L_DD_NAND_0004
+# Author  : Misael Lopez Cruz
+# Date    : August 29th, 2006
+# Description: Block operations tests
+###################################################################################################################
+
+# Begin L_DD_NAND_0004
+
+0001 	block_test2.sh 0 $BLOCK_SIZE 1 && exit 0 || exit 1
+0002	block_test2.sh 0 $(echo $BLOCK_SIZE*3|bc) 3 && exit 0 || exit 1
+
+# End L_DD_NAND_0004

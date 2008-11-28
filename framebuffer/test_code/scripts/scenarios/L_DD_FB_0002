@@ -1,0 +1,21 @@
+#####################
+# FILENAME: L_DD_FB_0002
+# Author  : Jose Luis Diaz
+# Date    : Wed Dec 20, 2006
+# Copyright (C) 2008 Texas Instruments
+#
+# Description:
+# Framebuffer (FB) bits per pixel tests
+
+foo   echo "L_DD_FB_0002"
+
+
+COMMENT comment.sh "Test that the Framebuffer allows changing the bits-per-pixel mode."
+
+0001 set -x; confbpp.sh && exit 0 || exit 1
+0002 set -x; confbpp.sh 8 && exit 0 || exit 1
+0003 set -x; confbpp.sh 16 && exit 0 || exit 1
+0004 set -x; confbpp.sh 24 && exit 0 || exit 1
+
+bar   echo "L_DD_FB_0002"
+

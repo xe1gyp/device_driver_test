@@ -1,0 +1,17 @@
+#####################
+# FILENAME: L_DD_FB_0015
+# Author  : Jose Luis Diaz
+# Date    : Wed Dec 20, 2006
+# Copyright (C) 2008 Texas Instruments
+#
+# Description:
+# Framebuffer (FB) support of configuring display I/Os in RGB16/18 test
+
+foo   echo "L_DD_FB_0015"
+
+COMMENT comment.sh "Test if driver supports configuring display I/Os in RGB16/18 mode."
+
+0001 set -x; rgb18.sh && exit 0 || exit 1
+
+bar   echo "L_DD_FB_0015"
+

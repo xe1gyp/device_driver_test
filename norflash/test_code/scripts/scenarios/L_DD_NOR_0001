@@ -1,0 +1,14 @@
+###################################################################################################################
+# Scenario: L_DD_NOR_0001
+# Author  : Nishanth Menon, Misael Lopez Cruz
+# Date    : April 5, 2007
+# Description: This tests for the existence of the MTD character and block devices and checks if they are operable
+###################################################################################################################
+
+# Begin L_DD_NOR_0001
+
+0001 	 set -x; cat /proc/devices | grep mtd || exit 1
+0001a  set -x; test -c $MTD_CHAR_DEV1 && test -b $MTD_BLK_DEV1 && exit 0 || exit 1
+0001b	 set -x;	test -c $MTD_CHAR_DEV2 && test -b $MTD_BLK_DEV2 && exit 0 || exit 1
+
+# End L_DD_NOR_0001

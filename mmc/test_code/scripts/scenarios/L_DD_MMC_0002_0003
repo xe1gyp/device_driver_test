@@ -1,0 +1,14 @@
+###################################################################################################################
+# Scenario: L_DD_MMC_0002_0003
+# Author  : Misael Lopez Cruz
+# Date    : September 20, 2006
+# Description: Test creating and deleting multiple partitions on the MMC card
+###################################################################################################################
+
+# Begin L_DD_MMC_0002_0003
+
+01 set -x; mkdir $MOUNT_POINT1; mkdir $MOUNT_POINT3; exit 0
+02 set -x; echo -e "n\n p\n 1\n $START_SECTOR_DEV1\n $MIDDLE_SECTOR_DEV1\n n\n p\n 2\n $(echo $MIDDLE_SECTOR_DEV1+1|bc)\n $END_SECTOR_DEV1\n w\n" | fdisk $ROOT_ENTRY_DEV1 && exit 0 || exit 1
+03 set -x; echo -e "d\n 1\n d\n w\n" | fdisk $ROOT_ENTRY_DEV1 && exit 0 || exit 1
+
+# End L_DD_MMC_0002_0003

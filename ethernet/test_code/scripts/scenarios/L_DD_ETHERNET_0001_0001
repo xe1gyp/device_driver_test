@@ -1,0 +1,15 @@
+################################################################################
+# Scenario: L_DD_ETHERNET_0001_0001
+# Author  : Abraham Arce
+# Date    : Mon Mar 10 23:09:20 CDT 2008
+################################################################################
+
+
+# Begin L_DD_ETHERNET_0001_0001
+
+COMMENT comment.sh "To test that the driver is able to give the statistical information of the interface"
+
+A ifconfig | grep eth0 && ifconfig | grep addr: | sed -e 's@inet addr:@@' | sed q | awk '{print $1}' > /tmp/ipaddr && exit 0 || exit 1;
+B ifconfig | grep HWaddr | awk '{print $5}' > /tmp/ethaddr && exit 0 || exit 1;
+
+# End L_DD_ETHERNET_0001_0001

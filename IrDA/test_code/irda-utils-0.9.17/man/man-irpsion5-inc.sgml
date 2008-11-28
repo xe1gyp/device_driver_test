@@ -1,0 +1,117 @@
+<!-- 
+
+v0.1 wh 2001/03/26
+
+-->
+
+<REFMETA>
+<REFENTRYTITLE>irpsion5</REFENTRYTITLE>
+<MANVOLNUM>8</MANVOLNUM>
+</REFMETA>
+
+<REFNAMEDIV>
+<REFNAME>irpsion5</REFNAME> 
+ <REFPURPOSE>
+IrDA connectivity to a Psion V PDA
+ </REFPURPOSE>
+</REFNAMEDIV>
+
+<REFSYNOPSISDIV>
+<CMDSYNOPSIS>
+ <COMMAND>irpsion5</COMMAND>
+ <ARG><REPLACEABLE>-s file</REPLACEABLE></ARG>
+ <ARG><REPLACEABLE>-r</REPLACEABLE></ARG>
+ <ARG><REPLACEABLE>-b</REPLACEABLE></ARG>
+ <ARG><REPLACEABLE>-v</REPLACEABLE></ARG>
+ <ARG><REPLACEABLE>-q</REPLACEABLE></ARG>
+ <ARG><REPLACEABLE>-S ms</REPLACEABLE></ARG>
+ <ARG><REPLACEABLE>-D n</REPLACEABLE></ARG>
+</CMDSYNOPSIS>
+</REFSYNOPSISDIV>
+
+<REFSECT1>
+<TITLE>OPTIONS</TITLE>
+
+<PARA>
+<OPTION>-s file</OPTION> send file to the Psion
+</PARA>
+
+<PARA>
+<OPTION>-r</OPTION> receive a file from the Psion
+</PARA>
+
+<PARA>
+<OPTION>-b</OPTION> receive multiple files (batch mode)
+</PARA>
+
+<PARA>
+<OPTION>-v</OPTION> verbose mode, progress indication
+</PARA>
+
+<PARA>
+<OPTION>-q</OPTION> quiet mode, no progress indication
+</PARA>
+
+<PARA>
+<OPTION>-S ms</OPTION> set discovery slot timeout, standard 80ms, default 120ms
+</PARA>
+
+<PARA>
+<OPTION>-D n</OPTION> debug level
+</PARA>
+
+</REFSECT1>
+
+<REFSECT1>
+<TITLE>DESCRIPTION</TITLE>
+
+<PARA>
+N.N.
+</PARA>
+
+<PARA>
+<COMMAND>irpsion5</COMMAND> must be run as root or installed setuid root, 
+as it requires root privileges.
+</PARA>
+
+</REFSECT1>
+
+<REFSECT1>
+<TITLE>EXAMPLES</TITLE>
+
+<PARA>
+N.N.
+</PARA>
+
+</REFSECT1>
+
+<REFSECT1>
+<TITLE>DIAGNOSTICS</TITLE>
+
+<PARA>
+Error: unknown switch %s
+</PARA>
+
+<PARA>
+Call without args for usage: %s
+</PARA>
+
+</REFSECT1>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-default-dtd-file:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->
+

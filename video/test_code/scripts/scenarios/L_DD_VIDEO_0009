@@ -1,0 +1,44 @@
+#####################
+# FILENAME: L_DD_VIDEO_0009
+# Author  : Benjamin Mejia
+# Date    : Fri Jan 5, 2007
+
+# Begin "L_DD_VIDEO_0009"
+
+0001_COMMENT comment.sh "Verify Video Pipeline 1 can be displayed on TV"
+0001 set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/video1 && exit 0 || exit 1
+00A1 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0001 && exit 0 || exit 1
+#00B1 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0002 && exit 0 || exit 1
+00C1 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0003 && exit 0 || exit 1
+00D1 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0004 && exit 0 || exit 1
+00E1 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0005 && exit 0 || exit 1
+00F1 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0006 && exit 0 || exit 1
+00G1 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0007 && exit 0 || exit 1
+00H1 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0008 && exit 0 || exit 1
+0001 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/video1 && exit 0 || exit 1
+
+0002_COMMENT comment.sh "Verify Video Pipeline 2 can be displayed on TV"
+0002 set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/video2 && exit 0 || exit 1
+00A2 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0001 && exit 0 || exit 1
+#00B2 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0002 && exit 0 || exit 1
+00C2 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0003 && exit 0 || exit 1
+00D2 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0004 && exit 0 || exit 1
+00E2 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0005 && exit 0 || exit 1
+00F2 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0006 && exit 0 || exit 1
+00G2 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0007 && exit 0 || exit 1
+00H2 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0008 && exit 0 || exit 1
+00I2 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/video2 && exit 0 || exit 1
+
+COMMENT comment.sh "Verify Video Pipeline 1 and 2 can be displayed on LCD and TV"
+0003 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/video1 && exit 0 || exit 1
+0003 set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/video2 && exit 0 || exit 1
+00A3 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0001 && exit 0 || exit 1
+#00B3 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0002 && exit 0 || exit 1
+00C3 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0003 && exit 0 || exit 1
+00D3 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0004 && exit 0 || exit 1
+00E3 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0005 && exit 0 || exit 1
+00F3 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0006 && exit 0 || exit 1
+00G3 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0007 && exit 0 || exit 1
+00H3 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0008 && exit 0 || exit 1
+
+# End "L_DD_VIDEO_0009"

@@ -1,0 +1,13 @@
+#################################################################################################################
+# Scenario: L_DD_Power_0006_002b
+# Author  : Ricardo Perez Olivares
+# Date    : 02 Sep 08
+# Description: Test for OPP Constraints Framework 
+#
+###################################################################################################################
+
+# Begin  L_DD_Power_0006_002b
+
+0001	insmod $TESTMODS/co_test.ko co_type=0x2 target_val=0x3 && sleep 1 && cat /sys/power/vdd2_opp_value > $TMPBASE/vdd2b.tmp && cat /$TMPBASE/vdd2b.tmp | grep "3"  && rmmod co_test.ko && sleep 2 && echo "Reboot the system after this test" && $UTILBIN/waitkey && exit 0 || exit 1
+
+# End L_DD_Power_0006_002b

@@ -1,0 +1,18 @@
+#####################
+# FILENAME: L_DD_FB_0004
+# Author  : Jose Luis Diaz
+# Date    : Wed Dec 20, 2006
+# Copyright (C) 2008 Texas Instruments
+#
+# Description:
+# Framebuffer (FB) changing CLUT test
+
+foo   echo "L_DD_FB_0004"
+
+
+COMMENT comment.sh "Test that the Framebuffer allows changing the CLUT, and that the display changes when the CLUT is changed."
+
+0001 set -x; confbpp.sh 8 && exit 0 || exit 1
+
+bar   echo "L_DD_FB_0004"
+

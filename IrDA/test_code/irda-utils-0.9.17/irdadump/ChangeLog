@@ -1,0 +1,31 @@
+2003-12-9  JeanII
+	* Minor fixes
+
+2003-11-21  JeanII
+	* Migrate config to libglib 2.0
+	* Add -w to write out libpcap files
+	* Add -r to read libpcap file
+	* Reorg code, spin irlap.c out of irdadump.c
+
+2002-10-10  JeanII
+	* Get rid of compiler warnings
+	* Avoid printing negative time
+	* Add -p flag to disable parsing
+	* Detect zero bitfields, workaround
+	* Detect fragmented Obex packet, print {unterminated}
+	* Parse headers of OBEX_CONTINUE packets
+
+2002-04-04  JeanII
+	* Fix and enable IrCOMM decoding (including IrLPT)
+	* Add Extra IrCOMM parameters
+	* IrNET decoding (minimal)
+	* Decode IrLAP QoS parameters (on snrm:cmd & ua:rsp)
+
+2002-04-03  JeanII
+	* Add dump_bytes format (idea from Timothy Kilbourn)
+	* Negative snaplen set to max (2050 bytes)
+	* Add forcing TTP decoding
+	* Garbage collect TTP connections on LAP closure
+		This doesn't fix all problems, but is an improvement
+	* Move TTP decoding in irlmp.c
+	* Properly remove LMP control header (-> decode TTP connect properly)

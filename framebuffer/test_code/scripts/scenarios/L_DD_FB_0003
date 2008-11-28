@@ -1,0 +1,18 @@
+#####################
+# FILENAME: L_DD_FB_0003_0001
+# Author  : Jose Luis Diaz
+# Date    : Wed Dec 20, 2006
+# Copyright (C) 2006 Texas Instruments
+#
+# Description:
+# Framebuffer (FB) tests
+
+foo   echo "L_DD_FB_0003"
+
+COMMENT comment.sh "Verify that data written to the FB using the file write operation are displayed correctly in 16 bits-per-pixel mode and that data written to the FB using the mmap operation are displayed correctly"
+
+0001 set -x; dataw.sh 16 && exit 0 || exit 1
+0002 set -x; dataw.sh 8 && exit 0 || exit 1
+0003 fbmode 16
+
+bar   echo "L_DD_FB_0003_0001"

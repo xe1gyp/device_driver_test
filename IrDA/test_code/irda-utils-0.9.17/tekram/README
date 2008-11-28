@@ -1,0 +1,29 @@
+INTRODUCTION:
+
+IrKBD is the keyboard/mouse protocol use by the Tekram IR-660 docking
+station. Without this docking-station there is no use in this program.
+
+Keyboard input with IrKBD will only work when running X11 since the program
+feeds raw scancodes back into the kernel again. 
+
+HOWTO USE:
+
+One way of using irkbd is to let gpm read the input from /dev/irkbd. The
+next line is taken from my /etc/rc.d/init.d/gpm startup script.
+
+gpm -R -t $MOUSETYPE -M -t ps2 -m /dev/irkbd
+
+As you can see, gpm will read both the internal and "external" mice. Gpm
+will feed its output to /dev/gpmdata which can be read by X. Remember that gpm will output its data in MouseSystems format:
+
+Section "Pointer"
+   Protocol        "MouseSystems"
+   Device          "/dev/gpmdata"
+   BaudRate        1200
+   Emulate3Timeout 50
+EndSection
+
+So now you should be able to use both your internal mouse and the external
+connected to the IrDA docking station.
+
+-- Dag

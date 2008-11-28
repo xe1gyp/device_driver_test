@@ -1,0 +1,12 @@
+##############################
+# File Name   : L_DD_PM_0003
+# Author      : Abraham Arce
+# Date        : April 04, 2007
+# Description : Power Management Test Suite
+###############################
+
+foo echo "L_DD_PM_0003"
+
+0001_INT test -x; powermanagement.sh "0003_0001" "$STRESS_OPERATING_POINTS\n$QUIT_OPTION" "5" "Operating point change test" && exit 0 || exit 1
+
+bar echo "L_DD_PM_0003"

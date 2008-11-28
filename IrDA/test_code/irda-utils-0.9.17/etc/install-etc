@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Only install on SYSV for now
+if [ -d /etc/sysconfig/ ]; then
+    install -D irda.sysconfig $ROOT/etc/sysconfig/irda
+    install -D ifcfg-irlan0 $ROOT/etc/sysconfig/network-scripts/ifcfg-irlan0
+fi
+if [ -d /etc/rc.d/init.d ]; then
+    install -D irda.rc $ROOT/etc/rc.d/init.d/irda
+fi

@@ -1,0 +1,22 @@
+###################################################################################################################
+# Scenario: L_DD_MMC_0010_0001
+# Author  : Misael Lopez Cruz
+# Date    : September 20, 2006
+# Description: Test MMC Cards Specifications 4.0
+###################################################################################################################
+
+# Begin L_DD_MMC_0010_0001
+
+01 set -x; $TESTROOT/test_runner.sh L_DD_MMC_0001_0001 && exit 0 || exit 1
+02 set -x; $TESTROOT/test_runner.sh L_DD_MMC_0002_0001 && exit 0 || exit 1
+03 set -x; $TESTROOT/test_runner.sh L_DD_MMC_0002_0002 && exit 0 || exit 1
+04 set -x; $TESTROOT/test_runner.sh L_DD_MMC_0002_0003 && exit 0 || exit 1
+05 set -x; $TESTROOT/test_runner.sh L_DD_MMC_0002_0004 && exit 0 || exit 1
+06 set -x; $TESTROOT/test_runner.sh L_DD_MMC_0003_0001 && exit 0 || exit 1
+07 set -x; $TESTROOT/test_runner.sh L_DD_MMC_0003_0002 && exit 0 || exit 1
+08 set -x; $TESTROOT/test_runner.sh L_DD_MMC_0003_0003 && exit 0 || exit 1
+09 set -x; $TESTROOT/test_runner.sh L_DD_MMC_0004_0001 && exit 0 || exit 1
+10 set -x; $TESTROOT/test_runner.sh L_DD_MMC_0004_0002 && exit 0 || exit 1
+11 set -x; $TESTROOT/test_runner.sh L_DD_MMC_0004_0003 && exit 0 || exit 1
+
+# End L_DD_MMC_0010_0001
