@@ -23,7 +23,4 @@ export INTERACTIVE=""
 export STRESS=""
 export UTILBIN=${TESTROOT}/../../utils/bin
 
-# Utilities
-export WAITKEY=$UTILBIN/waitkey
-
 # End of file

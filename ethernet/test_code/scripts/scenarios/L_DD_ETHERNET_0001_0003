@@ -2,16 +2,19 @@
 # Scenario: L_DD_ETHERNET_0001_0003
 # Author  : Abraham Arce
 # Date    : Fri Mar 28 13:59:10 CDT 2008
+# Description: Promiscuous Mode
+#
+# To test the driver is able to support the setting of the interface
+# to promiscuous mode
+#
 ################################################################################
 
 # Begin L_DD_ETHERNET_0001_0003
 
-COMMENT comment.sh "To test that the driver is able to support the setting of the interface to the promiscuous mode"
-
-A ifconfig | grep "UP BROADCAST RUNNING MULTICAST" && exit 0 || exit 1;
-B ifconfig eth0 promisc && exit 0 || exit 1;
-C ifconfig | grep "UP BROADCAST RUNNING PROMISC MULTICAST" && exit 0 || exit 1;
-D ifconfig eth0 -promisc && exit 0 || exit 1;
-E ifconfig | grep "UP BROADCAST RUNNING MULTICAST" && exit 0 || exit 1;
+01 set -x; ifconfig | grep "UP BROADCAST RUNNING MULTICAST" && exit 0 || exit 1;
+02 set -x; ifconfig eth0 promisc && exit 0 || exit 1;
+03 set -x; ifconfig | grep "UP BROADCAST RUNNING PROMISC MULTICAST" && exit 0 || exit 1;
+04 set -x; ifconfig eth0 -promisc && exit 0 || exit 1;
+05 set -x; ifconfig | grep "UP BROADCAST RUNNING MULTICAST" && exit 0 || exit 1;
 
 # End L_DD_ETHERNET_0001_0003

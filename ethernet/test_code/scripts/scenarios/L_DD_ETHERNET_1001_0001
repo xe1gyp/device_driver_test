@@ -2,15 +2,17 @@
 # Scenario: L_DD_ETHERNET_1001_0001
 # Author  : Abraham Arce
 # Date    : Fri Mar 28 13:59:10 CDT 2008
+# Description : Internet Control Message Protocol
+# 
+#  To test the driver is able to send and receive ICMP using ping utility
+# 
 ################################################################################
 
 # Begin L_DD_ETHERNET_1001_0001
 
-COMMENT comment.sh "Test if the driver is able to send and receive ICMP echo requests"
-
-A ping -c 1  `cat /tmp/ipaddr` && exit 0 || exit 1
-B ping -c 5  `cat /tmp/ipaddr` && exit 0 || exit 1
-C ping -c 10 `cat /tmp/ipaddr` && exit 0 || exit 1
-D ping -c 25 `cat /tmp/ipaddr` && exit 0 || exit 1
+01 ping -c 1  `cat /tmp/ipaddr` && exit 0 || exit 1
+02 ping -c 5  `cat /tmp/ipaddr` && exit 0 || exit 1
+03 ping -c 10 `cat /tmp/ipaddr` && exit 0 || exit 1
+04 ping -c 25 `cat /tmp/ipaddr` && exit 0 || exit 1
 
 # End L_DD_ETHERNET_1001_0001
