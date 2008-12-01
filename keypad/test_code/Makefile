@@ -1,22 +1,22 @@
-###########################################################################
-# (C) Copyright Texas Instruments, 2007. All Rights Reserved.
+###############################################################################
+# (C) Copyright Texas Instruments - All Rights Reserved
 #
 # Name of the file: Makefile
 #
-# Location of the file:  
-#
 # Brief description of the contents of the file:
-#       Makefile for keypad tests 
+# Top Makefile for Keypad Test Suite
 #
-# Detailed description of the contents of the file:
-# This Makefile is used to compile keypad test programs.  
+# To compile execute the following command:
 #
-# Author: 
+# make \
+# CROSS_COMPILE=<toolchain.prefix> \
+# KDIR=<kernel.path> \
+# HOST=<host.prefix>
 #
-# Created on: 
+# Author: Abraham Arce
+# Created on: Mon Mar 10 23:02:20 CDT 2008
 #
-# Change Log:
-############################################################################
+###############################################################################
 OBJS := utilities install
 
 all:$(OBJS)

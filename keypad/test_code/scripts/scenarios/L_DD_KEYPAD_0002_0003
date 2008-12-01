@@ -1,0 +1,15 @@
+################################################################################
+# Scenario: L_DD_KEYPAD_0002_0003
+# Author  : Abraham Arce
+# Date    : Mon Dec  1 14:19:45 CST 2008
+# Description: Multiple Key
+#
+# To validate the multiple key support
+#
+################################################################################
+
+# Begin L_DD_KEYPAD_0002_0003
+
+01 $TESTBIN/testkeypad
+
+# End L_DD_KEYPAD_0002_0003

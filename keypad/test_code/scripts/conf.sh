@@ -24,12 +24,22 @@ export STRESS=""
 export UTILBIN=${TESTROOT}/../../utils/bin
 export WAITKEY=$UTILBIN/akey
 
+export CHIP_NAME=twl
+
 # Keypad devfs node
 export DEVFS_KEYPAD=/dev/input/event0
 if [ ! -e "$DEVFS_KEYPAD" ]
 	then
 		echo "FATAL: Keypad node cannot be found -> $DEVFS_KEYPAD"
 		exit 1
+fi
+
+# Keypad sysfs code
+export SYSFS_KEYPAD=/sys/class/input/event0/dev
+if [ ! -e "$SYSFS_KEYPAD" ]
+        then
+                echo "FATAL: Keypad node cannot be found -> $SYSFS_KEYPAD"
+                exit 1
 fi
 
 # End of file

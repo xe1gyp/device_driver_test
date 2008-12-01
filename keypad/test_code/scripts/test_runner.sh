@@ -239,12 +239,10 @@ main()
 	# Test start
 	
 	[ -z "$QUIET_MODE" ] && { info "Test start time: $(date)" ; }
-	# run pan
-	# $PAN_COMMAND #Duplicated code here, because otherwise if we fail, only "PAN_COMMAND" gets output
-	#Usage: pan -n name [ -SyAehp ] [ -s starts ] [-t time[s|m|h|d] [ -x nactive ] [
-	#-l logfile ]
-	#[ -a active-file ] [ -f command-file ] [ -d debug-level ]
-	#[-o output-file] [-O output-buffer-directory] [cmd]
+
+	# Usage: pan -n name [ -SyAehp ] [ -s starts ] [-t time[s|m|h|d] [ -x nactive ] [-l logfile ]
+	# [ -a active-file ] [ -f command-file ] [ -d debug-level ]
+	# [-o output-file] [-O output-buffer-directory] [cmd]
 
 	cd $TESTDIR
 	PAN_COMMAND="${UTILBIN}/pan $QUIET_MODE -e -S $INSTANCES $DURATION -a $$ -n $$ $PRETTY_PRT -f ${CMDFILE} -l $LOGFILE"

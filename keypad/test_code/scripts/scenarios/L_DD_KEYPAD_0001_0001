@@ -2,13 +2,14 @@
 # Scenario: L_DD_KEYPAD_0001_0001
 # Author  : Abraham Arce
 # Date    : Sat May 17 17:47:01 CDT 2008
-# Description: 
+# Description: Scan Codes
+#
+# To read from assigned devfs entry and print the scancode of the key
+#
 ################################################################################
 
 # Begin L_DD_KEYPAD_0001_0001
 
-01 echo "This test validates Keypad, depress the keys 100 times"
-02 $TESTBIN/testkeypad
+01 set -x; $TESTBIN/testkeypad
 
 # End L_DD_KEYPAD_0001_0001
-
