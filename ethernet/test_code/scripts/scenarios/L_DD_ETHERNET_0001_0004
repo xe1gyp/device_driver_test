@@ -2,10 +2,6 @@
 # Scenario: L_DD_ETHERNET_0001_0004
 # Author  : Abraham Arce
 # Date    : Fri Mar 28 13:59:10 CDT 2008
-# Description : Maximum Transmission Unit
-# 
-#  To test the driver supports changing of the MTU
-# 
 ################################################################################
 
 # Begin L_DD_ETHERNET_0001_0004

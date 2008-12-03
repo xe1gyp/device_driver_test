@@ -2,11 +2,6 @@
 # Scenario: L_DD_ETHERNET_0001_0001
 # Author  : Abraham Arce
 # Date    : Mon Mar 10 23:09:20 CDT 2008
-# Description : Statical Interface Information
-#
-#  To test the driver is able to give the statistical information of the
-#  interface
-#
 ################################################################################
 
 # Begin L_DD_ETHERNET_0001_0001

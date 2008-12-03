@@ -1,0 +1,11 @@
+################################################################################
+# Scenario: L_DD_ETHERNET_0000_0001
+# Author  : Abraham Arce
+# Date    : Mon Mar 10 23:09:20 CDT 2008
+################################################################################
+
+# Begin L_DD_ETHERNET_0000_0001
+
+01 set -x; cat /var/log/dmesg | grep eth0 && exit 0 || exit 1;
+
+# End L_DD_ETHERNET_0000_0001

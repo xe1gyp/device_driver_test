@@ -86,12 +86,11 @@ usage()
 			-n 24h = 24 hours
 			-n 2d  = 2 days
 			[Current - $DURATION]
-
 	-v              Print more verbose output to screen.[Current - ($VV)]
 	-q              No messages from this script. no info too - Brave eh??
 	-h              This screen [Current - guess...]
 	-x INSTANCES    Run multiple instances of this testsuite.(think well...)
-	-r PRE_DEF      Run predefined set of scenarios[Not Implemented yet]
+	-r PRE_DEF      Run predefined set of scenarios [Not Implemented yet]
 			List to appear here
 	-S              Run in Stress mode
 	
@@ -100,7 +99,6 @@ usage()
     
 	Good News: Ctrl+c stops and cleans up for you :)
 	More help: Read the $TESTROOT/README
-		
 	EOF
 	exit 0
 }
