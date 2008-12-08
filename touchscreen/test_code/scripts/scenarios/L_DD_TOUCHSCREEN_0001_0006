@@ -1,0 +1,14 @@
+###############################################################################
+# Scenario: L_DD_TOUCHSCREEN_0001_0006
+# Author  : Abraham Arce
+# Date    : Sun Aug 24 12:11:38 CDT 2008
+###############################################################################
+
+# Begin L_DD_TOUCHSCREEN_0001_0006
+
+01 set -x; if [ -f "$SYSFS_FB_TIMEOUT_VALUE" ]; then echo -n 0 > "$SYSFS_FB_TIMEOUT_VALUE"; fi; sleep 5 && exit 0 || exit 1
+02 set -x; $TS_CALIBRATE && exit 0 || exit 1
+03 set -x; ($TS_TEST &) && sleep 30 && exit 0 || exit 1
+04 set -x; if [ -f "$SYSFS_FB_TIMEOUT_VALUE" ]; then echo -n 5 > "$SYSFS_FB_TIMEOUT_VALUE"; fi; sleep 5 && exit 0 || exit 1
+
+# End L_DD_TOUCHSCREEN_0001_0006
