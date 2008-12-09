@@ -1,10 +1,11 @@
 #!/bin/sh
-################################################################################
+
+###############################################################################
 # Configuration script
 # Author  : Nishant Menon
 # Date    : Tue Jun 13 12:23:42 CDT 2006
 # Description: Configuration Script
-################################################################################
+###############################################################################
 
 # These variables don't need to be modified
 export POSTFIX=`date "+%Y%m%d-%H%M%S"`
@@ -24,61 +25,53 @@ export DURATION=""
 export PATH="${TESTROOT}:${TESTBIN}:${TESTSCRIPT}:${PATH}"
 export TC_SCENARIO="${TESTROOT}/scenarios"
 export SCENARIO_NAMES=""
-export STRESS=""
 
 # Utilities
 export UTILBIN=${TESTROOT}/../../utils/bin
-export WAITKEY=$UTILBIN/akey
 
-#The main bus on which the tests will be conducted
-export I2C_TEST_BUS1=1
-export I2C_TEST_BUS2=2
-export I2C_TEST_BUS3=3
-export I2C_DEV="1 2"
+# Adapters
+export I2C_ADAPTERS="1 2 3"
+export I2C_ADAPTER_1=1
+export I2C_ADAPTER_2=2
+export I2C_ADAPTER_3=3
 
-export I2C_FS=400
-export I2C_HS=2600
-export I2C_DEF_SPEED1=$I2C_HS
-export I2C_DEF_SPEED2=$I2C_FS
-export I2C_DEF_SPEED3=$I2C_FS
+# Operating mode
+export STANDARD_MODE=100
+export FAST_MODE=400
+export HIGH_SPEED_MODE=2600
 
-# Driver Specific
-export INTERRUPT_PREFIX="i2c_omap"
-export I2C_DEV_PATH=/dev/i2c/
+# Addresses
+export I2C_ADDRESSES="0x48 0x49 0x4A 0x4B"
 
-# General SDP 2430/3430 settings
-export I2C_STD=100
-export I2C_FS=400
-export I2C_HS=2600
-export I2C_DEF_SPEED0=$I2C_FS
-export I2C_DEF_SPEED1=$I2C_HS
+# Registers
+export I2C_REG_1=0x49
+export I2C_REG_1_VALUE_INITIAL=0x01
+export I2C_REG_2=0x4A
+export I2C_REG_2_VALUE_INITIAL=0xD4
+export I2C_REG_INVALID=0x2D
 
-# AUD_CTL -> Audio reg on T2-multi writable regs
-export I2C_TEST_B1_D1_ADD=0x49
-export I2C_TEST_B1_D1_OFF=0x01
+# Irqs
+export INT_24XX_I2C1_IRQ=56
+export INT_24XX_I2C2_IRQ=57
+export INT_34XX_I2C3_IRQ=61
 
-# LONG_KEY_REG1 ->Keypad on T2
-export I2C_TEST_B1_D2_ADD=0x4A
-export I2C_TEST_B1_D2_OFF=0xD4
+# Test case IDs for runtestcase.sh script
+export EXISTING_DEVICES=1
+export MULTIPLE_DEVICES=2
+export NON_EXISTING_DEVICES=3
+export TRANSFER_CANCELLATION=4
+export INTERRUPT_MODE=5
 
-# Secondary Bus - Will only work once! -all registers are set/clear regs..
-export I2C_TEST_B2_D1_ADD=0x2D
-export I2C_TEST_B2_D1_ON=0xC
-export I2C_TEST_B2_D1_OFF=0xD
-
-# False Device
-export I2C_TEST_B1_D1_NODEV=0x50
-
-# More generic settings
-export I2C_VAR_SPEED0=i2c_clock0
-export I2C_VAR_SPEED1=i2c_clock1
-export MODULE_NAME=i2c-omap_hs
-export MODULE_EXT=ko
-
-# Mount DevFS if not mounted..
-if [ ! -d /dev/i2c ]; then
-	mkdir /dev/i2c
-fi
+# General variables
+export DMESG_PATH=/var/log/dmesg
+export PROCFS_INTERRUPTS=/proc/interrupts
+export INTERRUPT_PREFIX=i2c_omap
+export TEMP_FILE_1=/tmp/i2c.test.file.1
+export TEMP_FILE_2=/tmp/i2c.test.file.2
+export HEAD_OPTION="-n "
+export TAIL_OPTION="-n "
+export ADAPTER_INFO=None
+export MODE=None
 
 if [ ! -c /dev/i2c/1 ]; then
 	echo "Linking sysfs entries..."
@@ -87,7 +80,10 @@ if [ ! -c /dev/i2c/1 ]; then
 	ln -s /dev/i2c-2 /dev/i2c/2
 fi
 
-export HEAD_OPTION="-n "
-export TAIL_OPTION="-n "
+# Checking if we have bc available in our filesystem
+
+if [ ! `echo 1+1 | bc` ]; then
+	echo "FATAL: BC is unavailable, cannot continue"
+fi
 
 # End of file
