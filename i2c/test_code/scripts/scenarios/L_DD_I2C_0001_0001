@@ -1,0 +1,14 @@
+###############################################################################
+# Scenario: L_DD_I2C_0001_0001
+# Author  : Nishanth Menon
+# Date    : Tue Jun 13 12:23:42 CDT 2006
+###############################################################################
+
+# Begin L_DD_I2C_0001_0001
+
+01 set -x; cat $DMESG_PATH | grep i2c && exit 0 || exit 1
+02 set -x; for i in $I2C_ADAPTERS; do cat $DMESG_PATH | grep "bus $i" || exit 1; done && exit 0
+03 set -x; for i in $I2C_ADAPTERS; do i2cdetect -l | grep i2c-$i || exit 1; done && exit 0
+04 set -x; for i in $I2C_ADDRESSES; do i2cdump -y $I2C_ADAPTER_1 $i b || exit 1; done && exit 0
+
+# End L_DD_I2C_0001_0001
