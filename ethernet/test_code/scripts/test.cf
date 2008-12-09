@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Testsuite variables 
+# Testsuite variables
 export POSTFIX=`date "+%Y%m%d-%H%M%S"`
 export TESTROOT=${PWD}
 export TESTLIB=${PWD}/../lib
@@ -20,5 +20,11 @@ export SCENARIO_NAMES=""
 export INTERACTIVE=""
 export STRESS=""
 export UTILBIN=${TESTROOT}/../../utils/bin
+
+# Checking if bc is available in the filesystem
+
+if [ ! `echo 1+1 | bc` ]; then
+	echo "FATAL: BC unavailable, cannot continue"
+fi
 
 # End of file
