@@ -7,11 +7,11 @@
 
 foo 	echo L_DD_RTC_0003
 
+0000  set -x; echo -e "$USER_INPUT\n $VALID_DATE\n $VALID_TIME\n" | $TESTBIN/settime && $TESTBIN/gettime | grep "Current RTC date/time is $RTC_VALID_DATE" && exit 0 || exit 1
 0001	set -x; echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $TESTBIN/alarm_set && $TESTBIN/getalarm_event | grep "Alarm rang" && $TESTBIN/alarm_reset && exit 0 || exit 1
 0002	set -x; echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $TESTBIN/alarm_set && cat /proc/driver/rtc | grep "alarm_IRQ" | grep "yes" && $TESTBIN/alarm_reset && cat /proc/driver/rtc | grep "alarm_IRQ" | grep "no" && exit 0 || exit 1
 0003 	set -x; echo -e "$ALARM_SEC\n $(echo $ALARM_VALUE-5|bc)\n" | $TESTBIN/alarm_set && echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $TESTBIN/alarm_set && $TESTBIN/getalarm_event | grep "Alarm rang" && exit 0 || exit 
-0004   set -x; echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $TESTBIN/alarm_set  && $TESTBIN/getalarm_event |grep "okay. Alarm rang." && exit 0 || exit 1
-
-0004_b	set -x; echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $TESTBIN/alarm_set && ($TESTBIN/getalarm_event &) && ($TESTBIN/getalarm_event) | grep "Error...!!! /dev/rtc0 not present." && exit 0 || exit 1
+0004  set -x; echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $TESTBIN/alarm_set  && $TESTBIN/getalarm_event |grep "okay. Alarm rang." && exit 0 || exit 1
+0005	set -x; echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $TESTBIN/alarm_set && ($TESTBIN/getalarm_event &) && ($TESTBIN/getalarm_event) | grep "Error...!!! /dev/rtc0 not present." && exit 0 || exit 1
 
 bar 	echo L_DD_RTC_0003
