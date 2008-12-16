@@ -1,9 +1,30 @@
-
 /*
- *	Real Time Clock Driver Test/Example Program
+ * Test Code for Real Time Clock Driver
  *
- *	Compile with:
- *	   arm-linux-gcc -s -Wall -Wstrict-prototypes rtctest.c -o rtctest
+ * Compile with:
+ *	gcc -s -Wall -Wstrict-prototypes getperint1.c -o getperint1
+ *
+ * This binary is a part of RTC test suite.
+ *
+ * History:
+ *
+ * Copyright (C) 1996, Paul Gortmaker. This version is based on Paul's
+ *
+ * XX-XX-XXXX	Texas Instruments	Initial version of the testcode
+ * 12-11-2008	Ricardo Perez Olivares	Adding basic comments, variable
+ *					names according to coding
+ *					standars.
+ *
+ * Copyright (C) 2004-2009 Texas Instruments, Inc
+ *
+ * This package is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * THIS PACKAGE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+ * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+ *
  */
 
 #include <stdio.h>
@@ -32,13 +53,14 @@ main(void)
 
 	fprintf(stderr, "Enter no. of updates:");
 	scanf("%d",&count);
-        //count = 1000;
+	/*count = 1000;*/
 	if ( count < 0 ){
 		fprintf(stderr, "Invalid number\n");
 		_exit(0);
-	}	
+	}
 	fprintf(stderr,
-		"Counting %d update (1/%s) interrupts from reading /dev/rtc0\n",count,choice_data[choice]);
+		"Counting %d update (1/%s) interrupts from reading "
+				"/dev/rtc0\n", count, choice_data[choice]);
 	fflush(stderr);
 	/* Read periodic IRQ rate */
 	retval = ioctl(fd, RTC_IRQP_READ, &tmp);

@@ -6,7 +6,9 @@
  *	gcc -s -Wall -Wstrict-prototypes alarm_reset.c -o alarmreset
  *This binary is a part of RTC test suite.
  *
- * History:
+ *History:
+ *Copyright (C) 1996, Paul Gortmaker. This version is based on Paul's
+ *
  * XX-XX-XXXX	Texas Instruments	Initial version of the testcode
  * 12-09-2008	Ricardo Perez Olivares	Adding basic comments, variable
  *					names according to coding
@@ -43,7 +45,7 @@ main(int argc, char *argv[])
 	if (fd == -1) {
 		perror("Error...!!! /dev/rtc0 not present.");
 	}
-	fprintf(stderr, "\n\t\t\tTWL4030 RTC Driver Test Example.\n\n");
+	fprintf(stderr, "\n\t\t\tTWL4030 RTC Driver Test \n\n");
 
 	/* Read the RTC time/date */
 

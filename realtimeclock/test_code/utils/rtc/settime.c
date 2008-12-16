@@ -1,3 +1,30 @@
+/*
+ * Test Code for Real Time Clock Driver
+ *
+ * Compile with:
+ *      gcc -s -Wall -Wstrict-prototypes settime.c -o settime
+ *
+ * This binary is a part of RTC test suite.
+ *
+ * History:
+ * Copyright (C) 1996, Paul Gortmaker. This version is based on Paul's
+ * XX-XX-XXXX   Texas Instruments       Initial version of the testcode
+ * 12-09-2008   Ricardo Perez Olivares  Adding basic comments, variable
+ *                                      names according to coding
+ *                                      standars.
+ *
+ * Copyright (C) 2004-2009 Texas Instruments, Inc
+ *
+ * This package is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * THIS PACKAGE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+ * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <linux/rtc.h>
@@ -46,8 +73,10 @@ int main(void)
 		rtc_tm.tm_mday = 31;	/* day of the month */
 		rtc_tm.tm_mon = 11;	/* month Jan=0, Feb=1 …etc */
 		rtc_tm.tm_year = 104;	/* = year - epoch */
-		printf("\nUsing default date and time %d-%d-%d, %02d:%02d:%02d",
-		       rtc_tm.tm_mday, rtc_tm.tm_mon + 1, rtc_tm.tm_year + 1900,
+		printf("\nUsing default date and time %d-%d-%d"
+						"%02d:%02d:%02d",
+		       rtc_tm.tm_mday, rtc_tm.tm_mon + 1,
+						rtc_tm.tm_year + 1900,
 		       rtc_tm.tm_hour, rtc_tm.tm_min, rtc_tm.tm_sec);
 	} else if (choice == 0) {
 		get_timedate(&rtc_tm);
@@ -105,7 +134,7 @@ int get_timedate(struct rtc_time *rtc_tm)
 		num /= 10;
 		data[i] += (num % 10) * 10;
 		num /= 10;
-		//   printf ("data[%d] : %d\n", i, data[i]);
+		/*printf ("data[%d] : %d\n", i, data[i]);*/
 	}
 	num = atoi(time_str);
 	for (; i < 6; i++) {
@@ -113,7 +142,7 @@ int get_timedate(struct rtc_time *rtc_tm)
 		num /= 10;
 		data[i] += (num % 10) * 10;
 		num /= 10;
-		//     printf ("data[%d] : %d\n", i, data[i]);
+		/* printf ("data[%d] : %d\n", i, data[i]);*/
 	}
 	rtc_tm->tm_mday = data[1];
 	rtc_tm->tm_mon = data[2] - 1;

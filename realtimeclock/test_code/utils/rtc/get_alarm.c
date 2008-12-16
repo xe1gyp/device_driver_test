@@ -1,10 +1,28 @@
-
 /*
- *	Real Time Clock Driver Test/Example Program
+ * Test Code for Real Time Clock Driver
  *
- *	Compile with:
- *		gcc -s -Wall -Wstrict-prototypes rtctest.c -o rtctest
+ * Compile with:
+ *	gcc -s -Wall -Wstrict-prototypes get_alarm.c -o getalarm
  *
+ * This binary is a part of RTC test suite.
+ *
+ * History:
+ * Copyright (C) 1996, Paul Gortmaker. This version is based on Paul's
+ *
+ * XX-XX-XXXX	Texas Instruments	Initial version of the testcode
+ * 12-11-2008	Ricardo Perez Olivares	Adding basic comments, variable
+ *					names according to coding
+ *					standars.
+ *
+ * Copyright (C) 2004-2009 Texas Instruments, Inc
+ *
+ * This package is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * THIS PACKAGE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+ * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  *
  */
 
@@ -32,7 +50,13 @@ main(int argc, char *argv[])
 	}
 	fprintf(stderr, "\n\t\t\tTWL4030 RTC Driver Test Example.\n\n");
 
-	/* Read the RTC time/date */
+	/* Read the RTC time / date
+	 *
+	 * The ioctl command RTC_RD_TIME is used to read the current timer
+	 * RTC_RD_TIME: This ioctl needs one argument(struct rtc_time *),
+	 * and it can be used to get the current RTC time.
+	 */
+
 	retval = ioctl(fd, RTC_RD_TIME, &rtc_tm);
 	if (retval == -1) {
 		perror("ioctl");
@@ -84,8 +108,9 @@ main(int argc, char *argv[])
 
 	fprintf(stderr, "Waiting 5 seconds for alarm...");
 	fflush(stderr);
-	/* This blocks until the alarm ring causes an interrupt */
-	//retval = read(fd, &data, sizeof (unsigned long));
+	/* This blocks until the alarm ring causes an interrupt
+	 * retval = read(fd, &data, sizeof (unsigned long));
+	 */
 	if (retval == -1) {
 		perror("read");
 		_exit(errno);
@@ -93,9 +118,9 @@ main(int argc, char *argv[])
 	irqcount++;
 	fprintf(stderr, " okay. Alarm rang.\n");
 
-	/* Disable alarm interrupts */
-//	retval = ioctl(fd, RTC_AIE_OFF, 0);
-
+	/* Disable alarm interrupts
+	 * retval = ioctl(fd, RTC_AIE_OFF, 0);
+	 */
 	if (retval == -1) {
 		printf(" alarm interrupts not disabled\n");
 		perror("ioctl");
