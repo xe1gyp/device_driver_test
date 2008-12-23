@@ -21,7 +21,9 @@ fi
 
 
 # Usage: streaming <vid> <inputfile> [<n>]
-$TESTBIN/streaming $VIDEO_PIPELINE $STREAMING_PARAMETERS
+$TESTBIN/streaming $VIDEO_PIPELINE $STREAMING_PARAMETERS 1&
+sleep 1
+echo -n mem > /sys/power/state
 
 if [ -z "$STRESS" ]; then
 	strees_messages.sh

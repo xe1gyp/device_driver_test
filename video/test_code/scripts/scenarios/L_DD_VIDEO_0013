@@ -1,31 +1,25 @@
 #####################
-# FILENAME: L_DD_VID_0013
-# Author  : Benjamin Mejia
-# Date    : Mon Feb 26, 2007
-# Copyright (C) 2007 Texas Instruments
-#
-# Description:
-# Video (Vid) tests
+# FILENAME: L_DD_VIDEO_0013
+# Author  : Omar Esli Jimenez Villarreal
+# Date    : Thursday, October 9, 2008
 
-# Begin "L_DD_VID_0013"
+# Begin "L_DD_VIDEO_0013"
 
-0001_COMMENT comment.sh "Verify the Color conversion coefficients can be changed."
-0001 $TESTBIN/setimg 1 YUYV 176 144 | grep "fault" && exit 1 || exit 0; sleep 1; 
-0001 $TESTBIN/setcolorconv 1 1 2 3 4 5 6 7 8 9 | grep "fault" && exit 1 || exit 0; sleep 1; 
-0001 $TESTBIN/streaming 1 $VIDEOFILES/video_qcif_yuv_75 | grep "fault" && exit 1 || exit 0; sleep 1; 
+COMMENT comment.sh "Verify that the alpha blending can be enabled/disabled and configured and video can be displayed correctly"
 
-0002_COMMENT comment.sh "Verify the Color conversion coefficients can be reset to default values"
-0002 $TESTBIN/setdefcolcon 1 0 | grep "fault" && exit 1 || exit 0; sleep 1; 
-0002 $TESTBIN/streaming 1 $VIDEOFILES/video_qcif_yuv_75 | grep "fault" && exit 1 || exit 0; sleep 1; 
+0001 set -x; comment.sh "Parameters: ALPHA=enabled; OUTPUT=LCD; GFX ALPHA=255; VD2 ALPHA=50"
+0001 set -x; alpha_blending.sh "GLOBAL" "LCD" "255" "50" "ON" && exit 0 || exit 1
 
-0003_COMMENT comment.sh "Verify the Color conversion coefficients can be changed on Video Pipeline 2"
-0003 $TESTBIN/setimg 2 YUYV 176 144 | grep "fault" && exit 1 || exit 0; sleep 1; 
-0003 $TESTBIN/setcolorconv 2 1 2 3 4 5 6 7 8 9 | grep "fault" && exit 1 || exit 0; sleep 1; 
-0003 $TESTBIN/streaming 2 $VIDEOFILES/video_qcif_yuv_75 | grep "fault" && exit 1 || exit 0; sleep 1; 
+0002 set -x; comment.sh "Parameters: ALPHA=enabled; OUTPUT=LCD; GFX ALPHA=50; VD2 ALPHA=200"
+0002 set -x; alpha_blending.sh "GLOBAL" "LCD" "50" "200" "ON" && exit 0 || exit 1
 
+0003 set -x; comment.sh "Parameters: ALPHA=disabled; OUTPUT=LCD; GFX ALPHA=200; VD2 ALPHA=50"
+0003 set -x; alpha_blending.sh "GLOBAL" "LCD" "200" "50" "OFF" && exit 0 || exit 1
 
-0004_COMMENT comment.sh "Verify the Color conversion coefficients can be reset to default values on Video Pipeline 2"
-0004 $TESTBIN/setdefcolcon 2 0 | grep "fault" && exit 1 || exit 0; sleep 1; 
-0004 $TESTBIN/streaming 2 $VIDEOFILES/video_qcif_yuv_75 | grep "fault" && exit 1 || exit 0; sleep 1; 
+0004 set -x; comment.sh "Parameters: ALPHA=enabled; OUTPUT=TV; GFX ALPHA=150; VD2 ALPHA=180"
+0004 set -x; alpha_blending.sh "GLOBAL" "TV" "150" "180" "ON" && exit 0 || exit 1
 
-# End "L_DD_VID_0013"
+0005 set -x; comment.sh "Parameters: ALPHA=disabled; OUTPUT=TV; GFX ALPHA=255; VD2 ALPHA=100"
+0005 set -x; alpha_blending.sh "GLOBAL" "TV" "255" "100" "OFF" && exit 0 || exit 1
+
+# End "L_DD_VIDEO_0013"

@@ -1,15 +1,20 @@
 #####################
 # FILENAME: L_DD_VIDEO_0010
-# Author  : Omar Esli Jimenez Villarreal
-# Date    : Friday, August 08, 2008
+# Author  : Carlos Pando
+# Date    : Fri Jan 5, 2007
+# Copyright (C) 2007 Texas Instruments
+#
+# Description:
+# Video (Vid) tests
 
 # Begin "L_DD_VIDEO_0010"
 
-COMMENT comment.sh "Verify the video is displayed cleanly in both video pipelines simultanuosly"
-
-#0000 set -x;  $TESTBIN/setlink 2&
-0001 set -x;  linkvideo.sh "lcd" "lcd"&& exit 0 || exit 1
-0002 set -x;  linkvideo.sh "lcd" "tv"&& exit 0 || exit 1
-0003 set -x;  linkvideo.sh "tv" "tv"&& exit 0 || exit 1
+COMMENT comment.sh "Verify the background color of the canvas can be configured"
+COMMENT comment.sh "SENDING GFX PIPELINE TO TV"
+0001 echo tv > /sys/class/display_control/omap_disp_control/graphics
+0001 set -x; background.sh "1" "123456"&& exit 1 || exit 0
+0001 set -x; background.sh "1" "765432"&& exit 1 || exit 0
+COMMENT_INT comment.sh "SENDING GFX PIPELINE TO TV"
+0001 echo lcd > /sys/class/display_control/omap_disp_control/graphics
 
 # End "L_DD_VIDEO_0010"

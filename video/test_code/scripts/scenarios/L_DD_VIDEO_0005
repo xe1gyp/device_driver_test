@@ -5,35 +5,15 @@
 
 # Begin "L_DD_VIDEO_0005"
 
-SETUP set -x; $TESTBIN/setimg 1 RGB565 160 120 && exit 0 || exit 1
-SETUP set -x; $TESTBIN/setimg 2 RGB565 160 120 && exit 0 || exit 1
+COMMENT comment.sh "Verify the window position can be changed in the horizantal direction"
+SETUP_VD1 set -x; setupimage.sh 1 "RGB565 160 120" && exit 0 || exit 1
+SETUP_VD2 set -x; setupimage.sh 2 "RGB565 160 120" && exit 0 || exit 1
 
-# Testing Mirror on Video Pipeline 1
-
-0001_COMMENT comment.sh "Video Pipeline 1 - Image shall be mirrored"
-0001 set -x; mirrorstream.sh 1 1 $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-
-COMMENT comment.sh "Image shall be mirrored only on Video Pipeline 1"
-0002 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0001 && exit 0 || exit 1
-#0003 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0002 && exit 0 || exit 1
-0004 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0003 && exit 0 || exit 1
-0005 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0004 && exit 0 || exit 1
-
-0006_COMMENT comment.sh "Image shall not be mirrored on Video Pipeline 1"
-0006 set -x; mirrorstream.sh 1 0 $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-
-# Testing Mirror on Video Pipeline 2
-
-0007_COMMENT comment.sh "Video Pipeline 2 - Image shall be mirrored"
-0007 set -x; mirrorstream.sh 2 1 $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-
-COMMENT comment.sh "Image shall be mirrored only on Video Pipeline 2"
-0008 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0001 && exit 0 || exit 1
-#0009 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0002 && exit 0 || exit 1
-0010 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0003 && exit 0 || exit 1
-0011 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0004 && exit 0 || exit 1
-
-0012_COMMENT comment.sh "Image shall not be mirrored on Video Pipeline 2"
-0012 set -x; mirrorstream.sh 2 0 $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0001_VD1 set -x; winstream.sh 1 "40 0 160 120"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0001_VD2 set -x; winstream.sh 2 "40 0 160 120"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0002_VD1 set -x; winstream.sh 1 "0 60 160 120"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0002_VD2 set -x; winstream.sh 2 "0 60 160 120"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0003_VD1 set -x; winstream.sh 1 "40 60 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0003_VD2 set -x; winstream.sh 2 "40 60 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
 
 # End "L_DD_VIDEO_0005"

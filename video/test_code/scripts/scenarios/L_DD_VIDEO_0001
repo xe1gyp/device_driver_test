@@ -7,11 +7,18 @@
 
 COMMENT comment.sh "Verify different format are rendered, both pipelines will be sent alternately"
 
-0001 set -x; imgstream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0002 set -x; imgstream.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0003 set -x; imgstream.sh 1 "YUYV 176 144" 	$VIDEOFILES/video_qcif_yuv_75  && exit 0 || exit 1
-0004 set -x; imgstream.sh 2 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75  && exit 0 || exit 1
-0005 set -x; imgstream.sh 1 "RGB32 160 120"  $VIDEOFILES/my.rgb32           && exit 0 || exit 1
-0006 set -x; imgstream.sh 2 "RGB32 160 120"  $VIDEOFILES/my.rgb32           && exit 0 || exit 1
+0001_VD1 set -x; imgstream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+0001_VD2 set -x; imgstream.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+0002_VD1 set -x; imgstream.sh 1 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75			&& exit 0 || exit 1
+0002_VD2 set -x; imgstream.sh 2 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75			&& exit 0 || exit 1
+0003_VD1 set -x; imgstream.sh 1 "RGB32 160 120"  $VIDEOFILES/my.rgb32				&& exit 0 || exit 1
+0003_VD2 set -x; imgstream.sh 2 "RGB32 160 120"  $VIDEOFILES/my.rgb32				&& exit 0 || exit 1
+0004_VD1 set -x; imgstream.sh 1 "YUYV 640 480"   $VIDEOFILES/test.yuv "0 0 640 480"		&& exit 0 || exit 1
+0004_VD2 set -x; imgstream.sh 2 "YUYV 640 480"   $VIDEOFILES/test.yuv "0 0 640 480"		&& exit 0 || exit 1
+0005_VD1 set -x; imgstream.sh 1 "RGB565 640 480" $VIDEOFILES/video_vga_rgb565 "0 0 640 480"	&& exit 0 || exit 1
+0005_VD2 set -x; imgstream.sh 2 "RGB565 640 480" $VIDEOFILES/video_vga_rgb565 "0 0 640 480"	&& exit 0 || exit 1
+0006_VD1 set -x; imgstream.sh 1 "YUYV 864 480"   $VIDEOFILES/wvga_video.yuv "0 0 864 480"	&& exit 0 || exit 1
+0006_VD2 set -x; imgstream.sh 2 "YUYV 864 480"   $VIDEOFILES/wvga_video.yuv "0 0 864 480"	&& exit 0 || exit 1
+
 
 # End "L_DD_VIDEO_0001"

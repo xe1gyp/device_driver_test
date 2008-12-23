@@ -62,37 +62,50 @@ usage()
 	# Give the gyan
 	cat <<-EOF >&2
 
-	usage: ./${0##*/} [-z] [-h] [-v] [-d TESTDIR] [-o OUTPUTFILE] [-l LOGFILE] 
-	[-n DURATION ] [-t TMPDIR] [SCENARIO_NAMES..]
+        usage: ./${0##*/} [-z] [-h] [-v] [-d TESTDIR] [-o OUTPUTFILE]
+              [-l LOGFILE] [-n DURATION ] [-t TMPDIR] [SCENARIO_NAMES..]
              
-	-d TESTDIR      Run LTP to test the filesystem mounted here. [Current - $TESTDIR]
+        -d TESTDIR      Run LTP to test the filesystem mounted here.
+                        [Current - $TESTDIR]
         		At the end of test, the testdir gets cleaned out
-	-s TC_SCENARIO  Test scenarios are located here. [Current - $TC_SCENARIO]
-	-o OUTPUTFILE   Redirect test output to a file. [Current- $OUTPUTFILE {psid}]
-	-p              Human readable(dont laugh too much) format logfiles. [Current - ($PP)]
-	-z              Dont Merge the Scenario Name with tcid to create final tc id
-	-E              Use Extended Test cases also - these are painful and can take real long time
-	-l LOGFILE      Log results of test in a logfile. [Current- $LOGFILE {psid}]
-	-t TMPDIR       Run LTP using tmp dir [Current - $TMPBASE]
-	-n DURATION     Execute the testsuite for given duration. Examples:
-			-n 60s = 60 seconds
-			-n 45m = 45 minutes
-			-n 24h = 24 hours
-			-n 2d  = 2 days
-			[Current - $DURATION]
-	-v              Print more verbose output to screen.[Current - ($VV)]
-	-q              No messages from this script. no info too - Brave eh??
-	-h              This screen [Current - guess...]
-	-x INSTANCES    Run multiple instances of this testsuite.(think well...)
-	-r PRE_DEF      Run predefined set of scenarios[Not Implemented yet]
-			List to appear here
-	-I              Run test cases which require user interaction
-	-S              Special Mode - Stress Testing
-	SCENARIO_NAMES  List of scenarios to test.. else, take all scenarios 
-	[Current - These are all filenames from $TC_SCENARIO]
+        -s TC_SCENARIO  Test scenarios are located here.
+                        [Current - $TC_SCENARIO]
+        -o OUTPUTFILE   Redirect test output to a file.
+                        [Current- $OUTPUTFILE {psid}]
+        -p              Human readable(dont laugh too much) format logfiles.
+                        [Current - ($PP)]
+        -z              Dont Merge the Scenario Name with tcid
+                        to create final tc id
+        -E              Use Extended Test cases.
+                        These are painful and can take real long time
+        -l LOGFILE      Log results of test in a logfile.
+                        [Current- $LOGFILE {psid}]
+        -t TMPDIR       Run LTP using tmp dir
+                        [Current - $TMPBASE]
+        -n DURATION     Execute the testsuite for given duration.
+                        Examples:
+                        -n 60s = 60 seconds
+                        -n 45m = 45 minutes
+                        -n 24h = 24 hours
+                        -n 2d  = 2 days
+                        [Current - $DURATION]
+        -v              Print more verbose output to screen.
+                        [Current - ($VV)]
+        -q              No messages from this script. no info too - Brave eh??
+        -h              This screen
+                        [Current - guess...]
+        -x INSTANCES    Run multiple instances of this testsuite.(think well...)
+        -r PRE_DEF      Run predefined set of scenarios[Not Implemented yet]
+                        List to appear here
+        -I              Run test cases which require user interaction
+        -T              Special Mode - Execute only one test case
+                        of the Scenario
+        -S              Special Mode - Stress Testing
+        SCENARIO_NAMES  List of scenarios to test.. else, take all scenarios
+        [Current - These are all filenames from $TC_SCENARIO]
     
-	Good News: Ctrl+c stops and cleans up for you :)
-	More help: Read the $TESTROOT/README
+        Good News: Ctrl+c stops and cleans up for you :)
+        More help: Read the $TESTROOT/README
 	EOF
 	
 	exit 0
@@ -103,33 +116,56 @@ sanity_check()
 {
 	# Check the current values...
 	# Just ensure that pan can run with a bit of peace of mind...
-	[ ! -d "$TMPBASE" -o ! -w "$TMPBASE" ] && die "$TMPBASE - cannot work as temporary directory"
-	[ ! -d "$TESTBIN" ] && die "$TESTBIN - cannot find test binary directory"
-	[ ! -d "$TESTDIR" -o ! -w "$TESTDIR" ] && die "$TESTDIR - cannot work as test directory"
-	[ ! -d "$TC_SCENARIO" ] && die "$TC_SCENARIO - No such directories"
+	TMP_MESSAGE="$TMPBASE - cannot work as temporal directory"
+	TESTBIN_MESSAGE="$TESTBIN - cannot find test binary directory"
+	TESTDIR_MESSAGE="$TESTDIR - cannot work as test directory"
+	TC_SCENARIO_MESSAGE="$TC_SCENARIO - No such directories"
+
+	[ ! -d "$TMPBASE" -o ! -w "$TMPBASE" ] && die $TMP_MESSAGE
+	[ ! -d "$TESTBIN" ] && die $TESTBIN_MESSAGE
+	[ ! -d "$TESTDIR" -o ! -w "$TESTDIR" ] && die $TESTDIR_MESSAGE
+	[ ! -d "$TC_SCENARIO" ] && die $TC_SCENARIO_MESSAGE
 	[ -z "$SCENARIO_NAMES" ] && die "No Scenarios"
-	#[ ! -z "$VERBOSE" -a ! -z "$QUIET_MODE" ] && die "Make up your mind - verbose or quiet??"
+
 	export CMDFILE=$TMPBASE/$CMDFILE
 	rm -f $CMDFILE
 	for SCEN in $SCENARIO_NAMES
 	do
-		[ ! -f "$TC_SCENARIO/$SCEN" -o ! -r "$TC_SCENARIO/$SCEN" ] && die "$TC_SCENARIO/$SCEN - not a scenario file"
-		cat $TC_SCENARIO/$SCEN|grep -v "#"|sed -e "s/^[  ]*$//g"|sed -e "/^$/d">$TMPFILE|| die "Count not create tmp file $TMPFILE"
+
+		TC_SCEN_MESSAGE="$TC_SCENARIO/$SCEN - not a scenario file"
+		[ ! -f "$TC_SCENARIO/$SCEN" -o ! -r "$TC_SCENARIO/$SCEN" ] \
+		&& die $TC_SCEN_MESSAGE
+	        if [ -z "$TESTCASE" ]; then
+	        info "EXECUTING ALL TEST CASES"
+	        cat $TC_SCENARIO/$SCEN|grep -v "#"|sed -e "s/^[  ]*$//g"|sed \
+		-e "/^$/d">$TMPFILE|| die "Count not create tmp file $TMPFILE"
+	        else
+	        info "EXECUTING ONLY TESTCASE "$TESTCASE
+	        cat $TC_SCENARIO/$SCEN|grep -v "#"|sed -e "s/^[  ]*$//g"|sed \
+		-e "/^$/d"|grep -e '^[A-Za-z]' -e $TESTCASE > $TMPFILE|| die \
+		"Count not create tmp file"
+	        fi
 		if [ -z "$DONT" ]; then
-		cat $TMPFILE|sed -e "s/^/$SCEN-/g"|sed -e "s/-/_/" >>$CMDFILE || die "Count not create command file $CMDFILE"
+		cat $TMPFILE|sed -e "s/^/$SCEN-/g"|sed -e "s/-/_/" >>$CMDFILE \
+		|| die "Count not create command file $CMDFILE"
 		else
-			cat $TMPFILE>>$CMDFILE || die "Count not create command file $CMDFILE"
+			cat $TMPFILE>>$CMDFILE || die \
+			"Count not create command file $CMDFILE"
 		fi
 		
 		if [ -z "$EXTENDED_TEST" ]; then
 		#Remove the extended test cases
-		cat $CMDFILE|grep -v "^[_A-Za-z0-9]*_EXT ">$TMPFILE || die "intermediate file gen failed"
-		cat $TMPFILE>$CMDFILE || die "Second intermediate creation failed"
+		cat $CMDFILE|grep -v "^[_A-Za-z0-9]*_EXT ">$TMPFILE || die \
+		"intermediate file gen failed"
+		cat $TMPFILE>$CMDFILE || die \
+		"Second intermediate creation failed"
 		fi
 		if [ -z "$INTERACTIVE" ]; then
 		#Remove the test cases which require user interaction
-		cat $CMDFILE|grep -v "^[_A-Za-z0-9]*_INT ">$TMPFILE || die "intermediate file gen failed"
-		cat $TMPFILE>$CMDFILE || die "Second intermediate creation failed"
+		cat $CMDFILE|grep -v "^[_A-Za-z0-9]*_INT ">$TMPFILE || die \
+		"intermediate file gen failed"
+		cat $TMPFILE>$CMDFILE || die \
+		"Second intermediate creation failed"
 		fi
 		rm -f $TMPFILE
 	done
@@ -159,8 +195,10 @@ sanity_check()
 main()
 {
 	count=0
-	while getopts zx:Sd:qt:po:l:vn:hs:EI arg
+	while getopts zx:Sd:qt:po:T:l:vn:hs:EI arg
 	do  case $arg in
+        T)
+           TESTCASE=${OPTARG} ;;
 	d)
 		TESTDIR=${OPTARG} ;;
 	t)
@@ -221,13 +259,16 @@ main()
 	# test start
 	[ -z "$QUIET_MODE" ] && { info "Test start time: $(date)" ; }
 	# run pan
-	#$PAN_COMMAND #Duplicated code here, because otherwise if we fail, only "PAN_COMMAND" gets output
-	#Usage: pan -n name [ -SyAehp ] [ -s starts ] [-t time[s|m|h|d] [ -x nactive ] [
+	#$PAN_COMMAND #Duplicated code here, because otherwise if we fail,
+	# only "PAN_COMMAND" gets output
+	#Usage: pan -n name [ -SyAehp ] [ -s starts ] [-t time[s|m|h|d]
+	#[ -x nactive ] [
 	#-l logfile ]
 	#[ -a active-file ] [ -f command-file ] [ -d debug-level ]
 	#[-o output-file] [-O output-buffer-directory] [cmd]
 	cd $TESTDIR
-	PAN_COMMAND="${UTILBIN}/pan $QUIET_MODE -e -S $INSTANCES $DURATION -a $$ -n $$ $PRETTY_PRT -f ${CMDFILE} -l $LOGFILE "
+	PAN_COMMAND="${UTILBIN}/pan $QUIET_MODE -e -S $INSTANCES $DURATION \
+	-a $$ -n $$ $PRETTY_PRT -f ${CMDFILE} -l $LOGFILE "
 	[ ! -z "$VERBOSE" ] && { info "PAN_COMMAND=$PAN_COMMAND"; }
 	if [ -z "$OO_LOG" ]; then
 	$PAN_COMMAND
@@ -263,10 +304,12 @@ main()
 cleanup()
 {
 	[  -z "$QUIET_MODE" ] && echo -n "INFO: Cleaning up..."
-	if [ -n "${TMPFILE}" -a -n "${CMDFILE}" -a -n "${TESTDIR}" -a -n "${TMPBASE}" ]; then
+	if [ -n "${TMPFILE}" -a -n "${CMDFILE}" -a -n "${TESTDIR}" -a -n "\
+	${TMPBASE}" ]; then
 		rm -rf ${TMPFILE} ${CMDFILE} ${TESTDIR}/* ${TMPBASE}/*
 	else
-		echo "INFO: Clean up process won't be executed because variables for directories to be removed are not set..."
+		echo "INFO: Clean up process won't be executed because "
+		echo "variables for directories to be removed are not set..."
 	fi
 	[  -z "$QUIET_MODE" ] && echo "done."
 }

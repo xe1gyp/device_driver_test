@@ -6,9 +6,9 @@ SETIMG_PARAMETERS=$3
 STREAMING_PARAMETERS=$4
 SETWIN_PARAMETERS=$5
 
-PREV_GFX=`cat /sys/class/display_control/omap_disp_control/graphics`
-PREV_V1=`cat /sys/class/display_control/omap_disp_control/video1`
-PREV_V2=`cat /sys/class/display_control/omap_disp_control/video2`
+PREVIOUS_GFX=`cat /sys/class/display_control/omap_disp_control/graphics`
+PREVIOUS_VD1=`cat /sys/class/display_control/omap_disp_control/video1`
+PREVIOUS_VD2=`cat /sys/class/display_control/omap_disp_control/video2`
 
 if [ "$OUTPUT" = "LCD" ];then
 	echo lcd > /sys/class/display_control/omap_disp_control/video2
@@ -28,10 +28,9 @@ fi
 $TESTBIN/setimg 1 $SETIMG_PARAMETERS
 $TESTBIN/setimg 2 $SETIMG_PARAMETERS
 
-$TESTBIN/setwin 2 $SETWIN_PARAMETERS
-
 if [ "$TV_STATUS" = "CONNECTED" ];then
-	echo CONNECT THE TV TO S-VIDEO OUTPUT OF THE BOARD, PRESS ANY KEY WHEN DONE
+	echo CONNECT THE TV TO S-VIDEO OUTPUT OF THE BOARD
+	echo PRESS ANY KEY WHEN DONE
 	if [ -z "$STRESS" ]; then
 		$WAIT_KEY
 	else
@@ -47,7 +46,8 @@ if [ "$TV_STATUS" = "CONNECTED" ];then
 fi
 
 if [ "$TV_STATUS" = "DISCONNECTED" ];then
-	echo DISCONNECT THE TV TO S-VIDEO OUTPUT OF THE BOARD, PRESS ANY KEY WHEN DONE
+	echo DISCONNECT THE TV TO S-VIDEO OUTPUT OF THE BOARD
+	echo PRESS ANY KEY WHEN DONE
         if [ -z "$STRESS" ]; then
                 $WAIT_KEY
         else
@@ -55,7 +55,8 @@ if [ "$TV_STATUS" = "DISCONNECTED" ];then
 	fi
         $TESTBIN/tv_detect_app &
 	sleep 3
-        echo CONNECT THE TV TO S-VIDEO OUTPUT OF THE BOARD, PRESS ANY KEY WHEN DONE
+        echo CONNECT THE TV TO S-VIDEO OUTPUT OF THE BOARD
+	echo PRESS ANY KEY WHEN DONE
         if [ -z "$STRESS" ]; then
                 $WAIT_KEY
 	else
@@ -68,20 +69,11 @@ if [ "$TV_STATUS" = "DISCONNECTED" ];then
 	sleep 10
 fi
 
-echo "$PREV_GFX" > /sys/class/display_control/omap_disp_control/graphics
-echo "$PREV_V2" > /sys/class/display_control/omap_disp_control/video2
-echo "$PREV_V1" > /sys/class/display_control/omap_disp_control/video1
+echo "$PREVIOUS_GFX" > /sys/class/display_control/omap_disp_control/graphics
+echo "$PREVIOUS_VD2" > /sys/class/display_control/omap_disp_control/video2
+echo "$PREVIOUS_VD1" > /sys/class/display_control/omap_disp_control/video1
 sleep 3
 
 if [ -z "$STRESS" ]; then
-  echo "";echo "Was the video streamed correctly?";echo ""
-  $WAIT_ANSWER
-  ERR=$?
-  if [ $ERR -eq 1 ]; then
-    echo "FAIL"
-    exit 1
-  else
-    echo "PASS"
-    exit 0
-  fi
+	strees_messages.sh
 fi

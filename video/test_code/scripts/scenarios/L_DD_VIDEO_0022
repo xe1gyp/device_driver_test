@@ -1,0 +1,13 @@
+#####################
+# FILENAME: L_DD_VIDEO_0022
+# Author  : Cristopherson Torres Martinez
+# Date    : Tuesday, December 2, 2008
+
+# Begin "L_DD_VIDEO_0022"
+
+COMMENT comment.sh "Verify that LCD driver shall allow DVFS during data transfer."
+COMMENT comment.sh "The video will be rendered in both pipelines."
+
+0001_VD1 set -x; dvfs_stream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0001_VD2 set -x; dvfs_stream.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+# End "L_DD_VIDEO_0022"

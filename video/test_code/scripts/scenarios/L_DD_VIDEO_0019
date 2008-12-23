@@ -1,0 +1,13 @@
+#####################
+# FILENAME: L_DD_VIDEO_0019
+# Author  : Cristopherson Torres Martinez
+# Date    : Tuesday, December 2, 2008
+
+# Begin "L_DD_VIDEO_0019"
+
+COMMENT comment.sh "Verify that Display driver shall support configuration of NTSC and PAL Widescreen Signalling settings for TV Out."
+COMMENT comment.sh "The video will be rendered in both pipelines."
+
+0001_VD1 set -x; pal_stream.sh 1 "YUYV 720 586" $VIDEOFILES/video_720_576.yuv && exit 0 || exit 1
+0001_VD2 set -x; pal_stream.sh 2 "YUYV 720 586" $VIDEOFILES/video_720_576.yuv && exit 0 || exit 1
+# End "L_DD_VIDEO_0019"

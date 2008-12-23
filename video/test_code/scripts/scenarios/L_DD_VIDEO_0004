@@ -5,65 +5,33 @@
 
 # Begin "L_DD_VIDEO_0004"
 
-COMMENT_INT comment.sh "Verify that the rendered image can be up-sampled (scaled) in horizontal direction"
+SETUP_VD1 set -x; $TESTBIN/setimg 1 RGB565 160 120 && exit 0 || exit 1
+SETUP_VD2 set -x; $TESTBIN/setimg 2 RGB565 160 120 && exit 0 || exit 1
 
-ALL set -x; imgstream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-ALL set -x; imgstream.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+# Testing Mirror on Video Pipeline 1
 
-0001 set -x; winstream.sh 1 "0 0 120 160"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0002 set -x; winstream.sh 1 "0 0 121 161"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0003 set -x; winstream.sh 1 "0 0 5 5"  		$VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0004 set -x; winstream.sh 1 "0 0 60 80"  	$VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0001_COMMENT_VD1 comment.sh "Video Pipeline 1 - Image shall be mirrored"
+0001_VD1 set -x; mirrorstream.sh 1 1 $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
 
-0005 set -x; winstream.sh 1 "120 0 120 160"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0006 set -x; winstream.sh 1 "120 0 121 161"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0007 set -x; winstream.sh 1 "236 0 5 5"  		$VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0008 set -x; winstream.sh 1 "181 0 60 80"	  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+COMMENT_VD1 comment.sh "Image shall be mirrored only on Video Pipeline 1"
+0002_VD1 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0001 && exit 0 || exit 1
+0003_VD1 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0002 && exit 0 || exit 1
+0004_VD1 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0003 && exit 0 || exit 1
 
-0009 set -x; winstream.sh 1 "0 160 120 160"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0010 set -x; winstream.sh 1 "0 160 121 161"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0011 set -x; winstream.sh 1 "0 316 5 5"  		$VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0012 set -x; winstream.sh 1 "0 261 60 80"  		$VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0005_COMMENT_VD1 comment.sh "Image shall not be mirrored on Video Pipeline 1"
+0005_VD1 set -x; mirrorstream.sh 1 0 $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
 
-0013 set -x; winstream.sh 1 "120 160 120 160"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0014 set -x; winstream.sh 1 "120 160 121 161"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0015 set -x; winstream.sh 1 "236 316 5 5"  		$VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0016 set -x; winstream.sh 1 "181 261 60 80"  		$VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+# Testing Mirror on Video Pipeline 2
 
-0017 set -x; winstream.sh 1 "60 80 120 160"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0006_COMMENT_VD2 comment.sh "Video Pipeline 2 - Image shall be mirrored"
+0006_VD2 set -x; mirrorstream.sh 2 1 $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
 
-0018 set -x; winstream.sh 1 "0 0 0 0"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0019 set -x; winstream.sh 1 "0 0 1 1"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0020 set -x; winstream.sh 1 "0 0 10 10"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0021 set -x; winstream.sh 1 "0 0 100 100"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0022 set -x; winstream.sh 1 "0 0 1000 1000"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+COMMENT_VD2 comment.sh "Image shall be mirrored only on Video Pipeline 2"
+0007_VD2 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0001 && exit 0 || exit 1
+0008_VD2 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0002 && exit 0 || exit 1
+0009_VD2 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0003 && exit 0 || exit 1
 
-0023 set -x; winstream.sh 2 "0 0 120 160"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0024 set -x; winstream.sh 2 "0 0 121 161"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0025 set -x; winstream.sh 2 "0 0 5 5"  		$VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0026 set -x; winstream.sh 2 "0 0 60 80"  	$VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-
-0027 set -x; winstream.sh 2 "120 0 120 160"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0028 set -x; winstream.sh 2 "120 0 121 161"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0029 set -x; winstream.sh 2 "236 0 5 5"  		$VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0030 set -x; winstream.sh 2 "181 0 60 80"	  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-
-0031 set -x; winstream.sh 2 "0 160 120 160"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0032 set -x; winstream.sh 2 "0 160 121 161"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0033 set -x; winstream.sh 2 "0 316 5 5"  		$VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0034 set -x; winstream.sh 2 "0 261 60 80"  		$VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-
-0035 set -x; winstream.sh 2 "120 160 120 160"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0036 set -x; winstream.sh 2 "120 160 121 161"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0037 set -x; winstream.sh 2 "236 316 5 5"  		$VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0038 set -x; winstream.sh 2 "181 261 60 80"  		$VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-
-0039 set -x; winstream.sh 2 "60 80 120 160"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-
-0040 set -x; winstream.sh 2 "0 0 0 0"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0041 set -x; winstream.sh 2 "0 0 1 1"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0042 set -x; winstream.sh 2 "0 0 10 10"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0043 set -x; winstream.sh 2 "0 0 100 100"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0044 set -x; winstream.sh 2 "0 0 1000 1000"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0010_COMMENT_VD2 comment.sh "Image shall not be mirrored on Video Pipeline 2"
+0010_VD2 set -x; mirrorstream.sh 2 0 $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
 
 # End "L_DD_VIDEO_0004"

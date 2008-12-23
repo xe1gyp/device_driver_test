@@ -14,14 +14,5 @@ $TESTBIN/setmirror $VIDEO_PIPELINE $SETMIRROR_PARAMETERS
 $TESTBIN/streaming $VIDEO_PIPELINE $STREAMING_PARAMETERS
 
 if [ -z "$STRESS" ]; then
-	echo "Was the video mirrored and streamed correctly?"
-  $WAIT_ANSWER
-  ERR=$?
-  if [ $ERR -eq 1 ]; then
-   echo "FAIL"
-   exit 1
-  else
-   echo "PASS"
-   exit 0
-  fi
+	strees_messages.sh
 fi

@@ -42,8 +42,9 @@ export SETWIN=${TESTBIN}/setwin
 export SHOWINFO=${TESTBIN}/showinfo
 export STREAMING=${TESTBIN}/streaming
 
-export VIDEOFILES=${PWD}/../utils/videofiles
+export VIDEOFILES=${PWD}/../scripts/helper/videofiles/
 export MESSAGE_DELAY=1
 export WAIT_ANSWER=$UTILBIN/akey
 export WAIT_KEY=$UTILBIN/waitkey
 export HELP=""
+export TESTCASE=""

@@ -1,22 +1,24 @@
 #####################
-# FILENAME: L_DD_VID_0011_0001
-# Author  : Carlos Pando
-# Date    : Fri Jan 5, 2007
+# FILENAME: L_DD_VID_0011
+# Author  : Cristopherson Torre Martinez
+# Date    : Tuesday, December 2, 2008
 # Copyright (C) 2007 Texas Instruments
 #
 # Description:
 # Video (Vid) tests
 
-# Begin "L_DD_VID_0011"
+# Begin "L_DD_VIDEO_0011"
 
-COMMENT comment.sh "Verify the background color of the canvas can be configured"
-#0001 $TESTBIN/fbtest -b | grep "fault" && exit 1 || exit 0 
-COMMENT comment.sh "SENDING GFX PIPELINE TO TV"
-0001 echo tv > /sys/class/display_control/omap_disp_control/graphics
-0001 set -x; background.sh "1" "123456"&& exit 1 || exit 0
-0001 set -x; background.sh "1" "765432"&& exit 1 || exit 0
-COMMENT_INT comment.sh "SENDING GFX PIPELINE TO TV"
-0001 echo lcd > /sys/class/display_control/omap_disp_control/graphics
-#0001 $TESTBIN/fbtest -u | grep "fault" && exit 1 || exit 0 
+COMMENT comment.sh "Verify that the both  pipeline can be 'suspended' or 'resumed'"
 
-# End "L_DD_VID_0011"
+0001_COMMENT_VD1 comment.sh "Image shall be rendered properly on Video Pipeline 1"
+0001_COMMENT_VD1 comment.sh "After turning off the lcd, please touch the board screen or the keypad."
+0001_VD1 set -x; suspend_stream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0001_COMMENT_VD2 comment.sh "Image shall be rendered properly on Video Pipeline 1"
+0001_COMMENT_VD2 comment.sh "After turning off the lcd, please touch the board screen or the keypad."
+0001_VD2 set -x; suspend_stream.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+
+
+# End "L_DD_VIDEO_0011"
+
+

@@ -5,9 +5,33 @@
 
 # Begin "L_DD_VIDEO_0002"
 
-COMMENT comment.sh "Verify images can be rendered in both Pipelines"
+COMMENT comment.sh "Verify that images can be cropped, both pipelines will be sent alternately"
 
-0001 set -x; imgstream.sh 1 "RGB565 160 120" "$VIDEOFILES/video_qqvga_rgb_30 1" && exit 0 || exit 1
-0002 set -x; imgstream.sh 2 "RGB565 160 120" "$VIDEOFILES/video_qqvga_rgb_30 1" && exit 0 || exit 1
+SETUP_VD1 set -x; setupimage.sh 1 "RGB565 160 120" && exit 0 || exit 1
+SETUP_VD2 set -x; setupimage.sh 2 "RGB565 160 120" && exit 0 || exit 1
+
+0001_VD1 set -x; cropstream.sh 1 "0 0 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0001_VD2 set -x; cropstream.sh 2 "0 0 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+
+0002_VD1 set -x; cropstream.sh 1 "0 0 80 60"   $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0002_VD2 set -x; cropstream.sh 2 "0 0 80 60"   $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+
+0003_VD1 set -x; cropstream.sh 1 "80 0 80 60"  $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0003_VD2 set -x; cropstream.sh 2 "80 0 80 60"  $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+
+0004_VD1 set -x; cropstream.sh 1 "0 60 80 60"  $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0004_VD2 set -x; cropstream.sh 2 "0 60 80 60"  $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+
+0005_VD1 set -x; cropstream.sh 1 "80 60 80 60" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0005_VD2 set -x; cropstream.sh 2 "80 60 80 60" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+
+0006_VD1 set -x; cropstream.sh 1 "40 30 80 60" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0006_VD2 set -x; cropstream.sh 2 "40 30 80 60" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+
+0007_VD1 set -x; cropstream.sh 1 "0 0 162 122" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0007_VD2 set -x; cropstream.sh 2 "0 0 162 122" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+
+0008_VD1 set -x; cropstream.sh 1 "0 0 159 119" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0008_VD2 set -x; cropstream.sh 2 "0 0 159 119" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
 
 # End "L_DD_VIDEO_0002"

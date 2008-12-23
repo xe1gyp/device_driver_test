@@ -1,0 +1,13 @@
+#####################
+# FILENAME: L_DD_VIDEO_0025
+# Author  : Cristopherson Torres Martinez
+# Date    : Tuesday, December 2, 2008
+
+# Begin "L_DD_VIDEO_0025"
+
+COMMENT comment.sh "Verify that device driver shall ensure thread safety against scheduler preemption."
+COMMENT comment.sh "Both pipelines will be rendered at the same time with a specific priority."
+
+0001 set -x; preemption_streaming.sh 1 "RGB565 160 120" "$VIDEOFILES/video_qqvga_rgb_30 0 -20 20" && exit 0 || exit 1
+
+# End "L_DD_VIDEO_0025"

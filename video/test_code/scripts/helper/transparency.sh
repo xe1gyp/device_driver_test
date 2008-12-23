@@ -11,7 +11,9 @@ sleep $MESSAGE_DELAY
 # Usage: setimg <vid> <fmt> <width> <height>
 $TESTBIN/setimg $VIDEO_PIPELINE $SETIMG_PARAMETERS
 
-# Usage: settransck < o/p device [1:LCD 2:TV]> <key type [0:GFX DEST 1:VID SRC]> <RGB key value>
+# Usage: settransck < o/p device [1:LCD 2:TV]>
+# <key type [0:GFX DEST 1:VID SRC]> <RGB key value>
+
 # RGB Key value for 0xF801 -> 63489
 $TESTBIN/settransck $SETTRANSCK_PARAMETERS
 
@@ -22,14 +24,5 @@ $TESTBIN/enablecolkey $ENABLECOLKEY_PARAMETERS
 $TESTBIN/streaming $VIDEO_PIPELINE $STREAMING_PARAMETERS
 
 if [ -z "$STRESS" ]; then
-  echo "Were the lines displayed with transparency?"
-  $WAIT_ANSWER
-  ERR=$?
-  if [ $ERR -eq 1 ]; then
-    echo "FAIL"
-    exit 1
-  else
-    echo "PASS"
-    exit 0
-  fi
+	strees_messages.sh
 fi

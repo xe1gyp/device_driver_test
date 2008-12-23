@@ -7,50 +7,24 @@
 # Description:
 # Video (Vid) tests
 
-foo   echo "L_DD_VID_0012"
+# Begin "L_DD_VID_0012"
 
-0001A set -x; video1pm.sh "0012_0001_A"  "$RESUME $STATE1 $STATE2 $SUSPEND $RESUME" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test suspend/resume for video-1..." && exit 0 || exit 1
-0001B set -x; video1pm.sh "0012_0001_B" "DPM 5 TIMES" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test DPM-Freq-Scaling 5 times for video-1..."  && exit 0 || exit 1
-0001C set -x; video1pm.sh "0012_0001_C" "SLEEP 5 TIMES" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test DPM-Sleep 5 times for video-1..."  && exit 0 || exit 1
+0001_COMMENT_VD1 comment.sh "Verify the Color conversion coefficients can be changed on Video Pipeline 1"
+0001_VD1 $TESTBIN/setimg 1 YUYV 176 144 | grep "fault" && exit 1 || exit 0; sleep 1;
+0001_VD1 $TESTBIN/setcolorconv 1 1 2 3 4 5 6 7 8 9 | grep "fault" && exit 1 || exit 0; sleep 1;
+0001_VD1 $TESTBIN/streaming 1 $VIDEOFILES/video_qcif_yuv_75 | grep "fault" && exit 1 || exit 0; sleep 1;
 
-0002A set -x; video2pm.sh "0012_0002_A"  "$RESUME $STATE1 $STATE2 $SUSPEND $RESUME" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test suspend/resume for video-2..." && exit 0 || exit 1
-0002B set -x; video2pm.sh "0012_0002_B" "DPM 5 TIMES" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test DPM-Freq-Scaling 5 times for video-2..."  && exit 0 || exit 1
-0002C set -x; video2pm.sh "0012_0002_C" "SLEEP 5 TIMES" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test DPM-Sleep 5 times for video-2..."  && exit 0 || exit 1
+0002_COMMENT_VD1 comment.sh "Verify the Color conversion coefficients can be reset to default values in Video Pipeline 1"
+0002_VD1 $TESTBIN/setdefcolcon 1 0 | grep "fault" && exit 1 || exit 0; sleep 1;
+0002_VD1 $TESTBIN/streaming 1 $VIDEOFILES/video_qcif_yuv_75 | grep "fault" && exit 1 || exit 0; sleep 1;
 
-SETUP echo 'lcd' > /sys/class/display_control/omap_disp_control/video1;
-0003A set -x; lcdpm.sh "0012_0003_A"  "$RESUME $STATE1 $STATE2 $SUSPEND $RESUME" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test suspend/resume for video-1..." && exit 0 || exit 1
-0003B set -x; lcdpm.sh "0012_0003_B" "DPM 5 TIMES" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test DPM-Freq-Scaling 5 times for video-1..."  && exit 0 || exit 1
-0003C set -x; lcdpm.sh "0012_0003_C" "SLEEP 5 TIMES" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test DPM-Sleep 5 times for video-1..."  && exit 0 || exit 1
+0003_COMMENT_VD2 comment.sh "Verify the Color conversion coefficients can be changed on Video Pipeline 2"
+0003_VD2 $TESTBIN/setimg 2 YUYV 176 144 | grep "fault" && exit 1 || exit 0; sleep 1;
+0003_VD2 $TESTBIN/setcolorconv 2 1 2 3 4 5 6 7 8 9 | grep "fault" && exit 1 || exit 0; sleep 1;
+0003_VD2 $TESTBIN/streaming 2 $VIDEOFILES/video_qcif_yuv_75 | grep "fault" && exit 1 || exit 0; sleep 1;
 
-SETUP echo 'lcd' > /sys/class/display_control/omap_disp_control/video2;
-0003D set -x; lcdpm.sh "0012_0003_D"  "$RESUME $STATE1 $STATE2 $SUSPEND $RESUME" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test suspend/resume for video-2..." && exit 0 || exit 1
-0003E set -x; lcdpm.sh "0012_0003_E" "DPM 5 TIMES" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test DPM-Freq-Scaling 5 times for video-2..."  && exit 0 || exit 1
-0003F set -x; lcdpm.sh "0012_0003_F" "SLEEP 5 TIMES" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test DPM-Sleep 5 times for video-2..."  && exit 0 || exit 1
+0004_COMMENT_VD2 comment.sh "Verify the Color conversion coefficients can be reset to default values on Video Pipeline 2"
+0004_VD2 $TESTBIN/setdefcolcon 2 0 | grep "fault" && exit 1 || exit 0; sleep 1;
+0004_VD2 $TESTBIN/streaming 2 $VIDEOFILES/video_qcif_yuv_75 | grep "fault" && exit 1 || exit 0; sleep 1;
 
-SETUP echo 'tv' > /sys/class/display_control/omap_disp_control/video1;
-0004A set -x; tvpm.sh "0012_0004_A"  "$RESUME $STATE1 $STATE2 $SUSPEND $RESUME" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test suspend/resume for video-1..." && exit 0 || exit 1
-0004B set -x; tvpm.sh "0012_0004_B" "DPM 5 TIMES" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test DPM-Freq-Scaling 5 times for video-1..."  && exit 0 || exit 1
-0004C set -x; tvpm.sh "0012_0004_C" "SLEEP 5 TIMES" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test DPM-Sleep 5 times for video-1..."  && exit 0 || exit 1
-
-SETUP echo 'tv' > /sys/class/display_control/omap_disp_control/video2;
-0004D set -x; tvpm.sh "0012_0004_D"  "$RESUME $STATE1 $STATE2 $SUSPEND $RESUME" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test suspend/resume for video-2..." && exit 0 || exit 1
-0004E set -x; tvpm.sh "0012_0004_E" "DPM 5 TIMES" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test DPM-Freq-Scaling 5 times for video-2..."  && exit 0 || exit 1
-0004F set -x; tvpm.sh "0012_0004_F" "SLEEP 5 TIMES" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test DPM-Sleep 5 times for video-2..."  && exit 0 || exit 1
-
-0005A set -x; video1pm.sh "0012_0001_A"  "$RESUME $SUSPEND $RESUME $SUSPEND $RESUME $SUSPEND $RESUME" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test suspend/resume for video-1..." && exit 0 || exit 1
-0005B set -x; video2pm.sh "0012_0002_A"  "$RESUME $SUSPEND $RESUME $SUSPEND $RESUME $SUSPEND $RESUME" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test suspend/resume for video-2..." && exit 0 || exit 1
-
-SETUP echo 'lcd' > /sys/class/display_control/omap_disp_control/video1;
-0005C set -x; lcdpm.sh "0012_0003_A"  "$RESUME $SUSPEND $RESUME $SUSPEND $RESUME $SUSPEND $RESUME" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test suspend/resume for video-1..." && exit 0 || exit 1
-
-SETUP echo 'lcd' > /sys/class/display_control/omap_disp_control/video2;
-0005D set -x; lcdpm.sh "0012_0003_D"  "$RESUME $SUSPEND $RESUME $SUSPEND $RESUME $SUSPEND $RESUME" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test suspend/resume for video-2..." && exit 0 || exit 1
-
-SETUP echo 'tv' > /sys/class/display_control/omap_disp_control/video1;
-0005E set -x; tvpm.sh "0012_0004_A"  "$RESUME $SUSPEND $RESUME $SUSPEND $RESUME $SUSPEND $RESUME" "1 YUYV 176 144" "1 video_qcif_yuv_75 1" "Test suspend/resume for video-1..." && exit 0 || exit 1
-
-SETUP echo 'tv' > /sys/class/display_control/omap_disp_control/video2;
-0005F set -x; tvpm.sh "0012_0004_D"  "$RESUME $SUSPEND $RESUME $SUSPEND $RESUME $SUSPEND $RESUME" "2 YUYV 176 144" "2 video_qcif_yuv_75 1" "Test suspend/resume for video-2..." && exit 0 || exit 1
-
-
-bar   echo "L_DD_VID_0012"
+# End "L_DD_VID_0012"
