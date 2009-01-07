@@ -27,6 +27,8 @@
 #					    only the desired driver test suite
 #					    Adding warning message of 
 #			 		    testsuites directory erasing
+#		Diego Zavala Trujillo - 01/07/2009 - Correct the way to copy
+#						the test_code to the target.
 #
 ############################################################################
 
@@ -89,6 +91,12 @@ export HOST
 
 OUTPUT_DIRECTORY=$OUTPUT_DIRECTORY/testsuites
 
+echo
+echo "Your source code for the compilation is located at $KDIR"
+echo
+echo "The testsuite(s) will be copy to $OUTPUT_DIRECTORY"
+echo
+
 if [ -d $OUTPUT_DIRECTORY ]
 then
 	echo "WARNING: This script will delete the testsuites directory of your output folder to create"
@@ -97,7 +105,7 @@ then
 	if [[ ($answer = "Y") || ($answer = "y") ]]
 	then
 		echo "Erasing output directory"
-		rm -rf $OUTPUT_DIRECTORY/testsuites
+		rm -rf $OUTPUT_DIRECTORY/*
 	else
 		exit 1
 	fi
@@ -118,7 +126,9 @@ do
 	cd $ROOT/$DRIVER/test_code/
 	make clean
 	make
-	cp -r $ROOT/$DRIVER/test_code/ $OUTPUT_DIRECTORY/$DRIVER
+	cd $OUTPUT_DIRECTORY
+	mkdir $DRIVER
+	cp -r $ROOT/$DRIVER/test_code/* $OUTPUT_DIRECTORY/$DRIVER/
 done
 
 # Compile utils
