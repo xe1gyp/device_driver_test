@@ -29,6 +29,8 @@
 #			 		    testsuites directory erasing
 #		Diego Zavala Trujillo - 01/07/2009 - Correct the way to copy
 #						the test_code to the target.
+#		Diego zavala Trujillo - 01/08/2009 - Add usb device host and
+#						otg for compilation.
 #
 ############################################################################
 
@@ -46,9 +48,8 @@ if [ -z $DRIVERS ]
 then
 	# Compiling all drivers test suites
 	# Missing Test Suites > sdio, timer-32k, hdq
-	DRIVERS="audio-alsa dma ethernet gpio framebuffer i2c keypad mcbsp mmc nand norflash power_management realtimeclock touchscreen video watchdog camera"
+	DRIVERS="audio-alsa dma ethernet gpio framebuffer i2c keypad mcbsp mmc nand norflash power_management realtimeclock touchscreen video watchdog camera usb_device usb_host usb_otg"
 fi	
-# TESTSUITES="audio-alsa dma ethernet gpio framebuffer i2c keypad mcbsp mmc nand norflash power_management realtimeclock touchscreen video watchdog"
 
 # Verify needed variables are exported
 
@@ -62,7 +63,7 @@ fi
 
 if [ "$TESTSUITES" == "all" ]
 then
-	TESTSUITES="audio-alsa dma ethernet gpio framebuffer i2c keypad mcbsp mmc nand norflash power_management realtimeclock touchscreen video watchdog"
+	TESTSUITES="audio-alsa dma ethernet gpio framebuffer i2c keypad mcbsp mmc nand norflash power_management realtimeclock touchscreen video watchdog usb_device usb_host usb_otg"
 fi
 
 echo; echo "The following test suites will be compiled: $TESTSUITES"; echo; sleep 3
