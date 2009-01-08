@@ -3,13 +3,13 @@
 #
 # Name of the file: Makefile
 #
-# Location of the file:  
+# Location of the file:
 #
 # Brief description of the contents of the file:
 # Makefile for GPIO test code
 #
 # Detailed description of the contents of the file:
-# This Makefile is used to compile gpio test code  
+# This Makefile is used to compile gpio test code
 #
 # Author: Omar Ramirez
 #
@@ -25,7 +25,7 @@ KERN:=26
 ifneq ($(KERNELRELEASE),)
 
 	ifeq ($(KERN),26)
-		obj-m := gpio.o gpio_test.o
+		obj-m := gpio.o gpio_test.o temp_gpio.o
 	else
 		export-objs :=  gpio_test.o
 		obj-m += gpio_test.o

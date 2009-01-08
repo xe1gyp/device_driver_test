@@ -24,7 +24,9 @@ export STRESS=""
 export UTILBIN=${TESTROOT}/../../utils/bin
 export WAITKEY=$UTILBIN/akey
 
+# General variables
 export CHIP_NAME=twl
+export DMESG_FILE=/var/log/dmesg
 
 # Keypad devfs node
 export DEVFS_KEYPAD=/dev/input/event0

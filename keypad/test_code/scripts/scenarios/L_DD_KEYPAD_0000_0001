@@ -1,16 +1,11 @@
-################################################################################
+###############################################################################
 # Scenario: L_DD_KEYPAD_0000_0001
 # Author  : Abraham Arce
 # Date    : Sat May 17 17:47:01 CDT 2008
-# Description: Triton2 Controller
-#
-# Keypad driver shall support keyboard controller on Triton2
-#
-################################################################################
+###############################################################################
 
 # Begin L_DD_KEYPAD_0000_0001
 
-01 set -x; cat /var/log/dmesg | grep $CHIP_NAME | grep keypad
-02 set -x; $TESTBIN/openclose && exit 0 || exit 1
+01 set -x; cat $DMESG_FILE | grep $CHIP_NAME | grep keypad
 
 # End L_DD_KEYPAD_0000_0001

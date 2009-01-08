@@ -25,7 +25,7 @@ export UTILBIN=${TESTROOT}/../../utils/bin
 export WAITKEY=$UTILBIN/akey
 
 # Driver specific
-export OMAP_MAX_GPIO_LINES=192
+export OMAP_MAX_GPIO_LINES=150
 export GPIO_VALID_LINE=19
 export INITIAL_INVALID_RANGE=-5
 export FINAL_INVALID_RANGE=-1

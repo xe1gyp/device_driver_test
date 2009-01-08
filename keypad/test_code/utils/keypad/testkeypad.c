@@ -2,8 +2,8 @@
 #include <fcntl.h>
 
 /*
- * to run this program we have to choose Event interface under 
- * Input device support when  make menuconfig
+ * To run this program we have to choose Event Interface under
+ * Input Device Support when in menuconfig
  *
 */
 
@@ -15,18 +15,27 @@ int main(void)
 		unsigned short code;
 		unsigned int value;
 	} keyinfo;
+
+	#define MAX_LIMIT 500
+
 	int bytes;
 	int fd = open("/dev/input/event0", O_RDONLY);
 	int counter = 0;
-	
+
 	if (fd > 0) {
-		while (counter<500) {
+		printf("\nProgram will wait for %d interactions to finish\n\n",
+				MAX_LIMIT);
+		fflush(stdout);
+		while (counter < MAX_LIMIT) {
 			bytes = read(fd, &keyinfo, sizeof(struct input_event));
 			if (bytes && keyinfo.type == 0x01) {
-				printf("time=%ld sec %ld microsec,code=%d,value=%d\n",
-							keyinfo.time.tv_sec, 
+				printf("sequence= %d > time=%ld | sec %ld "
+							"microsec | code=%d | "
+							"value=%d\n",
+							counter,
+							keyinfo.time.tv_sec,
 							keyinfo.time.tv_usec,
-							keyinfo.code, 
+							keyinfo.code,
 							keyinfo.value);
 				fflush(stdout);
 			counter++;

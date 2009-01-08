@@ -6,8 +6,14 @@
 #include <linux/spinlock.h>
 #include <linux/init.h>
 #include <linux/delay.h>
+#include <linux/version.h>
 #include <asm/uaccess.h>
-#include <asm/arch/gpio.h>
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,27))
+	#include <mach/gpio.h>
+#else
+	#include <asm/arch/gpio.h>
+#endif
 
 #define		DELAY_MAJOR		241
 #define		DELAY_DEV_NAME	        "gpiotest"

@@ -1,11 +1,11 @@
 ###############################################################################
-# Scenario: L_DD_KEYPAD_0001_0001
+# Scenario: L_DD_KEYPAD_0001_0003
 # Author  : Abraham Arce
-# Date    : Sat May 17 17:47:01 CDT 2008
+# Date    : Mon Dec  1 14:19:45 CST 2008
 ###############################################################################
 
-# Begin L_DD_KEYPAD_0001_0001
+# Begin L_DD_KEYPAD_0001_0003
 
-01 set -x; $TESTBIN/testkeypad
+01 $TESTBIN/testkeypad
 
-# End L_DD_KEYPAD_0001_0001
+# End L_DD_KEYPAD_0001_0003
