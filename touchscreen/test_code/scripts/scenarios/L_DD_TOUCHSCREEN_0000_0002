@@ -6,6 +6,6 @@
 
 # Begin L_DD_TOUCHSCREEN_0000_0002
 
-01 set -x; $TESTBIN/openclose && exit 0 || exit 1
+01 set -x; $TESTBIN/openclose $DEVFS_TOUCHSCREEN && exit 0 || exit 1
 
 # End L_DD_TOUCHSCREEN_0000_0002
