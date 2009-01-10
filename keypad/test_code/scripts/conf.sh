@@ -25,23 +25,28 @@ export UTILBIN=${TESTROOT}/../../utils/bin
 export WAITKEY=$UTILBIN/akey
 
 # General variables
-export CHIP_NAME=twl
 export DMESG_FILE=/var/log/dmesg
+export CHIP_NAME=twl
+export DRIVER_NAME="platform:omap_twl4030keypad"
 
 # Keypad devfs node
-export DEVFS_KEYPAD=/dev/input/event0
-if [ ! -e "$DEVFS_KEYPAD" ]
-	then
-		echo "FATAL: Keypad node cannot be found -> $DEVFS_KEYPAD"
-		exit 1
-fi
+TEMP_EVENT=`ls /sys/class/input/ | grep event`
+set $TEMP_EVENT
 
-# Keypad sysfs code
-export SYSFS_KEYPAD=/sys/class/input/event0/dev
-if [ ! -e "$SYSFS_KEYPAD" ]
-        then
-                echo "FATAL: Keypad node cannot be found -> $SYSFS_KEYPAD"
-                exit 1
+for i in $TEMP_EVENT
+do
+	TEMP_NAME=`cat /sys/class/input/$i/device/modalias`
+	if [ $TEMP_NAME == $DRIVER_NAME ]
+	then
+		export DEVFS_KEYPAD=/dev/input/$i
+		echo "Keypad node is " $DEVFS_KEYPAD
+	fi
+done
+
+if [ ! -e "$DEVFS_KEYPAD" ]
+then
+	echo "FATAL: Keypad node cannot be found -> $DEVFS_KEYPAD"
+	exit 1
 fi
 
 # End of file

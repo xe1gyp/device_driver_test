@@ -5,9 +5,9 @@
  * To run this program we have to choose Event Interface under
  * Input Device Support when in menuconfig
  *
-*/
+ */
 
-int main(void)
+int main(int argc, char *argv[])
 {
 	struct input_event {
 		struct timeval time;
@@ -19,27 +19,30 @@ int main(void)
 	#define MAX_LIMIT 500
 
 	int bytes;
-	int fd = open("/dev/input/event0", O_RDONLY);
+	int fd = open(argv[1], O_RDONLY);
 	int counter = 0;
 
-	if (fd > 0) {
-		printf("\nProgram will wait for %d interactions to finish\n\n",
-				MAX_LIMIT);
-		fflush(stdout);
-		while (counter < MAX_LIMIT) {
-			bytes = read(fd, &keyinfo, sizeof(struct input_event));
-			if (bytes && keyinfo.type == 0x01) {
-				printf("sequence= %d > time=%ld | sec %ld "
-							"microsec | code=%d | "
-							"value=%d\n",
-							counter,
-							keyinfo.time.tv_sec,
-							keyinfo.time.tv_usec,
-							keyinfo.code,
-							keyinfo.value);
-				fflush(stdout);
+	if (fd == -1) {
+		printf("Received node cannot be opened!\n");
+		return 1;
+	}
+
+	printf("\nProgram will wait for %d interactions to finish\n\n",
+					MAX_LIMIT);
+	fflush(stdout);
+	while (counter < MAX_LIMIT) {
+		bytes = read(fd, &keyinfo, sizeof(struct input_event));
+		if (bytes && keyinfo.type == 0x01) {
+			printf("sequence= %d > time=%ld | sec %ld "
+						"microsec | code=%d | "
+						"value=%d\n",
+						counter,
+						keyinfo.time.tv_sec,
+						keyinfo.time.tv_usec,
+						keyinfo.code,
+						keyinfo.value);
+			fflush(stdout);
 			counter++;
-			}
 		}
 	}
 	return 0;

@@ -6,6 +6,6 @@
 
 # Begin L_DD_KEYPAD_0001_0001
 
-01 set -x; $TESTBIN/testkeypad
+01 set -x; $TESTBIN/testkeypad $DEVFS_KEYPAD && exit 0 || exit 1
 
 # End L_DD_KEYPAD_0001_0001
