@@ -1,5 +1,34 @@
-/* Test Program for the Watchdog Timer driver */
-/* 19.02.2004  */
+/*
+ * Test Code for Watchdog Driver
+ *
+ * This program tests "write" call supported by watchdog timer driver.
+ * This program opens "/dev/watchdog" and calls write in a while loop
+ * thereby resetting watchdog timer.
+ *
+ * Compile with:
+ * gcc -s -Wall -Wstrict-prototypes testwdtwritel.c -o testwdtwrite
+ *
+ * This binary is a part of Watchdog test suite.
+ *
+ * History:
+ *
+ * 19-02-2004   Texas Instruments       Initial version of the testcode
+ * 12-09-2008   Ricardo Perez Olivares  Adding basic comments, variable
+ *					names according to coding
+ * 					standars.
+ *
+ * Copyright (C) 2004-2009 Texas Instruments, Inc
+ * This package is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * THIS PACKAGE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+ * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *
+ */
+
 
 #include <stdio.h>
 #include <linux/rtc.h>
