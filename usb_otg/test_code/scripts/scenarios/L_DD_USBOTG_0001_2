@@ -1,0 +1,20 @@
+################################################################################
+# Scenario: L_DD_USBOTG_0001_2
+# Author  : Diego Zavala Trujillo
+# Date    : January  21, 2009
+# Description: Test OMAP as a usb-host. (Gadget Zero)
+#	Connecting and disconnecting the cable, detecting if the usb host
+#	is detected and enumerated correctly. The device is a storage memory.
+# ChangeLog:
+#
+################################################################################
+
+foo     echo L_DD_USBOTG_0001_2
+
+0  insmod $MODULE_PATH/g_zero.ko && echo -e '\n\n\t Testing OMAP as a USB-OTG-HOST \n\n' && sleep $DELAY1 && exit 0 || exit 1
+
+1  export ENUM_INFO="stor";  ${TESTROOT}/test_runner.sh -p L_DD_USBOTG_0001_2_core  && exit 0 || exit 1
+
+2  rmmod g_zero && exit 0 || exit 1
+
+bar     echo L_DD_USBOTG_0001_2

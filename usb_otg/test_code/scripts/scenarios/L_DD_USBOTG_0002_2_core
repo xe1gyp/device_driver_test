@@ -1,0 +1,30 @@
+###############################################################################
+# Scenario: L_DD_USBOTG_0002_2_core
+# Author  : Axel Castaneda Gonzalez
+# Date    : January  4, 2006
+# Description: Test OMAP as a usb-device. (Gadget Zero)
+#	Connecting and disconnecting the cable, detecting if the usb device
+#	is detected and enumerated correctly.
+# ChangeLog:
+#	9 Jan 2009 - Diego Zavala Trujillo - Update instructions.
+###############################################################################
+
+foo	echo 'L_DD_USBOTG_0002_2_core'
+
+1  echo -e '\n\n\t Please connect USB cable  [ Mini-B to OMAP - Nothing to the other end ] \n\n'  &&  sleep $DELAY3  &&  $TESTSCRIPT/enum.sh disconnectHost  &&  exit 0 || exit 1
+
+2  echo -e '\n\n\t Disconnect USB cable from OMAP \n\n'  &&  sleep $DELAY3  &&  $TESTSCRIPT/enum.sh disconnectHost  &&  exit 0 || exit
+
+3  echo -e '\n\n\t Please connect USB cable  [ Mini-B to OMAP - Linux PC on the other end ] \n\n'  &&  sleep $DELAY3  &&  $TESTSCRIPT/enum.sh connectHost  &&  exit 0 || exit 1
+
+4  echo -e '\n\n\t Checking enumeration on the Linux PC \n\n' && $TESTSCRIPT/enum.sh connectHostRemote  &&  exit 0 || exit 1
+
+5  echo -e '\n\n\t Disconnect USB cable from OMAP \n\n'  &&  sleep $DELAY3  &&  $TESTSCRIPT/enum.sh disconnectHost  &&  exit 0 || exit
+
+6  echo -e '\n\n\t Please connect USB cable  [ Mini-B to OMAP - Linux PC on the other end ] \n\n'  &&  sleep $DELAY3  &&  $TESTSCRIPT/enum.sh connectHost  &&  exit 0 || exit 1
+
+7  echo -e '\n\n\t Checking enumeration on the Linux PC \n\n' && $TESTSCRIPT/enum.sh connectHostRemote  &&  exit 0 || exit 1
+
+8  echo -e '\n\n\t Disconnect USB cable from OMAP \n\n'  &&  sleep $DELAY3  &&  $TESTSCRIPT/enum.sh disconnectHost  &&  exit 0 || exit
+
+bar	echo 'L_DD_USBOTG_0002_2_core'
