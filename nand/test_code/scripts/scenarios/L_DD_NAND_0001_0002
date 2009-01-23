@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_NAND_0001_0002
+# Author  : Misael Lopez Cruz
+# Date    : January 20th, 2009
+###############################################################################
+
+# Begin L_DD_NAND_0001_0002
+
+01  test -c $MTD_CHAR_DEV1 && test -b $MTD_BLK_DEV1 || exit 1
+02  test -c $MTD_CHAR_DEV2 && test -b $MTD_BLK_DEV2 || exit 1
+
+# End L_DD_NAND_0001_0002

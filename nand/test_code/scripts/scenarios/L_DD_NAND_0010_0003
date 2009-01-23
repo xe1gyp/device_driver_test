@@ -1,0 +1,16 @@
+###############################################################################
+# Scenario: L_DD_NAND_0009_0003
+# Author  : Misael Lopez Cruz
+# Date    : August 29th, 2006
+###############################################################################
+
+# Begin L_DD_NAND_0009_0003
+
+01  set -x; test -d $DEFAULT_MOUNT_POINT || mkdir $DEFAULT_MOUNT_POINT && exit 0 || exit 1
+02  set -x; $TESTBIN/flash_eraseall $JFFS_OPTIONS $MTD_CHAR_DEV1 && exit 0 || exit 1
+03  set -x; mount -t jffs2 $MTD_BLK_DEV1 $DEFAULT_MOUNT_POINT && exit 0 || exit 1
+04  set -x; mount | grep "$DEFAULT_MOUNT_POINT" && exit 0 || exit 1
+05  set -x; cp $JFFS2_IMAGE $DEFAULT_MOUNT_POINT && exit 0 || exit 1
+06  set -x; sync && umount $DEFAULT_MOUNT_POINT && exit 0 || exit 1
+
+# End L_DD_NAND_0009_0003
