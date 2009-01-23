@@ -27,7 +27,6 @@ export WAITKEY=$UTILBIN/akey
 # General variables
 export DMESG_FILE=/var/log/dmesg
 export CHIP_NAME=twl
-export DRIVER_NAME="platform:omap_twl4030keypad"
 
 # Keypad devfs node
 TEMP_EVENT=`ls /sys/class/input/ | grep event`
@@ -35,8 +34,9 @@ set $TEMP_EVENT
 
 for i in $TEMP_EVENT
 do
-	TEMP_NAME=`cat /sys/class/input/$i/device/modalias`
-	if [ $TEMP_NAME == $DRIVER_NAME ]
+	cat /sys/class/input/$i/device/modalias | grep "twl4030" | grep "keypad"
+	IS_THIS_OUR_DRIVER=`echo $?`
+	if [ "$IS_THIS_OUR_DRIVER" -eq "0" ]
 	then
 		export DEVFS_KEYPAD=/dev/input/$i
 		echo "Keypad node is " $DEVFS_KEYPAD
