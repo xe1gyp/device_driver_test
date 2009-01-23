@@ -44,14 +44,17 @@ main(int argc, char *argv[])
 	struct rtc_time rtc_tm;
 	int alarm_time;
 
-	fd = open("/dev/misc/omap-twl4030rtc", O_RDONLY);
+	/* Creating a file descriptor for RTC */
+	fd = open(argv[1], O_RDONLY);
 	if (fd == -1) {
-		perror("Error...!!! /dev/misc/omap-twl4030rtc not present.");
+		perror("Requested device cannot be opened!");
+		_exit(errno);
 	}
-	fprintf(stderr, "\n\t\t\tTWL4030 RTC Driver Test Example.\n\n");
+
+	fprintf(stderr, "\n\t\t\tTWL4030 RTC Driver Test\n\n");
+	fflush(stderr);
 
 	/* Read the RTC time / date
-	 *
 	 * The ioctl command RTC_RD_TIME is used to read the current timer
 	 * RTC_RD_TIME: This ioctl needs one argument(struct rtc_time *),
 	 * and it can be used to get the current RTC time.
@@ -67,6 +70,7 @@ main(int argc, char *argv[])
 		"\n\nCurrent RTC date/time is %d-%d-%d, %02d:%02d:%02d.\n",
 		rtc_tm.tm_mday, rtc_tm.tm_mon + 1, rtc_tm.tm_year + 1900,
 		rtc_tm.tm_hour, rtc_tm.tm_min, rtc_tm.tm_sec);
+	fflush(stderr);
 
 	/* Set the alarm to 5 sec in the future, and check for rollover */
 	rtc_tm.tm_sec += 60;
@@ -87,7 +91,8 @@ main(int argc, char *argv[])
 		_exit(errno);
 	}
 
-	printf("alarm setting done...\n");
+	fprintf(stderr, "alarm setting done...\n");
+	fflush(stderr);
 
 	/* Read the current alarm settings */
 	retval = ioctl(fd, RTC_ALM_READ, &rtc_tm);
@@ -96,8 +101,9 @@ main(int argc, char *argv[])
 		_exit(errno);
 	}
 
-	fprintf(stderr, "Alarm time now set to %02d:%02d:%02d.\n",
+	fprintf(stderr, "Alarm time now set to %02d:%02d:%02d\n",
 		rtc_tm.tm_hour, rtc_tm.tm_min, rtc_tm.tm_sec);
+	fflush(stderr);
 
 	/* Enable alarm interrupts */
 	retval = ioctl(fd, RTC_AIE_ON, 0);
@@ -106,8 +112,9 @@ main(int argc, char *argv[])
 		_exit(errno);
 	}
 
-	fprintf(stderr, "Waiting 5 seconds for alarm...");
+	fprintf(stderr, "Waiting 5 seconds for alarm");
 	fflush(stderr);
+
 	/* This blocks until the alarm ring causes an interrupt
 	 * retval = read(fd, &data, sizeof (unsigned long));
 	 */
@@ -116,19 +123,18 @@ main(int argc, char *argv[])
 		_exit(errno);
 	}
 	irqcount++;
-	fprintf(stderr, " okay. Alarm rang.\n");
+	fprintf(stderr, "Alarm Rang\n");
+	fflush(stderr);
 
 	/* Disable alarm interrupts
 	 * retval = ioctl(fd, RTC_AIE_OFF, 0);
 	 */
 	if (retval == -1) {
-		printf(" alarm interrupts not disabled\n");
-		perror("ioctl");
+		perror("Alarm interrupts not disabled!");
 		_exit(errno);
 	}
 
 	close(fd);
 	return 0;
 
-}/* end main */
-
+}

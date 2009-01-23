@@ -1,4 +1,3 @@
-
 /*
  *Test Code for Real Time Clock Driver
  *
@@ -41,28 +40,28 @@ main(int argc, char *argv[])
 
 	int fd, retval; 
 
-	fd = open("/dev/rtc0", O_RDONLY);
+	/* Creating a file descriptor for RTC*/
+	fd = open(argv[1], O_RDONLY);
 	if (fd == -1) {
-		perror("Error...!!! /dev/rtc0 not present.");
+		perror("Requested device cannot be opened!");
+		_exit(errno);
 	}
-	fprintf(stderr, "\n\t\t\tTWL4030 RTC Driver Test \n\n");
 
-	/* Read the RTC time/date */
+	fprintf(stderr, "\n\t\t\tTWL4030 RTC Driver Test\n\n");
+	fflush(stderr);
 
-	/* Disable alarm interrupts */
-	/*RTC_AIE_OFF disable the alarm interrupts*/
+	/* Disabling alarm interrupts using RTC_AIE_OFF */
 	retval = ioctl(fd, RTC_AIE_OFF, 0);
-
 	if (retval == -1) {
-		printf(" alarm interrupts not disabled\n");
+		printf("Alarm interrupts not disabled\n");
 		perror("ioctl");
 		_exit(errno);
 	}
 
-
-	printf("alarm reset successful...\n");
+	fprintf(stderr, "Successful alarm reset!\n\n");
+	fflush(stderr);
 	
 	close(fd);
 	return 0;
 
-}/* end main */
+}

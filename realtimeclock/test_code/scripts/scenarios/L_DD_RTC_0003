@@ -1,17 +1,15 @@
-###################################################################################################################
+###############################################################################
 # Scenario: L_DD_RTC_0003
 # Author  : Misael Lopez Cruz
 # Date    : Octuber 5, 2006
-# Description: Test alarm support
-###################################################################################################################
+###############################################################################
 
-foo 	echo L_DD_RTC_0003
+# Begin L_DD_RTC_0003
 
-0000  set -x; echo -e "$USER_INPUT\n $VALID_DATE\n $VALID_TIME\n" | $TESTBIN/settime && $TESTBIN/gettime | grep "Current RTC date/time is $RTC_VALID_DATE" && exit 0 || exit 1
-0001	set -x; echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $TESTBIN/alarm_set && $TESTBIN/getalarm_event | grep "Alarm rang" && $TESTBIN/alarm_reset && exit 0 || exit 1
-0002	set -x; echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $TESTBIN/alarm_set && cat /proc/driver/rtc | grep "alarm_IRQ" | grep "yes" && $TESTBIN/alarm_reset && cat /proc/driver/rtc | grep "alarm_IRQ" | grep "no" && exit 0 || exit 1
-0003 	set -x; echo -e "$ALARM_SEC\n $(echo $ALARM_VALUE-5|bc)\n" | $TESTBIN/alarm_set && echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $TESTBIN/alarm_set && $TESTBIN/getalarm_event | grep "Alarm rang" && exit 0 || exit 1
-0004  set -x; echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $TESTBIN/alarm_set  && $TESTBIN/getalarm_event |grep "okay. Alarm rang." && exit 0 || exit 1
-0005	set -x; echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $TESTBIN/alarm_set && ($TESTBIN/getalarm_event &) && ($TESTBIN/getalarm_event) | grep "Error...!!! /dev/rtc0 not present." && exit 0 || exit 1
+0000  set -x; echo -e "$APP_VAL_INPUT_USER\n $APP_VALID_DATE\n $APP_VALID_TIME\n" | $APP_TIME_SET $DEVFS_RTC && $APP_TIME_GET $DEVFS_RTC | grep "${MSG_OK_DATE_TIME_DEFAULT} ${RTC_VALID_DATE}" && exit 0 || exit 1
+0001	set -x; echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $APP_ALARM_SET $DEVFS_RTC && exit 0 || exit 1
+0002	set -x; echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $APP_ALARM_SET $DEVFS_RTC && $APP_ALARM_GET_EVENT $DEVFS_RTC | grep "${MSG_OK_ALARM_RANG}" && exit 0 || exit 1
+0003	set -x; echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $APP_ALARM_SET $DEVFS_RTC && cat $PROCFS_RTC | grep "alarm_IRQ" | grep "yes" && $APP_ALARM_RESET $DEVFS_RTC && cat $PROCFS_RTC | grep "alarm_IRQ" | grep "no" && exit 0 || exit 1
+0004	set -x; echo -e "$ALARM_SEC\n $(echo $ALARM_VALUE+5|bc)\n" | $APP_ALARM_SET $DEVFS_RTC && echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $APP_ALARM_SET $DEVFS_RTC && $APP_ALARM_GET_EVENT $DEVFS_RTC | grep "${MSG_OK_ALARM_RANG}" && exit 0 || exit 1
 
-bar 	echo L_DD_RTC_0003
+# End L_DD_RTC_0003

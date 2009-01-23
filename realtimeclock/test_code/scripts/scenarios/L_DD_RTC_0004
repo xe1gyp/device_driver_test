@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_RTC_0004
+# Author  : Misael Lopez Cruz
+# Date    : Octuber 5, 2006
+###############################################################################
+
+# Begin L_DD_RTC_0004
+
+0001	set -x; echo -e "$PER_INT_SEC\n" | $APP_PER_INT_ON $DEVFS_RTC && echo -n "5\n" | $APP_PER_INT_GET1 $DEVFS_RTC | grep '1 2 3 4 5' && echo -e "5\n" | $APP_PER_INT_GET2 $DEVFS_RTC | grep '1 2 3 4 5' && exit 0 || exit 1
+0002	set -x; echo -e "$PER_INT_SEC\n" | $APP_PER_INT_ON $DEVFS_RTC && $APP_PER_INT_OFF $DEVFS_RTC && exit 0 || exit 1
+
+# End L_DD_RTC_0004

@@ -1,20 +1,15 @@
-###################################################################################################################
+###############################################################################
 # Scenario: L_DD_RTC_0001
 # Author  : Misael Lopez Cruz
 # Date    : Octuber 5, 2006
-# Description: Test get/set date/time information from RTC
-###################################################################################################################
+###############################################################################
 
-foo     echo L_DD_RTC_0001
+# Begin L_DD_RTC_0001
 
-0001    set -x; echo -e "$USER_INPUT\n $VALID_DATE\n $VALID_TIME\n" | $TESTBIN/settime && $TESTBIN/gettime | grep "Current RTC date/time is $RTC_VALID_DATE" && exit 0 || exit 1
-0002    set -x; echo -e "$USER_INPUT\n $VALID_DATE\n $VALID_TIME\n" | $TESTBIN/settime | grep "The New RTC date/time is $RTC_VALID_DATE, $RTC_VALID_TIME." && exit 0 || exit 1
-0003    set -x; echo -e "$DEFAULT_INPUT\n" | $TESTBIN/settime | grep "The New RTC date/time is $DEF_RTC_VALID_DATE, $DEF_RTC_VALID_TIME." && cat /proc/driver/rtc | grep "rtc_time" | grep "$DEF_PROC_VALID_TIME" && cat /proc/driver/rtc | grep "rtc_date" | grep "$DEF_PROC_VALID_DATE" && exit 0 || exit 1
-0004_a  set -x; echo -e "$USER_INPUT\n $INVALID_DATE1\n $VALID_TIME\n" | $TESTBIN/settime && exit 1 || exit 0
-0004_b  set -x; echo -e "$USER_INPUT\n $VALID_DATE\n $INVALID_TIME1\n" | $TESTBIN/settime && exit 1 || exit 0
-0005    set -x; echo -e "$USER_INPUT\n $INVALID_DATE2\n $VALID_TIME\n" | $TESTBIN/settime && exit 1 || exit 0
+0001		set -x; echo -e "$APP_VAL_INPUT_USER\n $APP_VALID_DATE\n $APP_VALID_TIME\n" | $APP_TIME_SET $DEVFS_RTC | grep "$MSG_DATE_TIME_SET_NEW ${RTC_VALID_DATE} ${RTC_VALID_TIME}" && exit 0 || exit 1
+0002		set -x; echo -e "$APP_VAL_INPUT_DEFAULT\n" | $APP_TIME_SET $DEVFS_RTC | grep "${MSG_DATE_TIME_SET_NEW} ${DEF_RTC_VALID_DATE} ${DEF_RTC_VALID_TIME}" && cat $PROCFS_RTC | grep "rtc_time" | grep "${DEF_PROC_VALID_TIME}" && cat $PROCFS_RTC | grep "rtc_date" | grep "${DEF_PROC_VALID_DATE}" && exit 0 || exit 1
+0003_01	set -x; echo -e "$APP_VAL_INPUT_USER\n $APP_INVALID_DATE1\n $VALID_TIME\n" | $APP_TIME_SET $DEVFS_RTC && exit 1 || exit 0
+0003_02	set -x; echo -e "$APP_VAL_INPUT_USER\n $APP_VALID_DATE\n $APP_INVALID_TIME1\n" | $APP_TIME_SET $DEVFS_RTC && exit 1 || exit 0
+0004		set -x; echo -e "$APP_VAL_INPUT_USER\n $APP_INVALID_DATE2\n $VALID_TIME\n" | $APP_TIME_SET $DEVFS_RTC && exit 1 || exit 0
 
-bar     echo L_DD_RTC_0001
-
-
-
+# End L_DD_RTC_0001

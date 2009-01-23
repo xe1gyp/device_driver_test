@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_RTC_0000
+# Author  : Abraham Arce
+# Date    : Sun Jan 11 18:04:43 CST 2009
+###############################################################################
+
+# Begin L_DD_RTC_0000
+
+0001 set -x; cat $DMESG_FILE | grep $CHIP_NAME | grep rtc && exit 0 || exit 1
+0002 set -x; echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $APP_ALARM_SET $DEVFS_RTC && (($APP_ALARM_GET_EVENT $DEVFS_RTC &) && ($APP_ALARM_GET_EVENT $DEVFS_RTC)) | grep "${MSG_CANNOT_OPEN_DEVICE}" && exit 0 || exit 1
+
+# End L_DD_RTC_0000

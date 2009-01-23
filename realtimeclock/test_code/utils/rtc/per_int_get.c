@@ -37,7 +37,7 @@
 #include <errno.h>
 
 int
-main(void)
+main(int argc, char *argv[])
 {
 
 	int i, fd, retval, irqcount = 0;
@@ -45,15 +45,18 @@ main(void)
 	int choice = 0, count;
 	char *choice_data[4] = {"second", "minute", "hour", "day"};
 
-	fd = open("/dev/rtc0", O_RDONLY);
+	/* Creating a file descriptor for RTC */
+	fd = open(argv[1], O_RDONLY);
 	if (fd == -1) {
-		perror("Error...!!! /dev/rtc0 not present.");
+		perror("Requested device cannot be opened!");
+		_exit(errno);
 	}
-	fprintf(stderr, "\n\t\t\tTWL4030 RTC Driver Test \n\n");
+
+	fprintf(stderr, "\n\t\t\tTWL4030 RTC Driver Test\n\n");
 
 	fprintf(stderr, "Enter no. of updates:");
-	scanf("%d",&count);
-	if ( count < 0 ){
+	scanf("%d", &count);
+	if (count < 0) {
 		fprintf(stderr, "Invalid number\n");
 		_exit(0);
 	}
@@ -66,7 +69,7 @@ main(void)
 				"(one per %s)\n", choice_data[choice]);
 	for (i = 1; i <= count; i++) {
 		/* This read will block */
-		retval = read(fd, &data, sizeof (unsigned long));
+		retval = read(fd, &data, sizeof(unsigned long));
 		if (retval == -1) {
 			perror("read");
 			_exit(errno);
@@ -91,7 +94,7 @@ main(void)
 			_exit(errno);
 		}
 		/* This read won't block unlike the select-less case above. */
-		retval = read(fd, &data, sizeof (unsigned long));
+		retval = read(fd, &data, sizeof(unsigned long));
 		if (retval == -1) {
 			perror("read");
 			_exit(errno);
@@ -104,4 +107,4 @@ main(void)
 	close(fd);
 	return 0;
 
-} /* end main */
+}

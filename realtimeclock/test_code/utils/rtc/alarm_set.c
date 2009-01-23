@@ -1,9 +1,9 @@
 /*
- *Test Code for Real Time Clock Driver
+ * Test Code for Real Time Clock Driver
  *
- *Compile with:
+ * Compile with:
  *	gcc -s -Wall -Wstrict-prototypes alarm_set.c -o alarmset
- *This binary is a part of RTC test suite.
+ * This binary is a part of RTC test suite.
  *
  * History:
  * Copyright (C) 1996, Paul Gortmaker. This version is based on Paul's
@@ -47,17 +47,24 @@ int main(int argc, char *argv[])
 	struct rtc_time rtc_tm, rtc_almtm;
 	int choice, secs = 0;
 
-	/* Creating a file descriptor for RTC in /dev/rtc0*/
-	fd = open("/dev/rtc0", O_RDONLY);
+	/* Creating a file descriptor for RTC */
+	fd = open(argv[1], O_RDONLY);
 	if (fd == -1) {
-		perror("Error...!!! /dev/rtc0 not present.");
+		perror("Requested device cannot be opened!");
+		_exit(errno);
 	}
-	fprintf(stderr, "\n\t\t\tTWL4030 RTC Driver Test \n\n");
+
+	fprintf(stderr, "\n\t\t\tTWL4030 RTC Driver Test\n\n");
+	fflush(stderr);
+
+	/* Displaying usage */
 	show_usage();
+
+	/* Getting usage */
 	scanf("%d", &choice);
 
 	/*
-	 * choice variable can take one of 3 available values
+	 * Choice variable can take one of 3 available values
 	 * 0 -> default alarm time is set to 5 secs from current time
 	 * 1 -> Enter alarm time in secs:
 	 * 2 -> Enter alarm date(format : MMDDYY) and time(format : HHMMSS)
@@ -67,13 +74,16 @@ int main(int argc, char *argv[])
 		/* Read the RTC time/date */
 		/*If choice 1 selected user set alarm seconds*/
 		if ( choice == 1 ){
-			printf("Enter alarm time in seconds :");
+			fprintf(stderr, "Enter alarm time in seconds:");
+			fflush(stderr);
 			scanf("%d",&secs);
 			if ( secs <= 0){
-				printf("Invalid alarm time\n");
+				fprintf(stderr, "Invalid alarm time\n");
+				fflush(stderr);
 				_exit(-1);
-			}	
-		}	
+			}
+		}
+
 		/*
 		 * The ioctl command RTC_RD_TIME is used to read the current
 		 * time.
@@ -94,25 +104,28 @@ int main(int argc, char *argv[])
 			rtc_tm.tm_mday, rtc_tm.tm_mon + 1,
 			rtc_tm.tm_year + 1900, rtc_tm.tm_hour, rtc_tm.tm_min,
 			rtc_tm.tm_sec);
+		fflush(stderr);
 
-		/* Set the alarm to 5 sec in the future,
-		 * and check for rollover
+		/*
+		 * Setting the alarm to 5 sec in the future and
+		 * check for rollover
 		 */
+
 		if ( choice == 0 )
 			rtc_tm.tm_sec += 5;
 		else
 			rtc_tm.tm_sec += secs;
-		/* evalulate 60 seconds as 1 minute */
+		/* Evalulating 60 seconds as 1 minute */
 		while ( rtc_tm.tm_sec >= 60 ){
 			rtc_tm.tm_sec -= 60;
 			rtc_tm.tm_min++;
 		}
-		/* evaluate 60 min as 1 hour */
+		/* Evaluating 60 min as 1 hour */
 		while ( rtc_tm.tm_min >= 60 ){
 			rtc_tm.tm_min -= 60;
 			rtc_tm.tm_hour++;
 		}
-		/* evaluate 24 hours as 1 day */
+		/* Evaluating 24 hours as 1 day */
 		while ( rtc_tm.tm_hour >= 24 ){
 			rtc_tm.tm_hour -= 24;
 			rtc_tm.tm_mday++;
@@ -124,7 +137,8 @@ int main(int argc, char *argv[])
 			_exit(errno);
 		}
 
-		printf("alarm setting done...\n");
+		fprintf(stderr, "Alarm setting done!\n");
+		fflush(stderr);
 
 		/* Read the current alarm settings */
 		retval = ioctl(fd, RTC_ALM_READ, &rtc_tm);
@@ -133,12 +147,13 @@ int main(int argc, char *argv[])
 			_exit(errno);
 		}
 
-		fprintf(stderr, "Alarm time now set to %02d:%02d:%02d.\n",
+		fprintf(stderr, "Alarm time now set to %02d:%02d:%02d\n",
 			rtc_tm.tm_hour, rtc_tm.tm_min, rtc_tm.tm_sec);
 	} else if (choice == 2) {
 		get_timedate(&rtc_almtm);
 		if (validate_data(fd, &rtc_almtm) < 0 ){
-			printf("Invalid Alarm value\n");
+			fprintf(stderr, "Invalid alarm value!\n");
+			fflush(stderr);
 		}
 		retval = ioctl(fd, RTC_ALM_SET, &rtc_almtm);
 		if (retval == -1) {
@@ -146,7 +161,8 @@ int main(int argc, char *argv[])
 			_exit(errno);
 		}
 
-		printf("alarm setting done...\n");
+		fprintf(stderr, "Alarm setting done!\n");
+		fflush(stderr);
 
 		/* Read the current alarm settings */
 		retval = ioctl(fd, RTC_ALM_READ, &rtc_tm);
@@ -154,15 +170,17 @@ int main(int argc, char *argv[])
 			perror("ioctl");
 			_exit(errno);
 		fprintf(stderr,
-			"\n\nAlarm date and time now set to %d-%d-%d"
-						"%02d:%02d:%02d.\n",
+			"\n\nAlarm date and time now set to %d-%d-%d "
+						"%02d:%02d:%02d\n",
 			rtc_tm.tm_mday, rtc_tm.tm_mon + 1,
 			rtc_tm.tm_year + 1900, rtc_tm.tm_hour, rtc_tm.tm_min,
 			rtc_tm.tm_sec);
+		fflush(stderr);
 
 	}
 	} else {
-		printf("Invalid choice\n");
+		fprintf(stderr, "Invalid choice!\n");
+		fflush(stderr);
 		_exit(-1);
 	}
 
@@ -170,13 +188,14 @@ int main(int argc, char *argv[])
 	retval = ioctl(fd, RTC_AIE_ON, 0);
 
 	if ( choice == 1 )
-		printf("Run ./getalarm_event with in %d seconds to receive"
-						"alarm notification\n", secs);
+		fprintf(stderr, "Run ./alarm_get_event with in %d seconds"
+				"to receive alarm notification\n", secs);
+		fflush(stderr);
 	
 	close(fd);
 	return 0;
 
-} /* end main */
+}
 
 /* This function shows the menu when the alarm_set is running */
 void show_usage(void)
@@ -253,10 +272,11 @@ int validate_data(int fd, struct rtc_time *rtc_almtm)
 	}
 
 	fprintf(stderr,
-		"\n\nCurrent RTC date/time is %d-%d-%d, %02d:%02d:%02d.\n",
+		"\n\nCurrent RTC date/time is %d-%d-%d %02d:%02d:%02d\n",
 		rtc_tm.tm_mday, rtc_tm.tm_mon + 1,
 		rtc_tm.tm_year + 1900, rtc_tm.tm_hour, rtc_tm.tm_min,
 		rtc_tm.tm_sec);
+	fflush(stderr);
 	time_nosecs =
 	    rtc_tm.tm_sec + rtc_tm.tm_min * 60 + rtc_tm.tm_hour * 24 +
 	    365 * rtc_tm.tm_year;
@@ -288,4 +308,3 @@ int show_menu(void)
 	printf("\n");
 	return 0;
 }
-

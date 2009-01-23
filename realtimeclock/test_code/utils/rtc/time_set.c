@@ -34,70 +34,53 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>
+#include "time_set.h"
 
-int get_timedate(struct rtc_time *rtc_tm);
-int show_menu(void);
-void show_choice(void);
-
-int main(void)
+int main(int argc, char *argv[])
 {
 
 	int fd, retval;
 	struct rtc_time rtc_tm;
 	int choice;
 
-	fd = open("/dev/rtc0", O_RDONLY);
+	fprintf(stdout, "\n\t\t\tTWL4030 RTC Driver Test\n\n");
+	fflush(stdout);
+
+	/* Creating a file descriptor for RTC */
+	fd = open(argv[1], O_RDONLY);
 	if (fd == -1) {
-		perror("Error...!!! /dev/rtc0 not present.");
-		_exit(errno);
-	}
-	/* Read the TWL4030-RTC time/date */
-	retval = ioctl(fd, RTC_RD_TIME, &rtc_tm);
-	if (retval == -1) {
-		perror("ioctl");
+		perror("Requested device cannot be opened!");
 		_exit(errno);
 	}
 
-	fprintf(stderr,
-		"\n\nCurrent RTC date/time is %d-%d-%d, %02d:%02d:%02d.\n",
-		rtc_tm.tm_mday, rtc_tm.tm_mon, rtc_tm.tm_year + 1900,
-		rtc_tm.tm_hour, rtc_tm.tm_min, rtc_tm.tm_sec);
-
+	/* Displaying Menu */
 	show_choice();
 
+	/* Getting choice */
 	scanf("%d", &choice);
 	if (choice) {
 		rtc_tm.tm_sec = 45;	/* second */
 		rtc_tm.tm_min = 59;	/* minute */
 		rtc_tm.tm_hour = 23;	/* hour */
 		rtc_tm.tm_mday = 31;	/* day of the month */
-		rtc_tm.tm_mon = 11;	/* month Jan=0, Feb=1 …etc */
+		rtc_tm.tm_mon = 11;	/* month Jan=0, Feb=1 ... */
 		rtc_tm.tm_year = 104;	/* = year - epoch */
-		printf("\nUsing default date and time %d-%d-%d"
-						"%02d:%02d:%02d",
-		       rtc_tm.tm_mday, rtc_tm.tm_mon + 1,
-						rtc_tm.tm_year + 1900,
-		       rtc_tm.tm_hour, rtc_tm.tm_min, rtc_tm.tm_sec);
 	} else if (choice == 0) {
-		get_timedate(&rtc_tm);
+		printf("\n");
+		get_time_date(&rtc_tm);
 	}
-
-	fprintf(stdout,
-		"\nSetting New date and time to %d-%d-%d, %02d:%02d:%02d\n",
-		rtc_tm.tm_mday, rtc_tm.tm_mon + 1, rtc_tm.tm_year + 1900,
-		rtc_tm.tm_hour, rtc_tm.tm_min, rtc_tm.tm_sec);
 
 	retval = ioctl(fd, RTC_SET_TIME, &rtc_tm);
 	if (retval == -1) {
-		printf("...failed\n");
+		printf("\nFailed setting RTC Date/Time!");
 		perror("ioctl");
 		show_menu();
 		_exit(errno);
 	} else {
-		printf(".....successful\n");
+		printf("\nSuccessful setting RTC Date/Time!");
 	}
 
-	/* Read the RTC time/date */
+	/* Reading Current RTC Date/Time */
 	retval = ioctl(fd, RTC_RD_TIME, &rtc_tm);
 	if (retval == -1) {
 		perror("ioctl");
@@ -105,17 +88,16 @@ int main(void)
 	}
 
 	fprintf(stdout,
-		"\n\nThe New RTC date/time is %d-%d-%d, %02d:%02d:%02d.\n",
+		"\n\nNew RTC Date/Time: %d-%d-%d %02d:%02d:%02d\n\n",
 		rtc_tm.tm_mday, rtc_tm.tm_mon + 1, rtc_tm.tm_year + 1900,
 		rtc_tm.tm_hour, rtc_tm.tm_min, rtc_tm.tm_sec);
-
-	printf("\n");
+	fflush(stdout);
 	close(fd);
-
 	return 0;
+
 }
 
-int get_timedate(struct rtc_time *rtc_tm)
+int get_time_date(struct rtc_time *rtc_tm)
 {
 	char date_str[7] = { 0 };
 	char time_str[7] = { 0 };
@@ -150,13 +132,14 @@ int get_timedate(struct rtc_time *rtc_tm)
 	rtc_tm->tm_hour = data[5];
 	rtc_tm->tm_min = data[4];
 	rtc_tm->tm_sec = data[3];
-	return 0;
 
+	return 0;
 }
 
-int show_menu(void)
+void show_menu(void)
 {
 	int i = 0;
+	printf("\n");
 	for (i = 0; i++ < 40;)
 		printf("*");
 	printf("\n");
@@ -170,12 +153,11 @@ int show_menu(void)
 	for (i = 0; i++ < 40;)
 		printf("*");
 	printf("\n");
-	return 0;
 }
 
 void show_choice(void)
 {
-	printf("Set date and time options:\n");
+	printf("\nSet date and time options:\n");
 	printf("Enter 0 -> to accept date and time from user\n");
 	printf("Enter 1 -> to use default date and time\n");
 	printf("Choice:");

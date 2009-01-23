@@ -35,17 +35,19 @@
 #include <errno.h>
 
 int
-main(void)
+main(int argc, char *argv[])
 {
 
 	int fd, retval ;
 
-	fd = open("/dev/rtc0", O_RDONLY);
+	/* Creating a file descriptor for RTC */
+	fd = open(argv[1], O_RDONLY);
 	if (fd == -1) {
-		perror("Error...!!! /dev/rtc0 not present.");
+		perror("Requested device cannot be opened!");
+		_exit(errno);
 	}
-	fprintf(stderr, "\n\t\t\tTWL4030 RTC Driver Test \n\n");
 
+	fprintf(stderr, "\n\t\t\tTWL4030 RTC Driver Test\n\n");
 
 	/* Turn off update interrupts */
 	retval = ioctl(fd, RTC_UIE_OFF, 0);
@@ -54,8 +56,8 @@ main(void)
 		_exit(errno);
 	}
 
-	printf("Periodic interrupts are turned off successfully.\n");
+	printf("Periodic interrupts has been disabled successfully!\n");
 	close(fd);
 	return 0;
 
-} /* end main */
+}

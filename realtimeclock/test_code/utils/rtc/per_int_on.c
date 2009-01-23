@@ -36,18 +36,20 @@
 #include <errno.h>
 
 int
-main(void)
+main(int argc, char *argv[])
 {
 
 	int fd, retval;
 	int choice = 0;
 
-	fd = open("/dev/rtc0", O_RDONLY);
+	/* Creating a file descriptor for RTC */
+	fd = open(argv[1], O_RDONLY);
 	if (fd == -1) {
-		perror("Error...!!! /dev/rtc0 not present.");
+		perror("Requested device cannot be opened!");
+		_exit(errno);
 	}
 
-	fprintf(stderr, "\n\t\t\tTWL4030 RTC Driver Test \n\n");
+	fprintf(stderr, "\n\t\t\tTWL4030 RTC Driver Test\n\n");
 
 	fprintf(stderr, "Enter the Periodic IRQ update rate:\n");
 	fprintf(stderr, "Allowed Values : \n");
@@ -56,19 +58,19 @@ main(void)
 	fprintf(stderr, "4 - updates every hour\n");
 	fprintf(stderr, "8 - updates every day\n");
 	fprintf(stderr, "Enter your choice:");
-	scanf("%d",&choice);
-	if ( choice < 1 || choice > 8 ){
+	scanf("%d", &choice);
+	if (choice < 1 || choice > 8) {
 		fprintf(stderr, "Invalid Value!!!\n");
 		_exit(1);
 	}
-	
 
-	retval = ioctl(fd,RTC_IRQP_SET, choice);
-	if ( retval == -1 ){
+	retval = ioctl(fd, RTC_IRQP_SET, choice);
+	if (retval == -1) {
 		fprintf(stderr, "\n\t\t\t RTC_IRQP_SET is selected \n\n");
 		perror("RTC_IRQP_SET, ioctl");
 		_exit(errno);
 	}
+
 	retval = ioctl(fd, RTC_UIE_ON, 0);
 	if (retval == -1) {
 		fprintf(stderr, "\n\t\t\t RTC_UIE_SET is selected \n\n");
@@ -76,11 +78,9 @@ main(void)
 		_exit(errno);
 	}
 
-	printf("Periodic update interrupts are enabled successfully.\n");
-	printf("Use ./getperint1 or ./getperint2 prograrm to get interrupt"
-				"information from TWL4030 RTC module\n");
-	printf("Use perintoff to turn off periodic update interrupts\n");
-		close(fd);
+	printf("Periodic interrupts has been enabled successfully!\n");
+
+	close(fd);
 	return 0;
 
-} /* end main */
+}
