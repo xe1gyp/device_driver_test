@@ -1,0 +1,23 @@
+###############################################################################
+# Scenario: L_DD_ONENAND_0002_0001
+# Author  : Misael Lopez Cruz
+# Date    : January 20th, 2009
+###############################################################################
+
+# Begin L_DD_ONENAND_0002_0001
+
+# Device 1
+01  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV1 0 1 && exit 0 || exit 1
+02  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV1 0 2 && exit 0 || exit 1
+03  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV1 0 3 && exit 0 || exit 1
+04  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV1 0 4 && exit 0 || exit 1
+05  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV1 $(echo $DEV_SIZE-4*$BLOCK_SIZE|bc) 5 && exit 1 || exit 0
+
+# Device 2
+06  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV2 0 1 && exit 0 || exit 1
+07  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV2 0 2 && exit 0 || exit 1
+08  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV2 0 3 && exit 0 || exit 1
+09  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV2 0 4 && exit 0 || exit 1
+10  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV2 $(echo $DEV_SIZE-4*$BLOCK_SIZE|bc) 5 && exit 1 || exit 0
+
+# End L_DD_ONENAND_0002_0001

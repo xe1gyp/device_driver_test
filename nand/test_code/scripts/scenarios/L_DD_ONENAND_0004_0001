@@ -1,0 +1,17 @@
+#a##############################################################################
+# Scenario: L_DD_ONENAND_0004_0001
+# Author  : Misael Lopez Cruz
+# Date    : January 20th, 2009
+###############################################################################
+
+# Begin L_DD_ONENAND_0004_0001
+
+# Device 1
+01  set -x; $TESTBIN/flash_eraseall $MTD_CHAR_DEV1 && exit 0 || exit 1
+02  set -x; dd if=$JFFS2_IMAGE of=$MTD_BLK_DEV1 && exit 0 || exit 1
+
+# Device 2
+03  set -x; $TESTBIN/flash_eraseall $MTD_CHAR_DEV2 && exit 0 || exit 1
+04  set -x; dd if=$JFFS2_IMAGE of=$MTD_BLK_DEV2 && exit 0 || exit 1
+
+# End L_DD_ONENAND_0004_0001

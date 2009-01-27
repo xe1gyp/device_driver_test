@@ -1,0 +1,14 @@
+###############################################################################
+# Scenario: L_DD_ONENAND_0009_0005
+# Author  : Misael Lopez Cruz
+# Date    : August 29th, 2006
+###############################################################################
+
+# Begin L_DD_ONENAND_0009_0005
+
+01  set -x; test -d $DEFAULT_MOUNT_POINT || mkdir $DEFAULT_MOUNT_POINT && exit 0 || exit 1
+02  set -x; $TESTBIN/flash_eraseall $JFFS_OPTIONS $MTD_CHAR_DEV1 && exit 0 || exit 1
+03  set -x; $TESTBIN/flash_eraseall $JFFS_OPTIONS $MTD_CHAR_DEV2 && exit 0 || exit 1
+04  set -x; $TESTBIN/fileio $MTD_BLK_DEV1 $MTD_BLK_DEV2 && exit 0 || exit 1
+
+# End L_DD_ONENAND_0009_0005

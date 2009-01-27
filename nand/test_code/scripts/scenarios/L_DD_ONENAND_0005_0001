@@ -1,0 +1,22 @@
+###############################################################################
+# Scenario: L_DD_ONENAND_0005_0001
+# Author  : Misael Lopez Cruz
+# Date    : August 29th, 2006
+###############################################################################
+
+# Begin L_DD_ONENAND_0005_0001
+
+01  set -x; $TESTSCRIPT/LockUnlockDevice.sh $MTD_CHAR_DEV1 'Lock' 0 1 && exit 1 || exit 0
+02  set -x; $TESTSCRIPT/LockUnlockDevice.sh $MTD_CHAR_DEV1 'Unlock' 0 1 && exit 0 || exit 1
+03  set -x; $TESTSCRIPT/LockUnlockDevice.sh $MTD_CHAR_DEV1 'Lock' 0 4 && exit 1 || exit 0
+04  set -x; $TESTSCRIPT/LockUnlockDevice.sh $MTD_CHAR_DEV1 'Unlock' 0 4 && exit 0 || exit 1
+05  set -x; $TESTSCRIPT/LockUnlockDevice.sh $MTD_CHAR_DEV1 'Lock' 0 2 && exit 1 || exit 0
+06  set -x; $TESTSCRIPT/LockUnlockDevice.sh $MTD_CHAR_DEV1 'Unlock' 0 2 && exit 0 || exit 1
+07  set -x; $TESTSCRIPT/LockUnlockDevice.sh $MTD_CHAR_DEV1 'Unlock' $DEV_SIZE 1 && exit 1 || exit 0
+
+08  set -x; $TESTSCRIPT/LockUnlockDevice.sh $MTD_CHAR_DEV1 'Lock' 0 1 && exit 0 || exit 1
+09  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV1 0 1 && exit 1 || exit 0
+10  set -x; $TESTSCRIPT/LockUnlockDevice.sh $MTD_CHAR_DEV1 'Unlock' 0 1 && exit 0 || exit 1
+11  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV1 0 1 && exit 0 || exit 1
+
+# End L_DD_ONENAND_0005_0001

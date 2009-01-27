@@ -1,0 +1,15 @@
+###############################################################################
+# Scenario: L_DD_ONENAND_0001_0001
+# Author  : Misael Lopez Cruz
+# Date    : August 28th, 2006
+###############################################################################
+
+# Begin L_DD_ONENAND_0001_0001
+
+# Check if MTD device is registered while booting
+01  set -x; grep $TYPE /var/log/dmesg && exit 0 || exit 1
+
+# Check if the MTD FSs are registered
+02  set -x; cat /proc/devices | grep mtd && exit 0 || exit 1
+
+# End L_DD_ONENAND_0001_0001

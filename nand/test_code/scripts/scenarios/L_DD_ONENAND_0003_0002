@@ -1,0 +1,21 @@
+###############################################################################
+# Scenario: L_DD_ONENAND_0003_0002
+# Author  : Misael Lopez Cruz
+# Date    : January 20th, 2009
+###############################################################################
+
+# Begin L_DD_ONENAND_0003_0002
+
+# Device 1
+01  set -x; $TESTBIN/flash_eraseall $MTD_CHAR_DEV1 && exit 0 || exit 1
+02  set -x; $TESTBIN/nandwrite -p $MTD_CHAR_DEV1 $JFFS2_IMAGE && exit 0 || exit 1
+03  set -x; $TESTBIN/nanddump -f $TEMP_FILE -s 0 $MTD_CHAR_DEV1 && exit 0 || exit 1
+04  set -x; sync && rm $TEMP_FILE && exit 0 || exit 1
+
+# Device 2
+05  set -x; $TESTBIN/flash_eraseall $MTD_CHAR_DEV2 && exit 0 || exit 1
+06  set -x; $TESTBIN/nandwrite -p $MTD_CHAR_DEV2 $JFFS2_IMAGE && exit 0 || exit 1
+07  set -x; $TESTBIN/nanddump -f $TEMP_FILE -s 0 $MTD_CHAR_DEV2 && exit 0 || exit 1
+08  set -x; sync && rm $TEMP_FILE && exit 0 || exit 1
+
+# End L_DD_ONENAND_0003_0002

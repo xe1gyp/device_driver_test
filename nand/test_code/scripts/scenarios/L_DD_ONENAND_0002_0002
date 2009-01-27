@@ -1,0 +1,15 @@
+###############################################################################
+# Scenario: L_DD_ONENAND_0002_0002
+# Author  : Misael Lopez Cruz
+# Date    : August 29th, 2006
+###############################################################################
+
+# Begin L_DD_ONENAND_0002_0002
+
+# Device 1
+01  set -x; $TESTBIN/flash_eraseall $MTD_CHAR_DEV1 && exit 0 || exit 1
+
+# Device 2
+02  set -x; $TESTBIN/flash_eraseall $MTD_CHAR_DEV2 && exit 0 || exit 1
+
+# End L_DD_ONENAND_0002_0002
