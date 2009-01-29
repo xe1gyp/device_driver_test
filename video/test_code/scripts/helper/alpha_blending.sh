@@ -12,6 +12,7 @@ TV_ALPHA_ENTRY=/sys/class/display_control/omap_disp_control/tv_alphablend
 LCD_ALPHA_ENTRY=/sys/class/display_control/omap_disp_control/lcd_alphablend
 GFX_ALPHA_ENTRY=/sys/class/display_control/omap_disp_control/gfx_global_alpha
 VID2_ALPHA_ENTRY=/sys/class/display_control/omap_disp_control/vid2_global_alpha
+RESULT=0
 
 #Testing Global Alpha Blending
 if [ "$ALPHA_MODE" = "GLOBAL" ];then
@@ -77,15 +78,31 @@ if [ "$ALPHA_MODE" = "GLOBAL" ];then
 	echo $GLOBAL_ALPHA_VID2 > $VID2_ALPHA_ENTRY
 
 	$TESTBIN/setimg 1 YUYV 176 144
+	RESULT=`command_tracking.sh $RESULT $?`
+
 	$TESTBIN/setcrop 1 0 0 176 144
+	RESULT=`command_tracking.sh $RESULT $?`
+
 	$TESTBIN/setrotation 1 90
+	RESULT=`command_tracking.sh $RESULT $?`
 	$TESTBIN/setwin 1 0 0 176 144
+	RESULT=`command_tracking.sh $RESULT $?`
+
 	$TESTBIN/setimg 2 YUYV 176 144
+	RESULT=`command_tracking.sh $RESULT $?`
+
 	$TESTBIN/setcrop 2 0 0 176 144
+	RESULT=`command_tracking.sh $RESULT $?`
+
 	$TESTBIN/setrotation 2 0
+	RESULT=`command_tracking.sh $RESULT $?`
+
 	$TESTBIN/setwin 2 0 50 176 144
+	RESULT=`command_tracking.sh $RESULT $?`
+
 	$TESTBIN/streaming 1 $VIDEOFILES/video_qcif_yuv_75 &
 	$TESTBIN/streaming 2 $VIDEOFILES/video_qcif_yuv_75
+	RESULT=`command_tracking.sh $RESULT $?`
 	
 	# Reseting to the previous values.
 	if [ "$OUTPUT" = "TV" ];then
@@ -104,6 +121,7 @@ if [ "$ALPHA_MODE" = "GLOBAL" ];then
 fi
 
 if [ -z "$STRESS" ]; then
-	strees_messages.sh
+	stress_message.sh
 fi
 
+exit $RESULT

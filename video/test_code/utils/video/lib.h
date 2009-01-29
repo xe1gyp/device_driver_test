@@ -6,6 +6,5 @@
 #define OMAP2_V1	1
 #define OMAP2_V2	2
 
-void show_info(int fd);
-
+int show_info(int fd);
 

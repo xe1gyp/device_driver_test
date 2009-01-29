@@ -23,81 +23,97 @@
 static int usage(void)
 {
 	printf("Usage: setlink <vid>\n");
-	return 0;
+	return 1;
 }
-static int check_tv_connection(){
-	int fd;
+
+static int check_tv_connection()
+{
+	int file_descriptor;
 	char* tv_check;
 	tv_check = malloc (sizeof(char)*1);
-	fd = open ("/sys/class/display_control/omap_disp_control/tv_state",O_RDWR);		
-	read(fd, tv_check,1);
-	close(fd);
+	file_descriptor =
+		open("/sys/class/display_control/omap_disp_control/tv_state",
+		O_RDWR);
+	read(file_descriptor, tv_check, 1);
+	close(file_descriptor);
 	return atoi(tv_check);
 }
-int main (int argc, char *argv[])
+
+int main(int argc, char *argv[])
 {
-	int vid, fd, fd2, ret;
-	int link;	
-	
-	fd2 = open ("/sys/class/display_control/omap_disp_control/video2",O_RDWR);		
-	write(fd2, "tv",2);
-	
-	while (!check_tv_connection()){
+	int video_device, file_descriptor, output_device, result;
+	int link;
+
+	output_device =
+		open("/sys/class/display_control/omap_disp_control/video2",
+		O_RDWR);
+	write(output_device, "tv", 2);
+
+	while (!check_tv_connection()) {
 		printf("TV not connected \n");
-		sleep(TV_DELAY_CHECK);	
+		sleep(TV_DELAY_CHECK);
 	}
 
-	vid = 2;
-	fd = open ((vid == 1)?VIDEO_DEVICE1:VIDEO_DEVICE2, O_RDONLY) ;
-	
-	if (fd <= 0) {
-		printf("Could not open %s\n", (vid == 1)?VIDEO_DEVICE1:VIDEO_DEVICE2);
-		return -1;
+	video_device = 2;
+	file_descriptor =
+		open((video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2,
+		O_RDONLY);
+
+	if (file_descriptor <= 0) {
+		printf("Could not open %s\n",
+			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
+		return 1;
 	}
 	else
-		printf("openned %s\n", (vid == 1)?VIDEO_DEVICE1:VIDEO_DEVICE2);
+		printf("openned %s\n",
+			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
 
-	ret = ioctl (fd, VIDIOC_G_OMAP2_LINK, &link);
-	if (ret < 0) {
-		perror ("VIDIOC_G_OMAP2_LINK");
-		return 0;
+	result = ioctl(file_descriptor, VIDIOC_G_OMAP2_LINK, &link);
+	if (result != 0) {
+		perror("VIDIOC_G_OMAP2_LINK");
+		return 1;
 	}
-	printf("link status: V%d is %s linked to another layer\n", vid,
-		(link == 1)? "": "not");
+
+	printf("link status: V%d is %s linked to another layer\n", video_device,
+		(link == 1) ? "" : "not");
 
 	link = 1;
-	ret = ioctl (fd, VIDIOC_S_OMAP2_LINK, &link);
-	if (ret < 0) {
-		perror ("VIDIOC_S_OMAP2_LINK");
-		return 0;
+	result = ioctl(file_descriptor, VIDIOC_S_OMAP2_LINK, &link);
+	if (result != 0) {
+		perror("VIDIOC_S_OMAP2_LINK");
+		return 1;
 	}
 	printf("linked!\n");
 
-	if (ioctl(fd, VIDIOC_STREAMON, &link) == -1){
+	result = ioctl(file_descriptor, VIDIOC_STREAMON, &link);
+	if (result != 0) {
 		perror("VIDIOC_STREAMON");
-		return;
+		return 1;
 	}
 
-	while (check_tv_connection()){
+	while (check_tv_connection()) {
 		printf("TV connected \n");
-		sleep(TV_DELAY_CHECK);	
+		sleep(TV_DELAY_CHECK);
 	}
 
 	printf("TV not connected \n");
-	
-	if (ioctl(fd, VIDIOC_STREAMOFF, &link) == -1){
+
+	result = ioctl(file_descriptor, VIDIOC_STREAMOFF, &link);
+	if (result != 0) {
 		perror("VIDIOC_STREAMOFF");
-		return;
+		return 1;
 	}
+
 	link = 0;
-	ret = ioctl (fd, VIDIOC_S_OMAP2_LINK, &link);
-	if (ret < 0) {
-		perror ("VIDIOC_S_OMAP2_LINK");
-		return 0;
+	result = ioctl(file_descriptor, VIDIOC_S_OMAP2_LINK, &link);
+	if (result != 0) {
+		perror("VIDIOC_S_OMAP2_LINK");
+		return 1;
 	}
-	write(fd2, "lcd",3);
+	write(output_device, "lcd", 3);
 	printf("unlinked!\n");
 
-	close(fd) ;
-	close(fd2);
+	close(file_descriptor);
+	close(output_device);
+	return 0;
 }

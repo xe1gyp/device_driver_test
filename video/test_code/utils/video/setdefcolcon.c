@@ -20,38 +20,45 @@
 
 static int usage(void)
 {
-	printf("Usage: setdefcolconv <vid> <0>\n");
-	return 0;
+	printf("Usage: setdefcolconv <video_device> <0>\n");
+	return 1;
 }
 
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-	int vid, fd, ret;
+	int video_device, file_descriptor, result;
 	int degree;	
 
 	if (argc < 3)
 		return usage();
 
-	vid = atoi(argv[1]);
-	if ((vid != 1) && (vid != 2)){
-		printf("vid has to be 1 or 2!\n");
+	video_device = atoi(argv[1]);
+	if ((video_device != 1) && (video_device != 2)) {
+		printf("video_device has to be 1 or 2!\n");
 		return usage();
 	}
 
-	fd = open ((vid == 1)?VIDEO_DEVICE1:VIDEO_DEVICE2, O_RDONLY) ;
-	if (fd <= 0) {
-		printf("Could not open %s\n", (vid == 1)?VIDEO_DEVICE1:VIDEO_DEVICE2);
-		return -1;
+	file_descriptor =
+		open((video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2,
+		O_RDONLY);
+
+	if (file_descriptor <= 0) {
+		printf("Could not open %s\n",
+			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
+		return 1;
 	}
 	else
-		printf("openned %s\n", (vid == 1)?VIDEO_DEVICE1:VIDEO_DEVICE2);
+		printf("openned %s\n",
+			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
 
         degree = atoi(argv[2]); 
 
-	ret = ioctl (fd,VIDIOC_S_OMAP2_DEFCOLORCONV, &degree);
-	if (ret < 0) {
-		perror ("VIDIOC_S_OMAP2_DEFCOLORCONV");
-		return 0;
+	result = ioctl(file_descriptor, VIDIOC_S_OMAP2_DEFCOLORCONV, &degree);
+	if (result != 0) {
+		perror("VIDIOC_S_OMAP2_DEFCOLORCONV");
+		return 1;
 	}
-	close(fd) ;
+	close(file_descriptor);
+
+	return 0;
 }

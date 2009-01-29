@@ -7,22 +7,17 @@
 
 COMMENT comment.sh "Verify that the video rendered can be up/down scaled in horizontal/vertical direction using SDMA"
 
-0001_VD1 set -x; decimation.sh 1 640 480 "YUYV"   $VIDEOFILES/test.yuv 50 50 128 96 && exit 0 || exit 1
-0001_VD2 set -x; decimation.sh 2 640 480 "YUYV"   $VIDEOFILES/test.yuv 50 50 128 96 && exit 0 || exit 1
-
+0001_VD1_SAN set -x; decimation.sh 1 640 480 "YUYV"   $VIDEOFILES/test.yuv 50 50 128 96 && exit 0 || exit 1
+0001_VD2_SAN set -x; decimation.sh 2 640 480 "YUYV"   $VIDEOFILES/test.yuv 50 50 128 96 && exit 0 || exit 1
 0002_VD1 set -x; decimation.sh 1 640 480 "YUYV"   $VIDEOFILES/test.yuv 50 50 106 80 && exit 0 || exit 1
 0002_VD2 set -x; decimation.sh 2 640 480 "YUYV"   $VIDEOFILES/test.yuv 50 50 106 80 && exit 0 || exit 1
-
 0003_VD1 set -x; decimation.sh 1 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 50 50 23 17 && exit 0 || exit 1
 0003_VD2 set -x; decimation.sh 2 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 50 50 23 17 && exit 0 || exit 1
-
-0004_VD1 set -x; decimation.sh 1 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 50 50 20 15 && exit 0 || exit 1
-0004_VD2 set -x; decimation.sh 2 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 50 50 20 15 && exit 0 || exit 1
-
+0004_VD1_SAN set -x; decimation.sh 1 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 50 50 20 15 && exit 0 || exit 1
+0004_VD2_SAN set -x; decimation.sh 2 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 50 50 20 15 && exit 0 || exit 1
 0005_VD1 set -x; decimation.sh 1 640 480 "YUYV"   $VIDEOFILES/test.yuv 50 50 64 48 && exit 0 || exit 1
 0005_VD2 set -x; decimation.sh 2 640 480 "YUYV"   $VIDEOFILES/test.yuv 50 50 64 48 && exit 0 || exit 1
-
-0006_VD1 set -x; decimation.sh 1 640 480 "YUYV"   $VIDEOFILES/test.yuv 50 50 40 30 && exit 0 || exit 1
-0006_VD2 set -x; decimation.sh 2 640 480 "YUYV"   $VIDEOFILES/test.yuv 50 50 40 30 && exit 0 || exit 1
+0006_VD1_SAN set -x; decimation.sh 1 640 480 "YUYV"   $VIDEOFILES/test.yuv 50 50 40 30 && exit 0 || exit 1
+0006_VD2_SAN set -x; decimation.sh 2 640 480 "YUYV"   $VIDEOFILES/test.yuv 50 50 40 30 && exit 0 || exit 1
 
 # End "L_DD_VIDEO_0016"

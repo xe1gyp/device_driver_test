@@ -6,28 +6,28 @@
 # Begin "L_DD_VIDEO_0008"
 
 0001_COMMENT comment.sh "Verify Video Pipeline 1 can be displayed on TV"
-0001 set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/video1 && exit 0 || exit 1
-0001 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0001 && exit 0 || exit 1
-0001 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0002 && exit 0 || exit 1
-0001 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0003 && exit 0 || exit 1
-0001 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0004 && exit 0 || exit 1
-0001 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0005 && exit 0 || exit 1
-0001 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0006 && exit 0 || exit 1
-0001 set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/video1 && exit 0 || exit 1
-0001 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0007 && exit 0 || exit 1
-0001 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/video1 && exit 0 || exit 1
+0001_SAN set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/video1 && exit 0 || exit 1
+0001_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0001 && exit 0 || exit 1
+0001_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0002 && exit 0 || exit 1
+0001_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0003 && exit 0 || exit 1
+0001_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0004 && exit 0 || exit 1
+0001_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0005 && exit 0 || exit 1
+0001_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0006 && exit 0 || exit 1
+0001_SAN set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/video1 && exit 0 || exit 1
+0001_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0007 && exit 0 || exit 1
+0001_SAN set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/video1 && exit 0 || exit 1
 
 
 0002_COMMENT comment.sh "Verify Video Pipeline 2 can be displayed on TV"
-0002 set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/video2 && exit 0 || exit 1
-0002 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0001 && exit 0 || exit 1
-0002 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0002 && exit 0 || exit 1
-0002 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0003 && exit 0 || exit 1
-0002 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0004 && exit 0 || exit 1
-0002 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0005 && exit 0 || exit 1
-0002 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0006 && exit 0 || exit 1
-0002 set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/video2 && exit 0 || exit 1
-0002 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG L_DD_VIDEO_0007 && exit 0 || exit 1
-0002 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/video2 && exit 0 || exit 1
+0002_SAN set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/video2 && exit 0 || exit 1
+0002_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0001 && exit 0 || exit 1
+0002_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0002 && exit 0 || exit 1
+0002_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0003 && exit 0 || exit 1
+0002_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0004 && exit 0 || exit 1
+0002_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0005 && exit 0 || exit 1
+0002_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0006 && exit 0 || exit 1
+0002_SAN set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/video2 && exit 0 || exit 1
+0002_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0007 && exit 0 || exit 1
+0002_SAN set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/video2 && exit 0 || exit 1
 
 # End "L_DD_VIDEO_0008"

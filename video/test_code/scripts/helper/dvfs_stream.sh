@@ -3,9 +3,11 @@
 VIDEO_PIPELINE=$1
 SETIMG_PARAMETERS=$2
 STREAMING_PARAMETERS=$3
+RESULT=0
 
 # Usage: setimg <vid> <fmt> <width> <height>
 $TESTBIN/setimg $VIDEO_PIPELINE $SETIMG_PARAMETERS
+RESULT=`command_tracking.sh $RESULT $?`
 
 dvfs-both.sh&
 sleep 1
@@ -14,5 +16,7 @@ $TESTBIN/streaming $VIDEO_PIPELINE $STREAMING_PARAMETERS 1
 killall dvfs-both.sh
 
 if [ -z "$STRESS" ]; then
-	strees_messages.sh
+	stress_message.sh
 fi
+
+exit $RESULT

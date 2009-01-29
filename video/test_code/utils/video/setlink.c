@@ -20,67 +20,74 @@
 
 static int usage(void)
 {
-	printf("Usage: setlink <vid>\n");
-	return 0;
+	printf("Usage: setlink <video_device>\n");
+	return 1;
 }
 
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-	int vid, fd, ret;
-	int link;	
+	int video_device, file_descriptor, result;
+	int link;
 
 	if (argc < 2)
 		return usage();
 
-	vid = atoi(argv[1]);
-	if ((vid != 1) && (vid != 2)){
-		printf("vid has to be 1 or 2!\n");
+	video_device = atoi(argv[1]);
+	if ((video_device != 1) && (video_device != 2)) {
+		printf("video_device has to be 1 or 2!\n");
 		return usage();
 	}
 
-	fd = open ((vid == 1)?VIDEO_DEVICE1:VIDEO_DEVICE2, O_RDONLY) ;
-	if (fd <= 0) {
-		printf("Could not open %s\n", (vid == 1)?VIDEO_DEVICE1:VIDEO_DEVICE2);
-		return -1;
+	file_descriptor =
+		open((video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2,
+		O_RDONLY);
+	if (file_descriptor <= 0) {
+		printf("Could not open %s\n",
+			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
+		return 1;
 	}
 	else
-		printf("openned %s\n", (vid == 1)?VIDEO_DEVICE1:VIDEO_DEVICE2);
+		printf("openned %s\n",
+			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
 
-	ret = ioctl (fd, VIDIOC_G_OMAP2_LINK, &link);
-	if (ret < 0) {
-		perror ("VIDIOC_G_OMAP2_LINK");
-		return 0;
+	result = ioctl(file_descriptor, VIDIOC_G_OMAP2_LINK, &link);
+	if (result != 0) {
+		perror("VIDIOC_G_OMAP2_LINK");
+		return 1;
 	}
-	printf("link status: V%d is %s linked to another layer\n", vid,
-		(link == 1)? "": "not");
+	printf("link status: V%d is %s linked to another layer\n", video_device,
+		(link == 1) ? "" : "not");
 
 	link = 1;
-	ret = ioctl (fd, VIDIOC_S_OMAP2_LINK, &link);
-	if (ret < 0) {
-		perror ("VIDIOC_S_OMAP2_LINK");
-		return 0;
+	result = ioctl(file_descriptor, VIDIOC_S_OMAP2_LINK, &link);
+	if (result != 0) {
+		perror("VIDIOC_S_OMAP2_LINK");
+		return 1;
 	}
 	printf("linked!\n");
 
-	if (ioctl(fd, VIDIOC_STREAMON, &link) == -1){
+	result = ioctl(file_descriptor, VIDIOC_STREAMON, &link);
+	if (result != 0) {
 		perror("VIDIOC_STREAMON");
-		return;
+		return 1;
 	}
 
 	sleep(30);
 
-	if (ioctl(fd, VIDIOC_STREAMOFF, &link) == -1){
+	result = ioctl(file_descriptor, VIDIOC_STREAMOFF, &link);
+	if (result != 0) {
 		perror("VIDIOC_STREAMOFF");
-		return;
+		return 1;
 	}
 	link = 0;
-	ret = ioctl (fd, VIDIOC_S_OMAP2_LINK, &link);
-	if (ret < 0) {
-		perror ("VIDIOC_S_OMAP2_LINK");
-		return 0;
+
+	result = ioctl(file_descriptor, VIDIOC_S_OMAP2_LINK, &link);
+	if (result != 0) {
+		perror("VIDIOC_S_OMAP2_LINK");
+		return 1;
 	}
 	printf("unlinked!\n");
 
-
-	close(fd) ;
+	close(file_descriptor);
+	return 0;
 }

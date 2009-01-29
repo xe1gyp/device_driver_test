@@ -21,31 +21,34 @@
 static int usage(void)
 {
 	printf("Usage: setcolorconv <layer 1/2> <e1> <e2> .... <e9>\n");
-	return 0;
+	return 1;
 }
 
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-	int vid, fd, ret;
-	struct omap24xxvout_colconv ccmtx,ccmrx; 
+	int video_device, file_descriptor, result;
+	struct omap24xxvout_colconv ccmtx, ccmrx;
 
 	if (argc < 11)
 		return usage();
 
-	vid = atoi(argv[1]);
-	if ((vid != 1) && (vid != 2)){
-		printf("vid has to be 1 or 2!\n");
+	video_device = atoi(argv[1]);
+	if ((video_device != 1) && (video_device != 2)) {
+		printf("video_device has to be 1 or 2!\n");
 		return usage();
 	}
 	
-
-	fd = open ((vid == 1)?VIDEO_DEVICE1:VIDEO_DEVICE2, O_RDONLY) ;
-	if (fd <= 0) {
-		printf("Could not open %s\n", (vid == 1)?VIDEO_DEVICE1:VIDEO_DEVICE2);
-		return -1;
+	file_descriptor =
+		open((video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2,
+		O_RDONLY);
+	if (file_descriptor <= 0) {
+		printf("Could not open %s\n",
+		(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
+		return 1;
 	}
 	else
-		printf("openned %s\n", (vid == 1)?VIDEO_DEVICE1:VIDEO_DEVICE2);
+		printf("openned %s\n",
+		(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
 
 	ccmtx.RY  = atoi(argv[2]);
 	ccmtx.RCr = atoi(argv[3]);
@@ -57,17 +60,17 @@ int main (int argc, char *argv[])
 	ccmtx.BCr = atoi(argv[9]);
 	ccmtx.BCb = atoi(argv[10]);
 
-	ret = ioctl (fd, VIDIOC_S_OMAP2_COLORCONV, &ccmtx);
-	if (ret < 0) {
-		perror ("VIDIOC_S_OMAP2_COLORCONV");
-		return 0;
+	result = ioctl(file_descriptor, VIDIOC_S_OMAP2_COLORCONV, &ccmtx);
+	if (result != 0) {
+		perror("VIDIOC_S_OMAP2_COLORCONV");
+		return 1;
 	}
 
-	ret = ioctl (fd,VIDIOC_G_OMAP2_COLORCONV, &ccmrx);
-        if (ret < 0) {
-                perror ("VIDIOC_G_OMAP2_COLORCONV");
-                return 0;
-        }
+	result = ioctl(file_descriptor, VIDIOC_G_OMAP2_COLORCONV, &ccmrx);
+	if (result != 0) {
+		perror("VIDIOC_G_OMAP2_COLORCONV");
+		return 1;
+	}
 
 	printf(" The Color conversion values are set to \n");
 	printf("%d %d %d\n%d %d %d\n%d %d %d\n",
@@ -75,5 +78,7 @@ int main (int argc, char *argv[])
 		ccmrx.GY,ccmrx.GCr,ccmrx.GCb ,
 		ccmrx.BY,ccmrx.BCr,ccmrx.BCb );
 
-	close(fd) ;
+	close(file_descriptor);
+
+	return 0;
 }

@@ -198,7 +198,8 @@ main()
 	while getopts zx:Sd:qt:po:T:l:vn:hs:EI arg
 	do  case $arg in
         T)
-           TESTCASE=${OPTARG} ;;
+		TESTCASEARG="-T ${OPTARG}"
+		TESTCASE=${OPTARG} ;;
 	d)
 		TESTDIR=${OPTARG} ;;
 	t)

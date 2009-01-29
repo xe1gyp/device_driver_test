@@ -7,86 +7,88 @@
 
 INFO comment.sh "If some of these tests fail, reboot your board"
 
-0001_VD1 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/video1
-0001_VD2 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/video2
+0001_VD1 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/video1  && exit 0 || exit 1
+0001_VD2 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/video2  && exit 0 || exit 1
 
 0001_COMMENT comment.sh "Verify that Video driver supports video source transparency color key setting"
 0001_VD1 set -x; transparency.sh 1 "RGB565 160 120" "1 1 63489" "1 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
 0001_VD2 set -x; transparency.sh 2 "RGB565 160 120" "1 1 63489" "1 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
 
 0002_COMMENT_VD1 comment.sh "Verify the color key value for video source transparency can be configured in Video Pipeline 1"
-0002_VD1 set -x; $TESTBIN/settransck 1 0 63489 | grep "fault" && exit 1 || exit 0; sleep 1;
+0002_VD1 set -x; $TESTBIN/settransck 1 0 63489 && exit 0 || exit 1; sleep 1;
 0002_VD1 set -x; cat $VIDEOFILES/f801.txt > /dev/fb/0
-0002_VD1 set -x; $TESTBIN/enablecolkey 1 1 | grep "fault" && exit 1 || exit 0; sleep 1;
-0002_VD1 set -x; $TESTBIN/streaming 1 $VIDEOFILES/video_qqvga_rgb_30 && exit 1 || exit 0; sleep 1;
+0002_VD1 set -x; $TESTBIN/enablecolkey 1 1 && exit 0 || exit 1; sleep 1;
+0006_VD1 set -x; $TESTBIN/setwin 1 10 10 160 120 && exit 0 || exit 1; sleep 1;
+0002_VD1 set -x; $TESTBIN/streaming 1 $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1; sleep 1;
 
 0002_COMMENT_VD1 comment.sh "Verify the transparency can be disabled on Video Pipeline 1"
-0002_VD1 set -x; $TESTBIN/enablecolkey 1 0 | grep "fault" && exit 1 || exit 0; sleep 1;
-0002_VD1 set -x; $TESTBIN/streaming 1 $VIDEOFILES/video_qqvga_rgb_30 && exit 1 || exit 0; sleep 1;
+0002_VD1 set -x; $TESTBIN/enablecolkey 1 0 && exit 0 || exit 1; sleep 1;
+0002_VD1 set -x; $TESTBIN/streaming 1 $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1; sleep 1;
 
 0003_COMMENT_VD2 comment.sh "Verify the color key value for video source transparency can be configured in Video Pipeline 2"
-0003_VD2 set -x; $TESTBIN/settransck 1 0 63489 | grep "fault" && exit 1 || exit 0; sleep 1;
+0003_VD2 set -x; $TESTBIN/settransck 1 0 63489 && exit 0 || exit 1; sleep 1;
 0003_VD2 set -x; cat $VIDEOFILES/f801.txt > /dev/fb/0
-0003_VD2 set -x; $TESTBIN/enablecolkey 1 1 | grep "fault" && exit 1 || exit 0; sleep 1;
-0003_VD2 set -x; $TESTBIN/streaming 2 $VIDEOFILES/video_qqvga_rgb_30 && exit 1 || exit 0; sleep 1;
+0006_VD1 set -x; $TESTBIN/setwin 2 10 10 160 120 && exit 0 || exit 1; sleep 1;
+0003_VD2 set -x; $TESTBIN/enablecolkey 1 1 && exit 0 || exit 1; sleep 1;
+0003_VD2 set -x; $TESTBIN/streaming 2 $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1; sleep 1;
 
 0003_COMMENT_VD2 comment.sh "Verify the transparency can be disabled on Video Pipeline 2"
-0003_VD2 set -x; $TESTBIN/enablecolkey 1 0 | grep "fault" && exit 1 || exit 0; sleep 1;
-0003_VD2 set -x; $TESTBIN/streaming 2 $VIDEOFILES/video_qqvga_rgb_30 && exit 1 || exit 0; sleep 1;
+0003_VD2 set -x; $TESTBIN/enablecolkey 1 0 && exit 0 || exit 1; sleep 1;
+0003_VD2 set -x; $TESTBIN/streaming 2 $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1; sleep 1;
 
 0004_COMMENT_VD1 comment.sh "Verify the color key value for video source transparency can be configured on TV on Video Pipeline 1"
-0004_VD1 set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/video1
+0004_VD1 set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/video1 && exit 0 || exit 1
 0004_VD1 set -x; sleep 3
 0004_VD1 set -x; transparency.sh 1 "RGB565 160 120" "2 1 63489" "2 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
-0004_VD1 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/video1
+0004_VD1 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/video1 && exit 0 || exit 1
 
 0005_COMMENT_VD2 comment.sh "Verify the color key value for video source transparency can be configured on TV on Video Pipeline 2"
-0005_VD2 set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/video2
+0005_VD2 set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/video2 && exit 0 || exit 1
 0005_VD2 set -x; sleep 3
 0005_VD2 set -x; transparency.sh 2 "RGB565 160 120" "2 1 63489" "2 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
-0005_VD2 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/video2
+0005_VD2 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/video2 && exit 0 || exit 1
 
 0006_COMMENT_VD1 comment.sh "Verify the color key value for video source transparency can be configured on TV on Video Pipeline 1"
-0006_VD1 set -x; $TESTBIN/setimg 1 RGB565 160 120 | grep "fault" && exit 1 || exit 0; sleep 1;
-0006_VD1 set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/video1
-0006_VD1 set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/graphics
+0006_VD1 set -x; $TESTBIN/setimg 1 RGB565 160 120 && exit 0 || exit 1; sleep 1;
+0006_VD1 set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/video1 && exit 0 || exit 1
+0006_VD1 set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/graphics && exit 0 || exit 1
 0006_VD1 set -x; sleep 3
-0006_VD1 set -x; $TESTBIN/setwin 1 10 10 160 120 | grep "fault" && exit 1 || exit 0; sleep 1;
-0006_VD1 set -x; $TESTBIN/settransck 2 0 63489 | grep "fault" && exit 1 || exit 0; sleep 1;
-0006_VD1 set -x; cat $VIDEOFILES/f801.txt > /dev/fb/0
-0006_VD1 set -x; $TESTBIN/enablecolkey 2 1 | grep "fault" && exit 1 || exit 0; sleep 1;
-0006_VD1 set -x; $TESTBIN/streaming 1 $VIDEOFILES/video_qqvga_rgb_30 && exit 1 || exit 1
+0006_VD1 set -x; $TESTBIN/setwin 1 10 10 160 120 && exit 0 || exit 1; sleep 1;
+0006_VD1 set -x; $TESTBIN/settransck 2 0 63489 && exit 0 || exit 1; sleep 1;
+0006_VD1 set -x; cat $VIDEOFILES/f801.txt > /dev/fb/0 && exit 0 || exit 1
+0006_VD1 set -x; $TESTBIN/enablecolkey 2 1 && exit 0 || exit 1; sleep 1;
+0006_VD1 set -x; $TESTBIN/streaming 1 $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
 
 0006_COMMENT_VD1 comment.sh "Verify the transparency can be disabled on TV on Video Pipeline 1"
-0006_VD1 set -x; $TESTBIN/enablecolkey 2 0 | grep "fault" && exit 1 || exit 0; sleep 1;
+0006_VD1 set -x; $TESTBIN/enablecolkey 2 0 && exit 0 || exit 1; sleep 1;
 0006_VD1 set -x; $TESTBIN/streaming 1 $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0006_VD1 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/video1
-0006_VD1 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/graphics
+0006_VD1 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/video1 && exit 0 || exit 1
+0006_VD1 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/graphics && exit 0 || exit 1
 0006_VD1 set -x; sleep 3
 
 COMMENT_VD2 comment.sh "Verify the color key value for video source transparency can be configured on TV on Video Pipeline 2"
-0007_VD2 set -x; $TESTBIN/setimg 2 RGB565 160 120 | grep "fault" && exit 1 || exit 0; sleep 1;
-0007_VD2 set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/video2
-0007_VD2 set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/graphics
+0007_VD2 set -x; $TESTBIN/setimg 2 RGB565 160 120 && exit 0 || exit 1; sleep 1;
+0007_VD2 set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/video2 && exit 0 || exit 1
+0007_VD2 set -x; echo 'tv' > /sys/class/display_control/omap_disp_control/graphics && exit 0 || exit 1
 0007_VD2 set -x; sleep 3
-0007_VD2 set -x; $TESTBIN/setwin 2 10 10 160 120 | grep "fault" && exit 1 || exit 0
-0007_VD2 set -x; $TESTBIN/settransck 2 0 63489 | grep "fault" && exit 1 || exit 0
-0007_VD2 set -x; cat $VIDEOFILES/f801.txt > /dev/fb/0
-0007_VD2 set -x; $TESTBIN/enablecolkey 2 1 | grep "fault" && exit 1 || exit 0
-0007_VD2 set -x; $TESTBIN/streaming 2 $VIDEOFILES/video_qqvga_rgb_30 && exit 1 || exit 0
+0007_VD2 set -x; $TESTBIN/setwin 2 10 10 160 120 && exit 0 || exit 1
+0007_VD2 set -x; $TESTBIN/settransck 2 0 63489 && exit 0 || exit 1
+0007_VD2 set -x; cat $VIDEOFILES/f801.txt > /dev/fb/0 && exit 0 || exit 1
+0007_VD2 set -x; $TESTBIN/enablecolkey 2 1 && exit 0 || exit 1
+0007_VD2 set -x; $TESTBIN/streaming 2 $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
 
 COMMENT_VD2 comment.sh "Verify the transparency can be disabled on TV on Video Pipeline 2"
-0007_VD2 set -x; $TESTBIN/enablecolkey 2 0 | grep "fault" && exit 1 || exit 0; sleep 1;
-0007_VD2 set -x; $TESTBIN/streaming 2 $VIDEOFILES/video_qqvga_rgb_30 && exit 1 || exit 0
-0007_VD2 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/video2
-0007_VD2 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/graphics
+0007_VD2 set -x; $TESTBIN/enablecolkey 2 0 && exit 0 || exit 1; sleep 1;
+0007_VD2 set -x; $TESTBIN/streaming 2 $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0007_VD2 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/video2 && exit 0 || exit 1
+0007_VD2 set -x; echo 'lcd' > /sys/class/display_control/omap_disp_control/graphics && exit 0 || exit 1
 0007_VD2 set -x; sleep 3
 
 INFO comment.sh "Turning off the LCD for cleaning the screen"
-END set -x; echo -n 1 > /sys/power/fb_timeout_value
+END set -x; echo -n 1 > /sys/power/fb_timeout_value && exit 0 || exit 1
 END set -x; sleep 1
 INFO comment.sh "Turning on the LCD to continue the testing activities"
-END set -x; echo -n 0 > /sys/power/fb_timeout_value
+END set -x; echo -n 0 > /sys/power/fb_timeout_value && exit 0 || exit 1
 
 
 # End "L_DD_VIDEO_0006"

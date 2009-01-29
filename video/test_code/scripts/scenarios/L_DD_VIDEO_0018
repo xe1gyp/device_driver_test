@@ -8,6 +8,6 @@
 COMMENT comment.sh "Verify that Secondary Display shall support SSD1788 display driver with 98 x 68 resolution in RGB565 format."
 COMMENT comment.sh "The video will be rendered in the Secondary Display."
 
-0001 set -x; $TESTBIN/streaming_auxlcd $VIDEOFILES/vid.rgb444 && exit 1 || exit 0; sleep 1;
+0001 set -x; $TESTBIN/streaming_auxlcd $VIDEOFILES/vid.rgb444 && exit 0 || exit 1; sleep 1;
 
 # End "L_DD_VIDEO_0018"

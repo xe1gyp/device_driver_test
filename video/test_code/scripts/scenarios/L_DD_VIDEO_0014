@@ -7,46 +7,33 @@
 
 COMMENT comment.sh "Verify that the video rendered can be up/down scaled in horizontal/vertical direction using HW decimation"
 
-0001_VD1 set -x; decimation.sh 1 640 480 "YUYV"   $VIDEOFILES/test.yuv 0 0 320 480 && exit 0 || exit 1
-0001_VD2 set -x; decimation.sh 2 640 480 "YUYV"   $VIDEOFILES/test.yuv 0 0 320 480 && exit 0 || exit 1
-
-0002_VD1 set -x; decimation.sh 1 640 480 "YUYV"   $VIDEOFILES/test.yuv 0 0 160 480 && exit 0 || exit 1
-0002_VD2 set -x; decimation.sh 2 640 480 "YUYV"   $VIDEOFILES/test.yuv 0 0 160 480 && exit 0 || exit 1
-
+0001_VD1_SAN set -x; decimation.sh 1 640 480 "YUYV"   $VIDEOFILES/test.yuv 0 0 320 480 && exit 0 || exit 1
+0001_VD2_SAN set -x; decimation.sh 2 640 480 "YUYV"   $VIDEOFILES/test.yuv 0 0 320 480 && exit 0 || exit 1
+0002_VD1_SAN set -x; decimation.sh 1 640 480 "YUYV"   $VIDEOFILES/test.yuv 0 0 160 480 && exit 0 || exit 1
+0002_VD2_SAN set -x; decimation.sh 2 640 480 "YUYV"   $VIDEOFILES/test.yuv 0 0 160 480 && exit 0 || exit 1
 0003_VD1 set -x; decimation.sh 1 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 160 60 && exit 0 || exit 1
 0003_VD2 set -x; decimation.sh 2 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 160 60 && exit 0 || exit 1
-
-0004_VD1 set -x; decimation.sh 1 640 480 "YUYV"   $VIDEOFILES/test.yuv 0 0 640 120 && exit 0 || exit 1
-0004_VD2 set -x; decimation.sh 2 640 480 "YUYV"   $VIDEOFILES/test.yuv 0 0 640 120 && exit 0 || exit 1
-
+0004_VD1_SAN set -x; decimation.sh 1 640 480 "YUYV"   $VIDEOFILES/test.yuv 0 0 640 120 && exit 0 || exit 1
+0004_VD2_SAN set -x; decimation.sh 2 640 480 "YUYV"   $VIDEOFILES/test.yuv 0 0 640 120 && exit 0 || exit 1
 0005_VD1 set -x; decimation.sh 1 640 480 "YUYV"   $VIDEOFILES/test.yuv 0 0 320 240 && exit 0 || exit 1
 0005_VD2 set -x; decimation.sh 2 640 480 "YUYV"   $VIDEOFILES/test.yuv 0 0 320 240 && exit 0 || exit 1
-
-0006_VD1 set -x; decimation.sh 1 640 480 "YUYV"   $VIDEOFILES/test.yuv 0 0 160 120 && exit 0 || exit 1
-0006_VD2 set -x; decimation.sh 2 640 480 "YUYV"   $VIDEOFILES/test.yuv 0 0 160 120 && exit 0 || exit 1
-
+0006_VD1_SAN set -x; decimation.sh 1 640 480 "YUYV"   $VIDEOFILES/test.yuv 0 0 160 120 && exit 0 || exit 1
+0006_VD2_SAN set -x; decimation.sh 2 640 480 "YUYV"   $VIDEOFILES/test.yuv 0 0 160 120 && exit 0 || exit 1
 0007_VD1 set -x; decimation.sh 1 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 240 120 && exit 0 || exit 1
 0007_VD2 set -x; decimation.sh 2 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 240 120 && exit 0 || exit 1
-
-0008_VD1 set -x; decimation.sh 1 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 320 120 && exit 0 || exit 1
-0008_VD2 set -x; decimation.sh 2 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 320 120 && exit 0 || exit 1
-
+0008_VD1_SAN set -x; decimation.sh 1 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 320 120 && exit 0 || exit 1
+0008_VD2_SAN set -x; decimation.sh 2 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 320 120 && exit 0 || exit 1
 0009_VD1 set -x; decimation.sh 1 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 160 180 && exit 0 || exit 1
 0009_VD2 set -x; decimation.sh 2 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 160 180 && exit 0 || exit 1
-
 0010_VD1 set -x; decimation.sh 1 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 160 240 && exit 0 || exit 1
 0010_VD2 set -x; decimation.sh 2 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 160 240 && exit 0 || exit 1
-
 0011_VD1 set -x; decimation.sh 1 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 240 180 && exit 0 || exit 1
 0011_VD2 set -x; decimation.sh 2 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 240 180 && exit 0 || exit 1
-
 0012_VD1 set -x; decimation.sh 1 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 320 240 && exit 0 || exit 1
 0012_VD2 set -x; decimation.sh 2 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 320 240 && exit 0 || exit 1
-
-0013_VD1 set -x; decimation.sh 1 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 240 60 && exit 0 || exit 1
-0013_VD2 set -x; decimation.sh 2 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 240 60 && exit 0 || exit 1
-
-0014_VD1 set -x; decimation.sh 1 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 80 180 && exit 0 || exit 1
-0014_VD2 set -x; decimation.sh 2 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 80 180 && exit 0 || exit 1
+0013_VD1_SAN set -x; decimation.sh 1 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 240 60 && exit 0 || exit 1
+0013_VD2_SAN set -x; decimation.sh 2 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 240 60 && exit 0 || exit 1
+0014_VD1_SAN set -x; decimation.sh 1 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 80 180 && exit 0 || exit 1
+0014_VD2_SAN set -x; decimation.sh 2 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 0 0 80 180 && exit 0 || exit 1
 
 # End "L_DD_VIDEO_0014"

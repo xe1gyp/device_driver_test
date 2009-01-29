@@ -9,6 +9,7 @@ SETWIN_PARAMETERS=$5
 PREVIOUS_GFX=`cat /sys/class/display_control/omap_disp_control/graphics`
 PREVIOUS_VD1=`cat /sys/class/display_control/omap_disp_control/video1`
 PREVIOUS_VD2=`cat /sys/class/display_control/omap_disp_control/video2`
+RESULT=0
 
 if [ "$OUTPUT" = "LCD" ];then
 	echo lcd > /sys/class/display_control/omap_disp_control/video2
@@ -26,7 +27,10 @@ fi
 
 # Usage: setimg <vid> <fmt> <width> <height>
 $TESTBIN/setimg 1 $SETIMG_PARAMETERS
+RESULT=`command_tracking.sh $RESULT $?`
+
 $TESTBIN/setimg 2 $SETIMG_PARAMETERS
+RESULT=`command_tracking.sh $RESULT $?`
 
 if [ "$TV_STATUS" = "CONNECTED" ];then
 	echo CONNECT THE TV TO S-VIDEO OUTPUT OF THE BOARD
@@ -75,5 +79,7 @@ echo "$PREVIOUS_VD1" > /sys/class/display_control/omap_disp_control/video1
 sleep 3
 
 if [ -z "$STRESS" ]; then
-	strees_messages.sh
+	stress_message.sh
 fi
+
+exit $RESULT

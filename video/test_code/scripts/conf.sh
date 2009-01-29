@@ -27,6 +27,7 @@ export INTERACTIVE=""
 export STRESS=""
 export UTILBIN=${TESTROOT}/../../utils/bin
 export STRESSARG=""
+export TESTCASEARG=""
 
 export ENABLECOL=${TESTBIN}/enablecolkey
 export SETBGCOLOR=${TESTBIN}/setbgcolor
