@@ -12,7 +12,7 @@
 #include <sys/mman.h>
 #include <linux/ioctl.h>
 #include <linux/fb.h>
-#include <linux/videodev.h>
+#include <linux/videodev2.h>
 #include <linux/errno.h>
 #include <string.h>
 #include <stdlib.h>
@@ -46,8 +46,9 @@
 
 static void usage(void)
 {
-	printf("streaming_to_video_file [camDevice] [pixelFormat] [<sizeW> <sizeH>] "
-				"[(vid)] [(test)] [framerate] [<file>]\n");
+	printf("streaming_to_video_file [camDevice] [pixelFormat]"
+					"[<sizeW> <sizeH>] [(vid)] [(test)]"
+					"[framerate] [<file>]\n");
 	printf("   To start streaming capture of 1000 frames\n");
 	printf("   [camDevice] Camera device to be open\n\t 1:Micron sensor "
 					"2:OV sensor\n");
@@ -83,7 +84,7 @@ int main(int argc, char *argv[])
 	int vid = 1, set_video_img = 0, i, ret;
 	struct v4l2_queryctrl queryctrl, queryctrl2;
 	struct v4l2_control control, control2;
-	char * pixelFmt;
+	char *pixelFmt;
 	int index = 1;
 	int framerate = 30;
 	int device = 1;
@@ -99,12 +100,12 @@ int main(int argc, char *argv[])
 	}
 	
 	if ((cfd = open_cam_device(O_RDWR,device)) <= 0) {
-		printf ("Could not open the cam device\n");
+		printf("Could not open the cam device\n");
 		return -1;
 	}
 
 	if (argc > index) {
-		pixelFmt=argv[index];
+		pixelFmt = argv[index];
 		index++;
 		if (argc > index) {
 			ret = validateSize(argv[index]);
@@ -116,20 +117,18 @@ int main(int argc, char *argv[])
 					usage();
 					return -1;
 				}
-			}
-			else {
+			} else {
 				index++;
 				if (argc > (index)) {
 					ret = cam_ioctl(cfd,pixelFmt,
 						argv[index-1], argv[index]);
 					if (ret < 0) {
-						printf("pixel format specified," 
+						printf("pixel format specified,"
 							"size 2 args\n");
 						usage();
 						return -1;
 					}
-				}
-				else {
+				} else {
 					printf("Invalid size\n");
 					usage();
 					return -1;
@@ -139,14 +138,11 @@ int main(int argc, char *argv[])
 		}
 		else {
 			printf("Setting QCIF as video size, default value\n");
-			ret = cam_ioctl(cfd,pixelFmt,DEFAULT_VIDEO_SIZE);
+			ret = cam_ioctl(cfd, pixelFmt, DEFAULT_VIDEO_SIZE);
 			if (ret < 0)
 				return -1;
-      //usage();
-      //return -1;
 		}
-	}
-	else {
+	} else {
 		printf("Setting pixel format and video size with default "
 							"values\n");
 		ret = cam_ioctl(cfd, DEFAULT_PIXEL_FMT, DEFAULT_VIDEO_SIZE);
@@ -176,7 +172,7 @@ int main(int argc, char *argv[])
 			test = COLOR_TEST;
 		} else {
 			printf("test has to be b, c or e argv[%d]=%s\n",
-			       index,argv[index]);
+			       index, argv[index]);
 			usage();
 			return 0;
 		}
@@ -207,9 +203,9 @@ int main(int argc, char *argv[])
 		index++;
 	}
 	
-	ret = setFramerate(cfd,framerate);
+	ret = setFramerate(cfd, framerate);
 	if (ret < 0) {
-		printf("Error setting framerate = %d\n",framerate);
+		printf("Error setting framerate = %d\n", framerate);
 		return -1;
 	}
 
@@ -282,7 +278,7 @@ int main(int argc, char *argv[])
 		printf("set video image the same as camera image ...\n");
 		vformat.fmt.pix.width = cformat.fmt.pix.width;
 		vformat.fmt.pix.height = cformat.fmt.pix.height;
-		vformat.fmt.pix.sizeimage = cformat.fmt.pix.sizeimage;
+		/*vformat.fmt.pix.sizeimage = cformat.fmt.pix.sizeimage;*/
 		vformat.fmt.pix.pixelformat = cformat.fmt.pix.pixelformat;
 		ret = ioctl(vfd, VIDIOC_S_FMT, &vformat);
 		if (ret < 0) {
@@ -291,7 +287,8 @@ int main(int argc, char *argv[])
 		}
 		if ((cformat.fmt.pix.width != vformat.fmt.pix.width) ||
 			(cformat.fmt.pix.height != vformat.fmt.pix.height) ||
-			/*(cformat.fmt.pix.sizeimage != vformat.fmt.pix.sizeimage) ||*/
+			(cformat.fmt.pix.sizeimage !=
+			vformat.fmt.pix.sizeimage) ||
 			(cformat.fmt.pix.pixelformat !=
 			vformat.fmt.pix.pixelformat)) {
 			printf("can't make camera and "
@@ -320,10 +317,10 @@ int main(int argc, char *argv[])
 			perror("video VIDIOC_QUERYBUF");
 			return;
 		}
-#if 0
+		#if 0
 		printf("video %d: buffer.length=%d, buffer.m.offset=%d\n",
 		       i, buffer.length, buffer.m.offset);
-#endif
+		#endif
 		vbuffers[i].length = buffer.length;
 		vbuffers[i].start = mmap(NULL, buffer.length, PROT_READ |
 					 PROT_WRITE, MAP_SHARED,
@@ -386,8 +383,7 @@ int main(int argc, char *argv[])
 	queryctrl2.id = V4L2_CID_BRIGHTNESS;
 	if (ioctl(cfd, VIDIOC_QUERYCTRL, &queryctrl2) == -1) {
 		printf("Brightness is not supported!\n");
-	}
-	else {
+	} else {
 		control2.id = V4L2_CID_BRIGHTNESS;
 		if (ioctl(cfd, VIDIOC_G_CTRL, &control2) == -1) {
 			printf("VIDIOC_G_CTRL failed!\n");
@@ -403,8 +399,7 @@ int main(int argc, char *argv[])
 	queryctrl2.id = V4L2_CID_CONTRAST;
 	if (ioctl(cfd, VIDIOC_QUERYCTRL, &queryctrl2) == -1) {
 		printf("CONTRAST is not supported!\n");
-	}
-	else {
+	} else {
 		control2.id = V4L2_CID_CONTRAST;
 		if (ioctl(cfd, VIDIOC_G_CTRL, &control2) == -1) {
 			printf("VIDIOC_G_CTRL failed!\n");
@@ -420,8 +415,7 @@ int main(int argc, char *argv[])
 	queryctrl2.id = V4L2_CID_PRIVATE_BASE;
 	if (ioctl(cfd, VIDIOC_QUERYCTRL, &queryctrl2) == -1) {
 		printf("COLOR effect is not supported!\n");
-	}
-	else {
+	} else {
 		control2.id = V4L2_CID_PRIVATE_BASE;
 		if (ioctl(cfd, VIDIOC_G_CTRL, &control2) == -1) {
 			printf("VIDIOC_G_CTRL failed!\n");
@@ -434,52 +428,43 @@ int main(int argc, char *argv[])
 	if (test == BRT_TEST) {
 		control.id = V4L2_CID_CONTRAST;
 		control.value = DEF_CONT_LEVEL;
-		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1) {
+		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
 			printf("VIDIOC_S_CTRL CONTRAST failed!\n");
-		}
 		control.id = V4L2_CID_PRIVATE_BASE;
 		control.value = DEF_COLOR_LEVEL;
-		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1) {
+		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
 			printf("VIDIOC_S_CTRL COLOR failed!\n");
-		}
 	} else if (test == CONT_TEST) {
 		control.id = V4L2_CID_BRIGHTNESS;
 		control.value = DEF_BRT_LEVEL;
-		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1) {
+		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
 			printf("VIDIOC_S_CTRL BRIGHTNESS failed!\n");
-		}
 		control.id = V4L2_CID_PRIVATE_BASE;
 		control.value = DEF_COLOR_LEVEL;
-		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1) {
+		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
 			printf("VIDIOC_S_CTRL COLOR failed!\n");
-		}
 	} else if (test == COLOR_TEST) {
 		control.id = V4L2_CID_CONTRAST;
 		control.value = DEF_CONT_LEVEL;
-		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1) {
+		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
 			printf("VIDIOC_S_CTRL CONTRAST failed!\n");
-		}
 		control.id = V4L2_CID_BRIGHTNESS;
 		control.value = DEF_BRT_LEVEL;
-		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1) {
+		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
 			printf("VIDIOC_S_CTRL BRIGHTNESS failed!\n");
-		}
 	} else {
 		control.id = V4L2_CID_CONTRAST;
 		control.value = DEF_CONT_LEVEL;
-		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1) {
+		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
 			printf("VIDIOC_S_CTRL CONTRAST failed!\n");
-		}
 		control.id = V4L2_CID_BRIGHTNESS;
 		control.value = DEF_BRT_LEVEL;
-		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1) {
+		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
 			printf("VIDIOC_S_CTRL BRIGHTNESS failed!\n");
-		}
 		control.id = V4L2_CID_PRIVATE_BASE;
 		control.value = DEF_COLOR_LEVEL;
-		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1) {
+		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
 			printf("VIDIOC_S_CTRL COLOR failed!\n");
-		}
 	}
 
 	i = 0;
@@ -492,9 +477,8 @@ int main(int argc, char *argv[])
 		while (ioctl(cfd, VIDIOC_DQBUF, &cfilledbuffer) < 0) {
 			perror("cam VIDIOC_DQBUF");
 			printf("ERROR FROM CAM DQ\n");
-			while (ioctl(vfd, VIDIOC_QBUF, &cfilledbuffer) < 0) {
+			while (ioctl(vfd, VIDIOC_QBUF, &cfilledbuffer) < 0)
 				perror("VIDIOC_QBUF***");
-			}
 		}
 		i++;
 
@@ -539,14 +523,12 @@ int main(int argc, char *argv[])
 					control.value = 0;
 				printf("changing COLOR %d\n", control.value);
 			}
-			if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1) {
+			if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
 				printf("VIDIOC_S_CTRL failed!\n");
-			}
 		}
 
-		if (vfilledbuffer.index == -1) {
+		if (vfilledbuffer.index == -1)
 			vfilledbuffer.index = 0;
-		}
 
 		/* Queue the new buffer to video driver for rendering */
 		if (ioctl(vfd, VIDIOC_QBUF, &vfilledbuffer) == -1) {
@@ -580,9 +562,8 @@ int main(int argc, char *argv[])
 	}
 
 	for (i = 0; i < vreqbuf.count; i++) {
-		if (vbuffers[i].start) {
+		if (vbuffers[i].start)
 			munmap(vbuffers[i].start, vbuffers[i].length);
-		}
 	}
 
 	/*vreqbuf.type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
@@ -595,9 +576,9 @@ int main(int argc, char *argv[])
 
 	free(vbuffers);
 
-	ret = setFramerate(cfd,30);
+	ret = setFramerate(cfd, 30);
 	if (ret < 0) {
-		printf("Error setting framerate = %d\n",framerate);
+		printf("Error setting framerate = %d\n", framerate);
 		return -1;
 	}
 

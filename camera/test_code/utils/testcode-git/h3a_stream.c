@@ -12,7 +12,7 @@
 #include <linux/ioctl.h>
 #include <linux/fb.h>
 #include <sys/mman.h>
-#include <linux/videodev.h>
+#include <linux/videodev2.h>
 #include <linux/errno.h>
 #include <errno.h>
 #include "kbget.h"
@@ -23,35 +23,7 @@
 #define VIDIOC_ISP_2AREQ        _IOWR ('O', 7,  struct isph3a_aewb_data)
 #define BYTES_PER_WINDOW	16
 
-#define OMAP_ISP_CCDC           (1 << 0)
-#define OMAP_ISP_PREVIEW        (1 << 1)
-#define OMAP_ISP_RESIZER        (1 << 2)
-#define OMAP_ISP_AEWB           (1 << 3)
-#define OMAP_ISP_AF             (1 << 4)
-#define OMAP_ISP_HIST           (1 << 5)
-
-/* Our ISP specific controls */
-#define V4L2_CID_PRIVATE_ISP_COLOR_FX           (V4L2_CID_PRIVATE_BASE + 0)
-
-/* ISP Private IOCTLs */
-#define VIDIOC_PRIVATE_ISP_CCDC_CFG     \
-        _IOWR('V', BASE_VIDIOC_PRIVATE + 1, struct ispccdc_update_config)
-#define VIDIOC_PRIVATE_ISP_PRV_CFG \
-        _IOWR('V', BASE_VIDIOC_PRIVATE + 2, struct ispprv_update_config)
-#define VIDIOC_PRIVATE_ISP_AEWB_CFG \
-        _IOWR('V', BASE_VIDIOC_PRIVATE + 4, struct isph3a_aewb_config)
-#define VIDIOC_PRIVATE_ISP_AEWB_REQ \
-        _IOWR('V', BASE_VIDIOC_PRIVATE + 5, struct isph3a_aewb_data)
-#define VIDIOC_PRIVATE_ISP_HIST_CFG \
-        _IOWR('V', BASE_VIDIOC_PRIVATE + 6, struct isp_hist_config)
-#define VIDIOC_PRIVATE_ISP_HIST_REQ \
-        _IOWR('V', BASE_VIDIOC_PRIVATE + 7, struct isp_hist_data)
-#define VIDIOC_PRIVATE_ISP_AF_CFG \
-        _IOWR('V', BASE_VIDIOC_PRIVATE + 8, struct af_configuration)
-#define VIDIOC_PRIVATE_ISP_AF_REQ \
-        _IOWR('V', BASE_VIDIOC_PRIVATE + 9, struct isp_af_data)
-
-/*#define V4L2_CID_PRIVATE_ISP_COLOR_FX     (V4L2_CID_PRIVATE_BASE + 0)
+#define V4L2_CID_PRIVATE_ISP_COLOR_FX     (V4L2_CID_PRIVATE_BASE + 0)
 #define V4L2_CID_PRIVATE_ISP_CCDC_CFG     (V4L2_CID_PRIVATE_BASE + 1)
 #define V4L2_CID_PRIVATE_ISP_PRV_CFG      (V4L2_CID_PRIVATE_BASE + 2)
 #define V4L2_CID_PRIVATE_ISP_LSC_UPDATE   (V4L2_CID_PRIVATE_BASE + 3)
@@ -60,7 +32,7 @@
 #define V4L2_CID_PRIVATE_ISP_HIST_CFG     (V4L2_CID_PRIVATE_BASE + 6)
 #define V4L2_CID_PRIVATE_ISP_HIST_REQ     (V4L2_CID_PRIVATE_BASE + 7)
 #define V4L2_CID_PRIVATE_ISP_AF_CFG       (V4L2_CID_PRIVATE_BASE + 8)
-#define V4L2_CID_PRIVATE_ISP_AF_REQ       (V4L2_CID_PRIVATE_BASE + 9)*/
+#define V4L2_CID_PRIVATE_ISP_AF_REQ       (V4L2_CID_PRIVATE_BASE + 9)
 
 /* Flags for update field */
 #define REQUEST_STATISTICS	(1 << 0)
@@ -85,44 +57,46 @@
 #ifdef CAP_UTILS
 #include "CapUtils.h"
 #else
-struct isph3a_aewb_config {
+struct isph3a_aewb_config{
 	u16 saturation_limit;
-	u16 win_height;          /* Range: 2 - 256 */
-	u16 win_width;           /* Range: 2 - 256 */
-	u16 ver_win_count;       /* vertical window count: 1 - 128 */
-	u16 hor_win_count;       /* horizontal window count: 1 - 36 */
-	u16 ver_win_start;       /* ver window start position: 0 - 4095 */
-	u16 hor_win_start;       /* hor window start position: 0 - 4095 */
-	u16 blk_ver_win_start;   /* black line ver window start pos: 0 -4095 */
-	u16 blk_win_height;      /* black line height: 2 - 256 */
-	u16 subsample_ver_inc;   /* ver distance between subsamples: 2 - 32 */
-	u16 subsample_hor_inc;   /* hor distance between subsamples: 2 - 32 */
-	u8   alaw_enable;        /* enable AEW ALAW flag */
-	u8   aewb_enable;        /* AE AWB enable flag */
+	u16 win_height;		/* Range: 2 - 256*/
+	u16 win_width;		/* Range: 6 - 256*/
+	u16 ver_win_count;	/* vertical window count (Range: 1 - 128)*/
+	u16 hor_win_count;	/* horizontal window count (Range: 1 - 36)*/
+	u16 ver_win_start;	/* vertical window start position
+					(Range: 0 -4095)*/
+	u16 hor_win_start;	/* horizontal window start position
+					(Range: 0 - 4095)*/
+	u16 blk_ver_win_start;	/* black line vertical window start position
+					(Range: 0 -4095)*/
+	u16 blk_win_height;	/* black line height
+					(Range: 2 - 256 even values only)*/
+	u16 subsample_ver_inc;	/* vertical distance between subsamples
+					(Range: 2 - 32 even values only)*/
+	u16 subsample_hor_inc;	/* horizontal distance between subsamples
+					(Range: 2 - 32 even values only)*/
+	u8   alaw_enable;	/* enable AEW ALAW flag*/
+	u8   aewb_enable;	/* AE AWB statistics generation enable flag*/
 };
 
 struct isph3a_aewb_data {
-	void *h3a_aewb_statistics_buf;  /* Pointer to pass to user */
-	u32 shutter;                 /* Shutter speed */
-	u16 gain;                    /* Sensor analog Gain */
-	u32 shutter_cap;             /* Shutter speed for capture */
-	u16 gain_cap;                /* Sensor Gain for capture */
+	void *h3a_aewb_statistics_buf;	/* Pointer to AE AWB statistics
+						*buffer to be filled*/
+	u32 shutter;			/* Shutter speed*/
+	u16 gain;			/*Sensor Gain*/
+	u32 shutter_cap;		/*Shutter speed for capture*/
+	u16 gain_cap;			/* Sensor Gain for capture*/
 
-	u16 dgain;                   /* White balance digital gain */
-	u16 wb_gain_b;               /* White balance color gain blue */
-	u16 wb_gain_r;               /* White balance color gain red */
-	u16 wb_gain_gb;              /* White balance color gain green blue */
-	u16 wb_gain_gr;              /* White balance color gain green red */
+	u16 dgain;			/* White balance digital gain for
+						preview module*/
+	u16 wb_gain_b;			/* White balance color gain blue*/
+	u16 wb_gain_r;			/* White balance color gain red*/
+	u16 wb_gain_gb;			/* White balance color gain green blue*/
+	u16 wb_gain_gr;			/* White balance color gain green red*/
 
-	u16 frame_number;            /* Frame number of requested stats */
-	u16 curr_frame;              /* Current frame number being processed */
-	u8 update;                   /* Bitwise flags to update parameters */
-
-	struct timeval ts;		/* Timestamp of returned framestats */
-	unsigned long field_count;	/*
-					 * Sequence number of returned
-					 * framestats
-					 */
+	u16 frame_number;		/* Requested frame*/
+	u16 curr_frame;			/* Current frame being processed*/
+	u8 update;			/* Flags to update parameters*/
 };
 #endif
 
@@ -298,8 +272,8 @@ int main(int argc, char *argv[])
 		}
 		if ((cformat.fmt.pix.width!=vformat.fmt.pix.width) ||
 			(cformat.fmt.pix.height!=vformat.fmt.pix.height) ||
-			/*(cformat.fmt.pix.sizeimage!=vformat.fmt.pix.sizeimage) 
-			||*/ (cformat.fmt.pix.pixelformat != 
+			(cformat.fmt.pix.sizeimage != vformat.fmt.pix.sizeimage)
+			|| (cformat.fmt.pix.pixelformat !=
 			vformat.fmt.pix.pixelformat)) {
 			printf("can't make camera and video image "
 							"compatible!\n");
@@ -331,7 +305,7 @@ int main(int argc, char *argv[])
 		printf("video %d: buffer.length=%d, buffer.m.offset=%d\n",
 				i, buffer.length, buffer.m.offset);
 #endif
-		vbuffers[i].length= buffer.length;
+		vbuffers[i].length = buffer.length;
 		vbuffers[i].start = mmap(NULL, buffer.length, PROT_READ|
 						PROT_WRITE, MAP_SHARED,
 						vfd, buffer.m.offset);
@@ -392,11 +366,10 @@ int main(int argc, char *argv[])
 	sleep(1);
 	///////***************///////////////
 	
-		/*control_h3a_config.id = V4L2_CID_PRIVATE_ISP_AEWB_CFG;
-		control_h3a_config.value = (int)&aewb_config_user;*/
+		control_h3a_config.id = V4L2_CID_PRIVATE_ISP_AEWB_CFG;
+		control_h3a_config.value = (int)&aewb_config_user;
 		/* set h3a params */
-		ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AEWB_CFG, 
-							&aewb_config_user);
+		ret = ioctl(cfd, VIDIOC_S_CTRL, &control_h3a_config);
 		if (ret < 0) {
 			printf("Error: %d, ", ret);
 			perror ("ISP_AEWB_CFG 1");
@@ -434,11 +407,9 @@ int main(int argc, char *argv[])
 		aewb_data_user.frame_number = 8; //dummy
 
 		printf("Setting first parameters \n");
-		/*control_h3a_request.id = V4L2_CID_PRIVATE_ISP_AEWB_REQ;
-		control_h3a_request.value = (int)&aewb_data_user;*/
-		
-		ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AEWB_REQ, 
-							&aewb_data_user);
+		control_h3a_request.id = V4L2_CID_PRIVATE_ISP_AEWB_REQ;
+		control_h3a_request.value = (int)&aewb_data_user;
+		ret = ioctl(cfd, VIDIOC_S_CTRL, &control_h3a_request);
 		if (ret < 0) {
 			perror("ISP_AEWB_REQ 1");
 			return ret;
@@ -451,8 +422,7 @@ request:
 							frame_number, j);
 		aewb_data_user.update = REQUEST_STATISTICS;
 		aewb_data_user.h3a_aewb_statistics_buf = stats_buff;
-		ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AEWB_REQ, 
-							&aewb_data_user);
+		ret = ioctl(cfd,  VIDIOC_S_CTRL, &control_h3a_request);
 		if (ret < 0) {
 			perror("ISP_AEWB_REQ 2");
 			return ret;
@@ -551,7 +521,6 @@ request:
 		while (ioctl(cfd, VIDIOC_QBUF, &cfilledbuffer) < 0) {
 			perror ("cam VIDIOC_QBUF");
 		}
-		///////////*************/////////	
 				
 		if ((input=kbhit())!=0) {
 			input = getch();
@@ -687,13 +656,13 @@ request:
 			}
 			else if (input == '1') {
 				aewb_data_user.update = 0;
-				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AEWB_CFG, 
-							&aewb_config_user);
+				ret = ioctl(cfd,  VIDIOC_S_CTRL,
+							&control_h3a_request);
 				if (ret < 0) {
 					perror("ISP_AEWB_REQ 5");
 					return ret;
 				}
-request2:				aewb_data_user.frame_number = 
+				aewb_data_user.frame_number =
 						aewb_data_user.curr_frame;
 				aewb_data_user.update = REQUEST_STATISTICS;
 				aewb_data_user.h3a_aewb_statistics_buf = 
@@ -701,27 +670,13 @@ request2:				aewb_data_user.frame_number =
 
 				printf("Obtaining stats frame:%d\n", 
 						aewb_data_user.frame_number);
-				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AEWB_REQ, 
-							&aewb_data_user);
+				ret = ioctl(cfd,  VIDIOC_S_CTRL,
+							&control_h3a_request);
 				if (ret < 0) {
 					perror("ISP_AEWB_REQ 6");
 					return ret;
 				}
-				
-				if (aewb_data_user.h3a_aewb_statistics_buf 
-								== NULL) {
-					printf("NULL buffer, current frame"
-						" is  %d.\n",
-						aewb_data_user.curr_frame);
-						aewb_data_user.frame_number =
-						aewb_data_user.curr_frame + 10;
-						aewb_data_user.update = 
-						REQUEST_STATISTICS;
-						aewb_data_user.
-						h3a_aewb_statistics_buf = 
-						stats_buff;
-						goto request2;
-				} else {
+
 				// Display stats 
 				buff_preview = 
 				(u16 *)aewb_data_user.h3a_aewb_statistics_buf;
@@ -753,7 +708,6 @@ request2:				aewb_data_user.frame_number =
 					if (0 == data2)
 						printf("\n");
 				}
-				}
 			}
 			else if (input == '9') {
 				aewb_config_user.win_height = 14;
@@ -770,18 +724,12 @@ request2:				aewb_data_user.frame_number =
 			else if (input == 'q') goto exit;//break;
 			
 			if (new_gain == 1) {
-				/*ret = ioctl(cfd,  VIDIOC_S_CTRL, 
+				ret = ioctl(cfd,  VIDIOC_S_CTRL,
 							&control_h3a_request);
 				if (ret < 0) {
 					perror("ISP_AEWB_REQ 7");
 					goto exit;
 					//return ret;
-				}*/
-				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AEWB_REQ, 
-							&aewb_data_user);
-				if (ret < 0) {
-					perror("ISP_AEWB_REQ 1");
-					return ret;
 				}
 				new_gain = 0;
 			}
@@ -809,8 +757,7 @@ exit:
 	aewb_config_user.subsample_hor_inc = 2;
 /***************************************************************/   
 
-	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AEWB_CFG, 
-							&aewb_config_user);
+	ret = ioctl(cfd, VIDIOC_S_CTRL, &control_h3a_config);
 	if (ret < 0) {
 		printf(" Error: %d, ", ret);
 		perror ("VIDIOC_ISP_2ACFG disabling");

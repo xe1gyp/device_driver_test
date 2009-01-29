@@ -26,10 +26,10 @@ static int kbdflgs;
  */
 void system_mode(void)
 {
-    if (ioctl(0, TCSETA, &term_orig) == -1) {
-        return;
-    }
-    fcntl(0, F_SETFL, kbdflgs);
+	if (ioctl(0, TCSETA, &term_orig) == -1)
+		return;
+
+	fcntl(0, F_SETFL, kbdflgs);
 }
 
 /*
@@ -40,31 +40,31 @@ void system_mode(void)
  */
 int input_mode(void)
 {
-    struct termio term;    /* to avoid ^S ^Q processing */
+	struct termio term;    /* to avoid ^S ^Q processing */
 
-    /*
-     * get rid of XON/XOFF handling, echo, and other input processing
-     */
-    if (ioctl(0, TCGETA, &term) == -1) {
-        return (0);
-    }
-    (void) ioctl(0, TCGETA, &term_orig);
-    term.c_iflag = 0;
-    term.c_oflag = 0;
-    term.c_lflag = 0;
-    term.c_cc[VMIN] = 1;
-    term.c_cc[VTIME] = 0;
-    if (ioctl(0, TCSETA, &term) == -1) {
-        return (0);
-    }
-    kbdflgs = fcntl(0, F_GETFL, 0);
-    /*
-     * no delay on reading stdin
-     */
-    int flags = fcntl(0, F_GETFL);
-    flags &= ~O_NDELAY;
-    fcntl(0, F_SETFL, flags);
-    return (1);
+	/*
+	* get rid of XON/XOFF handling, echo, and other input processing
+	*/
+	if (ioctl(0, TCGETA, &term) == -1)
+		return 0;
+
+	(void) ioctl(0, TCGETA, &term_orig);
+	term.c_iflag = 0;
+	term.c_oflag = 0;
+	term.c_lflag = 0;
+	term.c_cc[VMIN] = 1;
+	term.c_cc[VTIME] = 0;
+	if (ioctl(0, TCSETA, &term) == -1)
+		return 0;
+
+	kbdflgs = fcntl(0, F_GETFL, 0);
+	/*
+	* no delay on reading stdin
+	*/
+	int flags = fcntl(0, F_GETFL);
+	flags &= ~O_NDELAY;
+	fcntl(0, F_SETFL, flags);
+	return 1;
 }
 
 /*
@@ -74,37 +74,40 @@ int input_mode(void)
  */
 int getch(void)
 {
-    unsigned char ch;
+	unsigned char ch;
 
-    input_mode();
-    while (read(0, &ch, 1) != 1) ;
-    system_mode();
+	input_mode();
+	int rd = 0;
+	while (rd != 1)
+		read(0, &ch, 1);
+	system_mode();
 
-    return (ch);
+	return ch;
 }
 
 
 
 int kbhit(void)
 {
-  int cnt = 0;
-  int error;
-  static struct termios Otty, Ntty;
+	int cnt = 0;
+	int error;
+	static struct termios Otty, Ntty;
 
 
-  tcgetattr( 0, &Otty);
-  Ntty = Otty;
+	tcgetattr(0, &Otty);
+	Ntty = Otty;
 
-  Ntty.c_iflag          = 0;       /* input mode                */
-  Ntty.c_oflag          = 0;       /* output mode               */
-  Ntty.c_lflag         &= ~ICANON; /* raw mode */
-  Ntty.c_cc[VMIN]       = CMIN;    /* minimum time to wait      */
-  Ntty.c_cc[VTIME]      = CTIME;   /* minimum characters to wait for */
+	Ntty.c_iflag = 0;       /* input mode */
+	Ntty.c_oflag = 0;       /* output mode */
+	Ntty.c_lflag &= ~ICANON; /* raw mode */
+	Ntty.c_cc[VMIN] = CMIN;    /* minimum time to wait */
+	Ntty.c_cc[VTIME] = CTIME;   /* minimum characters to wait for */
 
-  if (0 == (error = tcsetattr(0, TCSANOW, &Ntty))) {
-    error += ioctl(0, FIONREAD, &cnt);
-    error += tcsetattr(0, TCSANOW, &Otty);
-  }
+	error = tcsetattr(0, TCSANOW, &Ntty);
+	if (error == 0) {
+		error += ioctl(0, FIONREAD, &cnt);
+		error += tcsetattr(0, TCSANOW, &Otty);
+	}
 
-  return ( error == 0 ? cnt : -1 );
+	return error == 0 ? cnt : -1;
 }

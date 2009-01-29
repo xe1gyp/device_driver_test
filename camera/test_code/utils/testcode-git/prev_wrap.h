@@ -34,7 +34,7 @@
 #endif
 
 #define PREV_IOC_BASE   	'P'
-#define PREV_REQBUF     	_IOWR(PREV_IOC_BASE, 1, struct v4l2_requestbuffers)
+#define PREV_REQBUF     _IOWR(PREV_IOC_BASE, 1, struct v4l2_requestbuffers)
 #define PREV_QUERYBUF   	_IOWR(PREV_IOC_BASE, 2, struct v4l2_buffer)
 #define PREV_SET_PARAM  	_IOW(PREV_IOC_BASE, 3, struct prev_params)
 #define PREV_GET_PARAM  	_IOWR(PREV_IOC_BASE, 4, struct prev_params)
@@ -260,23 +260,37 @@ enum preview_ycpos_mode {
 /* structure for all configuration */
 struct prev_params {
 	u16 features;	/* Set of features enabled */
+
 	enum preview_ycpos_mode pix_fmt; /* output pixel format */
+
 	struct ispprev_cfa cfa; /* CFA coefficients */
+
 	struct ispprev_csup csup;  /* chroma suppression coefficients */
+
 	u32 *ytable;	/* luma enhancement coeffs */
+
 	struct ispprev_nf nf; /* noise filter coefficients */
+
 	struct ispprev_dcor dcor; /* noise filter coefficients */
+
 	struct ispprev_gtable gtable;	/* gamma coefficients */
+
 	struct ispprev_wbal wbal;
 //	struct prev_white_balance prev_wbal;
+
 	struct ispprev_blkadj blk_adj;	/* black adjustment parameters */
+
 	struct ispprev_rgbtorgb rgb2rgb;  /* rgb blending parameters */
+
 	struct ispprev_csc rgb2ycbcr;  /* rgb to ycbcr parameters */
+
 	struct ispprev_hmed hmf_params;	/* horizontal median filter */
+
 	struct prev_size_params size_params;	/* size parameters */
 	struct prev_darkfrm_params drkf_params;
 	u8 lens_shading_shift;
 	u8 average;	/* down sampling rate for averager */
+
 	u8 contrast;		/* contrast */
 	u8 brightness;		/* brightness */
 };

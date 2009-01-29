@@ -21,25 +21,26 @@
 #include <errno.h>
 #include <linux/fs.h>
 #include <linux/kernel.h>
-#include <linux/videodev.h>
+#include <linux/videodev2.h>
 
 
 #define VIDEO_DEVICE "/dev/video0"
 
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	struct v4l2_streamparm parm;
 	int fd;
 	int ret;
 
-	if ((fd = open (VIDEO_DEVICE, O_RDONLY)) <= 0){
-		printf("Could not open the device " VIDEO_DEVICE "\n") ;
+	fd = open(VIDEO_DEVICE, O_RDONLY) <= 0;
+	if (fd <= 0) {
+		printf("Could not open the device " VIDEO_DEVICE "\n");
 		return -1;
 	}
 
 	parm.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 	ret = ioctl(fd, VIDIOC_G_PARM, &parm);
-	if(ret != 0) {
+	if (ret != 0) {
 		perror("VIDIOC_G_PARM ");
 		return -1;
 	}

@@ -8,11 +8,11 @@
 
 CC := $(CROSS_COMPILE)gcc
 
-objects := showinfo streaming burst_mode hist_test\
-streaming_to_video_file streaming_zoom burst_zoom capture\
-h3a_stream rsz_vbuff prev_wrap streaming_frame Test_Case_ccdc5\
-Test_Case_preview5 Test_Case_tables5 streaming_to_video \
-multi_open af_stream streaming_zoom_factor streaming_abs
+objects := showinfo streaming burst_mode hist_test \
+streaming_to_video_file streaming_zoom burst_zoom \
+h3a_stream rsz_vbuff prev_wrap streaming_frame \
+streaming_to_video multi_open af_stream streaming_zoom_factor streaming_abs \
+burst_mode_120 process_cam
 
 #Excluded (No longer supported 04-21-2008) read read_burst overlay read_raw\
  overlayZoom overlay_h3a contrast brigthness  crop crop2 capture overlay_h3a.c\
@@ -56,8 +56,8 @@ streaming_read: streaming_read.c lib.c ioctl.c
 overlayZoom: overlayZoom.c lib.c
 	$(CC) overlayZoom.c lib.c -o overlayZoom
 
-burst_mode: burst_mode.c lib.c ioctl.c
-	$(CC) -g burst_mode.c lib.c ioctl.c -o burst_mode
+burst_mode: burst_mode.c lib.c ioctl.c framerateLib.c
+	$(CC) -g burst_mode.c lib.c ioctl.c framerateLib.c -o burst_mode
 
 overlay_h3a: overlay_h3a.c lib.c
 	$(CC) -g overlay_h3a.c lib.c -o overlay_h3a
@@ -74,10 +74,6 @@ rsz_vbuff: rsz_vbuff.c rsz_vbuff.h
 prev_wrap: prev_wrap.c prev_wrap.h
 	$(CC) -g prev_wrap.c prev_wrap.h -o prev_wrap
 
-# this program is from V4L2 site with a bug fix for user ptr mode. 
-capture: capture.c
-	$(CC) -g capture.c -o capture
-
 h3a_stream: h3a_stream.c lib.c ioctl.c framerateLib.c
 	$(CC) -g h3a_stream.c lib.c ioctl.c framerateLib.c -o h3a_stream
 	
@@ -92,24 +88,6 @@ burst_zoom: burst_zoom.c lib.c ioctl.c
 
 streaming_frame: streaming_frame.c framerateLib.c lib.c ioctl.c
 	$(CC) -g streaming_frame.c framerateLib.c lib.c ioctl.c -o streaming_frame
-
-Test_Case_ccdc5: Test_Case_ccdc5.c lib.c ioctl.c
-	$(CC) -g Test_Case_ccdc5.c lib.c ioctl.c -o Test_Case_ccdc5
-
-Test_Case_preview5: Test_Case_preview5.c lib.c ioctl.c
-	$(CC) -g Test_Case_preview5.c lib.c ioctl.c -o Test_Case_preview5
-
-Test_Case_tables5: Test_Case_tables5.c lib.c ioctl.c
-	$(CC) -g Test_Case_tables5.c lib.c ioctl.c -o Test_Case_tables5
-
-Test_Case_ccdc: Test_Case_ccdc.c lib.c ioctl.c
-	$(CC) -g Test_Case_ccdc.c lib.c ioctl.c -o Test_Case_ccdc5
-
-Test_Case_preview: Test_Case_preview.c lib.c ioctl.c
-	$(CC) -g Test_Case_preview.c lib.c ioctl.c -o Test_Case_preview5
-
-Test_Case_tables: Test_Case_tables.c lib.c ioctl.c
-	$(CC) -g Test_Case_tables.c lib.c ioctl.c -o Test_Case_tables5
 
 streaming_to_video: streaming_to_video.c lib.c
 	$(CC) -g streaming_to_video.c lib.c -o streaming_to_video
@@ -126,11 +104,14 @@ streaming_zoom_factor: streaming_zoom_factor.c ioctl.c lib.c framerateLib.c
 h3a_stream_debug: h3a_stream_debug.c lib.c ioctl.c framerateLib.c
 	$(CC) -g h3a_stream_debug.c lib.c ioctl.c framerateLib.c -o h3a_stream_debug
 
-streaming_abs: streaming_abs.c ioctl.c framerateLib.c absLayer.h lib.c
-	$(CC) -g streaming_abs.c ioctl.c framerateLib.c absLayer.h lib.c -o streaming_abs
+streaming_abs: streaming_abs.c ioctl.c framerateLib.c abs_layer.h lib.c
+	$(CC) -g streaming_abs.c ioctl.c framerateLib.c abs_layer.h lib.c -o streaming_abs
 
-burst_mode_120: burst_mode_120.c ioctl.c framerateLib.c absLayer.h lib.c
-	$(CC) -g burst_mode_120.c ioctl.c framerateLib.c absLayer.h lib.c -o burst_mode_120
+burst_mode_120: burst_mode_120.c ioctl.c framerateLib.c abs_layer.h lib.c
+	$(CC) -g burst_mode_120.c ioctl.c framerateLib.c abs_layer.h lib.c -o burst_mode_120
+
+process_cam: process_cam.c lib.c ioctl.c framerateLib.c
+	$(CC) -g process_cam.c lib.c ioctl.c framerateLib.c -o process_cam
 
 clean:
 	rm -f $(objects) *~ *.o *.bak

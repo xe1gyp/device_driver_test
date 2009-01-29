@@ -20,7 +20,7 @@
 #include <linux/fb.h>
 #include <linux/fs.h>
 #include <linux/kernel.h>
-#include <linux/videodev.h>
+#include <linux/videodev2.h>
 
 #include <time.h>
 
@@ -36,14 +36,8 @@
 #define VIDIOC_S_OVERLAY_ROT		_IOW ('O', 1,  int)
 #define VIDIOC_G_OVERLAY_ROT		_IOR ('O', 2,  int)
 
-#define VIDIOC_PRIVATE_ISP_HIST_CFG \
-	_IOWR('V', BASE_VIDIOC_PRIVATE + 6, struct isp_hist_config)
-#define VIDIOC_PRIVATE_ISP_HIST_REQ \
-	_IOWR('V', BASE_VIDIOC_PRIVATE + 7, struct isp_hist_data)
-
-/*#define V4L2_CID_PRIVATE_ISP_HIST_CFG     (V4L2_CID_PRIVATE_BASE + 8)
-#define V4L2_CID_PRIVATE_ISP_HIST_REQ     (V4L2_CID_PRIVATE_BASE + 9)*/
-
+#define V4L2_CID_PRIVATE_ISP_HIST_CFG     (V4L2_CID_PRIVATE_BASE + 8)
+#define V4L2_CID_PRIVATE_ISP_HIST_REQ     (V4L2_CID_PRIVATE_BASE + 9)
 #define BYTES_PER_WINDOW	16
 
 /* Flags for update field */
@@ -78,7 +72,6 @@
 #define u8 unsigned char
 #endif				/* u8 */
 
-//#define CAP_UTILS
 #ifdef CAP_UTILS
 #include "CapUtils.h"
 #else
@@ -87,36 +80,33 @@
 #define DEFAULT_VIDEO_SIZE "QCIF"
 
 struct isp_hist_config {
-        u8 hist_source;         /* CCDC or Memory */
-        u8 input_bit_width;     /* Needed o know the size per pixel */
-        u8 hist_frames;         /* Num of frames to be processed and
-                                 * accumulated
-                                 */
-        u8 hist_h_v_info;       /* frame-input width and height if source is
-                                 * memory
-                                 */
-        u16 hist_radd;          /* frame-input address in memory */
-        u16 hist_radd_off;      /* line-offset for frame-input */
-        u16 hist_bins;          /* number of bins: 32, 64, 128, or 256 */
-        u16 wb_gain_R;          /* White Balance Field-to-Pattern Assignments */
-        u16 wb_gain_RG;         /* White Balance Field-to-Pattern Assignments */
-        u16 wb_gain_B;          /* White Balance Field-to-Pattern Assignments */
-        u16 wb_gain_BG;         /* White Balance Field-to-Pattern Assignments */
-        u8 num_regions;         /* number of regions to be configured */
-        u16 reg0_hor;           /* Region 0 size and position */
-        u16 reg0_ver;           /* Region 0 size and position */
-        u16 reg1_hor;           /* Region 1 size and position */
-        u16 reg1_ver;           /* Region 1 size and position */
-        u16 reg2_hor;           /* Region 2 size and position */
-        u16 reg2_ver;           /* Region 2 size and position */
-        u16 reg3_hor;           /* Region 3 size and position */
-        u16 reg3_ver;           /* Region 3 size and position */
+	u8 hist_source;		/* CCDC or Memory */
+	u8 input_bit_width;	/* Needed o know the size per pixel */
+	u8 hist_frames;		/* Numbers of frames to be processed
+				   and accumulated */
+	u8 hist_h_v_info;	/* frame-input width and height if source
+				   is memory */
+	u16 hist_radd;		/* frame-input address in memory */
+	u16 hist_radd_off;	/* line-offset for frame-input */
+	u16 bins;		/* number of bins: 32, 64, 128, or 256 */
+	u16 wb_gain_R;		/* White Balance Field-to-Pattern Assignments */
+	u16 wb_gain_RG;		/* White Balance Field-to-Pattern Assignments */
+	u16 wb_gain_B;		/* White Balance Field-to-Pattern Assignments */
+	u16 wb_gain_BG;		/* White Balance Field-to-Pattern Assignments */
+	u8 num_regions;		/* number of regions to be configured */
+	u16 reg0_hor;		/* Region 0 size and position */
+	u16 reg0_ver;		/* Region 0 size and position */
+	u16 reg1_hor;		/* Region 1 size and position */
+	u16 reg1_ver;		/* Region 1 size and position */
+	u16 reg2_hor;		/* Region 2 size and position */
+	u16 reg2_ver;		/* Region 2 size and position */
+	u16 reg3_hor;		/* Region 3 size and position */
+	u16 reg3_ver;		/* Region 3 size and position */
 };
 
 struct isp_hist_data {
-        u32 *hist_statistics_buf;       /* Pointer to pass to user */
+	u32 *hist_statistics_buf;	/* Pointer to pass to user */
 };
-
 #endif
 
 #ifdef CAP_UTILS
@@ -127,7 +117,7 @@ h3a_aewb_paxel_data_t h3a_avg[1];
 
 u16 speed_test_results[40][2];
 
-void hist_output ( u32 *hist_data, int hist_cnt_bins, FILE *fp_out)
+void hist_output(u32 *hist_data, int hist_cnt_bins, FILE *fp_out)
 {
 	int c0,c1,c2,c3;
 	int color_offset;
@@ -137,17 +127,17 @@ void hist_output ( u32 *hist_data, int hist_cnt_bins, FILE *fp_out)
 	printf("\nWriting statistics to hist_data.out file\n");
 	color_offset = (256 >> (3 - hist_cnt_bins));
 	printf("After color offset");
-	fprintf(fp_out," ===LINUX BASEPORT HISTOGRAM DRIVER OUTPUT===\n\n");
+	fprintf(fp_out, " ===LINUX BASEPORT HISTOGRAM DRIVER OUTPUT===\n\n");
 	fprintf(fp_out, "BIN value\tColor0\tColor1\tColor2\tColor3\n");
 	fprintf(fp_out, "=========\t======\t======\t======\t======\n\n");
 	
 	for(k = 0; k < 256; k++)
 	{
-		if((k != 0) && (k % color_offset == 0) )
+		if ((k != 0) && (k % color_offset == 0))
 		{
 			region++;
 			region_offset = 4 * color_offset * region;
-			if(region > 3)
+			if (region > 3)
 				return;
 			
 			fprintf(fp_out, "\t\t\t\t---  Region %d  ---\n", region);
@@ -195,7 +185,7 @@ int main(int argc, char *argv[])
 	int i, j = 0;
 	struct isp_hist_config hist_user;
 	struct isp_hist_data hist_data_user;
-	u32 *buff_preview;// = NULL;
+	u32 *buff_preview;
 	u32 *buff_char = NULL;
 	unsigned int buff_prev_size = 0;
 	int data8, data2, window, unsat_cnt;
@@ -216,8 +206,7 @@ int main(int argc, char *argv[])
 	struct v4l2_requestbuffers creqbuf, vreqbuf;
 	struct v4l2_buffer cfilledbuffer, vfilledbuffer;
 	struct v4l2_control control_hist_config, control_hist_request;
-	//hist_data_user.hist_statistics_buf = calloc(1,sizeof(u32));
-	
+
 	if (argc > index) {
 		if ((!strcmp(argv[1], "?")) ||
 		    ((argc != 5) && !strcmp(argv[1], "CCDC")) ||
@@ -239,10 +228,9 @@ int main(int argc, char *argv[])
 	
 	if (argc > index) {
 		framerate = atoi(argv[index]);
-		printf("Framerate = %d\n",framerate);
+		printf("Framerate = %d\n", framerate);
 		index++;
-	}
-	else {
+	} else {
 		printf("Using framerate = 30, default value\n");
 	}
 	
@@ -376,8 +364,8 @@ int main(int argc, char *argv[])
 		}
 		if ((cformat.fmt.pix.width!=vformat.fmt.pix.width) ||
 			(cformat.fmt.pix.height!=vformat.fmt.pix.height) ||
-			/*(cformat.fmt.pix.sizeimage!=
-						vformat.fmt.pix.sizeimage) ||*/
+			(cformat.fmt.pix.sizeimage !=
+						vformat.fmt.pix.sizeimage) ||
 			(cformat.fmt.pix.pixelformat !=
 						 vformat.fmt.pix.pixelformat)) {
 			printf("can't make camera and video image "
@@ -516,8 +504,8 @@ while (i < 2) {
 				hist_user.hist_h_v_info = 0;
 				hist_user.hist_radd = 0;
 				hist_user.hist_radd_off = 0;
-				hist_user.hist_bins = atoi(argv[2]);
-				switch (hist_user.hist_bins) {
+				hist_user.bins = atoi(argv[2]);
+				switch (hist_user.bins) {
 				case 0:
 				case 1:
 					hist_user.num_regions = 3;
@@ -537,7 +525,7 @@ while (i < 2) {
 				   hist_user.hist_h_v_info = atoi(argv[7]);
 				   hist_user.hist_radd = atoi(argv[5]);
 				   hist_user.hist_radd_off = atoi(argv[6]);
-				   hist_user.hist_bins = atoi(argv[2]); */
+				   hist_user.bins = atoi(argv[2]); */
 				printf("Using default values for Histogram\n");
 				/* CCDC or Memory */
 				hist_user.hist_source = 0;
@@ -551,8 +539,8 @@ while (i < 2) {
 				hist_user.hist_radd = 0;
 				/* line-offset for frame-input */
 				hist_user.hist_radd_off = 0;
-				/* number of hist_bins: 32, 64, 128, or 256 0 - 3 */
-				hist_user.hist_bins = 0;
+				/* number of bins: 32, 64, 128, or 256 0 - 3 */
+				hist_user.bins = 0;
 				/* number of regions to be configured 0 - 3 */
 				hist_user.num_regions = 3;
 			}
@@ -570,8 +558,8 @@ while (i < 2) {
 			hist_user.hist_radd = 0;
 			/* line-offset for frame-input */
 			hist_user.hist_radd_off = 0;
-			/* number of hist_bins: 32, 64, 128, or 256 0 - 3 */
-			hist_user.hist_bins = BINS_256;
+			/* number of bins: 32, 64, 128, or 256 0 - 3 */
+			hist_user.bins = BINS_256;
 			/* number of regions to be configured 0 - 3 */
 			hist_user.num_regions = 0;
 		}
@@ -588,11 +576,10 @@ while (i < 2) {
 
 		
 		/* set h3a params */
-		/*control_hist_config.id = V4L2_CID_PRIVATE_ISP_HIST_CFG;
-		control_hist_config.value = (int)&hist_user;*/
-		/*ret = ioctl(cfd, VIDIOC_S_CTRL, &control_hist_config);*/
-		
-		ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_HIST_CFG, &hist_user);
+		control_hist_config.id = V4L2_CID_PRIVATE_ISP_HIST_CFG;
+		control_hist_config.value = (int)&hist_user;
+		/* set h3a params */
+		ret = ioctl(cfd, VIDIOC_S_CTRL, &control_hist_config);
 		
 		if (ret < 0) {
 			printf("Error: %d, ", ret);
@@ -605,12 +592,10 @@ while (i < 2) {
 		sleep(5);
 
 		hist_data_user.hist_statistics_buf = 
-			(u32*) malloc(HIST_MEM_SIZE*4);
-		/*control_hist_request.id = V4L2_CID_PRIVATE_ISP_HIST_REQ;
+				(u32 *)malloc(HIST_MEM_SIZE * 4);
+		control_hist_request.id = V4L2_CID_PRIVATE_ISP_HIST_REQ;
 		control_hist_request.value = (int)&hist_data_user;
-		ret = ioctl(cfd, VIDIOC_S_CTRL, &control_hist_request);*/
-		ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_HIST_REQ, &hist_data_user);
-		
+		ret = ioctl(cfd, VIDIOC_S_CTRL, &control_hist_request);
 		if (ret < 0) {
 			printf("VIDIOC_ISP_HISTREQ Error: %d, \n", ret);
 			perror("VIDIOC_ISP_HISTREQ\n");
@@ -618,12 +603,11 @@ while (i < 2) {
 		}
 
 		printf("\nHIST: buffer to display = %p data pointer = %p\n",
-		       	hist_data_user.hist_statistics_buf, 
+			hist_data_user.hist_statistics_buf,
 			hist_data_user.hist_statistics_buf);
 
-		hist_output(hist_data_user.hist_statistics_buf, 
-			hist_user.hist_bins, fp_out);		
-		// Display stats
+		hist_output(hist_data_user.hist_statistics_buf,
+			hist_user.bins, fp_out);
 
 		free (hist_data_user.hist_statistics_buf);
 
