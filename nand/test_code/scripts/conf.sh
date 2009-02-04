@@ -116,7 +116,7 @@ fi
 echo Main Partition: $MTD_CHAR_DEV1
 echo Main Block Partition $MTD_BLK_DEV1
 echo Aux Partition: $MTD_CHAR_DEV2
-echo Aux block Partition: $MTD_CHAR_DEV2
+echo Aux Block Partition: $MTD_BLK_DEV2
 
 test -c $MTD_CHAR_DEV1 && test -b $MTD_BLK_DEV1 || exit 1
 test -c $MTD_CHAR_DEV2 && test -b $MTD_BLK_DEV2 || exit 1
