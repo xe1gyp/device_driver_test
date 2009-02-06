@@ -4,41 +4,13 @@ GetEndSector(){
 	echo -e "p\nq\n" | fdisk $1 | grep "heads" | awk '{print $5}'
 }
 
-# MMC device dependent parameters
-export DEFAULT_MOUNT_POINT1=/mnt/mmc1
-export DEFAULT_MOUNT_POINT2=/mnt/mmc2
-
-# MMC 1
-export ROOT_ENTRY_DEV1=/dev/mmcblk0
-export PARTITION1_NAME_DEV1=mmcblk0p1
-export PARTITION2_NAME_DEV1=mmcblk0p2
-export PARTITION1_ENTRY_DEV1=/dev/$PARTITION1_NAME_DEV1
-export PARTITION2_ENTRY_DEV1=/dev/$PARTITION2_NAME_DEV1
-export MOUNT_POINT1=/mnt/mmc1
-export MOUNT_POINT3=/mnt/mmc3
-export START_SECTOR_DEV1=1
-export END_SECTOR_DEV1=`GetEndSector $ROOT_ENTRY_DEV1`
-export MIDDLE_SECTOR_DEV1=`echo $END_SECTOR_DEV1/2|bc`
-
-# MMC 2
-export ROOT_ENTRY_DEV2=/dev/mmcblk1
-export PARTITION1_NAME_DEV2=mmcblk1p1
-export PARTITION2_NAME_DEV2=mmcblk1p2
-export PARTITION1_ENTRY_DEV2=/dev/$PARTITION1_NAME_DEV2
-export PARTITION2_ENTRY_DEV2=/dev/$PARTITION2_NAME_DEV2
-export MOUNT_POINT2=/mnt/mmc2
-export MOUNT_POINT4=/mnt/mmc4
-export START_SECTOR_DEV2=1
-export END_SECTOR_DEV2=`GetEndSector $ROOT_ENTRY_DEV2`
-export MIDDLE_SECTOR_DEV2=`echo $END_SECTOR_DEV2/2|bc`
-
 # Testsuite variables
 export POSTFIX=`date "+%Y%m%d-%H%M%S"`
 export TESTROOT=${PWD}
-export TESTBIN=${PWD}/../bin
-export UTILBIN=${PWD}/../../utils/bin
-export TESTMODS=${PWD}/../mods
-export TESTSCRIPT=${PWD}/helper
+export TESTBIN=${TESTROOT}/../bin
+export UTILBIN=${TESTROOT}/../../utils/bin
+export TESTMODS=${TESTROOT}/../mods
+export TESTSCRIPT=${TESTROOT}/helper
 export TMPBASE=${TESTROOT}/tmp
 export TMPFILE=${TMPBASE}/tmp.$POSTFIX
 export CMDFILE=cmd.$POSTFIX
@@ -52,10 +24,50 @@ export PATH="${PATH}:${TESTROOT}:${TESTBIN}:${TESTSCRIPT}"
 export TC_SCENARIO="${TESTROOT}/scenarios"
 export SCENARIO_NAMES=""
 
-export BIG_FILE=bigfile.tar.bz2
-export SMALL_FILES=smallfiles
+# Check if bc is available, otherwise abort
+if [ ! `echo 1+1 | bc` ]; then
+	echo "FATAL: BC is unavailable, cannot continue"
+	return 1
+fi
 
-# Let's remove any existing partition
+# Check if SLOT variable is initialized, otherwise abort
+if [ "$SLOT" == "" ]
+then
+	echo "FATAL: Please specify the slot number by exporting it through SLOT variable"
+	echo "Available Values: Depend on Development Board, beginning by 0"
+	echo "e.g. export SLOT=0"
+	exit 1
+fi
+
+
+# MMC specific variables
+export PROCFS_DEVICES=/proc/devices
+export PROCFS_INTERRUPTS=/proc/interrupts
+export PROCFS_PARTITIONS=/proc/partitions
+
+export MMC_ROOT_NAME=mmcblk$SLOT
+export MMC_ROOT_ENTRY=/dev/$MMC_ROOT_NAME
+export MMC_PARTITION_NAME1=${MMC_ROOT_NAME}p1
+export MMC_PARTITION_NAME2=${MMC_ROOT_NAME}p2
+export MMC_PARTITION_ENTRY1=/dev/$MMC_PARTITION_NAME1
+export MMC_PARTITION_ENTRY2=/dev/$MMC_PARTITION_NAME2
+export MMC_MOUNT_POINT_1=/mnt/mmc$SLOT
+export MMC_MOUNT_POINT_2=/mnt/mmc`echo "$SLOT+2" | bc`
+export MMC_DEVICE_SECTOR_START=1
+export MMC_DEVICE_SECTOR_END=`GetEndSector $MMC_ROOT_ENTRY`
+export MMC_DEVICE_SECTOR_MIDDLE=`echo $MMC_DEVICE_SECTOR_END/2|bc`
+
+export FILE_SIZE_BIG=bigfile.tar.bz2
+export FILE_SIZE_SMALL=smallfiles
+
+# Remove any existing partition
 $TESTSCRIPT/RemovePartitions.bash
+
+# See if MMC in inserted, otherwise abort
+cat $PROCFS_PARTITIONS | grep $MMC_ROOT_NAME
+if [ "$?" -eq "1" ]; then
+	echo "FATAL: MMC is not inserted in the specified slot, cannot continue"
+	exit 1
+fi
 
 # End of file
