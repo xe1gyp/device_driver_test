@@ -1,30 +1,24 @@
 #####################
-# FILENAME: L_DD_VID_0012
-# Author  : Benjamin Mejia
-# Date    : Mon Feb 26, 2007
+# FILENAME: L_DD_VID_0011
+# Author  : Cristopherson Torre Martinez
+# Date    : Tuesday, December 2, 2008
 # Copyright (C) 2007 Texas Instruments
 #
 # Description:
 # Video (Vid) tests
 
-# Begin "L_DD_VID_0012"
+# Begin "L_DD_VIDEO_0011"
 
-0001_COMMENT_VD1 comment.sh "Verify the Color conversion coefficients can be changed on Video Pipeline 1"
-0001_VD1 $TESTBIN/setimg 1 YUYV 176 144 | grep "fault" && exit 0 || exit 1; sleep 1;
-0001_VD1 $TESTBIN/setcolorconv 1 1 2 3 4 5 6 7 8 9 | grep "fault" && exit 0 || exit 1; sleep 1;
-0001_VD1 $TESTBIN/streaming 1 $VIDEOFILES/video_qcif_yuv_75 | grep "fault" && exit 0 || exit 1; sleep 1;
+COMMENT comment.sh "Verify that the both  pipeline can be 'suspended' or 'resumed'"
 
-0002_COMMENT_VD1 comment.sh "Verify the Color conversion coefficients can be reset to default values in Video Pipeline 1"
-0002_VD1 $TESTBIN/setdefcolcon 1 0 | grep "fault" && exit 0 || exit 1; sleep 1;
-0002_VD1 $TESTBIN/streaming 1 $VIDEOFILES/video_qcif_yuv_75 | grep "fault" && exit 0 || exit 1; sleep 1;
+0001_COMMENT_VD1 comment.sh "Image shall be rendered properly on Video Pipeline 1"
+0001_COMMENT_VD1 comment.sh "After turning off the lcd, please touch the board screen or the keypad."
+0001_VD1 set -x; suspend_stream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0001_COMMENT_VD2 comment.sh "Image shall be rendered properly on Video Pipeline 1"
+0001_COMMENT_VD2 comment.sh "After turning off the lcd, please touch the board screen or the keypad."
+0001_VD2 set -x; suspend_stream.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
 
-0003_COMMENT_VD2 comment.sh "Verify the Color conversion coefficients can be changed on Video Pipeline 2"
-0003_VD2 $TESTBIN/setimg 2 YUYV 176 144 | grep "fault" && exit 0 || exit 1; sleep 1;
-0003_VD2 $TESTBIN/setcolorconv 2 1 2 3 4 5 6 7 8 9 | grep "fault" && exit 0 || exit 1; sleep 1;
-0003_VD2 $TESTBIN/streaming 2 $VIDEOFILES/video_qcif_yuv_75 | grep "fault" && exit 0 || exit 1; sleep 1;
 
-0004_COMMENT_VD2 comment.sh "Verify the Color conversion coefficients can be reset to default values on Video Pipeline 2"
-0004_VD2 $TESTBIN/setdefcolcon 2 0 | grep "fault" && exit 0 || exit 1; sleep 1;
-0004_VD2 $TESTBIN/streaming 2 $VIDEOFILES/video_qcif_yuv_75 | grep "fault" && exit 0 || exit 1; sleep 1;
+# End "L_DD_VIDEO_0011"
 
-# End "L_DD_VID_0012"
+

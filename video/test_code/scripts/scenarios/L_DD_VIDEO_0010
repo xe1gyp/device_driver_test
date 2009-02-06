@@ -1,20 +1,16 @@
 #####################
 # FILENAME: L_DD_VIDEO_0010
-# Author  : Carlos Pando
-# Date    : Fri Jan 5, 2007
-# Copyright (C) 2007 Texas Instruments
-#
-# Description:
-# Video (Vid) tests
+# Author  : Cristopherson Torres Martinez
+# Date    : Fri Feb 6, 2009
 
 # Begin "L_DD_VIDEO_0010"
 
-COMMENT comment.sh "Verify the background color of the canvas can be configured"
-COMMENT comment.sh "SENDING GFX PIPELINE TO TV"
-0001 echo tv > /sys/class/display_control/omap_disp_control/graphics && exit 0 || exit 1
-0001 set -x; background.sh "1" "123456"&& exit 0 || exit 1
-0001 set -x; background.sh "1" "765432"&& exit 0 || exit 1
-COMMENT_INT comment.sh "SENDING GFX PIPELINE TO TV"
-0001 echo lcd > /sys/class/display_control/omap_disp_control/graphics && exit 0 || exit 1
+# DSS pipelines shall be capable of being assigned dynamically to either LCD or TV-out, this test verifies the same in video pipeline 1.
+0001_COMMENT comment.sh "Verify Video Pipeline 1 can be displayed on TV and LCD alternately"
+0001 set -x; dss_streaming.sh 1 1 && exit 0 || exit 1
+
+# DSS pipelines shall be capable of being assigned dynamically to either LCD or TV-out, this test verifies the same in video pipeline 2.
+0002_COMMENT comment.sh "Verify Video Pipeline 2 can be displayed on TV and LCD alternately"
+0002 set -x; dss_streaming.sh 2 1 && exit 0 || exit 1
 
 # End "L_DD_VIDEO_0010"
