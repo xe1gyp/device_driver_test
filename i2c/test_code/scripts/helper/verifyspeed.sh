@@ -8,7 +8,8 @@ if [ "$SPEED_RECEIVED" = "$SPEED_ACTUAL" ]; then
 	return 0
 else
 	echo
-	echo "Adapter speed is not set to the required one"
+	echo "This is not an issue, adapter speed is not set to the required one!"
+	echo "Change speed in kernel configuration and run again"
 	echo "Requesting -> $SPEED_RECEIVED"
 	echo "Actual -> $SPEED_ACTUAL"
 	echo $ADAPTER_INFO
