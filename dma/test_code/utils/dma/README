@@ -1,0 +1,101 @@
+Date: February 8th, 2009
+Author: Gustavo Diaz Prado <x0083741@ti.com>
+
+Copyright (C) 2007-2009 Texas Instruments, Inc.
+
+This package is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License version 2 as
+published by the Free Software Foundation.
+
+THIS PACKAGE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+********************************************************************************
+Description:
+
+The files contained here have been created to test the DMA functionality
+for the OMAP34XX for a 2.6 kernel.
+
+********************************************************************************
+Contents:
+
+README.txt - This file
+Makefile   - Contains the DMA test modules compilation commands
+
+*Single channel transfers files
+dma_single_channel.c      - Common functions implementation, single transfers
+dma_single_channel.h      - Common functions declaration, single transfers
+dma_addrmode_constant.c   - Constant addressing mode
+dma_addrmode_doubleidx.c  - Double indexing addressing mode
+dma_addrmode_postinc.c    - Post increment addressing mode
+dma_addrmode_singleidx.c  - Single indexing addressing mode
+dma_burst_disabled.c      - Burst mode disabled
+dma_burst_mode4.c         - Burst mode of 4 bytes
+dma_burst_mode8.c         - Burst mode of 8 bytes
+dma_burst_mode16.c        - Burst mode of 16 bytes
+dma_endianism_big.c       - Endianism
+dma_priority_high.c       - High priority transfers
+dma_priority_low.c        - Low priority transfers
+dma_stop_transfer.c       - Stopping a on going transfer
+dma_transfer_query.c      - Querying information about an on going transfer
+
+*Chained transfers files
+dma_chain_transfer.c      - Common functions implementation, chained transfers
+dma_chain_transfer.h      - Common functions declaration, chained transfers
+dma_chain_dynamic.c       - Dynamic chaining
+dma_chain_static.c        - Static chaining
+
+********************************************************************************
+Compilation instructions:
+
+Export a KDIR variable to point to the sources of a 2.6 kernel which has
+OMAP34XX support. Also a CROSS_COMPILE variable is needed to specify the
+desired compilation architecture. You can create the environment variables
+with the export command, usually with the following values:
+
+export KDIR="/kernels/my_omap34xx_kernel26_source/"
+export CROSS_COMPILE="arm-none-linux-gnueabi-"
+
+Execute the makefile by writing make. Open the Makefile to change the
+compilation according to your needs.
+
+make - Compiles the DMA test modules
+make clean - Cleans up the generated files
+
+********************************************************************************
+Running the tests:
+
+To run a single test first insert the common functions module then the feature
+test module.
+
+For example, to test the constant addressing mode:
+
+insmod dma_single_channel.ko
+insmod dma_addrmode_constant.ko
+
+For example, to test the dynamic chain feature:
+
+insmod dma_chain_transfer.ko
+insmod dma_chain_dynamic.ko
+
+When a test module is inserted a proc entry is created which you can read to
+determine if the test passed or not. The proc entry is related to the module
+name. For example, when the module dma_addrmode_constant.ko is inserted the
+/proc/drivers/dma_addrmode_constant is created, if the dma_priority_low.ko
+is inserted the /proc/drivers/dma_priority_low is created and so on.
+
+When you insert a feature module the test begins to run. Reading the
+proc entry will give you the following results: Test PASSED, Test FAILED. This
+result will be available when the test finishes the execution so a quick call to
+read the proc entry right after the module is inserted will make the read
+command to wait until the test finishes. You can read the proc entry with the
+cat command.
+
+cat /proc/drivers/dma_priority_low
+
+IMPORTANT: After the execution of a test, you must remove both modules
+(the common module and the feature module) in order to execute another test.
+This is due the common functions module holds data about the past executed
+test, to remove them just use the rmmod command. Removing the modules also
+removes created proc entry.

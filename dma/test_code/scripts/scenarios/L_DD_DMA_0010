@@ -1,16 +1,16 @@
 ################################################################################
-# Scenario:    L_DD_DMA_0004
+# Scenario:    L_DD_DMA_0010
 # Author  :    Gustavo Diaz Prado
 # Date    :    February 8th, 2009
-# Description: DMA Single indexing addressing mode
+# Description: DMA High priority transfers
 ################################################################################
 
-# Begin L_DD_DMA_0004
+# Begin L_DD_DMA_0010
 
 0001	set -x; insmod $TESTMODS/dma_single_channel.ko
-0002	set -x; insmod $TESTMODS/dma_addrmode_singleidx.ko
-0003  set -x; cat /proc/driver/dma_addrmode_singleidx | grep PASS
-0004	set -x; rmmod dma_addrmode_singleidx
+0002	set -x; insmod $TESTMODS/dma_priority_high.ko
+0003  set -x; cat /proc/driver/dma_priority_high | grep PASS
+0004	set -x; rmmod dma_priority_high
 0005	set -x; rmmod dma_single_channel
 
-# End L_DD_DMA_0004
+# End L_DD_DMA_0010

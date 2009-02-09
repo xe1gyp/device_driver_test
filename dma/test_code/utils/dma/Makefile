@@ -1,15 +1,31 @@
-#/* ================================================================================
+#===============================================================================
 #             Texas Instruments OMAP(TM) Platform Software
 #  (c) Copyright Texas Instruments, Incorporated.  All Rights Reserved.
 #
 #  Use of this software is controlled by the terms and conditions found 
 #  in the license agreement under which this software has been supplied.
-# ================================================================================ */
+#===============================================================================
 
 CC := $(CROSS_COMPILE)gcc
 
-TARGETS = stat_analyzer
-MODULES = dma_stat.o dma_buf_logic.o dmaunlnk.o dmastatic_chain.o dmadynamic_chain.o dmatest.o dmaoddbuffer.o
+MODULES = dma_single_channel.o \
+  dma_chain_transfer.o \
+  dma_priority_high.o \
+  dma_priority_low.o \
+  dma_stop_transfer.o \
+  dma_transfer_query.o \
+  dma_addrmode_constant.o \
+  dma_addrmode_postinc.o \
+  dma_addrmode_singleidx.o \
+  dma_addrmode_doubleidx.o \
+  dma_burst_disabled.o \
+  dma_burst_mode4.o \
+  dma_burst_mode8.o \
+  dma_burst_mode16.o \
+  dma_endianism_big.o \
+  dma_chain_static.o \
+  dma_chain_dynamic.o \
+
 obj-m:=$(MODULES)
 
 all: $(TARGETS)
@@ -17,7 +33,6 @@ all: $(TARGETS)
 
 install:
 	cp -v $(MODULES:.o=.ko) ../../mods
-	cp -v stat_analyzer ../../bin
 
 $(TARGETS):
 	$(CC) $@.c -o $@
