@@ -6,17 +6,32 @@
 
 # Begin L_DD_NAND_0005_0001
 
-01  set -x; $TESTSCRIPT/LockUnlockDevice.sh $MTD_CHAR_DEV1 'Lock' 0 1 && exit 1 || exit 0
-02  set -x; $TESTSCRIPT/LockUnlockDevice.sh $MTD_CHAR_DEV1 'Unlock' 0 1 && exit 0 || exit 1
-03  set -x; $TESTSCRIPT/LockUnlockDevice.sh $MTD_CHAR_DEV1 'Lock' 0 4 && exit 1 || exit 0
-04  set -x; $TESTSCRIPT/LockUnlockDevice.sh $MTD_CHAR_DEV1 'Unlock' 0 4 && exit 0 || exit 1
-05  set -x; $TESTSCRIPT/LockUnlockDevice.sh $MTD_CHAR_DEV1 'Lock' 0 2 && exit 1 || exit 0
-06  set -x; $TESTSCRIPT/LockUnlockDevice.sh $MTD_CHAR_DEV1 'Unlock' 0 2 && exit 0 || exit 1
-07  set -x; $TESTSCRIPT/LockUnlockDevice.sh $MTD_CHAR_DEV1 'Unlock' $DEV_SIZE 1 && exit 1 || exit 0
+# Device 1
+01  set -x; $TESTBIN/flash_lock $MTD_CHAR_DEV1 && exit 0 || exit 1
+02  set -x; $TESTBIN/flash_unlock $MTD_CHAR_DEV1 && exit 0 || exit 1
 
-08  set -x; $TESTSCRIPT/LockUnlockDevice.sh $MTD_CHAR_DEV1 'Lock' 0 1 && exit 0 || exit 1
-09  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV1 0 1 && exit 1 || exit 0
-10  set -x; $TESTSCRIPT/LockUnlockDevice.sh $MTD_CHAR_DEV1 'Unlock' 0 1 && exit 0 || exit 1
-11  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV1 0 1 && exit 0 || exit 1
+02  set -x; $TESTBIN/flash_lock $MTD_CHAR_DEV1 0 1 && exit 0 || exit 1
+03  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV1 0 1 && exit 1 || exit 0
+04  set -x; $TESTBIN/flash_unlock $MTD_CHAR_DEV1 0 1 && exit 0 || exit 1
+05  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV1 0 1 && exit 0 || exit 1
+
+06  set -x; $TESTBIN/flash_lock $MTD_CHAR_DEV1 0 4 && exit 0 || exit 1
+07  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV1 0 4 && exit 1 || exit 0
+08  set -x; $TESTBIN/flash_unlock $MTD_CHAR_DEV1 0 4 && exit 0 || exit 1
+09  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV1 0 4 && exit 0 || exit 1
+
+# Device 2
+10  set -x; $TESTBIN/flash_lock $MTD_CHAR_DEV2 && exit 0 || exit 1
+11  set -x; $TESTBIN/flash_unlock $MTD_CHAR_DEV2 && exit 0 || exit 1
+
+12  set -x; $TESTBIN/flash_lock $MTD_CHAR_DEV2 0 1 && exit 0 || exit 1
+13  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV2 0 1 && exit 1 || exit 0
+14  set -x; $TESTBIN/flash_unlock $MTD_CHAR_DEV2 0 1 && exit 0 || exit 1
+15  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV2 0 1 && exit 0 || exit 1
+
+16  set -x; $TESTBIN/flash_lock $MTD_CHAR_DEV2 0 4 && exit 0 || exit 1
+17  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV2 0 4 && exit 1 || exit 0
+18  set -x; $TESTBIN/flash_unlock $MTD_CHAR_DEV2 0 4 && exit 0 || exit 1
+19  set -x; $TESTBIN/flash_erase $MTD_CHAR_DEV2 0 4 && exit 0 || exit 1
 
 # End L_DD_NAND_0005_0001

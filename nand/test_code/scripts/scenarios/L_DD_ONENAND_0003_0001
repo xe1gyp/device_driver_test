@@ -1,10 +1,10 @@
 ###############################################################################
-# Scenario: L_DD_ONE_0003_0001
+# Scenario: L_DD_ONENAND_0003_0001
 # Author  : Misael Lopez Cruz
 # Date    : January 20th, 2009
 ###############################################################################
 
-# Begin L_DD_ONE_0003_0001
+# Begin L_DD_ONENAND_0003_0001
 
 # Device 1
 01  set -x; $TESTBIN/flash_eraseall $MTD_CHAR_DEV1 && exit 0 || exit 1
@@ -12,6 +12,6 @@
 
 # Device 2
 03  set -x; $TESTBIN/flash_eraseall $MTD_CHAR_DEV2 && exit 0 || exit 1
-04  set -x; $TESTBIN/nandwrite -p $MTD_CHAR_DEV2 $JFFS2_IMAGE && exit 0 || exit 1
+04  set -x; $TESTBIN/nandwrite -p $MTD_CHAR_DEV2 $SUMTOOL_FILE && exit 0 || exit 1
 
-# End L_DD_ONE_0003_0001
+# End L_DD_ONENAND_0003_0001
