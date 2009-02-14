@@ -48,7 +48,7 @@ if [ -z $DRIVERS ]
 then
 	# Compiling all drivers test suites
 	# Missing Test Suites > sdio, timer-32k, hdq
-	DRIVERS="audio-alsa dma ethernet gpio framebuffer i2c keypad mcbsp mmc nand norflash power_management realtimeclock touchscreen video watchdog camera usb_device usb_host usb_otg"
+	DRIVERS="audio-alsa dma ethernet gpio framebuffer i2c keypad mcbsp mmc nand norflash power_management realtimeclock touchscreen video watchdog camera usb_device usb_host usb_otg usb_ehci"
 fi	
 
 # Verify needed variables are exported
@@ -63,7 +63,7 @@ fi
 
 if [ "$TESTSUITES" == "all" ]
 then
-	TESTSUITES="audio-alsa dma ethernet gpio framebuffer i2c keypad mcbsp mmc nand norflash power_management realtimeclock touchscreen video watchdog usb_device usb_host usb_otg"
+	TESTSUITES="audio-alsa dma ethernet gpio framebuffer i2c keypad mcbsp mmc nand norflash power_management realtimeclock touchscreen video watchdog usb_device usb_host usb_otg usb_ehci"
 fi
 
 echo; echo "The following test suites will be compiled: $TESTSUITES"; echo; sleep 3
