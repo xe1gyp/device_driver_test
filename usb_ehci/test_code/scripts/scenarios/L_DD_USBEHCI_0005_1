@@ -83,4 +83,4 @@ foo	echo L_DD_USBEHCI_0005_1
 
 #27 set -x; if [ $USB_DRIVER = "MENTOR" ] ; then    rmmod g_zero.ko ; fi && exit 0 || exit 1
 
-bar	echo L_DD_USBHost_0005_1
+bar	echo L_DD_USBEHCI_0005_1

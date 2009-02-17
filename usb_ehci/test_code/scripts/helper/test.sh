@@ -32,7 +32,7 @@ TYPES='control out in'
 
 COUNT=50000
 BUFLEN=2048
-TEST_PATH=../../bin/
+TEST_PATH=${PWD}/../bin
 MAX_ITER=5
 
 # NOTE:  the 'in' and 'out' cases are usually bulk, but can be
