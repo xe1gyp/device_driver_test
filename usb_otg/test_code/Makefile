@@ -21,19 +21,23 @@
 ##############################################################################
 
 DESTDIR := bin mods
-OBJS := install
+OBJS := utilities install
 
 all: $(OBJS)
 
+utilities:
+	make -C utils
 
 install:
 	mkdir -p $(DESTDIR)
 	mkdir -p scripts/test
 	mkdir -p scripts/tmp
 	mkdir -p scripts/log
+	make  -C utils install
 
 clean:
 	rm -rvf $(DESTDIR)
 	rm -rf scripts/log
 	rm -rf scripts/tmp
 	rm -rf scripts/test
+	make -C utils clean
