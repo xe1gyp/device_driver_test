@@ -13,7 +13,7 @@
  * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
  * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  */
- 
+
 /* Device Constants */
 #ifndef OMAP_ISP_AF_H
 #define OMAP_ISP_AF_H
@@ -21,7 +21,7 @@
 #define AF_MAJOR_NUMBER                 0
 #define ISPAF_NAME                     "OMAPISP_AF"
 #define AF_NR_DEVS                      1
-#define AF_TIMEOUT                      (300*HZ)/1000
+#define AF_TIMEOUT                      ((300 * HZ) / 1000)
 
 
 /* Range Constants */
@@ -65,10 +65,10 @@
 #pragma pack(1)
 
 #define  AF_MAGIC_NO        'a'
-#define  AF_S_PARAM         _IOWR(AF_MAGIC_NO,1,struct af_configuration *)
-#define  AF_G_PARAM         _IOWR(AF_MAGIC_NO,2,struct af_configuration *)
-#define  AF_ENABLE          _IO(AF_MAGIC_NO,3)
-#define  AF_DISABLE         _IO(AF_MAGIC_NO,4)
+#define  AF_S_PARAM         _IOWR(AF_MAGIC_NO, 1, struct af_configuration *)
+#define  AF_G_PARAM         _IOWR(AF_MAGIC_NO, 2, struct af_configuration *)
+#define  AF_ENABLE          _IO(AF_MAGIC_NO, 3)
+#define  AF_DISABLE         _IO(AF_MAGIC_NO, 4)
 #define		AF_IOC_BASE			       'R'
 #define		AF_IOC_MAXNR				2
 
@@ -92,31 +92,31 @@
 /*
  *    PCR fields
  */
-#define AF_BUSYAF                       (1<<15)
-#define FVMODE                          (1<<14)
-#define RGBPOS                          (0x7<<11)
-#define MED_TH                          (0xFF<<3)
-#define AF_MED_EN                       (1<<2)
-#define AF_ALAW_EN                      (1<<1)
-#define AF_EN                           (1<<0)
+#define AF_BUSYAF                       (1 << 15)
+#define FVMODE                          (1 << 14)
+#define RGBPOS                          (0x7 << 11)
+#define MED_TH                          (0xFF << 3)
+#define AF_MED_EN                       (1 << 2)
+#define AF_ALAW_EN                      (1 << 1)
+#define AF_EN                           (1 << 0)
 
 /*
  * AFPAX1 fields
  */
-#define PAXW                            (0x7F<<16)
+#define PAXW                            (0x7F << 16)
 #define PAXH                            0x7F
 
 /*
  * AFPAX2 fields
  */
-#define  AFINCV                         (0xF<<13)
-#define  PAXVC                          (0x7F<<6)
+#define  AFINCV                         (0xF << 13)
+#define  PAXVC                          (0x7F << 6)
 #define  PAXHC                          0x3F
 
 /*
  * AFPAXSTART fields
  */
-#define  PAXSH                          (0xFFF<<16)
+#define  PAXSH                          (0xFFF << 16)
 #define  PAXSV                          0xFFF
 
 /*
@@ -124,7 +124,7 @@
  */
 
 #define COEF_MASK0                      0xFFF
-#define COEF_MASK1                      (0xFFF<<16)
+#define COEF_MASK1                      (0xFFF << 16)
 
 /* CCDC BITS */
 #define AF_VPEN_MASK                    0x8000
@@ -207,8 +207,8 @@ struct af_hmf {
 /* Contains the information regarding the IIR Filters */
 struct af_iir {
 	unsigned int hz_start_pos;	/* IIR Start Register Value */
-	int coeff_set0[AF_NUMBER_OF_COEF];	/* IIR Filter Coefficient for Set 0 */
-	int coeff_set1[AF_NUMBER_OF_COEF];	/* IIR Filter Coefficient for Set 1 */
+	int coeff_set0[AF_NUMBER_OF_COEF];/* IIR Filter Coefficient for Set 0 */
+	int coeff_set1[AF_NUMBER_OF_COEF];/* IIR Filter Coefficient for Set 1 */
 };
 
 /* Contains the information regarding the Paxels Structure in AF Engine */
@@ -235,7 +235,7 @@ struct af_configuration {
 
 /* Structure for device of AF Engine */
 struct af_device {
-	struct af_configuration *config;	/*Device configuration structure */
+	struct af_configuration *config;	/*Device configuration struct*/
 	int size_paxel;				/*Paxel size in bytes */
 };
 
@@ -245,4 +245,4 @@ int isp_af_register_setup(struct af_device *);
 int isp_af_enable(int);
 void isp_af_set_address(unsigned long);
 
-#endif   /* OMAP_ISP_AF_H */			
+#endif   /* OMAP_ISP_AF_H */

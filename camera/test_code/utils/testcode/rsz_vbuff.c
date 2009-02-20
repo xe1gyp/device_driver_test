@@ -12,7 +12,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <asm/types.h>
-#include <linux/videodev.h>
+#include <linux/videodev2.h>
 #include "rsz_vbuff.h"
 
 #define COEF(nr, dr)   ( (short)( ((nr)*(int)QMUL)/(dr) ) )/* coeff = nr/dr*/
@@ -77,18 +77,18 @@ int main(int argc, const char *argv[])
 	struct v4l2_buffer vbuffer;
 	void *ibuffer;
 
-	if (argc == 1 || (argc == 2 && !strcmp(argv[1],"?")) || argc > 7 ) {
+	if (argc == 1 || (argc == 2 && !strcmp(argv[1], "?")) || argc > 7) {
 		usage();
 		return -1;
 	} else {
 		IN_HSIZE = atoi(argv[3]);
-		printf ("%s",argv[3]);
+		printf("%s", argv[3]);
 		IN_VSIZE = atoi(argv[4]);
-		printf ("%s",argv[4]);
+		printf("%s", argv[4]);
 		OUT_HSIZE = atoi(argv[5]);
-		printf ("%s",argv[5]);
+		printf("%s", argv[5]);
 		OUT_VSIZE = atoi(argv[6]);
-		printf ("%s",argv[6]);
+		printf("%s", argv[6]);
 	}
 
 	in_data = fopen(argv[1], "rb");
@@ -108,7 +108,7 @@ int main(int argc, const char *argv[])
 		printf("Error opening Resizer\n");
 		return -1;
 	}
-	//printf("Resizer opened\n");
+
 	/* Set Parameters */
 	params.in_hsize = IN_HSIZE;
 	params.in_vsize = IN_VSIZE;
@@ -139,7 +139,7 @@ int main(int argc, const char *argv[])
 	params.yenh_params.gain = 0;
 	params.yenh_params.slop = 0;
 	params.yenh_params.core = 0;
-	//printf("Sending parameters to Resizer Wrapper\n");
+
 	ret_val = ioctl(fd, RSZ_S_PARAM, &params);
 	if (ret_val) {
 		printf("\nWrong Parameters for ISP Resizer\n");
@@ -193,16 +193,16 @@ int main(int argc, const char *argv[])
 	/* Buffer size, 10 bits per pixel = 2 bytes per pixel */
 	sizeimage = params.in_hsize * params.in_vsize * 2;
 	creqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-	creqbuf.memory = V4L2_MEMORY_MMAP; //V4L2_MEMORY_USERPTR;
+	creqbuf.memory = V4L2_MEMORY_MMAP;
 	 
 	creqbuf.count = ((params.in_hsize > params.out_hsize) ? 1 : 2);
 	 
 	sleep(2);
 	
 	/* Request input buffer */
-	ret_val = ioctl (fd, RSZ_REQBUF, &creqbuf);
+	ret_val = ioctl(fd, RSZ_REQBUF, &creqbuf);
 	if (ret_val < 0) {
-		printf("Error requesting input buffer, retval= %d\n",ret_val);
+		printf("Error requesting input buffer, retval= %d\n", ret_val);
 		return ret_val;
 	} else
 		printf("Allocated INPUT buffer of %d bytes\n", sizeimage);
@@ -212,7 +212,7 @@ int main(int argc, const char *argv[])
 	vbuffer.index = 0;
 
 	/* This IOCTL just updates buffer */
-	ret_val = ioctl (fd, RSZ_QUERYBUF, &vbuffer);
+	ret_val = ioctl(fd, RSZ_QUERYBUF, &vbuffer);
 	if (ret_val) {
 		printf("Unable to query input buffer %d\n", vbuffer.index);
 		return ret_val;  	
@@ -227,7 +227,7 @@ int main(int argc, const char *argv[])
 		return -1;
 	}
 	vbuffer.m.userptr = (unsigned int)in_start;
-	printf("Mapped Buffer.start = %x  length = %d\n", 
+	printf("Mapped Buffer.start = %x  length = %d\n",
 		in_start, vbuffer.length);
 	
 	if (ioctl(fd, RSZ_QUEUEBUF, &vbuffer) < 0) {
@@ -235,46 +235,44 @@ int main(int argc, const char *argv[])
 		return -1;
 	}
 
-	//////upscaling second buffer
-	if(creqbuf.count == 2)
-	{
+	if (creqbuf.count == 2) {
 		vbuffer.index = 1;
 
 		/* This IOCTL just updates buffer */
-		ret_val = ioctl (fd, RSZ_QUERYBUF, &vbuffer);
+		ret_val = ioctl(fd, RSZ_QUERYBUF, &vbuffer);
 		if (ret_val) {
-		printf("Unable to query output buffer %d\n", vbuffer.index);
-		return ret_val;  	
+			printf("Unable to query output buffer %d\n",
+					vbuffer.index);
+			return ret_val;
 		}
 
 		out_start = 
-		mmap(NULL, vbuffer.length, PROT_READ |
+			mmap(NULL, vbuffer.length, PROT_READ |
 						PROT_WRITE, MAP_SHARED, fd,
 						vbuffer.m.offset);
 		printf("vbuffer.m.offset 2= %d\n", vbuffer.m.offset);
 		if (out_start == MAP_FAILED) {
-		printf("mmap error!\n");
-		return -1;
+			printf("mmap error!\n");
+			return -1;
 		}
 		vbuffer.m.userptr = (unsigned int)out_start;
-		printf("Mapped Buffer.start = %x  length = %d\n", 
+		printf("Mapped Buffer.start = %x  length = %d\n",
 			out_start, vbuffer.length);
 	
 		if (ioctl(fd, RSZ_QUEUEBUF, &vbuffer) < 0) {
 		perror("RSZ_QUEUEBUF");
 		return -1;
-		}	
+		}
 	}	
-	/////
 	
 	/* Copying input file to input buffer */
 	ret_val = fread(in_start, 1, sizeimage, in_data);
 	if (ret_val != sizeimage) {
 		printf("Bytes read = %d of %d \n", ret_val,
 			convert.in_buf.size);
-		perror ("fread");
+		perror("fread");
 		return;
-	}else
+	} else
 		printf("INPUT Buffer filled! \n");
 
 
@@ -290,13 +288,12 @@ int main(int argc, const char *argv[])
 		printf("Error in ioctl RSZ_RESIZE\n");
 		return ret_val;
 	}
-	//dwnscaling
+
 	if (params.in_hsize > params.out_hsize)
 		ret_val = fwrite(in_start, 1, OUT_HSIZE * OUT_HSIZE * 2, 
 								out_data);
 	else
-	//upscaling
-		ret_val = fwrite(out_start, 1, OUT_HSIZE * OUT_VSIZE * 2, 
+		ret_val = fwrite(out_start, 1, OUT_HSIZE * OUT_VSIZE * 2,
 								out_data);
 	
 	printf("Written %d  bytes of %d to out.yuv\n",

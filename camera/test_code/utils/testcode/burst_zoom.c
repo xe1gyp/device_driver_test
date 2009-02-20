@@ -12,7 +12,7 @@
 #include <errno.h>
 #include <linux/ioctl.h>
 #include <linux/fb.h>
-#include <linux/videodev.h>
+#include <linux/videodev2.h>
 #include <linux/errno.h>
 #include <sys/mman.h>
     
@@ -53,7 +53,8 @@ struct {
 	size_t length;
 } *cbuffers;
 
-static int crop(int cfd, int left, int top, int width, int height) {
+static int crop(int cfd, int left, int top, int width, int height)
+{
 	struct v4l2_cropcap cropcap;
 	struct v4l2_crop crop;
 	int ret;
@@ -76,9 +77,9 @@ static int crop(int cfd, int left, int top, int width, int height) {
 		return -1;
 	}
 
-	printf("Old Crop (%d, %d) (%d, %d)\n",crop.c.left, crop.c.top, 
+	printf("Old Crop (%d, %d) (%d, %d)\n", crop.c.left, crop.c.top,
 						crop.c.width, crop.c.height);
-	printf("wanted Crop (%d, %d) (%d, %d)\n",left, top, width, height);
+	printf("wanted Crop (%d, %d) (%d, %d)\n", left, top, width, height);
 
 	crop.c.left = left;
 	crop.c.top = top;
@@ -96,7 +97,7 @@ static int crop(int cfd, int left, int top, int width, int height) {
 		perror("VIDIOC_G_CROP");
 		return -1;
 	}
-	printf("New Video Crop (%d, %d) (%d, %d)\n\n",crop.c.left, crop.c.top, 
+	printf("New Video Crop (%d, %d) (%d, %d)\n\n", crop.c.left, crop.c.top,
 						crop.c.width, crop.c.height);
 
 	return 0;
@@ -139,17 +140,17 @@ int main(int argc, char *argv[])
 	}
 	
 	if ((fd = open_cam_device(O_RDWR,device)) <= 0) {
-		printf ("Could not open the cam device\n");
+		printf("Could not open the cam device\n");
 		return -1;
 	}
 
 	if (argc > index) {
-		pixelFmt=argv[index];
+		pixelFmt = argv[index];
 		index++;
 		if (argc > index) {
 			ret = validateSize(argv[index]);
 			if (ret == 0) {
-				ret = cam_ioctl(fd,pixelFmt,argv[index]);
+				ret = cam_ioctl(fd, pixelFmt, argv[index]);
 				if (ret < 0) {
 					usage();
 					return -1;
@@ -158,24 +159,22 @@ int main(int argc, char *argv[])
 			else {
 				index++;
 				if (argc > (index)) {
-					ret = cam_ioctl(fd,pixelFmt,
+					ret = cam_ioctl(fd, pixelFmt,
 						argv[index-1], argv[index]);
 					if (ret < 0) {
 						usage();
 						return -1;
 					}
-				}
-				else {
+				} else {
 					printf("Invalid size\n");
 					usage();
 					return -1;
 				}
 			}
 			index++;
-		}
-		else {
+		} else {
 			printf("Setting QCIF as video size, default value\n");
-			ret = cam_ioctl(fd,pixelFmt,DEFAULT_VIDEO_SIZE);
+			ret = cam_ioctl(fd, pixelFmt, DEFAULT_VIDEO_SIZE);
 			if (ret < 0)
 				return -1;
 		}
@@ -212,11 +211,11 @@ int main(int argc, char *argv[])
 	
 	if (argc > index) {
 		zoomFactor = atoi(argv[index]);
-		if(zoomFactor < 10 || zoomFactor >40) {
+		if (zoomFactor < 10 || zoomFactor > 40) {
 			printf("ERROR: Zoom Factor Not Supported Value must "
 								"be between"
 								" 10-40\n");
-			printf("argv[%d]=%s\n",index,argv[index]);
+			printf("argv[%d]=%s\n", index, argv[index]);
 			usage();
 			return 0;
 		}
@@ -285,10 +284,9 @@ int main(int argc, char *argv[])
 		}
 		if (memtype == V4L2_MEMORY_USERPTR) {
 			cbuffers[i].length = buffer.length;
-			if (cbuffers[i].length & 0xfff) {
+			if (cbuffers[i].length & 0xfff)
 				cbuffers[i].length =
 				    (cbuffers[i].length & 0xfffff000) + 0x1000;
-			}
 			cbuffers[i].start = malloc(cbuffers[i].length);
 			cbuffers[i].start_aligned =
 			    (void *)((unsigned int)(cbuffers[i].start) &
@@ -350,9 +348,8 @@ int main(int argc, char *argv[])
 		}
 		
 
-		while (ioctl(fd, VIDIOC_QBUF, &cfilledbuffer) < 0) {
+		while (ioctl(fd, VIDIOC_QBUF, &cfilledbuffer) < 0)
 			perror("CAM VIDIOC_QBUF");
-		}
 	}
 	/* we didn't turn off streaming yet */ 
 	if (count == -1) {
@@ -373,19 +370,19 @@ int main(int argc, char *argv[])
 	for (i = 0; i < creqbuf.count; i++) {
 		if (cbuffers[i].start) {
 			if (memtype == V4L2_MEMORY_USERPTR)
-				free(cbuffers[i].start);		
+				free(cbuffers[i].start);
 			else
 				munmap(cbuffers[i].start, cbuffers[i].length);
 		}
 	}
 	
-	zoomFactor=10;
+	zoomFactor = 10;
 	ret= crop(fd,(cformat.fmt.pix.width - 
-			(cformat.fmt.pix.width * 10)/zoomFactor) / 2,
+			(cformat.fmt.pix.width * 10) / zoomFactor) / 2,
 			(cformat.fmt.pix.height - 
-			(cformat.fmt.pix.height * 10)/zoomFactor) / 2,
-			(cformat.fmt.pix.width * 10)/zoomFactor, 
-			(cformat.fmt.pix.height * 10)/zoomFactor);
+			(cformat.fmt.pix.height * 10) / zoomFactor) / 2,
+			(cformat.fmt.pix.width * 10) / zoomFactor,
+			(cformat.fmt.pix.height * 10) / zoomFactor);
 	if(ret < 0)
 		printf("CROP FAILURE\n");
 	free(cbuffers);

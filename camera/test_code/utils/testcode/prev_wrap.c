@@ -17,7 +17,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <asm/types.h>
-#include <linux/videodev.h>
+#include <linux/videodev2.h>
 #include "prev_wrap.h"
 
 /* Default values in Office Flourescent Light for RGBtoRGB Blending */
@@ -66,7 +66,7 @@ int main(int argc, const char *argv[])
 	int i;
 	int IN_WIDTH, IN_HEIGHT;
 
-	if (argc == 1 || (argc == 2 && !strcmp(argv[1],"?")) || argc > 5 ) {
+	if (argc == 1 || (argc == 2 && !strcmp(argv[1], "?")) || argc > 5) {
 		usage();
 		return -1;
 	} else {
@@ -127,7 +127,7 @@ int main(int argc, const char *argv[])
 	/* RGB to YCbCr Blending */
 	params.rgb2ycbcr = flr_prev_csc_normal;
 
-	params.features = PREV_CFA | PREV_CHROMA_SUPPRESS | PREV_LUMA_ENHANCE 
+	params.features = PREV_CFA | PREV_CHROMA_SUPPRESS | PREV_LUMA_ENHANCE
 				| PREV_DEFECT_COR | PREV_NOISE_FILTER;
 
 	ret_val = ioctl(fd, PREV_SET_PARAM, &params);
@@ -152,7 +152,7 @@ int main(int argc, const char *argv[])
 	creqbuf.memory = V4L2_MEMORY_MMAP; 
 	creqbuf.count = 1;
 	if (ioctl(fd, PREV_REQBUF, &creqbuf) < 0) {
-		perror ("PREV_REQBUF");
+		perror("PREV_REQBUF");
 		return -1;
 	}
 
@@ -201,7 +201,7 @@ int main(int argc, const char *argv[])
 	if (ret_val != out_img_sz) {
 		printf("Bytes read = %d out of %d \n", ret_val,
 			out_img_sz);
-		perror ("fread");
+		perror("fread");
 		return;
 	}
 	printf("Writen  %d  bytes out of %d to %s\n",

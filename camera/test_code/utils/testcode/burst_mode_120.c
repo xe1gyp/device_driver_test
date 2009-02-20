@@ -12,7 +12,7 @@
 #include <errno.h>
 #include <linux/ioctl.h>
 #include <linux/fb.h>
-#include <linux/videodev.h>
+#include <linux/videodev2.h>
 #include <linux/errno.h>
 #include <sys/mman.h>
 #include <string.h>
@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
 	char * fileName;
 	int buffersRequested = BUFFERS_REQUESTED;
 	
-	colorLevel=COLOR_LEVEL;
+	colorLevel = COLOR_LEVEL;
 	
 	if ((argc > 1) && (!strcmp(argv[1], "?"))) {
 		usage();
@@ -100,29 +100,27 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	if (argc > index){
-	pixelFmt=argv[index];
-	index++;
+	if (argc > index) {
+		pixelFmt = argv[index];
+		index++;
 		if (argc > index){
 			ret = validateSize(argv[index]);
 			if (ret == 0) {
-				ret = cam_ioctl(fd,pixelFmt,argv[index]);
+				ret = cam_ioctl(fd, pixelFmt, argv[index]);
 				if (ret < 0) {
 					usage();
 					return -1;
 				}
-			}
-			else {
+			} else {
 				index++;
 				if (argc > (index)) {
-					ret = cam_ioctl(fd,pixelFmt,
+					ret = cam_ioctl(fd, pixelFmt,
 						argv[index-1], argv[index]);
 					if (ret < 0) {
 						usage();
 						return -1;
 					}
-				}
-				else {
+				} else {
 					printf("Invalid size\n");
 					usage();
 					return -1;
@@ -132,7 +130,7 @@ int main(int argc, char *argv[])
 		}
 		else {
 			printf("Setting QCIF as video size, default value\n");
-			ret = cam_ioctl(fd,pixelFmt,DEFAULT_VIDEO_SIZE);
+			ret = cam_ioctl(fd, pixelFmt, DEFAULT_VIDEO_SIZE);
 			if (ret < 0)
 				return -1;
 		}
@@ -149,7 +147,7 @@ int main(int argc, char *argv[])
 	
 	/**********************************************************************/
 
-	count = CAPTURED_FRAMES;	
+	count = CAPTURED_FRAMES;
 	printf("Frames: %d\n", count);
 
 	/*if (count >= 32 || count <= 0) {
@@ -160,17 +158,16 @@ int main(int argc, char *argv[])
 	
 	if (argc > index) {
 		fileName = argv[index];
-	}
-	else {
+	} else {
 		fileName = DEFAULT_FILE_NAME;
 	}
 	
 	if ((fd_save = creat(fileName, O_RDWR)) <= 0) {
 			printf("Can't create file %s\n", fileName);
 			fd_save = 0;
-	}
-	else {
-		printf("The captured frames will be saved into: %s\n",fileName);
+	} else {
+		printf("The captured frames will be saved into: %s\n",
+						fileName);
 	}
 	
 	if (ioctl(fd, VIDIOC_QUERYCAP, &capability) < 0) {
@@ -282,7 +279,7 @@ int main(int argc, char *argv[])
 		struct v4l2_buffer buffer2;
 		buffer2.type = creqbuf.type;
 		buffer2.memory = creqbuf.memory;
-		buffer2.index = i%4;//(i%4==0)?0:i%4;
+		buffer2.index = i%4;
 		if (ioctl(fd, VIDIOC_QUERYBUF, &buffer2) < 0) {
 			perror("VIDIOC_QUERYBUF");
 			return -1;
@@ -353,9 +350,8 @@ int main(int argc, char *argv[])
 			break;
 		}
 		
-		while (ioctl(fd, VIDIOC_QBUF, &cfilledbuffer) < 0) {
+		while (ioctl(fd, VIDIOC_QBUF, &cfilledbuffer) < 0)
 			perror("CAM VIDIOC_QBUF");
-		}
 	}
 	/* we didn't turn off streaming yet */ 
 	if (count == -1) {
@@ -375,16 +371,14 @@ int main(int argc, char *argv[])
 	printf("Completed writing to file\n");
 	
 	for (i = 0; i < CAPTURED_FRAMES ; i++) {
-		if (tempBuffers[i].start) {
+		if (tempBuffers[i].start)
 			free(tempBuffers[i].start);
-		}
 	}
 	printf("tempBuffers Freed\n");
 	for (i = 0; i < creqbuf.count; i++) {
 		if (cbuffers[i].start) {
-			if (memtype == V4L2_MEMORY_USERPTR){
+			if (memtype == V4L2_MEMORY_USERPTR)
 				free(cbuffers[i].start);
-			}
 			else
 				munmap(cbuffers[i].start, cbuffers[i].length);
 		}

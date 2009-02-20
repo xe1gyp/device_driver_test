@@ -12,7 +12,7 @@
 #include <linux/ioctl.h>
 #include <linux/fb.h>
 #include <sys/mman.h>
-#include <linux/videodev.h>
+#include <linux/videodev2.h>
 #include <linux/errno.h>
 #include <errno.h>
 #include "kbget.h"
@@ -305,7 +305,7 @@ int main(int argc, char *argv[])
 		printf("video %d: buffer.length=%d, buffer.m.offset=%d\n",
 				i, buffer.length, buffer.m.offset);
 #endif
-		vbuffers[i].length= buffer.length;
+		vbuffers[i].length = buffer.length;
 		vbuffers[i].start = mmap(NULL, buffer.length, PROT_READ|
 						PROT_WRITE, MAP_SHARED,
 						vfd, buffer.m.offset);
@@ -521,7 +521,6 @@ request:
 		while (ioctl(cfd, VIDIOC_QBUF, &cfilledbuffer) < 0) {
 			perror ("cam VIDIOC_QBUF");
 		}
-		///////////*************/////////	
 				
 		if ((input=kbhit())!=0) {
 			input = getch();

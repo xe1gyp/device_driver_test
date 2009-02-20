@@ -34,7 +34,7 @@
 #endif
 
 #define PREV_IOC_BASE   	'P'
-#define PREV_REQBUF     	_IOWR(PREV_IOC_BASE, 1, struct v4l2_requestbuffers)
+#define PREV_REQBUF     _IOWR(PREV_IOC_BASE, 1, struct v4l2_requestbuffers)
 #define PREV_QUERYBUF   	_IOWR(PREV_IOC_BASE, 2, struct v4l2_buffer)
 #define PREV_SET_PARAM  	_IOW(PREV_IOC_BASE, 3, struct prev_params)
 #define PREV_GET_PARAM  	_IOWR(PREV_IOC_BASE, 4, struct prev_params)

@@ -37,13 +37,13 @@
 #define		RSZ_IOC_MAXNR				8
 
 
-#define	RSZ_REQBUF		_IOWR(RSZ_IOC_BASE, 1, struct v4l2_requestbuffers)
-#define	RSZ_QUERYBUF		_IOWR(RSZ_IOC_BASE, 2, struct v4l2_buffer)
-#define	RSZ_S_PARAM		_IOWR(RSZ_IOC_BASE, 3, struct rsz_params)
-#define	RSZ_G_PARAM		_IOWR(RSZ_IOC_BASE, 4, struct rsz_params)
-#define	RSZ_RESIZE		_IOWR(RSZ_IOC_BASE, 5, int)
-#define	RSZ_G_STATUS		_IOWR(RSZ_IOC_BASE, 6, struct rsz_status)
-#define RSZ_QUEUEBUF     	_IOWR(RSZ_IOC_BASE, 7, struct v4l2_buffer)
+#define	RSZ_REQBUF	_IOWR(RSZ_IOC_BASE, 1, struct v4l2_requestbuffers)
+#define	RSZ_QUERYBUF	_IOWR(RSZ_IOC_BASE, 2, struct v4l2_buffer)
+#define	RSZ_S_PARAM	_IOWR(RSZ_IOC_BASE, 3, struct rsz_params)
+#define	RSZ_G_PARAM	_IOWR(RSZ_IOC_BASE, 4, struct rsz_params)
+#define	RSZ_RESIZE	_IOWR(RSZ_IOC_BASE, 5, int)
+#define	RSZ_G_STATUS	_IOWR(RSZ_IOC_BASE, 6, struct rsz_status)
+#define RSZ_QUEUEBUF    _IOWR(RSZ_IOC_BASE, 7, struct v4l2_buffer)
 #define	RSZ_GET_CROPSIZE	_IOWR(RSZ_IOC_BASE, 8, struct rsz_cropsize)
 
 #define	RSZ_BUF_IN						0

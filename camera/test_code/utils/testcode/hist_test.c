@@ -20,7 +20,7 @@
 #include <linux/fb.h>
 #include <linux/fs.h>
 #include <linux/kernel.h>
-#include <linux/videodev.h>
+#include <linux/videodev2.h>
 
 #include <time.h>
 
@@ -72,7 +72,6 @@
 #define u8 unsigned char
 #endif				/* u8 */
 
-//#define CAP_UTILS
 #ifdef CAP_UTILS
 #include "CapUtils.h"
 #else
@@ -118,7 +117,7 @@ h3a_aewb_paxel_data_t h3a_avg[1];
 
 u16 speed_test_results[40][2];
 
-void hist_output ( u32 *hist_data, int hist_cnt_bins, FILE *fp_out)
+void hist_output(u32 *hist_data, int hist_cnt_bins, FILE *fp_out)
 {
 	int c0,c1,c2,c3;
 	int color_offset;
@@ -128,17 +127,17 @@ void hist_output ( u32 *hist_data, int hist_cnt_bins, FILE *fp_out)
 	printf("\nWriting statistics to hist_data.out file\n");
 	color_offset = (256 >> (3 - hist_cnt_bins));
 	printf("After color offset");
-	fprintf(fp_out," ===LINUX BASEPORT HISTOGRAM DRIVER OUTPUT===\n\n");
+	fprintf(fp_out, " ===LINUX BASEPORT HISTOGRAM DRIVER OUTPUT===\n\n");
 	fprintf(fp_out, "BIN value\tColor0\tColor1\tColor2\tColor3\n");
 	fprintf(fp_out, "=========\t======\t======\t======\t======\n\n");
 	
 	for(k = 0; k < 256; k++)
 	{
-		if((k != 0) && (k % color_offset == 0) )
+		if ((k != 0) && (k % color_offset == 0))
 		{
 			region++;
 			region_offset = 4 * color_offset * region;
-			if(region > 3)
+			if (region > 3)
 				return;
 			
 			fprintf(fp_out, "\t\t\t\t---  Region %d  ---\n", region);
@@ -186,7 +185,7 @@ int main(int argc, char *argv[])
 	int i, j = 0;
 	struct isp_hist_config hist_user;
 	struct isp_hist_data hist_data_user;
-	u32 *buff_preview;// = NULL;
+	u32 *buff_preview;
 	u32 *buff_char = NULL;
 	unsigned int buff_prev_size = 0;
 	int data8, data2, window, unsat_cnt;
@@ -207,8 +206,7 @@ int main(int argc, char *argv[])
 	struct v4l2_requestbuffers creqbuf, vreqbuf;
 	struct v4l2_buffer cfilledbuffer, vfilledbuffer;
 	struct v4l2_control control_hist_config, control_hist_request;
-	//hist_data_user.hist_statistics_buf = calloc(1,sizeof(u32));
-	
+
 	if (argc > index) {
 		if ((!strcmp(argv[1], "?")) ||
 		    ((argc != 5) && !strcmp(argv[1], "CCDC")) ||
@@ -230,10 +228,9 @@ int main(int argc, char *argv[])
 	
 	if (argc > index) {
 		framerate = atoi(argv[index]);
-		printf("Framerate = %d\n",framerate);
+		printf("Framerate = %d\n", framerate);
 		index++;
-	}
-	else {
+	} else {
 		printf("Using framerate = 30, default value\n");
 	}
 	

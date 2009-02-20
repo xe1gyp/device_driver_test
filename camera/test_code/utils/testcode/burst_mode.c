@@ -12,7 +12,7 @@
 #include <errno.h>
 #include <linux/ioctl.h>
 #include <linux/fb.h>
-#include <linux/videodev.h>
+#include <linux/videodev2.h>
 #include <linux/errno.h>
 #include <sys/mman.h>
 #include <string.h>
@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
 	char * pixelFmt;
 	char * fileName;
 	
-	colorLevel=COLOR_LEVEL;
+	colorLevel = COLOR_LEVEL;
 	
 	if ((argc > 1) && (!strcmp(argv[1], "?"))) {
 		usage();
@@ -116,19 +116,18 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	if (argc > index){
-	pixelFmt=argv[index];
-	index++;
-		if (argc > index){
+	if (argc > index) {
+		pixelFmt = argv[index];
+		index++;
+		if (argc > index) {
 			ret = validateSize(argv[index]);
 			if (ret == 0) {
-				ret = cam_ioctl(fd,pixelFmt,argv[index]);
+				ret = cam_ioctl(fd, pixelFmt, argv[index]);
 				if (ret < 0) {
 					usage();
 					return -1;
 				}
-			}
-			else {
+			} else {
 				index++;
 				if (argc > (index)) {
 					ret = cam_ioctl(fd,pixelFmt,
@@ -137,23 +136,20 @@ int main(int argc, char *argv[])
 						usage();
 						return -1;
 					}
-				}
-				else {
+				} else {
 					printf("Invalid size\n");
 					usage();
 					return -1;
 				}
 			}
 			index++;
-		}
-		else {
+		} else {
 			printf("Setting QCIF as video size, default value\n");
-			ret = cam_ioctl(fd,pixelFmt,DEFAULT_VIDEO_SIZE);
+			ret = cam_ioctl(fd, pixelFmt, DEFAULT_VIDEO_SIZE);
 			if (ret < 0)
 				return -1;
 		}
-	}
-	else {
+	} else {
 		printf("Setting pixel format and video size with default"
 								" values\n");
 		ret = cam_ioctl(fd, DEFAULT_PIXEL_FMT, DEFAULT_VIDEO_SIZE);
@@ -163,9 +159,9 @@ int main(int argc, char *argv[])
 	
 	/**********************************************************************/
 	if (cformat.fmt.pix.width == 2592 && cformat.fmt.pix.height == 1944)
-		ret = setFramerate(fd,13);
+		ret = setFramerate(fd, 13);
 	else 
-		ret = setFramerate(fd,DEFAULT_FRAMERATE);
+		ret = setFramerate(fd, DEFAULT_FRAMERATE);
 	
 	if (ret < 0) {
 		printf("Error setting framerate");
@@ -186,37 +182,36 @@ int main(int argc, char *argv[])
 	
 	if (argc > index) {
 		fileName = argv[index];
-	}
-	else {
+	} else {
 		fileName = DEFAULT_FILE_NAME;
 	}
 	
 	if ((fd_save = creat(fileName, O_RDWR)) <= 0) {
 			printf("Can't create file %s\n", fileName);
 			fd_save = 0;
-	}
-	else {
-		printf("The captured frames will be saved into: %s\n",fileName);
+	} else {
+		printf("The captured frames will be saved into: %s\n",
+							fileName);
 	}
 		
 	index++;
 	
 	if (argc > index) {
 		if(!strcmp(argv[index], "BW")){
-			colorLevel=BW_LEVEL;
-			printf("Using black & white color level: %d\n",colorLevel);
-		}
-		else {
+			colorLevel = BW_LEVEL;
+			printf("Using black & white color level: %d\n",
+						colorLevel);
+		} else {
 			if(!strcmp(argv[index], "SEPIA")) {
-				colorLevel=SEPIA_LEVEL;
-				printf("Using SEPIA color level: %d\n",colorLevel);
-			}
-			else
+				colorLevel = SEPIA_LEVEL;
+				printf("Using SEPIA color level: %d\n",
+						colorLevel);
+			} else
 				if(!strcmp(argv[index], "SEPIA"))
-					colorLevel=SEPIA_LEVEL;
+					colorLevel = SEPIA_LEVEL;
 				else{
 					printf("Invalid Color Effect: argv[%d]"
-						"=%s",index,argv[index]);
+						"=%s", index, argv[index]);
 					usage();
 					return 0;
 				}
@@ -314,17 +309,15 @@ int main(int argc, char *argv[])
 	cfilledbuffer.memory = memtype;
 	
 	/* query color capability*/
-	memset(&queryctrl,0,sizeof(queryctrl));
+	memset(&queryctrl, 0, sizeof(queryctrl));
 	
-	queryctrl.id=V4L2_CID_PRIVATE_BASE;
-	if(ioctl(fd,VIDIOC_QUERYCTRL, &queryctrl) == -1){
-	   printf("COLOR effect is not supported!\n");
-	}
+	queryctrl.id = V4L2_CID_PRIVATE_BASE;
+	if (ioctl(fd, VIDIOC_QUERYCTRL, &queryctrl) == -1)
+		printf("COLOR effect is not supported!\n");
 
 	control.id = V4L2_CID_PRIVATE_BASE;
-	if (ioctl(fd, VIDIOC_G_CTRL, &control) == -1) {
+	if (ioctl(fd, VIDIOC_G_CTRL, &control) == -1)
 		printf("VIDIOC_G_CTRL failed!\n");
-	}
 	printf("Color effect at the beginning of the test is supported, min %d," 
 		"max %d.\nCurrent color is level is %d\n",
 		queryctrl.minimum, queryctrl.maximum, control.value);
@@ -333,27 +326,23 @@ int main(int argc, char *argv[])
 	
 	control.id = V4L2_CID_CONTRAST;
 	control.value = DEF_CONT_LEVEL;
-	if (ioctl(fd, VIDIOC_S_CTRL, &control) == -1) {
+	if (ioctl(fd, VIDIOC_S_CTRL, &control) == -1)
 		printf("VIDIOC_S_CTRL CONTRAST failed!\n");
-	}
 	control.id = V4L2_CID_BRIGHTNESS;
 	control.value = DEF_BRT_LEVEL;
-	if (ioctl(fd, VIDIOC_S_CTRL, &control) == -1) {
+	if (ioctl(fd, VIDIOC_S_CTRL, &control) == -1)
 		printf("VIDIOC_S_CTRL BRIGHTNESS failed!\n");
-	}
 	
 	control.id = V4L2_CID_PRIVATE_BASE;
 	control.value = colorLevel;
-	if (ioctl(fd, VIDIOC_S_CTRL, &control) == -1) {
+	if (ioctl(fd, VIDIOC_S_CTRL, &control) == -1)
 		printf("VIDIOC_S_CTRL COLOR failed!\n");
-	}
 	
 	i = 0;
 	
 	control.id = V4L2_CID_PRIVATE_BASE;
-        if (ioctl(fd, VIDIOC_G_CTRL, &control) == -1) {
-                printf("VIDIOC_G_CTRL failed!\n");
-        }
+	if (ioctl(fd, VIDIOC_G_CTRL, &control) == -1)
+		printf("VIDIOC_G_CTRL failed!\n");
 
 	printf("Color effect values after setup is supported, min %d,"
 		"max %d.\nCurrent color is level is %d\n",
@@ -390,9 +379,8 @@ int main(int argc, char *argv[])
 			break;
 		}
 		
-		while (ioctl(fd, VIDIOC_QBUF, &cfilledbuffer) < 0) {
+		while (ioctl(fd, VIDIOC_QBUF, &cfilledbuffer) < 0)
 			perror("CAM VIDIOC_QBUF");
-		}
 	}
 	/* we didn't turn off streaming yet */ 
 	if (count == -1) {

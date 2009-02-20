@@ -158,12 +158,10 @@ int main(int argc, char *argv[])
 	if (argc > index) {
 		framerate = atoi(argv[index]);
 		printf("Framerate = %d\n",framerate);
-	}
-	else {
+	} else
 		printf("Using framerate = 30, default value\n");
-	}
 	
-	cfd = open_cam_device(O_RDWR,1);
+	cfd = open_cam_device(O_RDWR, 1);
 	if (cfd <= 0) {
 		printf("Could not open the cam device\n");
 		return -1;
@@ -174,10 +172,9 @@ int main(int argc, char *argv[])
 		printf("Could not open %s\n",
 				(vid == 1)?VIDEO_DEVICE1:VIDEO_DEVICE2);
 		return -1;
-	} else {
+	} else
 		printf("openned %s for rendering\n",
 				(vid == 1)?VIDEO_DEVICE1:VIDEO_DEVICE2);
-	}
 
 	if (ioctl(vfd, VIDIOC_QUERYCAP, &capability) == -1) {
 		perror("video VIDIOC_QUERYCAP");
@@ -201,7 +198,7 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 	
-	ret = setFramerate(cfd,framerate);
+	ret = setFramerate(cfd, framerate);
 	if (ret < 0){
 		printf("ERROR: VIDIOC_S_PARM ioctl cam\n");
 		return -1;
@@ -351,15 +348,14 @@ int main(int argc, char *argv[])
 	vfilledbuffer.index = -1;
 	sleep(5);
 	/* ***************************************************************** */
-	//wposn = atoi(argv[2]);
 
-	if (wposn == 1) {
+	if (wposn == 1)
 		wposn = 0xFF; /* MACRO */
-	} else if (wposn == 2) {
+	else if (wposn == 2)
 		wposn = 0x7F;
-	} else if (wposn == 3) {
+	else if (wposn == 3)
 		wposn = 0x00; /* Infinite */
-	} else {
+	else {
 		printf("Invalid Focus \n");
 		return -1;
 	}
