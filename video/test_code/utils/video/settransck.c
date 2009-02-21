@@ -55,9 +55,9 @@ int main(int argc, char *argv[])
 	if (file_descriptor <= 0) {
 		printf("Could not open %s\n", VIDEO_DEVICE1);
 		return 1;
-	}
-	else
+	} else {
 		printf("openned %s\n", VIDEO_DEVICE1);
+	}
 
 	colorkey.output_dev = output_device;
 	colorkey.key_type = cktype;
