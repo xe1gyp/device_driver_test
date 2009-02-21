@@ -50,9 +50,9 @@ int main(int argc, char *argv[])
 	if (file_descriptor <= 0) {
 		printf("Could not open %s\n",VIDEO_DEVICE1);
 		return 1;
-	}
-	else
+	} else {
 		printf("openned %s\n", VIDEO_DEVICE1);
+	}
 
 	printf("out %d state %d\n", output_device, state);
 
@@ -63,8 +63,7 @@ int main(int argc, char *argv[])
 			perror("VIDIOC_OMAP2_COLORKEY_ENABLE");
 			return 1;
 		}
-	}
-	else{
+	} else {
 		result = ioctl(file_descriptor, VIDIOC_OMAP2_COLORKEY_DISABLE,
 		&output_device);
 
