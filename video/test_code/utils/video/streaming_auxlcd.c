@@ -132,11 +132,13 @@ static int streaming_video(int output_device, int file_descriptor,
 
 	count = 1;
 	while (count < 2000) {
-		if (sleep_time)
+		if (sleep_time) {
 			sleep(sleep_time);
-		else
+		} else {
 			for (i = 0; i < 2000000; i++)
 				;
+		}
+
 		result = ioctl(output_device, VIDIOC_DQBUF, &filledbuffer);
 		if (result != 0) {
 			perror("VIDIOC_DQBUF");
@@ -145,10 +147,9 @@ static int streaming_video(int output_device, int file_descriptor,
 
 		i = read(file_descriptor, buffers[count%reqbuf.count].start,
 						49 * 68 * 3);
-		if (i <= 0) {
-			/*There is not more job to do.*/
-			return 0;
-		}
+		if (i <= 0)
+			return 0; /*There is not more job to do.*/
+
 #if 0
 		if (i != format.fmt.pix.sizeimage)
 			break;
@@ -202,8 +203,9 @@ int main(int argc, char *argv[])
 	if (output_device <= 0) {
 		printf("Could not open %s\n", VIDEO_DEVICE3);
 		return 1;
-	} else
+	} else {
 		printf("openned %s\n", VIDEO_DEVICE3);
+	}
 
 	file_descriptor = open(argv[1], O_RDONLY);
 	if (file_descriptor <= 0) {
