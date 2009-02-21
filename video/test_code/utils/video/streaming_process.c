@@ -263,7 +263,8 @@ int main(int argc, char *argv[])
 	int sleep_time = 0;
 	int priority1, priority2;
 
-	priority1 = 10; priority2 = -10;
+	priority1 = 10; 
+	priority2 = -10;
 
 	printf("STREAMING_ACTUAL\n");
 
@@ -284,9 +285,10 @@ int main(int argc, char *argv[])
 		printf("Could not open %s\n",
 		(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
 		return 1;
-	} else
+	} else {
 		printf("openned %s\n",
 			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
+	}
 
 	output_device = open(argv[2], O_RDONLY);
 	if (output_device <= 0) {
