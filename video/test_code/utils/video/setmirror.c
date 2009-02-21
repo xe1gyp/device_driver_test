@@ -46,13 +46,12 @@ int main(int argc, char *argv[])
 		printf("Could not open %s\n",
 			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
 		return 1;
-	}
-
-	else
+	} else {
 		printf("openned %s\n",
 			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
+	}
 
-	state = atoi(argv[2]);
+	state  = atoi(argv[2]);
 	result = ioctl(file_descriptor, VIDIOC_S_OMAP2_MIRROR, &state);
 
 	if (result != 0) {
@@ -60,7 +59,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	printf("Mirroring set to %d \n",state);
+	printf("Mirroring set to %d \n", state);
 	close(file_descriptor);
 	return 0;
 }

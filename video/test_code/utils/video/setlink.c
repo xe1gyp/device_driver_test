@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 		perror("VIDIOC_STREAMOFF");
 		return 1;
 	}
-	
+
 	link = 0;
 	result = ioctl(file_descriptor, VIDIOC_S_OMAP2_LINK, &link);
 	if (result != 0) {
