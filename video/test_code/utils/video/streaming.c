@@ -108,9 +108,9 @@ static int streaming_video(int output_device, int file_descriptor,
 	count = 1;
 	while (count < 2000) {
 		/* delay some for frame rate control */
-		if (sleep_time)
+		if (sleep_time) {
 			sleep(sleep_time);
-		else {
+		} else {
 			for (i = 0; i < 2000000; i++)
 				;
 		}
@@ -189,9 +189,10 @@ int main(int argc, char *argv[])
 		printf("Could not open %s\n",
 			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
 		return 1;
-	} else
+	} else {
 		printf("openned %s\n",
 			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
+	}
 
 	output_device = open(argv[2], O_RDONLY);
 	if (output_device <= 0) {
