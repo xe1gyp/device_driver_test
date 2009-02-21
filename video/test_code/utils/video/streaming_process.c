@@ -263,7 +263,7 @@ int main(int argc, char *argv[])
 	int sleep_time = 0;
 	int priority1, priority2;
 
-	priority1 = 10; 
+	priority1 = 10;
 	priority2 = -10;
 
 	printf("STREAMING_ACTUAL\n");

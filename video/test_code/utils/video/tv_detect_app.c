@@ -63,10 +63,10 @@ int main(int argc, char *argv[])
 		printf("Could not open %s\n",
 			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
 		return 1;
-	}
-	else
+	} else {
 		printf("openned %s\n",
 			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
+	}
 
 	result = ioctl(file_descriptor, VIDIOC_G_OMAP2_LINK, &link);
 	if (result != 0) {
