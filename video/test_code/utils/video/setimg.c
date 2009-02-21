@@ -57,9 +57,9 @@ int main(int argc, char *argv[])
 		return usage();
 	}
 
-	format.fmt.pix.width = atoi(argv[3]);
+	format.fmt.pix.width  = atoi(argv[3]);
 	format.fmt.pix.height = atoi(argv[4]);
-	format.type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+	format.type           = V4L2_BUF_TYPE_VIDEO_OUTPUT;
 	
 	file_descriptor =
 		open((video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2,
@@ -68,10 +68,10 @@ int main(int argc, char *argv[])
 		printf("Could not open %s\n",
 			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
 		return 1;
-	}
-	else
+	} else {
 		printf("openned %s\n",
 			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
+	}
 
 	/* set format of the picture captured */
 	result = ioctl(file_descriptor, VIDIOC_S_FMT, &format);
