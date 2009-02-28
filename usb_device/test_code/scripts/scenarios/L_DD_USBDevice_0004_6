@@ -1,0 +1,12 @@
+###################################################################################################################
+# Scenario: L_DD_USBDevice_0004_6
+# Author  : Axel Castaneda Gonzalez
+# Date    : January  3, 2006
+# Description:  USBCV Chapter 9 test suite. (File-Storage Gadget)
+###################################################################################################################
+
+foo	echo L_DD_USBDevice_0004_6
+0  insmod $MODULE_PATH/g_file_storage.ko file=$VFAT_FILE stall=0  && exit 0 ||  exit 1
+1  export COUNT_SET="1 2" ; export GADGET_NAME=g_filestorage.ko; export MESSAGE="Press any key to SEND REMOTE WAKEUP" ; ${TESTROOT}/test_runner.sh -p L_DD_USBDevice_0004_core  && exit 0 || exit 1
+5  rmmod g_file_storage && exit 0 || exit 1
+bar echo L_DD_USBDevice_0004_6

@@ -1,0 +1,32 @@
+################################################################################
+# Scenario: L_DD_USBDevice_0007_core
+# Author  : Diego Zavala Trujillo
+# Date    : December 4, 2006
+# Description: Testing USB-Ethernet Funtionality
+# ChangLog:
+#	DD MM YYYY - Name - Description
+################################################################################
+
+foo	echo L_DD_USBDevice_0007_core
+
+1	set -x; ifconfig usb0 $GADGET_IP netmask $NETMASK_IP  &&  exit 0 || exit 1
+
+#1A	route add $HOST_IP dev usb0  &&  exit 0 || exit 1
+
+2	if [ $MACHINE = "LinuxPC" ]; then (echo -e "\n\n\t Configuring usb0 ethernet on ${MACHINE} \n "  &&  (ssh root@$REMOTE_IP -i $SSH_PATH ifconfig usb0 $HOST_IP netmask $NETMASK_IP)  &&  exit 0 || exit 1); elif [ $MACHINE = "WindowsPC" ]; then (echo -e "\n\n\t Configure ${MACHINE} Network for Ethernet Gadget Device \n\n"  &&  exit 0 || exit 1) fi
+
+3	if [ $MACHINE = "LinuxPC" ]; then (echo -e "\n\n\t Detecting usb0 connection on ${MACHINE} \n"  &&  (ssh root@$REMOTE_IP -i $SSH_PATH ifconfig usb0 | grep "Ethernet")  &&  exit 0 || exit 1); elif [ $MACHINE = "WindowsPC" ]; then (echo -e "\n\n\t ${MACHINE} should detect the attached device as a \n\t network device, and should create corresponding \n\t entry listing in "Network connections" \n\n\t Did ${MACHINE} detect the OMAP as network device? \n\n"  &&  sleep 1  &&  ${KEY_PATH}/akey  &&  exit 0 || exit 1) fi
+
+### Testing ping from OMAP to ${MACHINE}
+
+5	set -x; echo -e "\n\n\t Testing ping from OMAP ("$GADGET_IP") to ${MACHINE} ("$HOST_IP") \n\n"  &&  ping -c 5 $HOST_IP > $LOGBASE/log.ethernetOMAP  &&  exit 0 || exit 1
+
+6	set -x; cat $LOGBASE/log.ethernetOMAP | grep "5 packets received"  &&  echo -e "\n\n\t Ping from OMAP to ${MACHINE} passed. \n\n"  &&  sleep $DELAY1 &&  rm -rf $LOGBASE/log.ethernetOMAP exit 0 || exit 1
+
+### Testing ping from ${MACHINE} Host to OMAP
+
+7	if [ $MACHINE = "LinuxPC" ]; then (echo -e "\n\n\t Testing ping from ${MACHINE} ("$HOST_IP") to OMAP ("$GADGET_IP")  \n"  &&  (ssh root@$REMOTE_IP -i $SSH_PATH ping -c 5 $GADGET_IP) > $LOGBASE/log.ethernetLinuxPC  &&  exit 0 || exit 1); elif [ $MACHINE = "WindowsPC" ]; then (echo -e "\n\n\t Execute ping from ${MACHINE} ("$HOST_IP") to OMAP ("$GADGET_IP") \n\t  Did ping succeed? \n\n"  &&  sleep 1 && ${KEY_PATH}/akey  && exit 0 || exit 1) fi
+
+8	set -x; cat $LOGBASE/log.ethernetLinuxPC | grep "5 received"  &&  echo -e "\n\n\t Ping from ${MACHINE} to OMAP passed. \n\n"  &&  sleep $DELAY1 &&  rm -rf $LOGBASE/log.ethernetOMAP exit 0 || exit 1
+
+bar	echo L_DD_USBDevice_0007_core

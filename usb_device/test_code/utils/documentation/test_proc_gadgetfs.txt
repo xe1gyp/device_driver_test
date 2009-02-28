@@ -8,10 +8,10 @@ Author: Vikram Pandita <vikram.pandita@ti.com>
 Step 1) Compile the user side application for Gadgetfs in AIO mode:
 
    This will require to cross compile the libaio library for ARM:
-   	Refer: CrossCompiling_Libaio_ARM.txt
+	Refer: CrossCompiling_Libaio_ARM.txt
 
    Get the source code for gadgetfs test app from:
-   http://www.linux-usb.org/gadget/ Section GadgetFS and compile using cmd: 
+   http://www.linux-usb.org/gadget/ Section GadgetFS and compile using cmd:
 
    arm-none-linux-gnueabi-gcc -Wall -DAIO -g -o USB_gfs_test usb.c usbstring.c
    -lpthread -laio -I /vobs/wtbu/OMAPSW_L/linux/kernel_org/2.6_kernel/include
@@ -19,20 +19,20 @@ Step 1) Compile the user side application for Gadgetfs in AIO mode:
 
    Output: Test Appliaction (USB_gfs_test)
 
-Step 2) Make Gadget Filesystem as a module 
-   Through menuconfig choose the USB Gadget Support --> Gadget Filesystem 
-   Output: gadgetfs.ko 
+Step 2) Make Gadget Filesystem as a module
+   Through menuconfig choose the USB Gadget Support --> Gadget Filesystem
+   Output: gadgetfs.ko
 
 Step 3) In the root filesystem /etc/fstab add the following entry
 	none            /dev/gadget     gadgetfs        defaults        0 0
 
-Step 4) Boot the kernel and load the gadgetfs.ko as follows: 
+Step 4) Boot the kernel and load the gadgetfs.ko as follows:
 commands:
 	insmod /gadgetfs.ko
 	mkdir -p /dev/gadget
 	mount /dev/gadget
 
-   Success Message should be: 
+   Success Message should be:
    gadgetfs: USB Gadget filesystem, version 24 Aug 2004
 
 Step 5) Run the GadgetFs test application on OMAP side for ISO mode as
@@ -59,4 +59,3 @@ doing the iso test as:
 	OUT ISO test: ./test.sh iso-out
 
 Step 8) If you have successfully executed steps till here, you need an ice-cream.
-

@@ -1,0 +1,22 @@
+################################################################################
+# Scenario: L_DD_USBDevice_0004_5
+# Author  : Axel Castaneda Gonzalez
+# Date    : January  3, 2006
+# Description:  USBCV Chapter 9 test suite. (File-Storage Gadget)
+# ChangeLog:
+#	27 Jan 2009 - Diego Zavala Trujillo - Update Scenario.
+################################################################################
+
+foo	echo L_DD_USBDevice_0004_5
+
+0  echo -e "\n\n\t Creating a 4 Mb file to use it with the g_file_storage module. \n\n"  &&  $TESTSCRIPT/enum.sh createvFat  && exit 0 || exit 1
+
+1  insmod $MODULE_PATH/g_file_storage.ko file=$VFAT_FILE stall=0  &&  echo -e "\n\n\t Testing g_file_stirage enumeration with USB-CV Test. \n\n" && sleep $DELAY1 && echo "0" > $LOGBASE/log.panresult  &&  exit 0  || echo -e "\n\n\t ERROR1 - No module found. \n\n"; echo "1" > $LOGBASE/log.panresult  &&  exit 1
+
+2  if [ `cat $LOGBASE/log.panresult` = 0 ]; then export COUNT_SET="1 2" ; export GADGET_NAME=g_file_storage.ko; export MESSAGE="Press any key to SEND REMOTE WAKEUP" ; ${TESTROOT}/test_runner.sh -p L_DD_USBDevice_0004_core  && exit 0 || exit 1; else echo -e "\n\n\t ERROR1 - Could not run this test because the module has not been inserted. \n\n"; exit 1; fi
+
+3  echo -e "\n\n\t Delleting the 4 Mb file. \n\n"  &&  $TESTSCRIPT/enum.sh dellvFat  && exit 0 || exit 1
+
+4  rm -rf $LOGBASE/log.panresult; rmmod g_file_storage && exit 0 || exit 1
+
+bar echo L_DD_USBDevice_0004_5

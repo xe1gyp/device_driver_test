@@ -1,0 +1,35 @@
+From: Diego Zavala Trujillo <diegozt@ti.com>
+
+Subject: [PATCH] TestSuites: USBTEST: Update USBTEST to Work on you RemotePC
+
+Update the test.sh file so you can work with the id_rsa utility and the testusb
+tool.
+
+Just change the path where testusb is located on your pc.
+
+Signed-off-by: Diego Zavala Trujillo <diegozt@ti.com>
+---
+ test.sh |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+Index: usb/test.sh
+===================================================================
+--- usb.orig/test.sh	2008-12-12 11:35:57.000000000 -0600
++++ usb/test.sh	2009-01-28 12:04:28.000000000 -0600
+@@ -15,6 +15,7 @@
+ #
+ # this default provides a steady test load for a bulk device
+ #
++SOURCE=/data/utilities/usb
+ TYPES='control out in'
+ #TYPES='control out in halt'
+
+@@ -47,7 +48,7 @@
+
+ do_test ()
+ {
+-    if ! ./testusb $TEST_ARGS -s $BUFLEN -c $COUNT $* 2>/dev/null
++    if ! /data/utilities/usb/testusb $TEST_ARGS -s $BUFLEN -c $COUNT $* 2>/dev/null
+     then
+	echo "FAIL"
+	exit 1

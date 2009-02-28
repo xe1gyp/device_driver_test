@@ -1,0 +1,41 @@
+###############################################################################
+# Scenario: L_DD_USBDevice_0008_core
+# Author  : Axel Castaneda Gonzalez
+# Date    : December 4, 2006
+# Description:  Functional test for file-storage gadget.
+# ChangeLog:
+#	26 Feb 2009 - Diego Zavala Trujillo - Update Scenario.
+#		Chage the struture, adding enum.sh script.
+###############################################################################
+
+foo	echo L_DD_USBDevice_0008_core
+
+1	if [ $MACHINE = "LinuxPC" ]; then (echo -e "\n\n\t Checking enumeration on the ${MACHINE} \n "  &&  export ENUM_INFO="Storage Gadget"; $TESTSCRIPT/enum.sh connectHostRemote  &&  exit 0 || exit 1); elif [ $MACHINE = "WindowsPC" ]; then (echo -e "\n\n\t Check enumeration on the ${MACHINE} \n\n"  &&  sleep $DELAY0  &&  ${KEY_PATH}/waitkey "Press a key when USB cable is connected to Windows PC" exit 0 || exit 1) fi
+
+2	if [ $MACHINE = "LinuxPC" ]; then (echo -e "\n\n\t Checking enumeration on the ${MACHINE} \n "  &&  export ENUM_INFO="Gadget"; $TESTSCRIPT/enum.sh connectProcRemote  &&  exit 0 || exit 1); fi
+
+#3	if [ $MACHINE = "LinuxPC" ]; then (echo -e "\n\n\t Creating file to mount File-Storage Gadget on the ${MACHINE} \n "  &&  $TESTSCRIPT/enum.sh creatFileRemote  &&  exit 0 || exit 1); elif [ $MACHINE = "WindowsPC" ]; then (echo -e "\n\n\t Check enumeration on the ${MACHINE} \n\n"  &&  exit 0 || exit 1) fi
+
+### Functional test
+
+4	if [ $MACHINE = "LinuxPC" ]; then (echo -e "\n\n\t Mounting File-Storage Gadget on the ${MACHINE} \n"  &&  $TESTSCRIPT/enum.sh mountRemote  &&  exit 0 || exit 1); elif [ $MACHINE = "WindowsPC" ]; then ( echo -e "\n\n\t ${MACHINE} should detect the attached device as a \n\t Removable USB Mass Storage device, \n\t and should create corresponding drive listing in "My Computer" \n\n\t Did Windows detect the OMAP as a mass storage device?"  &&  sleep $DELAY0  &&  ${KEY_PATH}/waitkey  &&  exit 0 || exit 1) fi
+
+5	if [ $MACHINE = "LinuxPC" ]; then (echo -e "\n\n\t Listing the content of the remote path on the ${MACHINE} \n"  &&  ssh root@$REMOTE_IP -i $SSH_PATH ls -lh $REMOTE_PATH  &&  exit 0 || exit 1); fi
+
+6	if [ $MACHINE = "LinuxPC" ]; then (echo -e "\n\n\t Copying files from ${MACHINE} to the File-Storage Gadget  \n"  &&  ssh root@$REMOTE_IP -i $SSH_PATH cp  $REMOTE_PATH/$GADGET_ST_FILE $REMOTE_PATH/mass_storage  &&  sleep $DELAY2  &&  exit 0 || exit 1); elif [ $MACHINE = "WindowsPC" ]; then (echo -e "\n\n\t Copy a file into the drive. \n\n\t Was the file copied properly into the drive?"  && sleep 1 && ${KEY_PATH}/akey  &&  exit 0 || exit 1) fi
+
+7	if [ $MACHINE = "LinuxPC" ]; then (echo -e "\n\n\t Comparing files from ${MACHINE} to the File-Storage Gadget  \n"  &&  ssh root@$REMOTE_IP -i $SSH_PATH cmp $REMOTE_PATH/$GADGET_ST_FILE $REMOTE_PATH/mass_storage/$GADGET_ST_FILE  &&  exit 0 || exit 1); fi
+
+8	if [ $MACHINE = "LinuxPC" ]; then (echo -e "\n\n\t Making a cat to the file from the File-Storage Gadget  \n"  &&  ssh root@$REMOTE_IP -i $SSH_PATH cat $REMOTE_PATH/mass_storage/$GADGET_ST_FILE  &&  exit 0 || exit 1); fi
+
+9	if [ $MACHINE = "LinuxPC" ]; then (echo -e "\n\n\t UnMounting File-Storage Gadget from the ${MACHINE} \n"  &&  $TESTSCRIPT/enum.sh umountRemote  &&  exit 0 || exit 1); elif [ $MACHINE = "WindowsPC" ]; then (echo -e "\n\n\t Detach the device from the ${MACHINE}. \n\n\t Does the drive still visible after the detach?"  &&  sleep $DELAY0  &&  ${KEY_PATH}/akey  &&  exit 0 || exit 1) fi
+
+10	if [ $MACHINE = "LinuxPC" ]; then (echo -e "\n\n\t Mounting File-Storage Gadget on the ${MACHINE} \n"  &&  $TESTSCRIPT/enum.sh mountRemote  &&  exit 0 || exit 1); elif [ $MACHINE = "WindowsPC" ]; then (echo -e "\n\n\t Reattach the device. \n\n\t Does the file still exist in the drive?"  && sleep $DELAY0  &&  ${KEY_PATH}/akey  &&  exit 0 || exit 1) fi
+
+11	if [ $MACHINE = "LinuxPC" ]; then (echo -e "\n\n\t Comparing files from ${MACHINE} to the File-Storage Gadget  \n"  &&  ssh root@$REMOTE_IP -i $SSH_PATH cmp $REMOTE_PATH/$GADGET_ST_FILE $REMOTE_PATH/mass_storage/$GADGET_ST_FILE  &&  exit 0 || exit 1);  fi
+
+12	if [ $MACHINE = "LinuxPC" ]; then (echo -e "\n\n\t Delleting the file from the File-Storage Gadget  \n"  &&  ssh root@$REMOTE_IP -i $SSH_PATH rm -rf $REMOTE_PATH/mass_storage/$GADGET_ST_FILE  &&  exit 0 || exit 1); fi
+
+13	if [ $MACHINE = "LinuxPC" ]; then (echo -e "\n\n\t UnMounting File-Storage Gadget from the ${MACHINE} \n"  &&  $TESTSCRIPT/enum.sh umountRemote  &&  exit 0 || exit 1); elif [ $MACHINE = "WindowsPC" ]; then (echo -e "\n\n\t Detach the device from the ${MACHINE}. \n\n\t Does the drive still visible after the detach?"  &&  sleep $DELAY0  &&  ${KEY_PATH}/akey  &&  exit 0 || exit 1) fi
+
+bar	echo L_DD_USBDevice_0008_core
