@@ -1,12 +1,23 @@
 #include <linux/init.h>
 #include <linux/clk.h>
 #include <linux/module.h>
-#include <asm/arch/clock.h>
 #include <asm/uaccess.h>        // get_fs(), set_fs(), KERNEL_DS
 #include <linux/file.h>         // fput()
 #include <linux/mm.h>           // GFP_KERNEL
 #include <linux/kthread.h>
 #include <linux/sched.h>
+#include <linux/kernel.h>
+#include <linux/version.h>
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 27))
+#include <mach/clock.h>
+#include <mach/io.h>
+#include <linux/io.h>
+#include <linux/fs.h>
+#define DPLL_OUTPUT             (1 << 14)       /* DPLL output */
+#else
+#include <asm/arch/clock.h>
+#endif
 
 MODULE_LICENSE("GPL");
 int resource_test(void);

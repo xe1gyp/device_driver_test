@@ -5,6 +5,13 @@
 #include <linux/file.h>         // fput()
 #include <linux/mm.h>           // GFP_KERNEL
 
+#include <linux/version.h>
+#include <linux/kernel.h>
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 27))
+#include <linux/fs.h>
+#endif
+
 MODULE_LICENSE("GPL");
 
 static uint opt = 0;
