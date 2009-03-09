@@ -1,0 +1,25 @@
+#####################
+# FILENAME: L_DD_VIDEO_0003_1
+# Author  : Rene Gonzalez Salinas
+# Date    : Mon Mar 9, 2009
+
+# Begin "L_DD_VIDEO_0003_1"
+
+COMMENT_INT comment.sh "Verify that the rendered image can be scaled in horizontal and vertical directions"
+
+#This tests are made in order to checkout the display boundaries
+0001_VD1 set -x; windowing.sh 1 "RGB565 240 320" 1  $VIDEOFILES/video_qqvga_rgb_30 "0 0 120 160"	&& exit 0 || exit 1
+0001_VD1 set -x; windowing.sh 2 "RGB565 240 320" 1  $VIDEOFILES/video_qqvga_rgb_30 "0 0 120 160"	&& exit 0 || exit 1
+0001_VD1 set -x; windowing.sh 1 "RGB565 640 480" 2  $VIDEOFILES/video_vga_rgb565	&& exit 0 || exit 1
+0001_VD1 set -x; windowing.sh 2 "RGB565 640 480" 2  $VIDEOFILES/video_vga_rgb565	&& exit 0 || exit 1
+0001_VD1 set -x; windowing.sh 1 "YUYV 640 480"   3  $VIDEOFILES/test.yuv		&& exit 0 || exit 1
+0001_VD1 set -x; windowing.sh 2 "YUYV 640 480"   3  $VIDEOFILES/test.yuv		&& exit 0 || exit 1
+0001_VD1 set -x; windowing.sh 1 "YUYV 864 480"   4  $VIDEOFILES/wvga_video.yuv		&& exit 0 || exit 1
+0001_VD1 set -x; windowing.sh 2 "YUYV 864 480"   4  $VIDEOFILES/wvga_video.yuv		&& exit 0 || exit 1
+0001_VD1 set -x; windowing.sh 1 "YUYV 1280 720"  5  $VIDEOFILES/720p.yuv		&& exit 0 || exit 1
+0001_VD1 set -x; windowing.sh 2 "YUYV 1280 720"  5  $VIDEOFILES/720p.yuv		&& exit 0 || exit 1
+0001_VD1 set -x; windowing.sh 1 "YUYV 640 480"   6  $VIDEOFILES/test.yuv		&& exit 0 || exit 1
+0001_VD1 set -x; windowing.sh 2 "YUYV 640 480"   6  $VIDEOFILES/test.yuv		&& exit 0 || exit 1
+
+
+# End "L_DD_VIDEO_0003_1"
