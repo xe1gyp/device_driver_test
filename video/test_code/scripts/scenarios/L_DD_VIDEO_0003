@@ -1,58 +1,13 @@
 #####################
 # FILENAME: L_DD_VIDEO_0003
-# Author  : Benjamin Mejia
-# Date    : Fri Jan 5, 2007
+# Author  : David Miramontes
+# Date    : Tue Mar 9, 2009
 
 # Begin "L_DD_VIDEO_0003"
 
 COMMENT_INT comment.sh "Verify that the rendered image can be up-sampled (scaled) in horizontal direction"
 
-SETUP_VD1 set -x; setupimage.sh 1 "RGB565 160 120" && exit 0 || exit 1
-SETUP_VD2 set -x; setupimage.sh 2 "RGB565 160 120" && exit 0 || exit 1
-
-0001_VD1 set -x; winstream.sh 1 "0 0 120 160"	  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0001_VD2 set -x; winstream.sh 2 "0 0 120 160"	  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0002_VD1_SAN set -x; winstream.sh 1 "0 0 60 80"       $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0002_VD2_SAN set -x; winstream.sh 2 "0 0 60 80"       $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0003_VD1_SAN set -x; winstream.sh 1 "0 160 120 160"   $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0003_VD2_SAN set -x; winstream.sh 2 "0 160 120 160"   $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0004_VD1_SAN set -x; winstream.sh 1 "120 0 120 160"   $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0004_VD2_SAN set -x; winstream.sh 2 "120 0 120 160"   $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0005_VD1 set -x; winstream.sh 1 "120 160 120 160" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0005_VD2 set -x; winstream.sh 2 "120 160 120 160" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0006_VD1_SAN set -x; winstream.sh 1 "0 0 10 10"       $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0006_VD2_SAN set -x; winstream.sh 2 "0 0 10 10"       $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0007_VD1 set -x; winstream.sh 1 "0 0 100 100"     $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0007_VD2 set -x; winstream.sh 2 "0 0 100 100"     $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0008_VD1 set -x; winstream.sh 1 "0 0 1000 1000"   $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0008_VD2 set -x; winstream.sh 2 "0 0 1000 1000"   $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0009_VD1 set -x; winstream.sh 1 "0 0 0 0"         $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0009_VD2 set -x; winstream.sh 2 "0 0 0 0"         $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0010_VD1 set -x; winstream.sh 1 "0 0 121 161"     $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0010_VD2 set -x; winstream.sh 2 "0 0 121 161"	  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0011_VD1 set -x; winstream.sh 1 "0 0 5 5"         $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0011_VD2 set -x; winstream.sh 2 "0 0 5 5"	  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0012_VD1 set -x; winstream.sh 1 "0 0 1 1"         $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0012_VD2 set -x; winstream.sh 2 "0 0 1 1"         $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0013_VD1 set -x; winstream.sh 1 "0 160 121 161"   $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0013_VD2 set -x; winstream.sh 2 "0 160 121 161"   $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0014_VD1 set -x; winstream.sh 1 "0 316 5 5"       $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0014_VD2 set -x; winstream.sh 2 "0 316 5 5"       $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0015_VD1 set -x; winstream.sh 1 "0 261 60 80"     $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0015_VD2 set -x; winstream.sh 2 "0 261 60 80"     $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0016_VD1 set -x; winstream.sh 1 "120 0 121 161"   $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0016_VD2 set -x; winstream.sh 2 "120 0 121 161"   $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0017_VD1 set -x; winstream.sh 1 "236 0 5 5"       $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0017_VD2 set -x; winstream.sh 2 "236 0 5 5"	  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0018_VD1 set -x; winstream.sh 1 "181 0 60 80"     $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0018_VD2 set -x; winstream.sh 2 "181 0 60 80"	  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0019_VD1_SAN set -x; winstream.sh 1 "60 80 120 160"   $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0019_VD2_SAN set -x; winstream.sh 2 "60 80 120 160"   $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0020_VD1 set -x; winstream.sh 1 "120 160 121 161" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0020_VD2 set -x; winstream.sh 2 "120 160 121 161" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0021_VD1 set -x; winstream.sh 1 "236 316 5 5"     $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0021_VD2 set -x; winstream.sh 2 "236 316 5 5"	  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0022_VD1_SAN set -x; winstream.sh 1 "181 261 60 80"   $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0022_VD2_SAN set -x; winstream.sh 2 "181 261 60 80"   $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0001_VD1 set -x; winstream_test.sh 1 "RGB565 640 480" "0 0 640 480" $VIDEOFILES/video_vga_rgb565 && exit 0 || exit 1
+0001_VD1 set -x; winstream_test.sh 2 "RGB565 640 480" "0 0 640 480" $VIDEOFILES/video_vga_rgb565 && exit 0 || exit 1
 
 # End "L_DD_VIDEO_0003"
