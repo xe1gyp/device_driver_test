@@ -27,7 +27,7 @@
 12  set -x; mount | grep $MMC_PARTITION_ENTRY2 | grep "ext2" && exit 0 || exit 1
 
 # Copying and verifying content
-13  set -x; (cp $TESTROOT/$BIG_FILE $MMC_MOUNT_POINT_1 &) && (cp $TESTROOT/$BIG_FILE $MMC_MOUNT_POINT_2 &) && sync && exit 0 || exit 1
+13  set -x; (cp $TESTROOT/$FILE_SIZE_BIG $MMC_MOUNT_POINT_1 &) && (cp $TESTROOT/$FILE_SIZE_BIG $MMC_MOUNT_POINT_2 &) && sync && exit 0 || exit 1
 14  set -x; test -e $MMC_MOUNT_POINT_1/$FILE_SIZE_BIG && exit 0 || exit 1
 15  set -x; test -e $MMC_MOUNT_POINT_2/$FILE_SIZE_BIG && exit 0 || exit 1
 

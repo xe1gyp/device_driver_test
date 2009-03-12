@@ -44,7 +44,7 @@
 0020  set -x; cp -r $TESTROOT/$FILE_SIZE_SMALL $MMC_MOUNT_POINT_1 && mmc_test_dev0 20 $MMC_MOUNT_POINT_1/$FILE_SIZE_SMALL $TMPBASE && exit 0 || exit 1
 0021  set -x; mmc_test_dev0 21 && exit 0 || exit 1
 0022  set -x; mmc_test_dev0 24 testing && exit 0 || exit 1
-0023  set -x; mmc_test_dev0 9 dir && mmc_test_dev0 25 dir && exit 1 || exit 0
+0023  set -x; mmc_test_dev0 9 dir && mmc_test_dev0 25 dir && exit 0 || exit 1
 0024  set -x; mmc_test_dev0 1 testing3 && mmc_test_dev0 26 testing3 && exit 0 || exit 1
 
 # Unmounting partition
