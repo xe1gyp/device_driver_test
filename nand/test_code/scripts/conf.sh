@@ -42,6 +42,8 @@ export DEFAULT_MOUNT_POINT=/mnt/flashdevice
 export JFFS2_IMAGE=$TESTSCRIPT/onenand_udev.jffs2
 export TEMP_FILE=$TMPBASE/tmp.file
 export SUMTOOL_FILE=$TESTBIN/sumtool
+export DEVFS_URANDOM=/dev/urandom
+export DEVFS_ZERO=/dev/zero
 
 if [ -f  "$DEFAULT_MOUNT_POINT" ]
 then

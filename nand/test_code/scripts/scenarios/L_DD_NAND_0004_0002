@@ -7,15 +7,23 @@
 # Begin L_DD_NAND_0004_0002
 
 # Device 1
-01  set -x; $TESTBIN/flash_eraseall $MTD_CHAR_DEV1 && exit 0 || exit 1
-02  set -x; dd if=$JFFS2_IMAGE of=$MTD_BLK_DEV1  && exit 0 || exit 1
-03  set -x; dd if=$MTD_BLK_DEV1 of=$TEMP_FILE && exit 0 || exit 1
-04  set -x; sync && rm $TEMP_FILE && exit 0 || exit 1
+01  set -x; test -d $DEFAULT_MOUNT_POINT || mkdir $DEFAULT_MOUNT_POINT && exit 0 || exit 1
+02  set -x; $TESTBIN/flash_eraseall $JFFS_OPTIONS $MTD_CHAR_DEV1 && exit 0 || exit 1
+03  set -x; mount -t jffs2 $MTD_BLK_DEV1 $DEFAULT_MOUNT_POINT && exit 0 || exit 1
+04  set -x; mount | grep "$DEFAULT_MOUNT_POINT" && exit 0 || exit 1
+05  set -x; dd if=$DEVFS_ZERO of=$DEFAULT_MOUNT_POINT/tmp.file bs=200000 && exit 0 || exit 1
+06  set -x; dd if=$DEFAULT_MOUNT_POINT/tmp.file of=$TEMP_FILE && exit 0 || exit 1
+07  set -x; cmp $DEFAULT_MOUNT_POINT/tmp.file $TEMP_FILE && exit 0 || exit 1
+08  set -x; rm $TEMP_FILE && sync && umount $DEFAULT_MOUNT_POINT && exit 0 || exit 1
 
 # Device 2
-05  set -x; $TESTBIN/flash_eraseall $MTD_CHAR_DEV2 && exit 0 || exit 1
-06  set -x; dd if=$JFFS2_IMAGE of=$MTD_BLK_DEV2  && exit 0 || exit 1
-07  set -x; dd if=$MTD_BLK_DEV2 of=$TEMP_FILE && exit 0 || exit 1
-08  set -x; sync && rm $TEMP_FILE && exit 0 || exit 1
+09  set -x; test -d $DEFAULT_MOUNT_POINT || mkdir $DEFAULT_MOUNT_POINT && exit 0 || exit 1
+10  set -x; $TESTBIN/flash_eraseall $JFFS_OPTIONS $MTD_CHAR_DEV2 && exit 0 || exit 1
+11  set -x; mount -t jffs2 $MTD_BLK_DEV2 $DEFAULT_MOUNT_POINT && exit 0 || exit 1
+12  set -x; mount | grep "$DEFAULT_MOUNT_POINT" && exit 0 || exit 1
+13  set -x; dd if=$DEVFS_ZERO of=$DEFAULT_MOUNT_POINT/tmp.file bs=4000 && exit 0 || exit 1
+14  set -x; dd if=$DEFAULT_MOUNT_POINT/tmp.file of=$TEMP_FILE && exit 0 || exit 1
+15  set -x; cmp $DEFAULT_MOUNT_POINT/tmp.file $TEMP_FILE && exit 0 || exit 1
+16  set -x; rm $TEMP_FILE && sync && umount $DEFAULT_MOUNT_POINT && exit 0 || exit 1
 
 # End L_DD_NAND_0004_0002
