@@ -73,13 +73,6 @@ export TAIL_OPTION="-n "
 export ADAPTER_INFO=None
 export MODE=None
 
-if [ ! -c /dev/i2c/1 ]; then
-	echo "Linking sysfs entries..."
-	ln -s /dev/i2c-0 /dev/i2c/0
-	ln -s /dev/i2c-1 /dev/i2c/1
-	ln -s /dev/i2c-2 /dev/i2c/2
-fi
-
 # Checking if we have bc available in our filesystem
 
 if [ ! `echo 1+1 | bc` ]; then

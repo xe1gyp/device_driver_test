@@ -29,7 +29,7 @@ fi
 #Write an incremental data pattern
 while [ $count -lt 8 ]
 do
-	data_byte=`echo "2^$count"|bc`
+	data_byte=`echo "0+$count"|bc`
 	data_hex=`printf "0x%x" $data_byte`
 	
 	# Let's write to i2c bus
