@@ -101,7 +101,7 @@ int main(int argc, const char *argv[]) {
 
 	ret_val = ioctl(fd, WDIOC_GETTIMEOUT, &data);
 	if (ret_val)
-		print("\nWatchdog Timer : WDIOC_GETTIMEOUT failed");
+		printf("\nWatchdog Timer : WDIOC_GETTIMEOUT failed");
 	else
 		printf("\nCurrent timeout value is : %d seconds\n", data);
 
