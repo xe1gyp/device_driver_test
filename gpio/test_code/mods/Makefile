@@ -25,7 +25,7 @@ KERN:=26
 ifneq ($(KERNELRELEASE),)
 
 	ifeq ($(KERN),26)
-		obj-m := gpio.o gpio_test.o temp_gpio.o
+		obj-m := gpio.o gpio_test.o
 	else
 		export-objs :=  gpio_test.o
 		obj-m += gpio_test.o
@@ -42,4 +42,5 @@ default:
 endif
 
 clean:
-	$(RM) -r *.o *.ko *.mod.c .*.cmd .tmp_versions .*.flags .26 Module.symvers modules.order
+	$(RM) -r *.o *.ko *.mod.c .*.cmd .tmp_versions
+	$(RM) -r .*.flags .26 Module.symvers modules.order
