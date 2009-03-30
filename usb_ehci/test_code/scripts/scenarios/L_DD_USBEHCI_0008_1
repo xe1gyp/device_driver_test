@@ -32,36 +32,36 @@ foo	echo L_DD_USBEHCI_0005_1
 
 #9   cat /proc/scsi/scsi
 #    && cat /proc/scsi/usb-storage/0
-#    && mkdir -p /testsuites/usb_host/scripts/misc/mass_storage
-#    && dd if=/dev/zero of=/testsuites/usb_host/scripts/misc/6m bs=1M count=5
+#    && mkdir -p /testsuites/usb_ehci/scripts/misc/mass_storage
+#    && dd if=/dev/zero of=/testsuites/usb_ehci/scripts/misc/6m bs=1M count=5
 9   set -x; cat /proc/scsi/scsi &&  cat /proc/scsi/usb-storage/0 && mkdir -p ${MASS_DIRECTORY} &&  dd if=/dev/zero of=${MISC_PATH}/$MASS_FILE bs=1M count=5 && exit 0 || exit 1
 
-#10  ls /dev/sd*
-#    mount  /dev/sda1 /testsuites/usb_host/scripts/misc/mass_storage
+#10  ls /dev/sd*um
+#    mount  /dev/sda1 /testsuites/usb_ehci/scripts/misc/mass_storage
 10  set -x; ls /dev/sd* && mount  /dev/sda1 $MASS_DIRECTORY  && echo -e '\n\n\t USB mass storage device mounted properly \n\n' && exit 0 || exit 1
 
-#11  cp /testsuites/usb_host/scripts/misc/6m /testsuites/usb_host/scripts/misc/mass_storage
+#11  cp /testsuites/usb_ehci/scripts/misc/6m /testsuites/usb_ehci/scripts/misc/mass_storage
 11  set -x; cp ${MISC_PATH}/$MASS_FILE $MASS_DIRECTORY/ && exit 0 || exit 1
 
-#12  cmp /testsuites/usb_host/scripts/misc/6m /testsuites/usb_host/scripts/misc/mass_storage
+#12  cmp /testsuites/usb_ehci/scripts/misc/6m /testsuites/usb_ehci/scripts/misc/mass_storage
 12  set -x; cmp  ${MISC_PATH}/$MASS_FILE $MASS_DIRECTORY/$MASS_FILE && echo -e '\n\n\t Compare test succeeded  \n\n' && exit 0 || exit 1
 
 #Unmount the device.
 
-#13  umount /testsuites/usb_host/scripts/misc/mass_storage
+#13  umount /testsuites/usb_ehci/scripts/misc/mass_storage
 13  set -x; umount  $MASS_DIRECTORY && echo -e '\n\n\t Device unmounted  \n\n' && exit 0 || exit 1
 
 #Mount the partition and test it by writing/reading a file
 
-#14  mount  /dev/sda1 /testsuites/usb_host/scripts/misc/mass_storage
+#14  mount  /dev/sda1 /testsuites/usb_ehci/scripts/misc/mass_storage
 14  set -x; mount  /dev/sda1 $MASS_DIRECTORY  && echo -e '\n\n\t USB mass storage device mounted properly \n\n'  && exit 0 || exit 1
 
-#15  cmp /testsuites/usb_host/scripts/misc/6m /testsuites/usb_host/scripts/misc/mass_storage
+#15  cmp /testsuites/usb_ehci/scripts/misc/6m /testsuites/usb_ehci/scripts/misc/mass_storage
 15  set -x; cmp  ${MISC_PATH}/$MASS_FILE $MASS_DIRECTORY/$MASS_FILE && echo -e '\n\n\t Compare test succeeded  \n\n' &&  exit 0 || exit 1
 
 #Unmount the device.
 
-#16  umount /testsuites/usb_host/scripts/misc/mass_storage
+#16  umount /testsuites/usb_ehci/scripts/misc/mass_storage
 16  set -x; umount  $MASS_DIRECTORY && echo -e '\n\n\t Device unmounted  \n\n' && exit 0 || exit 1
 
 #17  cat  /proc/bus/usb/devices | grep 'stor'

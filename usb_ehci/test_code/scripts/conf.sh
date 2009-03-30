@@ -47,6 +47,7 @@ export ENUM_COMM=/proc/bus/usb/devices
 export PROC_INT=/proc/driver/musb_hdrc
 export SLEEP_STATE=/sys/power/state
 export ECHI_LEVEL=/sys/devices/platform/ehci-omap.0/usb1/power/level
+export OHCI_LEVEL=/sys/devices/platform/ohci-omap.0/usb1/power/level
 #export SYSFS_MENTORNODE=/sys/devices/platform/musb_hdrc.0/power/state
 #export SYSFS_OHCINODE=/sys/devices/platform/ohci/power/state
 #export SUSPEND="3"
