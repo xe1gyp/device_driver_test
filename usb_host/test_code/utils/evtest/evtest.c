@@ -1,5 +1,5 @@
 /*
- * $Id: evtest.c,v 1.22 2004/10/19 07:53:31 vojtech Exp $
+ * $Id: evtest.c,v 1.23 2005/02/06 13:51:42 vojtech Exp $
  *
  *  Copyright (c) 1999-2000 Vojtech Pavlik
  *
@@ -29,7 +29,7 @@
 #include <stdint.h>
 
 //#include <linux/input.h>
-#include "input.h"	// copied from 2.6.10 kernel
+#include "input.h"	// From kernel 2.6.26
 
 #include <string.h>
 #include <fcntl.h>
@@ -371,7 +371,7 @@ int main (int argc, char **argv)
 			if (ev[i].type == EV_SYN) {
 				printf("Event: time %ld.%06ld, -------------- %s ------------\n",
 					ev[i].time.tv_sec, ev[i].time.tv_usec, ev[i].code ? "Config Sync" : "Report Sync" );
-			} else if (ev[i].type == EV_MSC && ev[i].code == MSC_RAW) {
+			} else if (ev[i].type == EV_MSC && (ev[i].code == MSC_RAW || ev[i].code == MSC_SCAN)) {
 				printf("Event: time %ld.%06ld, type %d (%s), code %d (%s), value %02x\n",
 					ev[i].time.tv_sec, ev[i].time.tv_usec, ev[i].type,
 					events[ev[i].type] ? events[ev[i].type] : "?",
@@ -389,3 +389,5 @@ int main (int argc, char **argv)
 
 	}
 }
+
+

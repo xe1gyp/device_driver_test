@@ -1,0 +1,41 @@
+###################################################################################################################
+# Scenario: L_DD_USBHost_0006_2
+# Author  : Axel Casta¤eda Gonzalez
+# Date    : October 5, 2006
+# Description: Testing a low speed device that uses interrupt data transfers
+###################################################################################################################
+
+foo 	echo L_DD_USBHost_0006_2
+#0   insmod /testsuites/usb_host/mods/g_zero.ko
+0   if [ $USB_DRIVER = "MENTOR" ] ; then  echo -e '\n\n\t HSUSB HOST\n\n' && insmod $MODULE_PATH/g_zero.ko; else  echo -e '\n\n\t  FSUSB HOST \n\n'; fi && exit 0 || exit 1
+
+#  Loading usbhid module
+#1  insmod /testsuites/usb_host/mods/usbhid.ko
+1  set -x; echo -e '\n\n\t Testing low speed device (mouse) \n\n' && insmod $MODULE_PATH/usbhid.ko && exit 0 || exit 1
+
+#Connecting Mouse, check enumeration
+2  set -x; echo -e '\n\n\t Connect mouse device to USB port \n\n' && sleep $DELAY2 && exit 0 || exit 1
+
+#3  echo 'F' > /proc/driver/musb_hdrc
+3  set -x; if [ $USB_DRIVER = "MENTOR" ] ; then  echo 'F' > $PROC_INT; fi && exit 0 || exit 1 
+
+#4  cat /proc/bus/usb/devices | grep 'HID'
+4  set -x; echo -e '\n\n\t Checking enumeration \n\n' && sleep $DELAY1 &&  cat $ENUM_COMM | grep 'HID' && exit 0 || exit 1
+
+#5  mkdir –p /dev/input
+#   mknod /dev/input/mice c 13 64
+5  set -x; mkdir –p /dev/input && mknod /dev/input/mice c 13 64  && exit 0 || exit 0
+
+6  set -x; echo -e '\n\n\t Testing mouse events detection. Start to moving the USB mouse \n\n' && sleep $DELAY1 && exit 0 || exit 1
+
+#  Testing mouse events
+
+#7  /testsuites/usb_host/bin/evtest /dev/event2
+7  set -x; ${TESTBIN}/evtest ${HID_NODE} & sleep $DELAY3 &&  exit 0 || exit 1
+
+8  set -x; rmmod hid  && exit 0 || exit 1
+9  set -x; echo -e '\n\n\t Were mouse events detected properly ? \n\n' && sleep 1 && $KEY_PATH/akey && exit 0 || exit 1
+
+#Unload usbhid
+10 if [ $USB_DRIVER = "MENTOR" ] ; then    rmmod g_zero.ko ;  fi && exit 0 || exit 1
+bar 	echo L_DD_USBHost_0006_2

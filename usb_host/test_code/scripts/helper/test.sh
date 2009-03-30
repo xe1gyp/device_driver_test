@@ -1,27 +1,39 @@
 #!/bin/sh
-
 #
-# defaults, tweak to suit
+# test types can be passed on the command line:
 #
 # - control: any device can do this
 # - out, in:  out needs 'bulk sink' firmware, in needs 'bulk src'
 # - iso-out, iso-in:  out needs 'iso sink' firmware, in needs 'iso src'
+# - halt: needs bulk sink+src, tests halt set/clear from host
+# - unlink: needs bulk sink and/or src, test HCD unlink processing
 # - loop: needs firmware that will buffer N transfers
 #
-# the focus here is a steady load through the hcd to the device,
-# so the tests that bang mostly on hcd code (like unlink tests)
-# aren't used.  run it for hours, days, weeks.
+# run it for hours, days, weeks.
 #
-# "severe stress" loads might add some ${RANDOM}ness, as well as
-# run concurrently on multiple devices.
+
+#
+# this default provides a steady test load for a bulk device
 #
 TYPES='control out in'
+#TYPES='control out in halt'
 
-declare -i COUNT BUFLEN
+#
+# to test HCD code
+#
+#  - include unlink tests
+#  - add some ${RANDOM}ness
+#  - connect several devices concurrently (same HC)
+#  - keep HC's IRQ lines busy with unrelated traffic (IDE, net, ...)
+#  - add other concurrent system loads
+#
+
+#declare -i COUNT BUFLEN
 
 COUNT=50000
 BUFLEN=2048
-
+TEST_PATH=${PWD}/../../bin
+MAX_ITER=5
 
 # NOTE:  the 'in' and 'out' cases are usually bulk, but can be
 # set up to use interrupt transfers by 'usbtest' module options
@@ -35,9 +47,16 @@ else
 	TEST_ARGS=""
 fi
 
+echo "Max of Iterations:" $MAX_ITER
+echo "PATH:" ${TEST_PATH}
+
 do_test ()
 {
-    if ! ./testusb $TEST_ARGS -s $BUFLEN -c $COUNT $* 2>/dev/null
+    echo "Test_ARGS: " $TEST_ARGS
+    echo "-s BUFLEN: " $BUFLEN
+    echo "-c COUNT: " $COUNT
+
+    if ! $TEST_PATH/testusb $TEST_ARGS -s $BUFLEN -c $COUNT $* 2>/dev/null
     then
 	echo "FAIL"
 	exit 1
@@ -71,8 +90,15 @@ check_config ()
     exit 1
 }
 
-while : true
+
+echo "TESTING:  $ARGS"
+
+COUNTER=0
+while [ $COUNTER -lt $MAX_ITER ]
+#while : true
 do
+    echo Iteration : $COUNTER
+    let COUNTER=COUNTER+1
     echo $(date)
 
     for TYPE in $ARGS
@@ -130,7 +156,7 @@ do
 	    echo '** Host ISOCHRONOUS Write (OUT) test cases:'
 
 	    # at peak iso transfer rates:
-	    # - usb 2.0 high bandwidth, this one frame.
+	    # - usb 2.0 high bandwidth, this is one frame.
 	    # - usb 1.1, it's twenty-four frames.
 	    BUFLEN=24500
 
@@ -190,6 +216,25 @@ do
 
 	    ;;
 
+	halt)
+	    # NOTE:  sometimes hardware doesn't cooperate well with halting
+	    # endpoints from the host side.  so long as mass-storage class
+	    # firmware can halt them from the device, don't worry much if
+	    # you can't make this test work on your device.
+	    COUNT=2000
+	    echo "test 13: $COUNT halt set/clear"
+	    do_test -t 13
+	    ;;
+
+	unlink)
+	    COUNT=2000
+	    echo "test 11: $COUNT read unlinks"
+	    do_test -t 11
+
+	    echo "test 12: $COUNT write unlinks"
+	    do_test -t 12
+	    ;;
+
 	loop)
 	    # defaults need too much buffering for ez-usb devices
 	    BUFLEN=2048
@@ -199,13 +244,10 @@ do
 	    check_config loopback
 
 	    # FIXME someone needs to write and merge a version of this
-	    # the latest test 13 is currently a bulk halt test
 
 	    echo "write $COUNT buffers of $BUFLEN bytes, read them back"
-	    : do_test -t13 -v 0
 
 	    echo "write $COUNT variable size buffers, read them back"
-	    : do_test -t13 -v 421
 
 	    ;;
 
@@ -217,3 +259,4 @@ do
     done
 done
 
+# vim: sw=4

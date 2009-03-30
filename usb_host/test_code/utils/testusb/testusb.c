@@ -1,8 +1,8 @@
-/* cc -Wall -g -lpthread -o testusb testusb.c */
+/* $(CROSS_COMPILE)cc -Wall -g -lpthread -o testusb testusb.c */
 
 /*
  * Copyright (c) 2002 by David Brownell
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation; either version 2 of the License, or (at your
@@ -35,7 +35,7 @@
 
 /*-------------------------------------------------------------------------*/
 
-#define	TEST_CASES	20
+#define	TEST_CASES	30
 
 // FIXME make these public somewhere; usbdevfs.h?
 

@@ -1,0 +1,61 @@
+###################################################################################################################
+# Scenario: L_DD_USBHost_0008
+# Author  : Axel Castaneda Gonzalez
+# Date    : January 19, 2006
+# Description: Power management (checking re-enumeration after suspend-resume).
+#Testing the suspend and resume functionality of the host controller. All connected devices must continue to work after a suspend and resume cycle.Testing the suspend and resume functionality of the USB device controller.
+###################################################################################################################
+
+foo 	echo L_DD_USBHost_0008_1
+0     set -x; echo -e "\n\n\t Testing re-enumeration after suspend-resume  \n\n" && sleep $DELAY1 && exit 0 || exit 1
+
+#1     insmod /testsuites/usb_host/mods/g_zero.ko
+1     set -x; if [ $USB_DRIVER = "MENTOR" ] ; then  echo -e '\n\n\tTesting HSUSB HOST\n\n' && insmod $MODULE_PATH/g_zero.ko ; else  echo -e '\n\n\t Testing FSUSB HOST\n\n' ; fi  && exit 0 || exit 1 
+
+## Suspend
+
+#2     echo 'F' > /proc/driver/musb_hdrc
+#      cat  /proc/bus/usb/devices | grep 'stor'
+2     set -x; echo -e '\n\n\tConnect a mass storage device to USB port \n\n' && sleep $DELAY1 && if [ $USB_DRIVER = "MENTOR" ] ; then  echo 'F' > $PROC_INT && sleep $DELAY1 ; else  echo -e '\n\n\t Testing FSUSB HOST\n\n' ; fi &&  cat $ENUM_COMM && cat $ENUM_COMM | grep 'stor' && exit 0 || exit 1     
+
+#3     set -x; echo -e "\n\n\tSuspending driver \n\n" && if [ $USB_DRIVER = "MENTOR" ] ; then  echo -n $SUSPEND  > $SYSFS_MENTORNODE ; else  echo -n $SUSPEND  > $SYSFS_OHCINODE ; fi &&  sleep $DELAY1 &&  exit 0 || exit 1
+#3      echo -n mem > /sys/power/state
+3     set -x; echo -e "\n\n\tSuspending driver \n\n" && if [ $USB_DRIVER = "MENTOR" ] ; then  echo -n mem > /sys/power/state ; else  echo -n mem > /sys/power/state ; fi &&  sleep $DELAY1 &&  exit 0 || exit 1
+
+#4     echo 'F' > /proc/driver/musb_hdrc
+#      cat  /proc/bus/usb/devices | grep 'stor'
+4     set -x; echo -e "\n\n\tDisconnect mass storage device \n\n" && sleep $DELAY1 &&  cat $ENUM_COMM && cat $ENUM_COMM | grep 'stor' && exit 0 || exit 1
+
+## Resume
+
+#5	set -x; echo -e "\n\n\tResuming driver \n\n" && if [ $USB_DRIVER = "MENTOR" ] ; then  echo -n $RESUME  > $SYSFS_MENTORNODE ; else   echo -n $RESUME  > $SYSFS_OHCINODE ; fi && sleep $DELAY1 && exit 0 || exit 1
+#5	echo -n mem > /sys/power/state
+5     set -x; echo -e "\n\n\tResuming driver \n\n" && if [ $USB_DRIVER = "MENTOR" ] ; then  echo -n mem > /sys/power/state ; else   echo -n mem > /sys/power/state ; fi && sleep $DELAY1 && exit 0 || exit 1
+
+#6      cat  /proc/bus/usb/devices | grep 'stor'
+6     set -x; if [ $USB_DRIVER = "MENTOR" ] ; then  ( cat $ENUM_COMM | grep 'stor' && exit 1 ) ; else ( cat $ENUM_COMM | grep 'OHCI' && exit 0 ) ; fi  || if [ $USB_DRIVER = "MENTOR" ] ; then  exit 0 ; else  exit 1 ; fi  
+
+#7	echo 'F' > /proc/driver/musb_hdrc
+#	cat  /proc/bus/usb/devices | grep 'stor'
+7     set -x; echo -e '\n\n\tConnect a mass storage device to USB port \n\n' && sleep $DELAY1 && if [ $USB_DRIVER = "MENTOR" ] ; then  echo 'F' > $PROC_INT && sleep $DELAY1 ; fi && cat $ENUM_COMM && cat $ENUM_COMM | grep 'stor' && sleep $DELAY1 && exit 0 || exit 1 
+
+#8	set -x; echo -e "\n\n\t Suspending driver \n\n" && sleep $DELAY1 && if [ $USB_DRIVER = "MENTOR" ] ; then  echo -n $SUSPEND  > $SYSFS_MENTORNODE ; else   echo -n $SUSPEND  > $SYSFS_OHCINODE ; fi && exit 0 || exit 1
+#	echo -n mem > /sys/power/state
+8     set -x; echo -e "\n\n\t Suspending driver \n\n" && sleep $DELAY1 && if [ $USB_DRIVER = "MENTOR" ] ; then  echo -n mem > /sys/power/state ; else   echo -n mem > /sys/power/state ; fi && exit 0 || exit 1
+
+###### Global suspend
+#9     set -x;  echo -e '\n\n\t Global suspend will be executed, you must press \n\t a key (keypad) after suspension \n ' && sleep  $DELAY3 && echo -e $SYSTEM_SUSPEND | $DPM_SCRIPT && exit 0 || exit 1
+#10    set -x;  echo -e "\n\n\t Resuming driver \n\n" && if [ $USB_DRIVER = "MENTOR" ] ; then  echo -n $RESUME  > $SYSFS_MENTORNODE ; else   echo -n $RESUME  > $SYSFS_OHCINODE ; fi && sleep $DELAY1 && exit 0 || exit 1
+
+#10	echo -n mem > /sys/power/state
+10	set -x;  echo -e '\n\n\t Global suspend will be executed, you must press \n\t a key (keypad) after suspension \n ' && sleep  $DELAY3 && echo -n mem > /sys/power/state && exit 0 || exit 1
+
+#11	echo 'F' > /proc/driver/musb_hdrc
+#	cat  /proc/bus/usb/devices | grep 'stor'
+11    set -x;  cat $ENUM_COMM | grep 'stor' && exit 0 || exit 1
+
+12    set -x; if [ $USB_DRIVER = "MENTOR" ] ; then  echo -e '\n\n\t Removing g_zero.ko\n\n' && rmmod g_zero.ko; fi && exit 0 || exit 1
+
+bar 	echo L_DD_USBHost_0008_1
+
+

@@ -1,0 +1,68 @@
+###############################################################################
+# Scenario: L_DD_USBHost_0005
+# Author  : Axel Castaneda Gonzalez
+# Date    : September 20, 2006
+# Description: Test if the Host can use USB Mass Storage Devices 
+# ChangeLog:
+#	3 Mar 2009 - Diego Zavala Trujillo - Update Scenario.
+###############################################################################
+
+foo 	echo L_DD_USBHost_0008
+
+1	set -x; echo -e "\n\n\t Testing if the Host can use USB Mass Storage.  \n\n"  &&  sleep  $DELAY0  &&  insmod $MODULE_PATH/g_zero.ko  &&  exit 0 || exit 1
+
+2	set -x; echo -e "\n\n\t Connect USB Mass Storage Device to USB port. \n\n"  &&  sleep $DELAY3  &&  $TESTSCRIPT/enum.sh connectDevice  &&  exit 0 || exit 1
+
+### Make the device nodes if required.
+
+3	set -x; echo -e "\n\n\t Creating the nodes on the OMAP for the Mass Storage \n\n"  &&  mknod /dev/sda b 8 0  &&  mknod /dev/sda1 b 8 1  &&  exit 0 || exit 0
+
+### Mount the partition and test it by writing/reading a file
+
+4	set -x; cat $GADGET_PROC  &&  cat  $SCSI_STORAGE/0  &&  mkdir -p  ${MASS_DIRECTORY}  &&  dd if=/dev/zero of=${MISC_PATH}/$MASS_FILE bs=1M count=5  &&  exit 0 || exit 1
+
+5	set -x; ls /dev/sd*  &&  mount  /dev/sda1 $MASS_DIRECTORY  &&  echo -e "\n\n\t USB Mass Storage device mounted properly. \n\n"  &&  exit 0 || exit 1
+
+6 	set -x; cp $MISC_PATH/$MASS_FILE $MASS_DIRECTORY/  &&  exit 0 || exit 1
+
+7	set -x; cmp  ${MISC_PATH}/$MASS_FILE $MASS_DIRECTORY/$MASS_FILE && echo -e '\n\n\t Compare test succeeded  \n\n' && exit 0 || exit 1
+
+#Unmount the device.
+
+#13  umount /testsuites/usb_host/scripts/misc/mass_storage
+13  set -x; umount  $MASS_DIRECTORY && echo -e '\n\n\t Device unmounted  \n\n' && exit 0 || exit 1
+
+#Mount the partition and test it by writing/reading a file
+
+#14  mount  /dev/sda1 /testsuites/usb_host/scripts/misc/mass_storage
+14  set -x; mount  /dev/sda1 $MASS_DIRECTORY  && echo -e '\n\n\t USB mass storage device mounted properly \n\n'  && exit 0 || exit 1
+
+#15  cmp /testsuites/usb_host/scripts/misc/6m /testsuites/usb_host/scripts/misc/mass_storage
+15  set -x; cmp  ${MISC_PATH}/$MASS_FILE $MASS_DIRECTORY/$MASS_FILE && echo -e '\n\n\t Compare test succeeded  \n\n' &&  exit 0 || exit 1
+
+#Unmount the device.
+
+#16  umount /testsuites/usb_host/scripts/misc/mass_storage
+16  set -x; umount  $MASS_DIRECTORY && echo -e '\n\n\t Device unmounted  \n\n' && exit 0 || exit 1
+
+#17  cat  /proc/bus/usb/devices | grep 'stor'
+17  set -x; echo -e '\n\n\t Disconnect USB Mass Storage Device from USB port \n\n' && sleep $DELAY3 &&  cat $ENUM_COMM | grep 'stor '&& exit 1 || exit 0   
+
+##Checking if file exists after disconnect usb storage device
+18  set -x; echo -e '\n\n\t Connect USB Mass Storage Device to USB port \n\n' && sleep $DELAY3  && exit 0 || exit 1
+19  set -x; if [ $USB_DRIVER = "MENTOR" ] ; then  echo 'F' > $PROC_INT && sleep $DELAY2 ; fi  && cat $ENUM_COMM | grep 'stor' && exit 0 || exit 1
+20  set -x; mknod /dev/sda b 8 0 && mknod /dev/sda1 b 8 1 && exit 0 || exit 0
+21  set -x; mount  /dev/sda1 $MASS_DIRECTORY  && echo -e '\n\n\t USB mass storage device mounted properly \n' && exit 0 || exit 1
+22  set -x; cmp  ${MISC_PATH}/$MASS_FILE $MASS_DIRECTORY/$MASS_FILE && echo -e '\n\n\t Compare test succeeded  \n\n' && exit 0 || exit 1
+23  set -x; rm $MASS_DIRECTORY/$MASS_FILE  && exit 0 || exit 1
+
+#Unmount the device.
+24  set -x; umount  $MASS_DIRECTORY && echo -e '\n\n\t Device unmounted  \n\n' && exit 0 || exit 1
+
+25  echo -e '\n\n\t Disconnect USB Mass Storage Device from USB port \n\n' && sleep $DELAY3 &&  cat $ENUM_COMM | grep 'stor '&& exit 1 || exit 0   
+#26  set -x; rmmod usb-storage && exit 0 || exit 1 && rmmod sd_mod && rmmod scsi_mod && exit 0 || exit 1
+
+27 set -x; if [ $USB_DRIVER = "MENTOR" ] ; then    rmmod g_zero.ko ; fi && exit 0 || exit 1
+
+bar 	echo L_DD_USBHost_0008
+
