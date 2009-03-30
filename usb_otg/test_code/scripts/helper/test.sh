@@ -28,10 +28,12 @@ TYPES='control out in'
 #  - add other concurrent system loads
 #
 
-declare -i COUNT BUFLEN
+#declare -i COUNT BUFLEN
 
 COUNT=50000
 BUFLEN=2048
+TEST_PATH=${PWD}/../../bin
+MAX_ITER=5
 
 # NOTE:  the 'in' and 'out' cases are usually bulk, but can be
 # set up to use interrupt transfers by 'usbtest' module options
@@ -45,9 +47,16 @@ else
 	TEST_ARGS=""
 fi
 
+echo "Max of Iterations:" $MAX_ITER
+echo "PATH:" ${TEST_PATH}
+
 do_test ()
 {
-    if ! ./testusb $TEST_ARGS -s $BUFLEN -c $COUNT $* 2>/dev/null
+    echo "Test_ARGS: " $TEST_ARGS
+    echo "-s BUFLEN: " $BUFLEN
+    echo "-c COUNT: " $COUNT
+
+    if ! $TEST_PATH/testusb $TEST_ARGS -s $BUFLEN -c $COUNT $* 2>/dev/null
     then
 	echo "FAIL"
 	exit 1
@@ -84,8 +93,12 @@ check_config ()
 
 echo "TESTING:  $ARGS"
 
-while : true
+COUNTER=0
+while [ $COUNTER -lt $MAX_ITER ]
+#while : true
 do
+    echo Iteration : $COUNTER
+    let COUNTER=COUNTER+1
     echo $(date)
 
     for TYPE in $ARGS
