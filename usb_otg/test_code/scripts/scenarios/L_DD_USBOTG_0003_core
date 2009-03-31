@@ -1,0 +1,60 @@
+################################################################################
+# Scenario: L_DD_USBOTG_0003_1_core
+# Author  : Axel Castaneda Gonzalez
+# Date    : January  4, 2006
+# Description: Cable based role switching device and host mode for usb-otg.
+# ChangeLog:
+#	9 Jan 2009 - Diego Zavala Trujillo - Changing the struture.
+################################################################################
+
+foo	echo 'L_DD_USBOTG_0003_1_core'
+
+###   OMAP acting like a Host.
+
+1  echo -e '\n\n\t Please connect cable. [ Mini-A to OMAP - Mini-B to an USB Device (Mass Storage) ] \n\n'  &&  sleep $DELAY3  &&  export ENUM_INFO="stor"; $TESTSCRIPT/enum.sh connectDevice &&  exit 0 || exit 1
+
+2  echo -e '\n\n\t Disconnect cable. \n\n'  &&  sleep $DELAY3  &&  $TESTSCRIPT/enum.sh disconnectDevice  &&  exit 0 || exit 1
+
+###   OMAP acting like a Device.
+
+3  echo -e '\n\n\t Please connect USB cable  [ Mini-B to OMAP - Linux PC on the other end ] \n\n'  &&  sleep $DELAY3  &&  $TESTSCRIPT/enum.sh connectHost  &&  exit 0 || exit 1
+
+4  echo -e '\n\n\t Checking enumeration on the Linux PC \n\n'  &&  export ENUM_INFO="Zero"; $TESTSCRIPT/enum.sh connectHostRemote  &&  exit 0 || exit 1
+
+5  echo -e '\n\n\t Disconnect USB cable from OMAP \n\n'  &&  sleep $DELAY3  &&  $TESTSCRIPT/enum.sh disconnectHost  &&  exit 0 || exit
+
+###   OMAP acting like a Host.
+
+6  echo -e '\n\n\t Please connect cable. [ Mini-A to OMAP - Mini-B to an USB Device (USB to Lan converter) ] \n\n'  &&  sleep $DELAY3  &&  export ENUM_INFO="LAN Converter"; $TESTSCRIPT/enum.sh connectDevice &&  exit 0 || exit 1
+
+7  echo -e '\n\n\t Disconnect cable. \n\n'  &&  sleep $DELAY3  &&  $TESTSCRIPT/enum.sh disconnectDevice  &&  exit 0 || exit 1
+
+###   OMAP acting like a Device.
+
+8  echo -e '\n\n\t Please connect USB cable  [ Mini-B to OMAP - Linux PC on the other end ] \n\n'  &&  sleep $DELAY3  &&  $TESTSCRIPT/enum.sh connectHost  &&  exit 0 || exit 1
+
+9  echo -e '\n\n\t Checking enumeration on the Linux PC \n\n'  &&  export ENUM_INFO="Zero"; $TESTSCRIPT/enum.sh connectHostRemote  &&  exit 0 || exit 1
+
+10  echo -e '\n\n\t Disconnect USB cable from OMAP \n\n'  &&  sleep $DELAY3  &&  $TESTSCRIPT/enum.sh disconnectHost  &&  exit 0 || exit
+
+###   OMAP acting like a Device.
+
+11 echo -e '\n\n\t Please connect USB cable  [ Mini-B to OMAP - Linux PC on the other end ] \n\n'  &&  sleep $DELAY3  &&  $TESTSCRIPT/enum.sh connectHost  &&  exit 0 || exit 1
+
+12 echo -e '\n\n\t Checking enumeration on the Linux PC \n\n'  &&  export ENUM_INFO="Zero"; $TESTSCRIPT/enum.sh connectHostRemote  &&  exit 0 || exit 1
+
+13 echo -e '\n\n\t Disconnect USB cable from OMAP \n\n'  &&  sleep $DELAY3  &&  $TESTSCRIPT/enum.sh disconnectHost  &&  exit 0 || exit
+
+###   OMAP acting like a Host.
+
+14 echo -e '\n\n\t Please connect cable. [ Mini-A to OMAP - Mini-B to an USB Device (USB to Lan converter) ] \n\n'  &&  sleep $DELAY3  &&  export ENUM_INFO="LAN Converter"; $TESTSCRIPT/enum.sh connectDevice &&  exit 0 || exit 1
+
+15 echo -e '\n\n\t Disconnect cable. \n\n'  &&  sleep $DELAY3  &&  $TESTSCRIPT/enum.sh disconnectDevice  &&  exit 0 || exit 1
+
+###   OMAP acting like a Host.
+
+16 echo -e '\n\n\t Please connect cable. [ Mini-A to OMAP - Mini-B to an USB Device (Mass Storage) ] \n\n'  &&  sleep $DELAY3  &&  export ENUM_INFO="stor"; $TESTSCRIPT/enum.sh connectDevice &&  exit 0 || exit 1
+
+17 echo -e '\n\n\t Disconnect cable. \n\n'  &&  sleep $DELAY3  &&  $TESTSCRIPT/enum.sh disconnectDevice  &&  exit 0 || exit 1
+
+bar	echo 'L_DD_USBOTG_0003_1_core'
