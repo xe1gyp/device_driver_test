@@ -1,0 +1,30 @@
+###################################################################################################################
+# Scenario: L_DD_USBOHCI_0003_core
+# Author  : Axel Casta¤eda Gonzalez
+# Date    : December 4, 2006
+# Description:  Running control transfer (Chapter 9) tests using 'usbtest' on high-speed test device (Control)
+###################################################################################################################
+
+foo	echo L_DD_USBOHCI_0003_core
+
+1  echo -e '\n\n\t Linux PC: Loading net2280 module. \n\n'; export MODULE="net2280"  &&  $TESTSCRIPT/enum.sh insertRemoteModule  &&  exit 0 || exit 1
+
+2  echo -e '\n\n\t Linux PC: Loading g_zero module. \n\n'; export MODULE="g_zero"  &&  $TESTSCRIPT/enum.sh insertRemoteModule  &&  exit 0 || exit 1
+
+3  echo -e '\n\n\t Connect cable (Net2280 Std B - miniA OMAP)  \n\n'  &&  sleep $DELAY2  &&  exit 0 || exit 1
+
+### Checking Enumeration
+4  echo -e '\n\n\t Checking enumeration. \n\n'  &&  export ENUM_INFO="Gadget Zero"; $TESTSCRIPT/enum.sh connectDevice  &&  exit 0 || exit 1
+
+### Running  the control transfer tests
+5  if [ "$COMMAND" = "control" ]; then (echo "$LOGBASE/log.testControlOMAP" > $LOGBASE/log.tmp; $TESTSCRIPT/enum.sh testc  &&  exit 0  || exit 0); elif [ "$COMMAND" = "in out" ]; then (echo "$LOGBASE/log.testInOutOMAP" > $LOGBASE/log.tmp; $TESTSCRIPT/enum.sh testio  &&  exit 0  || exit 0); fi
+
+6  set -x; (TMP=`cat $LOGBASE/log.tmp` && cat $TMP | grep "FAIL")  &&  echo -e "\n\n\t ERROR2 - Test ${COMMAND} fails. \n\n"; exit 1 || echo "Diego"; exit 0
+7  set -x; (TMP=`cat $LOGBASE/log.tmp` && cat $TMP | grep "error") &&  echo -e "\n\n\t ERROR2 - Found an error on the test ${COMMAND}. \n\n"; exit 1 || echo "Diego"; exit 0
+8  set -x; (TMP=`cat $LOGBASE/log.tmp` && cat $TMP | grep "pipe")  &&  echo -e "\n\n\t ERROR2 - Found a pipe on the test ${COMMAND}. \n\n"; exit 1 || echo "Diego"; exit 0
+
+9  echo -e '\n\n\t Linux PC: Removing g_zero module. \n\n'  &&  export MODULE="g_zero"  &&  $TESTSCRIPT/enum.sh removeRemoteModule  && exit 0 || exit 1
+
+10 echo -e '\n\n\t Linux PC: Removing net2280 module. \n\n'  &&  export MODULE="net2280"  &&  $TESTSCRIPT/enum.sh removeRemoteModule  && exit 0 || exit 1
+
+bar	echo L_DD_USBOHCI_0003_core
