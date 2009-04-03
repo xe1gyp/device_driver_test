@@ -32,8 +32,8 @@ KERNELVERSION := $(shell uname -r)
 
 # The location of linux itself. This is used to find the kernel headers
 # and other things.
-#LINUX := /usr/src/linux
-LINUX := $(shell if [ -L "/lib/modules/$(KERNELVERSION)/build" ] ; \
+LINUX := $(KDIR)
+#LINUX := $(shell if [ -L "/lib/modules/$(KERNELVERSION)/build" ] ; \
 	then echo "/lib/modules/$(KERNELVERSION)/build" ; \
 	else echo "/usr/src/linux" ; fi)
 LINUX_HEADERS := $(LINUX)/include
@@ -44,8 +44,8 @@ LINUX_HEADERS := $(LINUX)/include
 # may be used mistakenly. Note: This should point to the directory
 # *above* the linux/ subdirectory, so to /usr/local/include in the
 # above example.
-I2C_HEADERS := /usr/local/include
-#I2C_HEADERS := $(LINUX_HEADERS)
+#I2C_HEADERS := /usr/local/include
+I2C_HEADERS := $(LINUX_HEADERS)
 
 # Uncomment the third line on SMP systems if the magic invocation fails.
 SMP := $(shell if grep -q '^[[:space:]]*\#define[[:space:]]*CONFIG_SMP[[:space:]]*1' $(LINUX_HEADERS)/linux/autoconf.h ; \

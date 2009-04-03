@@ -34,7 +34,7 @@ $(KERNELINCLUDEDIR)/sensors.hd:
 	  $(SED) -e 's/:.*//' -e 's#^#$(KERNELINCLUDEDIR)/sensors.h: #' ) > $@
 
 # Get dependencies of sensors.h
-INCLUDEFILES += $(MODULE_DIR)/sensors.hd
+INCLUDEFILES += $(KERNELINCLUDEDIR)/sensors.hd
 
 REMOVEKERNELINC := $(patsubst $(MODULE_DIR)/%,$(DESTDIR)$(SYSINCLUDEDIR)/%,$(KERNELINCLUDEFILES))
 

@@ -85,7 +85,7 @@ int sensors_read_proc_chips(void)
 	int res;
 
 	int name[3] = { CTL_DEV, DEV_SENSORS, SENSORS_CHIPS };
-	int buflen = BUF_LEN;
+	size_t buflen = BUF_LEN;
 	char *bufptr = buf;
 	sensors_proc_chips_entry entry;
 	int lineno;
@@ -303,7 +303,7 @@ int sensors_read_proc(sensors_chip_name name, int feature, double *value)
 {
 	int sysctl_name[4] = { CTL_DEV, DEV_SENSORS };
 	const sensors_chip_feature *the_feature;
-	int buflen = BUF_LEN;
+	size_t buflen = BUF_LEN;
 	int mag, eepromoffset, fd, ret=0;
 
 	if(!foundsysfs)
@@ -369,7 +369,7 @@ int sensors_write_proc(sensors_chip_name name, int feature, double value)
 {
 	int sysctl_name[4] = { CTL_DEV, DEV_SENSORS };
 	const sensors_chip_feature *the_feature;
-	int buflen = BUF_LEN;
+	size_t buflen = BUF_LEN;
 	int mag;
  
 	if(!foundsysfs)

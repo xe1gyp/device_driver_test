@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 {
 
 	struct i2c_rdwr_ioctl_data  msg_rdwr;
-	struct i2c_msg  i2cmsg, i2cmsgrd[2];
+	struct i2c_msg  i2cmsg;
 	int i, fd, x, num;
 	char _buf[257];
 

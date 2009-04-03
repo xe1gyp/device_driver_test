@@ -62,17 +62,6 @@ void help(void)
 	print_i2c_busses(0);
 }
 
-static int writeb_i2c_bus(int file, int i2c)
-{
-	int res = 0;
-	char data = 0;
-	if (!i2c) {
-		res = i2c_smbus_write_quick(file, I2C_SMBUS_WRITE);
-	} else {
-		res = write(file, &data, 0);	/* 1 byte?? */
-	}
-	return res;
-}
 static int readb_i2c_bus(int file, int i2c, int cmd)
 {
 	int res = 0;
