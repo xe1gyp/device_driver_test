@@ -69,7 +69,7 @@ int verify_buffers(struct dma_buffers_info *buffers) {
     u32 *dest_address = (u32*) buffers->dest_buf;
 
     /* Iterate through the source and destination buffers */
-    for (i = 0; i < buffers->buf_size; i++) {
+    for (i = 0; i < buffers->buf_size / 4; i++) {
         /* Compare the data in the src and dest, src is big endian */
         if (*src_address != to_big_endian(*dest_address)) {
             printk("Source buffer at 0x%x = %d , destination buffer at 0x%x = "
@@ -256,7 +256,7 @@ static int __init dma_module_init(void) {
            transfers[i].device_id = OMAP_DMA_NO_DEVICE;
            transfers[i].sync_mode = OMAP_DMA_SYNC_ELEMENT;
            transfers[i].data_burst = OMAP_DMA_DATA_BURST_DIS;
-           transfers[i].data_type = OMAP_DMA_DATA_TYPE_S32;
+           transfers[i].data_type = OMAP_DMA_DATA_TYPE_S16;
            transfers[i].addressing_mode = OMAP_DMA_AMODE_POST_INC;
            transfers[i].priority = DMA_CH_PRIO_HIGH;
            transfers[i].buffers.buf_size = (1024 * 1024);
