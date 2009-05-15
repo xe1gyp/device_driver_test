@@ -6,6 +6,7 @@
 
 # Begin L_DD_KEYPAD_0000_0001
 
-01 set -x; cat $DMESG_FILE | grep $CHIP_NAME | grep keypad
+01 set -x; $TESTSCRIPT/filesystemtype.sh; cat $TESTSCRIPT/result.tmp | grep $CHIP_NAME | grep keypad
+02 set -x; rm -f $TESTSCRIPT/result.tmp; ls $TESTSCRIPT/ | grep result.tmp | exit 0 || exit 1;
 
 # End L_DD_KEYPAD_0000_0001
