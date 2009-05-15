@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ADAPTER_INFO=`cat $DMESG_PATH | grep i2c | grep "bus 1"`
+ADAPTER_INFO=`cat $TESTSCRIPT/result.tmp | grep i2c | grep "bus 1"`
 SPEED_RECEIVED=$1
 SPEED_ACTUAL=`echo $ADAPTER_INFO | sed -e "s/ */ /g" | cut -d ' ' -f8`
 
