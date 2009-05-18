@@ -21,7 +21,7 @@ export TC_SCENARIO="${TESTROOT}/scenarios"
 export SCENARIO_NAMES=""
 
 # General variables
-export DMESG_FILE=/var/log/dmesg
+#export DMESG_FILE=/var/log/dmesg
 export CHIP_NAME=twl
 export DRIVER_NAME="platform:twl4030_rtc"
 export PROCFS_RTC=/proc/driver/rtc

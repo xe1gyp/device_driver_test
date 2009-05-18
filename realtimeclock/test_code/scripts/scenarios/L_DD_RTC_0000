@@ -6,7 +6,9 @@
 
 # Begin L_DD_RTC_0000
 
-0001 set -x; cat $DMESG_FILE | grep $CHIP_NAME | grep rtc && exit 0 || exit 1
-0002 set -x; echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $APP_ALARM_SET $DEVFS_RTC && (($APP_ALARM_GET_EVENT $DEVFS_RTC &) && ($APP_ALARM_GET_EVENT $DEVFS_RTC)) | grep "${MSG_CANNOT_OPEN_DEVICE}" && exit 0 || exit 1
+01	set -x; $TESTSCRIPT/filesystemtype.sh; cat $TESTSCRIPT/result.tmp | grep $CHIP_NAME | grep rtc && exit 0 || exit 1
+02	set -x; echo -e "$APP_VAL_INPUT_USER\n $APP_VALID_DATE\n $APP_VALID_TIME\n" | $APP_TIME_SET $DEVFS_RTC | grep "$MSG_DATE_TIME_SET_NEW ${RTC_VALID_DATE} ${RTC_VALID_TIME}" && exit 0 || exit 1
+03	set -x; echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $APP_ALARM_SET $DEVFS_RTC && (($APP_ALARM_GET_EVENT $DEVFS_RTC &) && ($APP_ALARM_GET_EVENT $DEVFS_RTC)) | grep "${MSG_CANNOT_OPEN_DEVICE}" && exit 0 || exit 1
+04 set -x; rm -f $TESTSCRIPT/result.tmp; ls $TESTSCRIPT/ | grep result.tmp | exit 0 || exit 1;
 
 # End L_DD_RTC_0000
