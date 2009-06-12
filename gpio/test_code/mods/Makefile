@@ -25,7 +25,7 @@ KERN:=26
 ifneq ($(KERNELRELEASE),)
 
 	ifeq ($(KERN),26)
-		obj-m := gpio.o gpio_test.o
+		obj-m := gpio_test.o
 	else
 		export-objs :=  gpio_test.o
 		obj-m += gpio_test.o

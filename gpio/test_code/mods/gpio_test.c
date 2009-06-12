@@ -3,150 +3,215 @@
 #include <linux/init.h>
 #include <linux/irq.h>
 #include <asm/irq.h>
-
-
 #include <linux/version.h>
+#include <linux/gpio.h>
+#include <mach/irqs.h>
+#include <linux/proc_fs.h>
+#define PROC_FILE "driver/gpio_test_result"
 
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,27))
-	#include <mach/gpio.h>
-	#include <mach/irqs.h>
-#else
-	#include <asm/arch/gpio.h>
-	#include <asm/arch/irqs.h>
-#endif
-
-char buffer[100];
-
-static uint test = 0;
-static uint gpio = 0;
-static uint value = 0;
+static uint test;
+static uint gpio;
+static uint value;
+static uint request_flag = 0;
+static uint input_direction_flag = 0;
+static uint output_direction_flag = 0;
+static uint test_passed = 1;
+static uint error_flag_1 = 1, error_flag_2 = 1, error_flag_3 = 1;
 
 module_param (test, int, S_IRUGO|S_IWUSR);
 module_param (gpio, int, S_IRUGO|S_IWUSR);
 module_param (value, int, S_IRUGO|S_IWUSR);
 
-static int omap_gpio_test_request(void){
+static void gpio_test_request(void){
         int ret;
-        printk("Reserving GPIO line %d\n", gpio);
-        ret = omap_request_gpio(gpio);
-        if (!ret)
-          printk("Succesfully Reserved GPIO %d\n", gpio);
+
+	printk(KERN_INFO "Reserving GPIO line %d\n", gpio);
+	ret = gpio_request(gpio, "titan_test");
+	if (!ret) {
+		request_flag = 1;
+		printk(KERN_INFO "Succesfully Reserved GPIO %d\n", gpio);
+	}
         else
-          printk(KERN_ERR "\n\nGPIO line %d request: failed!\n", gpio);
-        return ret;
+		printk(KERN_ERR "GPIO line %d request: failed!\n", gpio);
 }
 
-/* omap_free_gpio does not return any value */
-static void omap_gpio_test_free(void){
-        omap_free_gpio(gpio);
-        printk("Freeing GPIO line %d\n", gpio);
+/* gpio_free does not return any value */
+static void gpio_test_free(void){
+	gpio_free(gpio);
+	printk(KERN_INFO "Freeing GPIO line %d\n", gpio);
 }
 
-/* gpio_direction_input does not return any value */
-static void omap_gpio_test_direction_input(void){
-	if (!gpio_direction_output(gpio, 0))
-		printk("Input configuration succesful\n");
-	else  
-		printk("Input configuration failed\n");
+static void gpio_test_direction_input(void){
+	if (!gpio_direction_input(gpio)) {
+		input_direction_flag = 1;
+		printk(KERN_INFO "Input configuration succesful\n");
+	} else {
+		error_flag_1 = 0;
+		printk(KERN_ERR "Input configuration failed\n");
+	}
 }
 
-/* gpio_direction_output does not return any value */
-static void omap_gpio_test_direction_output(void){
-	if (!gpio_direction_input(gpio))
-		printk("Output configuration succesful\n");
-	else  
-		printk("Output configuration failed\n");
+static void gpio_test_direction_output(void){
+	if (!gpio_direction_output(gpio, value)) {
+		output_direction_flag = 1;
+		printk(KERN_INFO "Output configuration succesful\n");
+	} else {
+		error_flag_2 = 0;
+		printk(KERN_ERR "Output configuration failed\n");
+	}
 }
 
-static int omap_gpio_test_irq(void){
+static void gpio_test_read(void){
 	int ret;
-	ret = OMAP_GPIO_IRQ(gpio);
 
-	#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,27))
-		
-	#else
-		printk("Setting IRQ %i for GPIO Line %i type: RISING\n", ret, gpio);
-		set_irq_type(OMAP_GPIO_IRQ(gpio), IRQT_RISING);
-		printk("Setting IRQ %i for GPIO Line %i type: FALLING\n", ret, gpio);
-		set_irq_type(OMAP_GPIO_IRQ(gpio), IRQT_FALLING);
-	#endif
-		
-
-	
-	return ret;
+	ret = gpio_get_value(gpio);      /* Reading the value of pin # */
+	printk(KERN_INFO "Value of pin # %d = %d\n", gpio, ret);
+	if (ret < 0)
+		error_flag_3 = 0;
 }
-
-
-static int omap_gpio_test_read(void){
-	int ret;
-	ret = omap_get_gpio_datain(gpio);      /* Reading the value of pin # */
-	printk("Value of pin # %d = %d\n", gpio, ret);
-	return ret;
-}
-
 
 /* gpio_set_value does not return any value */
-static int omap_gpio_test_write(void){
-	printk("Writing to GPIO line %d Value %d\n", gpio, value);
+static void gpio_test_write(void){
+	printk(KERN_INFO "Writing to GPIO line %d Value %d\n", gpio, value);
 	gpio_set_value(gpio, value);
-	return 0;
 }
 
-static int omap_gpio_test(void){
+static void gpio_test_irq(void){
+	int ret, irq;
 
-	int ret;
+	irq = gpio_to_irq(gpio);
+	if (irq >= 0)
+		printk(KERN_INFO "The GPIO Line %d successfully mapped to IRQ number %d\n", gpio, irq);
+	else {
+		error_flag_1 = 0;
+		printk(KERN_ERR "Error in mapping GPIO Line %d to IRQ, Error number: %d\n", gpio, irq);
+	}
 
-	switch(test){
+	ret = set_irq_type(irq, IRQ_TYPE_EDGE_FALLING);
+	if (!ret)
+		printk(KERN_INFO "Succesfull in Setting IRQ %i for GPIO Line %i type: FALLING\n", irq, gpio);
+	else {
+		error_flag_2 = 0;
+		printk(KERN_ERR "Error in Setting IRQ %i for GPIO Line %i type: FALLING\n", irq, gpio);
+	}
 
-		case 1: /* Reserve GPIO Line */
-			ret = omap_gpio_test_request();
+	ret = set_irq_type(irq, IRQ_TYPE_EDGE_RISING);
+	if (!ret)
+		printk(KERN_INFO "Succesfull in Setting IRQ %i for GPIO Line %i type: RISING\n", irq, gpio);
+	else {
+		error_flag_3 = 0;
+		printk(KERN_ERR "Error in Setting IRQ %i for GPIO Line %i type: RISING\n", irq, gpio);
+	}
+}
+static void gpio_test(void){
+
+		switch (test) {
+
+		case 1: /* Reserve and free GPIO Line */
+			gpio_test_request();
+			if (request_flag)
+				gpio_test_free();
 			break;
 
-		case 2: /* Free GPIO Line */
-			omap_gpio_test_free();
+		case 2: /* Set GPIO input/output direction */
+			gpio_test_request();
+			if (request_flag) {
+				gpio_test_direction_input();
+				gpio_test_direction_output();
+				gpio_test_free();
+			}
 			break;
 
-		case 3: /* Set GPIO input direction */
-			omap_gpio_test_direction_input();
+		case 3: /* GPIO read */
+			gpio_test_request();
+			if (request_flag) {
+				gpio_test_direction_input();
+				if (input_direction_flag)
+					gpio_test_read();
+				gpio_test_free();
+			}
 			break;
 
-		case 4: /* Set GPIO output direction */
-			omap_gpio_test_direction_output();
+		case 4: /* GPIO write */
+			gpio_test_request();
+			if (request_flag) {
+				gpio_test_direction_output();
+				if (output_direction_flag)
+					gpio_test_write();
+				gpio_test_free();
+			}
 			break;
 
-		case 5: /* GPIO read */
-			omap_gpio_test_read();
-			break;
-
-		case 6: /* GPIO write */
-			omap_gpio_test_write();
-			break;
-
-		case 7:
-			omap_gpio_test_irq();
+		case 5:/* configure the interrupt edge \
+				sensitivity (rising, falling) */
+			gpio_test_request();
+			if (request_flag) {
+				gpio_test_irq();
+				gpio_test_free();
+			}
 			break;
 
 		default:
-			printk("Test option not available.\n");
+			printk(KERN_INFO "Test option not available.\n");
 	}
 	
-	return ret;
+	printk(KERN_INFO "Logical ANDing of three error flags is: %d\n", (error_flag_1 && error_flag_2 && error_flag_3));
+	/* On failure of a testcase, one of the three error flags set to 0
+	 * if a gpio line request fails it is not considered as a failure
+	 * set test_passed =0 for failure
+	 */
+	if (!(error_flag_1 && error_flag_2 && error_flag_3))
+		test_passed = 0;
 }
 
-static int __init omap_gpio_test_init(void)
+/*
+ * The read proc entry returns passed or failed,
+ * according to the value of test_passed.
+ */
+static int gpio_read_proc(char *buf, char **start, off_t offset,
+				int count, int *eof, void *data){
+	int len;
+
+	if (test_passed)
+		len = sprintf(buf, "Test PASSED\n");
+	else
+		len = sprintf(buf, "Test FAILED\n");
+
+	return len;
+}
+
+/*
+ * Creates a read proc entry in the procfs
+ */
+void create_gpio_proc(char *proc_name){
+	create_proc_read_entry(proc_name, 0, NULL, gpio_read_proc, NULL);
+}
+
+/*
+ * Removes a proc entry from the procfs
+ */
+void remove_gpio_proc(char *proc_name){
+	remove_proc_entry(proc_name, NULL);
+}
+
+static int __init gpio_test_init(void)
 {
-	printk("\nOMAP GPIO Test Module Initialized\n\n");
- 	omap_gpio_test();
+	printk(KERN_INFO "\nGPIO Test Module Initialized\n\n");
+	/* Create the proc entry */
+	create_gpio_proc(PROC_FILE);
+	gpio_test();
 	return 0;
 }
 
-static void __exit omap_gpio_test_exit(void)
+static void __exit gpio_test_exit(void)
 {
-	printk("\nOMAP GPIO Test Module Removal\n\n");
+	/* Remove the proc entry */
+	remove_gpio_proc(PROC_FILE);
+	printk(KERN_INFO "\nGPIO Test Module Removal\n\n");
 }
 
-module_init(omap_gpio_test_init);
-module_exit(omap_gpio_test_exit);
+module_init(gpio_test_init);
+module_exit(gpio_test_exit);
 
 MODULE_AUTHOR("Texas Instruments");
 MODULE_DESCRIPTION("GPIO Test Driver");
