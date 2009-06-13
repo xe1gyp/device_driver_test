@@ -131,19 +131,19 @@ fi
 for DRIVER in $TESTSUITES
 do 
 	cd $ROOT/$DRIVER/test_code/
-	make clean
 	make
 	cd $OUTPUT_DIRECTORY
 	mkdir $DRIVER
 	cp -r $ROOT/$DRIVER/test_code/* $OUTPUT_DIRECTORY/$DRIVER/
+	cd $ROOT/$DRIVER/test_code/
+	make clean
 done
 
 # Compile utils
 cd $ROOT/utils
-#make clean
 make
 cp -r $ROOT/utils $OUTPUT_DIRECTORY/
-
+make clean
 # Change permissions
 chmod -R 755 $OUTPUT_DIRECTORY
 

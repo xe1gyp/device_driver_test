@@ -66,3 +66,4 @@ clean:
 	rm -rf scripts/log*
 	rm -rf scripts/tmp
 	rm -rf scripts/test
+	for i in $(LIBRARIES); do rm -vf utils/lib/$$i; done

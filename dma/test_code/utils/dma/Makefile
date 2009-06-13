@@ -38,5 +38,5 @@ $(TARGETS):
 	$(CC) $@.c -o $@
 
 clean:
-	rm -vrf *.ko *.o *.mod.* *Module* .tmp_versions .dma*
+	rm -vrf *.ko *.o *.mod.* *Module* .tmp_versions .dma* modules.order
 	rm -vf $(TARGETS)

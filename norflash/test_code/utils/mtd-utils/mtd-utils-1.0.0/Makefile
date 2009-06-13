@@ -46,7 +46,8 @@ IGNORE=${wildcard .*.c.dep}
 -include ${IGNORE}
 
 clean:
-	rm -f *.o $(TARGETS) .*.c.dep $(SYMLINKS) $(SUBDIRS)/*.o
+	rm -f *.o $(TARGETS) .*.c.dep $(SYMLINKS)
+	make -C $(SUBDIRS) clean
 
 $(SYMLINKS):
 	ln -sf ../fs/jffs2/$@ $@

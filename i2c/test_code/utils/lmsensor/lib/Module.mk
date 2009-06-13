@@ -54,7 +54,8 @@ LIBOTHEROBJECTS := $(MODULE_DIR)/conf-parse.o $(MODULE_DIR)/conf-lex.o
 LIBSHOBJECTS := $(LIBCSOURCES:.c=.lo) $(LIBOTHEROBJECTS:.o=.lo)
 LIBSTOBJECTS := $(LIBCSOURCES:.c=.ao) $(LIBOTHEROBJECTS:.o=.ao)
 LIBEXTRACLEAN := $(MODULE_DIR)/conf-parse.h $(MODULE_DIR)/conf-parse.c \
-                 $(MODULE_DIR)/conf-lex.c
+                 $(MODULE_DIR)/conf-lex.c $(MODULE_DIR)/conf-parse.y \
+                 $(MODULE_DIR)/conf-lex.l
 
 LIBHEADERFILES := $(MODULE_DIR)/error.h $(MODULE_DIR)/sensors.h \
                   $(MODULE_DIR)/chips.h

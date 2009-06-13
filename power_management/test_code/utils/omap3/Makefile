@@ -23,6 +23,6 @@ install:
 	cp -vf $(TARGETS) ../../bin
 
 clean:
-	rm -vrf *.ko .*.cmd *.o *.mod.* *Module* .tmp_versions
+	chmod 775 .clock_test.o.d
+	rm -vrf *.ko .*.cmd *.o *.mod.* *Module* .tmp_versions .clock_test.o.d
 	rm -vf $(TARGETS)
-

@@ -35,4 +35,5 @@ endif
 endif
 
 clean:
-	$(RM) -r *.o *.ko *.mod.c .*.cmd .tmp_versions .*.flags .26
+	chmod 775 .omap_mcbsp_test.o.d
+	$(RM) -r *.o *.ko *.mod.c .*.cmd .tmp_versions .*.flags .26 .omap_mcbsp_test.o.d
