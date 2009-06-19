@@ -13,7 +13,6 @@
  * Date   : 01 March 2006
  */
 
-//#include <linux/config.h>
 #include <linux/module.h>
 #include <linux/types.h>
 #include <linux/init.h>
@@ -34,18 +33,17 @@
 #include <asm/dma.h>
 #include <asm/arch/omap2_mcbsp.h>
 
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,00))
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 00))
 #include <linux/dma-mapping.h>
 #endif
 
 static int start_mcbsp_transmission(void);
-struct mcbsp_info_struct
-{
+struct mcbsp_info_struct {
 	int mcbsp_id;
 	int mode; /* Master or Slave */
 	dma_addr_t tx_buf_dma_phys;
 	unsigned int tx_buf_dma_virt;
-	dma_addr_t rx_buf_dma_phys;
+	dma_addr_t rx_buf_dma_p:hys;
 	unsigned int rx_buf_dma_virt;
 	int rx_cnt;
 	int tx_cnt;
@@ -78,23 +76,6 @@ static int words_per_frame = 0;
 long int tx_sec;
 long int tx_usec;
 
-/*MODULE_PARM( buffer_size, "i");
-MODULE_PARM( no_of_trans, "i");
-MODULE_PARM( no_of_tx      , "i");
-#MODULE_PARM( no_of_rx      , "i");
-#MODULE_PARM( sample_rate   , "i");
-#MODULE_PARM( phase         , "i");
-#MODULE_PARM( clkr_polarity , "i");
-#MODULE_PARM( fsr_polarity  , "i");
-#MODULE_PARM( clkx_polarity , "i");
-#MODULE_PARM( fsx_polarity  , "i");
-#MODULE_PARM( justification , "i");
-#MODULE_PARM( word_length   , "i");
-#MODULE_PARM( words_per_frame , "i");
-#MODULE_PARM( test_mcbsp_id , "i");
-
-*/
-
 module_param(buffer_size, int, 0);
 module_param(no_of_trans, int , 0);
 module_param(no_of_tx      , int, 0);
@@ -119,14 +100,12 @@ static int file_type[2] = {0, 1};
 /* Proc interface modules */
 static int
 read_proc_status(char *page, char **start, off_t off, int count,
-                          int *eof, void *data)
+			int *eof, void *data)
 {
-	int len=0;
+	int len = 0;
 	char *p = page;
 	if (off != 0)
 		goto readproc_status_end;
-
-//	MOD_INC_USE_COUNT;
 
 	p += sprintf(p, "\n\n\n\n");
 	p += sprintf(p, "================================================\n\n");
@@ -167,34 +146,31 @@ read_proc_status(char *page, char **start, off_t off, int count,
 readproc_status_end:
 	len = (p - page);
 	*eof = 1;
-	if (off >= len) return 0;
+	if (off >= len)
+		return 0;
 	*start = page + off;
-	//MOD_DEC_USE_COUNT;
+
 	return min(count, len - (int)off);
 }
 
 static int
 write_proc_entry(struct file *file, const char *buffer,
-                         unsigned long count, void *data)
+			unsigned long count, void *data)
 {
-	int len,i;
+	int len, i;
 	char val[10];
 
 	if (!buffer || (count == 0))
 		return 0;
-
-	//MOD_INC_USE_COUNT;
 
 	len = (count > 7) ? 7 : count;
 	for (i = 0; i < len; i++)
 		val[i] = buffer[i];
 	val[i] = '\0';
 
-	//MOD_DEC_USE_COUNT;
-
 	if (strncmp(val, "start", 4) == 0)
 		start_mcbsp_transmission();
-	else if (strncmp(val, "stop", 4) == 0){
+	else if (strncmp(val, "stop", 4) == 0) {
 		omap2_mcbsp_stop_datatx(mcbsptest_info.mcbsp_id);
 		omap2_mcbsp_stop_datarx(mcbsptest_info.mcbsp_id);
 	} else if (strncmp(val, "suspend", 4) == 0)
@@ -211,13 +187,14 @@ write_proc_entry(struct file *file, const char *buffer,
 static int
 create_proc_file_entries(void)
 {
-	if (!(mcbsp_test_dir = proc_mkdir("driver/mcbsp_test", NULL))){
-		printk("\n No mem to create proc file \n");
+	mcbsp_test_dir = proc_mkdir("driver/mcbsp_test", NULL);
+	if (!mcbsp_test_dir) {
+		printk(KERN_ERR "\n No mem to create proc file \n");
 		return -ENOMEM;
 	}
 
 	transmission_file = create_proc_entry("transmission", 0644,
-								mcbsp_test_dir);
+							mcbsp_test_dir);
 	if (!transmission_file)
 		goto no_transmission;
 	transmission_file->data = &file_type[0];
@@ -225,9 +202,9 @@ create_proc_file_entries(void)
 	status_file = create_proc_entry("status", 0644, mcbsp_test_dir);
 	if (!status_file)
 		goto no_status;
-        status_file->data = &file_type[0];
+	status_file->data = &file_type[0];
 
-	status_file->read_proc  = read_proc_status;
+	status_file->read_proc = read_proc_status;
 	transmission_file->write_proc = write_proc_entry;
 
 	transmission_file->owner = THIS_MODULE;
@@ -255,8 +232,6 @@ void remove_proc_file_entries(void)
 /* Callback interface modules */
 void omap_mcbsp_send_cb(unsigned short int ch_status, void *arg)
 {
-	/* printk("MCBSP_TEST: Tx Callback for interface %d\n",
-	* mcbsptest_info.send_cnt++); */
 	if (no_of_tx <  no_of_trans) {
 		if (0 != omap2_mcbsp_send_data(mcbsptest_info.mcbsp_id,
 			&mcbsptest_info, mcbsptest_info.tx_buf_dma_phys,
@@ -276,10 +251,9 @@ void omap_mcbsp_recv_cb(unsigned short int ch_status, void *arg)
 {
 #ifdef COMP_DATA
 	char *ptr;
-	int i,k;
+	int i, k;
 #endif
 
-	/* printk("MCBSP_TEST: Rx Callback %d\n",mcbsptest_info.recv_cnt++); */
 	if (no_of_rx <  no_of_trans) {
 		if (0 != omap2_mcbsp_receive_data(mcbsptest_info.mcbsp_id,
 				&mcbsptest_info, mcbsptest_info.rx_buf_dma_phys,
@@ -292,7 +266,7 @@ void omap_mcbsp_recv_cb(unsigned short int ch_status, void *arg)
 	} else {
 		do_gettimeofday(&tx_end_time);
 		tx_sec = tx_end_time.tv_sec-tx_start_time.tv_sec;
-		tx_usec= tx_end_time.tv_usec-tx_start_time.tv_usec;
+		tx_usec = tx_end_time.tv_usec-tx_start_time.tv_usec;
 		if (tx_usec < 0)
 			tx_usec = 0;
 		printk(KERN_INFO "McBSP Data Reception (using DMA) "
@@ -302,7 +276,6 @@ void omap_mcbsp_recv_cb(unsigned short int ch_status, void *arg)
 #ifdef COMP_DATA
 	ptr = mcbsptest_info.rx_buf_dma_virt;
 	for (k = 0; k < buffer_size; ) {
-		/* printk("%x ",ptr[k]); */
 		if (ptr[k] != 0xAA)
 			printk(KERN_ERR "Error!!! in data %d \n", no_of_rx);
 		k = k + 1;
@@ -398,15 +371,15 @@ int configure_mcbsp_tx(void)
 	}
 
 	/* Configure transfer params */
-        tp.phase		= phase;
-       	tp.data_delay		= 1;
-        tp.reverse_compand	= OMAP2_MCBSP_MSBFIRST;
-        tp.word_length1 	= word_length;
-        tp.word_length2 	= 0;
-        tp.frame_length1	= words_per_frame;
-       	tp.frame_length2	= 0;
-        tp.justification	= justification;
-       	tp.callback		= &omap_mcbsp_send_cb;
+	tp.phase		= phase;
+	tp.data_delay		= 1;
+	tp.reverse_compand	= OMAP2_MCBSP_MSBFIRST;
+	tp.word_length1		= word_length;
+	tp.word_length2		= 0;
+	tp.frame_length1	= words_per_frame;
+	tp.frame_length2	= 0;
+	tp.justification	= justification;
+	tp.callback		= &omap_mcbsp_send_cb;
 	tp.skip_alt		= OMAP2_MCBSP_SKIP_NONE;
 	tp.auto_reset		= OMAP2_MCBSP_AUTO_RST_NONE;
 	tp.data_type		= OMAP2_MCBSP_WORDLEN_NONE;
@@ -417,7 +390,7 @@ int configure_mcbsp_tx(void)
 		return -1;
 	}
 
-#if (LINUX_VERSION_CODE <= KERNEL_VERSION(2,6,00))
+#if (LINUX_VERSION_CODE <= KERNEL_VERSION(2, 6, 00))
 	mcbsptest_info.tx_buf_dma_virt = (void *)
 		consistent_alloc(GFP_KERNEL | GFP_DMA | GFP_ATOMIC, buffer_size,
 					&mcbsptest_info.tx_buf_dma_phys);
@@ -444,7 +417,7 @@ int configure_mcbsp_rx(void)
 	/* RRST */
 	if (0 != omap2_mcbsp_set_rrst(mcbsptest_info.mcbsp_id,
 						OMAP2_MCBSP_RRST_DISABLE)) {
-		printk("\n Receiver Reset failed \n");
+		printk(KERN_ERR"\n Receiver Reset failed \n");
 	}
 
 	/* Configure Rx clk */
@@ -457,15 +430,15 @@ int configure_mcbsp_rx(void)
 	}
 
 	/* Configure receiver params */
-        rp.phase		= phase;
-        rp.data_delay		= 1;
-        rp.reverse_compand	= OMAP2_MCBSP_MSBFIRST;
-        rp.word_length1 	= word_length;
-        rp.word_length2 	= 0;
-        rp.frame_length1	= words_per_frame;
-        rp.frame_length2	= 0;
-        rp.justification	= justification;
-        rp.callback		= &omap_mcbsp_recv_cb;
+	rp.phase		= phase;
+	rp.data_delay		= 1;
+	rp.reverse_compand	= OMAP2_MCBSP_MSBFIRST;
+	rp.word_length1		= word_length;
+	rp.word_length2		= 0;
+	rp.frame_length1	= words_per_frame;
+	rp.frame_length2	= 0;
+	rp.justification	= justification;
+	rp.callback		= &omap_mcbsp_recv_cb;
 	rp.skip_alt		= OMAP2_MCBSP_SKIP_NONE;
 	rp.auto_reset		= OMAP2_MCBSP_AUTO_RST_NONE;
 	rp.data_type		= OMAP2_MCBSP_WORDLEN_NONE;
@@ -475,7 +448,7 @@ int configure_mcbsp_rx(void)
 							"params failed\n");
 		return -1;
 	}
-#if (LINUX_VERSION_CODE <= KERNEL_VERSION(2,6,00))
+#if (LINUX_VERSION_CODE <= KERNEL_VERSION(2, 6, 00))
 	mcbsptest_info.rx_buf_dma_virt = (void *)
 	    consistent_alloc(GFP_KERNEL | GFP_DMA | GFP_ATOMIC,
 				buffer_size, &mcbsptest_info.rx_buf_dma_phys);
@@ -502,31 +475,32 @@ int start_mcbsp_transmission(void)
 	mcbsptest_info.tx_cnt = 0;
 	mcbsptest_info.send_cnt = 0;
 
-	if(0 != omap2_mcbsp_send_data(mcbsptest_info.mcbsp_id, &mcbsptest_info,
+	if (0 != omap2_mcbsp_send_data(mcbsptest_info.mcbsp_id, &mcbsptest_info,
 				mcbsptest_info.tx_buf_dma_phys, buffer_size)) {
 		printk(KERN_ERR "McBSP Test Driver: Master Send data failed \n");
 		return -1;
 	}
 
-	if(0 != omap2_mcbsp_receive_data(mcbsptest_info.mcbsp_id, &mcbsptest_info,
+	if (0 != omap2_mcbsp_receive_data(mcbsptest_info.mcbsp_id,
+								&mcbsptest_info,
 				mcbsptest_info.rx_buf_dma_phys, buffer_size)) {
 		printk(KERN_ERR "McBSP Test Driver: Slave Send data failed\n");
 		return -1;
 	}
 
-	printk (" Start McBSP Tranmitter \n");
+	printk(KERN_INFO " Start McBSP Tranmitter \n");
 	do_gettimeofday(&tx_start_time);
 	/* XRST */
 	if (0 != omap2_mcbsp_set_xrst(mcbsptest_info.mcbsp_id,
 						OMAP2_MCBSP_XRST_ENABLE)) {
-		printk("\n Unable to start transmitter \n");
+		printk(KERN_ERR "\n Unable to start transmitter \n");
 	}
 
-	printk ("\n Start McBSP Receiver \n");
+	printk(KERN_INFO "\n Start McBSP Receiver \n");
 	/* RRST */
 	if (0 != omap2_mcbsp_set_rrst(mcbsptest_info.mcbsp_id,
 						OMAP2_MCBSP_RRST_ENABLE)) {
-		printk("\n Unable to start receiver \n");
+		printk(KERN_ERR "\n Unable to start receiver \n");
 	}
 	return 0;
 }
@@ -561,14 +535,14 @@ int __init omap_mcbsp_init(void)
 
 	configure_mcbsp_interface();
 	create_proc_file_entries();
-	printk("\n OMAP2 McBSP TEST driver installed successfully \n");
+	printk(KERN_INFO "\n OMAP2 McBSP TEST driver installed successfully \n");
 	return 0;
 }
 
 static
 void __exit omap_mcbsp_exit(void)
 {
-#if (LINUX_VERSION_CODE <= KERNEL_VERSION(2,6,00))
+#if (LINUX_VERSION_CODE <= KERNEL_VERSION(2, 6, 00))
 	consistent_free((void *)mcbsptest_info.rx_buf_dma_virt, buffer_size,
 						mcbsptest_info.rx_buf_dma_phys);
 	consistent_free((void *)mcbsptest_info.tx_buf_dma_virt, buffer_size,
@@ -597,4 +571,3 @@ module_exit(omap_mcbsp_exit);
 MODULE_AUTHOR("Texas Instruments");
 MODULE_DESCRIPTION("McBSP Test Driver");
 MODULE_LICENSE("GPL");
-
