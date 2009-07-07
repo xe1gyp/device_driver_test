@@ -167,11 +167,7 @@ void setup_dma_transfer(struct dma_transfer *transfer){
                 0x0,
                 0x0);
 
-        omap_set_dma_src_endian_type(
-                transfer->transfer_id,
-                transfer->endian_type);
-
-        omap_set_dma_src_burst_mode(
+	omap_set_dma_src_burst_mode(
                 transfer->transfer_id,
                 transfer->data_burst);
 

@@ -39,9 +39,9 @@ static int dma_read_proc(char *buf, char **start, off_t offset,
     }
 
     if(test_passed){
-        len = sprintf(buf,"Test PASSED\n");
+	len = sprintf(buf, "Test PASSED \n");
     }else{
-        len = sprintf(buf,"Test FAILED\n");
+	len = sprintf(buf, "Test FAILED \n");
     }
 
     return len;
@@ -52,9 +52,9 @@ static int dma_read_proc(char *buf, char **start, off_t offset,
  */
 void set_test_passed(int passed){
      if(passed){
-        printk("\nTest PASSED\n");
+	printk(KERN_INFO "\nTest PASSED");
      }else{
-        printk("\nTest FAILED\n");
+	printk(KERN_INFO "\nTest FAILED");
      }
      test_passed = passed;
 }
@@ -111,11 +111,11 @@ void dma_callback(int transfer_id, u16 transfer_status, void *data) {
        int error = 1;
        transfer->data_correct = 0;
        transfer->finished = 1;
-       printk("\nTransfer complete for id %d, checking destination buffer\n",
+       printk(KERN_INFO "\nTransfer complete for id %d, checking destination buffer",
            transfer->transfer_id);
        /* Check if the transfer numbers are equal */
-       if(transfer->transfer_id != transfer_id){
-           printk(" WARNING: Transfer id %d differs from the one"
+	if (transfer->transfer_id != transfer_id) {
+	printk(KERN_INFO " WARNING: Transfer id %d differs from the one"
                 " received in callback (%d)\n", transfer->transfer_id,
                 transfer_id);
        }
@@ -124,18 +124,14 @@ void dma_callback(int transfer_id, u16 transfer_status, void *data) {
            /* Verify the contents of the buffer are equal */
            error = verify_buffers(&(transfer->buffers));
        }else{
-           printk(" Verification failed, transfer id %d status is not "
-                "acceptable\n", transfer->transfer_id);
+	printk(KERN_INFO " Verification failed, transfer id %d status is not ""acceptable\n", transfer->transfer_id);
            return;
        }
-
-       if(error){
-           printk(" Verification failed, transfer id %d source and destination"
-                " buffers differ\n", transfer->transfer_id);
-       }else{
-           printk(" Verification succeeded for transfer id %d\n",
-                transfer->transfer_id);
-           transfer->data_correct = 1;
+	if (error) {
+	printk(KERN_INFO " Verification failed, transfer id %d source and destination"" buffers differ\n", transfer->transfer_id);
+	} else{
+	printk(KERN_INFO " Verification succeeded for transfer id %d\n", transfer->transfer_id);
+	transfer->data_correct = 1;
        }
 }
 EXPORT_SYMBOL(dma_callback);
@@ -145,7 +141,7 @@ EXPORT_SYMBOL(dma_callback);
  * and destination.
  */
 int create_transfer_buffers( struct dma_buffers_info *buffers){
-       printk("Allocating non-cacheable source and destination buffers\n");
+	printk(KERN_INFO "Allocating non-cacheable source and destination buffers\n");
 
        /* Allocate source buffer */
        buffers->src_buf = 0;
@@ -156,8 +152,8 @@ int create_transfer_buffers( struct dma_buffers_info *buffers){
                 0);
 
        /* Allocate destination buffer */
-       buffers->dest_buf = 0;
-       buffers->dest_buf = (unsigned int) dma_alloc_coherent(
+	buffers->dest_buf = 0;
+	buffers->dest_buf = (unsigned int) dma_alloc_coherent(
                 NULL,
                 buffers->buf_size,
                 &(buffers->dest_buf_phys),
@@ -206,7 +202,7 @@ EXPORT_SYMBOL(fill_source_buffer);
 int request_dma(struct dma_transfer *transfer){
        int success;
        transfer->finished = 0;
-       printk("\nRequesting OMAP DMA transfer\n");
+       printk(KERN_INFO "\nRequesting OMAP DMA transfer");
        success = omap_request_dma(
                transfer->device_id,
                "dma_test",
@@ -218,7 +214,7 @@ int request_dma(struct dma_transfer *transfer){
           transfer->request_success = 0;
           return 1;
        }else{
-          printk(" Request succeeded, transfer id is %d\n",
+	printk(KERN_INFO " Request succeeded, transfer id is %d\n",
                transfer->transfer_id);
           transfer->request_success = 1;
        }
@@ -267,11 +263,7 @@ void setup_dma_transfer(struct dma_transfer *transfer){
                 0x0,
                 0x0);
 
-        omap_set_dma_src_endian_type(
-                transfer->transfer_id,
-                transfer->endian_type);
-
-        omap_set_dma_src_burst_mode(
+       omap_set_dma_src_burst_mode(
                 transfer->transfer_id,
                 transfer->data_burst);
 
@@ -347,38 +339,6 @@ void stop_dma_transfer(struct dma_transfer *transfer){
 }
 EXPORT_SYMBOL(stop_dma_transfer);
 
-/*
- * Queries for information about an on going dma transfer
- */
-int dma_channel_query(struct dma_transfer *transfer,
-     struct dma_query *query){
-      int error = 0;
-      /* Get element and frame index */
-      error = omap_get_dma_index(transfer->transfer_id,
-              &(query->element_index),
-              &(query->frame_index));
-      /* Get source and destination addresses positions */
-      query->src_addr_counter = omap_get_dma_src_pos(transfer->transfer_id);
-      query->dest_addr_counter = omap_get_dma_dst_pos(transfer->transfer_id);
-
-      if(error){
-           printk("Unable to query index data from transfer id %d\n",
-                transfer->transfer_id);
-           return 1;
-      }
-
-      printk("Transfer id %d query\n source counter 0x%x\n"
-             " destination counter 0x%x\n element index %d\n"
-             " frame index %d\n",
-             transfer->transfer_id,
-             query->src_addr_counter,
-             query->dest_addr_counter,
-             query->element_index,
-             query->frame_index);
-
-      return 0;
-}
-EXPORT_SYMBOL(dma_channel_query);
 
 MODULE_AUTHOR("Texas Instruments");
 MODULE_LICENSE("GPL");

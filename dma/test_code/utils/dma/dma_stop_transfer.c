@@ -27,7 +27,6 @@
 #define PROC_FILE "driver/dma_stop_transfer"
 
 static struct dma_transfer transfers[TRANSFER_COUNT];
-static struct dma_query queries[TRANSFER_COUNT];
 
 /*
  * Checks the transfer did not complete.
@@ -36,11 +35,11 @@ static void check_test_passed(void){
      int error = 0;
 
      if(transfers[0].finished){
-         printk("The transfer id %d was not supposed to be completed\n",
+	printk(KERN_INFO "The transfer id %d was not supposed to be completed\n",
                transfers[0].transfer_id);
          error = 1;
      }else{
-         printk("The transfer id %d is not completed\n",
+	printk(KERN_INFO "The transfer id %d is not completed\n",
                transfers[0].transfer_id);
      }
 
@@ -59,51 +58,45 @@ static int __init dma_module_init(void) {
        /* Create the proc entry */
        create_dma_proc(PROC_FILE);
        /* Create the transfer for the test */
-       transfers[0].device_id = OMAP_DMA_NO_DEVICE;
-       transfers[0].sync_mode = OMAP_DMA_SYNC_ELEMENT;
-       transfers[0].data_burst = OMAP_DMA_DATA_BURST_DIS;
-       transfers[0].data_type = OMAP_DMA_DATA_TYPE_S8;
-       transfers[0].endian_type = DMA_TEST_LITTLE_ENDIAN;
-       transfers[0].addressing_mode = OMAP_DMA_AMODE_POST_INC;
-       transfers[0].priority = DMA_CH_PRIO_LOW;
-       /* Use a big buffer so we have time to stop the transfer */
-       transfers[0].buffers.buf_size = 1024 * 1024 * 2;
+	transfers[0].device_id = OMAP_DMA_NO_DEVICE;
+	transfers[0].sync_mode = OMAP_DMA_SYNC_ELEMENT;
+	transfers[0].data_burst = OMAP_DMA_DATA_BURST_DIS;
+	transfers[0].data_type = OMAP_DMA_DATA_TYPE_S8;
+	transfers[0].endian_type = DMA_TEST_LITTLE_ENDIAN;
+	transfers[0].addressing_mode = OMAP_DMA_AMODE_POST_INC;
+	transfers[0].priority = DMA_CH_PRIO_LOW;
+	/* Use a big buffer so we have time to stop the transfer */
+	transfers[0].buffers.buf_size = 1024 * 1024 * 2;
 
-       /* Request a dma transfer */
-       error = request_dma(&transfers[0]);
-       if( error ){
-           set_test_passed(0);
-           return 1;
+	/* Request a dma transfer */
+	error = request_dma(&transfers[0]);
+
+	if (error) {
+	set_test_passed(0);
+	return 1;
        }
 
-       /* Request 2 buffer for the transfer and fill them */
-       error = create_transfer_buffers(&(transfers[0].buffers));
-       if( error ){
-           set_test_passed(0);
-           return 1;
+	/* Request 2 buffer for the transfer and fill them */
+	error = create_transfer_buffers(&(transfers[0].buffers));
+	if (error) {
+	set_test_passed(0);
+	return 1;
        }
-       fill_source_buffer(&(transfers[0].buffers));
+	fill_source_buffer(&(transfers[0].buffers));
 
-       /* Setup the dma transfer parameters */
-       setup_dma_transfer(&transfers[0]);
-       /* Start the transfer */
-       start_dma_transfer(&transfers[0]);
+	/* Setup the dma transfer parameters */
+	setup_dma_transfer(&transfers[0]);
+	/* Start the transfer */
+	start_dma_transfer(&transfers[0]);
 
-       /* Wait a very short time then stop the transfer */
-       printk("Waiting %dms before stopping transfer id %d\n",
+	/* Wait a very short time then stop the transfer */
+	printk(KERN_INFO "Waiting %dms before stopping transfer id %d\n",
                TIME_BEFORE_STOP, transfers[0].transfer_id);
-       mdelay(TIME_BEFORE_STOP);
-       /* Query the transfer state before stopping it*/
-       error = dma_channel_query(&transfers[0], &queries[0]);
-       if( error ){
-           set_test_passed(0);
-           return 1;
-       }
+	mdelay(TIME_BEFORE_STOP);
 
-       printk("Stopping transfer id %d before completion\n",
-               transfers[0].transfer_id);
-       stop_dma_transfer(&transfers[0]);
-       check_test_passed();
+	printk(KERN_INFO "Stopping transfer id %d before completion\n",
+	 transfers[0].transfer_id); stop_dma_transfer(&transfers[0]);
+	check_test_passed();
 
        return 0;
 }

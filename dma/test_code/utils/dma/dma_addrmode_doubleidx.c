@@ -104,16 +104,12 @@ void setup_dma_transfer(struct dma_transfer *transfer){
                 0x1, /* Element Index (EI) set to 1 for double idx */
                 0x1); /* Frame Index (FI) set to 1 for double idx */
 
-        omap_set_dma_src_endian_type(
-                transfer->transfer_id,
-                transfer->endian_type);
-
-        omap_set_dma_src_burst_mode(
+	omap_set_dma_src_burst_mode(
                 transfer->transfer_id,
                 transfer->data_burst);
 
         /* Configure the destination parameters */
-        omap_set_dma_dest_params(
+	omap_set_dma_dest_params(
                 transfer->transfer_id,
                 0,
                 OMAP_DMA_AMODE_POST_INC, /* To check the buffer sequentially */
