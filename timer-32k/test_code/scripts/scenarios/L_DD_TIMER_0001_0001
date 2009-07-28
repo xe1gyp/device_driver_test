@@ -1,0 +1,23 @@
+###############################################################################
+# Scenario: L_DD_TIMER_0001_0001
+# Author  : Cristopherson Torres
+# Date    : July 22, 2009
+###############################################################################
+
+# Begin L_DD_TIMER_0001_0001
+
+# Checking if GP timer was registered
+01 set -x; $TESTSCRIPT/requestTimerNumber.sh 1 && exit 0 || exit 1
+02 set -x; $TESTSCRIPT/requestTimerNumber.sh 2 && exit 0 || exit 1
+03 set -x; $TESTSCRIPT/requestTimerNumber.sh 3 && exit 0 || exit 1
+04 set -x; $TESTSCRIPT/requestTimerNumber.sh 4 && exit 0 || exit 1
+05 set -x; $TESTSCRIPT/requestTimerNumber.sh 5 && exit 0 || exit 1
+06 set -x; $TESTSCRIPT/requestTimerNumber.sh 6 && exit 0 || exit 1
+07 set -x; $TESTSCRIPT/requestTimerNumber.sh 7 && exit 0 || exit 1
+08 set -x; $TESTSCRIPT/requestTimerNumber.sh 8 && exit 0 || exit 1
+09 set -x; $TESTSCRIPT/requestTimerNumber.sh 9 && exit 0 || exit 1
+10 set -x; $TESTSCRIPT/requestTimerNumber.sh 10 && exit 0 || exit 1
+11 set -x; $TESTSCRIPT/requestTimerNumber.sh 11 && exit 0 || exit 1
+12 set -x; $TESTSCRIPT/requestTimerNumber.sh 12 && exit 0 || exit 1
+
+# End L_DD_TIMER_0001_0001
