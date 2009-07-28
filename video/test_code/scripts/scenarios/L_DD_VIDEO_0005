@@ -6,14 +6,11 @@
 # Begin "L_DD_VIDEO_0005"
 
 COMMENT comment.sh "Verify the window position can be changed in the horizantal direction"
-SETUP_VD1 set -x; setupimage.sh 1 "RGB565 160 120" && exit 0 || exit 1
-SETUP_VD2 set -x; setupimage.sh 2 "RGB565 160 120" && exit 0 || exit 1
-
-0001_VD1 set -x; winstream.sh 1 "40 0 160 120"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0001_VD2 set -x; winstream.sh 2 "40 0 160 120"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0002_VD1 set -x; winstream.sh 1 "0 60 160 120"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0002_VD2 set -x; winstream.sh 2 "0 60 160 120"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0003_VD1_SAN set -x; winstream.sh 1 "40 60 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
-0003_VD2_SAN set -x; winstream.sh 2 "40 60 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0001_VD1 set -x; winstream.sh 1 "RGB565 160 120" "40 0 160 120"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0001_VD2 set -x; winstream.sh 2 "RGB565 160 120" "40 0 160 120"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0002_VD1 set -x; winstream.sh 1 "RGB565 160 120" "0 60 160 120"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0002_VD2 set -x; winstream.sh 2 "RGB565 160 120" "0 60 160 120"  $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0003_VD1_SAN set -x; winstream.sh 1 "RGB565 160 120" "40 60 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0003_VD2_SAN set -x; winstream.sh 2 "RGB565 160 120" "40 60 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
 
 # End "L_DD_VIDEO_0005"
