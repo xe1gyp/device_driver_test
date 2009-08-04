@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_WATCHDOG_0003_0001
+# Author  : Misael Lopez Cruz, Abraham Arce
+# Date    : August 4, 2009
+###############################################################################
+
+# Begin L_DD_WATCHDOG_0003_0001
+
+01 set -x; ($WATCHDOG_KEEPALIVE $WATCHDOG_DEVFS &) && killall $WATCHDOG_KEEPALIVE
+02 set -x; sleep 1
+
+# End L_DD_WATCHDOG_0003_0001

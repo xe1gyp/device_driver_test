@@ -9,12 +9,18 @@
 CC := $(CROSS_COMPILE)gcc
 CFLAGS += -I$(KDIR)/include -Wall
 
-TARGETS = testwdtioctl testwdtwrite
+TARGETS = watchdog_keepalive \
+	watchdog_status_boot \
+	watchdog_status \
+	watchdog_support \
+	watchdog_timeout_get \
+	watchdog_timeout_set \
+	watchdog_write \
 
 all: $(TARGETS)
 
 install:
-	cp -v $(TARGETS) ../../bin
+	cp -v $(TARGETS) ../../binaries
 
 $(TARGETS):
 	$(CC) $@.c -o $@

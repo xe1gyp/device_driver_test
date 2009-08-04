@@ -6,14 +6,14 @@
 #  in the license agreement under which this software has been supplied.
 # ================================================================================ */
 
-SUBDIRS = watchdog_app
+SUBDIRS = watchdog_apps
 
 all: $(SUBDIRS)
 
 install:
 	make -C watchdog install
 
-watchdog_app:
+watchdog_apps:
 	make -C watchdog
 
 clean:

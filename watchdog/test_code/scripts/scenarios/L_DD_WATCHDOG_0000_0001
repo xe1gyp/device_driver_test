@@ -1,0 +1,11 @@
+###############################################################################
+# Scenario: L_DD_WATCHDOG_0001_0001
+# Author  : Misael Lopez Cruz, Abraham Arce
+# Date    : August 4, 2009
+###############################################################################
+
+# Begin L_DD_WATCHDOG_0001_0001
+
+01 set -x; cat $DMESG_FILE | grep $WATCHDOG_MODALIAS
+
+# End L_DD_WATCHDOG_0001_0001
