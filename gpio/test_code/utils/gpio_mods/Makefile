@@ -25,7 +25,7 @@ KERN:=26
 ifneq ($(KERNELRELEASE),)
 
 	ifeq ($(KERN),26)
-		obj-m := gpio.o gpio_test.o
+		obj-m := gpio_test.o
 	else
 		export-objs :=  gpio_test.o
 		obj-m += gpio_test.o
@@ -40,6 +40,9 @@ else
 default:
 	$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) KERN=$(KERN) modules
 endif
+
+install:
+	mv *.ko ../../modules/
 
 clean:
 	$(RM) -r *.o *.ko *.mod.c .*.cmd .tmp_versions
