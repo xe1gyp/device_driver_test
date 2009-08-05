@@ -85,32 +85,38 @@ static int streaming_video(int output_device, int file_descriptor,
 			buffers[i].start, buffers[i].length);
 	}
 
+
+	filledbuffer.type = reqbuf.type;
+	filledbuffer.memory = V4L2_MEMORY_MMAP;
+
+	for (i = 0; i <= 1; i++) {
+
+		filledbuffer.index = i;
+		if (read(file_descriptor, buffers[i].start,
+			format.fmt.pix.sizeimage) != format.fmt.pix.sizeimage) {
+			perror("read");
+			return 1;
+		}
+
+		result = ioctl(output_device, VIDIOC_QBUF, &filledbuffer);
+		if (result != 0) {
+			perror("VIDIOC_QBUF");
+			return 1;
+		}
+	}
+
 	result = ioctl(output_device, VIDIOC_STREAMON, &reqbuf.type);
 	if (result != 0) {
 		perror("VIDIOC_STREAMON");
 		return 1;
 	}
 
-	if (read(file_descriptor, buffers[0].start,
-		format.fmt.pix.sizeimage) != format.fmt.pix.sizeimage) {
-		perror("read");
-		return 1;
-	}
-	filledbuffer.type = reqbuf.type;
-	filledbuffer.index = 0;
-
-	result = ioctl(output_device, VIDIOC_QBUF, &filledbuffer);
-	if (result != 0) {
-		perror("VIDIOC_QBUF");
-		return 1;
-	}
-
-	count = 1;
+	count = 2;
 	while (count < 2000) {
 		/* delay some for frame rate control */
-		if (sleep_time) {
+		if (sleep_time)
 			sleep(sleep_time);
-		} else {
+		else {
 			for (i = 0; i < 2000000; i++)
 				;
 		}
@@ -189,10 +195,9 @@ int main(int argc, char *argv[])
 		printf("Could not open %s\n",
 			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
 		return 1;
-	} else {
+	} else
 		printf("openned %s\n",
 			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
-	}
 
 	output_device = open(argv[2], O_RDONLY);
 	if (output_device <= 0) {
