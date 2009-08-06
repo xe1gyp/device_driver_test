@@ -3,7 +3,7 @@
 # Testsuites variables
 export POSTFIX=`date "+%Y%m%d-%H%M%S"`
 export TESTROOT=${PWD}
-export TESTBIN=${PWD}/../bin
+export TESTBIN=${PWD}/../binaries
 export UTILBIN=${PWD}/../../utils/bin
 export TESTMODS=${PWD}/../mods
 export TESTSCRIPT=${PWD}/helper
@@ -23,7 +23,7 @@ export SCENARIO_NAMES=""
 # General variables
 #export DMESG_FILE=/var/log/dmesg
 export CHIP_NAME=twl
-export DRIVER_NAME="platform:twl4030_rtc"
+export DRIVER_NAME="platform:twl_rtc"
 export PROCFS_RTC=/proc/driver/rtc
 
 # rtc devfs node autodetection
@@ -80,6 +80,7 @@ export APP_INVALID_DATE2='022906'	# MMDDYY
 export RTC_VALID_TIME='12:12:12'
 export RTC_VALID_DATE='29-11-2006'
 export DEF_RTC_VALID_TIME='23:59:45'
+export DEF_RTC_VALID_TIME_PROCFS='23:59'
 export DEF_RTC_VALID_DATE='31-12-2004'
 export DEF_PROC_VALID_TIME='23:59:45'
 export DEF_PROC_VALID_DATE='2004-12-31'
@@ -87,5 +88,10 @@ export DEF_PROC_VALID_DATE='2004-12-31'
 export PER_INT_SEC='1'
 export ALARM_SEC='1'
 export ALARM_VALUE=5
+
+if [ ! `echo 1+1 | bc` ]; then
+	echo "FATAL: BC is unavailable, cannot continue"
+	return 1
+fi
 
 # End of file
