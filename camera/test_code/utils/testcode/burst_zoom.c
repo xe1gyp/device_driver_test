@@ -2,30 +2,20 @@
 *             Texas Instruments OMAP(TM) Platform Software
 *  (c) Copyright Texas Instruments, Incorporated.  All Rights Reserved.
 *
-*  Use of this software is controlled by the terms and conditions found 
+*  Use of this software is controlled by the terms and conditions found
 *  in the license agreement under which this software has been supplied.
 * ========================================================================== */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include <errno.h>
-#include <linux/ioctl.h>
-#include <linux/fb.h>
 #include <linux/videodev2.h>
-#include <linux/errno.h>
 #include <sys/mman.h>
-    
-#define VIDIOC_S_OMAP2_ROTATION		_IOW ('V', 3, int)
-#define VIDEO_DEVICE1 "/dev/video1"
-#define VIDEO_DEVICE2 "/dev/video2"
 
 #define DEFAULT_PIXEL_FMT "YUYV"
 #define DEFAULT_VIDEO_SIZE "QCIF"
 
-/* have to align at 32 bytes */ 
-#define ALIGN 1
-static void usage(void) 
+static void usage(void)
 {
 	printf("Burst Zoom Test Case\n");
 	printf("Usage: burst_zoom [camDevice] [pixelFormat] [<sizeW> <sizeH>] "
@@ -58,8 +48,9 @@ static int crop(int cfd, int left, int top, int width, int height)
 	struct v4l2_cropcap cropcap;
 	struct v4l2_crop crop;
 	int ret;
+
 	cropcap.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-	ret = ioctl (cfd, VIDIOC_CROPCAP, &cropcap);
+	ret = ioctl(cfd, VIDIOC_CROPCAP, &cropcap);
 	if (ret != 0) {
 		perror("VIDIOC_CROPCAP");
 		return -1;
@@ -71,7 +62,7 @@ static int crop(int cfd, int left, int top, int width, int height)
 		cropcap.defrect.left, cropcap.defrect.top,
 		cropcap.defrect.width, cropcap.defrect.height);
 	crop.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-	ret = ioctl (cfd, VIDIOC_G_CROP, &crop);
+	ret = ioctl(cfd, VIDIOC_G_CROP, &crop);
 	if (ret != 0) {
 		perror("VIDIOC_G_CROP");
 		return -1;
@@ -86,13 +77,13 @@ static int crop(int cfd, int left, int top, int width, int height)
 	crop.c.width = width;
 	crop.c.height = height;
 
-	ret = ioctl (cfd, VIDIOC_S_CROP, &crop);
+	ret = ioctl(cfd, VIDIOC_S_CROP, &crop);
 	if (ret != 0) {
 		perror("VIDIOC_S_CROP");
 		return -1;
 	}
 	/* read back */
-	ret = ioctl (cfd, VIDIOC_G_CROP, &crop);
+	ret = ioctl(cfd, VIDIOC_G_CROP, &crop);
 	if (ret != 0) {
 		perror("VIDIOC_G_CROP");
 		return -1;
@@ -103,43 +94,31 @@ static int crop(int cfd, int left, int top, int width, int height)
 	return 0;
 }
 
-int main(int argc, char *argv[]) 
+int main(int argc, char *argv[])
 {
-	struct screen_info_struct {
-		int fd;
-		char *data;
-		int width;
-		int height;
-		struct fb_fix_screeninfo fbfix;
-		struct fb_var_screeninfo info;
-	} screen_info;
-	
-	void *src_start;
 	struct v4l2_capability capability;
 	struct v4l2_format cformat;
 	struct v4l2_requestbuffers creqbuf;
 	struct v4l2_buffer cfilledbuffer;
 	int fd, i, ret, count = -1, memtype = V4L2_MEMORY_USERPTR;
 	int fd_save = 0;
-	int index = 1, vid = 1, set_video_img = 0;
-	int degree;
-	int j;
-	int zoomFactor=10;
+	int index = 1;
+	int zoomFactor = 10;
 	int device = 1;
-	char * pixelFmt;
-	
+	char *pixelFmt;
+
 	if ((argc > 1) && (!strcmp(argv[1], "?"))) {
 		usage();
 		return 0;
 	}
-	
-//****************************************************************************
+
 	if (argc > index) {
 		device = atoi(argv[index]);
 		index++;
 	}
-	
-	if ((fd = open_cam_device(O_RDWR,device)) <= 0) {
+
+	fd = open_cam_device(O_RDWR, device);
+	if (fd <= 0) {
 		printf("Could not open the cam device\n");
 		return -1;
 	}
@@ -155,8 +134,7 @@ int main(int argc, char *argv[])
 					usage();
 					return -1;
 				}
-			}
-			else {
+			} else {
 				index++;
 				if (argc > (index)) {
 					ret = cam_ioctl(fd, pixelFmt,
@@ -178,17 +156,14 @@ int main(int argc, char *argv[])
 			if (ret < 0)
 				return -1;
 		}
-	}
-	else {
+	} else {
 		printf("Setting pixel format and video size with default "
 								"values\n");
 		ret = cam_ioctl(fd, DEFAULT_PIXEL_FMT, DEFAULT_VIDEO_SIZE);
 		if (ret < 0)
 			return -1;
 	}
-	
-//****************************************************************************
-	
+
 	if (argc > index)
 		count = atoi(argv[index]);
 
@@ -201,14 +176,15 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 	if (argc > index) {
-		if ((fd_save = creat(argv[index], O_RDWR)) <= 0) {
+		fd_save = creat(argv[index], O_RDWR);
+		if (fd_save <= 0) {
 			printf("Can't create file %s\n", argv[index]);
 			fd_save = 0;
 		}
 	}
-	
+
 	index++;
-	
+
 	if (argc > index) {
 		zoomFactor = atoi(argv[index]);
 		if (zoomFactor < 10 || zoomFactor > 40) {
@@ -220,15 +196,15 @@ int main(int argc, char *argv[])
 			return 0;
 		}
 	}
-	
+
 	index++;
-	
+
 	if (ioctl(fd, VIDIOC_QUERYCAP, &capability) < 0) {
 		perror("VIDIOC_QUERYCAP");
 		return -1;
 	}
 	if (capability.capabilities & V4L2_CAP_STREAMING)
-		printf("The driver is capable of Streaming!\n");	
+		printf("The driver is capable of Streaming!\n");
 	else {
 		printf("The driver is not capable of Streaming!\n");
 		return -1;
@@ -242,37 +218,35 @@ int main(int argc, char *argv[])
 	printf("Camera Image width = %d, Image height = %d, size = %d\n",
 		 cformat.fmt.pix.width, cformat.fmt.pix.height,
 		 cformat.fmt.pix.sizeimage);
-	
-	//OJV	 
-	ret= crop(fd,(cformat.fmt.pix.width - 
-			(cformat.fmt.pix.width * 10)/zoomFactor) / 2,
-			(cformat.fmt.pix.height - 
-			(cformat.fmt.pix.height * 10)/zoomFactor) / 2,
-			(cformat.fmt.pix.width * 10)/zoomFactor, 
-			(cformat.fmt.pix.height * 10)/zoomFactor);
-	if(ret < 0)
+
+	ret = crop(fd, (cformat.fmt.pix.width -
+			(cformat.fmt.pix.width * 10) / zoomFactor) / 2,
+			(cformat.fmt.pix.height -
+			(cformat.fmt.pix.height * 10) / zoomFactor) / 2,
+			(cformat.fmt.pix.width * 10) / zoomFactor,
+			(cformat.fmt.pix.height * 10) / zoomFactor);
+	if (ret < 0)
 		printf("CROP FAILURE\n");
 
 	creqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 	creqbuf.memory = memtype;
 	creqbuf.count = count;
-	
-	printf("Requesting %d buffers of type %s\n", creqbuf.count, 
-		 (memtype ==
-		  V4L2_MEMORY_USERPTR) ? "V4L2_MEMORY_USERPTR" :
-		 "V4L2_MEMORY_MMAP");
+
+	printf("Requesting %d buffers of type %s\n", creqbuf.count,
+		(memtype == V4L2_MEMORY_USERPTR) ? "V4L2_MEMORY_USERPTR" :
+						   "V4L2_MEMORY_MMAP");
 	if (ioctl(fd, VIDIOC_REQBUFS, &creqbuf) < 0) {
 		perror("VIDEO_REQBUFS");
 		return -1;
 	}
 	printf("Camera Driver allowed buffers reqbuf.count = %d\n",
 		 creqbuf.count);
-	if (creqbuf.count != count) {
+	if (creqbuf.count != count)
 		count = creqbuf.count;
-	}
+
 	cbuffers = calloc(creqbuf.count, sizeof(*cbuffers));
-	
-	/* mmap driver memory or allocate user memory, and queue each buffer */ 
+
+	/* mmap driver memory or allocate user memory, and queue each buffer */
 	for (i = 0; i < creqbuf.count; ++i) {
 		struct v4l2_buffer buffer;
 		buffer.type = creqbuf.type;
@@ -284,13 +258,18 @@ int main(int argc, char *argv[])
 		}
 		if (memtype == V4L2_MEMORY_USERPTR) {
 			cbuffers[i].length = buffer.length;
-			if (cbuffers[i].length & 0xfff)
+			if (cbuffers[i].length & 0xfff) {
 				cbuffers[i].length =
 				    (cbuffers[i].length & 0xfffff000) + 0x1000;
+			}
 			cbuffers[i].start = malloc(cbuffers[i].length);
-			cbuffers[i].start_aligned =
-			    (void *)((unsigned int)(cbuffers[i].start) &
-				     (0xffffffe0)) + 0x20;
+			cbuffers[i].start_aligned = cbuffers[i].start;
+			if ((unsigned int)cbuffers[i].start_aligned & 0xfff) {
+				cbuffers[i].start_aligned =
+					(void *)((unsigned int)cbuffers[i].start_aligned +
+					(0x1000 -
+					((unsigned int)cbuffers[i].start_aligned & 0xfff)));
+			}
 			buffer.length = cbuffers[i].length;
 			buffer.m.userptr =
 			    (unsigned int)cbuffers[i].start_aligned;
@@ -316,26 +295,26 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	/* turn on streaming */ 
+	/* turn on streaming */
 	if (ioctl(fd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
 		perror("VIDIOC_STREAMON");
 		return -1;
 	}
-	
-	/* capture 1000 frames or when we hit the passed number of frames */ 
+
+	/* capture 1000 frames or when we hit the passed number of frames */
 	cfilledbuffer.type = creqbuf.type;
 	cfilledbuffer.memory = memtype;
 	i = 0;
-	
+
 	while (i < 1000) {
-		/* De-queue the next avaliable buffer */ 
+		/* De-queue the next avaliable buffer */
 		while (ioctl(fd, VIDIOC_DQBUF, &cfilledbuffer) < 0) {
 			perror("VIDIOC_DQBUF");
 			printf(" ERROR HAS OCCURED\n");
 		}
-		
+
 		i++;
-		
+
 		if (i == count) {
 			printf("Cancelling the streaming capture...\n");
 			creqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
@@ -346,12 +325,12 @@ int main(int argc, char *argv[])
 			printf("Done\n");
 			break;
 		}
-		
+
 
 		while (ioctl(fd, VIDIOC_QBUF, &cfilledbuffer) < 0)
 			perror("CAM VIDIOC_QBUF");
 	}
-	/* we didn't turn off streaming yet */ 
+	/* we didn't turn off streaming yet */
 	if (count == -1) {
 		creqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 		if (ioctl(fd, VIDIOC_STREAMOFF, &creqbuf.type) == -1) {
@@ -364,7 +343,8 @@ int main(int argc, char *argv[])
 	if (fd_save > 0) {
 		for (i = 0; i < count; i++)
 			write(fd_save, cbuffers[i].start_aligned,
-			       cformat.fmt.pix.sizeimage);
+			       cformat.fmt.pix.width * cformat.fmt.pix.height *
+			       2);
 	}
 	printf("Completed writing to file\n");
 	for (i = 0; i < creqbuf.count; i++) {
@@ -375,15 +355,15 @@ int main(int argc, char *argv[])
 				munmap(cbuffers[i].start, cbuffers[i].length);
 		}
 	}
-	
+
 	zoomFactor = 10;
-	ret= crop(fd,(cformat.fmt.pix.width - 
+	ret = crop(fd, (cformat.fmt.pix.width -
 			(cformat.fmt.pix.width * 10) / zoomFactor) / 2,
-			(cformat.fmt.pix.height - 
+			(cformat.fmt.pix.height -
 			(cformat.fmt.pix.height * 10) / zoomFactor) / 2,
 			(cformat.fmt.pix.width * 10) / zoomFactor,
 			(cformat.fmt.pix.height * 10) / zoomFactor);
-	if(ret < 0)
+	if (ret < 0)
 		printf("CROP FAILURE\n");
 	free(cbuffers);
 	close(fd);
