@@ -1,10 +1,10 @@
-/* =============================================================================
+/* ========================================================================
 *             Texas Instruments OMAP(TM) Platform Software
 *  (c) Copyright Texas Instruments, Incorporated.  All Rights Reserved.
 *
 *  Use of this software is controlled by the terms and conditions found
 *  in the license agreement under which this software has been supplied.
-* =========================================================================== */
+* ========================================================================== */
 
 #include <stdio.h>
 #include <sys/types.h>
@@ -22,7 +22,7 @@
 #include <linux/fs.h>
 #include <linux/kernel.h>
 #include <linux/videodev2.h>
-#define V4L2_PIX_FMT_SGRBG10   v4l2_fourcc('B', 'A', '1', '0')
+#define V4L2_PIX_FMT_SGRBG10		v4l2_fourcc('B', 'A', '1', '0')
 
 #define VIDEO_DEVICE_0 "/dev/video0"
 #define VIDEO_DEVICE_4 "/dev/video4"
@@ -30,23 +30,15 @@
 
 int open_cam_device(int flag, int device)
 {
-	int ret = -1;
-	switch (device) {
-	case 1:
-		ret = open(VIDEO_DEVICE_0, flag);
-		break;
-	case 2:
-		ret = open(VIDEO_DEVICE_4, flag);
-		break;
-	case 3:
-		ret = open(VIDEO_DEVICE_5, flag);
-		break;
-	default:
-		printf("Wrong Cam device, specify a correct device"
-					"(1 or 2)\n");
-		break;
-	}
-	return ret;
+	if (device == 1)
+		return open(VIDEO_DEVICE_0, flag);
+	else if (device == 2)
+		return open(VIDEO_DEVICE_4, flag);
+	else if (device == 3)
+		return open(VIDEO_DEVICE_5, flag);
+
+	printf("Wrong Cam device, specify a correct device (1, 2 or 3)\n");
+	return -1;
 }
 
 void print_image_size_format(struct v4l2_format *format)
@@ -76,6 +68,7 @@ void print_image_size_format(struct v4l2_format *format)
 		break;
 	case V4L2_PIX_FMT_SGRBG10:
 		printf("RAW10\n");
+		break;
 	default:
 		printf("unkown\n");
 	}
@@ -112,7 +105,7 @@ void rotate_image(char *src_buf, int image_width, int image_height,
 
 	total_size = image_width * image_height * 2;
 	if (screen_width < image_height) {
-		/* chop the bottom part of the image  */
+		/* chop the bottom part of the image */
 		total_size = screen_width * image_width * 2;
 	}
 
