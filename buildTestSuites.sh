@@ -1,36 +1,35 @@
 #!/bin/sh
 ###########################################################################
-# (C) Copyright Texas Instruments, 2008. All Rights Reserved.
+# (C) Copyright Texas Instruments, 2009. All Rights Reserved.
 #
-# Name of the file: buildTestSuites.sh
+# buildTestSuites.sh - Script to Build OMAP Test Suites
 #
-# Location of the file: /vobs/wtbu/OMAPSW_L/linux/test/device_driver_test
+# Description:
+# 	This script will compile available test suites
 #
-# Brief description of the contents of the file:
-# Script to Build OMAP Test Suites
+# NOTE: 3 variables need to be exported:
+#	CROSS_COMPILE=<tool.chain.prefix>
+#	KDIR=<path.to.kernel.source>
+#	HOST=<host.prefix>
 #
-# Detailed description of the contents of the file:
-# This script will compile available test suites 
-#
-# 3 variables need to be exported:
-# exported CROSS_COMPILE=<tool.chain.prefix>
-# KDIR=<path.to.kernel>
-# HOST=<host.prefix>
-# 
-# Author: Abraham Arce 
+# Author:
+#	Abraham Arce <x0066660@ti.com>
 #
 # Created on: Sun Mar  9 14:40:00 CDT 2008
 #
 # Change Log:
-#		Abraham Arce - 03/09/2008 - Initial Version
-#		Omar Jimenez - 09/24/2008 - Adding option to compile and copy
-#					    only the desired driver test suite
-#					    Adding warning message of 
-#			 		    testsuites directory erasing
-#		Diego Zavala Trujillo - 01/07/2009 - Correct the way to copy
-#						the test_code to the target.
-#		Diego zavala Trujillo - 01/08/2009 - Add usb device host and
-#						otg for compilation.
+#	03/09/2008 (Abraham Arce <x0066660@ti.com>)
+#		- Initial Version
+#	09/24/2008 (Omar Jimenez)
+#		- Adding option to compile and copy only the desired driver
+#		  test suite.
+#		- Adding warning message of testsuites directory erasing
+#	01/07/2009 (Diego Zavala Trujillo)
+#		- Correct the way to copy the test_code to the target.
+#	01/08/2009 (Diego Zavala Trujillo)
+#		- Add usb device host and otg for compilation.
+#	08/10/2009 (Sergio Aguirre <saaguirre@ti.com>)
+#		- Small cleanup and optimization
 #
 ############################################################################
 
@@ -117,7 +116,7 @@ then
 		exit 1
 	fi
 else
-	mkdir $OUTPUT_DIRECTORY
+	mkdir -p $OUTPUT_DIRECTORY
 	if [ -d $OUTPUT_DIRECTORY ]
 	then
 		echo "testsuites directory succesfully created"
@@ -130,20 +129,16 @@ fi
 # Compile all drivers
 for DRIVER in $TESTSUITES
 do 
-	cd $ROOT/$DRIVER/test_code/
-	make
-	cd $OUTPUT_DIRECTORY
-	mkdir $DRIVER
+	make -C $ROOT/$DRIVER/test_code/
+	mkdir $OUTPUT_DIRECTORY/$DRIVER
 	cp -r $ROOT/$DRIVER/test_code/* $OUTPUT_DIRECTORY/$DRIVER/
-	cd $ROOT/$DRIVER/test_code/
-	make clean
+	make -C $ROOT/$DRIVER/test_code/ clean
 done
 
 # Compile utils
-cd $ROOT/utils
-make
+make -C $ROOT/utils
 cp -r $ROOT/utils $OUTPUT_DIRECTORY/
-make clean
+make -C $ROOT/utils/ clean
 # Change permissions
 chmod -R 755 $OUTPUT_DIRECTORY
 
