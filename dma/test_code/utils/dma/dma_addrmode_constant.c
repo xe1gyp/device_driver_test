@@ -167,9 +167,9 @@ void setup_dma_transfer(struct dma_transfer *transfer){
                 0x0,
                 0x0);
 
-        omap_set_dma_src_endian_type(
+        /*omap_set_dma_src_endian_type(
                 transfer->transfer_id,
-                transfer->endian_type);
+                transfer->endian_type);*/
 
         omap_set_dma_src_burst_mode(
                 transfer->transfer_id,
@@ -247,7 +247,7 @@ static int __init dma_module_init(void) {
            transfers[i].endian_type = DMA_TEST_LITTLE_ENDIAN;
            transfers[i].addressing_mode = OMAP_DMA_AMODE_CONSTANT;
            transfers[i].priority = DMA_CH_PRIO_HIGH;
-           transfers[i].buffers.buf_size = (10240 * (i+1)*(i+1)) + i % 2;
+           transfers[i].buffers.buf_size = (128 * (i+1)*(i+1)) + i % 2;
 
            /* Request a dma transfer */
            error = request_dma(&transfers[i]);

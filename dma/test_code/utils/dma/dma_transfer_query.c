@@ -58,7 +58,7 @@ static int __init dma_module_init(void) {
        transfers[0].addressing_mode = OMAP_DMA_AMODE_POST_INC;
        transfers[0].priority = DMA_CH_PRIO_LOW;
        /* Use a big buffer so we have time to stop the transfer */
-       transfers[0].buffers.buf_size = 1024 * 1024 * 2;
+       transfers[0].buffers.buf_size = 1024 * 1 * 1;
 
        /* Request a dma transfer */
        error = request_dma(&transfers[0]);

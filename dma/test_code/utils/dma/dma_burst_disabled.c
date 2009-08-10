@@ -73,8 +73,8 @@ static int __init dma_module_init(void) {
        create_dma_proc(PROC_FILE);
 
        transfers[0].data_type = OMAP_DMA_DATA_TYPE_S8;
-       transfers[1].data_type = OMAP_DMA_DATA_TYPE_S16;
-       transfers[2].data_type = OMAP_DMA_DATA_TYPE_S32;
+       /*transfers[1].data_type = OMAP_DMA_DATA_TYPE_S16;
+       transfers[2].data_type = OMAP_DMA_DATA_TYPE_S32;*/
 
        for(i = 0; i < TRANSFER_COUNT; i++){
            /* Create the transfer for the test */

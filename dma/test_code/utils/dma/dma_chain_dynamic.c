@@ -114,7 +114,7 @@ void dma_callback_chain(int transfer_id, u16 transfer_status, void *data) {
        }
 
        /* Create the buffers for a new transfer */
-       transfers[current_transfer].buffers.buf_size = (1024 * 1024);
+       transfers[current_transfer].buffers.buf_size = (1024 * 1);
        error = create_transfer_buffers_chain(
              &(transfers[current_transfer].buffers));
        if( error ){
@@ -212,7 +212,7 @@ static int __init dma_module_init(void) {
        for(i = 0; i < 1/*chain.channel_count*/; i++){
 
            /* Create the buffers for each transfer */
-           transfers[i].buffers.buf_size = (1024 * 1024);
+           transfers[i].buffers.buf_size = (1024 * 1);
            error = create_transfer_buffers_chain(&(transfers[i].buffers));
            if( error ){
                set_test_passed_chain(0);

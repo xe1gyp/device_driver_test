@@ -267,9 +267,9 @@ void setup_dma_transfer(struct dma_transfer *transfer){
                 0x0,
                 0x0);
 
-        omap_set_dma_src_endian_type(
+        /*omap_set_dma_src_endian_type(
                 transfer->transfer_id,
-                transfer->endian_type);
+                transfer->endian_type);*/
 
         omap_set_dma_src_burst_mode(
                 transfer->transfer_id,
@@ -354,9 +354,9 @@ int dma_channel_query(struct dma_transfer *transfer,
      struct dma_query *query){
       int error = 0;
       /* Get element and frame index */
-      error = omap_get_dma_index(transfer->transfer_id,
+      /*error = omap_get_dma_index(transfer->transfer_id,
               &(query->element_index),
-              &(query->frame_index));
+              &(query->frame_index));*/
       /* Get source and destination addresses positions */
       query->src_addr_counter = omap_get_dma_src_pos(transfer->transfer_id);
       query->dest_addr_counter = omap_get_dma_dst_pos(transfer->transfer_id);
