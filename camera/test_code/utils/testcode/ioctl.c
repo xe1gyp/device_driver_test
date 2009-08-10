@@ -2,33 +2,24 @@
 *             Texas Instruments OMAP(TM) Platform Software
 *  (c) Copyright Texas Instruments, Incorporated.  All Rights Reserved.
 *
-*  Use of this software is controlled by the terms and conditions found 
+*  Use of this software is controlled by the terms and conditions found
 *  in the license agreement under which this software has been supplied.
 * ==========================================================================.*/
 
 #include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
-#include <linux/fb.h>
-#include <unistd.h>
 #include <sys/mman.h>
-#include <sys/ioctl.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include <sys/time.h>
-#include <errno.h>
-#include <linux/fs.h>
-#include <linux/kernel.h>
 #include <linux/videodev2.h>
-#define V4L2_PIX_FMT_SGRBG10   v4l2_fourcc('B','A','1','0')
+
+#define V4L2_PIX_FMT_SGRBG10	v4l2_fourcc('B', 'A', '1', '0')
 
 int cam_ioctl(int fd, char *pixFormat, char *size, char *sizeH)
 {
 	struct v4l2_format format;
 
-	int ret = 0;	
+	int ret = 0;
 	int index = 0;
 
 	/* get the current format of the video capture */
@@ -39,7 +30,7 @@ int cam_ioctl(int fd, char *pixFormat, char *size, char *sizeH)
 		return -1;
 	}
 
-	if (!strcmp (size, "QQCIF")) {
+	if (!strcmp(size, "QQCIF")) {
 		format.fmt.pix.width = 88;
 		format.fmt.pix.height = 72;
 	} else if (!strcmp(size, "SQCIF")) {
@@ -91,7 +82,7 @@ int cam_ioctl(int fd, char *pixFormat, char *size, char *sizeH)
 		printf("Unsupported size!\n");
 		return -1;
 	}
-	
+
 	if (!strcmp(pixFormat, "YUYV"))
 		format.fmt.pix.pixelformat = V4L2_PIX_FMT_YUYV;
 	else if (!strcmp(pixFormat, "UYVY"))
@@ -135,12 +126,11 @@ int cam_ioctl(int fd, char *pixFormat, char *size, char *sizeH)
 		return -1;
 	}
 	print_preview_window(&format);
-	
+
 	return 0;
-	
 }
 
-int validateSize(char * size)
+int validateSize(char *size)
 {
 	if (!strcmp(size, "QQCIF"))
 		return 0;
