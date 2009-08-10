@@ -17,24 +17,9 @@
 #ifndef OMAP_ISP_PREVIEW_WRAP_H
 #define OMAP_ISP_PREVIEW_WRAP_H
 
-#ifndef u32
-#define u32 unsigned long
-#endif /* u32 */
-
-#ifndef u16
-#define u16 unsigned short
-#endif /* u16 */
-
-#ifndef u8
-#define u8 unsigned char
-#endif /* u8 */
-
-#ifndef s16
-#define s16 signed short
-#endif
-
 #define PREV_IOC_BASE   	'P'
-#define PREV_REQBUF     _IOWR(PREV_IOC_BASE, 1, struct v4l2_requestbuffers)
+#define PREV_REQBUF     	_IOWR(PREV_IOC_BASE, 1, \
+					struct v4l2_requestbuffers)
 #define PREV_QUERYBUF   	_IOWR(PREV_IOC_BASE, 2, struct v4l2_buffer)
 #define PREV_SET_PARAM  	_IOW(PREV_IOC_BASE, 3, struct prev_params)
 #define PREV_GET_PARAM  	_IOWR(PREV_IOC_BASE, 4, struct prev_params)
@@ -43,7 +28,7 @@
 #define PREV_GET_CROPSIZE 	_IOR(PREV_IOC_BASE, 7, struct prev_cropsize)
 #define PREV_QUEUEBUF     	_IOWR(PREV_IOC_BASE, 8, struct v4l2_buffer)
 #define PREV_FREEBUF     	_IOWR(PREV_IOC_BASE, 9, struct v4l2_buffer)
-#define PREV_IOC_MAXNR  9
+#define PREV_IOC_MAXNR		9
 
 
 /* Feature lists */
@@ -72,7 +57,6 @@
 #define NOISE_FILTER_TABLE_SIZE    256
 
 #define WB_GAIN_MAX     4
-#define RGB_MAX         3
 
 #define MAX_IMAGE_WIDTH   3300
 
@@ -83,165 +67,33 @@
 
 /*
  * Structure for size parameters
- */ 
+ */
 struct prev_size_params {
 	unsigned int hstart;	/* Starting pixel */
 	unsigned int vstart;	/* Starting line */
 	unsigned int hsize;	/* width of input image */
 	unsigned int vsize;	/* height of input image */
-	unsigned char pixsize;	/* pixel size of the image in 
+	unsigned char pixsize;	/* pixel size of the image in
 				   terms of bits */
 	unsigned short in_pitch;	/* line offset of input image */
 	unsigned short out_pitch;	/* line offset of output image */
 };
-/*
- * Structure for White Balance
+
+/**
+ * struct prev_white_balance - Structure for White Balance 2.
+ * @wb_dgain: White balance common gain.
+ * @wb_gain: Individual color gains.
+ * @wb_coefmatrix: Coefficient matrix
  */
-struct ispprev_wbal {
-	/*Digital gain (U10Q8) */
-	u16 dgain;
-	/*White balance gain - COEF 3 (U8Q5) */
-	u8 coef3;
-	/*White balance gain - COEF 2 (U8Q5) */
-	u8 coef2;
-	/*White balance gain - COEF 1 (U8Q5) */
-	u8 coef1;
-	/*White balance gain - COEF 0 (U8Q5) */
-	u8 coef0;
-};
-/* structure for white balancing parameters */
 struct prev_white_balance {
-	u16 wb_dgain;	/* white balance common gain */
-	u8 wb_gain[WB_GAIN_MAX];	/* individual color gains */
-	u8 wb_coefmatrix[WB_GAIN_MAX][WB_GAIN_MAX];	/* 16 position
-								   out of 4 
-								   values */
-};
-/*
- * Structure for RGB to RGB Blending
- */
-struct ispprev_rgbtorgb {
-	/*
-	 * Blending values(S12Q8 format)
-	 *	[RR] [GR] [BR]
-	 *	[RG] [GG] [BG]
-	 *	[RB] [GB] [BB]
-	 */
-	u16 matrix[3][3];
-	/*Blending offset value for R,G,B in 2's complement integer format*/
-	u16 offset[3];
+	__u16 wb_dgain;
+	__u8 wb_gain[WB_GAIN_MAX];
+	__u8 wb_coefmatrix[WB_GAIN_MAX][WB_GAIN_MAX];
 };
 
-struct ispprev_hmed {
-	/* Distance between consecutive pixels of same color in the odd line*/
-	u8 odddist;
-	/*Distance between consecutive pixels of same color in the even line*/
-	u8 evendist;
-	/* Horizontal median filter threshold */
-	u8 thres;
-};
-/*
- * Structure for Noise Filter
- */
-struct ispprev_nf {
-	/* Flag to enable or disable the Defect Correction in NF*/
-	u8 defect_corr_en;
-	/* Strength to be used in Noise Filter*/
-	u8 strgth;
-	/* Spread value to be used in Noise Filter*/
-	u8 spread;
-	/*Pointer to the Noise Filter table */
-	u32 *table;
-};
-
-/*
- * Structure for Defect correction
- */
-struct ispprev_dcor {
-	/* Flag to enable or disable the couplet dc Correction in NF*/
-	u8 couplet_mode_en;
-	/* Thresholds for correction bit 0:10 detect 16:25 correct*/
-	u32 detect_correct[4];
-};
-
-/*
- * Enumeration for CFA Formats supported by preview
- */
-enum cfa_fmt {
-	CFAFMT_BAYER, CFAFMT_SONYVGA, CFAFMT_RGBFOVEON,
-	CFAFMT_DNSPL, CFAFMT_HONEYCOMB, CFAFMT_RRGGBBFOVEON
-};
-/*
- * Structure for CFA Inpterpolation
- */
-struct ispprev_cfa {
-	/* CFA Format Enum value supported by preview.*/
-	enum cfa_fmt cfafmt;
-	/* CFA Gradient Threshold - Vertical */
-	u8 cfa_gradthrs_vert;
-	/* CFA Gradient Threshold - Horizontal */
-	u8 cfa_gradthrs_horz;
-	/* Pointer to the CFA table */
-	u32 *cfa_table;
-};
-/*
- * Structure for Gamma Correction
- */
-struct ispprev_gtable {
-	/* Pointer to the red gamma table */
-	u32 *redtable;
-	/* Pointer to the green gamma table */
-	u32 *greentable;
-	/* Pointer to the blue gamma table */
-	u32 *bluetable;
-};
-/*
- * Structure for Chrominance Suppression
- */
-struct ispprev_csup {
-	/* Gain */
-	u8 gain;
-	/* Threshold */
-	u8 thres;
-	/* Flag to enable/disable the High Pass Filter */
-	u8 hypf_en;
-};
-/*
- * Structure for Black Adjustment
- */
-struct ispprev_blkadj {
-	/*Black level offset adjustment for Red in 2's complement format */
-	u8 red;
-	/*Black level offset adjustment for Green in 2's complement format */
-	u8 green;
-	/* Black level offset adjustment for Blue in 2's complement format */
-	u8 blue;
-};
-/*
- * Structure for Color Space Conversion from RGB-YCbYCr
- */
-struct ispprev_csc {
-	/*
-	 *Color space conversion coefficients(S10Q8)
-	 *	[CSCRY]    [CSCGY]   [CSCBY]
-	 *	[CSCRCB] [CSCGCB] [CSCBCB]
-	 *	[CSCRCR] [CSCGCR] [CSCBCR]
-	 */
-	u16 matrix[RGB_MAX][RGB_MAX];
-	/*
-	 *CSC offset values for Y offset, CB offset and CR offset respectively
-	 */
-	s16 offset[RGB_MAX];
-};
-/* Structure for Dark frame suppression */
-struct prev_darkfrm_params {
-	u32 addr;	/* memory start address */
-	u32 offset;	/* line offset */
-};
-
-/*structure for Chroma Suppression */
+/* Structure for Chroma Suppression */
 struct prev_chroma_spr {
-	unsigned char hpfy;	/* whether to use high passed 
+	unsigned char hpfy;	/* whether to use high passed
 				   version of Y or normal Y */
 	char threshold;		/* threshold for chroma suppress */
 	unsigned char gain;	/* chroma suppression gain */
@@ -256,10 +108,32 @@ enum preview_ycpos_mode {
 	YCPOS_CbYCrY = 2,
 	YCPOS_CrYCbY = 3
 };
+/**
+ * struct ispprev_gtable - Structure for Gamma Correction.
+ * @redtable: Pointer to the red gamma table.
+ * @greentable: Pointer to the green gamma table.
+ * @bluetable: Pointer to the blue gamma table.
+ */
+struct ispprev_gtable {
+	__u32 *redtable;
+	__u32 *greentable;
+	__u32 *bluetable;
+};
+
+/**
+ * struct prev_darkfrm_params - Structure for Dark frame suppression.
+ * @addr: Memory start address.
+ * @offset: Line offset.
+ */
+struct prev_darkfrm_params {
+	__u32 addr;
+	__u32 offset;
+};
+
 /* -- */
 /* structure for all configuration */
 struct prev_params {
-	u16 features;	/* Set of features enabled */
+	__u16 features;	/* Set of features enabled */
 
 	enum preview_ycpos_mode pix_fmt; /* output pixel format */
 
@@ -267,7 +141,7 @@ struct prev_params {
 
 	struct ispprev_csup csup;  /* chroma suppression coefficients */
 
-	u32 *ytable;	/* luma enhancement coeffs */
+	__u32 *ytable;	/* luma enhancement coeffs */
 
 	struct ispprev_nf nf; /* noise filter coefficients */
 
@@ -276,7 +150,6 @@ struct prev_params {
 	struct ispprev_gtable gtable;	/* gamma coefficients */
 
 	struct ispprev_wbal wbal;
-//	struct prev_white_balance prev_wbal;
 
 	struct ispprev_blkadj blk_adj;	/* black adjustment parameters */
 
@@ -285,14 +158,14 @@ struct prev_params {
 	struct ispprev_csc rgb2ycbcr;  /* rgb to ycbcr parameters */
 
 	struct ispprev_hmed hmf_params;	/* horizontal median filter */
-	
+
 	struct prev_size_params size_params;	/* size parameters */
 	struct prev_darkfrm_params drkf_params;
-	u8 lens_shading_shift;
-	u8 average;	/* down sampling rate for averager */
+	__u8 lens_shading_shift;
+	__u8 average;	/* down sampling rate for averager */
 
-	u8 contrast;		/* contrast */
-	u8 brightness;		/* brightness */
+	__u8 contrast;		/* contrast */
+	__u8 brightness;		/* brightness */
 };
 
 /* structure to know status of the hardware */
