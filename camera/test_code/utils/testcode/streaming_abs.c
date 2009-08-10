@@ -1,56 +1,41 @@
-/* =============================================================================
+/* ========================================================================
 *             Texas Instruments OMAP(TM) Platform Software
 *  (c) Copyright Texas Instruments, Incorporated.  All Rights Reserved.
 *
 *  Use of this software is controlled by the terms and conditions found
 *  in the license agreement under which this software has been supplied.
-* ============================================================================*/
+* ========================================================================= */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include <linux/ioctl.h>
 #include <linux/fb.h>
 #include <sys/mman.h>
 #include <linux/videodev2.h>
-#include <linux/errno.h>
-#include <errno.h>
 #include <string.h>
-
-#include "abs_layer.h"
-
-#undef DEBUG
+#include "isp_user.h"
+#include "absLayer.h"
 
 #define VIDIOC_S_OMAP2_ROTATION		_IOW('V', 3, int)
 #define FBDEVICE "/dev/fb0"
 #define VIDEO_DEVICE1 "/dev/video1"
 #define VIDEO_DEVICE2 "/dev/video2"
-/* have to align at 32 bytes */
-#define ALIGN 1
 
 #define DEFAULT_PIXEL_FMT "YUYV"
 #define DEFAULT_VIDEO_SIZE "QCIF"
 
-#undef  SAVE_TO_FILE
-#define SAVE_TO_FILE_NAME "video_out"
-#define SAVE_TO_FILE_N_FRAMES 100
-
 static void usage(void)
 {
-	printf("streaming_abs [camDevice] [absLayerGroup]"
-			"[<absLayerOption> <bclFlag>] "
+	printf("streaming_abs [camDevice] [absLayerGroup] [absLayerOption] "
 			"[absLayerMode] [pixelFormat] [<sizeW> <sizeH>]"
 			" [(vid)] [<count>] [<file>]\n");
 	printf("   To start streaming capture of 1000 frames\n");
 	printf("   [camDevice] Camera device to be open\n\t 1:Micron sensor "
 					"2:OV sensor\n");
-	printf("   [absLayerGroup] CCDC, PREVIEW and TABLES\n");
-	printf("   [<absLayerOption>] Abstraction Layer option"
-					"to be updated\n");
-	printf("   <bclFlag> If bcl option selected needs to be set the "
-				"flag value, could be 0 or 1\n");
+	printf("   [absLayerGroup] CCDC or PREVIEW\n");
+	printf("   [absLayerOption] Abstraction Layer option to be updated\n");
 	printf("   [absLayerMode] 1: Before streamon(Default)\n");
-	printf("		  2: After streamon\n");
+	printf("   		  2: After streamon\n");
 	printf("   [pixelFormat] set the pixelFormat to use. \n\tSupported: "
 		"YUYV, UYVY, RGB565, RGB555, RGB565X, RGB555X, RAW10 \n");
 	printf("   [sizeW] Set the video width\n");
@@ -90,9 +75,8 @@ int main(int argc, char *argv[])
 	int degree;
 	int device = 1;
 	char *pixelFmt;
-	char *sizeW, *sizeH;
 	char *absGroup, *absOption;
-	int absMode = 1, bclFlag = 0;
+	int absMode = 1;
 	int framerate = 30;
 
 	if ((argc > 1) && (!strcmp(argv[1], "?"))) {
@@ -118,25 +102,6 @@ int main(int argc, char *argv[])
 
 	if (argc > index) {
 		absOption = argv[index];
-		if (!strcasecmp(absOption, "bcl")) {
-			index++;
-			bclFlag = atoi(argv[index]);
-			if (bclFlag < 0 || bclFlag > 1) {
-				printf("Wrong value for Flag used in Black"
-					" Clamp\nUsing default value Flag=1\n");
-				bclFlag = 1;
-			} else
-				printf("BCL option selected, using "
-					"Flag = argv[%d] = %d\n", index,
-					bclFlag);
-			if (atoi(argv[index + 1]) < 1 ||
-				atoi(argv[index + 1]) > 2) {
-					printf("Wrong value for Abstraction "
-						"Update Mode\n");
-					usage();
-					return 0;
-				}
-		}
 		index++;
 	}
 
@@ -207,43 +172,30 @@ int main(int argc, char *argv[])
 	if (argc > index) {
 		vid = atoi(argv[index]);
 		if ((vid != 1) && (vid != 2)) {
-				printf("vid has to be 1 or 2!\n ");
-				return 0;
-		} else
-			index++;
+			printf("vid has to be 1 or 2!\n ");
+			return 0;
+		}
+		index++;
 	}
 
-	/*if ((argc > index) && (!strcmp(argv[index], "user"))) {
-		memtype = V4L2_MEMORY_USERPTR;
-		printf("user buffer will be used\n");
-		index++;
-	if (argc > index)
-
-		count = atoi(argv[index]);
-		printf("Frames: %d\n", count);
-	} */
-	/*else {*/
 	if (argc > index)
 		count = atoi(argv[index]);
 	printf("Frames: %d\n", count);
 	index++;
-	/*}*/
 	if (count >= 1000 || count <= 0)
 		count = -1;
 
 	if (vid != 0) {
 		screen_info.fd = open((vid == 1) ? VIDEO_DEVICE1 :
-					VIDEO_DEVICE2, O_RDWR);
+				      VIDEO_DEVICE2, O_RDWR);
 		if (screen_info.fd <= 0) {
 			printf("Could no open the device %s\n",
-					(vid == 1) ? VIDEO_DEVICE1 :
-					VIDEO_DEVICE2);
+			       (vid == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
 			vid = 0;
-		} else
-			printf("openned %s for rendering\n", (
-					vid == 1) ? VIDEO_DEVICE1 :
-					VIDEO_DEVICE2);
-
+		} else {
+			printf("openned %s for rendering\n",
+			       (vid == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
+		}
 	}
 	if (vid == 0) {
 		screen_info.fd = open(FBDEVICE, O_RDWR);
@@ -262,19 +214,19 @@ int main(int argc, char *argv[])
 			printf("The video driver is capable of Streaming!\n");
 		else {
 			printf("The video driver is not capable of "
-						"Streaming!\n");
+			       "Streaming!\n");
 			return -1;
 		}
 	} else {
 		ret = ioctl(screen_info.fd, FBIOGET_FSCREENINFO,
-							&screen_info.fbfix);
+			    &screen_info.fbfix);
 		if (ret != 0) {
 			perror("FBIOGET_FSCREENINFO");
 			return -1;
 		}
 	}
 
-	ioctl(screen_info.fd, FBIOGET_VSCREENINFO, &screen_info.info) ;
+	ioctl(screen_info.fd, FBIOGET_VSCREENINFO, &screen_info.info);
 	screen_info.width = screen_info.info.xres ;
 	screen_info.height = screen_info.info.yres ;
 	printf("physical address of frame buffer : %x\n",
@@ -283,9 +235,9 @@ int main(int argc, char *argv[])
 					screen_info.height);
 
 	screen_info.data = (unsigned char *)mmap(0,
-					screen_info.width*screen_info.height*2,
-					(PROT_READ|PROT_WRITE),
-					MAP_SHARED, screen_info.fd, 0);
+				screen_info.width * screen_info.height * 2,
+				(PROT_READ | PROT_WRITE),
+				MAP_SHARED, screen_info.fd, 0);
 
 	if (ioctl(fd, VIDIOC_QUERYCAP, &capability) < 0) {
 		perror("VIDIOC_QUERYCAP");
@@ -316,18 +268,16 @@ int main(int argc, char *argv[])
 			return -1;
 		}
 		printf("Video Image width = %d, Image height = %d, size = %d\n",
-		vformat.fmt.pix.width, vformat.fmt.pix.height,
-					vformat.fmt.pix.sizeimage);
+			vformat.fmt.pix.width, vformat.fmt.pix.height,
+			vformat.fmt.pix.sizeimage);
 
 		if ((cformat.fmt.pix.width != vformat.fmt.pix.width) ||
-			(cformat.fmt.pix.height != vformat.fmt.pix.height) ||
-			(cformat.fmt.pix.sizeimage !=
-			vformat.fmt.pix.sizeimage)) {
+		    (cformat.fmt.pix.height != vformat.fmt.pix.height)) {
 			printf("image sizes don't match!\n");
 			set_video_img = 1;
 		}
 		if (cformat.fmt.pix.pixelformat !=
-			vformat.fmt.pix.pixelformat) {
+		    vformat.fmt.pix.pixelformat) {
 			printf("pixel formats don't match!\n");
 			set_video_img = 1;
 		}
@@ -351,27 +301,26 @@ int main(int argc, char *argv[])
 			if (ret < 0) {
 				perror("video VIDIOC_S_FMT");
 				return -1;
-			} else {
-				printf("New Image & Video sizes, after "
-					"equaling:\nCamera Image width = %d, "
-					"Image height = %d, size = %d\n",
-				cformat.fmt.pix.width, cformat.fmt.pix.height,
-					cformat.fmt.pix.sizeimage);
-				printf("Video Image width = %d, Image height "
-					"= %d, size = %d\n",
-				vformat.fmt.pix.width, vformat.fmt.pix.height,
-					vformat.fmt.pix.sizeimage);
 			}
+			printf("New Image & Video sizes, after equaling:\n"
+				"Camera Image width = %d, "
+				"Image height = %d, size = %d\n",
+				cformat.fmt.pix.width,
+				cformat.fmt.pix.height,
+				cformat.fmt.pix.sizeimage);
+			printf("Video Image width = %d, Image height = %d, "
+				"size = %d\n",
+				vformat.fmt.pix.width,
+				vformat.fmt.pix.height,
+				vformat.fmt.pix.sizeimage);
 
 			if ((cformat.fmt.pix.width != vformat.fmt.pix.width) ||
-				(cformat.fmt.pix.height
-				!= vformat.fmt.pix.height)
-				|| (cformat.fmt.pix.sizeimage !=
-				vformat.fmt.pix.sizeimage) ||
-				(cformat.fmt.pix.pixelformat !=
-				vformat.fmt.pix.pixelformat)) {
-				printf("can't make camera and video image "
-					"compatible!\n");
+			    (cformat.fmt.pix.height !=
+			     vformat.fmt.pix.height) ||
+			    (cformat.fmt.pix.pixelformat !=
+			     vformat.fmt.pix.pixelformat)) {
+				printf("ERROR: Can't make camera and video "
+					"image compatible!\n");
 				return 0;
 			}
 		}
@@ -397,8 +346,8 @@ int main(int argc, char *argv[])
 				return;
 			}
 			vbuffers[i].length = buffer.length;
-			vbuffers[i].start = mmap(NULL, buffer.length, PROT_READ
-						| PROT_WRITE, MAP_SHARED,
+			vbuffers[i].start = mmap(NULL, buffer.length, PROT_READ|
+						PROT_WRITE, MAP_SHARED,
 						screen_info.fd,
 						buffer.m.offset);
 			if (vbuffers[i].start == MAP_FAILED) {
@@ -422,7 +371,7 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 	printf("Camera Driver allowed buffers reqbuf.count = %d\n",
-						creqbuf.count);
+		creqbuf.count);
 
 
 	cbuffers = calloc(creqbuf.count, sizeof(*cbuffers));
@@ -438,19 +387,13 @@ int main(int argc, char *argv[])
 		}
 		if (memtype == V4L2_MEMORY_USERPTR) {
 			if (vid == 0) {
-				/*fdef ALIGN
-					buffers[i].length
-						= cformat.fmt.pix.sizeimage
-						+ 0x20;
-				#else*/
 				cbuffers[i].length = cformat.fmt.pix.sizeimage;
-				/*#endif*/
 				/* round to 4KB page */
 				if (cbuffers[i].length & 0xfff) {
 					cbuffers[i].length =
-						(cbuffers[i].length &
-						0xfffff000)
-						+ 0x1000;
+							(cbuffers[i].length &
+							 0xfffff000) +
+							0x1000;
 				}
 				cbuffers[i].start = malloc(cbuffers[i].length);
 				printf("User Buffers[%d].start = %x  length ="
@@ -458,18 +401,14 @@ int main(int argc, char *argv[])
 					cbuffers[i].length);
 			}
 			buffer.flags = 0;
-/*#ifdef ALIGN
-			buffer.m.userptr = ((unsigned int)cbuffers[i].start
-						& 0xffffffe0) + 0x20;
-#else*/
 			buffer.m.userptr = (unsigned int)vbuffers[i].start;
-/*#endif*/
 			buffer.length = vbuffers[i].length;
 		} else {
 			cbuffers[i].length = buffer.length;
-			cbuffers[i].start = mmap(NULL, buffer.length, PROT_READ
-						| PROT_WRITE, MAP_SHARED, fd,
-						buffer.m.offset);
+			cbuffers[i].start = mmap(NULL, buffer.length,
+						 PROT_READ | PROT_WRITE,
+						 MAP_SHARED, fd,
+						 buffer.m.offset);
 			if (cbuffers[i].start == MAP_FAILED) {
 				perror("mmap");
 				return -1;
@@ -477,12 +416,7 @@ int main(int argc, char *argv[])
 			printf("Mapped Buffers[%d].start = %x  length = %d\n",
 				i, cbuffers[i].start, cbuffers[i].length);
 
-/*#ifdef ALIGN
-			buffer.m.userptr = ((unsigned int)buffers[i].start
-					& 0xffffffe0) + 0x20;
-#else*/
 			buffer.m.userptr = (unsigned int)cbuffers[i].start;
-/*#endif*/
 			buffer.length = cbuffers[i].length;
 		}
 
@@ -494,12 +428,11 @@ int main(int argc, char *argv[])
 
 	if (absMode == 1) {
 		printf("Update Abs Layer Before Streamon\n");
-		if (!strcasecmp(absGroup, "CCDC"))
-			ret = updateCcdc(fd, absOption, bclFlag);
-		else if (!strcasecmp(absGroup, "PREVIEW"))
+		if (!strcasecmp(absGroup, "CCDC")) {
+			ret = updateCcdc(fd, absOption);
+			printf("Still working...\n");
+		} else if (!strcasecmp(absGroup, "PREVIEW"))
 			ret = updatePreview(fd, absOption);
-		else if (!strcasecmp(absGroup, "TABLES"))
-			ret = updateTables(fd, absOption);
 		if (ret <= 0) {
 			printf("Error updating abstraction layer values\n");
 			goto exit1;
@@ -513,7 +446,7 @@ int main(int argc, char *argv[])
 	}
 	if (vid != 0) {
 		if (ioctl(screen_info.fd, VIDIOC_STREAMON,
-					&vreqbuf.type) < 0) {
+						&vreqbuf.type) < 0) {
 			perror("video VIDIOC_STREAMON");
 			return -1;
 		}
@@ -522,11 +455,9 @@ int main(int argc, char *argv[])
 	if (absMode == 2) {
 		printf("Update Abs Layer After Streamon\n");
 		if (!strcasecmp(absGroup, "CCDC"))
-			ret = updateCcdc(fd, absOption, bclFlag);
+			ret = updateCcdc(fd, absOption);
 		else if (!strcasecmp(absGroup, "PREVIEW"))
 			ret = updatePreview(fd, absOption);
-		else if (!strcasecmp(absGroup, "TABLES"))
-			ret = updateTables(fd, absOption);
 		if (ret <= 0) {
 			printf("Error updating abstraction layer values\n");
 			goto exit2;
@@ -540,7 +471,6 @@ int main(int argc, char *argv[])
 			fd_save = 0;
 		}
 	}
-
 
 	/* caputure 1000 frames or when we hit the passed nmuber of frames */
 	cfilledbuffer.type = creqbuf.type;
@@ -556,12 +486,15 @@ int main(int argc, char *argv[])
 			perror("VIDIOC_DQBUF");
 			if (vid != 0) {
 				while (ioctl(screen_info.fd, VIDIOC_QBUF,
-							&vfilledbuffer) < 0)
+							&vfilledbuffer) < 0) {
 					perror("VIDIOC_QBUF***");
+				}
 			} else {
 				while (ioctl(fd, VIDIOC_QBUF,
-							&cfilledbuffer) < 0)
+							&cfilledbuffer) < 0) {
 					perror("VIDIOC_QBUF***");
+				}
+
 			}
 		}
 		i++;
@@ -573,20 +506,17 @@ int main(int argc, char *argv[])
 		}
 
 		src_start = cbuffers[cfilledbuffer.index].start;
-		if (memtype == V4L2_MEMORY_USERPTR) {
-			/*#ifdef ALIGN
-				src_start = (char *)(((unsigned int)src_start
-					& 0xffffffe0) + 0x20);
-			#endif*/
-		}
 
 		if (fd_save > 0) {
-			/* this compile option allow us to write video
-			 *to a file */
-			if (i <= count) { /* we only save some frames */
-				write(fd_save, src_start, cformat.fmt.pix.width
-						* cformat.fmt.pix.height * 2);
-				printf("written %d frame, fd=%d\n", i, fd_save);
+			/* this compile option allow us to write video to a
+			 * file
+			 */
+			if (i <= count) {
+				/* we only save some frames */
+				write(fd_save, src_start,
+				      cformat.fmt.pix.width *
+				      cformat.fmt.pix.height * 2);
+			printf("written %d frame, fd=%d\n", i, fd_save);
 			}
 		} else {
 			if (vid == 0) {
@@ -598,7 +528,8 @@ int main(int argc, char *argv[])
 			} else {
 				if (vfilledbuffer.index != -1) {
 					/* De-queue the previous buffer from
-					 * video driver */
+					 * video driver
+					 */
 					if (ioctl(screen_info.fd, VIDIOC_DQBUF,
 						&vfilledbuffer) < 0) {
 						perror("cam VIDIOC_DQBUF");
@@ -607,8 +538,9 @@ int main(int argc, char *argv[])
 				}
 
 				vfilledbuffer.index = cfilledbuffer.index;
-				/* Queue the new buffer to video
-				 * driver for rendering */
+				/* Queue the new buffer to video driver for
+				 * rendering
+				 */
 				if (ioctl(screen_info.fd, VIDIOC_QBUF,
 						&vfilledbuffer) == -1) {
 					perror("video VIDIOC_QBUF");
@@ -619,17 +551,11 @@ int main(int argc, char *argv[])
 
 		if (i == count) {
 			printf("Cancelling the streaming capture...\n");
+			/* sleep(1); */
 			creqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 			if (ioctl(fd, VIDIOC_STREAMOFF, &creqbuf.type) < 0) {
 				perror("VIDIOC_STREAMOFF");
 				return -1;
-			}
-			if (vid != 0) {
-				if (ioctl(screen_info.fd, VIDIOC_STREAMOFF,
-						&vreqbuf.type) == -1) {
-					perror("video VIDIOC_STREAMOFF");
-					return -1;
-				}
 			}
 			printf("Done\n");
 			break;
@@ -641,7 +567,8 @@ int main(int argc, char *argv[])
 	printf("Captured %d frames!\n", i);
 
 	/* we didn't trun off streaming yet */
-exit2:	if (count == -1) {
+exit2:
+	if (count == -1) {
 		creqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 		if (ioctl(fd, VIDIOC_STREAMOFF, &creqbuf.type) == -1) {
 			perror("VIDIOC_STREAMOFF");
@@ -649,14 +576,16 @@ exit2:	if (count == -1) {
 		}
 		if (vid != 0) {
 			if (ioctl(screen_info.fd, VIDIOC_STREAMOFF,
-						&vreqbuf.type) == -1) {
+				  &vreqbuf.type) == -1) {
 				perror("video VIDIOC_STREAMOFF");
 				return -1;
 			}
+
 		}
 	}
 
-exit1:	for (i = 0; i < vreqbuf.count; i++) {
+exit1:
+	for (i = 0; i < vreqbuf.count; i++) {
 		if (vbuffers[i].start)
 			munmap(vbuffers[i].start, vbuffers[i].length);
 	}
@@ -677,7 +606,7 @@ exit1:	for (i = 0; i < vreqbuf.count; i++) {
 	munmap(screen_info.data, screen_info.width * screen_info.height * 2);
 	close(screen_info.fd);
 
-	ret = setFramerate(fd , 30);
+	ret = setFramerate(fd, 30);
 	if (ret < 0) {
 		printf("Error setting framerate = %d\n", framerate);
 		return -1;
