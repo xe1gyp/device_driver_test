@@ -8,56 +8,23 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <fcntl.h>
-#include <linux/ioctl.h>
-#include <linux/fb.h>
 #include <sys/mman.h>
 #include <linux/videodev2.h>
-#include <linux/errno.h>
 #include <errno.h>
+#include "isp_user.h"
 #include "kbget.h"
-#include "aftest.h"
 
-#define VIDEO_DEVICE1 "/dev/v4l/video1"
-#define VIDEO_DEVICE2 "/dev/v4l/video2"
-
-#define V4L2_CID_PRIVATE_ISP_COLOR_FX     (V4L2_CID_PRIVATE_BASE + 0)
-#define V4L2_CID_PRIVATE_ISP_CCDC_CFG     (V4L2_CID_PRIVATE_BASE + 1)
-#define V4L2_CID_PRIVATE_ISP_PRV_CFG      (V4L2_CID_PRIVATE_BASE + 2)
-#define V4L2_CID_PRIVATE_ISP_LSC_UPDATE   (V4L2_CID_PRIVATE_BASE + 3)
-#define V4L2_CID_PRIVATE_ISP_AEWB_CFG     (V4L2_CID_PRIVATE_BASE + 4)
-#define V4L2_CID_PRIVATE_ISP_AEWB_REQ     (V4L2_CID_PRIVATE_BASE + 5)
-#define V4L2_CID_PRIVATE_ISP_AF_CFG       (V4L2_CID_PRIVATE_BASE + 6)
-#define V4L2_CID_PRIVATE_ISP_AF_REQ       (V4L2_CID_PRIVATE_BASE + 7)
-#define V4L2_CID_PRIVATE_ISP_HIST_CFG     (V4L2_CID_PRIVATE_BASE + 8)
-#define V4L2_CID_PRIVATE_ISP_HIST_REQ     (V4L2_CID_PRIVATE_BASE + 9)
-
-/* Flags for update field */
-#define REQUEST_STATISTICS      (1 << 0)
-#define LENS_DESIRED_POSITION   (1 << 1)
-#define LENS_CURRENT_POSITION   (1 << 2)
+#define VIDEO_DEVICE1 "/dev/video1"
+#define VIDEO_DEVICE2 "/dev/video2"
 
 #define DEFAULT_PIXEL_FMT "YUYV"
 #define DEFAULT_VIDEO_SIZE "QVGA"
-
-#ifndef u32
-#define u32 unsigned long
-#endif /* u32 */
-
-#ifndef u16
-#define u16 unsigned short
-#endif /* u16 */
-
-#ifndef u8
-#define u8 unsigned char
-#endif /* u8 */
 
 int cfd, vfd;
 
 static void usage(void)
 {
-	printf("af_stream [vid] [lens_pos] [framerate]\n");
+	printf("af_stream [vid] [lens_pos] [framerate] [mode]\n");
 	printf("\tSteaming capture of 1000 frames using video driver for"
 							" rendering\n");
 	printf("\t[vid] is the video pipeline to be used. Valid vid is"
@@ -68,6 +35,9 @@ static void usage(void)
 					"\t\t- 3: Infinite position\n");
 	printf("\t[framerate] is the framerate to be used, if no value"
 					"is given 30 fps is default\n");
+	printf("\t[mode] is the mode to be used."
+					"\t\t- 1: Manual"
+					"\t\t- 2: Auto\n");
 }
 
 int main(int argc, char *argv[])
@@ -76,6 +46,15 @@ int main(int argc, char *argv[])
 		void *start;
 		size_t length;
 	} *vbuffers;
+
+	/* Structure stores values for key strokes */
+	struct input_event {
+		struct timeval time;
+		unsigned short type;
+		unsigned short code;
+		unsigned int value;
+	} keyinfo;
+
 	struct v4l2_capability capability;
 	struct v4l2_format cformat, vformat;
 	struct v4l2_requestbuffers creqbuf, vreqbuf;
@@ -83,28 +62,23 @@ int main(int argc, char *argv[])
 	int vid = 1, set_video_img = 0, i, ret;
 
 	/*************************************************************/
-	unsigned int num_windows = 0, num_color_windows = 0;
 	unsigned int buff_size = 0;
 	struct af_configuration af_config_user;
 	struct isp_af_data af_data_user;
-	u16 *buff_preview = NULL;
-	u16 *buff_char = NULL;
-	u8 *stats_buff = NULL;
+	__u16 *buff_preview = NULL;
+	__u8 *stats_buff = NULL;
 	unsigned int buff_prev_size = 0;
-	int data8, data2, window, unsat_cnt, k;
-	int input, fd, new_gain = 0;
-	u16 wposn, rposn;
+	int k;
+	int input;
+	__u16 wposn = 1;
 	int frame_number;
-	int enable = 1, j = 0, index = 1;
-	struct v4l2_control control_af_config, control_af_request;
+	int j = 0, index = 1;
 	FILE *fp_out;
 	int framerate = 30;
-	wposn = 1;
+	int mode = 1;
 
-	memset(&control_af_config, 0, sizeof(control_af_config));
-	memset(&control_af_request, 0, sizeof(control_af_request));
-	af_config_user.alaw_enable = H3A_AF_ENABLE;	/* Enable Alaw */
-	af_config_user.hmf_config.enable = H3A_AF_DISABLE;
+	af_config_user.alaw_enable = H3A_AF_ALAW_ENABLE;	/* Enable Alaw */
+	af_config_user.hmf_config.enable = H3A_AF_HMF_DISABLE;
 	af_config_user.iir_config.hz_start_pos = 0;
 	af_config_user.paxel_config.height = 16;
 	af_config_user.paxel_config.width = 16;
@@ -113,7 +87,7 @@ int main(int argc, char *argv[])
 	af_config_user.paxel_config.hz_start = 2;
 	af_config_user.paxel_config.hz_cnt = 8;
 	af_config_user.paxel_config.vt_cnt = 8;
-	af_config_user.af_config = H3A_AF_ENABLE;
+	af_config_user.af_config = H3A_AF_CFG_ENABLE;
 	af_config_user.hmf_config.threshold = 0;
 	/* Set Accumulator mode */
 	af_config_user.mode = ACCUMULATOR_SUMMED;
@@ -129,6 +103,9 @@ int main(int argc, char *argv[])
 		return -EACCES;
 	}
 	/* ********************************************************* */
+	/* Open keypad input device */
+	int kfd = open("/dev/input/event0", O_RDONLY | O_NONBLOCK);
+
 	index = 1;
 	if (argc < 2) {
 		printf("ERROR: Missing parameters!\n");
@@ -139,7 +116,7 @@ int main(int argc, char *argv[])
 		usage();
 		return 0;
 	}
-	
+
 	if (argc > index) {
 		vid = atoi(argv[index]);
 		if ((vid != 1) && (vid != 2)) {
@@ -147,34 +124,42 @@ int main(int argc, char *argv[])
 								vid, argv[1]);
 			usage();
 			return 0;
-		}	
+		}
 	}
 	index++;
 	if (argc > index) {
 		wposn = atoi(argv[index]);
 		index++;
 	}
-	
+
 	if (argc > index) {
 		framerate = atoi(argv[index]);
-		printf("Framerate = %d\n",framerate);
+		printf("Framerate = %d\n", framerate);
+		index++;
 	} else
 		printf("Using framerate = 30, default value\n");
-	
+
+	if (argc > index) {
+		mode = atoi(argv[index]);
+		printf("Mode = %s", (mode == 1) ? "Auto" : "Manual");
+	} else
+		printf("Default mode = Manual");
+
 	cfd = open_cam_device(O_RDWR, 1);
 	if (cfd <= 0) {
 		printf("Could not open the cam device\n");
 		return -1;
 	}
 
-	vfd = open((vid == 1)?VIDEO_DEVICE1:VIDEO_DEVICE2, O_RDWR);
+	vfd = open((vid == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2, O_RDWR);
 	if (vfd <= 0) {
 		printf("Could not open %s\n",
-				(vid == 1)?VIDEO_DEVICE1:VIDEO_DEVICE2);
+				(vid == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
 		return -1;
-	} else
+	} else {
 		printf("openned %s for rendering\n",
-				(vid == 1)?VIDEO_DEVICE1:VIDEO_DEVICE2);
+				(vid == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
+	}
 
 	if (ioctl(vfd, VIDIOC_QUERYCAP, &capability) == -1) {
 		perror("video VIDIOC_QUERYCAP");
@@ -197,15 +182,15 @@ int main(int argc, char *argv[])
 		printf("The camera driver is not capable of Streaming!\n");
 		return -1;
 	}
-	
+
 	ret = setFramerate(cfd, framerate);
-	if (ret < 0){
+	if (ret < 0) {
 		printf("ERROR: VIDIOC_S_PARM ioctl cam\n");
 		return -1;
 	}
-	
+
 	ret = cam_ioctl(cfd, DEFAULT_PIXEL_FMT, DEFAULT_VIDEO_SIZE);
-	if (ret < 0){
+	if (ret < 0) {
 		printf("ERROR: VIDIOC_S_FMT ioctl cam\n");
 		return -1;
 	}
@@ -234,9 +219,7 @@ int main(int argc, char *argv[])
 
 	if ((cformat.fmt.pix.width != vformat.fmt.pix.width) ||
 						(cformat.fmt.pix.height !=
-						vformat.fmt.pix.height) ||
-						(cformat.fmt.pix.sizeimage !=
-						vformat.fmt.pix.sizeimage)) {
+						vformat.fmt.pix.height)) {
 		printf("image sizes don't match!\n");
 		set_video_img = 1;
 	}
@@ -259,8 +242,6 @@ int main(int argc, char *argv[])
 		if ((cformat.fmt.pix.width != vformat.fmt.pix.width) ||
 						(cformat.fmt.pix.height !=
 						vformat.fmt.pix.height) ||
-						(cformat.fmt.pix.sizeimage !=
-						vformat.fmt.pix.sizeimage) ||
 						(cformat.fmt.pix.pixelformat !=
 						vformat.fmt.pix.pixelformat)) {
 			printf("can't make camera and video image"
@@ -348,21 +329,21 @@ int main(int argc, char *argv[])
 	vfilledbuffer.index = -1;
 	sleep(5);
 	/* ***************************************************************** */
+	/* wposn = atoi(argv[2]); */
 
-	if (wposn == 1)
+	if (wposn == 1) {
 		wposn = 0xFF; /* MACRO */
-	else if (wposn == 2)
+	} else if (wposn == 2) {
 		wposn = 0x7F;
-	else if (wposn == 3)
+	} else if (wposn == 3) {
 		wposn = 0x00; /* Infinite */
-	else {
+	} else {
 		printf("Invalid Focus \n");
 		return -1;
 	}
-	control_af_config.id = V4L2_CID_PRIVATE_ISP_AF_CFG;
-	control_af_config.value = (int)&af_config_user;
+
 	/* set h3a params */
-	ret = ioctl(cfd, VIDIOC_S_CTRL, &control_af_config);
+	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_CFG, &af_config_user);
 	if (ret < 0) {
 		printf("Error: %d, ", ret);
 		perror("ISP_AF_CFG 1");
@@ -372,7 +353,7 @@ int main(int argc, char *argv[])
 	buff_size = (af_config_user.paxel_config.hz_cnt + 1) *
 			(af_config_user.paxel_config.vt_cnt + 1) *
 			AF_PAXEL_SIZE;
-			
+
 	stats_buff = malloc(buff_size);
 
 	buff_prev_size = (buff_size / 2);
@@ -385,9 +366,7 @@ int main(int argc, char *argv[])
 	af_data_user.frame_number = 8; /* dummy */
 
 	printf("Setting first parameters \n");
-	control_af_request.id = V4L2_CID_PRIVATE_ISP_AF_REQ;
-	control_af_request.value = (int)&af_data_user;
-	ret = ioctl(cfd, VIDIOC_S_CTRL, &control_af_request);
+	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ, &af_data_user);
 	if (ret < 0) {
 		perror("ISP_AF_REQ 1");
 		return ret;
@@ -406,7 +385,7 @@ request:
 	af_data_user.update = REQUEST_STATISTICS | LENS_DESIRED_POSITION;
 	af_data_user.af_statistics_buf = stats_buff;
 	printf("Requesting stats for frame %d, try %d\n", frame_number, j);
-	ret = ioctl(cfd,  VIDIOC_S_CTRL, &control_af_request);
+	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ, &af_data_user);
 	if (ret < 0) {
 		perror("ISP_AF_REQ 2");
 		return ret;
@@ -430,7 +409,7 @@ request:
 		goto request;
 	} else {
 	/* Display stats */
-		buff_preview = (u16 *)af_data_user.af_statistics_buf;
+		buff_preview = (__u16 *)af_data_user.af_statistics_buf;
 		printf("H3A AE/AWB: buffer to display = %d data pointer = %p\n",
 			buff_prev_size, af_data_user.af_statistics_buf);
 		for (k = 0; k < 1024; k++)
@@ -439,6 +418,7 @@ request:
 
 	sleep(1);
 
+	int bytes;
 	while (i < 1000) {
 		/* De-queue the next filled buffer from camera */
 		while (ioctl(cfd, VIDIOC_DQBUF, &cfilledbuffer) < 0) {
@@ -467,12 +447,14 @@ request:
 			perror("cam VIDIOC_QBUF");
 		/* *************************** */
 
+		switch (mode) {
+		case 1:
 		if (kbhit()) {
 			input = getch();
 			if (input == '1') {
 				af_data_user.update = 0;
-				ret = ioctl(cfd,  VIDIOC_S_CTRL,
-							&control_af_request);
+				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
+							 &af_data_user);
 				if (ret < 0) {
 					perror("ISP_AF_REQ 3");
 					return ret;
@@ -482,8 +464,8 @@ request:
 						af_data_user.curr_frame;
 				af_data_user.update = REQUEST_STATISTICS;
 				af_data_user.af_statistics_buf = stats_buff;
-				ret = ioctl(cfd, VIDIOC_S_CTRL,
-							&control_af_request);
+				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
+							 &af_data_user);
 				if (ret < 0) {
 					perror("ISP_AF_REQ 4");
 					return ret;
@@ -500,7 +482,7 @@ request:
 							af_data_user.xtrastats.
 							lens_position);
 
-				buff_preview = (u16 *)af_data_user.
+				buff_preview = (__u16 *)af_data_user.
 							af_statistics_buf;
 				printf("H3A AE/AWB: buffer to display = %d"
 							" data pointer = %p\n",
@@ -513,8 +495,8 @@ request:
 				af_data_user.desired_lens_direction = wposn;
 				af_data_user.lens_current_position = 0;
 				af_data_user.update = LENS_DESIRED_POSITION;
-				ret = ioctl(cfd, VIDIOC_S_CTRL,
-							&control_af_request);
+				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
+							 &af_data_user);
 				if (ret < 0) {
 					perror("ISP_AF_REQ 5");
 					return ret;
@@ -526,8 +508,8 @@ request:
 				af_data_user.desired_lens_direction = wposn;
 				af_data_user.lens_current_position = 0;
 				af_data_user.update = LENS_DESIRED_POSITION;
-				ret = ioctl(cfd, VIDIOC_S_CTRL,
-							&control_af_request);
+				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
+							 &af_data_user);
 				if (ret < 0) {
 					perror("ISP_AF_REQ 5");
 					return ret;
@@ -538,8 +520,8 @@ request:
 				af_data_user.desired_lens_direction = wposn;
 				af_data_user.lens_current_position = 0;
 				af_data_user.update = LENS_DESIRED_POSITION;
-				ret = ioctl(cfd, VIDIOC_S_CTRL,
-							&control_af_request);
+				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
+							 &af_data_user);
 				if (ret < 0) {
 					perror("ISP_AF_REQ 6");
 					return ret;
@@ -550,8 +532,8 @@ request:
 				af_data_user.desired_lens_direction = wposn;
 				af_data_user.lens_current_position = 0;
 				af_data_user.update = LENS_DESIRED_POSITION;
-				ret = ioctl(cfd, VIDIOC_S_CTRL,
-							&control_af_request);
+				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
+							 &af_data_user);
 				if (ret < 0) {
 					perror("ISP_AF_REQ 7");
 					return ret;
@@ -563,15 +545,132 @@ request:
 				af_data_user.desired_lens_direction = wposn;
 				af_data_user.lens_current_position = 0;
 				af_data_user.update = LENS_DESIRED_POSITION;
-				ret = ioctl(cfd, VIDIOC_S_CTRL,
-							&control_af_request);
+				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
+							 &af_data_user);
 				if (ret < 0) {
 					perror("ISP_AF_REQ 8");
 					return ret;
 				}
 				printf("Lens position (infinite): %d\n", wposn);
-			} else if (input == 'q')
+			} else if (input == 'q') {
 				break;
+			}
+		}
+		break;
+
+		case 2:
+			bytes = read(kfd, &keyinfo, sizeof(struct input_event));
+			input = keyinfo.code;
+			printf("Keycode: %d, Bytes: %d\r", input, bytes);
+			fflush(stdout);
+			if ((bytes < 0) && (errno != EAGAIN))
+				return 1;
+
+			if (bytes > 0 && input == 22) {
+				af_data_user.update = 0;
+				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
+							 &af_data_user);
+				if (ret < 0) {
+					perror("ISP_AF_REQ 3");
+					return ret;
+				}
+
+				af_data_user.frame_number =
+						af_data_user.curr_frame;
+				af_data_user.update = REQUEST_STATISTICS;
+				af_data_user.af_statistics_buf = stats_buff;
+				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
+							 &af_data_user);
+				if (ret < 0) {
+					perror("ISP_AF_REQ 4");
+					return ret;
+				}
+				printf("Frame No %d\n",
+						af_data_user.frame_number);
+				printf("xs.ts %d:%d\n", af_data_user.xtrastats.
+							ts.tv_sec,
+							af_data_user.xtrastats.
+							ts.tv_usec);
+				printf("xs.field_count %d\n", af_data_user.
+							xtrastats.field_count);
+				printf("xs.lens_position %d\n",
+							af_data_user.xtrastats.
+							lens_position);
+
+				buff_preview = (__u16 *)af_data_user.
+							af_statistics_buf;
+				printf("H3A AE/AWB: buffer to display = %d"
+							" data pointer = %p\n",
+							buff_prev_size,
+							af_data_user.
+							af_statistics_buf);
+			} else if (bytes > 0 && (keyinfo.code == 35)) {
+				if (wposn > 0)
+					wposn--;
+				af_data_user.desired_lens_direction = wposn;
+				af_data_user.lens_current_position = 0;
+				af_data_user.update = LENS_DESIRED_POSITION;
+				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
+							 &af_data_user);
+				if (ret < 0) {
+					perror("ISP_AF_REQ 5");
+					return ret;
+				}
+				printf("Lens position (-1): %d\n", wposn);
+			} else if (bytes > 0 && (keyinfo.code == 33)) {
+				if (wposn < 0xFF)
+					wposn++;
+				af_data_user.desired_lens_direction = wposn;
+				af_data_user.lens_current_position = 0;
+				af_data_user.update = LENS_DESIRED_POSITION;
+				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
+							 &af_data_user);
+				if (ret < 0) {
+					perror("ISP_AF_REQ 5");
+					return ret;
+				}
+				printf("Lens position (+1): %d\n", wposn);
+			} else if (bytes > 0 && (keyinfo.code == 36)) {
+				wposn = 0xFF;
+				af_data_user.desired_lens_direction = wposn;
+				af_data_user.lens_current_position = 0;
+				af_data_user.update = LENS_DESIRED_POSITION;
+				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
+							 &af_data_user);
+				if (ret < 0) {
+					perror("ISP_AF_REQ 6");
+					return ret;
+				}
+				printf("Lens position (macro): %d\n", wposn);
+			} else if (bytes > 0 && (keyinfo.code == 49)) {
+				wposn = 0x7F;
+				af_data_user.desired_lens_direction = wposn;
+				af_data_user.lens_current_position = 0;
+				af_data_user.update = LENS_DESIRED_POSITION;
+				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
+							 &af_data_user);
+				if (ret < 0) {
+					perror("ISP_AF_REQ 7");
+					return ret;
+				}
+				printf("Lens position (intermediate): %d\n",
+									wposn);
+			} else if (bytes > 0 && (keyinfo.code == 47)) {
+				wposn = 0x0;
+				af_data_user.desired_lens_direction = wposn;
+				af_data_user.lens_current_position = 0;
+				af_data_user.update = LENS_DESIRED_POSITION;
+				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
+							 &af_data_user);
+				if (ret < 0) {
+					perror("ISP_AF_REQ 8");
+					return ret;
+				}
+				printf("Lens position (infinite): %d\n", wposn);
+			} else if (bytes > 0 && (keyinfo.code == 37)) {
+				break;
+			}
+			break;
 		}
 	/* ******************************* */
 	}
@@ -592,9 +691,9 @@ request:
 		if (vbuffers[i].start)
 			munmap(vbuffers[i].start, vbuffers[i].length);
 	}
-	
-	ret = setFramerate(cfd,30);
-	if (ret < 0){
+
+	ret = setFramerate(cfd, 30);
+	if (ret < 0) {
 		printf("ERROR: VIDIOC_S_PARM ioctl cam\n");
 		return -1;
 	}
