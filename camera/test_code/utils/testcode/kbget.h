@@ -7,10 +7,10 @@
  * Both authors have expressed their consent to use this code freely.
  */
 
-#include <unistd.h>     /* read() */
-#include <fcntl.h>      /* setting keyboard flags */
+#include <unistd.h>	/* read() */
+#include <fcntl.h>	/* setting keyboard flags */
 #include <sys/ioctl.h>
-#include <termio.h>     /* used to set terminal modes */
+#include <termio.h>	/* used to set terminal modes */
 #include <termios.h>
 
 /*
@@ -48,7 +48,7 @@ int input_mode(void)
 	if (ioctl(0, TCGETA, &term) == -1)
 		return 0;
 
-	(void) ioctl(0, TCGETA, &term_orig);
+	(void)ioctl(0, TCGETA, &term_orig);
 	term.c_iflag = 0;
 	term.c_oflag = 0;
 	term.c_lflag = 0;
@@ -56,7 +56,6 @@ int input_mode(void)
 	term.c_cc[VTIME] = 0;
 	if (ioctl(0, TCSETA, &term) == -1)
 		return 0;
-
 	kbdflgs = fcntl(0, F_GETFL, 0);
 	/*
 	* no delay on reading stdin
@@ -75,39 +74,39 @@ int input_mode(void)
 int getch(void)
 {
 	unsigned char ch;
+	int ret;
 
 	input_mode();
-	int rd = 0;
-	while (rd != 1)
-		read(0, &ch, 1);
+
+	do
+		ret = read(0, &ch, 1);
+	while (ret != 1);
+
 	system_mode();
 
 	return ch;
 }
 
-
-
 int kbhit(void)
 {
 	int cnt = 0;
 	int error;
-	static struct termios Otty, Ntty;
+	static struct termios otty, ntty;
 
+	tcgetattr(0, &otty);
+	ntty = otty;
 
-	tcgetattr(0, &Otty);
-	Ntty = Otty;
+	ntty.c_iflag = 0;       /* input mode */
+	ntty.c_oflag = 0;       /* output mode */
+	ntty.c_lflag &= ~ICANON; /* raw mode */
+	ntty.c_cc[VMIN] = CMIN;    /* minimum time to wait */
+	ntty.c_cc[VTIME] = CTIME;   /* minimum characters to wait for */
 
-	Ntty.c_iflag = 0;       /* input mode */
-	Ntty.c_oflag = 0;       /* output mode */
-	Ntty.c_lflag &= ~ICANON; /* raw mode */
-	Ntty.c_cc[VMIN] = CMIN;    /* minimum time to wait */
-	Ntty.c_cc[VTIME] = CTIME;   /* minimum characters to wait for */
-
-	error = tcsetattr(0, TCSANOW, &Ntty);
+	error = tcsetattr(0, TCSANOW, &ntty);
 	if (error == 0) {
 		error += ioctl(0, FIONREAD, &cnt);
-		error += tcsetattr(0, TCSANOW, &Otty);
+		error += tcsetattr(0, TCSANOW, &otty);
 	}
 
-	return error == 0 ? cnt : -1;
+	return (error == 0 ? cnt : -1);
 }
