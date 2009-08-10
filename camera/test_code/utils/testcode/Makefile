@@ -20,6 +20,7 @@ install:
 	@if test -d bin; then rm -rf bin/; fi
 	@mkdir -p bin
 	@cp -f $(objects) bin/
+	@cp bin/* ../../bin/
 	@echo "Done!"
 
 af_stream: af_stream.c lib.c ioctl.c framerateLib.c
