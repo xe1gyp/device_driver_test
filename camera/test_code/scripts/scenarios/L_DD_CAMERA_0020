@@ -11,7 +11,7 @@
 
 COMMENT comment.sh "Observe that previewing video is displayed cleanly on TV screen for the supported sizes."
 
-0001 set -x; prev.sh "no" "QCIF" "YUYV" "TV" && exit 0 || exit 1
-0002_SAN set -x; prev.sh "no" "VGA" "YUYV" "TV" && exit 0 || exit 1
+0001 set -x; capv.sh "30" "QCIF" "YUYV" "1" "TV" && exit 0 || exit 1
+0002_SAN set -x; capv.sh "30" "VGA" "YUYV" "1" "TV" && exit 0 || exit 1
 
 # End "L_DD_CAMERA_0020"
