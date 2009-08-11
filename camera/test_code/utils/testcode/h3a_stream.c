@@ -316,16 +316,11 @@ int main(int argc, char *argv[])
 		perror("cam VIDIOC_STREAMON");
 		return -1;
 	}
-	if (ioctl(vfd, VIDIOC_STREAMON, &vreqbuf.type) < 0) {
-		perror("video VIDIOC_STREAMON");
-		return -1;
-	}
 
 	/* caputure 1000 frames */
 	cfilledbuffer.type = creqbuf.type;
 	vfilledbuffer.type = vreqbuf.type;
 	i = 0;
-	vfilledbuffer.index = -1;
 	sleep(1);
 	/* set h3a params */
 	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AEWB_CFG, &aewb_config_user);
@@ -435,33 +430,43 @@ request:
 
 	i = 0;
 	while (!done_flag) {
+		/* De-queue the next avaliable buffer */
+		while (ioctl(cfd, VIDIOC_DQBUF, &cfilledbuffer) < 0)
+			perror("cam VIDIOC_DQBUF");
+
+		vfilledbuffer.index = cfilledbuffer.index;
+		vfilledbuffer.type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+		vfilledbuffer.memory = V4L2_MEMORY_MMAP;
+		vfilledbuffer.m.userptr = 
+			(unsigned int)(vbuffers[cfilledbuffer.index].start);
+		vfilledbuffer.length = cfilledbuffer.length;
+		if (ioctl(vfd, VIDIOC_QBUF, &vfilledbuffer) < 0) {
+			perror("dss VIDIOC_QBUF");
+			return -1;
+		}
 		i++;
 
-		/* De-queue the next filled buffer from camera */
-		while (ioctl(cfd, VIDIOC_DQBUF, &cfilledbuffer) < 0) {
-			perror("cam VIDIOC_DQBUF");
-			while (ioctl(vfd, VIDIOC_QBUF, &cfilledbuffer) < 0)
-				perror("VIDIOC_QBUF***");
+		if (i == 3) {
+			/* Turn on streaming for video */
+			if (ioctl(vfd, VIDIOC_STREAMON, &vreqbuf.type)) {
+				perror("dss VIDIOC_STREAMON");
+				return -1;
+			}
 		}
 
-		if (vfilledbuffer.index != -1) {
+		if (i >= 3) {
 			/* De-queue the previous buffer from video driver */
-			if (ioctl(vfd, VIDIOC_DQBUF, &vfilledbuffer) < 0) {
-				perror("cam VIDIOC_DQBUF");
+			if (ioctl(vfd, VIDIOC_DQBUF, &vfilledbuffer)) {
+				perror("dss VIDIOC_DQBUF");
 				return;
 			}
 		}
 
-		vfilledbuffer.index = cfilledbuffer.index;
-		/* Queue the new buffer to video driver for rendering */
-		if (ioctl(vfd, VIDIOC_QBUF, &vfilledbuffer) == -1) {
-			perror("video VIDIOC_QBUF");
-			return;
+		if (i >= 3) {
+			cfilledbuffer.index = vfilledbuffer.index;
+			while (ioctl(cfd, VIDIOC_QBUF, &cfilledbuffer) < 0)
+				perror("cam VIDIOC_QBUF");
 		}
-
-		/* queue the buffer back to camera */
-		while (ioctl(cfd, VIDIOC_QBUF, &cfilledbuffer) < 0)
-			perror("cam VIDIOC_QBUF");
 
 		/* Checks if key has been pressed */
 		bytes = read(kfd, &keyinfo, sizeof(struct input_event));
@@ -668,8 +673,8 @@ request:
 	}
 
 exit:
-		aewb_config_user.aewb_enable = 0;
-		close(kfd);
+	aewb_config_user.aewb_enable = 0;
+	close(kfd);
 
 	/* H3A params */
 	aewb_config_user.saturation_limit = 0x1FF;
@@ -706,12 +711,6 @@ exit:
 	for (i = 0; i < vreqbuf.count; i++) {
 		if (vbuffers[i].start)
 			munmap(vbuffers[i].start, vbuffers[i].length);
-	}
-
-	ret = setFramerate(cfd, 30);
-	if (ret < 0) {
-		printf("ERROR: VIDIOC_S_PARM ioctl cam\n");
-		return -1;
 	}
 
 	free(vbuffers);
