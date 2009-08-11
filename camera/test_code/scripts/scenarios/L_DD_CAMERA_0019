@@ -9,7 +9,7 @@
 
 # Begin "L_DD_CAMERA_0019"
 
-COMMENT comment.sh "Test if the resizer driver shall support: memory image upscalin, memory image downscaling and multi-pass approach image downscaling"
+COMMENT comment.sh "Test if the resizer driver shall support: memory image upscaling, memory image downscaling and multi-pass approach image downscaling"
 
 0001 set -x; rsz.sh "QVGAtoSXGA" && exit 0 || exit 1
 0002 set -x; rsz.sh "SXGAtoQVGA" && exit 0 || exit 1
