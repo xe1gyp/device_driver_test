@@ -19,19 +19,23 @@ elif [ $TESTYPE = "5MPtoQCIF" ]; then
   OUTSIZE="176 144"
 fi
 ${TESTBIN}/rsz_vbuff $FIN $FNAME $INSIZE $OUTSIZE
+RESULT=$?
+echo "Test returned $RESULT"
 sleep 1
 chmod 744 $FNAME
 
-if [ -z "$STRESS" ]; then
-  echo "";echo "Was resizer capabled of change $FIN with $INSIZE size to $OUTSIZE size into $FNAME file?";echo ""
+if [ $RESULT -eq 255 ]; then
+  ERR=1
+elif [ -z "$STRESS" ]; then
+  echo "";echo "Was resizer capable of change $FIN with $INSIZE size to $OUTSIZE size into $FNAME file?";echo ""
   $WAIT_ANSWER
   ERR=$?
-  if [ $ERR -eq 1 ]; then
-    echo "FAIL"
-    exit 1
-  else
-    echo "PASS"
-    exit 0
-  fi
+fi
+if [ $ERR -eq 1 ]; then
+  echo "FAIL"
+  exit 1
+else
+  echo "PASS"
+  exit 0
 fi
 

@@ -10,7 +10,7 @@ if [ $OUT = "TV" ]; then
 else
   echo lcd > $SYSVID
 fi
-
+if [OUT = "TV"]; then
 # Usage: ioctl <size> <format>
 $TESTBIN/ioctl $SIZE $FORMAT
 sleep 1 

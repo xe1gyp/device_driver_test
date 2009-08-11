@@ -26,23 +26,31 @@ fi
 #fi
 
 # Usage: streaming_abs [camDevice] [absLayerGroup] [absLayerOption] [absLayerMode] [pixelFormat] [<sizeW> <sizeH>] [(vid)] [<count>] [<file>]
-if [ "$OPTION" = "bcl" ]; then
-	$TESTBIN/streaming_abs 1 $TEST $OPTION 1 $MODE YUYV QVGA 1 100
-else 
+#if [ "$OPTION" = "bcl" ]; then
+#	$TESTBIN/streaming_abs 1 $TEST $OPTION 1 $MODE YUYV QVGA 1 100
+#else 
+	#Using UYVY provisionally. It is necesary to use with image analyzer software.
         $TESTBIN/streaming_abs 1 $TEST $OPTION $MODE YUYV QVGA 1 100
-fi
+	#$TESTBIN/streaming_abs 1 $TEST $OPTION $MODE UYVY VGA 1 1 $TMPBASE/VGA_"$OPTION".yuv
+	RESULT=$?
+	echo "Test returned $RESULT"
+#fi
 
-if [ -z "$STRESS" ]; then
-  echo "";echo "Was camera the abstraction layer option changed succesful, \
-	and captured and displayed the video on the LCD without any crash or\
-	error message?";echo ""
+#chmod 744 $TMPBASE/VGA_"$OPTION".yuv
+
+if [ $RESULT -eq 255 ]; then
+  ERR=1
+elif [ -z "$STRESS" ]; then
+  echo "";echo "Was the camera abstraction layer option changed succesful," \
+	"and captured succesfuly without returning any" \
+	"error message?";echo ""
   $WAIT_ANSWER
   ERR=$?
-  if [ $ERR -eq 1 ]; then
-    echo "FAIL"
-    exit 1
-  else
-    echo "PASS"
-    exit 0
-  fi
+fi
+if [ $ERR -eq 1 ]; then
+  echo "FAIL"
+  exit 1
+else
+  echo "PASS"
+  exit 0
 fi

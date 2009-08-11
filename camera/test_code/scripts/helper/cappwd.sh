@@ -5,37 +5,43 @@ SIZE=$2
 FORMAT=$3
 
 # Usage: framerate <fbs>
-$TESTBIN/framerate $FBS
+#$TESTBIN/framerate $FBS
 
 # Usage: ioctl <size> <format>
-$TESTBIN/ioctl $SIZE $FORMAT
+#$TESTBIN/ioctl $SIZE $FORMAT
 
 #Usage: streaming <video> <frames>
-$TESTBIN/streaming 1 500&
+$TESTBIN/streaming_frame "1" $FBS $FORMAT $SIZE "1" 500&
 
 sleep 7
 echo "Suspend camera driver"
-echo -n 3 > $SYSCAMPWD
-echo "You must be watching video streaming stopped"
-sleep 4
+echo "Touch screen or press key to return"
+echo -n standby > $SYSCAMPWD
+#echo -n 3 > $SYSCAMPWD
+#echo "You must be watching video streaming stopped"
+#sleep 4
 echo "Resume camera driver"
-echo -n 0 > $SYSCAMPWD
+#echo -n 0 > $SYSCAMPWD
 echo "You must be watching video streaming resumed"
 sleep 7
 echo "Suspend camera driver"
-echo -n 3 > $SYSCAMPWD
-echo "You must be watching video streaming stopped"
-sleep 4
+echo "Touch screen or press key to return"
+echo -n standby > $SYSCAMPWD
+#echo -n 3 > $SYSCAMPWD
+#echo "You must be watching video streaming stopped"
+#sleep 4
 echo "Resume camera driver"
-echo -n 0 > $SYSCAMPWD
+#echo -n 0 > $SYSCAMPWD
 echo "You must be watching video streaming resumed"
 sleep 7
 echo "Suspend camera driver"
-echo -n 3 > $SYSCAMPWD
-echo "You must be watching video streaming stopped"
-sleep 4
+echo "Touch screen or press key to return"
+echo -n standby > $SYSCAMPWD
+#echo -n 3 > $SYSCAMPWD
+#echo "You must be watching video streaming stopped"
+#sleep 4
 echo "Resume camera driver"
-echo -n 0 > $SYSCAMPWD
+#echo -n 0 > $SYSCAMPWD
 echo "You must be watching video streaming resumed"
 
 sleep 13

@@ -6,19 +6,23 @@ TESTYPE=$1
   FNAME="${TMPBASE}/wrapperout.yuv"
   INSIZE="2592 1944"
 ${TESTBIN}/prev_wrap $FIN $INSIZE $FNAME
+RESULT=$?
+echo "Test returned $RESULT"
 sleep 1
 chmod 744 $FNAME
 
-if [ -z "$STRESS" ]; then
+if [ $RESULT -eq 255 ]; then
+  ERR=1
+elif [ -z "$STRESS" ]; then
   echo "";echo "Was preview wrapper capabled to create $FNAME file from $FIN with $INSIZE size?";echo ""
   $WAIT_ANSWER
   ERR=$?
-  if [ $ERR -eq 1 ]; then
-    echo "FAIL"
-    exit 1
-  else
-    echo "PASS"
-    exit 0
-  fi
+fi
+if [ $ERR -eq 1 ]; then
+  echo "FAIL"
+  exit 1
+else
+  echo "PASS"
+  exit 0
 fi
 
