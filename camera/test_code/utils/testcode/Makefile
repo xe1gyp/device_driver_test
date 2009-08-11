@@ -10,7 +10,7 @@ CC := $(CROSS_COMPILE)gcc
 
 objects := af_stream burst_mode burst_mode_120 burst_zoom capture flash_driver \
 	   h3a_stream hist_test multi_open prev_wrap process_cam rsz_vbuff \
-	   streaming_abs streaming_frame streaming_to_video \
+	   streaming_abs streaming_frame \
 	   streaming_to_video_file streaming_zoom
 
 all: $(objects)
@@ -79,10 +79,6 @@ streaming_abs: streaming_abs.c framerateLib.c lib.c ioctl.c
 streaming_frame: streaming_frame.c framerateLib.c lib.c ioctl.c
 	@echo "  CC  streaming_frame"
 	@$(CC) -g streaming_frame.c framerateLib.c lib.c ioctl.c -o streaming_frame
-
-streaming_to_video: streaming_to_video.c lib.c
-	@echo "  CC  streaming_to_video"
-	@$(CC) -g streaming_to_video.c lib.c -o streaming_to_video
 
 streaming_to_video_file: streaming_to_video_file.c lib.c ioctl.c framerateLib.c
 	@echo "  CC  streaming_to_video_file"
