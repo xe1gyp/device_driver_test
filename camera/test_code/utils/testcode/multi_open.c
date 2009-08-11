@@ -260,10 +260,6 @@ int main(int argc, char *argv[])
 			perror("video VIDIOC_QUERYBUF");
 			return;
 		}
-/*
-		printf("video %d: buffer.length=%d, buffer.m.offset=%d\n",
-				i, buffer.length, buffer.m.offset);
-*/
 		vbuffers[i].length = buffer.length;
 		vbuffers[i].start = mmap(NULL, buffer.length,
 						PROT_READ | PROT_WRITE,
@@ -299,7 +295,7 @@ int main(int argc, char *argv[])
 		}
 
 		buffer.flags = 0;
-		buffer.m.userptr = (unsigned long) vbuffers[i].start;
+		buffer.m.userptr = (unsigned long)vbuffers[i].start;
 		buffer.length = vbuffers[i].length;
 
 		/* printf("Q %d\n",buffer.index); */
@@ -312,10 +308,6 @@ int main(int argc, char *argv[])
 	/* turn on streaming on both drivers */
 	if (ioctl(cfd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
 		perror("cam VIDIOC_STREAMON");
-		return -1;
-	}
-	if (ioctl(vfd, VIDIOC_STREAMON, &vreqbuf.type) < 0) {
-		perror("video VIDIOC_STREAMON");
 		return -1;
 	}
 
@@ -335,35 +327,38 @@ int main(int argc, char *argv[])
 	}
 
 	i = 0;
-	vfilledbuffer.index = -1;
 	while (i < 150) {
-		/* De-queue the next filled buffer from camera */
-		while (ioctl(cfd, VIDIOC_DQBUF, &cfilledbuffer) < 0) {
+		/* De-queue the next avaliable buffer */
+		while (ioctl(cfd, VIDIOC_DQBUF, &cfilledbuffer) < 0)
 			perror("cam VIDIOC_DQBUF");
-			printf("ERROR FROM CAM DQ\n");
-			while (ioctl(vfd, VIDIOC_QBUF, &cfilledbuffer) < 0)
-				perror("VIDIOC_QBUF***");
+
+		vfilledbuffer.index = cfilledbuffer.index;
+		vfilledbuffer.type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+		vfilledbuffer.memory = V4L2_MEMORY_MMAP;
+		vfilledbuffer.m.userptr = 
+			(unsigned int)(vbuffers[cfilledbuffer.index].start);
+		vfilledbuffer.length = cfilledbuffer.length;
+		if (ioctl(vfd, VIDIOC_QBUF, &vfilledbuffer) < 0) {
+			perror("dss VIDIOC_QBUF");
+			return -1;
 		}
 		i++;
 
-		if (vfilledbuffer.index == -1)
-			vfilledbuffer.index = 0;
-
-#if 1
-		/* Queue the new buffer to video driver for rendering */
-		if (ioctl(vfd, VIDIOC_QBUF, &vfilledbuffer) == -1) {
-			perror("video VIDIOC_QBUF");
-			return;
+		if (i == 3) {
+			/* Turn on streaming for video */
+			if (ioctl(vfd, VIDIOC_STREAMON, &vreqbuf.type)) {
+				perror("dss VIDIOC_STREAMON");
+				return -1;
+			}
 		}
 
-
-		/* De-queue the previous buffer from video driver */
-		if (ioctl(vfd, VIDIOC_DQBUF, &vfilledbuffer) < 0) {
-			perror("cam VIDIOC_DQBUF");
-			return;
+		if (i >= 3) {
+			/* De-queue the previous buffer from video driver */
+			if (ioctl(vfd, VIDIOC_DQBUF, &vfilledbuffer)) {
+				perror("dss VIDIOC_DQBUF");
+				return;
+			}
 		}
-
-		vfilledbuffer.index = cfilledbuffer.index;
 
 		if (i == 50) {
 			if (test_case == 4) {
@@ -412,11 +407,11 @@ int main(int argc, char *argv[])
 				return;
 		}
 
-#endif
-		/* queue the buffer back to camera */
-		while (ioctl(cfd, VIDIOC_QBUF, &cfilledbuffer) < 0)
-			perror("cam VIDIOC_QBUF");
-
+		if (i >= 3) {
+			cfilledbuffer.index = vfilledbuffer.index;
+			while (ioctl(cfd, VIDIOC_QBUF, &cfilledbuffer) < 0)
+				perror("cam VIDIOC_QBUF");
+		}
 	}
 	printf("Captured and rendered %d frames!\n", i);
 
