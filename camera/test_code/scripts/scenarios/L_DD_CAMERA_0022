@@ -12,43 +12,47 @@
 COMMENT comment.sh "Test if the Abstraction Layer functionality works for CCDC, PREVIEW & TABLES"
 
 # CCDC Functionality Test
-0001 set -x; abslayer.sh "CCDC" "alc" && exit 0 || exit 1
-0002 set -x; abslayer.sh "CCDC" "lpf" && exit 0 || exit 1
-0003 set -x; abslayer.sh "CCDC" "bcl" && exit 0 || exit 1
-0004 set -x; abslayer.sh "CCDC" "bcomp" && exit 0 || exit 1
-0005 set -x; abslayer.sh "CCDC" "fpc" && exit 0 || exit 1
-0006 set -x; abslayer.sh "CCDC" "cull" && exit 0 || exit 1
-0007 set -x; abslayer.sh "CCDC" "col" && exit 0 || exit 1
+0001_A set -x; abslayer.sh "CCDC" "alc" && exit 0 || exit 1
+0001_B set -x; abslayer.sh "CCDC" "lpf" && exit 0 || exit 1
+0001_C set -x; abslayer.sh "CCDC" "bcl" && exit 0 || exit 1
+0001_D set -x; abslayer.sh "CCDC" "bcomp" && exit 0 || exit 1
+0001_E set -x; abslayer.sh "CCDC" "fpc" && exit 0 || exit 1
+0001_F set -x; abslayer.sh "CCDC" "cull" && exit 0 || exit 1
+0001_G set -x; abslayer.sh "CCDC" "col" && exit 0 || exit 1
+0001_H set -x; abslayer.sh "CCDC" "lc" && exit 0 || exit 1
 
 # PREVIEW Functionality Test
-0008 set -x; abslayer.sh "PREVIEW" "le" && exit 0 || exit 1
-0009 set -x; abslayer.sh "PREVIEW" "ialaw" && exit 0 || exit 1
-0010 set -x; abslayer.sh "PREVIEW" "hm" && exit 0 || exit 1
-0011 set -x; abslayer.sh "PREVIEW" "cfa" && exit 0 || exit 1
-0012 set -x; abslayer.sh "PREVIEW" "cs" && exit 0 || exit 1
-0013 set -x; abslayer.sh "PREVIEW" "wb" && exit 0 || exit 1
-0014 set -x; abslayer.sh "PREVIEW" "ba" && exit 0 || exit 1
-0015 set -x; abslayer.sh "PREVIEW" "r" && exit 0 || exit 1
-0016 set -x; abslayer.sh "PREVIEW" "cc" && exit 0 || exit 1
-0017 set -x; abslayer.sh "PREVIEW" "yc" && exit 0 || exit 1
-0018 set -x; abslayer.sh "PREVIEW" "dc" && exit 0 || exit 1
+0002_A set -x; abslayer.sh "PREVIEW" "le" && exit 0 || exit 1
+0002_B set -x; abslayer.sh "PREVIEW" "ialaw" && exit 0 || exit 1
+0002_C set -x; abslayer.sh "PREVIEW" "hm" && exit 0 || exit 1
+0002_D set -x; abslayer.sh "PREVIEW" "cfa" && exit 0 || exit 1
+0002_E set -x; abslayer.sh "PREVIEW" "cs" && exit 0 || exit 1
+0002_F set -x; abslayer.sh "PREVIEW" "wb" && exit 0 || exit 1
+0002_G set -x; abslayer.sh "PREVIEW" "ba" && exit 0 || exit 1
+0002_H set -x; abslayer.sh "PREVIEW" "r" && exit 0 || exit 1
+0002_I set -x; abslayer.sh "PREVIEW" "cc" && exit 0 || exit 1
+0002_J set -x; abslayer.sh "PREVIEW" "yc" && exit 0 || exit 1
+0002_K set -x; abslayer.sh "PREVIEW" "dc" && exit 0 || exit 1
+#0002_L set -x; abslayer.sh "PREVIEW" "nf" && exit 0 || exit 1
+#0002_M set -x; abslayer.sh "PREVIEW" "rg" && exit 0 || exit 1
+#0002_N set -x; abslayer.sh "PREVIEW" "gg" && exit 0 || exit 1
+#0002_O set -x; abslayer.sh "PREVIEW" "bg" && exit 0 || exit 1
 
 # TABLES  Functionality Test
-0019 set -x; abslayer.sh "TABLES" "lsc" && exit 0 || exit 1
-0020 set -x; abslayer.sh "TABLES" "nf" && exit 0 || exit 1
-0021 set -x; abslayer.sh "TABLES" "bg" && exit 0 || exit 1
-0022 set -x; abslayer.sh "TABLES" "gg" && exit 0 || exit 1
-0023 set -x; abslayer.sh "TABLES" "rg" && exit 0 || exit 1
+0003_A set -x; abslayer.sh "PREVIEW" "nf" && exit 0 || exit 1
+0003_B set -x; abslayer.sh "PREVIEW" "rg" && exit 0 || exit 1
+0003_C set -x; abslayer.sh "PREVIEW" "gg" && exit 0 || exit 1
+0003_D set -x; abslayer.sh "PREVIEW" "bg" && exit 0 || exit 1
 
 # TABLES and PREVIEW Updates after streamon
-0024 set -x; abslayer.sh "TABLES" "rg" "2"&& exit 0 || exit 1
-0025 set -x; abslayer.sh "TABLES" "gg" "2"&& exit 0 || exit 1
-0026 set -x; abslayer.sh "TABLES" "bg" "2"&& exit 0 || exit 1
-0027 set -x; abslayer.sh "TABLES" "nf" "2"&& exit 0 || exit 1
-0028 set -x; abslayer.sh "PREVIEW" "cc" "2"&& exit 0 || exit 1
+0004_A set -x; abslayer.sh "PREVIEW" "rg" "2"&& exit 0 || exit 1
+0004_B set -x; abslayer.sh "PREVIEW" "gg" "2"&& exit 0 || exit 1
+0004_C set -x; abslayer.sh "PREVIEW" "bg" "2"&& exit 0 || exit 1
+0004_D set -x; abslayer.sh "PREVIEW" "nf" "2"&& exit 0 || exit 1
+0004_E set -x; abslayer.sh "PREVIEW" "cc" "2"&& exit 0 || exit 1
 
 # BLACK CLAMP UPDATE AFTER STREAMON FLAG = 1
-0029 set -x; abslayer.sh "CCDC" "bcl" "2"&& exit 0 || exit 1
+0005 set -x; abslayer.sh "CCDC" "bcl" "2"&& exit 0 || exit 1
 
 # End "L_DD_CAMERA_0022"
 
