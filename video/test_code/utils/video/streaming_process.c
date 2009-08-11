@@ -16,6 +16,8 @@
 
 #include "lib.h"
 
+#define V4L2_CID_ROTATE (V4L2_CID_BASE+32)
+
 struct child_args {
 	int priority;
 	int value;
@@ -28,24 +30,30 @@ void set_control(void *process_args)
 	int result;
 	struct child_args *args;
 	int degree;
+	struct v4l2_control control;
+	memset(&control, 0 , sizeof(control));
+	control.id = V4L2_CID_ROTATE;
 
 	args = (struct child_args *)process_args;
 
 	printf("New process created\n");
 
 	degree = args->value;
+	control.value = degree;
+
 	args = (struct child_args *)process_args;
 
 	id_t pid;
 	pid = getpid();
 	result = setpriority(which, pid, args->priority);
 
+
 	while (1) {
 		result = ioctl(args->file_descriptor,
-			VIDIOC_S_OMAP2_ROTATION, &degree);
+			 VIDIOC_S_CTRL, &control);
 
 		if (result != 0)
-			perror("VIDIOC_S_OMAP2_ROTATION");
+			perror("VIDIOC_S_CTRL");
 	}
 	printf("Rotation set to %d degree\n", degree);
 	printf("Process with priority=%d and value=%d closed\n",
@@ -142,26 +150,33 @@ static int streaming_video(int output_device, int file_descriptor,
 			buffers[i].start, buffers[i].length);
 	}
 
+
+	filledbuffer.type = reqbuf.type;
+	filledbuffer.memory = V4L2_MEMORY_MMAP;
+
+	for (i = 0; i <= 1; i++) {
+
+		filledbuffer.index = i;
+		if (read(file_descriptor, buffers[i].start,
+			format.fmt.pix.sizeimage) != format.fmt.pix.sizeimage) {
+			perror("read");
+			return 1;
+		}
+
+		result = ioctl(output_device, VIDIOC_QBUF, &filledbuffer);
+		if (result != 0) {
+			perror("VIDIOC_QBUF");
+			return 1;
+		}
+	}
+
 	result = ioctl(output_device, VIDIOC_STREAMON, &reqbuf.type);
 	if (result != 0) {
 		perror("VIDIOC_STREAMON");
 		return 1;
 	}
 
-	if (read(file_descriptor, buffers[0].start, format.fmt.pix.sizeimage)
-		!= format.fmt.pix.sizeimage) {
-		perror("read");
-		return 1;
-	}
-	filledbuffer.type = reqbuf.type;
-	filledbuffer.index = 0;
-	result = ioctl(output_device, VIDIOC_QBUF, &filledbuffer);
-	if (result != 0) {
-		perror("VIDIOC_QBUF");
-		return 1;
-	}
-
-	count = 1;
+	count = 2;
 	while (count < 2000) {
 		/* delay some for frame rate control */
 		if (sleep_time)

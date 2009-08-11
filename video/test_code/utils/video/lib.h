@@ -6,5 +6,7 @@
 #define OMAP2_V1	1
 #define OMAP2_V2	2
 
+#define V4L2_CID_ROTATE (V4L2_CID_BASE+32)
+
 int show_info(int fd);
 

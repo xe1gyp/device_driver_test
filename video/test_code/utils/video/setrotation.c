@@ -15,8 +15,8 @@
 #include <linux/kernel.h>
 #include <linux/videodev.h>
 
-
 #include "lib.h"
+
 
 static int usage(void)
 {
@@ -28,6 +28,9 @@ int main (int argc, char *argv[])
 {
 	int video_device, file_descriptor, result;
 	int degree;
+	struct v4l2_control control;
+	memset(&control, 0 , sizeof(control));
+	control.id = V4L2_CID_ROTATE;
 
 	if (argc < 3)
 		return usage();
@@ -51,10 +54,11 @@ int main (int argc, char *argv[])
 	}
 
 	degree = atoi(argv[2]);
+	control.value = degree;
 
-	result = ioctl(file_descriptor, VIDIOC_S_OMAP2_ROTATION, &degree);
+	result = ioctl(file_descriptor, VIDIOC_S_CTRL, &control);
 	if (result != 0) {
-		perror("VIDIOC_S_OMAP2_ROTATION");
+		perror("VIDIOC_S_CTRL");
 		return 0;
 	}
 
