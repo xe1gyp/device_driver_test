@@ -20,9 +20,6 @@
 #define SEPIA_LEVEL 1
 #define BW_LEVEL 2
 
-#define DEF_CONT_LEVEL 2
-#define DEF_BRT_LEVEL 1
-
 #define DEFAULT_PIXEL_FMT "YUYV"
 #define DEFAULT_VIDEO_SIZE "QCIF"
 #define DEFAULT_FILE_NAME "output.yuv"
@@ -312,18 +309,6 @@ int main(int argc, char *argv[])
 		"max %d.\nCurrent color is level is %d\n",
 		queryctrl.minimum, queryctrl.maximum, control.value);
 
-	/* setting Contrast, Brightness & Color options*/
-	control.id = V4L2_CID_CONTRAST;
-	control.value = DEF_CONT_LEVEL;
-	if (ioctl(fd, VIDIOC_S_CTRL, &control) == -1)
-		printf("VIDIOC_S_CTRL CONTRAST failed!\n");
-
-	control.id = V4L2_CID_BRIGHTNESS;
-	control.value = DEF_BRT_LEVEL;
-	if (ioctl(fd, VIDIOC_S_CTRL, &control) == -1)
-		printf("VIDIOC_S_CTRL BRIGHTNESS failed!\n");
-
-	control.id = V4L2_CID_PRIVATE_BASE;
 	control.value = colorLevel;
 	if (ioctl(fd, VIDIOC_S_CTRL, &control) == -1)
 		printf("VIDIOC_S_CTRL COLOR failed!\n");
