@@ -1,12 +1,13 @@
 /*
- * include/asm-arm/arch-omap/isp_user.h
+ * isp_user.h
  *
- * Include file for OMAP ISP module in TI's OMAP3430.
+ * Include file for OMAP ISP module in TI's OMAP3.
  *
- * Copyright (C) 2008 Texas Instruments, Inc.
+ * Copyright (C) 2009 Texas Instruments, Inc.
  *
  * Contributors:
  *	Mohit Jalori <mjalori@ti.com>
+ *	Sergio Aguirre <saaguirre@ti.com>
  *
  * This package is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
@@ -150,6 +151,7 @@ struct isph3a_aewb_data {
 	__u16 curr_frame;
 	__u8 update;
 	struct timeval ts;
+	__u32 config_counter;
 	unsigned long field_count;
 };
 
@@ -210,7 +212,7 @@ struct isp_hist_data {
 struct isp_af_xtrastats {
 	struct timeval ts;
 	unsigned long field_count;
-	__u16 lens_position;
+	__u16 lens_position; /* deprecated */
 };
 
 /**
@@ -225,11 +227,12 @@ struct isp_af_xtrastats {
  */
 struct isp_af_data {
 	void *af_statistics_buf;
-	__u16 lens_current_position;
-	__u16 desired_lens_direction;
+	__u16 lens_current_position; /* deprecated */
+	__u16 desired_lens_direction; /* deprecated */
 	__u16 update;
 	__u16 frame_number;
 	__u16 curr_frame;
+	__u32 config_counter;
 	struct isp_af_xtrastats xtrastats;
 };
 
@@ -367,10 +370,10 @@ struct ispccdc_lsc_config {
 	__u8 gain_mode_n;
 	__u8 gain_mode_m;
 	__u8 gain_format;
-	__u16 fmtsph;
-	__u16 fmtlnh;
-	__u16 fmtslv;
-	__u16 fmtlnv;
+	__u16 fmtsph; /* Discontinued! */
+	__u16 fmtlnh; /* Discontinued! */
+	__u16 fmtslv; /* Discontinued! */
+	__u16 fmtlnv; /* Discontinued! */
 	__u8 initial_x;
 	__u8 initial_y;
 	__u32 size;
@@ -484,6 +487,11 @@ struct ispccdc_update_config {
 #define ISP_ABS_TBL_REDGAMMA		(1 << 13)
 #define ISP_ABS_TBL_GREENGAMMA		(1 << 14)
 #define ISP_ABS_TBL_BLUEGAMMA		(1 << 15)
+
+#define ISPPRV_NF_TBL_SIZE		64
+#define ISPPRV_CFA_TBL_SIZE		576
+#define ISPPRV_GAMMA_TBL_SIZE		1024
+#define ISPPRV_YENH_TBL_SIZE		128
 
 /**
  * struct ispprev_hmed - Structure for Horizontal Median Filter.
@@ -620,7 +628,7 @@ struct ispprev_dcor {
  */
 struct ispprev_nf {
 	__u8 spread;
-	__u32 table[64];
+	__u32 table[ISPPRV_NF_TBL_SIZE];
 };
 
 /**
