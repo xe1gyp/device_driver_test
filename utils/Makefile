@@ -1,6 +1,3 @@
-
-CC := $(CROSS_COMPILE)gcc
-
 export UTIL_DIR = $(PWD)
 export UTIL_DESTDIR = ($PWD)/bin
 
@@ -13,10 +10,10 @@ install:
 	cp $(BINARIES) bin/
 
 pan_app:
-	make -C pan CC=$(CC)
+	make -C pan
 	
 akey_app:
-	make -C akey CC=$(CC)
+	make -C akey
 
 clean:
 	make -C pan clean
