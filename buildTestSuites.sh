@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ###########################################################################
 # (C) Copyright Texas Instruments, 2009. All Rights Reserved.
 #
