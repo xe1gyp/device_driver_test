@@ -53,6 +53,13 @@ touchscreen video watchdog camera usb_device usb_host \
 usb_otg usb_ehci"
 fi	
 
+# Verify the current FS to add new CFLAGS in the compilation
+
+if [ "$FSTYPE" == "android" ]
+then
+	export CFLAGS+=" -static"
+fi
+
 # Verify needed variables are exported
 
 if [ "$TESTSUITES" == "" ]
