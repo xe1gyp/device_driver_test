@@ -82,18 +82,18 @@ EXPORT_SYMBOL(remove_dma_proc);
  * are equal in content
  */
 int verify_buffers(struct dma_buffers_info *buffers) {
-    int i;
-    u8 *src_address = (u8*) buffers->src_buf;
-    u8 *dest_address = (u8*) buffers->dest_buf;
+	int i;
+	u8 *src_address = (u8 *) buffers->src_buf;
+	u8 *dest_address = (u8 *) buffers->dest_buf;
 
     /* Iterate through the source and destination buffers byte per byte */
     for (i = 0; i < buffers->buf_size; i++) {
         /* Compare the data in the source and destination */
         if (*src_address != *dest_address) {
-            printk("Source buffer at 0x%x = %d , Destination buffer at 0x%x"
-                   " = %d\n", buffers->src_buf, *src_address, buffers->dest_buf,
-                   *dest_address);
-            return 1; /* error, buffers differ */
+	printk("Source buffer at 0x%x = %d , Destination buffer at 0x%x"
+		" = %d\n", buffers->src_buf, *src_address, buffers->dest_buf,
+		*dest_address);
+		return 1; /* error, buffers differ */
         }
         /* Increment the pointer to the next data */
         src_address++;
@@ -141,41 +141,49 @@ EXPORT_SYMBOL(dma_callback);
  * and destination.
  */
 int create_transfer_buffers( struct dma_buffers_info *buffers){
+	int order;
+	struct page *srcvirtpage, *dstvirtpage;
 	printk(KERN_INFO "Allocating non-cacheable source and destination buffers\n");
-
+	printk("The Buffersize requested is %d\n", buffers->buf_size);
        /* Allocate source buffer */
-       buffers->src_buf = 0;
-       buffers->src_buf = (unsigned int) dma_alloc_coherent(
-                NULL,
-                buffers->buf_size,
-                &(buffers->src_buf_phys),
-                0);
+	buffers->src_buf = 0;
+
+	order = get_order(buffers->buf_size);
+	srcvirtpage = alloc_pages_exact(buffers->buf_size, GFP_DMA);
+	buffers->src_buf = (unsigned int) srcvirtpage;
+	buffers->src_buf_phys = dma_map_single(NULL, srcvirtpage, buffers->buf_size, DMA_BIDIRECTIONAL);
+
+	printk("\n The buffers->src_buf is 0x%x", buffers->src_buf);
+	printk("\n The  (buffers->src_buf_phys) After call is %x  ",  buffers->src_buf_phys);
 
        /* Allocate destination buffer */
 	buffers->dest_buf = 0;
-	buffers->dest_buf = (unsigned int) dma_alloc_coherent(
-                NULL,
-                buffers->buf_size,
-                &(buffers->dest_buf_phys),
-                0);
+
+	order = get_order(buffers->buf_size);
+	dstvirtpage = alloc_pages_exact(buffers->buf_size, GFP_DMA);
+	buffers->dest_buf = (unsigned int) dstvirtpage;
+	buffers->dest_buf_phys = dma_map_single(NULL, dstvirtpage, buffers->buf_size, DMA_BIDIRECTIONAL);
+
+	printk("\n The buffers->dest_buf is 0x%x", buffers->dest_buf);
+	printk("\n The  (buffers->dest_buf_phys) After call is %x  ",  buffers->dest_buf_phys);
 
        /* Check the buffers have been allocated correctly */
        if( !buffers->src_buf ){
-           printk(" Unable to allocate %d bytes for the source transfer"
+	printk("\n Unable to allocate %d bytes for the source transfer"
                 " buffer\n", buffers->buf_size);
            return 1;
        }else if( !buffers->dest_buf ){
-           printk(" Unable to allocate %d bytes for the destination transfer"
+	printk("\n Unable to allocate %d bytes for the destination transfer"
                 " buffer\n", buffers->buf_size);
            return 1;
        }else{
-           printk(" Buffers allocated successfully (%d bytes per buffer)\n",
+	printk("\n  Buffers allocated successfully (%d bytes per buffer)\n",
                 buffers->buf_size);
-           printk(" Source buffer on address 0x%x\n",
+	printk(" Source buffer on address 0x%x\n",
                 buffers->src_buf);
-           printk(" Destination buffer on address 0x%x\n",
+	printk("\n  Destination buffer on address 0x%x\n",
                 buffers->dest_buf);
-       }
+	}
        return 0;
 }
 EXPORT_SYMBOL(create_transfer_buffers);
@@ -188,7 +196,8 @@ void fill_source_buffer(struct dma_buffers_info *buffers){
        u8 *src_buf_byte;
        printk("Filling source buffer 0x%x with %d bytes...", buffers->src_buf,
            buffers->buf_size);
-       src_buf_byte = (u8*) buffers->src_buf;
+
+       src_buf_byte = (u8 *) buffers->src_buf;
        for (i = 0; i < buffers->buf_size; i++) {
            src_buf_byte[i] = (~i << 7) | (buffers->buf_size << 3) | i;
        }
@@ -323,18 +332,10 @@ void stop_dma_transfer(struct dma_transfer *transfer){
        }
        /* Free the source and destination buffers*/
        if(transfer->buffers.src_buf){
-           dma_free_coherent(
-               NULL,
-               transfer->buffers.buf_size,
-               (void *) transfer->buffers.src_buf,
-               transfer->buffers.src_buf_phys);
+	   free_pages_exact(transfer->buffers.src_buf, transfer->buffers.buf_size);
        }
        if(transfer->buffers.dest_buf){
-           dma_free_coherent(
-               NULL,
-               transfer->buffers.buf_size,
-               (void *) transfer->buffers.dest_buf,
-               transfer->buffers.dest_buf_phys);
+	   free_pages_exact(transfer->buffers.dest_buf, transfer->buffers.buf_size);
        }
 }
 EXPORT_SYMBOL(stop_dma_transfer);
