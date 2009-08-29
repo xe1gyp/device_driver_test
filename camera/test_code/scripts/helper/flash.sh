@@ -1,6 +1,6 @@
 #!/bin/sh
 
-${TESTBIN}/Flash_Driver 
+${TESTBIN}/flash_driver 
 RESULT=$?
 echo "Test returned $RESULT"
 
