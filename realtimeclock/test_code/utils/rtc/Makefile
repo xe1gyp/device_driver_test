@@ -9,7 +9,7 @@
 CC := $(CROSS_COMPILE)gcc
 CFLAGS=-g -O -Wall -I.. 
 
-TARGETS := alarm_get alarm_get_event alarm_reset alarm_set per_int_get per_int_get1 per_int_get2 per_int_off per_int_on time_set time_get
+TARGETS := alarm_get alarm_get_event alarm_reset alarm_set per_int per_int_get per_int_get1 per_int_get2 per_int_off per_int_on time_set time_get
 
 all: $(TARGETS)
 

@@ -21,9 +21,8 @@ export TC_SCENARIO="${TESTROOT}/scenarios"
 export SCENARIO_NAMES=""
 
 # General variables
-#export DMESG_FILE=/var/log/dmesg
 export CHIP_NAME=twl
-export DRIVER_NAME="platform:twl_rtc"
+export MODALIAS_NAME="platform:twl4030_rtc"
 export PROCFS_RTC=/proc/driver/rtc
 
 # rtc devfs node autodetection
@@ -33,7 +32,7 @@ set $TEMP_EVENT
 for i in $TEMP_EVENT
 do
 	TEMP_NAME=`cat /sys/class/rtc/$i/device/modalias`
-	if [ $TEMP_NAME == $DRIVER_NAME ]
+	if [ $TEMP_NAME == $MODALIAS_NAME ]
 	then
 		export DEVFS_RTC=/dev/$i
 		echo "Real Time Clock node is $DEVFS_RTC"
@@ -52,6 +51,7 @@ export APP_ALARM_GET_EVENT=alarm_get_event
 export APP_ALARM_RESET=alarm_reset
 export APP_ALARM_SET=alarm_set
 export APP_DEVICE_OPEN_CLOSE=device_open_close
+export APP_PER_INT=per_int
 export APP_PER_INT_GET=per_int_get
 export APP_PER_INT_GET1=per_int_get1
 export APP_PER_INT_GET2=per_int_get2
