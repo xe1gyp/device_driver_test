@@ -1,5 +1,5 @@
 ###########################################################################
-# (C) Copyright Texas Instruments, 2007. All Rights Reserved.
+# (C) Copyright Texas Instruments. All Rights Reserved.
 #
 # Name of the file: Makefile
 #
@@ -11,26 +11,24 @@
 # Detailed description of the contents of the file:
 # This Makefile is used to compile McBSP test programs.  
 #
-# Author: Iqbal (iqbal@ti.com)
-#
-# Created on: 04/25/2007
-#
-# Change Log:
 ############################################################################
 OBJS := modules install
 
 all:$(OBJS)
 
 modules:
-	make -C mods 
+	make -C utils
+
 install:
+	mkdir -p modules
 	mkdir -p scripts/test
 	mkdir -p scripts/tmp
-	mkdir -p bin/
+	make -C utils install
+
 clean:
-	make -C mods clean
+	make -C utils clean
 	rm -rf scripts/log*
 	rm -rf scripts/tmp
 	rm -rf scripts/test
-	rm -rf bin/
+	rm -rf modules
 	
