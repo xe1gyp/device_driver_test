@@ -14,7 +14,8 @@
 #include <linux/fs.h>
 #include <linux/kernel.h>
 #include <linux/videodev.h>
-
+#include <linux/videodev2.h>
+#define V4L2_FBUF_FLAG_SRC_CHROMAKEY 0x0040
 
 #include "lib.h"
 
@@ -30,6 +31,9 @@ int main(int argc, char *argv[])
 {
 	int output_device, file_descriptor, result, cktype = 0;
 	struct omap24xxvout_colorkey colorkey = {0};
+	struct v4l2_framebuffer v4l2_fb;
+	struct v4l2_format v4l2_fmt;
+	int color_key = 0;
 
 	if (argc < 4)
 		return usage();
@@ -59,16 +63,40 @@ int main(int argc, char *argv[])
 		printf("openned %s\n", VIDEO_DEVICE1);
 	}
 
-	colorkey.output_dev = output_device;
-	colorkey.key_type = cktype;
-	colorkey.key_val = atoi(argv[3]);
-
-	result = ioctl(file_descriptor, VIDIOC_S_OMAP2_COLORKEY, &colorkey);
+	result = ioctl(file_descriptor, VIDIOC_G_FBUF, &v4l2_fb);
 	if (result != 0) {
-		perror("VIDIOC_S_OMAP2_COLORKEY");
+		perror("VIDIOC_G_FBUF");
+		return 1;
+	}
+	v4l2_fmt.type = V4L2_BUF_TYPE_VIDEO_OVERLAY;
+	result = ioctl(file_descriptor, VIDIOC_G_FMT, &v4l2_fmt);
+	if (result != 0) {
+		perror("VIDIOC_G_FMT");
+		return 1;
+	}
+	color_key = atoi(argv[3]);
+       if (v4l2_fmt.fmt.win.chromakey != color_key)
+	v4l2_fmt.fmt.win.chromakey = color_key;
+
+	result = ioctl(file_descriptor, VIDIOC_S_FMT, &v4l2_fmt);
+	if (result != 0) {
+		perror("VIDIOC_S_FMT");
 		return 1;
 	}
 
+	switch (cktype) {
+	case OMAP24XX_GFX_DESTINATION:
+				v4l2_fb.flags = V4L2_FBUF_FLAG_CHROMAKEY;
+				break;
+	case OMAP24XX_VIDEO_SOURCE:
+				v4l2_fb.flags = V4L2_FBUF_FLAG_SRC_CHROMAKEY;
+				break;
+	}
+	result = ioctl(file_descriptor, VIDIOC_S_FBUF, &v4l2_fb);
+	if (result != 0) {
+		perror("VIDIOC_S_FBUF");
+		return 1;
+	}
 	close(file_descriptor);
 	return 0;
 }
