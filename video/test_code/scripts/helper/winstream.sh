@@ -11,12 +11,14 @@ RESULT=0
 
 
 $TESTBIN/setimg $VIDEO_PIPELINE $SETIMG_PARAMETERS > $TMPBASE\temp_setimg.tmp
-var=`cat $TMPBASE\temp_setimg.tmp | grep window | sed -e 's/[a-zA-Z-]*//g' | sed -e 's/=//g'`
+var=`cat $TMPBASE\temp_setimg.tmp | grep window`
+var=`echo $var | sed -e 's/[a-zA-Z-]*//g' | sed -e 's/=//g'`
+
 RESULT=`command_tracking.sh $RESULT $?`
 
 set $var
-WIDTH=$3
-HEIGTH=$4
+WIDTH=`echo $SETIMG_PARAMETERS | awk '{print $2}'`
+HEIGTH=`echo $SETIMG_PARAMETERS | awk '{print $3}'`
 
 while [ $EXIT_WHILE != 1 ];
 do

@@ -7,7 +7,7 @@
 
 COMMENT_INT comment.sh "Verify that the rendered image can be up-sampled (scaled) in horizontal direction"
 
-0001_VD1 set -x; winstream_test.sh 1 "RGB565 640 480" "0 0 640 480" $VIDEOFILES/video_vga_rgb565 && exit 0 || exit 1
-0001_VD1 set -x; winstream_test.sh 2 "RGB565 640 480" "0 0 640 480" $VIDEOFILES/video_vga_rgb565 && exit 0 || exit 1
+0001_VD1 set -x; winstream.sh 1 "RGB565 640 480" "0 0 640 480" $VIDEOFILES/video_vga_rgb565 && exit 0 || exit 1
+0001_VD1 set -x; winstream.sh 2 "RGB565 640 480" "0 0 640 480" $VIDEOFILES/video_vga_rgb565 && exit 0 || exit 1
 
 # End "L_DD_VIDEO_0003"
