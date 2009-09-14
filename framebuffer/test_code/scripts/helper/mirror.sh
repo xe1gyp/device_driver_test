@@ -1,13 +1,15 @@
 #!/bin/sh
 
+  MIRROR="/sys/class/graphics/fb0/mirror"
+
   $TESTBIN/fbmode 16
   
   #Usage: fbmirror <0-1> 1 to enable, 0 to disable
-  $TESTBIN/fb_mirror 1
+  echo 1 > $MIRROR
   echo "Frame Buffer horizontal mirroring set"
   sleep 2
   $FBTEST
-  $TESTBIN/fb_mirror 0
+  echo 0 > $MIRROR
   echo "Frame Buffer horizontal mirroring unset"
   sleep 2
   $FBTEST
