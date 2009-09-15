@@ -1,0 +1,69 @@
+###############################################################################
+# Scenario: L_DD_MMC_0005_0001
+# Author  : Misael Lopez Cruz
+# Date    : September 20, 2006
+###############################################################################
+
+# Begin L_DD_MMC_0005_0001
+
+00  set -x; dd if=/dev/urandom of=$TMPBASE/$FILE_SIZE_BIG bs=1M count=50
+00  set -x; dd if=/dev/urandom of=$TMPBASE/$FILE_SIZE_SMALL bs=1M count=10
+
+# Clean up
+01  set -x; rm -rf $MMC_MOUNT_POINT_1 $MMC_MOUNT_POINT_2; exit 0
+02  set -x; mkdir $MMC_MOUNT_POINT_1 && mkdir $MMC_MOUNT_POINT_2; exit 0
+
+# Creating, verifying and printing partition
+03  set -x; echo -e "n\n p\n 1\n $MMC_DEVICE_SECTOR_START\n $MMC_DEVICE_SECTOR_END\n w\n" | fdisk $MMC_ROOT_ENTRY && exit 0 || exit 1
+04  set -x; cat $PROCFS_PARTITIONS | grep $MMC_PARTITION_NAME1 && exit 0 || exit 1
+05  set -x; echo -e "p\n w\n" | fdisk $MMC_ROOT_ENTRY && exit 0 || exit 1
+
+# Formatting partition
+06  set -x; sleep 1 && $TESTBIN/mke2fs $MMC_PARTITION_ENTRY1 && exit 0 || exit 1
+
+# Mounting and verifying partition
+07  set -x; mount -t ext2 $MMC_PARTITION_ENTRY1 $MMC_MOUNT_POINT_1 && exit 0 || exit 1
+08  set -x; mount | grep $MMC_PARTITION_ENTRY1 | grep "ext2" && exit 0 || exit 1
+
+0001  set -x; mmc_test_dev0 1 testing1 && mmc_test_dev0 1 testing2 && exit 0 || exit 1
+0002  set -x; mmc_test_dev0 2 testing1 10 && mmc_test_dev0 2 testing2 10 && exit 0 || exit 1
+0003  set -x; mmc_test_dev0 3 testing1 10 && exit 0 || exit 1
+0004  set -x; mmc_test_dev0 4 testing1 && exit 0 || exit 1
+0005  set -x; mmc_test_dev0 5 testing1 && exit 0 || exit 1
+0006  set -x; mmc_test_dev0 6 testing1 test && exit 0 || exit 1
+0007  set -x; mmc_test_dev0 7 && exit 0 || exit 1
+0008  set -x; mmc_test_dev0 8 test 777 && exit 0 || exit 1
+0009  set -x; mmc_test_dev0 9 newdir && exit 0 || exit 1
+0010  set -x; mmc_test_dev0 10 $MMC_MOUNT_POINT_1/test newdir && exit 0 || exit 1
+0011  set -x; mmc_test_dev0 11 testing2 200308171820 && exit 0 || exit 1
+0012  set -x; mmc_test_dev0 12 newdir rendir && exit 0 || exit 1
+0013  set -x; mmc_test_dev0 13 $MMC_MOUNT_POINT_1/testing2 $MMC_MOUNT_POINT_1/rendir/
+0014  set -x; mmc_test_dev0 14 rendir 123
+0015  set -x; mmc_test_dev0 15 $MMC_MOUNT_POINT_1/rendir/test && mmc_test_dev0 15 $MMC_MOUNT_POINT_1/rendir/testing2 && mmc_test_dev0 15 $MMC_MOUNT_POINT_1/test && exit 0 || exit 1
+0016  set -x; mmc_test_dev0 16 rendir && exit 0 || exit 1
+0017  set -x; mmc_test_dev0 17 $TMPBASE/$FILE_SIZE_BIG $MMC_MOUNT_POINT_1 && exit 0 || exit 1
+0018  set -x; mmc_test_dev0 18 $TMPBASE/$FILE_SIZE_SMALL $MMC_MOUNT_POINT_1 && exit 0 || exit 1
+0019  set -x; cp $TMPBASE/$FILE_SIZE_BIG $MMC_MOUNT_POINT_1 && mmc_test_dev0 19 $MMC_MOUNT_POINT_1/$FILE_SIZE_BIG $TESTDIR && exit 0 || exit 1
+0020  set -x; cp $TMPBASE/$FILE_SIZE_SMALL $MMC_MOUNT_POINT_1 && mmc_test_dev0 20 $MMC_MOUNT_POINT_1/$FILE_SIZE_SMALL $TESTDIR && exit 0 || exit 1
+0021  set -x; mmc_test_dev0 21 && exit 0 || exit 1
+0022  set -x; mmc_test_dev0 24 testing && exit 0 || exit 1
+0023  set -x; mmc_test_dev0 9 dir && mmc_test_dev0 25 dir && exit 0 || exit 1
+0024  set -x; mmc_test_dev0 1 testing3 && mmc_test_dev0 26 testing3 && exit 0 || exit 1
+
+# Unmounting partition
+11  set -x; umount $MMC_MOUNT_POINT_1 && sync && exit 0 || exit 1
+
+# Mounting and verifying partition
+13  set -x; mount -t ext2 $MMC_PARTITION_ENTRY1 $MMC_MOUNT_POINT_1 && exit 0 || exit 1
+14  set -x; mount | grep $MMC_PARTITION_ENTRY1 | grep "ext2" && exit 0 || exit 1
+
+# Unmounting partition
+16  set -x; umount $MMC_MOUNT_POINT_1 && sync && exit 0 || exit 1
+
+# Removing partitions
+18  set -x; echo -e "d\n w\n" | fdisk $MMC_ROOT_ENTRY && exit 0 || exit 1
+
+# Verifying partitions
+19  set -x; cat $PROCFS_PARTITIONS | grep $MMC_PARTITION_NAME1 && exit 1 || exit 0
+
+# End L_DD_MMC_0005_0001
