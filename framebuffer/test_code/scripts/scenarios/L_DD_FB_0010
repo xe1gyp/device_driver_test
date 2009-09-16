@@ -1,13 +1,11 @@
-#####################
-# FILENAME: L_DD_FB_0010
-# Author  : Jose Luis Diaz
-# Date    : Wed Dec 20, 2006
-# Copyright (C) 2008 Texas Instruments
-#
-# Description:
-# Framebuffer (FB) power management test
+# #############################################################################
+# Scenario    : L_DD_FB_0010
+# Author      : Jose Luis Diaz
+# Date        : Wed Dec 20, 2006
+# Description : Framebuffer (FB) power management test
+# #############################################################################
 
-foo   echo "L_DD_FB_0010"
+# Begin L_DD_FB_0010
 
 COMMENT comment.sh "Verify that in default framebuffer can *suspend* properly when called to do so through sysfs."
 
@@ -18,4 +16,4 @@ COMMENT comment.sh "Verify that in default framebuffer can *suspend* properly wh
 0005 set -x; susres.sh "5" && exit 0 || exit 1
 0006 set -x; susres.sh "6" && exit 0 || exit 1
 
-bar   echo "L_DD_FB_0010"
+# End L_DD_FB_0010

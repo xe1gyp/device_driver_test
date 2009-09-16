@@ -1,18 +1,16 @@
-#####################
-# FILENAME: L_DD_FB_1003
-# Author  : Jose Luis Diaz
-# Date    : Wed Dec 20, 2006
-# Copyright (C) 2008 Texas Instruments
-#
-# Description:
-# Framebuffer (FB) PAL format support test
+# #############################################################################
+# Scenario    : L_DD_FB_1003
+# Author      : Jose Luis Diaz
+# Date        : Wed Dec 20, 2006
+# Description : Framebuffer (FB) PAL format support test
+# #############################################################################
 
-foo   echo "L_DD_FB_1003"
+# Begin L_DD_FB_1003
 
 COMMENT comment.sh "Verify that the FBIOBLANK ioctl can control the framebuffer."
 
 0001 set -x; fbio.sh "blank" && exit 0 || exit 1
 0002 set -x; fbio.sh "unblank" && exit 0 || exit 1
 
-bar   echo "L_DD_FB_1003"
+# End L_DD_FB_1003
 

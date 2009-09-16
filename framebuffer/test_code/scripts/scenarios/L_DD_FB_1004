@@ -1,14 +1,11 @@
-#####################
-# FILENAME: L_DD_FB_1004
-# Author  : Jose Luis Diaz
-# Date    : Wed Dec 20, 2006
-# Copyright (C) 2008 Texas Instruments
-#
-# Description:
-# Framebuffer (FB) horizontal mirroring support test
+# #############################################################################
+# Scenario    : L_DD_FB_1004
+# Author      : Jose Luis Diaz
+# Date        : Wed Dec 20, 2006
+# Description : Framebuffer (FB) horizontal mirroring support test
+# #############################################################################
 
-foo   echo "L_DD_FB_1004"
-
+# Begin L_DD_FB_1004
 
 COMMENT comment.sh "Verify that the FB driver allows horizontal mirroring in rotation mode."
 
@@ -17,4 +14,4 @@ COMMENT comment.sh "Verify that the FB driver allows horizontal mirroring in rot
 0004 set -x; rotmir.sh "180" && exit 0 || exit 1
 0005 set -x; rotmir.sh "270" && exit 0 || exit 1
 
-bar   echo "L_DD_FB_1004"
+# Begin L_DD_FB_1004
