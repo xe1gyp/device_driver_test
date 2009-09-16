@@ -1,16 +1,14 @@
-#####################
-# FILENAME: L_DD_FB_0007
-# Author  : Jose Luis Diaz
-# Date    : Wed Dec 20, 2006
-# Copyright (C) 2008 Texas Instruments
-#
-# Description:
-# Framebuffer (FB) allows access to all buffers avaiable test
+# #############################################################################
+# Scenario    : L_DD_FB_0007
+# Author      : Jose Luis Diaz
+# Date        : Wed Dec 20, 2006
+# Description : Framebuffer (FB) allows access to all buffers avaiable test
+# #############################################################################
 
-foo   echo "L_DD_FB_0007"
+# Begin L_DD_FB_0007
 
 COMMENT comment.sh "Verify that the FB allows accessing all the buffers available as per design."
 
 0001 set -x; fbflipfb.sh && exit 0 || exit 1
 
-bar   echo "L_DD_FB_0007"
+# End L_DD_FB_0007

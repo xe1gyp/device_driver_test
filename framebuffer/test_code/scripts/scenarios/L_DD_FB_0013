@@ -1,18 +1,16 @@
-#####################
-# FILENAME: L_DD_FB_0013
-# Author  : Jose Luis Diaz
-# Date    : Wed Dec 20, 2006
-# Copyright (C) 2008 Texas Instruments
-#
-# Description:
-# Verify that the framebuffer performs all basic functions properly in 24 (un packed) bits-per-pixel.
+# #############################################################################
+# Scenario    : L_DD_FB_0013
+# Author      : Jose Luis Diaz
+# Date        : Wed Dec 20, 2006
+# Description : Verify that the framebuffer performs all basic functions
+#               properly in 24 (un packed) bits-per-pixel
+# #############################################################################
 
-foo   echo "L_DD_FB_0013"
-
+# Begin L_DD_FB_0013
 
 COMMENT comment.sh "Verify that the framebuffer performs all basic functions properly in 24 (un packed) bits-per-pixel. These tests include  drawing some patterns, displaying grayscale bands and the color space, and displaying small images"
 
 0001 set -x; confbpp.sh 24 && exit 0 || exit 1
 
-bar   echo "L_DD_FB_0013"
+# End L_DD_FB_0013
 
