@@ -40,6 +40,11 @@ static struct ispprev_csc flr_prev_csc_normal =	{
 	{0x0, 0x0, 0x0}
 };
 
+__u32 luma_enhance_table[] = {
+	#include "luma_enhance_table.h"
+};
+
+
 static void usage(void)
 {
 	printf("prev_wrap <input_file> <input_width> <input_heigh> "
@@ -134,6 +139,15 @@ int main(int argc, const char *argv[])
 
 	params.features = PREV_CFA | PREV_CHROMA_SUPPRESS | PREV_LUMA_ENHANCE
 				| PREV_DEFECT_COR | PREV_NOISE_FILTER;
+
+	/* Pass in Luma Table (ytable) */
+	params.ytable = &luma_enhance_table[0];
+
+	/* Clear other tables */
+	params.cfa.cfa_table = NULL;
+	params.gtable.redtable = NULL;
+	params.gtable.greentable = NULL;
+	params.gtable.bluetable = NULL;
 
 	ret_val = ioctl(fd, PREV_SET_PARAM, &params);
 	if (ret_val) {
