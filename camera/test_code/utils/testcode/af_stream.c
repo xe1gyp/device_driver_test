@@ -20,13 +20,17 @@
 #define DEFAULT_PIXEL_FMT "YUYV"
 #define DEFAULT_VIDEO_SIZE "QVGA"
 
+#define DSS_STREAM_START_FRAME	3
+
 int cfd, vfd;
 
 static void usage(void)
 {
-	printf("af_stream [vid] [lens_pos] [framerate] [mode]\n");
+	printf("af_stream [dev] [vid] [lens_pos] [framerate] [mode]\n");
 	printf("\tSteaming capture of 1000 frames using video driver for"
 							" rendering\n");
+	printf("\t[dev] Camera device to be open\n\t 1:Micron sensor "
+					"2:OV sensor  3:IMX046 sensor\n");
 	printf("\t[vid] is the video pipeline to be used. Valid vid is"
 							" 1(default) or 2\n");
 	printf("\t[lens_pos] is the initial lens position to be used.\n"
@@ -76,6 +80,7 @@ int main(int argc, char *argv[])
 	FILE *fp_out;
 	int framerate = 30;
 	int mode = 1;
+	int device = 1;
 
 	af_config_user.alaw_enable = H3A_AF_ALAW_ENABLE;	/* Enable Alaw */
 	af_config_user.hmf_config.enable = H3A_AF_HMF_DISABLE;
@@ -118,6 +123,11 @@ int main(int argc, char *argv[])
 	}
 
 	if (argc > index) {
+		device = atoi(argv[index]);
+		index++;
+	}
+
+	if (argc > index) {
 		vid = atoi(argv[index]);
 		if ((vid != 1) && (vid != 2)) {
 			printf("vid has to be 1 or 2! vid=%d, argv[1]=%s\n",
@@ -145,7 +155,7 @@ int main(int argc, char *argv[])
 	} else
 		printf("Default mode = Manual");
 
-	cfd = open_cam_device(O_RDWR, 1);
+	cfd = open_cam_device(O_RDWR, device);
 	if (cfd <= 0) {
 		printf("Could not open the cam device\n");
 		return -1;
