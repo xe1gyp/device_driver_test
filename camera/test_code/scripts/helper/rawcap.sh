@@ -1,13 +1,18 @@
 #!/bin/sh
 
 DEVICE=$1
+SIZE=$2
 
-# Usage: ioctl <size> <format>
-#$TESTBIN/ioctl 2592 1944 RAW10
-#sleep 1 
 
-FNAME="${TMPBASE}/5MPsi.raw"
-$TESTBIN/burst_mode $DEVICE RAW10 2592 1944 1 $FNAME
+if [ "$SIZE" = "2592 1944" ]; then
+  FNAME="${TMPBASE}/5MPsi.raw"
+fi
+
+if [ "$SIZE" = "3280 2464" ]; then
+  FNAME="${TMPBASE}/8MPsi.raw"
+fi
+
+$TESTBIN/burst_mode $DEVICE RAW10 $SIZE 1 $FNAME
 RESULT=$?
 echo "Test returned $RESULT"
 chmod 744 $FNAME
