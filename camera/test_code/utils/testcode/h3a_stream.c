@@ -77,6 +77,8 @@ int main(int argc, char *argv[])
 	struct v4l2_format cformat, vformat;
 	struct v4l2_requestbuffers creqbuf, vreqbuf;
 	struct v4l2_buffer cfilledbuffer, vfilledbuffer;
+	struct v4l2_control control;
+	struct v4l2_queryctrl qc;
 
 	int vid = 1, set_video_img = 0, i, ret;
 
@@ -96,6 +98,8 @@ int main(int argc, char *argv[])
 	int gainType = 1;
 	int done_flag = 0;
 	int bytes;
+	unsigned int exp_max, exp_min, exp_step, exp_cur;
+	unsigned int gain_max, gain_min, gain_step, gain_cur;
 
 	/* H3A params */
 	aewb_config_user.saturation_limit = 0x1FF;
@@ -311,6 +315,53 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	/************************************************************/
+	/* Query Exposure limits */
+	qc.id = V4L2_CID_EXPOSURE;
+	if (ioctl(cfd, VIDIOC_QUERYCTRL, &qc) < 0) {
+			perror("cam Query V4L2_CID_EXPOSURE");
+			return -1;
+	}
+	exp_max = qc.maximum;
+	exp_min = qc.minimum;
+	exp_step = qc.step;
+
+	/* Set initial value */
+	aewb_data_user.shutter = exp_min + exp_step;
+
+	/* Get current value */
+	control.id = V4L2_CID_EXPOSURE;
+	if (ioctl(cfd, VIDIOC_G_CTRL, &control) != 0) {
+			perror("cam Get V4L2_CID_EXPOSURE");
+			return -1;
+	}
+	exp_cur = control.value;
+
+	/************************************************************/
+	/* Query Gain limits */
+	qc.id = V4L2_CID_GAIN;
+	if (ioctl(cfd, VIDIOC_QUERYCTRL, &qc) < 0) {
+			perror("cam Query V4L2_CID_GAIN");
+			return -1;
+	}
+	gain_max = qc.maximum;
+	gain_min = qc.minimum;
+	gain_step = qc.step;
+
+	/* Set initial value */
+	aewb_data_user.gain = gain_min + gain_step;
+
+	/* Get current value */
+	control.id = V4L2_CID_GAIN;
+	if (ioctl(cfd, VIDIOC_G_CTRL, &control) != 0) {
+			perror("cam Get V4L2_CID_GAIN");
+			return -1;
+	}
+	exp_cur = control.value;
+
+	/************************************************************/
+
+
 	/* turn on streaming on both drivers */
 	if (ioctl(cfd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
 		perror("cam VIDIOC_STREAMON");
@@ -348,12 +399,6 @@ int main(int argc, char *argv[])
 	aewb_data_user.wb_gain_r = 0x68;
 	aewb_data_user.wb_gain_gb = 0x5C;
 	aewb_data_user.wb_gain_gr = 0x5C;
-
-	/* Shutter & gain for preview */
-	/* Exposure time between 26 and 65000 microseconds */
-	aewb_data_user.shutter = 20000;
-	/* Gain between 0x08 and 0x7F */
-	aewb_data_user.gain = 0x40;
 
 	aewb_data_user.update = (SET_COLOR_GAINS | SET_DIGITAL_GAIN);
 	aewb_data_user.frame_number = 8; /* dummy */
@@ -585,28 +630,40 @@ request:
 
 		case 6:
 			aewb_data_user.gain =
-					aewb_data_user.gain + 0x01;
+					aewb_data_user.gain + gain_step;
 			printf("Analog gain: %d\r", aewb_data_user.gain);
 			fflush(stdout);
-			aewb_data_user.update = SET_ANALOG_GAIN;
-			if (aewb_data_user.gain == ANALOG_GAIN_MAX)
-				aewb_data_user.gain = ANALOG_GAIN_MIN;
-			else if (aewb_data_user.gain == ANALOG_GAIN_DEFAULT)
-				done_flag = 1;
 
+			if (aewb_data_user.gain >= gain_max) {
+				aewb_data_user.gain = gain_cur;
+				done_flag = 1;
+			}
+
+			control.id = V4L2_CID_GAIN;
+			control.value = aewb_data_user.gain;
+			ret = ioctl(cfd, VIDIOC_S_CTRL, &control);
+			if (ret != 0)
+				printf("Failed to set V4L2_CID_GAIN to %d\n",
+					control.value);
 			break;
 
 		case 7:
 			aewb_data_user.shutter =
-					aewb_data_user.shutter + 100;
+					aewb_data_user.shutter + exp_step;
 			printf("Shutter speed: %d\r", aewb_data_user.shutter);
 			fflush(stdout);
-			aewb_data_user.update = SET_EXPOSURE;
-			if (aewb_data_user.shutter == SHUTTER_SPEED_MAX)
-				aewb_data_user.shutter = SHUTTER_SPEED_MIN;
-			else if (aewb_data_user.shutter ==
-					SHUTTER_SPEED_DEFAULT)
+
+			if (aewb_data_user.shutter >= exp_max) {
+				aewb_data_user.shutter = exp_cur;
 				done_flag = 1;
+			}
+
+			control.id = V4L2_CID_EXPOSURE;
+			control.value = aewb_data_user.shutter;
+			ret = ioctl(cfd, VIDIOC_S_CTRL, &control);
+			if (ret != 0)
+				printf("Failed to set V4L2_CID_EXPOSURE"
+					" to %d\n", control.value);
 			break;
 
 		case 8:
