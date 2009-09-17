@@ -1,10 +1,16 @@
 #!/bin/sh
 
 COMB=$1
+DEVICE=$2
+
+if [ -z "$DEVICE" ]; then
+  echo "Defaulting to use Device 1"
+  DEVICE=1
+fi
 
 # Usage: multi_opwn <combination>
 
-$TESTBIN/multi_open $COMB
+$TESTBIN/multi_open $COMB 30 1 $DEVICE
 RESULT=$?
 echo "Test returned $RESULT"
 
