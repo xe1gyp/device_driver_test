@@ -1,0 +1,17 @@
+#####################
+# FILENAME: L_DD_CAMERA_0112
+# Author  : Jose Luis Diaz / Dominic Curran
+# Date    : Fri Aug 28, 2009
+# Copyright (C) 2009 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test v4l2 compliance by using a standard v4l2 app
+
+# Begin "L_DD_CAMERA_0112"
+
+COMMENT comment.sh "Test v4l2 compliance by using a standard v4l2 app"
+
+0002_SAN set -x; v4l2test.sh "mmap" "QVGA" "YUYV" "/dev/video5"&& exit 0 || exit 1
+0003_SAN set -x; v4l2test.sh "user" "QVGA" "YUYV"  "/dev/video5"&& exit 0 || exit 1
+
+# End "L_DD_CAMERA_0112"
