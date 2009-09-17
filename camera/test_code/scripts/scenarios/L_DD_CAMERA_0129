@@ -1,0 +1,16 @@
+#####################
+i# FILENAME: L_DD_CAMERA_0129
+# Author  : Margarita Olaya Cabrera / Dominic Curran
+# Date    : March 6, 2009
+# Copyright (C) 2009 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Pre-emption kernel test
+# Begin "L_DD_CAMERA_0129"
+
+COMMENT comment.sh "Device driver shall ensure thread safety against scheduler preemption"
+
+0001 set -x; preemption.sh "3"&& exit 0 || exit 1
+
+# End "L_DD_CAMERA_0129"
+

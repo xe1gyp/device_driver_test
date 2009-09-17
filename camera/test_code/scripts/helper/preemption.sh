@@ -1,6 +1,14 @@
 #!/bin/sh
 
-${TESTBIN}/process_cam 10 20 
+DEVICE=$1
+
+
+if [ -z "$DEVICE" ];then
+   echo "Using default Device = 1"
+   DEVICE=1
+fi
+
+${TESTBIN}/process_cam 10 20 $DEVICE
 RESULT=$?
 echo "Test returned $RESULT"
 
