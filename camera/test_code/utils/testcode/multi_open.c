@@ -20,7 +20,7 @@
 static void usage(void)
 {
 	printf("Multi Opens Test\n");
-	printf("multi_open [test case] [framerate] [vid]\n");
+	printf("multi_open [test case] [framerate] [vid] [dev]\n");
 	printf("\tSteaming capture and render of 50 frames using one file"
 		" handle,\n");
 	printf("\tfollowed by an increase in brightness using a second unique"
@@ -34,6 +34,8 @@ static void usage(void)
 				" is given \n\t           30 fps is default\n");
 	printf("\t[vid] is the video pipeline to be used. Valid vid is"
 		" 1(default) or 2\n");
+	printf("\t[dev] Camera device to be open\n\t 1:Micron sensor "
+					"2:OV sensor 3:IMX046\n");
 }
 
 int main(int argc, char *argv[])
@@ -51,7 +53,7 @@ int main(int argc, char *argv[])
 	int vid = 1, set_video_img = 0, test_case = 1, i, ret;
 	struct v4l2_control control;
 	int framerate = 30;
-	int index = 1;
+	int index = 1, device = 1;
 
 	if ((argc > 1) && (!strcmp(argv[1], "?"))) {
 		usage();
@@ -85,11 +87,15 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	index++;
+	if (argc > index)
+		device = atoi(argv[index]);
+
 	printf("Running Test Case ==> %d\n", test_case);
 
 	if (test_case == 1 || test_case == 3 || test_case == 4 ||
 	    test_case == 6) {
-		cfd = open_cam_device(O_RDWR, 1);
+		cfd = open_cam_device(O_RDWR, device);
 		if (cfd <= 0) {
 			printf("Could not open the cam device\n");
 			return -1;
@@ -99,7 +105,7 @@ int main(int argc, char *argv[])
 		}
 
 		if (test_case == 1 || test_case == 3 || test_case == 6) {
-			cfd_ctrl = open_cam_device(O_RDWR, 1);
+			cfd_ctrl = open_cam_device(O_RDWR, device);
 			if (cfd_ctrl <= 0) {
 				printf("Could not open the cam control device"
 					" handle\n");
@@ -110,7 +116,7 @@ int main(int argc, char *argv[])
 			}
 		}
 	} else if (test_case == 2 || test_case == 5) {
-		cfd_ctrl = open_cam_device(O_RDWR, 1);
+		cfd_ctrl = open_cam_device(O_RDWR, device);
 		if (cfd_ctrl <= 0) {
 			printf("Could not open the cam control device"
 				" handle\n");
@@ -120,7 +126,7 @@ int main(int argc, char *argv[])
 				" 0x%08X\n", cfd_ctrl);
 		}
 
-		cfd = open_cam_device(O_RDWR, 1);
+		cfd = open_cam_device(O_RDWR, device);
 		if (cfd <= 0) {
 			printf("Could not open the cam device\n");
 			return -1;
@@ -362,7 +368,7 @@ int main(int argc, char *argv[])
 
 		if (i == 50) {
 			if (test_case == 4) {
-				cfd_ctrl = open_cam_device(O_RDWR, 1);
+				cfd_ctrl = open_cam_device(O_RDWR, device);
 				if (cfd_ctrl <= 0) {
 					printf("Could not open the cam control"
 						" device handle\n");
