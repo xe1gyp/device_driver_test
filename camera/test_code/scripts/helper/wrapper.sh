@@ -1,10 +1,19 @@
 #!/bin/sh
-TESTYPE=$1
+INSIZE=$1
 
-# Usage:prev_wrap <input_file> <input_width> <input_height> <output_file>
+
+if [ "$INSIZE" = "2592 1944" ]; then
   FIN="${TESTSCRIPT}/wrapperaux.raw"
   FNAME="${TMPBASE}/wrapperout.yuv"
-  INSIZE="2592 1944"
+fi
+
+if [ "$INSIZE" = "3264 2464" ]; then
+  FIN="${TESTSCRIPT}/8MP.raw"
+  FNAME="${TMPBASE}/wrapperout.yuv"
+fi
+
+# Usage:prev_wrap <input_file> <input_width> <input_height> <output_file>
+
 ${TESTBIN}/prev_wrap $FIN $INSIZE $FNAME
 RESULT=$?
 echo "Test returned $RESULT"

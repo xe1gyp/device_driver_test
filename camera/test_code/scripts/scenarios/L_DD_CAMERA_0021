@@ -11,6 +11,6 @@
 
 COMMENT comment.sh "Check if driver supports preview wrapper."
 
-0001_SAN set -x; wrapper.sh && exit 0 || exit 1
+0001_SAN set -x; wrapper.sh "2592 1944"&& exit 0 || exit 1
 
 # End "L_DD_CAMERA_0021"
