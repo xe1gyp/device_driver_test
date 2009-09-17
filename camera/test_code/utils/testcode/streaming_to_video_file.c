@@ -82,6 +82,7 @@ int main(int argc, char *argv[])
 	int index = 1;
 	int framerate = 30;
 	int device = 1;
+	int orig_brightness, orig_contrast, orig_color;
 
 	if ((argc > index) && (!strcmp(argv[1], "?"))) {
 		usage();
@@ -375,6 +376,7 @@ int main(int argc, char *argv[])
 		printf("Brightness is supported, min %d, max %d."
 			"\nbrightness level is %d\n",
 			queryctrl2.minimum, queryctrl2.maximum, control2.value);
+		orig_brightness = control2.value;
 	}
 	memset(&queryctrl2, 0, sizeof(queryctrl));
 	memset(&control2, 0, sizeof(control));
@@ -389,6 +391,7 @@ int main(int argc, char *argv[])
 		printf("CONTRAST is supported, min %d, max %d.\nContrast "
 				"level is %d\n", queryctrl2.minimum,
 				queryctrl2.maximum, control2.value);
+		orig_contrast = control2.value;
 	}
 
 	memset(&queryctrl2, 0, sizeof(queryctrl));
@@ -404,6 +407,7 @@ int main(int argc, char *argv[])
 		printf("Color effect is supported, min %d, max %d."
 			"\nCurrent color is level is %d\n",
 			queryctrl2.minimum, queryctrl2.maximum, control2.value);
+		orig_color = control2.value;
 	}
 
 	if (test == BRT_TEST) {
@@ -541,6 +545,28 @@ int main(int argc, char *argv[])
 		}
 	}
 	printf("Captured and rendered %d frames!\n", i);
+
+
+	printf("Restore defaults:\n");
+
+	printf(" - Contrast = %i\n", orig_contrast);
+	control.id = V4L2_CID_CONTRAST;
+	control.value = orig_contrast;
+	if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+		printf("VIDIOC_S_CTRL CONTRAST failed!\n");
+
+	printf(" - Brightness = %i\n", orig_brightness);
+	control.id = V4L2_CID_BRIGHTNESS;
+	control.value = orig_brightness;
+	if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+		printf("VIDIOC_S_CTRL BRIGHTNESS failed!\n");
+
+	printf(" - Color = %i\n", orig_color);
+	control.id = V4L2_CID_COLORFX;
+	control.value = orig_color;
+	if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+		printf("VIDIOC_S_CTRL COLOR failed!\n");
+
 
 	if (ioctl(cfd, VIDIOC_STREAMOFF, &creqbuf.type) == -1) {
 		perror("cam VIDIOC_STREAMOFF");
