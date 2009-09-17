@@ -189,7 +189,7 @@ int main(int argc, char *argv[])
 
 	if ( choice == 1 )
 		fprintf(stderr, "Run ./alarm_get_event with in %d seconds"
-				"to receive alarm notification\n", secs);
+				" to receive alarm notification\n", secs);
 		fflush(stderr);
 	
 	close(fd);

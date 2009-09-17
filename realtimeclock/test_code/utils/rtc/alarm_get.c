@@ -40,9 +40,7 @@ main(int argc, char *argv[])
 {
 
 	int fd, retval, irqcount = 0;
-	unsigned long data;
 	struct rtc_time rtc_tm;
-	int alarm_time;
 
 	/* Creating a file descriptor for RTC */
 	fd = open(argv[1], O_RDONLY);
