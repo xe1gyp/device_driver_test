@@ -6,10 +6,7 @@ DEVICE=$3
 FRNUM=$4
 TEST=$5
 
-# Usage: ioctl <size> <format>
-#$TESTBIN/ioctl $SIZE $FORMAT
-#sleep 1 
-#FNAME="${TMPBASE}/${SIZE}bm.yuv"
+
 if [ -z "$5" ]; then
 FNAME="${TMPBASE}/${SIZE}bm.yuv"
 elif [ "$TEST" = "120" ];then
@@ -18,7 +15,11 @@ else
 FNAME="${TMPBASE}/${SIZE}-${TEST}bm.yuv"
 fi
 
-if [ "$SIZE" = "2592 1944" ]; then 
+if [ "$SIZE" = "3280 2464" ]; then
+  FNAME="${TMPBASE}/8MPbm.yuv"
+fi
+
+if [ "$SIZE" = "2592 1944" ]; then
   FNAME="${TMPBASE}/5MPbm.yuv"
 fi
 
