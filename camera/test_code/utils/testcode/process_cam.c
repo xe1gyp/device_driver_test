@@ -12,18 +12,20 @@
 #define VIDEO_DEVICE2 "/dev/video2"
 
 #define DEFAULT_PIXEL_FMT "YUYV"
-#define DEFAULT_VIDEO_SIZE "QCIF"
+#define DEFAULT_VIDEO_SIZE "CIF"
+#define DSS_FRAME_START		3
 
 struct child_args {
 	int priority;
 	int value;
 	int fd;
+	int device;
 };
 
 static void usage(void)
 {
 	printf("process_cam [child priority 1]"
-					" [child priority 2]\n");
+					" [child priority 2] [dev]\n");
 	printf("   To start streaming capture of 1000 frames\n");
 	/*printf("   [camDevice] Camera device to be open\n\t 1:Micron sensor "
 					"2:OV sensor\n");*/
@@ -35,6 +37,8 @@ static void usage(void)
 			"\tDefault priority = -10\n");
 	printf("   Default pixel format = YUYV\n");
 	printf("   Default size = QCIF\n");
+	printf("   [device] Camera device to be open\n\t 1:Micron sensor "
+					"2:OV sensor 3:IMX046\n");
 }
 
 void set_control(void *t_args)
@@ -50,7 +54,7 @@ void set_control(void *t_args)
 	pid = getpid();
 	retn = setpriority(which, pid, args->priority);
 
-	args->fd = open_cam_device(O_RDWR, 1);
+	args->fd = open_cam_device(O_RDWR, args->device);
 
 	if (args->fd <= 0)
 		printf("Could not open the cam device inside the process\n");
@@ -85,6 +89,8 @@ int main(int argc, char *argv[])
 	struct v4l2_format cformat, vformat;
 	struct v4l2_requestbuffers creqbuf, vreqbuf;
 	struct v4l2_buffer cfilledbuffer, vfilledbuffer;
+	struct v4l2_queryctrl qc;
+	struct v4l2_control control;
 	int vfd, cfd;
 	int i, ret, count = -1, memtype = V4L2_MEMORY_USERPTR;
 	int index = 1, vid = 1, set_video_img = 0;
@@ -110,12 +116,6 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	t_args1.priority = 20;
-	t_args1.value = 0;
-
-	t_args2.priority = -10;
-	t_args2.value = 8;
-
 	if (argc > index) {
 		t_args1.priority = atoi(argv[index]);
 		index++;
@@ -125,6 +125,12 @@ int main(int argc, char *argv[])
 		t_args2.priority = atoi(argv[index]);
 		index++;
 	}
+
+	if (argc > index) {
+		device = atoi(argv[index]);
+		index++;
+	}
+
 
 	cfd = open_cam_device(O_RDWR, device);
 	if (cfd <= 0) {
@@ -145,7 +151,6 @@ int main(int argc, char *argv[])
 
 	count = 400;
 	printf("Frames: %d\n", count);
-	index++;
 
 	if (count >= 400 || count <= 0)
 		count = -1;
@@ -331,10 +336,39 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	/* caputure 1000 frames or when we hit the passed nmuber of frames */
+	/* capture 1000 frames or when we hit the passed nmuber of frames */
 	cfilledbuffer.type = creqbuf.type;
 	vfilledbuffer.type = vreqbuf.type;
 	i = 0;
+
+	/* Query brightness limits */
+	qc.id = V4L2_CID_BRIGHTNESS;
+	if (ioctl(cfd, VIDIOC_QUERYCTRL, &qc) > 0) {
+		perror("Error VIDIOC_QUERYCTRL");
+		goto exit;
+	}
+	printf("Query %s: min=%d max=%d step=%d\n",
+			qc.name, qc.minimum, qc.maximum, qc.step);
+
+
+	/* Set values to pass to new processes */
+	t_args1.priority = 20;
+	t_args1.value = qc.minimum;
+	t_args1.device = device;
+
+	t_args2.priority = -10;
+	t_args2.value = qc.maximum;
+	t_args2.device = device;
+
+
+	/* Get current brightness value */
+	control.id = V4L2_CID_BRIGHTNESS;
+	if (ioctl(cfd, VIDIOC_G_CTRL, &control) != 0) {
+		perror("");
+		goto exit;
+	}
+	printf("Current brightness is %d\n", control.value);
+
 
 	/* get priority of current process */
 	id_t pid;
@@ -429,6 +463,10 @@ int main(int argc, char *argv[])
 	kill(child1_pid, SIGKILL);
 	printf("Child process 1 killed\n");
 	printf("Captured %d frames!\n", i);
+
+	/* Set back to old brightness value */
+	control.id = V4L2_CID_BRIGHTNESS;
+	ioctl(cfd, VIDIOC_G_CTRL, &control);
 
 	/* we didn't turn off streaming yet */
 	if (count == -1) {
