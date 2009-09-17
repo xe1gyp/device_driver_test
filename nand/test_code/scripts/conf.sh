@@ -81,7 +81,7 @@ if [ "$TYPE" == "OneNAND" ]; then
 elif [ "$TYPE" == "NAND" ]; then
 
   # Filesystem partition
-	export MTD_PROC_ENTRY=`cat /proc/mtd | grep "File System - NAND"`
+	export MTD_PROC_ENTRY=`cat /proc/mtd | grep "system"`
 	MTD_FILE=`echo $MTD_PROC_ENTRY | cut -d ':' -f0`
 	export MTD_CHAR_DEV1=/dev/$MTD_FILE
 	MTD_NUMBER=`echo $MTD_FILE | cut -c4-`
