@@ -1,0 +1,16 @@
+#####################
+# FILENAME: L_DD_CAMERA_0106
+# Author  : Jose Luis Diaz / Dominic Curran
+# Date    : Fri Aug 28, 2009
+# Copyright (C) 2009 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test contrast control.
+
+# Begin "L_DD_CAMERA_0106"
+
+COMMENT comment.sh "Capture QCIF YUYV image and change the contrast level at the same time."
+
+0001_SAN set -x; effect.sh "contrast" "QVGA" "YUYV" "3"&& exit 0 || exit 1
+
+# End "L_DD_CAMERA_0106"
