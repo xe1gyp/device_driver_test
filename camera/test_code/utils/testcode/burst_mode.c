@@ -16,10 +16,6 @@
 #define VIDEO_DEVICE1 "/dev/video1"
 #define VIDEO_DEVICE2 "/dev/video2"
 
-#define COLOR_LEVEL 0
-#define SEPIA_LEVEL 1
-#define BW_LEVEL 2
-
 #define DEFAULT_PIXEL_FMT "YUYV"
 #define DEFAULT_VIDEO_SIZE "QCIF"
 #define DEFAULT_FILE_NAME "output.yuv"
@@ -74,7 +70,7 @@ int main(int argc, char *argv[])
 	int fd_save = 0;
 	int index = 1;
 	int device = 1;
-	int colorLevel = COLOR_LEVEL;
+	int colorLevel = V4L2_COLORFX_NONE;
 	char *pixelFmt;
 	char *fileName;
 
@@ -176,21 +172,21 @@ int main(int argc, char *argv[])
 
 	if (argc > index) {
 		if (!strcmp(argv[index], "COLOR")) {
-			colorLevel = COLOR_LEVEL;
+			colorLevel = V4L2_COLORFX_NONE;
 			printf("Using default color level: %d\n", colorLevel);
 		}
 		if (!strcmp(argv[index], "BW")) {
-			colorLevel = BW_LEVEL;
+			colorLevel = V4L2_COLORFX_BW;
 			printf("Using black & white color level: %d\n",
 			       colorLevel);
 		} else {
 			if (!strcmp(argv[index], "SEPIA")) {
-				colorLevel = SEPIA_LEVEL;
+				colorLevel = V4L2_COLORFX_SEPIA;
 				printf("Using SEPIA color level: %d\n",
 				       colorLevel);
 			} else {
 				if (!strcmp(argv[index], "SEPIA"))
-					colorLevel = SEPIA_LEVEL;
+					colorLevel = V4L2_COLORFX_SEPIA;
 				else {
 					printf("Invalid Color Effect: argv[%d]"
 					       "=%s", index, argv[index]);
@@ -297,11 +293,11 @@ int main(int argc, char *argv[])
 	/* query color capability*/
 	memset(&queryctrl, 0, sizeof(queryctrl));
 
-	queryctrl.id = V4L2_CID_PRIVATE_BASE;
+	queryctrl.id = V4L2_CID_COLORFX;
 	if (ioctl(fd, VIDIOC_QUERYCTRL, &queryctrl) == -1)
 		printf("COLOR effect is not supported!\n");
 
-	control.id = V4L2_CID_PRIVATE_BASE;
+	control.id = V4L2_CID_COLORFX;
 	if (ioctl(fd, VIDIOC_G_CTRL, &control) == -1)
 		printf("VIDIOC_G_CTRL failed!\n");
 
@@ -315,7 +311,7 @@ int main(int argc, char *argv[])
 
 	i = 0;
 
-	control.id = V4L2_CID_PRIVATE_BASE;
+	control.id = V4L2_CID_COLORFX;
 	if (ioctl(fd, VIDIOC_G_CTRL, &control) == -1)
 		printf("VIDIOC_G_CTRL failed!\n");
 

@@ -394,11 +394,11 @@ int main(int argc, char *argv[])
 	memset(&queryctrl2, 0, sizeof(queryctrl));
 	memset(&control2, 0, sizeof(control));
 
-	queryctrl2.id = V4L2_CID_PRIVATE_BASE;
+	queryctrl2.id = V4L2_CID_COLORFX;
 	if (ioctl(cfd, VIDIOC_QUERYCTRL, &queryctrl2) == -1)
 		printf("COLOR effect is not supported!\n");
 	else {
-		control2.id = V4L2_CID_PRIVATE_BASE;
+		control2.id = V4L2_CID_COLORFX;
 		if (ioctl(cfd, VIDIOC_G_CTRL, &control2) == -1)
 			printf("VIDIOC_G_CTRL failed!\n");
 		printf("Color effect is supported, min %d, max %d."
@@ -411,7 +411,7 @@ int main(int argc, char *argv[])
 		control.value = DEF_CONT_LEVEL;
 		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
 			printf("VIDIOC_S_CTRL CONTRAST failed!\n");
-		control.id = V4L2_CID_PRIVATE_BASE;
+		control.id = V4L2_CID_COLORFX;
 		control.value = DEF_COLOR_LEVEL;
 		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
 			printf("VIDIOC_S_CTRL COLOR failed!\n");
@@ -420,7 +420,7 @@ int main(int argc, char *argv[])
 		control.value = DEF_BRT_LEVEL;
 		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
 			printf("VIDIOC_S_CTRL BRIGHTNESS failed!\n");
-		control.id = V4L2_CID_PRIVATE_BASE;
+		control.id = V4L2_CID_COLORFX;
 		control.value = DEF_COLOR_LEVEL;
 		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
 			printf("VIDIOC_S_CTRL COLOR failed!\n");
@@ -442,7 +442,7 @@ int main(int argc, char *argv[])
 		control.value = DEF_BRT_LEVEL;
 		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
 			printf("VIDIOC_S_CTRL BRIGHTNESS failed!\n");
-		control.id = V4L2_CID_PRIVATE_BASE;
+		control.id = V4L2_CID_COLORFX;
 		control.value = DEF_COLOR_LEVEL;
 		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
 			printf("VIDIOC_S_CTRL COLOR failed!\n");
@@ -501,7 +501,7 @@ int main(int argc, char *argv[])
 					control.value = 0;
 				printf("changing BRT %d\n", control.value);
 			} else if (test == COLOR_TEST) {
-				control.id = V4L2_CID_PRIVATE_BASE;
+				control.id = V4L2_CID_COLORFX;
 				control.value = control.value + 1;
 				if (fOut != NULL && aux <= num_frames) {
 					fwrite((void *)cfilledbuffer.m.userptr,

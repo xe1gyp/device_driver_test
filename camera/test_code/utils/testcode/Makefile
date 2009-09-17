@@ -7,6 +7,7 @@
 # ==============================================================================*/
 
 CC := $(CROSS_COMPILE)gcc
+INC := $(KDIR)/include
 
 objects := af_stream burst_mode burst_mode_120 burst_zoom capture flash_driver \
 	   h3a_stream hist_test multi_open prev_wrap process_cam rsz_vbuff \
@@ -29,7 +30,7 @@ af_stream: af_stream.c lib.c ioctl.c framerateLib.c
 
 burst_mode: burst_mode.c lib.c ioctl.c framerateLib.c
 	@echo "  CC  burst_mode"
-	@$(CC) -g burst_mode.c lib.c ioctl.c framerateLib.c -o burst_mode
+	@$(CC) -I$(INC) -g burst_mode.c lib.c ioctl.c framerateLib.c -o burst_mode
 
 burst_mode_120: burst_mode_120.c lib.c ioctl.c framerateLib.c
 	@echo "  CC  burst_mode_120"
@@ -82,7 +83,7 @@ streaming_frame: streaming_frame.c framerateLib.c lib.c ioctl.c
 
 streaming_to_video_file: streaming_to_video_file.c lib.c ioctl.c framerateLib.c
 	@echo "  CC  streaming_to_video_file"
-	@$(CC) -g streaming_to_video_file.c lib.c ioctl.c framerateLib.c -o streaming_to_video_file
+	@$(CC) -I$(INC) -g streaming_to_video_file.c lib.c ioctl.c framerateLib.c -o streaming_to_video_file
 
 streaming_zoom: streaming_zoom.c lib.c ioctl.c framerateLib.c
 	@echo "  CC  streaming_zoom"
