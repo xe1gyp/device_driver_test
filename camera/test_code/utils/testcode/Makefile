@@ -12,7 +12,7 @@ INC := $(KDIR)/include
 objects := af_stream burst_mode burst_mode_120 burst_zoom capture flash_driver \
 	   h3a_stream hist_test multi_open prev_wrap process_cam rsz_vbuff \
 	   streaming_abs streaming_frame \
-	   streaming_to_video_file streaming_zoom
+	   streaming_to_video_file streaming_zoom fps
 
 all: $(objects)
 
@@ -39,6 +39,9 @@ burst_mode_120: burst_mode_120.c lib.c ioctl.c framerateLib.c
 burst_zoom: burst_zoom.c lib.c ioctl.c
 	@echo "  CC  burst_zoom"
 	@$(CC) -g burst_zoom.c lib.c ioctl.c -o burst_zoom
+
+fps: fps.c lib.c ioctl.c framerateLib.c
+	$(CC) -g fps.c lib.c ioctl.c framerateLib.c -o fps
 
 # this program is from V4L2 site with a bug fix for user ptr mode.
 capture: capture.c
