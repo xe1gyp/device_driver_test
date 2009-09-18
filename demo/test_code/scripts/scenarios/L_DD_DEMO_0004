@@ -1,0 +1,14 @@
+#########################################################################################
+# Scenario    : L_DD_DEMO_0004
+# Author      : Name of Author
+# Date        : Thu Sep 17 11:25:35 CDT 2009
+# Description : Generate Extra Workload in the System
+#########################################################################################
+
+# Begin L_DD_DEMO_0004
+
+01  set -x; $UTILHANDLERS/handlerWorkLoad.sh "start"
+02  set -x; sleep 10
+03  set -x; $UTILHANDLERS/handlerWorkLoad.sh "stop"
+
+# End L_DD_DEMO_0004

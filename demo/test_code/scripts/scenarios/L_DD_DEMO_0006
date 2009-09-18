@@ -1,0 +1,12 @@
+#########################################################################################
+# Scenario    : L_DD_DEMO_0006
+# Author      : Name of Author
+# Date        : Thu Sep 17 11:25:35 CDT 2009
+# Description : IRQ Affinity
+#########################################################################################
+
+# Begin L_DD_DEMO_0006
+
+01  set -x; $UTILHANDLERS/handlerIrqAffinity.sh "switch" "ahci" "10"
+
+# End L_DD_DEMO_0006

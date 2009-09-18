@@ -1,0 +1,17 @@
+#!/bin/sh
+
+export UTILROOT=${TESTROOT}/../../utils/
+export UTILBIN=${UTILROOT}/bin/
+export UTILHANDLERS=${UTILROOT}/handlers/
+
+# handlerPidExecutionTime.sh
+export PROCFS_PID_SCHED_START=$TMPBASE/procfs.sched.start
+export PROCFS_PID_SCHED_CURRENT=$TMPBASE/procfs.sched.current
+
+# handlerSchedulerPriority.sh
+export PRIORITY_PROGRAM=$TMPBASE/priority.program
+export PRIORITY_VALUE=$TMPBASE/priority.value
+
+# handlerCpuAffinity.sh
+export CPU_AFFINITY_PID=$TMPBASE/cpu.affinity.pid
+export CPU_AFFINITY_COMMAND=$TMPBASE/cpu.affinity.command
