@@ -348,6 +348,14 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	/* set h3a params */
+	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_CFG, &af_config_user);
+	if (ret < 0) {
+		printf("Error: %d, ", ret);
+		perror("ISP_AF_CFG 1");
+		return ret;
+	}
+
 	/* turn on streaming on both drivers */
 	if (ioctl(cfd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
 		perror("cam VIDIOC_STREAMON");
@@ -358,14 +366,6 @@ int main(int argc, char *argv[])
 	cfilledbuffer.type = creqbuf.type;
 	vfilledbuffer.type = vreqbuf.type;
 	i = 0;
-
-	/* set h3a params */
-	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_CFG, &af_config_user);
-	if (ret < 0) {
-		printf("Error: %d, ", ret);
-		perror("ISP_AF_CFG 1");
-		return ret;
-	}
 
 	buff_size = (af_config_user.paxel_config.hz_cnt + 1) *
 			(af_config_user.paxel_config.vt_cnt + 1) *
