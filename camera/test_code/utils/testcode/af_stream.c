@@ -13,6 +13,7 @@
 #include <errno.h>
 #include <mach/isp_user.h>
 #include "kbget.h"
+#include <string.h>
 
 #define VIDEO_DEVICE1 "/dev/video1"
 #define VIDEO_DEVICE2 "/dev/video2"
@@ -81,6 +82,8 @@ int main(int argc, char *argv[])
 	int framerate = 30;
 	int mode = 1;
 	int device = 1;
+	struct v4l2_queryctrl queryctrl;
+	struct v4l2_control control;
 
 	af_config_user.alaw_enable = H3A_AF_ALAW_ENABLE;	/* Enable Alaw */
 	af_config_user.hmf_config.enable = H3A_AF_HMF_DISABLE;
@@ -190,6 +193,29 @@ int main(int argc, char *argv[])
 		printf("The camera driver is capable of Streaming!\n");
 	else {
 		printf("The camera driver is not capable of Streaming!\n");
+		return -1;
+	}
+
+	memset(&queryctrl, 0, sizeof(queryctrl));
+	memset(&control, 0, sizeof(control));
+
+	queryctrl.id = V4L2_CID_FOCUS_ABSOLUTE;
+	if (ioctl(cfd, VIDIOC_QUERYCTRL, &queryctrl) == -1) {
+		printf("FOCUS_ABSOLUTE is not supported!\n");
+		return -1;
+	}
+	printf("V4L2_CID_FOCUS_ABSOLUTE support detected:\n");
+	printf("\tmin: %d\n", queryctrl.minimum);
+	printf("\tmax: %d\n", queryctrl.maximum);
+
+	if (wposn == 1) {
+		wposn = queryctrl.maximum; /* MACRO */
+	} else if (wposn == 2) {
+		wposn = (queryctrl.minimum + queryctrl.maximum) / 2;
+	} else if (wposn == 3) {
+		wposn = queryctrl.minimum; /* Infinite */
+	} else {
+		printf("Invalid Focus \n");
 		return -1;
 	}
 
@@ -332,20 +358,6 @@ int main(int argc, char *argv[])
 	cfilledbuffer.type = creqbuf.type;
 	vfilledbuffer.type = vreqbuf.type;
 	i = 0;
-	sleep(5);
-	/* ***************************************************************** */
-	/* wposn = atoi(argv[2]); */
-
-	if (wposn == 1) {
-		wposn = 0xFF; /* MACRO */
-	} else if (wposn == 2) {
-		wposn = 0x7F;
-	} else if (wposn == 3) {
-		wposn = 0x00; /* Infinite */
-	} else {
-		printf("Invalid Focus \n");
-		return -1;
-	}
 
 	/* set h3a params */
 	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_CFG, &af_config_user);
@@ -364,22 +376,28 @@ int main(int argc, char *argv[])
 	buff_prev_size = (buff_size / 2);
 
 	af_data_user.af_statistics_buf = NULL;
-	af_data_user.desired_lens_direction = wposn;
-	af_data_user.lens_current_position = 0 ;
-	af_data_user.update = REQUEST_STATISTICS | LENS_DESIRED_POSITION;
+	af_data_user.update = REQUEST_STATISTICS;
 	af_data_user.af_statistics_buf = stats_buff;
 	af_data_user.frame_number = 8; /* dummy */
 
 	printf("Setting first parameters \n");
 	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ, &af_data_user);
-	if (ret < 0) {
+	if (ret < 0)
 		perror("ISP_AF_REQ 1");
-		return ret;
-	}
 
 	printf("Frame No %d\n", af_data_user.frame_number);
-	printf("Lens Crt %d\n", af_data_user.lens_current_position);
-	printf("Lens Des %d\n", af_data_user.desired_lens_direction);
+
+	control.id = V4L2_CID_FOCUS_ABSOLUTE;
+	if (ioctl(cfd, VIDIOC_G_CTRL, &control) == -1)
+		perror("cam VIDIOC_G_CTRL\n");
+	printf("Lens Crt %d\n", control.value);
+
+	control.id = V4L2_CID_FOCUS_ABSOLUTE;
+	control.value = wposn;
+	if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+		perror("cam VIDIOC_S_CTRL\n");
+	printf("Lens Des %d\n", control.value);
+
 	printf("Frame Curr %d\n", af_data_user.curr_frame);
 	af_data_user.frame_number = af_data_user.curr_frame + 10;
 
@@ -387,18 +405,24 @@ request:
 	frame_number = af_data_user.frame_number;
 	/* request stats */
 
-	af_data_user.update = REQUEST_STATISTICS | LENS_DESIRED_POSITION;
+	af_data_user.update = REQUEST_STATISTICS;
 	af_data_user.af_statistics_buf = stats_buff;
 	printf("Requesting stats for frame %d, try %d\n", frame_number, j);
 	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ, &af_data_user);
-	if (ret < 0) {
+	if (ret < 0)
 		perror("ISP_AF_REQ 2");
-		return ret;
-	}
+
 	printf("Frame No %d\n", af_data_user.frame_number);
-	printf("Lens Crt %d\n", af_data_user.lens_current_position);
-	printf("Lens Des %d\n", af_data_user.desired_lens_direction);
-	printf("Frame Curr %d\n", af_data_user.curr_frame);
+
+	control.id = V4L2_CID_FOCUS_ABSOLUTE;
+	if (ioctl(cfd, VIDIOC_G_CTRL, &control) == -1)
+		perror("cam VIDIOC_G_CTRL\n");
+	printf("Lens Crt %d\n", control.value);
+	control.id = V4L2_CID_FOCUS_ABSOLUTE;
+	control.value = wposn;
+	if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+		perror("cam VIDIOC_S_CTRL\n");
+	printf("Lens Des %d\n", control.value);
 	printf("xs.ts %d:%d\n", af_data_user.xtrastats.ts.tv_sec,
 					af_data_user.xtrastats.ts.tv_usec);
 	printf("xs.field_count %d\n", af_data_user.xtrastats.field_count);
@@ -420,8 +444,6 @@ request:
 		for (k = 0; k < 1024; k++)
 			fprintf(fp_out, "%6x\n", buff_preview[k]);
 	}
-
-	sleep(1);
 
 	int bytes;
 	while (i < 1000) {
@@ -482,90 +504,66 @@ request:
 							 &af_data_user);
 				if (ret < 0) {
 					perror("ISP_AF_REQ 4");
-					return ret;
-				}
-				printf("Frame No %d\n",
+				} else {
+					printf("Frame No %d\n",
 						af_data_user.frame_number);
-				printf("xs.ts %d:%d\n", af_data_user.xtrastats.
+					printf("xs.ts %d:%d\n", af_data_user.xtrastats.
 							ts.tv_sec,
 							af_data_user.xtrastats.
 							ts.tv_usec);
-				printf("xs.field_count %d\n", af_data_user.
+					printf("xs.field_count %d\n", af_data_user.
 							xtrastats.field_count);
-				printf("xs.lens_position %d\n",
+					printf("xs.lens_position %d\n",
 							af_data_user.xtrastats.
 							lens_position);
 
-				buff_preview = (__u16 *)af_data_user.
+					buff_preview = (__u16 *)af_data_user.
 							af_statistics_buf;
-				printf("H3A AE/AWB: buffer to display = %d"
+					printf("H3A AE/AWB: buffer to display = %d"
 							" data pointer = %p\n",
 							buff_prev_size,
 							af_data_user.
 							af_statistics_buf);
+				}
 			} else if (input == '2') {
-				if (wposn > 0)
+				if (wposn > queryctrl.minimum)
 					wposn--;
-				af_data_user.desired_lens_direction = wposn;
-				af_data_user.lens_current_position = 0;
-				af_data_user.update = LENS_DESIRED_POSITION;
-				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
-							 &af_data_user);
-				if (ret < 0) {
-					perror("ISP_AF_REQ 5");
-					return ret;
-				}
-				printf("Lens position (-1): %d\n", wposn);
+				control.id = V4L2_CID_FOCUS_ABSOLUTE;
+				control.value = wposn;
+				if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+					perror("cam VIDIOC_S_CTRL\n");
+				printf("Lens position (-1): %d\n", control.value);
 			} else if (input == '3') {
-				if (wposn < 0xFF)
+				if (wposn < queryctrl.maximum)
 					wposn++;
-				af_data_user.desired_lens_direction = wposn;
-				af_data_user.lens_current_position = 0;
-				af_data_user.update = LENS_DESIRED_POSITION;
-				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
-							 &af_data_user);
-				if (ret < 0) {
-					perror("ISP_AF_REQ 5");
-					return ret;
-				}
-				printf("Lens position (+1): %d\n", wposn);
+				control.id = V4L2_CID_FOCUS_ABSOLUTE;
+				control.value = wposn;
+				if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+					perror("cam VIDIOC_S_CTRL\n");
+				printf("Lens position (+1): %d\n", control.value);
 			} else if (input == '4') {
-				wposn = 0xFF;
-				af_data_user.desired_lens_direction = wposn;
-				af_data_user.lens_current_position = 0;
-				af_data_user.update = LENS_DESIRED_POSITION;
-				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
-							 &af_data_user);
-				if (ret < 0) {
-					perror("ISP_AF_REQ 6");
-					return ret;
-				}
-				printf("Lens position (macro): %d\n", wposn);
+				wposn = queryctrl.maximum;
+				control.id = V4L2_CID_FOCUS_ABSOLUTE;
+				control.value = wposn;
+				if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+					perror("cam VIDIOC_S_CTRL\n");
+				printf("Lens position (macro): %d\n", control.value);
 			} else if (input == '5') {
-				wposn = 0x7F;
-				af_data_user.desired_lens_direction = wposn;
-				af_data_user.lens_current_position = 0;
-				af_data_user.update = LENS_DESIRED_POSITION;
-				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
-							 &af_data_user);
-				if (ret < 0) {
-					perror("ISP_AF_REQ 7");
-					return ret;
-				}
+				wposn = (queryctrl.minimum + queryctrl.maximum) / 2;
+				control.id = V4L2_CID_FOCUS_ABSOLUTE;
+				control.value = wposn;
+				if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+					perror("cam VIDIOC_S_CTRL\n");
 				printf("Lens position (intermediate): %d\n",
-									wposn);
+								control.value);
 			} else if (input == '6') {
-				wposn = 0x0;
-				af_data_user.desired_lens_direction = wposn;
-				af_data_user.lens_current_position = 0;
-				af_data_user.update = LENS_DESIRED_POSITION;
-				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
-							 &af_data_user);
-				if (ret < 0) {
-					perror("ISP_AF_REQ 8");
-					return ret;
-				}
-				printf("Lens position (infinite): %d\n", wposn);
+				wposn = queryctrl.minimum;
+				control.id = V4L2_CID_FOCUS_ABSOLUTE;
+				control.value = wposn;
+				if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+					perror("cam VIDIOC_S_CTRL\n");
+				printf("Lens position (infinite): %d\n",
+				       control.value);
 			} else if (input == 'q') {
 				break;
 			}
@@ -621,66 +619,41 @@ request:
 			} else if (bytes > 0 && (keyinfo.code == 35)) {
 				if (wposn > 0)
 					wposn--;
-				af_data_user.desired_lens_direction = wposn;
-				af_data_user.lens_current_position = 0;
-				af_data_user.update = LENS_DESIRED_POSITION;
-				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
-							 &af_data_user);
-				if (ret < 0) {
-					perror("ISP_AF_REQ 5");
-					return ret;
-				}
-				printf("Lens position (-1): %d\n", wposn);
+				control.id = V4L2_CID_FOCUS_ABSOLUTE;
+				control.value = wposn;
+				if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+					perror("cam VIDIOC_S_CTRL\n");
+				printf("Lens position (-1): %d\n", control.value);
 			} else if (bytes > 0 && (keyinfo.code == 33)) {
 				if (wposn < 0xFF)
 					wposn++;
-				af_data_user.desired_lens_direction = wposn;
-				af_data_user.lens_current_position = 0;
-				af_data_user.update = LENS_DESIRED_POSITION;
-				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
-							 &af_data_user);
-				if (ret < 0) {
-					perror("ISP_AF_REQ 5");
-					return ret;
-				}
-				printf("Lens position (+1): %d\n", wposn);
+				control.id = V4L2_CID_FOCUS_ABSOLUTE;
+				control.value = wposn;
+				if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+					perror("cam VIDIOC_S_CTRL\n");
+				printf("Lens position (+1): %d\n", control.value);
 			} else if (bytes > 0 && (keyinfo.code == 36)) {
-				wposn = 0xFF;
-				af_data_user.desired_lens_direction = wposn;
-				af_data_user.lens_current_position = 0;
-				af_data_user.update = LENS_DESIRED_POSITION;
-				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
-							 &af_data_user);
-				if (ret < 0) {
-					perror("ISP_AF_REQ 6");
-					return ret;
-				}
-				printf("Lens position (macro): %d\n", wposn);
+				wposn = queryctrl.maximum;
+				control.id = V4L2_CID_FOCUS_ABSOLUTE;
+				control.value = wposn;
+				if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+					perror("cam VIDIOC_S_CTRL\n");
+				printf("Lens position (macro): %d\n", control.value);
 			} else if (bytes > 0 && (keyinfo.code == 49)) {
-				wposn = 0x7F;
-				af_data_user.desired_lens_direction = wposn;
-				af_data_user.lens_current_position = 0;
-				af_data_user.update = LENS_DESIRED_POSITION;
-				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
-							 &af_data_user);
-				if (ret < 0) {
-					perror("ISP_AF_REQ 7");
-					return ret;
-				}
+				wposn = (queryctrl.minimum + queryctrl.maximum) / 2;
+				control.id = V4L2_CID_FOCUS_ABSOLUTE;
+				control.value = wposn;
+				if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+					perror("cam VIDIOC_S_CTRL\n");
 				printf("Lens position (intermediate): %d\n",
-									wposn);
+								control.value);
 			} else if (bytes > 0 && (keyinfo.code == 47)) {
-				wposn = 0x0;
-				af_data_user.desired_lens_direction = wposn;
-				af_data_user.lens_current_position = 0;
-				af_data_user.update = LENS_DESIRED_POSITION;
-				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
-							 &af_data_user);
-				if (ret < 0) {
-					perror("ISP_AF_REQ 8");
-					return ret;
-				}
-				printf("Lens position (infinite): %d\n", wposn);
+				wposn = queryctrl.minimum;
+				control.id = V4L2_CID_FOCUS_ABSOLUTE;
+				control.value = wposn;
+				if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+					perror("cam VIDIOC_S_CTRL\n");
+				printf("Lens position (infinite): %d\n", control.value);
 			} else if (bytes > 0 && (keyinfo.code == 37)) {
 				break;
 			}
@@ -699,7 +672,6 @@ request:
 		perror("video VIDIOC_STREAMOFF");
 		return -1;
 	}
-	sleep(5);
 
 	for (i = 0; i < vreqbuf.count; i++) {
 		if (vbuffers[i].start)
