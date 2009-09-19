@@ -14,11 +14,9 @@
 #include <errno.h>
 #include <linux/videodev2.h>
 
-enum v4l2_camera_flash_cids {
-	V4L2_CID_CAMERA_FLASH_STROBE = V4L2_CID_FOCUS_AUTO + 10,
-	V4L2_CID_CAMERA_FLASH_TIMEOUT,
-	V4L2_CID_CAMERA_FLASH_TORCH_INTENSITY,
-};
+#define V4L2_CID_FLASH_STROBE			(V4L2_CID_CAMERA_CLASS_BASE+17)
+#define V4L2_CID_FLASH_TIMEOUT			(V4L2_CID_CAMERA_CLASS_BASE+18)
+#define V4L2_CID_FLASH_TORCH_INTENSITY		(V4L2_CID_CAMERA_CLASS_BASE+19)
 
 int main(void)
 {
@@ -33,7 +31,7 @@ int main(void)
 	}
 
 	/* Set flash timeout in [us] */
-	v_timeout.id = V4L2_CID_CAMERA_FLASH_TIMEOUT;
+	v_timeout.id = V4L2_CID_FLASH_TIMEOUT;
 	/* timeout = 1s */
 	v_timeout.value = 1000000;
 
@@ -44,7 +42,7 @@ int main(void)
 	printf("Set timeout OK!\n");
 
 	/* Turn on the torch */
-	v_tourch.id = V4L2_CID_CAMERA_FLASH_TORCH_INTENSITY;
+	v_tourch.id = V4L2_CID_FLASH_TORCH_INTENSITY;
 	/* 0=off , 1 = on */
 	v_tourch.value = 1;
 
@@ -58,7 +56,7 @@ int main(void)
 	sleep(3);
 
 	/* Turn on the strobe */
-	v_strobe.id = V4L2_CID_CAMERA_FLASH_STROBE;
+	v_strobe.id = V4L2_CID_FLASH_STROBE;
 	/* It's a button the value is irrelevant */
 	v_strobe.value = 0;
 
