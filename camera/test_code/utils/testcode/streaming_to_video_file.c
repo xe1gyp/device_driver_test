@@ -13,25 +13,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define FILE_SAVE		0
-
 #define BRT_TEST		1
 #define CONT_TEST		2
 #define COLOR_TEST		3
-
-#if FILE_SAVE
-#define NUM_FRAMES		10
-#else
-#define NUM_FRAMES		1000
-#endif
-
-#define NUM_CONT_LEVELS		15
-#define NUM_BRT_LEVELS		15
-#define NUM_COLOR_LEVELS	3
-
-#define DEF_CONT_LEVEL		2
-#define DEF_BRT_LEVEL		1
-#define DEF_COLOR_LEVEL		0
 
 #define VIDEO_DEVICE1		"/dev/video1"
 #define VIDEO_DEVICE2		"/dev/video2"
@@ -76,8 +60,8 @@ int main(int argc, char *argv[])
 	FILE *fOut = NULL;
 	int cfd, vfd, test, num_frames = 1000;
 	int vid = 1, set_video_img = 0, i, ret;
-	struct v4l2_queryctrl queryctrl, queryctrl2;
-	struct v4l2_control control, control2;
+	struct v4l2_queryctrl qc_brightness, qc_contrast, qc_colorfx;
+	struct v4l2_control c_brightness, c_contrast, c_colorfx;
 	char *pixelFmt;
 	int index = 1;
 	int framerate = 30;
@@ -265,9 +249,6 @@ int main(int argc, char *argv[])
 		set_video_img = 1;
 	}
 
-	memset(&queryctrl, 0, sizeof(queryctrl));
-	memset(&control, 0, sizeof(control));
-
 	if (set_video_img) {
 		printf("set video image the same as camera image ...\n");
 		vformat.fmt.pix.width = cformat.fmt.pix.width;
@@ -361,99 +342,99 @@ int main(int argc, char *argv[])
 	cfilledbuffer.type = creqbuf.type;
 	vfilledbuffer.type = vreqbuf.type;
 
-	memset(&queryctrl2, 0, sizeof(queryctrl));
-	memset(&control2, 0, sizeof(control));
+	memset(&qc_brightness, 0, sizeof(qc_brightness));
+	memset(&c_brightness, 0, sizeof(c_brightness));
 
-	queryctrl2.id = V4L2_CID_BRIGHTNESS;
-	if (ioctl(cfd, VIDIOC_QUERYCTRL, &queryctrl2) == -1)
+	qc_brightness.id = V4L2_CID_BRIGHTNESS;
+	if (ioctl(cfd, VIDIOC_QUERYCTRL, &qc_brightness) == -1)
 		printf("Brightness is not supported!\n");
 	else {
-		control2.id = V4L2_CID_BRIGHTNESS;
-		if (ioctl(cfd, VIDIOC_G_CTRL, &control2) == -1) {
+		c_brightness.id = V4L2_CID_BRIGHTNESS;
+		if (ioctl(cfd, VIDIOC_G_CTRL, &c_brightness) == -1) {
 			printf("VIDIOC_G_CTRL failed!\n");
 			return 0;
 		}
 		printf("Brightness is supported, min %d, max %d."
 			"\nbrightness level is %d\n",
-			queryctrl2.minimum, queryctrl2.maximum, control2.value);
-		orig_brightness = control2.value;
+			qc_brightness.minimum, qc_brightness.maximum, c_brightness.value);
+		orig_brightness = c_brightness.value;
 	}
-	memset(&queryctrl2, 0, sizeof(queryctrl));
-	memset(&control2, 0, sizeof(control));
 
-	queryctrl2.id = V4L2_CID_CONTRAST;
-	if (ioctl(cfd, VIDIOC_QUERYCTRL, &queryctrl2) == -1)
+	memset(&qc_contrast, 0, sizeof(qc_contrast));
+	memset(&c_contrast, 0, sizeof(c_contrast));
+
+	qc_contrast.id = V4L2_CID_CONTRAST;
+	if (ioctl(cfd, VIDIOC_QUERYCTRL, &qc_contrast) == -1)
 		printf("CONTRAST is not supported!\n");
 	else {
-		control2.id = V4L2_CID_CONTRAST;
-		if (ioctl(cfd, VIDIOC_G_CTRL, &control2) == -1)
+		c_contrast.id = V4L2_CID_CONTRAST;
+		if (ioctl(cfd, VIDIOC_G_CTRL, &c_contrast) == -1)
 			printf("VIDIOC_G_CTRL failed!\n");
 		printf("CONTRAST is supported, min %d, max %d.\nContrast "
-				"level is %d\n", queryctrl2.minimum,
-				queryctrl2.maximum, control2.value);
-		orig_contrast = control2.value;
+				"level is %d\n", qc_contrast.minimum,
+				qc_contrast.maximum, c_contrast.value);
+		orig_contrast = c_contrast.value;
 	}
 
-	memset(&queryctrl2, 0, sizeof(queryctrl));
-	memset(&control2, 0, sizeof(control));
+	memset(&qc_colorfx, 0, sizeof(qc_colorfx));
+	memset(&c_colorfx, 0, sizeof(c_colorfx));
 
-	queryctrl2.id = V4L2_CID_COLORFX;
-	if (ioctl(cfd, VIDIOC_QUERYCTRL, &queryctrl2) == -1)
+	qc_colorfx.id = V4L2_CID_COLORFX;
+	if (ioctl(cfd, VIDIOC_QUERYCTRL, &qc_colorfx) == -1)
 		printf("COLOR effect is not supported!\n");
 	else {
-		control2.id = V4L2_CID_COLORFX;
-		if (ioctl(cfd, VIDIOC_G_CTRL, &control2) == -1)
+		c_colorfx.id = V4L2_CID_COLORFX;
+		if (ioctl(cfd, VIDIOC_G_CTRL, &c_colorfx) == -1)
 			printf("VIDIOC_G_CTRL failed!\n");
 		printf("Color effect is supported, min %d, max %d."
 			"\nCurrent color is level is %d\n",
-			queryctrl2.minimum, queryctrl2.maximum, control2.value);
-		orig_color = control2.value;
+			qc_colorfx.minimum, qc_colorfx.maximum, c_colorfx.value);
+		orig_color = c_colorfx.value;
 	}
 
 	if (test == BRT_TEST) {
-		control.id = V4L2_CID_CONTRAST;
-		control.value = DEF_CONT_LEVEL;
-		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+		c_contrast.id = V4L2_CID_CONTRAST;
+		c_contrast.value = qc_contrast.default_value;
+		if (ioctl(cfd, VIDIOC_S_CTRL, &c_contrast) == -1)
 			printf("VIDIOC_S_CTRL CONTRAST failed!\n");
-		control.id = V4L2_CID_COLORFX;
-		control.value = DEF_COLOR_LEVEL;
-		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+		c_colorfx.id = V4L2_CID_COLORFX;
+		c_colorfx.value = qc_colorfx.default_value;
+		if (ioctl(cfd, VIDIOC_S_CTRL, &c_colorfx) == -1)
 			printf("VIDIOC_S_CTRL COLOR failed!\n");
 	} else if (test == CONT_TEST) {
-		control.id = V4L2_CID_BRIGHTNESS;
-		control.value = DEF_BRT_LEVEL;
-		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+		c_brightness.id = V4L2_CID_BRIGHTNESS;
+		c_brightness.value = qc_brightness.default_value;
+		if (ioctl(cfd, VIDIOC_S_CTRL, &c_brightness) == -1)
 			printf("VIDIOC_S_CTRL BRIGHTNESS failed!\n");
-		control.id = V4L2_CID_COLORFX;
-		control.value = DEF_COLOR_LEVEL;
-		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+		c_colorfx.id = V4L2_CID_COLORFX;
+		c_colorfx.value = qc_colorfx.default_value;
+		if (ioctl(cfd, VIDIOC_S_CTRL, &c_colorfx) == -1)
 			printf("VIDIOC_S_CTRL COLOR failed!\n");
 	} else if (test == COLOR_TEST) {
-		control.id = V4L2_CID_CONTRAST;
-		control.value = DEF_CONT_LEVEL;
-		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+		c_contrast.id = V4L2_CID_CONTRAST;
+		c_contrast.value = qc_contrast.default_value;
+		if (ioctl(cfd, VIDIOC_S_CTRL, &c_contrast) == -1)
 			printf("VIDIOC_S_CTRL CONTRAST failed!\n");
-		control.id = V4L2_CID_BRIGHTNESS;
-		control.value = DEF_BRT_LEVEL;
-		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+		c_brightness.id = V4L2_CID_BRIGHTNESS;
+		c_brightness.value = qc_brightness.default_value;
+		if (ioctl(cfd, VIDIOC_S_CTRL, &c_brightness) == -1)
 			printf("VIDIOC_S_CTRL BRIGHTNESS failed!\n");
 	} else {
-		control.id = V4L2_CID_CONTRAST;
-		control.value = DEF_CONT_LEVEL;
-		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+		c_contrast.id = V4L2_CID_CONTRAST;
+		c_contrast.value = qc_contrast.default_value;
+		if (ioctl(cfd, VIDIOC_S_CTRL, &c_contrast) == -1)
 			printf("VIDIOC_S_CTRL CONTRAST failed!\n");
-		control.id = V4L2_CID_BRIGHTNESS;
-		control.value = DEF_BRT_LEVEL;
-		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+		c_brightness.id = V4L2_CID_BRIGHTNESS;
+		c_brightness.value = qc_brightness.default_value;
+		if (ioctl(cfd, VIDIOC_S_CTRL, &c_brightness) == -1)
 			printf("VIDIOC_S_CTRL BRIGHTNESS failed!\n");
-		control.id = V4L2_CID_COLORFX;
-		control.value = DEF_COLOR_LEVEL;
-		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+		c_colorfx.id = V4L2_CID_COLORFX;
+		c_colorfx.value = qc_colorfx.default_value;
+		if (ioctl(cfd, VIDIOC_S_CTRL, &c_colorfx) == -1)
 			printf("VIDIOC_S_CTRL COLOR failed!\n");
 	}
 
 	i = 0;
-	control.value = 0;
 
 	while (i < 300) {
 		int aux = 0;
@@ -475,8 +456,10 @@ int main(int argc, char *argv[])
 
 		if (((i % 20) == 0) && (test != 0)) {
 			if (test == CONT_TEST) {
-				control.id = V4L2_CID_CONTRAST;
-				control.value = control.value + 1;
+				c_contrast.id = V4L2_CID_CONTRAST;
+				c_contrast.value += qc_contrast.step;
+				if (c_contrast.value > qc_contrast.maximum)
+					c_contrast.value = qc_contrast.minimum;
 				if (fOut != NULL && aux <= num_frames) {
 					fwrite((void *)cfilledbuffer.m.userptr,
 					       cformat.fmt.pix.width *
@@ -486,12 +469,15 @@ int main(int argc, char *argv[])
 					fflush(fOut);
 					aux++;
 				}
-				if (control.value >= NUM_CONT_LEVELS)
-					control.value = 0;
-				printf("changing CONTRAST %d\n", control.value);
+				printf("Change contrast level to: %d\n",
+					c_contrast.value);
+				if (ioctl(cfd, VIDIOC_S_CTRL, &c_contrast) == -1)
+					printf("VIDIOC_S_CTRL failed!\n");
 			} else if (test == BRT_TEST) {
-				control.id = V4L2_CID_BRIGHTNESS;
-				control.value = control.value + 1;
+				c_brightness.id = V4L2_CID_BRIGHTNESS;
+				c_brightness.value += qc_brightness.step;
+				if (c_brightness.value > qc_brightness.maximum)
+					c_brightness.value = qc_brightness.minimum;
 				if (fOut != NULL && aux <= num_frames) {
 					fwrite((void *)cfilledbuffer.m.userptr,
 					       cformat.fmt.pix.width *
@@ -501,12 +487,15 @@ int main(int argc, char *argv[])
 					fflush(fOut);
 					aux++;
 				}
-				if (control.value >= NUM_BRT_LEVELS)
-					control.value = 0;
-				printf("changing BRT %d\n", control.value);
+				printf("Change brightness level to: %d\n",
+					c_brightness.value);
+				if (ioctl(cfd, VIDIOC_S_CTRL, &c_brightness) == -1)
+					printf("VIDIOC_S_CTRL failed!\n");
 			} else if (test == COLOR_TEST) {
-				control.id = V4L2_CID_COLORFX;
-				control.value = control.value + 1;
+				c_colorfx.id = V4L2_CID_COLORFX;
+				c_colorfx.value += qc_colorfx.step;
+				if (c_colorfx.value > qc_colorfx.maximum)
+					c_colorfx.value = qc_colorfx.minimum;
 				if (fOut != NULL && aux <= num_frames) {
 					fwrite((void *)cfilledbuffer.m.userptr,
 					       cformat.fmt.pix.width *
@@ -516,12 +505,11 @@ int main(int argc, char *argv[])
 					fflush(fOut);
 					aux++;
 				}
-				if (control.value >= NUM_COLOR_LEVELS)
-					control.value = 0;
-				printf("changing COLOR %d\n", control.value);
+				printf("Change color effect to: %d\n",
+					c_colorfx.value);
+				if (ioctl(cfd, VIDIOC_S_CTRL, &c_colorfx) == -1)
+					printf("VIDIOC_S_CTRL failed!\n");
 			}
-			if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
-				printf("VIDIOC_S_CTRL failed!\n");
 		}
 
 		if (i == 3) {
@@ -550,21 +538,21 @@ int main(int argc, char *argv[])
 	printf("Restore defaults:\n");
 
 	printf(" - Contrast = %i\n", orig_contrast);
-	control.id = V4L2_CID_CONTRAST;
-	control.value = orig_contrast;
-	if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+	c_contrast.id = V4L2_CID_CONTRAST;
+	c_contrast.value = qc_contrast.default_value;
+	if (ioctl(cfd, VIDIOC_S_CTRL, &c_contrast) == -1)
 		printf("VIDIOC_S_CTRL CONTRAST failed!\n");
 
 	printf(" - Brightness = %i\n", orig_brightness);
-	control.id = V4L2_CID_BRIGHTNESS;
-	control.value = orig_brightness;
-	if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+	c_brightness.id = V4L2_CID_BRIGHTNESS;
+	c_brightness.value = qc_brightness.default_value;
+	if (ioctl(cfd, VIDIOC_S_CTRL, &c_brightness) == -1)
 		printf("VIDIOC_S_CTRL BRIGHTNESS failed!\n");
 
 	printf(" - Color = %i\n", orig_color);
-	control.id = V4L2_CID_COLORFX;
-	control.value = orig_color;
-	if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+	c_colorfx.id = V4L2_CID_COLORFX;
+	c_colorfx.value = qc_colorfx.default_value;
+	if (ioctl(cfd, VIDIOC_S_CTRL, &c_colorfx) == -1)
 		printf("VIDIOC_S_CTRL COLOR failed!\n");
 
 
