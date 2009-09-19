@@ -1,0 +1,28 @@
+###############################################################################
+# Scenario: L_DD_POWER_0003_0002
+# Testing : Enabling system for hitting OFF + suspend/resume
+###############################################################################
+
+# Begin L_DD_POWER_0003_0002
+
+01  set -x; debugFileSystem.sh "mount"
+02  set -x; debugFileSystem.sh "log" "core_pwrdm" "OFF" "1"
+
+03  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
+04  set -x; echo $ENABLE > $SLEEP_WHILE_IDLE
+05  set -x; echo $ENABLE > $ENABLED_OFF_MODE
+06  set -x; echo $ENABLE > $VOLTAGE_OFF_WHILE_IDLE && sleep 5
+07  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
+
+08  set -x; debugFileSystem.sh "log" "core_pwrdm" "OFF" "2"
+09  set -x; debugFileSystem.sh "compare" "1" "2" && sleep 2 && exit 0 || exit 1
+
+10  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
+11  set -x; echo $DISABLE > $SLEEP_WHILE_IDLE
+12  set -x; echo $DISABLE > $ENABLED_OFF_MODE
+13  set -x; echo $DISABLE > $VOLTAGE_OFF_WHILE_IDLE
+14  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
+
+15  set -x; debugFileSystem.sh "umount"
+
+# End L_DD_POWER_0003_0002
