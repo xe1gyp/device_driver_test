@@ -362,6 +362,14 @@ int main(int argc, char *argv[])
 	/************************************************************/
 
 
+	/* set h3a params */
+	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AEWB_CFG, &aewb_config_user);
+	if (ret < 0) {
+		printf("Error: %d, ", ret);
+		perror("ISP_AEWB_CFG 1");
+		return ret;
+	}
+
 	/* turn on streaming on both drivers */
 	if (ioctl(cfd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
 		perror("cam VIDIOC_STREAMON");
@@ -373,13 +381,6 @@ int main(int argc, char *argv[])
 	vfilledbuffer.type = vreqbuf.type;
 	i = 0;
 	sleep(1);
-	/* set h3a params */
-	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AEWB_CFG, &aewb_config_user);
-	if (ret < 0) {
-		printf("Error: %d, ", ret);
-		perror("ISP_AEWB_CFG 1");
-		return ret;
-	}
 
 	num_windows = ((aewb_config_user.ver_win_count
 			* aewb_config_user.hor_win_count)
