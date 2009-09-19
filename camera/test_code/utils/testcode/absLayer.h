@@ -10,9 +10,6 @@ static __u8 ispccdc_lsc_tbl[] = {
 	#include "ispccdc_lsc5.dat"
 };
 
-/* Our ISP specific controls */
-#define V4L2_CID_PRIVATE_ISP_COLOR_FX		(V4L2_CID_PRIVATE_BASE + 0)
-
 /*Abstraction layer ccdc configurations*/
 __u32 fpc_tbl[5];
 

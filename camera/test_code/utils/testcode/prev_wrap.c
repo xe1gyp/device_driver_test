@@ -18,7 +18,7 @@
 #include <errno.h>
 #include <linux/types.h>
 #include <linux/videodev2.h>
-#include "isp_user.h"
+#include <mach/isp_user.h>
 #include "prev_wrap.h"
 
 /* Default values in Office Flourescent Light for RGBtoRGB Blending */

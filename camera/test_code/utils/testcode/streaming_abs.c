@@ -13,7 +13,7 @@
 #include <sys/mman.h>
 #include <linux/videodev2.h>
 #include <string.h>
-#include "isp_user.h"
+#include <mach/isp_user.h>
 #include "absLayer.h"
 
 #define VIDEO_DEVICE1 "/dev/video1"

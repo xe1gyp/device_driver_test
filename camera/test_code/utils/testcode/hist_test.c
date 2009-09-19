@@ -13,7 +13,7 @@
 #include <errno.h>
 #include <sys/mman.h>
 #include <linux/videodev2.h>
-#include "isp_user.h"
+#include <mach/isp_user.h>
 
 #define INPUT_CCDC		0
 #define INPUT_MEMORY		1
