@@ -151,7 +151,7 @@ int main(int argc, const char *argv[])
 
 	ret_val = ioctl(fd, PREV_SET_PARAM, &params);
 	if (ret_val) {
-		printf("\nWrong Parameters for ISP Previewer\n");
+		perror("PREV_SET_PARAM");
 		return ret_val;
 	}
 	/* Input Buffer size, 10 bits per pixel = 2 bytes per pixel */
