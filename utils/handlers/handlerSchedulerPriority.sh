@@ -13,19 +13,31 @@ if [ "$LOCAL_COMMAND" = "program" ]; then
 	echo $LOCAL_PRIORITY > $PRIORITY_VALUE.$LOCAL_NUMBER_PROGRAM
 
 elif [ "$LOCAL_COMMAND" = "start" ]; then
-        
+
 	LOCAL_TIMES=$2
 
-	(($UTILHANDLERS/handlerPidExecutionTime.sh "1" "`cat $PRIORITY_PROGRAM.1`" "$LOCAL_TIMES" "`cat $PRIORITY_VALUE.1`" &) && ($UTILHANDLERS/handlerPidExecutionTime.sh "2" "`cat $PRIORITY_PROGRAM.2`" "$LOCAL_TIMES" "`cat $PRIORITY_VALUE.2`"))
-	
-	return 0
+	($UTILHANDLERS/handlerPidExecutionTime.sh "1" "`cat $PRIORITY_PROGRAM.1`" "$LOCAL_TIMES" "`cat $PRIORITY_VALUE.1`" &) && $UTILHANDLERS/handlerPidExecutionTime.sh "2" "`cat $PRIORITY_PROGRAM.2`" "$LOCAL_TIMES" "`cat $PRIORITY_VALUE.2`"
+
+	set +x
+	until [ -f "$PRIORITY_DONE.2" ]
+	do
+		continue
+	one
+
+	until [ -f "$PRIORITY_DONE.1" ]
+	do
+		continue
+	done
+	set -x
 
 elif [ "$LOCAL_COMMAND" = "verify" ]; then
 
 	set +x
 	LOCAL_PROCESS_TO_FINISH_FIRST=$2
 	echo "Program 1"
+	echo "Schec Start"
 	cat $PROCFS_PID_SCHED_START.1
+	echo "Sched Current"
 	cat $PROCFS_PID_SCHED_CURRENT.1
 	val1=`cat $PROCFS_PID_SCHED_START.1 | awk '{print $3}'`
 	val2=`cat $PROCFS_PID_SCHED_CURRENT.1  | awk '{print $3}'`
@@ -33,7 +45,9 @@ elif [ "$LOCAL_COMMAND" = "verify" ]; then
 	fvalue1=`echo $fvalue1 | awk '{printf "%.0f\n", $1}'`
 	echo "The final value for process 1 is $fvalue1"
 	echo "Program 2"
+	echo "Sched Start"
 	cat $PROCFS_PID_SCHED_START.2
+	echo "Sched Current"
 	cat $PROCFS_PID_SCHED_CURRENT.2
 	val1=`cat $PROCFS_PID_SCHED_START.2 | awk '{print $3}'`
 	val2=`cat $PROCFS_PID_SCHED_CURRENT.2  | awk '{print $3}'`
@@ -43,7 +57,7 @@ elif [ "$LOCAL_COMMAND" = "verify" ]; then
 
 	if [ "$LOCAL_PROCESS_TO_FINISH_FIRST" = "1" ]; then
 		if [ "$fvalue1" -lt "$fvalue2" ]; then
-			echo "Succed"
+			echo "Succeed!"
 			return 0
 		else
 			echo "Failed!"
@@ -51,7 +65,7 @@ elif [ "$LOCAL_COMMAND" = "verify" ]; then
 		fi
 	elif [ "$LOCAL_PROCESS_TO_FINISH_FIRST" = "2" ]; then
 		if [ "$fvalue2" -lt "$fvalue1" ]; then
-			echo "Succed"
+			echo "Succeed!"
 			return 0
 		else
 			echo "Failed!"

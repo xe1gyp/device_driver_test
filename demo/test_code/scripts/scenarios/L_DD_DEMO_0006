@@ -7,6 +7,6 @@
 
 # Begin L_DD_DEMO_0006
 
-01  set -x; $UTILHANDLERS/handlerIrqAffinity.sh "switch" "ahci" "10"
+01  set -x; $UTILHANDLERS/handlerIrqAffinity.sh "switch" "echo" "mmc" "10"
 
 # End L_DD_DEMO_0006

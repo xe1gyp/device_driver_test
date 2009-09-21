@@ -20,7 +20,7 @@ export TC_SCENARIO="${TESTROOT}/scenarios"
 export SCENARIO_NAMES=""
 export STRESS=""
 
-# Utilities
+# External Utilities
 . ${TESTROOT}/../../utils/configuration/general.configuration
 
 # Driver specific
