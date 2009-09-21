@@ -1,9 +1,5 @@
 #!/bin/sh
 
-GetEndSector(){
-	echo -e "p\nq\n" | fdisk $1 | grep "heads" | awk '{print $5}'
-}
-
 # Testsuite variables
 export POSTFIX=`date "+%Y%m%d-%H%M%S"`
 export TESTROOT=${PWD}
@@ -23,6 +19,9 @@ export DURATION=""
 export PATH="${PATH}:${TESTROOT}:${TESTBIN}:${TESTSCRIPT}"
 export TC_SCENARIO="${TESTROOT}/scenarios"
 export SCENARIO_NAMES=""
+
+# External Utilities
+. ${TESTROOT}/../../utils/configuration/general.configuration
 
 # Check if bc is available, otherwise abort
 if [ ! `echo 1+1 | bc` ]; then
@@ -45,28 +44,27 @@ export PROCFS_DEVICES=/proc/devices
 export PROCFS_INTERRUPTS=/proc/interrupts
 export PROCFS_PARTITIONS=/proc/partitions
 
-export MMC_ROOT_NAME=mmcblk$SLOT
-export MMC_ROOT_ENTRY=/dev/$MMC_ROOT_NAME
-export MMC_PARTITION_NAME1=${MMC_ROOT_NAME}p1
-export MMC_PARTITION_NAME2=${MMC_ROOT_NAME}p2
-export MMC_PARTITION_ENTRY1=/dev/$MMC_PARTITION_NAME1
-export MMC_PARTITION_ENTRY2=/dev/$MMC_PARTITION_NAME2
-export MMC_MOUNT_POINT_1=/mnt/mmc$SLOT
-export MMC_MOUNT_POINT_2=/mnt/mmc`echo "$SLOT+2" | bc`
-export MMC_DEVICE_SECTOR_START=1
-export MMC_DEVICE_SECTOR_END=`GetEndSector $MMC_ROOT_ENTRY`
-export MMC_DEVICE_SECTOR_MIDDLE=`echo $MMC_DEVICE_SECTOR_END/2|bc`
+
+# MMC/SD New Variables
+
+export MMCSD_DEVFS_NAME=mmcblk$SLOT
+export MMCSD_DEVFS_ENTRY=/dev/${MMCSD_DEVFS_NAME}
+export MMCSD_DEVFS_PARTITION_1=${MMCSD_DEVFS_ENTRY}p1
+export MMCSD_DEVFS_PARTITION_2=${MMCSD_DEVFS_ENTRY}p2
+
+export MMCSD_MOUNTPOINT_1=/media/mmcsdp`echo "$SLOT+1" | bc`
+export MMCSD_MOUNTPOINT_2=/media/mmcsdp`echo "$SLOT+2" | bc`
 
 export FILE_SIZE_BIG=file.size.big
 export FILE_SIZE_SMALL=file.size.small
 
 # Remove any existing partition
-$TESTSCRIPT/RemovePartitions.bash
+$TESTSCRIPT/removePartitions.sh
 
 # See if MMC in inserted, otherwise abort
-cat $PROCFS_PARTITIONS | grep $MMC_ROOT_NAME
-if [ "$?" -eq "1" ]; then
-	echo "FATAL: MMC is not inserted in the specified slot, cannot continue"
+mount | grep $MMCSD_DEVFS_ENTRY
+if [ "$?" -eq "0" ]; then
+	echo "FATAL: mmc/sd $MMCSD_DEVFS_ENTRY is not inserted in the specified slot, cannot continue"
 	exit 1
 fi
 
