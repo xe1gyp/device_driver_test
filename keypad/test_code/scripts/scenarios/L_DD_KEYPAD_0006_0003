@@ -1,0 +1,11 @@
+###############################################################################
+# Scenario: L_DD_KEYPAD_0006_0003
+# Author  : Abraham Arce
+# Date    : Tue Sep 22 16:43:35 CDT 2009
+###############################################################################
+
+# Begin L_DD_KEYPAD_0006_0003
+
+01  set -x; $UTILHANDLERS/handlerIrqAffinity.sh "switch" "$TESTBIN/evtest $DEVFS_KEYPAD" "369" "10"
+
+# End L_DD_KEYPAD_0006_0003
