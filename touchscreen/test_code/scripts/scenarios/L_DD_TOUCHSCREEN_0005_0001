@@ -1,0 +1,21 @@
+###############################################################################
+# Scenario: L_DD_TOUCHSCREEN_0005_0001
+# Author  : Abraham Arce
+# Date    : Tue Sep 22 16:43:35 CDT 2009
+###############################################################################
+
+# Begin L_DD_TOUCHSCREEN_0005_0001
+
+01  set -x; $UTILHANDLERS/handlerSchedulerPriority.sh "program" "1" "$TESTBIN/testtouchscreen $DEVFS_TOUCHSCREEN" "-20"
+02  set -x; $UTILHANDLERS/handlerSchedulerPriority.sh "program" "2" "$TESTBIN/testtouchscreen $DEVFS_TOUCHSCREEN" "+20"
+03  set -x; $UTILHANDLERS/handlerSchedulerPriority.sh "start" "1"
+04  set -x; $UTILHANDLERS/handlerSchedulerPriority.sh "verify" "1"
+
+# ---
+
+05  set -x; $UTILHANDLERS/handlerSchedulerPriority.sh "program" "1" "$TESTBIN/testtouchscreen $DEVFS_TOUCHSCREEN" "+20"
+06  set -x; $UTILHANDLERS/handlerSchedulerPriority.sh "program" "2" "$TESTBIN/testtouchscreen $DEVFS_TOUCHSCREEN" "-20"
+07  set -x; $UTILHANDLERS/handlerSchedulerPriority.sh "start" "1"
+08  set -x; $UTILHANDLERS/handlerSchedulerPriority.sh "verify" "2"
+
+# End L_DD_TOUCHSCREEN_0005_0001

@@ -1,0 +1,11 @@
+###############################################################################
+# Scenario: L_DD_TOUCHSCREN_0005_0003
+# Author  : Abraham Arce
+# Date    : Tue Sep 22 16:43:35 CDT 2009
+###############################################################################
+
+# Begin L_DD_TOUCHSCREEN_0005_0003
+
+01  set -x; $UTILHANDLERS/handlerIrqAffinity.sh "switch" "$TESTBIN/evtest $DEVFS_TOUCHSCREEN" "162" "10"
+
+# End L_DD_TOUCHSCREEN_0005_0003
