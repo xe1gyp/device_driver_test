@@ -554,7 +554,7 @@ int omap2_mcbsp_params_cfg(unsigned int id, int interface_mode,
 		omap2_mcbsp_set_srg_cfg_param(id,
 				interface_mode, &mcbsp_cfg, param);
 	omap_mcbsp_config(id, &mcbsp_cfg);
-	omap_mcbsp_start(id);
+	omap_mcbsp_start(id, 1, 1);
 
 	return 0;
 }
