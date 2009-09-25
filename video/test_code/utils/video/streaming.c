@@ -88,7 +88,7 @@ static int streaming_video(int output_device, int file_descriptor,
 
 	filledbuffer.type = reqbuf.type;
 	filledbuffer.memory = V4L2_MEMORY_MMAP;
-
+	filledbuffer.flags = 0;
 	for (i = 0; i <= 1; i++) {
 
 		filledbuffer.index = i;
