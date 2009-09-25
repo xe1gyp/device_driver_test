@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 	color_key = atoi(argv[3]);
-       if (v4l2_fmt.fmt.win.chromakey != color_key)
+	if (v4l2_fmt.fmt.win.chromakey != color_key)
 	v4l2_fmt.fmt.win.chromakey = color_key;
 
 	result = ioctl(file_descriptor, VIDIOC_S_FMT, &v4l2_fmt);
