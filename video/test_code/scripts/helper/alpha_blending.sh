@@ -5,13 +5,13 @@ OUTPUT=$2
 GLOBAL_ALPHA_GFX=$3
 GLOBAL_ALPHA_VID2=$4
 ALPHA_STATUS=$5
-GRAPHICS_ENTRY=/sys/class/display_control/omap_disp_control/graphics
-VIDEO1_ENTRY=/sys/class/display_control/omap_disp_control/video1
-VIDEO2_ENTRY=/sys/class/display_control/omap_disp_control/video2
-TV_ALPHA_ENTRY=/sys/class/display_control/omap_disp_control/tv_alphablend
-LCD_ALPHA_ENTRY=/sys/class/display_control/omap_disp_control/lcd_alphablend
-GFX_ALPHA_ENTRY=/sys/class/display_control/omap_disp_control/gfx_global_alpha
-VID2_ALPHA_ENTRY=/sys/class/display_control/omap_disp_control/vid2_global_alpha
+GRAPHICS_ENTRY=/sys/devices/platform/omapdss/overlay0/manager
+VIDEO1_ENTRY=/sys/devices/platform/omapdss/overlay1/manager
+VIDEO2_ENTRY=/sys/devices/platform/omapdss/overlay2/manager
+TV_ALPHA_ENTRY=/sys/devices/platform/omapdss/manager1/alpha_blending_enabled
+LCD_ALPHA_ENTRY=/sys/devices/platform/omapdss/manager0/alpha_blending_enabled
+GFX_ALPHA_ENTRY=/sys/devices/platform/omapdss/overlay0/global_alpha
+VID2_ALPHA_ENTRY=/sys/devices/platform/omapdss/overlay2/global_alpha
 RESULT=0
 
 #Testing Global Alpha Blending
