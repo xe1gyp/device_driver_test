@@ -123,7 +123,7 @@ then
 		exit 1
 	fi
 else
-	mkdir -p $OUTPUT_DIRECTORY
+	mkdir $OUTPUT_DIRECTORY
 	if [ -d $OUTPUT_DIRECTORY ]
 	then
 		echo "testsuites directory succesfully created"
@@ -136,16 +136,20 @@ fi
 # Compile all drivers
 for DRIVER in $TESTSUITES
 do 
-	make -C $ROOT/$DRIVER/test_code/
-	mkdir $OUTPUT_DIRECTORY/$DRIVER
+	cd $ROOT/$DRIVER/test_code/
+	make
+	cd $OUTPUT_DIRECTORY
+	mkdir $DRIVER
 	cp -r $ROOT/$DRIVER/test_code/* $OUTPUT_DIRECTORY/$DRIVER/
-	make -C $ROOT/$DRIVER/test_code/ clean
+	cd $ROOT/$DRIVER/test_code/
+	make clean
 done
 
 # Compile utils
-make -C $ROOT/utils
+cd $ROOT/utils
+make
 cp -r $ROOT/utils $OUTPUT_DIRECTORY/
-make -C $ROOT/utils/ clean
+make clean
 # Change permissions
 chmod -R 755 $OUTPUT_DIRECTORY
 
