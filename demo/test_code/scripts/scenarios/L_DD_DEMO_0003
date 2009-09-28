@@ -1,15 +1,18 @@
-#########################################################################################
+###############################################################################
 # Scenario    : L_DD_DEMO_0003
 # Author      : Name of Author
 # Date        : Thu Sep 17 11:25:35 CDT 2009
-# Description : Test Scheduler Priority
-#########################################################################################
+# Description : Process Parallelism
+###############################################################################
 
 # Begin L_DD_DEMO_0003
 
-01  set -x; $UTILHANDLERS/handlerSchedulerPriority.sh "program" "1" "dd if=/dev/urandom of=/temp1 bs=1K count=500" "+20"
-02  set -x; $UTILHANDLERS/handlerSchedulerPriority.sh "program" "2" "dd if=/dev/urandom of=/temp2 bs=1K count=500" "-20"
-03  set -x; $UTILHANDLERS/handlerSchedulerPriority.sh "start" "50"
-04  set -x; $UTILHANDLERS/handlerSchedulerPriority.sh "verify" "2"
+01  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "clean"
+02  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/tmp/tmp.1 bs=1M count=5"
+03  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/tmp/tmp.2 bs=1M count=5"
+04  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/tmp/tmp.3 bs=1M count=5"
+05  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/tmp/tmp.4 bs=1M count=5"
+06  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/tmp/tmp.5 bs=1M count=5"
+07  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "execute"
 
 # End L_DD_DEMO_0003

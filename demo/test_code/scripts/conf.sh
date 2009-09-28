@@ -22,6 +22,7 @@ export STRESS=""
 
 # External Utilities
 . ${TESTROOT}/../../utils/configuration/general.configuration
+export UTILBIN=${TESTROOT}/../../utils/bin
 
 # Driver specific
 export HELLO_WORLD_APP=hello.world
