@@ -3,8 +3,9 @@
 VID=$1
 RATE=$2
 LENS=$3
+DEVICE=$4
 
-${TESTBIN}/af_stream $VID $LENS $RATE "2" 
+${TESTBIN}/af_stream $DEVICE $VID $LENS $RATE "2"
 RESULT=$?
 echo "Test returned $RESULT"
 
