@@ -18,7 +18,6 @@
 # Change Log:
 ############################################################################
 
-DESTDIR := ${PWD}/bin
 OBJS := utilities install
 
 all: $(OBJS)
@@ -27,13 +26,13 @@ utilities:
 	make -C utils
 
 install:
-	mkdir -p $(DESTDIR)
+	mkdir bin
 	make -C utils install
 	mkdir -p scripts/test
 	mkdir -p scripts/tmp
 
 clean:
-	rm -rvf $(DESTDIR)
+	rm -rvf bin/
 	make -C utils clean
 	rm -rf scripts/log*
 	rm -rf scripts/tmp

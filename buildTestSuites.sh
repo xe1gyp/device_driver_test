@@ -40,7 +40,7 @@ then
 fi
 
 OUTPUT_DIRECTORY=$1
-ROOT=`pwd`
+TESTSUITES_ROOT=`pwd`
 DRIVERS_OBSOLETE="led sound_services"
 
 if [ -z $DRIVERS ]
@@ -101,6 +101,7 @@ fi
 export CROSS_COMPILE
 export KDIR
 export HOST
+export TESTSUITES_ROOT
 
 OUTPUT_DIRECTORY=$OUTPUT_DIRECTORY/testsuites
 
@@ -136,16 +137,16 @@ fi
 # Compile all drivers
 for DRIVER in $TESTSUITES
 do 
-	make -C $ROOT/$DRIVER/test_code/
+	make -C $TESTSUITES_ROOT/$DRIVER/test_code/
 	mkdir $OUTPUT_DIRECTORY/$DRIVER
-	cp -r $ROOT/$DRIVER/test_code/* $OUTPUT_DIRECTORY/$DRIVER/
-	make -C $ROOT/$DRIVER/test_code/ clean
+	cp -r $TESTSUITES_ROOT/$DRIVER/test_code/* $OUTPUT_DIRECTORY/$DRIVER/
+	make -C $TESTSUITES_ROOT/$DRIVER/test_code/ clean
 done
 
 # Compile utils
-make -C $ROOT/utils
-cp -r $ROOT/utils $OUTPUT_DIRECTORY/
-make -C $ROOT/utils/ clean
+make -C $TESTSUITES_ROOT/utils
+cp -r $TESTSUITES_ROOT/utils $OUTPUT_DIRECTORY/
+make -C $TESTSUITES_ROOT/utils/ clean
 # Change permissions
 chmod -R 755 $OUTPUT_DIRECTORY
 

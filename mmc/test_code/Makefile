@@ -18,7 +18,7 @@
 # Change Log:
 ############################################################################
 
-DESTDIR := ${PWD}/bin
+DESTDIR := bin
 OBJS := utilities install
 
 all: $(OBJS)

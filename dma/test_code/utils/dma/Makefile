@@ -7,6 +7,11 @@
 #===============================================================================
 
 CC := $(CROSS_COMPILE)gcc
+ifneq ($(strip $(TESTSUITES_ROOT)),)
+ SOURCE_DIR := ${TESTSUITES_ROOT}/dma/test_code/utils/dma
+else
+ SOURCE_DIR := ${PWD}/utils/dma
+endif
 
 MODULES = dma_single_channel.o \
   dma_chain_transfer.o \
@@ -27,7 +32,7 @@ MODULES = dma_single_channel.o \
 obj-m:=$(MODULES)
 
 all: $(TARGETS)
-	make -C $(KDIR) SUBDIRS=$(PWD)/utils/dma KERN=26 modules
+	make -C $(KDIR) SUBDIRS=$(SOURCE_DIR) KERN=26 modules
 
 install:
 	cp -v $(MODULES:.o=.ko) ../../mods

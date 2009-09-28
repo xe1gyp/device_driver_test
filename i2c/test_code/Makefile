@@ -43,7 +43,7 @@ LIBRARIES := libsensors.so.3.0.8 libsensors.a
 LIBRARIES_NM := libsensors.so.3.0.8
 LIBRARIES_LNK := libsensors.so libsensors.so.3
 
-DESTDIR := ${PWD}/bin
+DESTDIR := bin
 OBJS := utilities install
 
 all: $(OBJS)
