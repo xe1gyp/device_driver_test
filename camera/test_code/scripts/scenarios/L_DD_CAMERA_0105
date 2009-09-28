@@ -27,5 +27,6 @@ COMMENT comment.sh "Observe that captured video is displayed cleanly on LCD scre
 0014 set -x; capv.sh "30" "368 288" "YUYV"  "3"&& exit 0 || exit 1
 0015 set -x; capv.sh "30" "416 336" "YUYV"  "3"&& exit 0 || exit 1
 0016 set -x; capv.sh "30" "208 176" "YUYV"  "3"&& exit 0 || exit 1
+0017 set -x; capv.sh "30" "832 672" "YUYV"  "3"&& exit 0 || exit 1
 
 # End "L_DD_CAMERA_0105"
