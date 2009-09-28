@@ -5,8 +5,10 @@ SETIMG_PARAMETERS=$2
 SETCROP_PARAMETERS=$3
 STREAMING_PARAMETERS=$4
 ACTUAL_SIZE=30
+ACTUAL_WIDTH=0
+ACTUAL_HEIGHT=0
 INCREMENT=20
-EXIT_WHILE=0
+EXIT_WHILE=1
 RESULT=0
 
 
@@ -18,16 +20,18 @@ RESULT=`command_tracking.sh $RESULT $?`
 
 set $var
 WIDTH=`echo $SETIMG_PARAMETERS | awk '{print $2}'`
-HEIGTH=`echo $SETIMG_PARAMETERS | awk '{print $3}'`
+HEIGHT=`echo $SETIMG_PARAMETERS | awk '{print $3}'`
+ACTUAL_WIDTH=$((WIDTH/2))
+ACTUAL_HEIGHT=$((HEIGHT/2))
 
-while [ $EXIT_WHILE != 1 ];
+while [ $EXIT_WHILE -gt 0 ];
 do
 	# Usage: setcrop <vid> <left> <top> <width> <height>
 	$TESTBIN/setcrop $VIDEO_PIPELINE $SETCROP_PARAMETERS
 	RESULT=`command_tracking.sh $RESULT $?`
 
 	# Usage: setwin <vid> <left> <top> <width> <height>
-	$TESTBIN/setwin $VIDEO_PIPELINE 0 0 $ACTUAL_SIZE $ACTUAL_SIZE
+	$TESTBIN/setwin $VIDEO_PIPELINE 0 0 $ACTUAL_WIDTH $ACTUAL_HEIGHT
 	RESULT=`command_tracking.sh $RESULT $?`
 
 	# Usage: streaming <vid> <inputfile> [<n>]
@@ -39,12 +43,12 @@ do
 	fi
 
 	sleep 1
-	ACTUAL_SIZE=`expr "$ACTUAL_SIZE" "+" "$INCREMENT"`
-
-	if [ "$WIDTH" -lt "$ACTUAL_SIZE" ]; then
-		if [ "$HEIGTH" -lt "$ACTUAL_SIZE" ]; then
-			EXIT_WHILE=`expr "$EXIT_WHILE" "+" 1`
-		fi
+	ACTUAL_WIDTH=`expr "$ACTUAL_WIDTH" "+" "$INCREMENT"`
+	ACTUAL_HEIGHT=`expr "$ACTUAL_HEIGHT" "+" "$INCREMENT"`
+	EXIT_WHILE=`expr "$WIDTH" "-" "$ACTUAL_WIDTH"`
+	
+	if [ $EXIT_WHILE -gt 0 ];then
+		EXIT_WHILE=`expr "$HEIGHT" "-" "$ACTUAL_HEIGHT"`
 	fi
 
 done
