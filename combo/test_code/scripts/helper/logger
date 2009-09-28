@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -x
+
+operation=$1
+
+if [ "$operation" = "clean" ]; then
+  echo > $GENERAL_LOG_FILE
+
+elif [ "$operation" = "display" ]; then
+  cat $GENERAL_LOG_FILE
+fi
