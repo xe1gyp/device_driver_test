@@ -6,7 +6,7 @@
 
 # Begin L_DD_MMC_0002_0002
 
-01  set -x; $TESTSCRIPT/handlerMmcsdSetup.sh "create" "2"
-02  set -x; $TESTSCRIPT/handlerMmcsdSetup.sh "remove" "2"
+01  set -x; $MMCSD_DIR_HELPER/handlerMmcsdSetup.sh "create" "2"
+02  set -x; $MMCSD_DIR_HELPER/handlerMmcsdSetup.sh "remove" "2"
 
 # End L_DD_MMC_0002_0002

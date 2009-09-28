@@ -1,0 +1,46 @@
+###############################################################################
+# Scenario: L_DD_MMC_0018_0003
+# Author  : Abraham Arce
+# Date    : Thu Sep 24 20:46:51 CDT 2009
+###############################################################################
+
+# Begin L_DD_MMC_0018_0003
+
+01_01  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "create" "1" "ext2" "/mnt/mmc/"
+01_02  set -x; $UTILS_DIR_HANDLERS/handlerTmpfs.sh "create" "85" "/mnt/tmpfs/"
+
+01_03  set -x; dd if=/dev/urandom of=/mnt/tmpfs/file.temporal bs=1M count=75 && sync
+01_04  set -x; $UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "cp /mnt/tmpfs/file.temporal /mnt/mmc/file.cp" "1" "1"
+01_05  set -x; $UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "dd if=/mnt/tmpfs/file.temporal of=/mnt/mmc/file.dd" "1" "1"
+01_06  set -x; cmp /mnt/mmc/file.cp /mnt/mmc/file.dd
+
+01_07  set -x; $UTILS_DIR_HANDLERS/handlerTmpfs.sh "remove" "/mnt/tmpfs/"
+01_08  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "remove" "1" "/mnt/mmc/"
+
+# ---
+
+02_01  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "create" "1" "dos" "/mnt/mmc/"
+02_02  set -x; $UTILS_DIR_HANDLERS/handlerTmpfs.sh "create" "85" "/mnt/tmpfs/"
+
+02_03  set -x; dd if=/dev/urandom of=/mnt/tmpfs/file.temporal bs=1M count=75 && sync
+02_04  set -x; $UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "cp /mnt/tmpfs/file.temporal /mnt/mmc/file.cp" "1" "1"
+02_05  set -x; $UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "dd if=/mnt/tmpfs/file.temporal of=/mnt/mmc/file.dd" "1" "1"
+02_06  set -x; cmp /mnt/mmc/file.cp /mnt/mmc/file.dd
+
+02_07  set -x; $UTILS_DIR_HANDLERS/handlerTmpfs.sh "remove" "/mnt/tmpfs/"
+02_08  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "remove" "1" "/mnt/mmc/"
+
+# ---
+
+03_01  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "create" "2" "mixed" "/mnt/mmc1/" "/mnt/mmc2/"
+03_02  set -x; $UTILS_DIR_HANDLERS/handlerTmpfs.sh "create" "85" "/mnt/tmpfs/"
+
+03_03  set -x; dd if=/dev/urandom of=/mnt/tmpfs/file.temporal bs=1M count=75 && sync
+03_04  set -x; $UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "cp /mnt/tmpfs/file.temporal /mnt/mmc1/file.cp" "1" "1"
+03_05  set -x; $UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "dd if=/mnt/tmpfs/file.temporal of=/mnt/mmc2/file.dd" "1" "1"
+03_06  set -x; cmp /mnt/mmc1/file.cp /mnt/mmc2/file.dd
+
+03_07  set -x; $UTILS_DIR_HANDLERS/handlerTmpfs.sh "remove" "/mnt/tmpfs/"
+03_08  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "remove" "2"  "/mnt/mmc1/" "/mnt/mmc2/"
+
+# End L_DD_MMC_0018_0003

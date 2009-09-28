@@ -6,9 +6,9 @@
 
 # Begin L_DD_MMC_0005_0001
 
-01  set -x; $TESTSCRIPT/handlerMmcsdBlock.sh "create" "1" "ext2"
-02  set -x; dd if=/dev/urandom of=$TMPBASE/$FILE_SIZE_BIG bs=1M count=100
-03  set -x; $TESTSCRIPT/handlerMmcsdBlock.sh "remove" "1"
+01  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "create" "1" "ext2"
+02  set -x; dd if=/dev/urandom of=$MMCSD_DIR_TMP/$MMCSD_FILE_SIZE_BIG bs=1M count=100
+03  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "remove" "1"
 
 #01  set -x; mmc_test_dev0 1 testing1 && mmc_test_dev0 1 testing2 && exit 0 || exit 1
 #02  set -x; mmc_test_dev0 2 testing1 10 && mmc_test_dev0 2 testing2 10 && exit 0 || exit 1
@@ -26,10 +26,10 @@
 #14  set -x; mmc_test_dev0 14 rendir 123
 #15  set -x; mmc_test_dev0 15 $MMC_MOUNT_POINT_1/rendir/test && mmc_test_dev0 15 $MMC_MOUNT_POINT_1/rendir/testing2 && mmc_test_dev0 15 $MMC_MOUNT_POINT_1/test && exit 0 || exit 1
 #16  set -x; mmc_test_dev0 16 rendir && exit 0 || exit 1
-#17  set -x; mmc_test_dev0 17 $TMPBASE/$FILE_SIZE_BIG $MMC_MOUNT_POINT_1 && exit 0 || exit 1
-#18  set -x; mmc_test_dev0 18 $TMPBASE/$FILE_SIZE_SMALL $MMC_MOUNT_POINT_1 && exit 0 || exit 1
-#19  set -x; cp $TMPBASE/$FILE_SIZE_BIG $MMC_MOUNT_POINT_1 && mmc_test_dev0 19 $MMC_MOUNT_POINT_1/$FILE_SIZE_BIG $TESTDIR && exit 0 || exit 1
-#20  set -x; cp $TMPBASE/$FILE_SIZE_SMALL $MMC_MOUNT_POINT_1 && mmc_test_dev0 20 $MMC_MOUNT_POINT_1/$FILE_SIZE_SMALL $TESTDIR && exit 0 || exit 1
+#17  set -x; mmc_test_dev0 17 $MMCSD_DIR_TMP/$MMCSD_FILE_SIZE_BIG $MMC_MOUNT_POINT_1 && exit 0 || exit 1
+#18  set -x; mmc_test_dev0 18 $MMCSD_DIR_TMP/$MMCSD_FILE_SIZE_SMALL $MMC_MOUNT_POINT_1 && exit 0 || exit 1
+#19  set -x; cp $MMCSD_DIR_TMP/$MMCSD_FILE_SIZE_BIG $MMC_MOUNT_POINT_1 && mmc_test_dev0 19 $MMC_MOUNT_POINT_1/$MMCSD_FILE_SIZE_BIG $TESTDIR && exit 0 || exit 1
+#20  set -x; cp $MMCSD_DIR_TMP/$MMCSD_FILE_SIZE_SMALL $MMC_MOUNT_POINT_1 && mmc_test_dev0 20 $MMC_MOUNT_POINT_1/$MMCSD_FILE_SIZE_SMALL $TESTDIR && exit 0 || exit 1
 #21  set -x; mmc_test_dev0 21 && exit 0 || exit 1
 #22  set -x; mmc_test_dev0 24 testing && exit 0 || exit 1
 #23  set -x; mmc_test_dev0 9 dir && mmc_test_dev0 25 dir && exit 0 || exit 1

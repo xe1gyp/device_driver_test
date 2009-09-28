@@ -6,10 +6,10 @@
 
 # Begin L_DD_MMC_0003_0003
 
-01  set -x; $TESTSCRIPT/handlerMmcsdBlock.sh "create" "2" "dos"
-02  set -x; $TESTSCRIPT/handlerMmcsdBlock.sh "remove" "2"
+01  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "create" "2" "dos"
+02  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "remove" "2"
 
-03  set -x; $TESTSCRIPT/handlerMmcsdBlock.sh "create" "2" "ext2"
-04  set -x; $TESTSCRIPT/handlerMmcsdBlock.sh "remove" "2"
+03  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "create" "2" "ext2"
+04  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "remove" "2"
 
 # End L_DD_MMC_0003_0003

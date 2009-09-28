@@ -6,12 +6,12 @@
 
 # Begin L_DD_MMC_0004_0002
 
-01  set -x; $TESTSCRIPT/handlerMmcsdBlock.sh "create" "1" "ext2"
+01  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "create" "1" "ext2"
 
-02  set -x; dd if=/dev/urandom of=$TMPBASE/$FILE_SIZE_BIG bs=1M count=100
-03  set -x; cp $TMPBASE/$FILE_SIZE_BIG $MMCSD_MOUNTPOINT_1 && sync
-04  set -x; diff $TMPBASE/$FILE_SIZE_BIG $MMCSD_MOUNTPOINT_1/$FILE_SIZE_BIG && exit 0 || exit 1
+02  set -x; dd if=/dev/urandom of=$MMCSD_DIR_TMP/$MMCSD_FILE_SIZE_BIG bs=1M count=100
+03  set -x; cp $MMCSD_DIR_TMP/$MMCSD_FILE_SIZE_BIG $MMCSD_MOUNTPOINT_1 && sync
+04  set -x; diff $MMCSD_DIR_TMP/$MMCSD_FILE_SIZE_BIG $MMCSD_MOUNTPOINT_1/$MMCSD_FILE_SIZE_BIG && exit 0 || exit 1
 
-05  set -x; $TESTSCRIPT/handlerMmcsdBlock.sh "remove" "1"
+05  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "remove" "1"
 
 # End L_DD_MMC_0004_0002
