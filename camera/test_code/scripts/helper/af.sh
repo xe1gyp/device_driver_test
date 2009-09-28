@@ -4,8 +4,14 @@ VID=$1
 RATE=$2
 LENS=$3
 DEVICE=$4
+LENS_TYPE=$5
 
+if [ "$LENS_TYPE" = "RELATIVE" ]; then
+${TESTBIN}/af_stream_rel $DEVICE $VID $RATE
+else
 ${TESTBIN}/af_stream $DEVICE $VID $LENS $RATE "2"
+fi
+
 RESULT=$?
 echo "Test returned $RESULT"
 
