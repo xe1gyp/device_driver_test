@@ -14,3 +14,5 @@ elif [ "$LOCAL_COMMAND" = "stop" ]; then
 	kill $pid
 
 fi
+
+# End of file

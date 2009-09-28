@@ -1,22 +1,24 @@
 #!/bin/sh
 
-set -x
+LOCAL_OPERATION=$1
+LOCAL_COMMAND_LINE=$2
+LOCAL_EXECUTION_TIMES=$3
+LOCAL_TIME_TO_WAIT=$4
 
-LOCAL_COMMAND=$1
-LOCAL_PROGRAM=$2
-LOCAL_TIMES=$3
+echo "\nInfo: Command > $LOCAL_COMMAND_LINE\n"
 
-if [ "$LOCAL_COMMAND" = "switch" ]; then
+if [ "$LOCAL_OPERATION" = "switch" ]; then
 
-	eval $LOCAL_PROGRAM &
-	LOCAL_PID=`echo $!`
+  $LOCAL_COMMAND_LINE &
+	LOCAL_COMMAND_PID=`echo $!`
 	
-	count=0
-
-	while [ $count -lt $LOCAL_TIMES ]
+	count=1
+	processor=1
+	while [ $count -le $LOCAL_EXECUTION_TIMES ]
 	do
 
-		if [ ! -d "/proc/$LOCAL_PID" ]
+		echo -e "\nInfo: PID $LOCAL_COMMAND_PID | Processor $processor | Count $count of $LOCAL_EXECUTION_TIMES"
+		if [ ! -d "/proc/$LOCAL_COMMAND_PID" ]
 		then
 			break
 		fi
@@ -26,24 +28,29 @@ if [ "$LOCAL_COMMAND" = "switch" ]; then
 		if [ $rem -eq 0 ]
 		then
 			processor=1
-			$UTILBIN/taskset -p $processor $LOCAL_PID
+			$UTILS_DIR_BIN/taskset -p $processor $LOCAL_COMMAND_PID
 		else
 			processor=2
-			$UTILBIN/taskset -p $processor $LOCAL_PID
+			$UTILS_DIR_BIN/taskset -p $processor $LOCAL_COMMAND_PID
 		fi
 
-		if [ $? -eq 1 ]
+		if [ $? -ne 0 ]
 		then
-		  echo "Cannot set affinity for processor " $processor
-		  return 1
+			echo -e "Error: Could not set cpu affinity for processor $processor!"
+			# FixMe
+			# return 1
 		fi
 
 		count=`expr $count + 1`
-		echo "$LOCAL_PID | $count"
-		sleep 5
+		sleep $LOCAL_TIME_TO_WAIT
 
 	done
 
-	continue
+  echo -e "\nInfo: Command > $LOCAL_COMMAND_LINE\n"
+  echo -e "Info: Waiting for it to finish..."
+	wait
+	echo -e "Info: Done!\n"
 
 fi
+
+# End of file

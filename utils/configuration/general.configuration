@@ -1,17 +1,34 @@
 #!/bin/sh
 
-export UTILROOT=${TESTROOT}/../../utils/
-export UTILBIN=${UTILROOT}/bin/
-export UTILHANDLERS=${UTILROOT}/handlers/
+export UTILS_DIR_TMP=/tmp/
+test -d $HANDLERS_DIR_TMP || mkdir -p $UTILS_DIR_TMP
 
-# handlerPidExecutionTime.sh
-export PROCFS_PID_SCHED_START=$TMPBASE/procfs.sched.start
-export PROCFS_PID_SCHED_CURRENT=$TMPBASE/procfs.sched.current
+# General Variables
+export GENERAL_LOG_FILE=$UTILS_DIR_TMP/general.log.file
+export GENERAL_ERROR=$UTILS_DIR_TMP/general.error
+export SLEEP_TIME=5
+export DEBUG=y
 
-# handlerSchedulerPriority.sh
-export PRIORITY_PROGRAM=$TMPBASE/priority.program
-export PRIORITY_VALUE=$TMPBASE/priority.value
+# handlerProcessPriority.sh || handlerProcessPriorityExecutor.sh
+export HPP_PROCFS_PID_SCHED_START=$UTILS_DIR_TMP/hpp.procfs.pid.sched.start
+export HPP_PROCFS_PID_SCHED_CURRENT=$UTILS_DIR_TMP/hpp.procfs.pid.sched.current
+export HPP_COMMAND_LINE=$UTILS_DIR_TMP/hpp.command.line
+export HPP_COMMAND_PRIORITY_VALUE=$UTILS_DIR_TMP/hpp.command.priority.value
+export HPP_COMMAND_PRIORITY_HIGHER=$UTILS_DIR_TMP/hpp.command.priority.higher
 
-# handlerCpuAffinity.sh
-export CPU_AFFINITY_PID=$TMPBASE/cpu.affinity.pid
-export CPU_AFFINITY_COMMAND=$TMPBASE/cpu.affinity.command
+# handlerProcessParallelism.sh || handlerProcessParallelismExecutor.sh
+export HPP_LIST_OF_COMMANDS=$UTILS_DIR_TMP/hpp.list.of.commands
+export HPP_LIST_OF_PIDS_RUNNING=$UTILS_DIR_TMP/hpp.list.of.pids.running
+export HPP_LIST_OF_PIDS_FAILED=$UTILS_DIR_TMP/hpp.list.of.pids.failed
+
+# handlerAppTop2.sh
+export CPU_USAGE_RESULTS=$UTILS_DIR_TMP/cpu.usage.results
+export CPU_USAGE_VALUE_AVR=$UTILS_DIR_TMP/cpu.average
+export CPU_USAGE_VALUE_MAX=$UTILS_DIR_TMP/cpu.maximum
+export CPU_USAGE_VALUE_MIN=$UTILS_DIR_TMP/cpu.minimum
+export CPU_TEMPORAL_FILE=$UTILS_DIR_TMP/cpu.temporal.file
+export CPU_LOG_FILE=$UTILS_DIR_TMP/cpu.log.file
+
+# handlerAppCp.sh
+export TIME_APPLICATION=/testsuites/power_and_performance/utils/binaries/
+export TIME_EXEC_LOG=${TMPBASE}/cp.time.exec
