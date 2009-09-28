@@ -9,7 +9,8 @@
 CC := $(CROSS_COMPILE)gcc
 INCFLAGS += -I$(KDIR)/include -I$(KDIR)/arch/arm/plat-omap/include -I$(KDIR)/arch/arm/include
 
-objects := af_stream burst_mode burst_mode_120 burst_zoom capture flash_driver \
+objects := af_stream af_stream_rel burst_mode burst_mode_120 \
+	   burst_zoom capture flash_driver \
 	   h3a_stream hist_test multi_open prev_wrap process_cam rsz_vbuff \
 	   streaming_abs streaming_frame \
 	   streaming_to_video_file streaming_zoom fps
@@ -28,6 +29,10 @@ af_stream: af_stream.c lib.c ioctl.c framerateLib.c
 	@echo "  CC  af_stream"
 	@$(CC) $(INCFLAGS) -g af_stream.c lib.c ioctl.c framerateLib.c -o af_stream
 
+af_stream_rel: af_stream_rel.c lib.c ioctl.c framerateLib.c
+	@echo "  CC  af_stream_rel"
+	@$(CC) $(INCFLAGS) -g af_stream_rel.c lib.c ioctl.c framerateLib.c -o af_stream_rel
+
 burst_mode: burst_mode.c lib.c ioctl.c framerateLib.c
 	@echo "  CC  burst_mode"
 	@$(CC) $(INCFLAGS) -g burst_mode.c lib.c ioctl.c framerateLib.c -o burst_mode
@@ -42,7 +47,7 @@ burst_zoom: burst_zoom.c lib.c ioctl.c
 
 fps: fps.c lib.c ioctl.c framerateLib.c
 	@echo "  CC  fps"
-	@$(CC) $(INCFLAGS) -g fps.c lib.c ioctl.c framerateLib.c -o fps
+	@$(CC) $(INCFLAGS) -g -static fps.c lib.c ioctl.c framerateLib.c -o fps
 
 # this program is from V4L2 site with a bug fix for user ptr mode.
 capture: capture.c
