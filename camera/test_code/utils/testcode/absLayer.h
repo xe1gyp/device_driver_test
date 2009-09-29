@@ -163,6 +163,256 @@ int updateCcdc(int fd, char *ccdcOption)
 	return 1;
 }
 
+/**
+ * resetCcdc - Reset Abstraction layer to default values.
+ * @fd: File descriptor
+ * @ccdcOption: Text string indicating option to reset
+ **/
+int resetCcdc(int fd, char *ccdcOption)
+{
+	int ret;
+	static __u8 ispccdc_lsc_tbl[] = {
+#include "ispccdc_lsc5.dat"
+	};
+
+	/* ok - reset default */
+	bclamp_t.obgain = 0x10;
+	bclamp_t.obstpixel = 0;
+	bclamp_t.oblines = 0;
+	bclamp_t.oblen = 0;
+	bclamp_t.dcsubval = 0;
+
+	/* ok - reset default */
+	blcomp_t.b_mg = 0;
+	blcomp_t.gb_g = 0;
+	blcomp_t.gr_cy = 0;
+	blcomp_t.r_ye = 0;
+
+	fpc_tbl[0] = ((10 << 19) || (10 << 5) || (1 << 0));
+	fpc_tbl[1] = ((10 << 19) || (20 << 5) || (1 << 0));
+	fpc_tbl[2] = ((10 << 19) || (30 << 5) || (1 << 0));
+	fpc_tbl[3] = ((10 << 19) || (40 << 5) || (1 << 0));
+	fpc_tbl[4] = ((10 << 19) || (50 << 5) || (1 << 0));
+	fpc_t.fpnum = 0;
+	fpc_t.fpcaddr = (__u32)fpc_tbl;
+
+	/* ok - reset default */
+	culling_t.v_pattern = 0xFF;
+	culling_t.h_odd = 0xFF;
+	culling_t.h_even = 0xFF;
+
+	ispccdc_lsc_config_t.offset = 0x60;
+	ispccdc_lsc_config_t.gain_mode_n = 6;
+	ispccdc_lsc_config_t.gain_mode_m = 6;
+	ispccdc_lsc_config_t.gain_format = 4;
+	ispccdc_lsc_config_t.fmtsph = 0;
+	ispccdc_lsc_config_t.fmtlnh = 0;
+	ispccdc_lsc_config_t.fmtslv = 0;
+	ispccdc_lsc_config_t.fmtlnv = 0;
+	ispccdc_lsc_config_t.size = sizeof(ispccdc_lsc_tbl);
+
+	arg_ccdc_t.update = 0;
+	arg_ccdc_t.flag = 0;
+	arg_ccdc_t.alawip = 0;
+	arg_ccdc_t.bclamp = &bclamp_t;
+	arg_ccdc_t.blcomp = &blcomp_t;
+	arg_ccdc_t.fpc = &fpc_t;
+	arg_ccdc_t.cull = &culling_t;
+
+	arg_ccdc_t.lsc_cfg = &ispccdc_lsc_config_t;
+	arg_ccdc_t.lsc = (void *)ispccdc_lsc_tbl;
+
+
+	if ((!strcasecmp(ccdcOption, "alc"))) {
+		arg_ccdc_t.update = ISP_ABS_CCDC_ALAW;
+
+	} else if ((!strcasecmp(ccdcOption, "lpf"))) {
+		arg_ccdc_t.flag = 0;
+
+	} else if ((!strcasecmp(ccdcOption, "bcl"))) {
+		arg_ccdc_t.update = ISP_ABS_CCDC_BLCLAMP;
+		arg_ccdc_t.flag = ISP_ABS_CCDC_BLCLAMP;
+
+	} else if ((!strcasecmp(ccdcOption, "bcomp"))) {
+		/* No way to disable. Needs default values */
+		arg_ccdc_t.update = ISP_ABS_CCDC_BCOMP;
+
+	} else if ((!strcasecmp(ccdcOption, "fpc"))) {
+		arg_ccdc_t.update = ISP_ABS_CCDC_FPC;
+
+	} else if ((!strcasecmp(ccdcOption, "cull"))) {
+		/* No way to disable. Needs default values */
+		arg_ccdc_t.update = ISP_ABS_CCDC_CULL;
+
+	} else if ((!strcasecmp(ccdcOption, "col"))) {
+		arg_ccdc_t.colptn = 0;
+		arg_ccdc_t.update = ISP_ABS_CCDC_COLPTN;
+
+	} else if ((!strcasecmp(ccdcOption, "lc"))) {
+		arg_ccdc_t.update = 0;
+		arg_ccdc_t.flag = 0;
+	} else if ((!strcasecmp(ccdcOption, "all"))) {
+		arg_ccdc_t.update = ~0;
+		arg_ccdc_t.flag = ~0;
+	} else if ((!strcasecmp(ccdcOption, "none"))) {
+		arg_ccdc_t.update = 0;
+		arg_ccdc_t.flag = 0;
+	} else {
+		return 0;
+	}
+
+	ret = ioctl(fd, VIDIOC_PRIVATE_ISP_CCDC_CFG, &arg_ccdc_t);
+	if (ret == -1) {
+		printf("\nerror\n");
+		return 0;
+	}
+
+	/* Special case for 'bcl'.
+	 * First we reset to default values then call ioclt again
+	 * with only 'update' field set, which has the effect of
+	 * turning it off.
+	 */
+	if ((!strcasecmp(ccdcOption, "bcl"))) {
+		arg_ccdc_t.update = ISP_ABS_CCDC_BLCLAMP;
+	} else {
+		return 1;
+	}
+
+	ret = ioctl(fd, VIDIOC_PRIVATE_ISP_CCDC_CFG, &arg_ccdc_t);
+	if (ret == -1) {
+		printf("\nerror\n");
+		return 0;
+	}
+
+	return 1;
+}
+
+
+/**
+ * resetCcdc - Reset Abstraction layer to default values.
+ * @fd: File descriptor
+ * @ccdcOption: Text string indicating option to reset
+ **/
+int resetCcdc(int fd, char *ccdcOption)
+{
+	int ret;
+	static __u8 ispccdc_lsc_tbl[] = {
+#include "ispccdc_lsc5.dat"
+	};
+
+	/* ok - reset default */
+	bclamp_t.obgain = 0x10;
+	bclamp_t.obstpixel = 0;
+	bclamp_t.oblines = 0;
+	bclamp_t.oblen = 0;
+	bclamp_t.dcsubval = 0;
+
+	/* ok - reset default */
+	blcomp_t.b_mg = 0;
+	blcomp_t.gb_g = 0;
+	blcomp_t.gr_cy = 0;
+	blcomp_t.r_ye = 0;
+
+	fpc_tbl[0] = ((10 << 19) || (10 << 5) || (1 << 0));
+	fpc_tbl[1] = ((10 << 19) || (20 << 5) || (1 << 0));
+	fpc_tbl[2] = ((10 << 19) || (30 << 5) || (1 << 0));
+	fpc_tbl[3] = ((10 << 19) || (40 << 5) || (1 << 0));
+	fpc_tbl[4] = ((10 << 19) || (50 << 5) || (1 << 0));
+	fpc_t.fpnum = 0;
+	fpc_t.fpcaddr = (__u32)fpc_tbl;
+
+	/* ok - reset default */
+	culling_t.v_pattern = 0xFF;
+	culling_t.h_odd = 0xFF;
+	culling_t.h_even = 0xFF;
+
+	ispccdc_lsc_config_t.offset = 0x60;
+	ispccdc_lsc_config_t.gain_mode_n = 6;
+	ispccdc_lsc_config_t.gain_mode_m = 6;
+	ispccdc_lsc_config_t.gain_format = 4;
+	ispccdc_lsc_config_t.fmtsph = 0;
+	ispccdc_lsc_config_t.fmtlnh = 0;
+	ispccdc_lsc_config_t.fmtslv = 0;
+	ispccdc_lsc_config_t.fmtlnv = 0;
+	ispccdc_lsc_config_t.size = sizeof(ispccdc_lsc_tbl);
+
+	arg_ccdc_t.update = 0;
+	arg_ccdc_t.flag = 0;
+	arg_ccdc_t.alawip = 0;
+	arg_ccdc_t.bclamp = &bclamp_t;
+	arg_ccdc_t.blcomp = &blcomp_t;
+	arg_ccdc_t.fpc = &fpc_t;
+	arg_ccdc_t.cull = &culling_t;
+
+	arg_ccdc_t.lsc_cfg = &ispccdc_lsc_config_t;
+	arg_ccdc_t.lsc = (void *)ispccdc_lsc_tbl;
+
+
+	if ((!strcasecmp(ccdcOption, "alc"))) {
+		arg_ccdc_t.update = ISP_ABS_CCDC_ALAW;
+
+	} else if ((!strcasecmp(ccdcOption, "lpf"))) {
+		arg_ccdc_t.flag = 0;
+
+	} else if ((!strcasecmp(ccdcOption, "bcl"))) {
+		arg_ccdc_t.update = ISP_ABS_CCDC_BLCLAMP;
+		arg_ccdc_t.flag = ISP_ABS_CCDC_BLCLAMP;
+
+	} else if ((!strcasecmp(ccdcOption, "bcomp"))) {
+		/* No way to disable. Needs default values */
+		arg_ccdc_t.update = ISP_ABS_CCDC_BCOMP;
+
+	} else if ((!strcasecmp(ccdcOption, "fpc"))) {
+		arg_ccdc_t.update = ISP_ABS_CCDC_FPC;
+
+	} else if ((!strcasecmp(ccdcOption, "cull"))) {
+		/* No way to disable. Needs default values */
+		arg_ccdc_t.update = ISP_ABS_CCDC_CULL;
+
+	} else if ((!strcasecmp(ccdcOption, "col"))) {
+		arg_ccdc_t.colptn = 0;
+		arg_ccdc_t.update = ISP_ABS_CCDC_COLPTN;
+
+	} else if ((!strcasecmp(ccdcOption, "lc"))) {
+		arg_ccdc_t.update = 0;
+		arg_ccdc_t.flag = 0;
+	} else if ((!strcasecmp(ccdcOption, "all"))) {
+		arg_ccdc_t.update = ~0;
+		arg_ccdc_t.flag = ~0;
+	} else if ((!strcasecmp(ccdcOption, "none"))) {
+		arg_ccdc_t.update = 0;
+		arg_ccdc_t.flag = 0;
+	} else {
+		return 0;
+	}
+
+	ret = ioctl(fd, VIDIOC_PRIVATE_ISP_CCDC_CFG, &arg_ccdc_t);
+	if (ret == -1) {
+		printf("\nerror\n");
+		return 0;
+	}
+
+	/* Special case for 'bcl'.
+	 * First we reset to default values then call ioclt again
+	 * with only 'update' field set, which has the effect of
+	 * turning it off.
+	 */
+	if ((!strcasecmp(ccdcOption, "bcl"))) {
+		arg_ccdc_t.update = ISP_ABS_CCDC_BLCLAMP;
+	} else {
+		return 1;
+	}
+
+	ret = ioctl(fd, VIDIOC_PRIVATE_ISP_CCDC_CFG, &arg_ccdc_t);
+	if (ret == -1) {
+		printf("\nerror\n");
+		return 0;
+	}
+
+	return 1;
+}
+
+
 int updatePreview(int fd, char *previewOption)
 {
 	struct v4l2_queryctrl queryctrl;
