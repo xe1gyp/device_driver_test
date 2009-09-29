@@ -1,0 +1,12 @@
+################################################################################
+# Scenario: L_DD_NAND_0001_0001
+# Date    : Tue Sep 23 20:34:32 CDT 2008
+# Description: TI Baseport PPM Scenario A (Buffer Test)
+################################################################################
+
+# Begin L_DD_NAND_0001_0001
+
+01  set -x; $MTD_DIR_HELPER/handlerMtdBlock.sh "create" "nand" "/mnt/nand"
+02  set -x; $MTD_DIR_HELPER/handlerMtdBlock.sh "remove" "/mnt/nand"
+
+# End L_DD_NAND_0001_0001
