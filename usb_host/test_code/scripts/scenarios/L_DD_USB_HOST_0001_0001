@@ -1,0 +1,10 @@
+###############################################################################
+# Scenario: L_DD_USB_HOST_0001_0001
+# Testing : Test if the Host can use USB Mass Storage Devices
+###############################################################################
+
+# Begin L_DD_USB_HOST_0001_0001
+01  set -x; handlerUsbHost.sh  "create"  mentor "/mnt/mass_storage"
+02  set -x; mount && sleep 10 
+03  set -x; handlerUsbHost.sh  "remove"  mentor "/mnt/mass_storage"
+# End L_DD_USB_HOST_0001_0001
