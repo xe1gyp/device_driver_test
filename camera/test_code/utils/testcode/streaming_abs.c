@@ -450,6 +450,9 @@ exit2:
 	if (strcasecmp(absGroup, "CCDC") == 0)
 		resetCcdc(cfd, absOption);
 
+	if (strcasecmp(absGroup, "PREVIEW") == 0)
+		resetPreview(cfd, absOption);
+
 	if (count == -1) {
 		creqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 		if (ioctl(cfd, VIDIOC_STREAMOFF, &creqbuf.type) == -1) {
