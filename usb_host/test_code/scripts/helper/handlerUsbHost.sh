@@ -1,12 +1,12 @@
 #!/bin/sh
-
+set -x
 # =============================================================================
 # Variables
 # =============================================================================
 
 LOCAL_COMMAND=$1
 LOCAL_DRIVER=$2
-LOCAL_MOUNTPOINT=$3
+
 
 # =============================================================================
 # Functions
@@ -17,22 +17,44 @@ LOCAL_MOUNTPOINT=$3
 # Main
 # =============================================================================
 
-if [ "$LOCAL_COMMAND" = "create" ]; then
+if [ "$LOCAL_COMMAND" = "add" ]; then
 
-	$USBHOST_DIR_HELPER/handlerUsbHostSetup.sh "create" $LOCAL_DRIVER 
+		if [ "$LOCAL_DRIVER" = "mass_storage" ]; then
 
-	test -d $LOCAL_MOUNTPOINT || mkdir $LOCAL_MOUNTPOINT
-	sleep 10
-	ls /dev/sd*
-	echo "Command: sync && mount ${USBHOST_DEVFS_PARTITION} ${LOCAL_MOUNTPOINT} && sync"
-	sleep 5
-	mount ${USBHOST_DEVFS_PARTITION} $LOCAL_MOUNTPOINT && sync
+		LOCAL_NODE=$3
+		LOCAL_MOUNTPOINT=$4
+
+		sleep 10
+		mount | grep /dev/$LOCAL_NODE && umount /dev/$LOCAL_NODE
+		test -d $LOCAL_MOUNTPOINT/$LOCAL_NODE || mkdir -p $LOCAL_MOUNTPOINT/$LOCAL_NODE
+		ls /dev/sd*
+		mount /dev/${LOCAL_NODE}  $LOCAL_MOUNTPOINT/$LOCAL_NODE && sync
+
+	elif [ "$LOCAL_DRIVER" = "mouse" ]; then
+
+		cat /proc/bus/usb/devices | grep 'HID'
+		mknod ${USBHOST_HID_NODE} c 13 64
+		ls
+	fi
 	
 elif [ "$LOCAL_COMMAND" = "remove" ]; then
-	umount $LOCAL_MOUNTPOINT
-	rm -rf $LOCAL_MOUNTPOINT
-	$USBHOST_DIR_HELPER/handlerUsbHostSetup.sh "remove" $LOCAL_DRIVER 
 	
+	if [ "$LOCAL_DRIVER" = "mass_storage" ]; then
+
+		LOCAL_NODE=$3
+		LOCAL_MOUNTPOINT=$4
+
+		umount $LOCAL_MOUNTPOINT/$LOCAL_NODE
+		test -d $LOCAL_MOUNTPOINT/$LOCAL_NODE && rm -r $LOCAL_MOUNTPOINT/$LOCAL_NODE
+
+	elif [ "$LOCAL_DRIVER" = "mouse" ]; then
+
+		test -e $USBHOST_HID_NODE && rm $USBHOST_HID_NODE
+
+		ls $USBHOST_HID_NODE
+		mknod ${USBHOST_HID_NODE} c 13 64
+
+	fi
 	
 fi
 

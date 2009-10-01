@@ -8,6 +8,7 @@ export USBHOST_DIR_HELPER=${USBHOST_ROOT}/helper
 export USBHOST_DIR_TMP=${USBHOST_ROOT}/tmp
 export USBHOST_DIR_TEST=${USBHOST_ROOT}/test
 export USBHOST_DIR_SCENARIOS="${USBHOST_ROOT}/scenarios"
+export USBHOST_DIR_BINARIES=${USBHOST_ROOT}/../binaries
 
 export USBHOST_FILE_OUTPUT=${USBHOST_ROOT}/output.$USBHOST_POSTFIX
 export USBHOST_FILE_LOG=${USBHOST_ROOT}/log.$USBHOST_POSTFIX
@@ -20,23 +21,18 @@ export USBHOST_VERBOSE=""
 export USBHOST_SCENARIO_NAMES=""
 export USBHOST_STRESS=""
 
-export PATH="${USBHOST_ROOT}:${USBHOST_DIR_HELPER}:${PATH}"
+export PATH="${USBHOST_ROOT}:${USBHOST_DIR_HELPER}:${USBHOST_DIR_BINARIES}:${PATH}"
 
 # Utils General Variables
 . ${USBHOST_ROOT}/../../utils/configuration/general.configuration
 export UTILS_DIR_BIN=${USBHOST_ROOT}/../../utils/bin
 export UTILS_DIR_HANDLERS=${USBHOST_ROOT}/../../utils/handlers
-export UTILSMODULES=${USBHOST_ROOT}/../../utils/modules
-export UTILSBINARIES=${USBHOST_ROOT}/../../utils/binaries
-export SYSFS_EHCI_OMAP=/sys/devices/platform/ehci-omap.0/
-export SYSFS_OHCI_OMAP=/sys/devices/platform/ohci-omap.0/
-export USBHOST_ENUMERATION=/sys/devices/platform/musb_hdrc/mode
 
 # USB Host Specific Variables
-export USBHOST_TEMP_VARIABLE=1
-export USBHOST_MODULES_STORAGE=${TESTMODULES}
-export USBHOST_RESULTS_STORAGE=${TMPBASE}
-export USBHOST_DEVFS_ENTRY=/dev/sda
-export USBHOST_DEVFS_PARTITION=/dev/sda1
+export USBHOST_DIR_MODULES=${USBHOST_ROOT}/../modules
+export USBHOST_HID_NODE=/dev/event2
+export USBHOST_SYSFS_EHCI_OMAP=/sys/devices/platform/ehci-omap.0/
+export USBHOST_SYSFS_OHCI_OMAP=/sys/devices/platform/ohci-omap.0/
+export USBHOST_SYSFS_MUSB_ENUMERATION=/sys/devices/platform/musb_hdrc/mode
 
 # End of file

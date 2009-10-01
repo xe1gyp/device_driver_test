@@ -1,0 +1,26 @@
+#####################################################################################
+# Scenario: L_DD_USB_HOST_0001_0006
+# Testing : Read-Write data from one device to another using the Mentor and EHCI port
+#####################################################################################
+
+# Begin L_DD_USB_HOST_0001_0006
+01  set -x; handlerUsbHostSetup.sh  "create"  "mentor"
+02  set -x; handlerUsbHostSetup.sh  "create"  "ehci"
+03  set -x; handlerUsbHost.sh  "add"  "mass_storage" "sda1" "/mnt/mentor/"
+04  set -x; handlerUsbHost.sh  "add"  "mass_storage" "sdb1" "/mnt/ehci/"
+05  set -x; df -h
+05  dd if=/dev/zero of=/mnt/mentor/sda1/file_sda1 bs=1M count=5
+06  dd if=/dev/zero of=/mnt/ehci/sdb1/file_sdb1 bs=1M count=6
+07  cp /mnt/mentor/sda1/file_sda1 /mnt/ehci/sdb1/
+08  cp /mnt/ehci/sdb1/file_sdb1 /mnt/mentor/sda1/
+09	cmp /mnt/mentor/sda1/file_sda1 /mnt/ehci/sdb1/file_sda1
+10	cmp /mnt/ehci/sdb1/file_sdb1 /mnt/mentor/sda1/file_sdb1
+11	rm /mnt/ehci/sdb1/file_sdb1
+12	rm /mnt/mentor/sda1/file_sdb1
+13	rm /mnt/ehci/sda1/file_sda1
+14	rm /mnt/mentor/sda1/file_sda1
+15  set -x; handlerUsbHost.sh  "remove"  "mass_storage" "sdb1" "/mnt/ehci/"
+16  set -x; handlerUsbHost.sh  "remove"  "mass_storage" "sda1" "/mnt/mentor/"
+17  set -x; handlerUsbHostSetup.sh  "remove"  "ehci"
+18  set -x; handlerUsbHostSetup.sh  "remove"  "mentor"
+# End L_DD_USB_HOST_0001_0006

@@ -8,63 +8,76 @@ LOCAL_COMMAND=$1
 LOCAL_DRIVER=$2
 
 # =============================================================================
+# Functions
+# =============================================================================
+
+
+# =============================================================================
 # Main
 # =============================================================================
 
 if [ "$LOCAL_COMMAND" = "create" ]; then
-	
+
+	mount | grep usbfs || mount -t usbfs none /proc/bus/usb/
+
 	if [ "$LOCAL_DRIVER" = "mentor" ]; then
-	
+
 		echo "Inserting the module"
-		insmod $UTILSMODULES/g_zero.ko
+		insmod $USBHOST_DIR_MODULES/g_zero.ko
 		lsmod | grep  g_zero
-		sleep 10
-		echo "otg" > $USBHOST_ENUMERATION
-		cat /proc/bus/usb/devices
-		
+		echo "otg" > $USBHOST_SYSFS_MUSB_ENUMERATION
+
 	elif [ "$LOCAL_DRIVER" = "ehci" ]; then
 		
 		echo "Inserting the module"
-		insmod $UTILSMODULES/ehci-hcd.ko
+		insmod $USBHOST_DIR_MODULES/ehci-hcd.ko
 		echo "Checking and interact with sysfs ehci entries"
-		ls $SYSFS_EHCI_OMAP/usb1
-	
+
+		ls $USBHOST_SYSFS_EHCI_OMAP/usb1
 		if [ $? = 0 ]; then
-				echo on >  $SYSFS_EHCI_OMAP/usb1/power/level
-		else 
-			ls $SYSFS_EHCI_OMAP/usb2
-			if [ $? = 0 ]; then
-				echo on >  $SYSFS_EHCI_OMAP/usb2/power/level
-			fi
+				echo on >  $USBHOST_SYSFS_EHCI_OMAP/usb1/power/level
+			else
+				ls $USBHOST_SYSFS_EHCI_OMAP/usb2
+					if [ $? = 0 ]; then
+					echo on >  $USBHOST_SYSFS_EHCI_OMAP/usb2/power/level
+					else
+						ls $USBHOST_SYSFS_EHCI_OMAP/usb3
+						if [ $? = 0 ]; then
+						echo on >  $USBHOST_SYSFS_EHCI_OMAP/usb3/power/level
+						fi
+					fi
 		fi
-	lsmod | grep  ehci_hcd
-	sleep 10
-	cat /proc/bus/usb/devices
 	
+	lsmod | grep  ehci_hcd
+
 	
 	elif [ "$LOCAL_DRIVER" = "ohci" ]; then
 
 		echo "Inserting the module"
-		insmod $UTILSMODULES/ohci-hcd.ko
+		insmod $USBHOST_DIR_MODULES/ohci-hcd.ko
 		echo "Checking and interact with sysfs ochi entries"
-		ls $SYSFS_OHCI_OMAP/usb1
-    		
-		if [ $? = 0 ]; then
-				echo on >  $SYSFS_OHCI_OMAP/usb1/power/level
-		else 
-			ls $SYSFS_OHCI_OMAP/usb2
-      		
-			if [ $? = 0 ]; then
-				echo on >  $SYSFS_OHCI_OMAP/usb2/power/level
-			fi
+
+		ls $USBHOST_SYSFS_OHCI_OMAP/usb1
+	if [ $? = 0 ]; then
+				echo on >  $USBHOST_SYSFS_OHCI_OMAP/usb1/power/level
+			else
+				ls $USBHOST_SYSFS_OHCI_OMAP/usb2
+				if [ $? = 0 ]; then
+					echo on >  $USBHOST_SYSFS_OHCI_OMAP/usb2/power/level
+					else
+						ls $USBHOST_SYSFS_OHCI_OMAP/usb3
+						if [ $? = 0 ]; then
+						echo on >  $USBHOST_SYSFS_OHCI_OMAP/usb3/power/level
+						fi
+					fi
 		fi
+		
 		lsmod | grep  ohci_hcd
-		sleep 10
-		cat /proc/bus/usb/devices
-		
+
 	fi
-sleep 10			
-		
+
+	sleep 10
+
 
 elif [ "$LOCAL_COMMAND" = "remove" ]; then
 		
