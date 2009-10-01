@@ -60,7 +60,6 @@ export COMBO_FILE_NAND=file.nand
 export COMBO_FILE_MMCSD=file.mmcsd
 export COMBO_FILE_TMPFS=file.tmpfs
 
-
 export COMBO_NAND_TIME_CREATION=$COMBO_DIR_TMP/nand.time.creation
 export COMBO_NAND_TIME_REMOVAL=$COMBO_DIR_TMP/nand.time.removal
 export COMBO_MMCSD_TIME_CREATION=$COMBO_DIR_TMP/mmcsd.time.creation

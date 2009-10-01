@@ -1,12 +1,11 @@
 #!/bin/sh
 
-set -x
-
 operation=$1
 
 if [ "$operation" = "clean" ]; then
-  echo > $GENERAL_LOG_FILE
-
+  $UTILS_DIR_HANDLERS/handlerStatistics.sh "clean"
 elif [ "$operation" = "display" ]; then
-  cat $GENERAL_LOG_FILE
+  $UTILS_DIR_HANDLERS/handlerStatistics.sh "display"
 fi
+
+# End of file

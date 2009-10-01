@@ -5,9 +5,9 @@ set -x
 operation=$1
 
 if [ "$operation" = "setup" ]; then
-  time $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "create" "1" "ext2" /mnt/mmcsd/
+  $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "create" "1" "ext2" /mnt/mmcsd/
 elif [ "$operation" = "cleanup" ]; then
-  time $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "remove" "1" /mnt/mmcsd/
+  $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "remove" "1" /mnt/mmcsd/
 fi
 
 # End of file

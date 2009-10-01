@@ -9,14 +9,16 @@ if [ "$operation" = "create" ]; then
   size=$2
   to=$3
 
-  $UTILS_DIR_HANDLERS/handlerStatistics.sh "dd if=/dev/urandom of=/mnt/$to/file.$to bs=1M count=$size" "1"
+  $UTILS_DIR_HANDLERS/handlerCmdDd.sh "1" "/mnt/$to/file.$to" "$size"
+  wait   
 
 elif [ "$operation" = "copy" ]; then
 
   from=$2
   to=$3
 
-  $UTILS_DIR_HANDLERS/handlerStatistics.sh "cp /mnt/$from/file.$from /mnt/$to/" "1"
+  $UTILS_DIR_HANDLERS/handlerCmdCp.sh "1" "/mnt/$from/file.$from" "/mnt/$to/file.$from"
+  wait
 
   cmp /mnt/$from/file.$from /mnt/$to/file.$from
 
@@ -25,8 +27,8 @@ elif [ "$operation" = "readwrite" ]; then
   from=$2
   to=$3
 
-  $UTILS_DIR_HANDLERS/handlerStatistics.sh "cp /mnt/$from/file.$from /mnt/$to/file.$to.rw" "1" &
-  $UTILS_DIR_HANDLERS/handlerStatistics.sh "cp /mnt/$to/file.$to /mnt/$from/file.$from.rw" "2" &
+  $UTILS_DIR_HANDLERS/handlerCmdCp.sh "1" "/mnt/$from/file.$from" "/mnt/$to/file.$to.rw" &
+  $UTILS_DIR_HANDLERS/handlerCmdCp.sh "2" "/mnt/$to/file.$to" "/mnt/$from/file.$from.rw" &
   wait
 
   cmp /mnt/$from/file.$from /mnt/$to/file.$to.rw
@@ -38,6 +40,5 @@ elif [ "$operation" = "remove" ]; then
   rm /mnt/$device/file.$device
 
 fi
-
 
 # End of file

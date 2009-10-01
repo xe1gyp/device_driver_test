@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -x
-
 # =============================================================================
 # Local Variables
 # =============================================================================
@@ -41,8 +39,7 @@ elif [ "$LOCAL_COMMAND" = "remove" ]; then
 
   LOCAL_MOUNT_POINT=$2
 
-  sync && umount $LOCAL_MOUNT_POINT && sync
-  sleep 5
+  sync && umount $LOCAL_MOUNT_POINT
   mount
 
   test -d $LOCAL_MOUNT_POINT && rm -rf $LOCAL_MOUNT_POINT

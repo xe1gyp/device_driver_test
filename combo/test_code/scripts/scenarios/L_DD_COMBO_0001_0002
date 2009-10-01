@@ -6,25 +6,31 @@
 
 # Begin L_DD_COMBO_0001_0002
 
-# Setup the devices
+# logger cleanup
 01  logger    clean
-02  nand      setup
-03  onenand   setup
 
-# Create 1 file, 1 MB, one under mmcsd, the other one under nand
-04  file      create      5         nand
-05  file      create      5         onenand
+# device setup
+02  onenand   setup
+03  mmcsd     setup
+04  tmpfs     setup
 
-# Copy from mmcsd to nand
-06  file      copy        onenand    nand
-07  file      copy        nand       onenand
+# file creation
+05  file      create     25        tmpfs
+06  file      create     25        mmcsd
 
-# Read/Write in mmcsd/nand in parallel
-08  file      readwrite   nand      onenand
+# copy files
+07  file      copy       tmpfs     onenand
+08  file      copy       tmpfs     mmcsd
 
-# Cleanup the devices
-09  onenand   cleanup
-10  nand      cleanup
-11  logger    display
+# read/write parallel operations
+09  file      readwrite  tmpfs     mmcsd
+
+# device cleanup
+10  tmpfs     cleanup
+11  mmcsd     cleanup
+12  onenand   cleanup
+
+# logger display
+13  logger    display
 
 # End L_DD_COMBO_0001_0002
