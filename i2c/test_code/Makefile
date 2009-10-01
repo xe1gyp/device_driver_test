@@ -31,39 +31,39 @@
 ############################################################################
 
 
-CC := $(CROSS_COMPILE)gcc
+#CC := $(CROSS_COMPILE)gcc
 
-BINARIES := utils/lmsensor/prog/dump/i2cdump \
-	utils/lmsensor/prog/dump/i2cset \
-	utils/lmsensor/prog/detect/i2cdetect \
-	utils/lmsensor/prog/dump/i2c_master_test \
-	utils/lmsensor/prog/dump/i2c_slave_test
-LIBDIR := utils/lmsensor/lib/
-LIBRARIES := libsensors.so.3.0.8 libsensors.a
-LIBRARIES_NM := libsensors.so.3.0.8
-LIBRARIES_LNK := libsensors.so libsensors.so.3
+#BINARIES := utils/lmsensor/prog/dump/i2cdump \
+#	utils/lmsensor/prog/dump/i2cset \
+#	utils/lmsensor/prog/detect/i2cdetect \
+#	utils/lmsensor/prog/dump/i2c_master_test \
+#	utils/lmsensor/prog/dump/i2c_slave_test
+#LIBDIR := utils/lmsensor/lib/
+#LIBRARIES := libsensors.so.3.0.8 libsensors.a
+#LIBRARIES_NM := libsensors.so.3.0.8
+#LIBRARIES_LNK := libsensors.so libsensors.so.3
 
-DESTDIR := ${PWD}/bin
-OBJS := utilities install
+#DESTDIR := ${PWD}/bin
+#OBJS := utilities install
 
-all: $(OBJS)
+#all: $(OBJS)
 
-utilities:
-	make -C utils/lmsensor user CC=$(CC) LINUX=$(KDIR)
+#utilities:
+#	make -C utils/lmsensor user CC=$(CC) LINUX=$(KDIR)
 
-install:
-	mkdir -p $(DESTDIR)
-	mkdir -p scripts/test
-	mkdir -p scripts/tmp
-	cp -v $(BINARIES) bin/
-	for i in $(LIBRARIES); do cp -v $(LIBDIR)/$$i utils/lib/; done
-	cd utils/lib; for i in $(LIBRARIES_LNK); do if [ ! -s $$i ]; then ln -vs $(LIBRARIES_NM) $$i ; fi; done
+#install:
+#	mkdir -p $(DESTDIR)
+#	mkdir -p scripts/test
+#	mkdir -p scripts/tmp
+#	cp -v $(BINARIES) bin/
+#	for i in $(LIBRARIES); do cp -v $(LIBDIR)/$$i utils/lib/; done
+#	cd utils/lib; for i in $(LIBRARIES_LNK); do if [ ! -s $$i ]; then ln -vs $(LIBRARIES_NM) $$i ; fi; done
 
-clean:
-	make -C utils/lmsensor clean
-	rm -vf bin/* lib/*
-	rm -rvf $(DESTDIR)
-	rm -rf scripts/log*
-	rm -rf scripts/tmp
-	rm -rf scripts/test
-	for i in $(LIBRARIES); do rm -vf utils/lib/$$i; done
+#clean:
+#	make -C utils/lmsensor clean
+#	rm -vf bin/* lib/*
+#	rm -rvf $(DESTDIR)
+#	rm -rf scripts/log*
+#	rm -rf scripts/tmp
+#	rm -rf scripts/test
+#	for i in $(LIBRARIES); do rm -vf utils/lib/$$i; done
