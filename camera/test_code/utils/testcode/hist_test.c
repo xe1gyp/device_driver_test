@@ -22,7 +22,8 @@
 #define HIST_MEM_SIZE		1024
 
 #define DEFAULT_PIXEL_FMT "YUYV"
-#define DEFAULT_VIDEO_SIZE "QCIF"
+#define DEFAULT_VIDEO_SIZE "QVGA"
+#define DSS_STREAM_START_FRAME	3
 
 __u16 speed_test_results[40][2];
 
@@ -35,7 +36,7 @@ void hist_output(__u32 *hist_data, int hist_cnt_bins, FILE *fp_out)
 
 	printf("\nWriting statistics to hist_data.out file\n");
 	color_offset = (256 >> (3 - hist_cnt_bins));
-	printf("After color offset");
+	printf("After color offset\n");
 	fprintf(fp_out, " ===LINUX BASEPORT HISTOGRAM DRIVER OUTPUT===\n\n");
 	fprintf(fp_out, "BIN value\tColor0\tColor1\tColor2\tColor3\n");
 	fprintf(fp_out, "=========\t======\t======\t======\t======\n\n");
@@ -344,7 +345,7 @@ int main(int argc, char *argv[])
 	vfilledbuffer.type = vreqbuf.type;
 	i = 0;
 
-	while (i < 2) {
+	while (i < 2+DSS_STREAM_START_FRAME) {
 		int aux = 0;
 		/* De-queue the next avaliable buffer */
 		while (ioctl(cfd, VIDIOC_DQBUF, &cfilledbuffer) < 0)
@@ -362,7 +363,7 @@ int main(int argc, char *argv[])
 		}
 		i++;
 
-		if (i == 3) {
+		if (i == DSS_STREAM_START_FRAME) {
 			/* Turn on streaming for video */
 			if (ioctl(vfd, VIDIOC_STREAMON, &vreqbuf.type)) {
 				perror("dss VIDIOC_STREAMON");
@@ -370,7 +371,7 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		if (i >= 3) {
+		if (i >= DSS_STREAM_START_FRAME) {
 			/* De-queue the previous buffer from video driver */
 			if (ioctl(vfd, VIDIOC_DQBUF, &vfilledbuffer)) {
 				perror("dss VIDIOC_DQBUF");
@@ -380,9 +381,11 @@ int main(int argc, char *argv[])
 			cfilledbuffer.index = vfilledbuffer.index;
 			while (ioctl(cfd, VIDIOC_QBUF, &cfilledbuffer) < 0)
 				perror("cam VIDIOC_QBUF");
-		}
+
 
 	/* ************************* HIST TEST **************************** */
+
+		/* Start the hist test after the DSS stream-on */
 		/* HIST params */
 		if (argc > 1
 		    && (!strcmp(argv[1], "CCDC") || !strcmp(argv[1], "MEM"))) {
@@ -493,10 +496,11 @@ int main(int argc, char *argv[])
 		/* Display stats */
 
 		free(hist_data_user.hist_statistics_buf);
-
+	}
 /* ******************** ENDS H3A TEST ******************** */
 
 	}
+
 
 	if (ioctl(cfd, VIDIOC_STREAMOFF, &creqbuf.type) == -1) {
 		perror("cam VIDIOC_STREAMOFF");

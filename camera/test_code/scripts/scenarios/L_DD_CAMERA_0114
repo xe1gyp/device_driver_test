@@ -18,7 +18,7 @@ COMMENT comment.sh "Test camera features as: AWB, AE, Histogram, single and vide
 0001_E set -x; AWB-AE-HIST.sh "AWB" 5 "3"&& exit 0 || exit 1
 0002_A set -x; AWB-AE-HIST.sh "AE" 6 "3"&& exit 0 || exit 1
 0002_B set -x; AWB-AE-HIST.sh "AE" 7 "3"&& exit 0 || exit 1
-#0003 set -x; AWB-AE-HIST.sh "HIST" && exit 0 || exit 1
+0003 set -x; AWB-AE-HIST.sh "HIST" && exit 0 || exit 1
 #0004 set -x; burstest.sh VGA YUYV "3" 5 BW && exit 0 || exit 1
 #0005 set -x; effect.sh "color" "VGA" "YUYV" "3" && exit 0 || exit 1
 #0006 set -x; burstest.sh VGA YUYV "3" 5 SEPIA && exit 0 || exit 1
