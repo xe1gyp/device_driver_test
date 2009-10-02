@@ -18,6 +18,7 @@
 #define VIDEO_DEVICE1 "/dev/video1"
 #define VIDEO_DEVICE2 "/dev/video2"
 #define BYTES_PER_WINDOW	16
+#define DSS_STREAM_START_FRAME	3
 
 #define DIGITAL_GAIN_DEFAULT	0x100
 #define DIGITAL_GAIN_MAX	0x500
@@ -96,7 +97,7 @@ int main(int argc, char *argv[])
 	int index = 1;
 	int framerate = 30;
 	int gainType = 1;
-	int done_flag = 0;
+	int done_flag = 0, skip_aewb_req_flag = 0;
 	int bytes;
 	unsigned int exp_max, exp_min, exp_step, exp_cur;
 	unsigned int gain_max, gain_min, gain_step, gain_cur;
@@ -315,6 +316,16 @@ int main(int argc, char *argv[])
 		}
 	}
 
+
+	/************************************************************/
+	/* turn on streaming for camera */
+
+	if (ioctl(cfd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
+		perror("cam VIDIOC_STREAMON");
+		return -1;
+	}
+
+
 	/************************************************************/
 	/* Query Exposure limits */
 	qc.id = V4L2_CID_EXPOSURE;
@@ -357,18 +368,12 @@ int main(int argc, char *argv[])
 			perror("cam Get V4L2_CID_GAIN");
 			return -1;
 	}
-	exp_cur = control.value;
+	gain_cur = control.value;
 
 	/************************************************************/
 
 
-	/* turn on streaming on both drivers */
-	if (ioctl(cfd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
-		perror("cam VIDIOC_STREAMON");
-		return -1;
-	}
-
-	/* caputure 1000 frames */
+	/* capture 1000 frames */
 	cfilledbuffer.type = creqbuf.type;
 	vfilledbuffer.type = vreqbuf.type;
 	i = 0;
@@ -491,7 +496,7 @@ request:
 		}
 		i++;
 
-		if (i == 3) {
+		if (i == DSS_STREAM_START_FRAME) {
 			/* Turn on streaming for video */
 			if (ioctl(vfd, VIDIOC_STREAMON, &vreqbuf.type)) {
 				perror("dss VIDIOC_STREAMON");
@@ -499,7 +504,7 @@ request:
 			}
 		}
 
-		if (i >= 3) {
+		if (i >= DSS_STREAM_START_FRAME) {
 			/* De-queue the previous buffer from video driver */
 			if (ioctl(vfd, VIDIOC_DQBUF, &vfilledbuffer)) {
 				perror("dss VIDIOC_DQBUF");
@@ -507,7 +512,7 @@ request:
 			}
 		}
 
-		if (i >= 3) {
+		if (i >= DSS_STREAM_START_FRAME) {
 			cfilledbuffer.index = vfilledbuffer.index;
 			while (ioctl(cfd, VIDIOC_QBUF, &cfilledbuffer) < 0)
 				perror("cam VIDIOC_QBUF");
@@ -645,6 +650,7 @@ request:
 			if (ret != 0)
 				printf("Failed to set V4L2_CID_GAIN to %d\n",
 					control.value);
+			skip_aewb_req_flag = 1;
 			break;
 
 		case 7:
@@ -664,6 +670,7 @@ request:
 			if (ret != 0)
 				printf("Failed to set V4L2_CID_EXPOSURE"
 					" to %d\n", control.value);
+			skip_aewb_req_flag = 1;
 			break;
 
 		case 8:
@@ -721,12 +728,16 @@ request:
 			printf("Test is in incorrect state");
 			done_flag = 1;
 		}
-		ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AEWB_REQ,
-						&aewb_data_user);
-		if (ret < 0) {
-			perror("ISP_AEWB_REQ 7");
-			goto exit;
+
+		if (!skip_aewb_req_flag) {
+			ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AEWB_REQ,
+							&aewb_data_user);
+			if (ret < 0) {
+				perror("ISP_AEWB_REQ 7");
+				goto exit;
+			}
 		}
+
 	}
 
 exit:
