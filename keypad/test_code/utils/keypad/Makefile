@@ -9,7 +9,7 @@
 CC := $(CROSS_COMPILE)gcc
 CFLAGS=-g -O -Wall -I.. 
 
-TARGETS = openclose testkeypad 
+TARGETS = dev_name openclose testkeypad
 
 all: $(TARGETS)
 

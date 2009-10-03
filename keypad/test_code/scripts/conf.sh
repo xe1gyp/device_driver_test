@@ -29,17 +29,18 @@ export DMESG_FILE=/var/log/dmesg
 export CHIP_NAME=twl
 
 # Keypad devfs node
-TEMP_EVENT=`ls /sys/class/input/ | grep event`
+TEMP_EVENT=`ls /dev/input/ | grep event`
 set $TEMP_EVENT
 
 for i in $TEMP_EVENT
 do
-	cat /sys/class/input/$i/device/modalias | grep "twl4030" | grep "keypad"
+	${TESTBIN}/dev_name /dev/input/$i | grep -i "twl4030" | grep -i "keypad"
 	IS_THIS_OUR_DRIVER=`echo $?`
 	if [ "$IS_THIS_OUR_DRIVER" -eq "0" ]
 	then
 		export DEVFS_KEYPAD=/dev/input/$i
 		echo "Keypad node is " $DEVFS_KEYPAD
+		break
 	fi
 done
 
