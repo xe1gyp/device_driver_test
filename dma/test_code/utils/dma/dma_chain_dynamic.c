@@ -203,7 +203,7 @@ static int __init dma_module_init(void) {
        chain.channel_count = TRANSFER_COUNT;
 
        error = request_dma_chain(&chain);
-
+	omap_set_dma_callback(chain.chain_id, dma_callback_chain, &transfers);
        if(error){
             set_test_passed_chain(0);
             return 1;
