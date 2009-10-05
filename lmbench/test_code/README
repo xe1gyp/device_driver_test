@@ -10,10 +10,13 @@ C:ompile Instructions
 Testsuite execution
 -------------------
 1. Go to 'scripts' subdirectory inside the testsuite directory.
-2. Execute the main script 'test_runner.sh -p 'scenario_id'.
-   * The scenarios IDs can be found under script/scenarios/
-3. Do an input for all configurations requiered by LMBENCH CONFIGURATION script
-4. For this specific case LMBENCH does not report pass / fail status
+2. You have two options to run 'default' and 'custom'
+	*To run just type './default.sh' or './custom.sh'
+	*Default is used to run LMBENCH with pre-defined values commonly used.
+	*Custom, allows user to configure by hand all the values required to run LMBENCH.
+3. Once that you finished to run 'default' or 'custom' scripts, both scripts runt as last instruction the script
+called 'results' who is the one who starts doing all job and calculations. ( the bench itself). It takes several
+minutes, be patient.
 
 Requirements
 ------------
@@ -21,8 +24,6 @@ The file system on which the testsuite is going to be executed needs to have the
 * sh
 * bc
 * bash
-* diff
-* cmp
 
 Notes
 -----
