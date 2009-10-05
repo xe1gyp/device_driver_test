@@ -25,6 +25,8 @@ MODULES = dma_single_channel.o \
   dma_endianism_big.o \
   dma_chain_static.o \
   dma_chain_dynamic.o \
+  dma_thread_access.o \
+
 
 obj-m:=$(MODULES)
 
