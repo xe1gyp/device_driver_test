@@ -13,7 +13,7 @@ objects := af_stream af_stream_rel burst_mode burst_mode_120 \
 	   burst_zoom capture flash_driver \
 	   h3a_stream hist_test multi_open prev_wrap process_cam rsz_vbuff \
 	   streaming_abs streaming_frame \
-	   streaming_to_video_file streaming_zoom fps
+	   streaming_to_video_file streaming_zoom fps snapshot
 
 all: $(objects)
 
@@ -97,6 +97,10 @@ streaming_to_video_file: streaming_to_video_file.c lib.c ioctl.c framerateLib.c
 streaming_zoom: streaming_zoom.c lib.c ioctl.c framerateLib.c
 	@echo "  CC  streaming_zoom"
 	@$(CC) $(CFLAGS) -g streaming_zoom.c lib.c ioctl.c framerateLib.c -o streaming_zoom
+
+snapshot: snapshot.c framerateLib.c lib.c ioctl.c
+	@echo "  CC  snapshot"
+	@$(CC) $(CFLAGS) -g snapshot.c framerateLib.c lib.c ioctl.c -o snapshot
 
 clean:
 	@echo "Cleaning up objects..."
