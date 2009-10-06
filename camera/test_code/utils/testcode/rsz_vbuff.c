@@ -268,8 +268,8 @@ int main(int argc, const char *argv[])
 		ret_val = fwrite(out_start, 1, out_hsize * out_vsize * 2,
 								out_data);
 
-	printf("Written %d  bytes of %d to out.yuv\n",
-		ret_val, out_hsize * out_vsize * 2);
+	printf("Written %d  bytes of %d to %s\n",
+		ret_val, out_hsize * out_vsize * 2, argv[2]);
 exit:
 	fclose(in_data);
 	fclose(out_data);
