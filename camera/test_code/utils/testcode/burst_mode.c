@@ -12,6 +12,7 @@
 #include <linux/videodev2.h>
 #include <sys/mman.h>
 #include <string.h>
+#include "mach/isp_user.h"
 
 #define VIDEO_DEVICE1 "/dev/video1"
 #define VIDEO_DEVICE2 "/dev/video2"
@@ -66,6 +67,7 @@ int main(int argc, char *argv[])
 	struct v4l2_buffer cfilledbuffer;
 	struct v4l2_queryctrl queryctrl;
 	struct v4l2_control control;
+	struct omap34xxcam_sensor_info sens_info;
 	int fd, i, ret, count = 1, memtype = V4L2_MEMORY_USERPTR;
 	int fd_save = 0;
 	int index = 1;
@@ -286,6 +288,24 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	/********************************************************/
+	/* Get Sensor info using SENSOR_INFO ioctl */
+
+	printf("Getting Sensor Info...\n");
+	if (ioctl(fd, VIDIOC_PRIVATE_OMAP34XXCAM_SENSOR_INFO, &sens_info) < 0) {
+		printf("VIDIOC_PRIVATE_OMAP34XXCAM_SENSOR_INFO not supported!");
+	} else {
+		printf("  Sensor xclk:       %d Hz\n", sens_info.current_xclk);
+		printf("  Max Base size:     %d x %d\n",
+			sens_info.full_size.width,
+			sens_info.full_size.height);
+		printf("  Current Base size: %d x %d\n",
+			sens_info.active_size.width,
+			sens_info.active_size.height);
+	}
+
+	/********************************************************/
+
 	/* capture 1000 frames or when we hit the passed number of frames */
 	cfilledbuffer.type = creqbuf.type;
 	cfilledbuffer.memory = memtype;
@@ -358,6 +378,9 @@ int main(int argc, char *argv[])
 	}
 
 	printf("Captured %d frames!\n", i);
+	printf("Output Frame Size: %u x %u\n",
+		cformat.fmt.pix.width, cformat.fmt.pix.height);
+
 	printf("Start writing to file\n");
 	if (fd_save > 0) {
 		for (i = 0; i < count; i++)
