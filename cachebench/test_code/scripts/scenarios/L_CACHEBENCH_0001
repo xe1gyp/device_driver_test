@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_CACHEBENCH_00001
+# Author  : Ricardo Perez Olivares
+# Date    : Tue Oct 11 2009
+###############################################################################
+
+# Begin L_CACHEBENCH_0001
+
+0001	set -x; ${TESTSCRIPT}/cachebench.sh; exit 0 || exit 1
+
+# End L_CACHEBENCH_0001
+
