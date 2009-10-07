@@ -12,36 +12,37 @@
 static uint test;
 static uint gpio;
 static uint value;
-static uint request_flag = 0;
-static uint input_direction_flag = 0;
-static uint output_direction_flag = 0;
+static uint request_flag;
+static uint input_direction_flag;
+static uint output_direction_flag;
 static uint test_passed = 1;
 static uint error_flag_1 = 1, error_flag_2 = 1, error_flag_3 = 1;
 
-module_param (test, int, S_IRUGO|S_IWUSR);
-module_param (gpio, int, S_IRUGO|S_IWUSR);
-module_param (value, int, S_IRUGO|S_IWUSR);
+module_param(test, int, S_IRUGO|S_IWUSR);
+module_param(gpio, int, S_IRUGO|S_IWUSR);
+module_param(value, int, S_IRUGO|S_IWUSR);
 
-static void gpio_test_request(void){
-        int ret;
-
+static void gpio_test_request(void)
+{
+	int ret;
 	printk(KERN_INFO "Reserving GPIO line %d\n", gpio);
 	ret = gpio_request(gpio, "titan_test");
 	if (!ret) {
 		request_flag = 1;
 		printk(KERN_INFO "Succesfully Reserved GPIO %d\n", gpio);
-	}
-        else
+	} else
 		printk(KERN_ERR "GPIO line %d request: failed!\n", gpio);
 }
 
 /* gpio_free does not return any value */
-static void gpio_test_free(void){
+static void gpio_test_free(void)
+{
 	gpio_free(gpio);
 	printk(KERN_INFO "Freeing GPIO line %d\n", gpio);
 }
 
-static void gpio_test_direction_input(void){
+static void gpio_test_direction_input(void)
+{
 	if (!gpio_direction_input(gpio)) {
 		input_direction_flag = 1;
 		printk(KERN_INFO "Input configuration succesful\n");
@@ -51,7 +52,8 @@ static void gpio_test_direction_input(void){
 	}
 }
 
-static void gpio_test_direction_output(void){
+static void gpio_test_direction_output(void)
+{
 	if (!gpio_direction_output(gpio, value)) {
 		output_direction_flag = 1;
 		printk(KERN_INFO "Output configuration succesful\n");
@@ -61,7 +63,8 @@ static void gpio_test_direction_output(void){
 	}
 }
 
-static void gpio_test_read(void){
+static void gpio_test_read(void)
+{
 	int ret;
 
 	ret = gpio_get_value(gpio);      /* Reading the value of pin # */
@@ -71,39 +74,49 @@ static void gpio_test_read(void){
 }
 
 /* gpio_set_value does not return any value */
-static void gpio_test_write(void){
+static void gpio_test_write(void)
+{
 	printk(KERN_INFO "Writing to GPIO line %d Value %d\n", gpio, value);
 	gpio_set_value(gpio, value);
 }
 
-static void gpio_test_irq(void){
+static void gpio_test_irq(void)
+{
 	int ret, irq;
 
 	irq = gpio_to_irq(gpio);
 	if (irq >= 0)
-		printk(KERN_INFO "The GPIO Line %d successfully mapped to IRQ number %d\n", gpio, irq);
+		printk(KERN_INFO "The GPIO Line %d successfully mapped "
+				"to IRQ number %d\n", gpio, irq);
 	else {
 		error_flag_1 = 0;
-		printk(KERN_ERR "Error in mapping GPIO Line %d to IRQ, Error number: %d\n", gpio, irq);
+		printk(KERN_ERR "Error in mapping GPIO Line %d to IRQ, "
+				"Error number: %d\n", gpio, irq);
 	}
 
 	ret = set_irq_type(irq, IRQ_TYPE_EDGE_FALLING);
 	if (!ret)
-		printk(KERN_INFO "Succesfull in Setting IRQ %i for GPIO Line %i type: FALLING\n", irq, gpio);
+		printk(KERN_INFO "Succesfull in Setting IRQ %i for GPIO "
+				"Line %i type: FALLING\n", irq, gpio);
 	else {
 		error_flag_2 = 0;
-		printk(KERN_ERR "Error in Setting IRQ %i for GPIO Line %i type: FALLING\n", irq, gpio);
+		printk(KERN_ERR "Error in Setting IRQ %i for GPIO Line %i "
+				"type: FALLING\n", irq, gpio);
 	}
 
 	ret = set_irq_type(irq, IRQ_TYPE_EDGE_RISING);
 	if (!ret)
-		printk(KERN_INFO "Succesfull in Setting IRQ %i for GPIO Line %i type: RISING\n", irq, gpio);
+		printk(KERN_INFO "Succesfull in Setting IRQ %i for GPIO "
+				"Line %i type: RISING\n", irq, gpio);
 	else {
 		error_flag_3 = 0;
-		printk(KERN_ERR "Error in Setting IRQ %i for GPIO Line %i type: RISING\n", irq, gpio);
+		printk(KERN_ERR "Error in Setting IRQ %i for GPIO Line %i "
+				"type: RISING\n", irq, gpio);
 	}
 }
-static void gpio_test(void){
+
+static void gpio_test(void)
+{
 
 		switch (test) {
 
@@ -154,8 +167,9 @@ static void gpio_test(void){
 		default:
 			printk(KERN_INFO "Test option not available.\n");
 	}
-	
-	printk(KERN_INFO "Logical ANDing of three error flags is: %d\n", (error_flag_1 && error_flag_2 && error_flag_3));
+
+	printk(KERN_INFO "Logical ANDing of three error flags is: %d\n", \
+			(error_flag_1 && error_flag_2 && error_flag_3));
 	/* On failure of a testcase, one of the three error flags set to 0
 	 * if a gpio line request fails it is not considered as a failure
 	 * set test_passed =0 for failure
@@ -168,8 +182,10 @@ static void gpio_test(void){
  * The read proc entry returns passed or failed,
  * according to the value of test_passed.
  */
+
 static int gpio_read_proc(char *buf, char **start, off_t offset,
-				int count, int *eof, void *data){
+				int count, int *eof, void *data)
+{
 	int len;
 
 	if (test_passed)
@@ -183,14 +199,16 @@ static int gpio_read_proc(char *buf, char **start, off_t offset,
 /*
  * Creates a read proc entry in the procfs
  */
-void create_gpio_proc(char *proc_name){
+void create_gpio_proc(char *proc_name)
+{
 	create_proc_read_entry(proc_name, 0, NULL, gpio_read_proc, NULL);
 }
 
 /*
  * Removes a proc entry from the procfs
  */
-void remove_gpio_proc(char *proc_name){
+void remove_gpio_proc(char *proc_name)
+{
 	remove_proc_entry(proc_name, NULL);
 }
 

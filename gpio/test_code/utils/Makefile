@@ -6,15 +6,18 @@
 #  in the license agreement under which this software has been supplied.
 # ========================================================================== */
 
-SUBDIRS = gpio_app
+SUBDIRS = gpio_mods_dir
 
 all: $(SUBDIRS)
 
 install:
-	make -C gpio install
+	make -C gpio_mods install
 
-gpio_app:
-	make -C gpio
+gpio_apps_dir:
+	make -C gpio_apps
+
+gpio_mods_dir:
+	make -C gpio_mods
 
 clean:
-	make -C gpio clean
+	make -C gpio_mods clean

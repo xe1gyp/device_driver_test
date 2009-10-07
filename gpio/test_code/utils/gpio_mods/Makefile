@@ -41,6 +41,9 @@ default:
 	$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) KERN=$(KERN) modules
 endif
 
+install:
+	mv *.ko ../../modules/
+
 clean:
 	$(RM) -r *.o *.ko *.mod.c .*.cmd .tmp_versions
 	$(RM) -r .*.flags .26 Module.symvers modules.order
