@@ -18,7 +18,7 @@
 # Change Log:
 ############################################################################
 
-DESTDIR := bin
+DESTDIR := binaries
 OBJS := utilities install
 
 all: $(OBJS)

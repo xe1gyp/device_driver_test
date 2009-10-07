@@ -38,6 +38,7 @@ main(int argc, char *argv[])
 	int retval;
 	int irqcount;
 	int count = 10;
+	int choice = 0;
 	unsigned long data;
 
 	/* Creating a file descriptor for RTC */

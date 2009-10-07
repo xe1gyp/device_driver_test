@@ -14,7 +14,7 @@ TARGETS := alarm_get alarm_get_event alarm_reset alarm_set per_int per_int_get p
 all: $(TARGETS)
 
 install:
-	cp -vf $(TARGETS) ../../bin
+	cp -vf $(TARGETS) ../../binaries
 
 $(TARGETS): 
 	$(CC) $(CFLAGS) $@.c -o $@
