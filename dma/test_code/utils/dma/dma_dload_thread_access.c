@@ -1,6 +1,4 @@
 /*
- * linux/test/device_driver_test/dma/test_code/utils/dma/dma_descriptor_load.c
- *
  * Dma descriptor autoloading Test Module
  *
  * Copyright (C) 2009 Texas Instruments, Inc.
@@ -14,12 +12,16 @@
  * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+#include <linux/sched.h>
+#include <linux/kthread.h>
+#include <linux/syscalls.h>
 #include "dma_single_channel.h"
 
 /********************** GENERAL VARS *****************/
-#define num_elements_in_list (7)
-#define PROC_FILE  "driver/dma_descriptor_load"
+#define num_elements_in_list (15)
+#define PROC_FILE  "driver/dma_dload_thread_access"
 #define PAUSE_AT_ELEMENT (4)
+
 #define test_element_size 100
 int maximum_transfers = 5;	/* max transfers per channel */
 int buf_size = PAGE_SIZE;	/* Buffer size for each channel */
@@ -39,8 +41,10 @@ struct tlist_transfer {
 	int sglist_id;
 	struct omap_dma_sglist_node *user_sglist;
 };
-static struct tlist_transfer tls1;
+static struct tlist_transfer tls1, tls2;
 
+#define TOTAL_TRANSFERR_WORD  (num_elements_in_list*test_element_size)
+#define TOTAL_TRANSFER_BYTES  (TOTAL_TRANSFERR_WORD*4)
 static struct omap_dma_channel_params transfer_params = {
 	.data_type = OMAP_DMA_DATA_TYPE_S32,	/* data type 8,16,32 */
 	.elem_count = 0, /* CEN set by descriptor */
@@ -63,6 +67,7 @@ static struct omap_dma_channel_params transfer_params = {
 	.burst_mode = OMAP_DMA_DATA_BURST_4,
 };
 
+
 /********************** TEST LOGIC *****************/
 static int verify_dest_buffer(struct tlist_transfer *tl, int nelems)
 {
@@ -71,6 +76,8 @@ static int verify_dest_buffer(struct tlist_transfer *tl, int nelems)
 	char *dst1;
 
 	dst1 = (char *)tl->bsptest_dma_dst_addr;
+	src1 = (char *)tl->bsptest_dma_src_addr[0];
+
 	for (i = 0; i < nelems; i++) {
 		src1 = (char *)tl->bsptest_dma_src_addr[i];
 		for (j = 0 ; j < tl->transfer_sizes[i] * 4; j++) {
@@ -215,30 +222,50 @@ static int dmasglist_test1(void *info)
 
 	return rc;
 }
+
 static void __exit dmatest_cleanup(void)
 {
 	int i;
 	dma_free_coherent(NULL, tls1.total_num_elements * 4,
-		tls1.bsptest_dma_dst_addr, (int)tls1.bsptest_dma_dst_addr_phy);
+		tls1.bsptest_dma_dst_addr, tls1.bsptest_dma_dst_addr_phy);
 	for (i = 0; i < num_elements_in_list; ++i)
 		dma_free_coherent(NULL,
 				tls1.transfer_sizes[i] * 4,
 				(void *)tls1.bsptest_dma_src_addr[i],
-				(int)tls1.bsptest_dma_src_addr_phy[i]);
+				(void *)tls1.bsptest_dma_src_addr_phy[i]);
 	i = omap_release_dma_sglist(tls1.sglist_id);
-
+	dma_free_coherent(NULL, tls2.total_num_elements * 4,
+		tls2.bsptest_dma_dst_addr, tls2.bsptest_dma_dst_addr_phy);
+	for (i = 0; i < num_elements_in_list; ++i)
+		dma_free_coherent(NULL,
+				tls2.transfer_sizes[i] * 4,
+				(void *)tls2.bsptest_dma_src_addr[i],
+				(void *)tls2.bsptest_dma_src_addr_phy[i]);
+	i = omap_release_dma_sglist(tls2.sglist_id);
 }
+
 static int __init dmatest_init(void)
 {
 	int ret = 0;
+	struct task_struct *p1, *p2;
+	int x;
 
 	test_result = 0;
+
 	/* Init channel independent config parameters */
 	omap_dma_set_global_params(DMA_DEFAULT_ARB_RATE,
 				DMA_DEFAULT_FIFO_DEPTH,
 				DMA_THREAD_RESERVE_ONET |
 				DMA_THREAD_FIFO_25);
-	ret = dmasglist_test1(&tls1);
+	p1 = kthread_create(dmasglist_test1, &tls1,
+			"dma_dload_thread/0");
+	p2 = kthread_create(dmasglist_test1, &tls2,
+			"dma_dload_thread/1");
+	kthread_bind(p1, 0);
+	kthread_bind(p2, 1);
+	x = wake_up_process(p1);
+	x = wake_up_process(p2);
+
 	return ret;
 }
 
