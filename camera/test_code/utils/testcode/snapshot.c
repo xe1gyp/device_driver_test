@@ -49,6 +49,17 @@ static void usage(void)
 	printf("   [SnapsizeH] Set the snapshot heigth\n");
 }
 
+static void display_keys(void)
+{
+	printf("Keys:\n");
+	printf("  c - Snapshot (Capture to file)\n");
+	printf("  2 - Lens FOCUS_RELATIVE -1\n");
+	printf("  3 - Lens FOCUS_RELATIVE +1\n");
+	printf("  4 - Lens FOCUS_RELATIVE -5\n");
+	printf("  5 - Lens FOCUS_RELATIVE +5\n");
+	printf("  q - Quit\n");
+}
+
 static void dump_sensor_info(int cfd)
 {
 	struct omap34xxcam_sensor_info sens_info;
@@ -417,6 +428,8 @@ restart_streaming:
 			cfmt.fmt.pix.width,
 			cfmt.fmt.pix.height);
 
+	display_keys();
+
 	/********************************************************************/
 	/* Start Camera streaming */
 
@@ -551,15 +564,7 @@ restart_streaming:
 	}
 	free(vbuffers);
 
-
-	for (i = 0; i < creqbuf.count; i++) {
-		if (cbuffers[i].start) {
-			if (memtype == V4L2_MEMORY_USERPTR)
-				free(cbuffers[i].start);
-			else
-				munmap(cbuffers[i].start, cbuffers[i].length);
-		}
-	}
+	/* Cleanup structure that holds info about camera buffers */
 	free(cbuffers);
 
 	/********************************************************************/
