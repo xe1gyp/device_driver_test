@@ -149,6 +149,14 @@ int main(int argc, const char *argv[])
 	params.gtable.greentable = NULL;
 	params.gtable.bluetable = NULL;
 
+	params.contrast = 0x10;
+	params.brightness = 0x01;
+
+	params.cfa.cfa_gradthrs_vert = 0x28;
+	params.cfa.cfa_gradthrs_horz = 0x28;
+
+	params.nf.spread = 0x3;
+
 	ret_val = ioctl(fd, PREV_SET_PARAM, &params);
 	if (ret_val) {
 		perror("PREV_SET_PARAM");
@@ -231,7 +239,7 @@ int main(int argc, const char *argv[])
 		return ret_val;
 	}
 
-	printf("Reading output...\n");
+	printf("Writing output to file...\n");
 	ret_val = fwrite(ibuffer_aligned, 1, out_img_sz, out_data);
 	if (ret_val != out_img_sz) {
 		printf("Bytes read = %d out of %d \n", ret_val,
