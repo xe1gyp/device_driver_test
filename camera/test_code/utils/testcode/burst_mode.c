@@ -75,6 +75,7 @@ int main(int argc, char *argv[])
 	int colorLevel = V4L2_COLORFX_NONE;
 	char *pixelFmt;
 	char *fileName;
+	__u32 total_w, pad_w;
 
 	if ((argc > 1) && (!strcmp(argv[1], "?"))) {
 		usage();
@@ -211,15 +212,36 @@ int main(int argc, char *argv[])
 		printf("The driver is not capable of Streaming!\n");
 		return -1;
 	}
+
+	/********************************************************/
+	/* Get Camera Image Format & display */
+
 	cformat.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 	ret = ioctl(fd, VIDIOC_G_FMT, &cformat);
 	if (ret < 0) {
 		perror("VIDIOC_G_FMT");
 		return -1;
 	}
-	printf("Camera Image width = %d, Image height = %d, size = %d\n",
-		 cformat.fmt.pix.width, cformat.fmt.pix.height,
-		 cformat.fmt.pix.sizeimage);
+
+	/* Note: If no padding then bytesperline can be zero */
+	total_w = (cformat.fmt.pix.bytesperline == 0)
+		? cformat.fmt.pix.width
+		: cformat.fmt.pix.bytesperline>>1;
+
+	/* Calculate size of padding in pixels */
+	pad_w = (cformat.fmt.pix.bytesperline == 0)
+		? 0
+		: ((cformat.fmt.pix.bytesperline>>1)-cformat.fmt.pix.width);
+
+	printf("Camera Image:\n");
+	printf("  width = %d, height = %d\n",
+		cformat.fmt.pix.width, cformat.fmt.pix.height);
+	printf("  padding = %d pixels\n", pad_w);
+	printf("  size = %d bytes\n", cformat.fmt.pix.sizeimage);
+	printf("  Total Dimensions: %d x %d\n",
+		total_w, cformat.fmt.pix.height);
+
+	/********************************************************/
 
 	creqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 	creqbuf.memory = memtype;
@@ -378,15 +400,16 @@ int main(int argc, char *argv[])
 	}
 
 	printf("Captured %d frames!\n", i);
-	printf("Output Frame Size: %u x %u\n",
+	printf("Image Frame Size:  %u x %u\n",
 		cformat.fmt.pix.width, cformat.fmt.pix.height);
+	printf("Output Frame Size: %u x %u  (%d pixels padding)\n",
+		total_w, cformat.fmt.pix.height, pad_w);
 
 	printf("Start writing to file\n");
 	if (fd_save > 0) {
 		for (i = 0; i < count; i++)
 			write(fd_save, cbuffers[i].start_aligned,
-			       cformat.fmt.pix.width * cformat.fmt.pix.height *
-			       2);
+			       total_w * cformat.fmt.pix.height * 2);
 	}
 	printf("Completed writing to file\n");
 	for (i = 0; i < creqbuf.count; i++) {
