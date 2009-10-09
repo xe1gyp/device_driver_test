@@ -6,7 +6,7 @@
 #  in the license agreement under which this software has been supplied.
 #===============================================================================
 
-DESTDIR := ${PWD}/mods
+DESTDIR := mods
 OBJS := utilities install
 
 all: $(OBJS)
