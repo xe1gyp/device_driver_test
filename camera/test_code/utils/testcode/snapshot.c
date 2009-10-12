@@ -6,6 +6,8 @@
 *  in the license agreement under which this software has been supplied.
 * ============================================================================*/
 
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -19,34 +21,38 @@
 #include <mach/isp_user.h>
 #include "kbget.h"
 
-#define VIDIOC_S_OMAP2_ROTATION		_IOW('V', 3, int)
-#define VIDEO_DEVICE1 "/dev/video1"
-#define VIDEO_DEVICE2 "/dev/video2"
+/* For parameter parser */
+#include <getopt.h>
 
-#define DEFAULT_PIXEL_FMT 		"YUYV"
-#define DEFAULT_VIDEO_SIZE 		"VGA"
-#define DEFAULT_VIDEO_FPS 		30
-#define DSS_STREAM_START_FRAME	3
+#define DEFAULT_PREVIEW_PIXFMT 		"YUYV"
+#define DEFAULT_PREVIEW_WIDTH 		640
+#define DEFAULT_PREVIEW_HEIGHT 		480
+#define DEFAULT_PREVIEW_FPS 		30
 
+#define DEFAULT_CAPTURE_PIXFMT 		"RAW10"
+#define DEFAULT_CAPTURE_WIDTH 		1024
+#define DEFAULT_CAPTURE_HEIGHT 		768
+#define DEFAULT_CAPTURE_FPS 		10
+
+#define DSS_STREAM_START_FRAME		3
 
 static void usage(void)
 {
-	printf("streaming [camDevice] [pixelFormat] [<sizeW> <sizeH>] [(vid)]"
-				"[<SnapsizeW> <SnapsizeH>]\n");
-	printf("   To start streaming capture of 1000 frames\n");
-	printf("   [camDevice] Camera device to be open\n\t 1:Micron sensor "
-				"2:OV3640 3:IMX046\n");
-	printf("   [pixelFormat] set the pixelFormat to use. \n\tSupported: "
-		"YUYV, UYVY, RGB565, RGB555, RGB565X, RGB555X, RAW10 \n");
-	printf("   [sizeW] Set the video width\n");
-	printf("   [sizeH] Set the video heigth\n");
-	printf("\tOptionally size can be specified using standard name sizes"
-							"(VGA,PAL,etc)\n");
-	printf("\tIf size is NOT specified QCIF used as default\n");
-	printf("   [vid] is the video pipeline to be used. Valid vid is 1 "
-							"(default) or 2\n");
-	printf("   [SnapsizeW] Set the snapshot width\n");
-	printf("   [SnapsizeH] Set the snapshot heigth\n");
+	printf("Usage:\n");
+	printf("\tsnapshot <options>\n");
+	printf("\t-d <device-node>\n"
+	       "\t\tCamera device node to open (default: /dev/video0)\n");
+	printf("\t-p <pixelFormat>\n"
+	       "\t\tPixel format to use."
+			"(default: " DEFAULT_PREVIEW_PIXFMT ")\n\n"
+	       "\t\t\tSupported:\n"
+	       "\t\t\t\tYUYV, UYVY, RAW10\n");
+	printf("\t-w <width>\n");
+	printf("\t\tLCD preview width (default: 640)\n");
+	printf("\t-h <height>\n");
+	printf("\t\tLCD preview height (default: 480)\n");
+	printf("\t-v <device-node>\n"
+	       "\t\tVideo device node to open (default: /dev/video1)\n");
 }
 
 static void display_keys(void)
@@ -81,19 +87,12 @@ static void dump_sensor_info(int cfd)
 	}
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
-	struct screen_info_struct {
-		int fd;
-		char *data;
-		int width;
-		int height;
-	} screen_info ;
 	struct buffers {
 		void *start;
 		size_t length;
 	} *vbuffers, *cbuffers;
-	void *src_start;
 	struct v4l2_capability capability;
 	struct v4l2_format cfmt, vfmt;
 	struct v4l2_requestbuffers creqbuf, vreqbuf;
@@ -102,101 +101,119 @@ int main(int argc, char *argv[])
 	int cfd, vfd, i, ret, input;
 	int memtype = V4L2_MEMORY_USERPTR;
 	int quit_flag = 0, snap_flag = 0;
-	int index = 1, vid = 1, set_video_img = 0;
-	int device = 1;
-	char *pixelFmt;
-	char *strmsizeW = NULL, *strmsizeH = NULL;
-	char *snapsizeW, *snapsizeH;
+	int set_video_img = 0;
+	char *camdev = NULL;
+	char *viddev = NULL;
+	int prvw = DEFAULT_PREVIEW_WIDTH, prvh = DEFAULT_PREVIEW_HEIGHT;
+	int prvfps = DEFAULT_PREVIEW_FPS;
+	char *prvpix = DEFAULT_PREVIEW_PIXFMT;
+	int capw = DEFAULT_CAPTURE_WIDTH, caph = DEFAULT_CAPTURE_HEIGHT;
+	int capfps = DEFAULT_CAPTURE_FPS;
+	char *cappix = DEFAULT_CAPTURE_PIXFMT;
+	int c;
 
+	opterr = 0;
 
-	if ((argc > 1) && (!strcmp(argv[1], "?"))) {
-		usage();
-		return 0;
+	while (1) {
+		static struct option long_options[] = {
+			{"camdev",	required_argument,	0, 'c'},
+			{"pixprv",	required_argument,	0, 'p'},
+			{"wprv",	required_argument,	0, 'w'},
+			{"hprv",	required_argument,	0, 'h'},
+			{"fpsprv",	required_argument,	0, 'f'},
+			{"pixcap",	required_argument,	0, 'q'},
+			{"wcap",	required_argument,	0, 'x'},
+			{"hcap",	required_argument,	0, 'y'},
+			{"fpscap",	required_argument,	0, 'g'},
+			{"viddev",	required_argument,	0, 'v'},
+			{0, 0, 0, 0}
+		};
+		int option_index = 0;
+
+		c = getopt_long_only(argc, argv, "c:p:w:h:f:q:x:y:g:v:",
+				long_options, &option_index);
+
+		/* Detect the end of the options. */
+		if (c == -1)
+			break;
+
+		switch (c) {
+		case 'c':
+			camdev = optarg;
+			break;
+		case 'p':
+			prvpix = optarg;
+			break;
+		case 'w':
+			prvw = atoi(optarg);
+			break;
+		case 'h':
+			prvh = atoi(optarg);
+			break;
+		case 'f':
+			prvfps = atoi(optarg);
+			break;
+		case 'q':
+			cappix = optarg;
+			break;
+		case 'x':
+			capw = atoi(optarg);
+			break;
+		case 'y':
+			caph = atoi(optarg);
+			break;
+		case 'g':
+			capfps = atoi(optarg);
+			break;
+		case 'v':
+			viddev = optarg;
+			break;
+		case '?':
+			if ((optopt == 'c') ||
+			    (optopt == 'p') ||
+			    (optopt == 'w') ||
+			    (optopt == 'h') ||
+			    (optopt == 'f') ||
+			    (optopt == 'q') ||
+			    (optopt == 'x') ||
+			    (optopt == 'y') ||
+			    (optopt == 'g') ||
+			    (optopt == 'v'))
+				fprintf(stderr,
+					"Option -%c requires an argument.\n",
+					optopt);
+			else if (isprint(optopt))
+				fprintf(stderr,
+					"Unknown option `-%c'.\n",
+					optopt);
+			else
+				fprintf(stderr,
+					"Unknown option character `\\x%x'.\n",
+					optopt);
+			return 1;
+		default:
+			abort();
+		}
 	}
 
-	if (argc > index) {
-		device = atoi(argv[index]);
-		index++;
-	}
-
-	cfd = open_cam_device(O_RDWR, device);
+	cfd = open(camdev, O_RDWR);
 	if (cfd <= 0) {
-		printf("Could not open the cam device\n");
+		printf("Could not open the cam device %s\n", camdev);
 		return -1;
 	}
 
-
-	/********************************************************************/
-	/* Parse video size */
-
-	if (argc > index) {
-		pixelFmt = argv[index];
-		index++;
-		if (argc > index) {
-			ret = validateSize(argv[index]);
-			if (ret == 0) {
-				strmsizeW = argv[index];
-			} else {
-				index++;
-				if (argc > (index)) {
-					strmsizeW = argv[index-1];
-					strmsizeH = argv[index];
-				} else {
-					printf("Invalid size\n");
-					usage();
-					return -1;
-				}
-			}
-			index++;
-		} else {
-			printf("Setting QCIF as video size, default value\n");
-			strmsizeW = DEFAULT_VIDEO_SIZE;
-			index++;
-		}
-	} else {
-		printf("Setting pixel format and video size with default "
-					"values\n");
-		pixelFmt = DEFAULT_PIXEL_FMT;
-		strmsizeW = DEFAULT_VIDEO_SIZE;
-		if (ret < 0)
-			return -1;
-	}
-
-
-	if (argc > index) {
-		vid = atoi(argv[index]);
-		if ((vid != 1) && (vid != 2)) {
-				printf("vid has to be 1 or 2!\n ");
-				return -1;
-		}
-	}
-
-
-	/********************************************************************/
-	/* Parse Snapshot size */
-
-	index += 2;
-	if (argc > index) {
-		snapsizeW = argv[index-1];
-		snapsizeH = argv[index];
-	} else {
-		printf("Invalid size\n");
-		usage();
-		return -1;
-	}
-
+	printf("Openned %s for capturing\n", viddev);
 
 	/********************************************************************/
 	/* Video: Open handle to DSS */
 
-	vfd = open((vid == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2, O_RDWR);
+	vfd = open(viddev, O_RDWR);
 	if (vfd <= 0) {
-		printf("Could no open the device %s\n",
-			(vid == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
-		vid = 0;
-	} else
-		printf("openned %s for rendering\n",
-			(vid == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
+		printf("Could no open the device %s\n", viddev);
+		return -1;
+	}
+
+	printf("Openned %s for rendering\n", viddev);
 
 	/********************************************************************/
 	/* Video: Query Capability */
@@ -220,10 +237,10 @@ restart_streaming:
 	/********************************************************************/
 	/* Camera: Set Frame rate to 30fps */
 
-	printf("Set Camera frame rate to %ufps...\n", DEFAULT_VIDEO_FPS);
-	ret = setFramerate(cfd, DEFAULT_VIDEO_FPS);
+	printf("Set Camera frame rate to %ufps...\n", DEFAULT_PREVIEW_FPS);
+	ret = setFramerate(cfd, prvfps);
 	if (ret < 0) {
-		printf("Error setting framerate = %d\n", DEFAULT_VIDEO_FPS);
+		printf("Error setting framerate = %d\n", DEFAULT_PREVIEW_FPS);
 		return -1;
 	}
 
@@ -231,15 +248,34 @@ restart_streaming:
 	/* Camera: Set Format & Size */
 
 	printf("Set Camera format & size...\n");
-	if (strmsizeH == NULL)
-		ret = cam_ioctl(cfd, pixelFmt, strmsizeW);
-	else
-		ret = cam_ioctl(cfd, pixelFmt, strmsizeW, strmsizeH);
+
+	/* get the current format of the video capture */
+	cfmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+	ret = ioctl(cfd, VIDIOC_G_FMT, &cfmt);
 	if (ret < 0) {
-		usage();
+		perror("VIDIOC_G_FMT");
 		return -1;
 	}
 
+	cfmt.fmt.pix.width = prvw;
+	cfmt.fmt.pix.height = prvh;
+
+	if (!strcmp(prvpix, "YUYV"))
+		cfmt.fmt.pix.pixelformat = V4L2_PIX_FMT_YUYV;
+	else if (!strcmp(prvpix, "UYVY"))
+		cfmt.fmt.pix.pixelformat = V4L2_PIX_FMT_UYVY;
+	else if (!strcmp(prvpix, "RAW10"))
+		cfmt.fmt.pix.pixelformat = V4L2_PIX_FMT_SGRBG10;
+	else {
+		printf("unsupported pixel format!\n");
+		return -1;
+	}
+
+	ret = ioctl(cfd, VIDIOC_S_FMT, &cfmt);
+	if (ret < 0) {
+		perror("cam VIDIOC_S_FMT");
+		return -1;
+	}
 
 	/********************************************************************/
 	/* Camera: Query Capability */
@@ -324,8 +360,8 @@ restart_streaming:
 				vfmt.fmt.pix.sizeimage);
 
 		if ((cfmt.fmt.pix.width != vfmt.fmt.pix.width) ||
-			(cfmt.fmt.pix.height != vfmt.fmt.pix.height) ||
-			(cfmt.fmt.pix.sizeimage != vfmt.fmt.pix.sizeimage) ||
+			(cfmt.fmt.pix.height != vfmt.fmt.pix.height)/* ||
+			(cfmt.fmt.pix.sizeimage != vfmt.fmt.pix.sizeimage) */||
 			(cfmt.fmt.pix.pixelformat !=
 				vfmt.fmt.pix.pixelformat)) {
 			printf("can't make camera and video image "
@@ -537,26 +573,6 @@ restart_streaming:
 	/********************************************************************/
 	/* Cleanup */
 
-	/* Dequeue camera buffers */
-	for (i = 0; i < creqbuf.count; ++i) {
-		struct v4l2_buffer buffer;
-		buffer.type = creqbuf.type;
-		buffer.memory = creqbuf.memory;
-		buffer.index = i;
-		if (ioctl(cfd, VIDIOC_QUERYBUF, &buffer) < 0) {
-			perror("cam VIDIOC_QUERYBUF");
-			return -1;
-		}
-
-		buffer.flags = 0;
-		buffer.m.userptr = (unsigned int)vbuffers[i].start;
-		buffer.length = vbuffers[i].length;
-		printf("Camera DQBUF %i\n", i);
-		if (ioctl(cfd, VIDIOC_DQBUF, &buffer) < 0)
-			perror("cam VIDIOC_DQBUF");
-	}
-
-
 	/* Unmap video buffers */
 	for (i = 0; i < vreqbuf.count; i++) {
 		if (vbuffers[i].start)
@@ -571,7 +587,7 @@ restart_streaming:
 	/* Take snapshot ? */
 
 	if (snap_flag) {
-		snapshot(cfd, pixelFmt, snapsizeW, snapsizeH);
+		snapshot(cfd, cappix, capw, caph);
 		snap_flag = 0;
 		goto restart_streaming;
 	}
@@ -584,7 +600,7 @@ restart_streaming:
 /********************************************************************/
 /********************************************************************/
 
-int snapshot(int cfd, char *pixelFmt, char *w, char *h)
+int snapshot(int cfd, char *pixelFmt, int w, int h, int fps)
 {
 	struct {
 		void *start;
@@ -599,15 +615,15 @@ int snapshot(int cfd, char *pixelFmt, char *w, char *h)
 	struct v4l2_buffer cfilledbuffer;
 	int i, ret, count = 1, memtype = V4L2_MEMORY_USERPTR;
 	int fd_save = 0;
-	int index = 1;
 	char filename[16];
+	int file_is_yuv = 0, file_is_raw = 0;
 
 	printf("\nTaking snapshot...\n");
 
 	/********************************************************************/
 	/* Set frame rate */
 
-	ret = setFramerate(cfd, 10);
+	ret = setFramerate(cfd, fps);
 	if (ret < 0) {
 		printf("Error setting framerate");
 		return -1;
@@ -617,19 +633,46 @@ int snapshot(int cfd, char *pixelFmt, char *w, char *h)
 	/********************************************************************/
 	/* Set snapshot frame format */
 
-	ret = cam_ioctl(cfd, pixelFmt, w, h);
+	/* get the current format of the video capture */
+	cfmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+	ret = ioctl(cfd, VIDIOC_G_FMT, &cfmt);
 	if (ret < 0) {
-		printf("Error setting snapshot frame format");
+		perror("VIDIOC_G_FMT");
 		return -1;
 	}
 
+	cfmt.fmt.pix.width = w;
+	cfmt.fmt.pix.height = h;
+
+	if (!strcmp(pixelFmt, "YUYV")) {
+		cfmt.fmt.pix.pixelformat = V4L2_PIX_FMT_YUYV;
+		file_is_yuv = 1;
+	} else if (!strcmp(pixelFmt, "UYVY")) {
+		cfmt.fmt.pix.pixelformat = V4L2_PIX_FMT_UYVY;
+		file_is_yuv = 1;
+	} else if (!strcmp(pixelFmt, "RAW10")) {
+		cfmt.fmt.pix.pixelformat = V4L2_PIX_FMT_SGRBG10;
+		file_is_raw = 1;
+	} else {
+		printf("unsupported pixel format!\n");
+		return -1;
+	}
+
+	ret = ioctl(cfd, VIDIOC_S_FMT, &cfmt);
+	if (ret < 0) {
+		perror("cam VIDIOC_S_FMT");
+		return -1;
+	}
 
 	/********************************************************************/
 	/* Open image output file */
 
-	sprintf(filename, "snap%04X.yuv", snap_count);
+	sprintf(filename, "snap%04X.%s", snap_count,
+		file_is_yuv ? "yuv" : (file_is_raw ? "raw" : "dat"));
 
-	fd_save = creat(filename, O_RDWR);
+	/* Create a file with 644 permissions */
+	fd_save = creat(filename,
+			O_RDWR | S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (fd_save <= 0) {
 		printf("Can't create file %s\n", filename);
 		return -1;
