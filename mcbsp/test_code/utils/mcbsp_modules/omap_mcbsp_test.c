@@ -205,7 +205,7 @@ static int fsx_polarity  = OMAP_MCBSP_FS_ACTIVE_LOW;
 static int justification = OMAP_MCBSP_RJUST_ZEROMSB;
 static int word_length   = OMAP_MCBSP_WORD_16;
 static int test_mcbsp_id = OMAP_MCBSP1;
-static int words_per_frame = 0;
+static int words_per_frame = 1;
 long int tx_sec;
 long int tx_usec;
 
@@ -275,7 +275,7 @@ read_proc_status(char *page, char **start, off_t off, int count,
 								justification);
 	p += sprintf(p, "Word Length   [0-8,2-16,5-32]bits        : %8d\n",
 								word_length);
-	p += sprintf(p, "Words Per frame [0-1, 1-2]               : %8d\n",
+	p += sprintf(p, "Words Per frame [1-1, 2-2]               : %8d\n",
 							words_per_frame);
 
 readproc_status_end:
@@ -361,6 +361,7 @@ static void remove_proc_file_entries(void)
 
 static void configure_mcbsp_interface(void)
 {
+	cfg.period = bits_per_sample[word_length] + 8;
 	cfg.pulse_width = (bits_per_sample[word_length] - 1);
 	cfg.fsgm = 1;
 	cfg.sample_rate = sample_rate;
@@ -381,13 +382,19 @@ static void configure_mcbsp_tx(void)
 	tp.skip_alt = OMAP_MCBSP_SKIP_NONE;
 	tp.auto_reset = OMAP_MCBSP_AUTO_RST_NONE;
 	tp.word_length1 = word_length;
+	clkx_polarity = clkr_polarity;
+	fsx_polarity = fsr_polarity;
 
 	tp1.fsync_src = OMAP_MCBSP_TXFSYNC_INTERNAL;
 	tp1.fs_polarity = fsx_polarity;
 	tp1.clk_polarity = clkx_polarity;
 	tp1.clk_mode = OMAP_MCBSP_CLKTXSRC_INTERNAL;
-	tp1.frame_length1 = words_per_frame;
+	tp1.frame_length1 = OMAP_MCBSP_FRAMELEN_N(words_per_frame);
+	tp1.frame_length2 = OMAP_MCBSP_FRAMELEN_N(words_per_frame);
 	tp1.word_length1 = word_length;
+	if (words_per_frame == 2)
+		tp1.word_length1 = 0;
+	tp1.word_length2 = 0;
 	tp1.justification = justification;
 	tp1.reverse_compand = OMAP_MCBSP_MSBFIRST;
 	tp1.phase = phase;
@@ -408,8 +415,12 @@ static void configure_mcbsp_rx(void)
 	rp1.fs_polarity = fsr_polarity;
 	rp1.clk_polarity = clkr_polarity;
 	rp1.clk_mode = OMAP_MCBSP_CLKRXSRC_EXTERNAL;
-	rp1.frame_length1 = words_per_frame;
+	rp1.frame_length1 = OMAP_MCBSP_FRAMELEN_N(words_per_frame);
+	rp1.frame_length2 = OMAP_MCBSP_FRAMELEN_N(words_per_frame);
 	rp1.word_length1 = word_length;
+	 if (words_per_frame == 2)
+		rp1.word_length1 = 0;
+	rp1.word_length2 = 0;
 	rp1.justification = justification;
 	rp1.reverse_compand = OMAP_MCBSP_MSBFIRST;
 	rp1.phase = phase;
@@ -542,8 +553,8 @@ void omap2_mcbsp_set_srg_cfg_param(unsigned int id, int interface_mode,
 
 
 int omap2_mcbsp_params_cfg(unsigned int id, int interface_mode,
-				struct omap_mcbsp_cfg_param *rp,
 				struct omap_mcbsp_cfg_param *tp,
+				struct omap_mcbsp_cfg_param *rp,
 				struct omap_mcbsp_srg_fsg_cfg *param)
 {
 	if (rp)
@@ -555,7 +566,6 @@ int omap2_mcbsp_params_cfg(unsigned int id, int interface_mode,
 				interface_mode, &mcbsp_cfg, param);
 	omap_mcbsp_config(id, &mcbsp_cfg);
 	omap_mcbsp_start(id);
-
 	return 0;
 }
 
@@ -572,6 +582,22 @@ static int start_mcbsp_transmission(void)
 	configure_mcbsp_rx();
 	omap2_mcbsp_params_cfg(mcbsptest_info.mcbsp_id, OMAP_MCBSP_MASTER,
 							&tp1, &rp1, &cfg);
+	for (k = 0; k < 128; k++) {
+		ret = omap_mcbsp_pollwrite(mcbsptest_info.mcbsp_id, k);
+		if (ret)
+			printk(KERN_ERR "Data-Tx Failed ret=0x%x\n", ret);
+		else
+			printk(KERN_ERR "Data Transmit Success\n");
+	}
+	for (k = 0; k < 128; k++) {
+		ret = omap_mcbsp_pollread(mcbsptest_info.mcbsp_id,
+							&temp);
+		if (ret)
+			printk(KERN_ERR "Data-Rx Failed ret=0x%x\n", ret);
+		else
+			printk(KERN_ERR "Data Receive Success\n");
+	}
+#if 0
 	mcbsptest_info.tx_buf_dma_virt = (void *) dma_alloc_coherent(NULL,
 				buffer_size, &mcbsptest_info.tx_buf_dma_phys,
 							GFP_KERNEL | GFP_DMA);
@@ -607,7 +633,7 @@ static int start_mcbsp_transmission(void)
 
 	ptr = mcbsptest_info.rx_buf_dma_virt;
 	printk(KERN_INFO " ptr = 0x%x \n", *ptr);
-
+#endif
 	return 0;
 }
 
