@@ -1,14 +1,14 @@
 ################################################################################
-# Scenario:    L_DD_DMA_0018
+# Scenario:    L_DD_DMA_0021
 # Author  :    Venkatraman S
 # Date    :    October 2nd, 2009
 # Description: DMA Descriptor autoloading feature
 ################################################################################
 
-# Begin L_DD_DMA_0018
+# Begin L_DD_DMA_0021
 
 0001	set -x; insmod $TESTMODS/dma_dload.ko
 0002  set -x; cat /proc/driver/dma_dload | grep PASS
 0003	set -x; rmmod dma_dload
 
-# End L_DD_DMA_0018
+# End L_DD_DMA_0021

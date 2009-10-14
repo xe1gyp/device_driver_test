@@ -1,11 +1,11 @@
 ################################################################################
-# Scenario:    L_DD_DMA_0017
+# Scenario:    L_DD_DMA_0020
 # Author  :    Venkatraman S
 # Date    :    October 2,2009
 # Description: DMA chain access from SMP processor
 ################################################################################
 
-# Begin L_DD_DMA_0017
+# Begin L_DD_DMA_0020
 
 0001	set -x; insmod $TESTMODS/dma_chain_transfer.ko
 0002	set -x; insmod $TESTMODS/dma_chain_thread_access.ko
@@ -13,4 +13,4 @@
 0004	set -x; rmmod dma_chain_thread_access
 0005	set -x; rmmod dma_chain_transfer
 
-# End L_DD_DMA_0017
+# End L_DD_DMA_0020
