@@ -1,13 +1,13 @@
 /*
- * DMA Test module - Stopping an ongoing transfer
+ * DMA Test module - Querying information from a transfer
  *
- * The following testcode checks that stopping an already started
- * transfer is possible.
+ * The following testcode queries the status of a transfer before starting,
+ * when it is on going and when it is finished.
  *
  * History:
  * 28-01-2009	Gustavo Diaz	Initial version of the testcode
  *
- * Copyright (C) 2004-2009 Texas Instruments, Inc
+ * Copyright (C) 2007-2009 Texas Instruments, Inc
  *
  * This package is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
@@ -23,32 +23,22 @@
 #include "dma_single_channel.h"
 
 #define TRANSFER_COUNT 1
-#define TIME_BEFORE_STOP 50
-#define PROC_FILE "driver/dma_stop_transfer"
+#define TRANSFER_POLL_COUNT 60
+#define TRANSFER_POLL_TIME 1500
+#define TIME_AFTER_START 100
+#define PROC_FILE "driver/dma_transfer_query"
 
 static struct dma_transfer transfers[TRANSFER_COUNT];
 static struct dma_query queries[TRANSFER_COUNT];
 
 /*
- * Checks the transfer did not complete.
+ * Determines if the transfers have finished
  */
-static void check_test_passed(void){
-     int error = 0;
-
-     if(transfers[0].finished){
-         printk("The transfer id %d was not supposed to be completed\n",
-               transfers[0].transfer_id);
-         error = 1;
-     }else{
-         printk("The transfer id %d is not completed\n",
-               transfers[0].transfer_id);
-     }
-
-     if(!error){
-         set_test_passed(1);
-     }else{
-         set_test_passed(0);
-     }
+static int get_transfers_finished(void){
+       if(!transfers[0].finished){
+           return 0;
+       }
+       return 1;
 }
 
 /*
@@ -56,6 +46,7 @@ static void check_test_passed(void){
  */
 static int __init dma_module_init(void) {
        int error;
+       int i;
        /* Create the proc entry */
        create_dma_proc(PROC_FILE);
        /* Create the transfer for the test */
@@ -86,24 +77,49 @@ static int __init dma_module_init(void) {
 
        /* Setup the dma transfer parameters */
        setup_dma_transfer(&transfers[0]);
-       /* Start the transfer */
-       start_dma_transfer(&transfers[0]);
 
-       /* Wait a very short time then stop the transfer */
-       printk("Waiting %dms before stopping transfer id %d\n",
-               TIME_BEFORE_STOP, transfers[0].transfer_id);
-       mdelay(TIME_BEFORE_STOP);
-       /* Query the transfer state before stopping it*/
+       /* Query data before the transfer starts */
+       printk("Query data for transfer id %d before it starts\n",
+              transfers[0].transfer_id);
        error = dma_channel_query(&transfers[0], &queries[0]);
        if( error ){
            set_test_passed(0);
            return 1;
        }
 
-       printk("Stopping transfer id %d before completion\n",
-               transfers[0].transfer_id);
-       stop_dma_transfer(&transfers[0]);
-       check_test_passed();
+       /* Start the transfer */
+       start_dma_transfer(&transfers[0]);
+
+       /* Wait a very short time then stop the transfer */
+       printk("Waiting %dms before querying data again for transfer"
+              " id %d\n", TIME_AFTER_START, transfers[0].transfer_id);
+       mdelay(TIME_AFTER_START);
+
+       /* Query transfer state while it is on going */
+       error = dma_channel_query(&transfers[0], &queries[0]);
+       if( error ){
+           set_test_passed(0);
+           return 1;
+       }
+
+       /* Poll if the transfer has finished */
+       for(i = 0; i < TRANSFER_POLL_COUNT; i++){
+            if(get_transfers_finished()){
+               mdelay(TRANSFER_POLL_TIME);
+               /* Query transfer state for the finished transfer */
+               error = dma_channel_query(&transfers[0], &queries[0]);
+               if( error || !transfers[0].data_correct){
+                   set_test_passed(0);
+                   return 1;
+               }
+               break;
+            }else{
+               mdelay(TRANSFER_POLL_TIME);
+            }
+       }
+
+       /* At this point the transfer data was requested 3 times, this is ok */
+       set_test_passed(1);
 
        return 0;
 }
@@ -112,6 +128,7 @@ static int __init dma_module_init(void) {
  * Function called when the module is removed
  */
 static void __exit dma_module_exit(void) {
+       stop_dma_transfer(&transfers[0]);
        remove_dma_proc(PROC_FILE);
 }
 

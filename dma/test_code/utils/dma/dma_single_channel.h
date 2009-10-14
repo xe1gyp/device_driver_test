@@ -134,6 +134,8 @@ void stop_dma_transfer(struct dma_transfer *transfer);
  */
 void set_test_passed(int passed);
 
+int check_dma_transfer_complete(struct dma_transfer *transfer,
+		int num_transfer);
 /*
  * Creates a read proc entry in the procfs
  */

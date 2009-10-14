@@ -1,13 +1,8 @@
 /*
- * DMA Test module - Transfer Priority
+ * DMA Test module - Endianism
  *
- * The following testcode checks that the transfer priority works
- * correctly. Four single channel transfers are created with the same
- * buffer size, the first two have low priority and the other two
- * high priority. The transfers are started at the same time from
- * the first to the last one, so the low priority transfers are
- * started first then the high priority ones. The expected result is
- * the first low priority transfer should not be the first to finish.
+ * The following testcode checks that changing the source transfer buffer
+ * endianism to big endian works correctly.
  *
  * History:
  * 28-01-2009	Gustavo Diaz	Initial version of the testcode
@@ -27,18 +22,24 @@
 
 #include "dma_single_channel.h"
 
-#define TRANSFER_COUNT 4
+#define TRANSFER_COUNT 1
 #define TRANSFER_POLL_COUNT 60
 #define TRANSFER_POLL_TIME 1500
-#define PROC_FILE "driver/dma_priority_low"
+#define PROC_FILE "driver/dma_endianism_big"
+
+/* This macro swaps the endianness value */
+#define to_big_endian(x) \
+({ \
+         u32 __x = (x); \
+	         ((u32)( \
+		  (((u32)(__x) & (u32)0x0000ffffUL) << 16) | \
+		  (((u32)(__x) & (u32)0xffff0000UL) >> 16) )); \
+ })
 
 static struct dma_transfer transfers[TRANSFER_COUNT];
-static int transfer_finished_order[TRANSFER_COUNT];
-static volatile int transfer_finished_count = 0;
 
 /*
- * Checks that the first transfer to finish is actually not the first in the
- * transfers array with the lowest priority.
+ * Checks that the destination buffers were written correctly
  */
 static void check_test_passed(void){
      int i;
@@ -51,18 +52,6 @@ static void check_test_passed(void){
          }
      }
 
-     /* Check the first transfer is not the first one to finish */
-     if(!error){
-         int first_transfer = transfer_finished_order[0];
-         printk("The transfer id %d was the first to finish\n", first_transfer);
-         printk("Expected transfer id %d not to be the first one to finish\n",
-              transfers[0].transfer_id);
-         if(first_transfer == transfers[0].transfer_id){
-              /* The low priority transfer finished first */
-              error = 1;
-         }
-     }
-
      if(!error){
          set_test_passed(1);
      }else{
@@ -71,25 +60,47 @@ static void check_test_passed(void){
 }
 
 /*
+ * Function used to verify the source an destination buffers of a dma transfer
+ * are equal in content
+ */
+int verify_buffers(struct dma_buffers_info *buffers) {
+    int i;
+    u32 *src_address = (u32*) buffers->src_buf;
+    u32 *dest_address = (u32*) buffers->dest_buf;
+
+    /* Iterate through the source and destination buffers */
+    for (i = 0; i < buffers->buf_size / 4; i++) {
+        /* Compare the data in the src and dest, src is big endian */
+        if (*src_address != to_big_endian(*dest_address)) {
+            printk("Source buffer at 0x%x = %d , destination buffer at 0x%x = "
+                   "%d, big endian value for destination should be = %d\n",
+                   buffers->src_buf, *src_address,
+                   buffers->dest_buf, *dest_address,
+                   to_big_endian(*dest_address));
+            return 1; /* error, buffers differ */
+        }
+        src_address++;
+        dest_address++;
+    }
+    return 0;
+}
+
+/*
  * Callback function that dma framework will invoke after transfer is done
  */
 void dma_callback(int transfer_id, u16 transfer_status, void *data) {
-       int error;
        struct dma_transfer *transfer = (struct dma_transfer *) data;
-       int finished_index = transfer_finished_count++;
-       transfer_finished_order[finished_index] = transfer->transfer_id;
+       int error = 1;
        transfer->data_correct = 0;
        transfer->finished = 1;
        printk("\nTransfer complete for id %d, checking destination buffer\n",
            transfer->transfer_id);
-
        /* Check if the transfer numbers are equal */
        if(transfer->transfer_id != transfer_id){
            printk(" WARNING: Transfer id %d differs from the one"
                 " received in callback (%d)\n", transfer->transfer_id,
                 transfer_id);
        }
-
        /* Check the transfer status is acceptable */
        if((transfer_status & OMAP_DMA_BLOCK_IRQ) || (transfer_status == 0)){
            /* Verify the contents of the buffer are equal */
@@ -108,6 +119,101 @@ void dma_callback(int transfer_id, u16 transfer_status, void *data) {
                 transfer->transfer_id);
            transfer->data_correct = 1;
        }
+}
+
+/*
+ * Determines if the transfers have finished
+ */
+static int get_transfers_finished(void){
+       int i = 0;
+       for(i = 0; i < TRANSFER_COUNT; i++){
+            if(!transfers[i].finished){
+                return 0;
+            }
+       }
+       return 1;
+}
+
+/*
+ * Setup the source, destination and global transfer parameters
+ */
+void setup_dma_transfer_(struct dma_transfer *transfer){
+
+       /* Determine the elements present in a frame */
+       printk("Setting up transfer id %d\n", transfer->transfer_id);
+       transfer->frame_count = 1;
+       switch(transfer->data_type){
+          case OMAP_DMA_DATA_TYPE_S8:
+               transfer->elements_in_frame = transfer->buffers.buf_size;
+               break;
+          case OMAP_DMA_DATA_TYPE_S16:
+               transfer->elements_in_frame = transfer->buffers.buf_size / 2;
+               break;
+          case OMAP_DMA_DATA_TYPE_S32:
+               transfer->elements_in_frame = transfer->buffers.buf_size / 4;
+               break;
+          default:
+               printk(" Invalid transfer data type\n");
+       }
+
+       /* Set dma transfer parameters */
+       omap_set_dma_transfer_params(
+                transfer->transfer_id,
+                transfer->data_type,
+                transfer->elements_in_frame,
+                transfer->frame_count,
+                transfer->sync_mode,
+                transfer->device_id,
+                0x0);
+
+        /* Configure the source parameters */
+        omap_set_dma_src_params(
+                transfer->transfer_id,
+                0,
+                transfer->addressing_mode,
+                transfer->buffers.src_buf_phys,
+                0x0,
+                0x0);
+
+        /*omap_set_dma_src_endian_type(
+                transfer->transfer_id,
+                DMA_TEST_BIG_ENDIAN);*/
+
+        omap_set_dma_src_burst_mode(
+                transfer->transfer_id,
+                transfer->data_burst);
+
+        /* Configure the destination parameters */
+        omap_set_dma_dest_params(
+                transfer->transfer_id,
+                0,
+                transfer->addressing_mode,
+                transfer->buffers.dest_buf_phys,
+                0x0,
+                0x0);
+
+        /*omap_set_dma_dst_endian_type(
+                transfer->transfer_id,
+                DMA_TEST_LITTLE_ENDIAN);*/
+
+        omap_set_dma_dest_burst_mode(
+                transfer->transfer_id,
+                transfer->data_burst);
+
+
+        /* Global dma configuration parameters */
+        omap_dma_set_global_params(
+                0x3,
+                0x40,
+                0);
+
+        /* Transfer priority */
+        omap_dma_set_prio_lch(
+                transfer->transfer_id,
+                transfer->priority,
+                transfer->priority);
+
+        printk(" Transfer with id %d is ready\n", transfer->transfer_id);
 }
 
 /*
@@ -136,62 +242,42 @@ int request_dma(struct dma_transfer *transfer){
 }
 
 /*
- * Determines if the transfers have finished
- */
-static int get_transfers_finished(void){
-       int i = 0;
-       for(i = 0; i < TRANSFER_COUNT; i++){
-            if(!transfers[i].finished){
-                return 0;
-            }
-       }
-       return 1;
-}
-
-/*
  * Function called when the module is initialized
  */
 static int __init dma_module_init(void) {
        int error;
-       int i;
+       int i = 0;
        /* Create the proc entry */
        create_dma_proc(PROC_FILE);
 
-       /* Create the transfers for the test */
        for(i = 0; i < TRANSFER_COUNT; i++){
+
+           /* Create the transfer for the test */
            transfers[i].device_id = OMAP_DMA_NO_DEVICE;
            transfers[i].sync_mode = OMAP_DMA_SYNC_ELEMENT;
            transfers[i].data_burst = OMAP_DMA_DATA_BURST_DIS;
-           transfers[i].data_type = OMAP_DMA_DATA_TYPE_S8;
-           transfers[i].endian_type = DMA_TEST_LITTLE_ENDIAN;
+           transfers[i].data_type = OMAP_DMA_DATA_TYPE_S16;
            transfers[i].addressing_mode = OMAP_DMA_AMODE_POST_INC;
-
-           if(i <= 1){
-               /* Set the first transfer to low priority */
-               transfers[i].priority = DMA_CH_PRIO_LOW;
-           }else{
-               /* Set the other transfers to high priority */
-               transfers[i].priority = DMA_CH_PRIO_HIGH;
-           }
-           transfers[i].buffers.buf_size = 1024 * 1;
+           transfers[i].priority = DMA_CH_PRIO_HIGH;
+           transfers[i].buffers.buf_size = (1024 * 1024);
 
            /* Request a dma transfer */
            error = request_dma(&transfers[i]);
            if( error ){
-              set_test_passed(0);
-              return 1;
+               set_test_passed(0);
+               return 1;
            }
 
-           /* Request 2 buffers for each transfer and fill them */
+           /* Request 2 buffer for the transfer and fill them */
            error = create_transfer_buffers(&(transfers[i].buffers));
            if( error ){
-              set_test_passed(0);
-              return 1;
+               set_test_passed(0);
+               return 1;
            }
            fill_source_buffer(&(transfers[i].buffers));
 
            /* Setup the dma transfer parameters */
-           setup_dma_transfer(&transfers[i]);
+           setup_dma_transfer_(&transfers[i]);
        }
 
        for(i = 0; i < TRANSFER_COUNT; i++){
