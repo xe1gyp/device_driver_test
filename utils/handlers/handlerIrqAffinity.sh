@@ -8,11 +8,11 @@ LOCAL_IRQ_NUMBER=$5
 
 echo -e "\nInfo: Command > $LOCAL_COMMAND_LINE\n"
 
-test -d /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+test -f /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
 
 if [ $? -eq 1 ]
 then
-	echo "Error: Cannot set affinity for irq $LOCAL_IRQ!"
+	echo "Error: Cannot set affinity for irq $LOCAL_IRQ_NUMBER!"
 	#return 1
 fi
 
@@ -39,7 +39,7 @@ if [ "$LOCAL_OPERATION" = "switch" ]; then
 
 			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
 			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
-			echo 1 > /proc/irq/$LOCAL_IRQ/smp_affinity
+			echo 1 > /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
 			sleep $LOCAL_TIME_TO_WAIT
 			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
 			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
@@ -56,7 +56,7 @@ if [ "$LOCAL_OPERATION" = "switch" ]; then
 
 			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
 			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
-			echo 2 > /proc/irq/$LOCAL_IRQ/smp_affinity
+			echo 2 > /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
 			sleep $LOCAL_TIME_TO_WAIT
 			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
 			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
