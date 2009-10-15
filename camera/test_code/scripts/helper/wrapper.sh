@@ -4,12 +4,12 @@ INSIZE=$1
 
 if [ "$INSIZE" = "2592 1944" ]; then
   FIN="${TESTSCRIPT}/wrapperaux.raw"
-  FNAME="${TMPBASE}/wrapperout.yuv"
+  FNAME="${TMPBASE}/wrapperout_5MP.yuv"
 fi
 
 if [ "$INSIZE" = "3264 2464" ]; then
   FIN="${TESTSCRIPT}/8MP.raw"
-  FNAME="${TMPBASE}/wrapperout.yuv"
+  FNAME="${TMPBASE}/wrapperout_8MP.yuv"
 fi
 
 # Usage:prev_wrap <input_file> <input_width> <input_height> <output_file>
