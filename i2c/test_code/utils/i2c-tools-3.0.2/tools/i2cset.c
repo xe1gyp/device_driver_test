@@ -35,7 +35,8 @@ static void help(void) __attribute__ ((noreturn));
 static void help(void)
 {
 	fprintf(stderr,
-	        "Usage: i2cset [-f] [-y] [-m MASK] I2CBUS CHIP-ADDRESS DATA-ADDRESS [VALUE [MODE]]\n"
+		"Usage: i2cset [-f] [-y] [-m MASK]\
+		I2CBUS CHIP-ADDRESS DATA-ADDRESS [VALUE [MODE]]\n"
 		"  I2CBUS is an integer or an I2C bus name\n"
 		"  ADDRESS is an integer (0x03 - 0x77)\n"
 		"  MODE is one of:\n"
@@ -135,6 +136,7 @@ int main(int argc, char *argv[])
 	int pec = 0;
 	int flags = 0;
 	int force = 0, yes = 0, version = 0, readback = 0;
+	int index, loopcount = 10;
 
 	/* handle (optional) flags first */
 	while (1+flags < argc && argv[1+flags][0] == '-') {
@@ -213,10 +215,16 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "         Please switch to using -m.\n");
 		maskp = argv[flags+6];
 	}
+	if (argc > flags + 7)
+		loopcount = strtol(argv[flags+7], &end, 0);
+	if (*end || loopcount < 1) {
+		fprintf(stderr, "Error: Loop Count invalid!\n");
+		help();
+	}
 
 	if (maskp) {
 		vmask = strtol(maskp, &end, 0);
-		if (*end || vmask == 0) {
+		if (*end ) {
 			fprintf(stderr, "Error: Data value mask invalid!\n");
 			help();
 		}
@@ -283,7 +291,7 @@ int main(int argc, char *argv[])
 		close(file);
 		exit(1);
 	}
-
+	for (index = 0; index < loopcount; index++) {
 	switch (size) {
 	case I2C_SMBUS_BYTE:
 		res = i2c_smbus_write_byte(file, daddress);
@@ -309,7 +317,8 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	if (!readback) { /* We're done */
+	if (!readback) {
+		/* We're done */
 		close(file);
 		exit(0);
 	}
@@ -325,11 +334,10 @@ int main(int argc, char *argv[])
 	default: /* I2C_SMBUS_BYTE_DATA */
 		res = i2c_smbus_read_byte_data(file, daddress);
 	}
-	close(file);
 
-	if (res < 0) {
+	if (res < 0)
 		printf("Warning - readback failed\n");
-	} else
+	else
 	if (res != value) {
 		printf("Warning - data mismatch - wrote "
 		       "0x%0*x, read back 0x%0*x\n",
@@ -340,5 +348,7 @@ int main(int argc, char *argv[])
 		       size == I2C_SMBUS_WORD_DATA ? 4 : 2, value);
 	}
 
+}
+	close(file);
 	exit(0);
 }

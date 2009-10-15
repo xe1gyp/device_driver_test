@@ -33,7 +33,8 @@
 static void help(void)
 {
 	fprintf(stderr,
-		"Usage: i2cdump [-f] [-y] [-r first-last] I2CBUS ADDRESS [MODE [BANK [BANKREG]]]\n"
+		"Usage: i2cdump [-f] [-y] [-r first-last]\
+		I2CBUS ADDRESS  [MODE [BANK [BANKREG]]]\n"
 		"  I2CBUS is an integer or an I2C bus name\n"
 		"  ADDRESS is an integer (0x03 - 0x77)\n"
 		"  MODE is one of:\n"
@@ -119,6 +120,7 @@ int main(int argc, char *argv[])
 	int force = 0, yes = 0, version = 0;
 	const char *range = NULL;
 	int first = 0x00, last = 0xff;
+	int index,loopcount = 10;
 
 	/* handle (optional) flags first */
 	while (1+flags < argc && argv[1+flags][0] == '-') {
@@ -223,6 +225,8 @@ int main(int argc, char *argv[])
 				help();
 				exit(1);
 			}
+		if (argc > flags + 6)
+			loopcount = strtol(argv[flags+6], &end, 0);
 		}
 	}
 
@@ -370,6 +374,7 @@ int main(int argc, char *argv[])
 			}
 		}
 
+		for (index = 0 ; index < loopcount; index++) {
 		printf("     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f"
 		       "    0123456789abcdef\n");
 		for (i = 0; i < 256; i+=16) {
@@ -455,7 +460,9 @@ int main(int argc, char *argv[])
 			}
 			printf("\n");
 		}
+		}
 	} else {
+		for (index = 0; index < loopcount; index++) {
 		printf("     0,8  1,9  2,a  3,b  4,c  5,d  6,e  7,f\n");
 		for (i = 0; i < 256; i+=8) {
 			if (i/8 < first/8)
@@ -471,7 +478,8 @@ int main(int argc, char *argv[])
 					continue;
 				}
 
-				res = i2c_smbus_read_word_data(file, i+j);
+					res = i2c_smbus_read_word_data(file,\
+							i+j);
 				if (res < 0)
 					printf("XXXX ");
 				else
@@ -480,8 +488,8 @@ int main(int argc, char *argv[])
 			printf("\n");
 		}
 	}
-	if (bank && size != I2C_SMBUS_BLOCK_DATA) {
-		i2c_smbus_write_byte_data(file, bankreg, old_bank);
 	}
+	if (bank && size != I2C_SMBUS_BLOCK_DATA)
+		i2c_smbus_write_byte_data(file, bankreg, old_bank);
 	exit(0);
 }
