@@ -156,23 +156,30 @@ EXPORT_SYMBOL(dma_callback_chain);
  * and destination.
  */
 int create_transfer_buffers_chain( struct dma_buffers_info *buffers){
+	int order;
+	struct page *srcvirtpage, *dstvirtpage;
        printk("Allocating non-cacheable source and destination buffers\n");
 
        /* Allocate source buffer */
-       buffers->src_buf = 0;
-       buffers->src_buf = (unsigned int) dma_alloc_coherent(
-                NULL,
-                buffers->buf_size,
-                &(buffers->src_buf_phys),
-                0);
+	buffers->src_buf = 0;
 
-       /* Allocate destination buffer */
-       buffers->dest_buf = 0;
-       buffers->dest_buf = (unsigned int) dma_alloc_coherent(
-                NULL,
-                buffers->buf_size,
-                &(buffers->dest_buf_phys),
-                0);
+	order = get_order(buffers->buf_size);
+	srcvirtpage = alloc_pages_exact(buffers->buf_size, GFP_DMA);
+	buffers->src_buf = (unsigned int) srcvirtpage;
+	buffers->src_buf_phys = dma_map_single(NULL, srcvirtpage, buffers->buf_size, DMA_BIDIRECTIONAL);
+
+	printk("\n The buffers->src_buf is 0x%x", buffers->src_buf);
+	printk("\n The  (buffers->src_buf_phys) After call is %x  ",  buffers->src_buf_phys);
+
+	/* Allocate destination buffer */
+	buffers->dest_buf = 0;
+	order = get_order(buffers->buf_size);
+	dstvirtpage = alloc_pages_exact(buffers->buf_size, GFP_DMA);
+	buffers->dest_buf = (unsigned int) dstvirtpage;
+	buffers->dest_buf_phys = dma_map_single(NULL, dstvirtpage, buffers->buf_size, DMA_BIDIRECTIONAL);
+
+	printk("\n The buffers->dest_buf is 0x%x", buffers->dest_buf);
+	printk("\n The  (buffers->dest_buf_phys) After call is %x  ",  buffers->dest_buf_phys);
 
        /* Check the buffers have been allocated correctly */
        if( !buffers->src_buf ){
@@ -330,22 +337,15 @@ void stop_dma_transfer_chain(struct dma_transfer *transfer){
        /* Stop the dma transfer */
        if(!transfer->request_success){
            return;
-       }
-       /* Free the source and destination buffers*/
+	}
+
+/* Free the source and destination buffers*/
        if(transfer->buffers.src_buf){
-           dma_free_coherent(
-               NULL,
-               transfer->buffers.buf_size,
-               (void *) transfer->buffers.src_buf,
-               transfer->buffers.src_buf_phys);
-       }
+	   free_pages_exact(transfer->buffers.src_buf, transfer->buffers.buf_size);
+	}
        if(transfer->buffers.dest_buf){
-           dma_free_coherent(
-               NULL,
-               transfer->buffers.buf_size,
-               (void *) transfer->buffers.dest_buf,
-               transfer->buffers.dest_buf_phys);
-       }
+	   free_pages_exact(transfer->buffers.dest_buf, transfer->buffers.buf_size);
+	}
 }
 EXPORT_SYMBOL(stop_dma_transfer_chain);
 

@@ -72,8 +72,8 @@ static int __init dma_module_init(void) {
        /* Create the proc entry */
        create_dma_proc(PROC_FILE);
        transfers[0].data_type = OMAP_DMA_DATA_TYPE_S8;
-      /* transfers[1].data_type = OMAP_DMA_DATA_TYPE_S16;
-       transfers[2].data_type = OMAP_DMA_DATA_TYPE_S32;*/
+       transfers[1].data_type = OMAP_DMA_DATA_TYPE_S16;
+       transfers[2].data_type = OMAP_DMA_DATA_TYPE_S32;
 
        for(i = 0; i < TRANSFER_COUNT; i++){
 
@@ -84,7 +84,7 @@ static int __init dma_module_init(void) {
            transfers[i].endian_type = DMA_TEST_LITTLE_ENDIAN;
            transfers[i].addressing_mode = OMAP_DMA_AMODE_POST_INC;
            transfers[i].priority = DMA_CH_PRIO_HIGH;
-           transfers[i].buffers.buf_size = (1024 * 1);
+           transfers[i].buffers.buf_size = (1024 * 1024);
 
            /* Request a dma transfer */
            error = request_dma(&transfers[i]);

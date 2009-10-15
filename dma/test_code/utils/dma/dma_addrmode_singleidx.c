@@ -75,12 +75,12 @@ void setup_dma_transfer(struct dma_transfer *transfer){
           case OMAP_DMA_DATA_TYPE_S8:
                transfer->elements_in_frame = transfer->buffers.buf_size;
                break;
-          /*case OMAP_DMA_DATA_TYPE_S16:
+          case OMAP_DMA_DATA_TYPE_S16:
                transfer->elements_in_frame = transfer->buffers.buf_size / 2;
                break;
           case OMAP_DMA_DATA_TYPE_S32:
                transfer->elements_in_frame = transfer->buffers.buf_size / 4;
-               break;*/
+               break;
           default:
                printk(" Invalid transfer data type\n");
        }
@@ -103,10 +103,6 @@ void setup_dma_transfer(struct dma_transfer *transfer){
                 transfer->buffers.src_buf_phys,
                 0x1, /* Element Index (EI) set to 1 for single idx */
                 0x0);
-
-        /*omap_set_dma_src_endian_type(
-                transfer->transfer_id,
-                transfer->endian_type);*/
 
         omap_set_dma_src_burst_mode(
                 transfer->transfer_id,
@@ -159,7 +155,7 @@ static int __init dma_module_init(void) {
            transfers[i].endian_type = DMA_TEST_LITTLE_ENDIAN;
            transfers[i].addressing_mode = OMAP_DMA_AMODE_SINGLE_IDX;
            transfers[i].priority = DMA_CH_PRIO_HIGH;
-           transfers[i].buffers.buf_size = (1024 * (i+1)*(i+1)) + i % 2;
+           transfers[i].buffers.buf_size = (10240 * (i+1)*(i+1)) + i % 2;
 
            /* Request a dma transfer */
            error = request_dma(&transfers[i]);
