@@ -7,7 +7,7 @@ DEVICE=$4
 LENS_TYPE=$5
 
 if [ "$LENS_TYPE" = "RELATIVE" ]; then
-${TESTBIN}/af_stream_rel $DEVICE $VID $RATE
+${TESTBIN}/af_stream_rel $DEVICE $VID $RATE "AUTO"
 else
 ${TESTBIN}/af_stream $DEVICE $VID $LENS $RATE "2"
 fi
