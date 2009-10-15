@@ -24,6 +24,7 @@ export SCENARIO_NAMES=""
 export CHIP_NAME=twl
 export MODALIAS_NAME="platform:twl4030_rtc"
 export PROCFS_RTC=/proc/driver/rtc
+export UTILS_DIR_HANDLERS=${TESTROOT}/../../utils/handlers
 
 # rtc devfs node autodetection
 TEMP_EVENT=`ls /sys/class/rtc/ | grep rtc`
@@ -59,6 +60,7 @@ export APP_PER_INT_OFF=per_int_off
 export APP_PER_INT_ON=per_int_on
 export APP_TIME_GET=time_get
 export APP_TIME_SET=time_set
+export APP_TIME_KEEP_READING=rtc_read
 
 # Return Messages
 export MSG_OK_ALARM_RANG="Alarm Rang"
