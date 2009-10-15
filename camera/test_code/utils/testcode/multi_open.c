@@ -17,6 +17,8 @@
 #define VIDEO_DEVICE2 "/dev/video2"
 #define NUM_BUF 4
 
+#define MID(a, b) ((a+b)>>1)
+
 static void usage(void)
 {
 	printf("Multi Opens Test\n");
@@ -49,6 +51,7 @@ int main(int argc, char *argv[])
 	struct v4l2_format cformat, vformat;
 	struct v4l2_requestbuffers creqbuf, vreqbuf;
 	struct v4l2_buffer cfilledbuffer, vfilledbuffer;
+	struct v4l2_queryctrl qc;
 	int cfd, cfd_ctrl, vfd;
 	int vid = 1, set_video_img = 0, test_case = 1, i, ret;
 	struct v4l2_control control;
@@ -317,12 +320,27 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	/* caputure 1000 frames */
+	/* capture 150 frames */
 	cfilledbuffer.type = creqbuf.type;
 	vfilledbuffer.type = vreqbuf.type;
 
+
+	if (test_case != 4) {
+		/* Query Brightness limits */
+		qc.id = V4L2_CID_BRIGHTNESS;
+		if (ioctl(cfd_ctrl, VIDIOC_QUERYCTRL, &qc) == -1) {
+			printf("VIDIOC_QUERYCTRL BRIGHTNESS failed!\n");
+			return 0;
+		}
+		printf(" %s: min=%d max=%d step=%d\n",
+			qc.name, qc.minimum, qc.maximum, qc.step);
+	}
+
+
 	if (test_case == 1 || test_case == 2 || test_case == 3) {
-		printf("Setting BRIGHTNESS to 1 (out of 15)\n");
+		/* Set brightness to initial value */
+		printf("Setting BRIGHTNESS to 1 (out of %d)\n",
+			qc.maximum);
 		memset(&control, 0, sizeof(control));
 		control.id = V4L2_CID_BRIGHTNESS;
 		control.value = 1;
@@ -375,15 +393,23 @@ int main(int argc, char *argv[])
 					return -1;
 				}
 				printf("Opened camera handle for"
-						" Control Only => 0x%08X\n",
-						cfd_ctrl);
+					" Control Only => 0x%08X\n", cfd_ctrl);
+
+				/* Query Brightness limits */
+				qc.id = V4L2_CID_BRIGHTNESS;
+				ioctl(cfd_ctrl, VIDIOC_QUERYCTRL, &qc);
+				printf(" %s: min=%d max=%d step=%d\n",
+					qc.name, qc.minimum,
+					qc.maximum, qc.step);
 			}
 
 			/* Increase brightness with second file handle */
-			printf("Setting BRIGHTNESS to 10 (out of 15)\n");
+			printf("Setting BRIGHTNESS to %d (out of %d)\n",
+				MID(qc.minimum, qc.maximum),
+				qc.maximum);
 			memset(&control, 0, sizeof(control));
 			control.id = V4L2_CID_BRIGHTNESS;
-			control.value = 10;
+			control.value = MID(qc.minimum, qc.maximum);
 			if (ioctl(cfd_ctrl, VIDIOC_S_CTRL, &control) == -1) {
 				printf("VIDIOC_S_CTRL BRIGHTNESS failed!\n");
 				return 0;
@@ -441,7 +467,8 @@ int main(int argc, char *argv[])
 	printf("Closing handle for Streaming    => 0x%08X\n", cfd);
 	close(cfd);
 	if (test_case == 4) {
-		printf("Setting BRIGHTNESS to 1 (out of 15)\n");
+		printf("Setting BRIGHTNESS to 1 (out of %d)\n",
+			qc.maximum);
 		memset(&control, 0, sizeof(control));
 		control.id = V4L2_CID_BRIGHTNESS;
 		control.value = 1;
