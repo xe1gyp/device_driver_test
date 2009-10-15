@@ -15,11 +15,7 @@
 #include <linux/videodev2.h>
 #include <mach/isp_user.h>
 
-#define INPUT_CCDC		0
-#define INPUT_MEMORY		1
 #define VIDEO_DEVICE		"/dev/video2"
-
-#define HIST_MEM_SIZE		1024
 
 #define DEFAULT_PIXEL_FMT "YUYV"
 #define DEFAULT_VIDEO_SIZE "QVGA"
@@ -390,9 +386,9 @@ int main(int argc, char *argv[])
 		if (argc > 1
 		    && (!strcmp(argv[1], "CCDC") || !strcmp(argv[1], "MEM"))) {
 			if (!strcmp(argv[1], "CCDC")) {
-				hist_user.hist_source = INPUT_CCDC;
+				hist_user.source = HIST_SOURCE_CCDC;
 				hist_user.input_bit_width = atoi(argv[4]);
-				hist_user.hist_frames = atoi(argv[3]);
+				hist_user.num_acc_frames = atoi(argv[3]);
 				hist_user.hist_h_v_info = 0;
 				hist_user.hist_radd = 0;
 				hist_user.hist_radd_off = 0;
@@ -411,20 +407,21 @@ int main(int argc, char *argv[])
 				}
 
 			} else {
-				/*hist_user.hist_source = INPUT_MEMORY;
+				/*hist_user.source = HIST_SOURCE_MEM;
 				   hist_user.input_bit_width = atoi(argv[4]);
-				   hist_user.hist_frames = atoi(argv[3]);
+				   hist_user.num_acc_frames = atoi(argv[3]);
 				   hist_user.hist_h_v_info = atoi(argv[7]);
 				   hist_user.hist_radd = atoi(argv[5]);
 				   hist_user.hist_radd_off = atoi(argv[6]);
 				   hist_user.hist_bins = atoi(argv[2]); */
 				printf("Using default values for Histogram\n");
 				/* CCDC or Memory */
-				hist_user.hist_source = 0;
+				hist_user.source = HIST_SOURCE_CCDC;
+				hist_user.cfa = 0;
 				/* Needed o know the size per pixel */
 				hist_user.input_bit_width = 10;
 				/* # of frames to process and accumulate */
-				hist_user.hist_frames = 10;
+				hist_user.num_acc_frames = 10;
 				/* frame-input w and h, if source is memory */
 				hist_user.hist_h_v_info = 0;
 				/* frame-input address in memory */
@@ -439,11 +436,11 @@ int main(int argc, char *argv[])
 		} else {
 			printf("Using default values for Histogram\n");
 			/* CCDC or Memory */
-			hist_user.hist_source = 0;
+			hist_user.source = HIST_SOURCE_CCDC;
 			/* Needed o know the size per pixel */
 			hist_user.input_bit_width = 10;
 			/* Numbers of frames to be processed and accumulated */
-			hist_user.hist_frames = 5;
+			hist_user.num_acc_frames = 5;
 			/* frame-input width and height if source is memory */
 			hist_user.hist_h_v_info = 0;
 			/* frame-input address in memory */
@@ -451,20 +448,20 @@ int main(int argc, char *argv[])
 			/* line-offset for frame-input */
 			hist_user.hist_radd_off = 0;
 			/* number of bins: 32, 64, 128, or 256 0 - 3 */
-			hist_user.hist_bins = BINS_256;
+			hist_user.hist_bins = HIST_BINS_256;
 			/* number of regions to be configured 0 - 3 */
 			hist_user.num_regions = 0;
 		}
 
-		hist_user.wb_gain_R = 32; /* WB Field-to-Pattern Assignments */
-		hist_user.wb_gain_RG = 32; /* WB Field-to-Pattern Assignments */
-		hist_user.wb_gain_B = 32; /* WB Field-to-Pattern Assignments */
-		hist_user.wb_gain_BG = 32; /* WB Field-to-Pattern Assignments */
+		hist_user.wg[0] = 32; /* WB Field-to-Pattern Assignments */
+		hist_user.wg[1] = 32; /* WB Field-to-Pattern Assignments */
+		hist_user.wg[2] = 32; /* WB Field-to-Pattern Assignments */
+		hist_user.wg[3]; /* WB Field-to-Pattern Assignments */
 
-		hist_user.reg0_hor = 640;	/* Region 0 size and position */
-		hist_user.reg0_ver = 480;	/* Region 0 size and position */
-		/* hist_user.reg1_hor = 320; */	/* Region 0 size and position */
-		/* hist_user.reg1_ver = 240; */	/* Region 0 size and position */
+		hist_user.reg_hor[0] = 640;	/* Region 0 size and position */
+		hist_user.reg_ver[0] = 480;	/* Region 0 size and position */
+		/* hist_user.reg_hor[1] = 320; */	/* Region 0 size and position */
+		/* hist_user.reg_hor[1] = 240; */	/* Region 0 size and position */
 
 		/* set h3a params */
 		ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_HIST_CFG, &hist_user);
