@@ -7,7 +7,7 @@
 
 # Begin L_DD_I2C_0004_0003
 
-01 set -x; $TESTSCRIPT/filesystemtype.sh; runtestcase.sh $NON_EXISTING_DEVICES
+01 set -x; $TESTSCRIPT/filesystemtype.sh; runtestcase.sh $NON_EXISTING_DEVICES $FAST_MODE
 02 set -x; rm -f $TMPBASE/result.tmp; ls $TMPBASE/ | grep result.tmp | exit 0 || exit 1;
 
 # End L_DD_I2C_0004_0003
