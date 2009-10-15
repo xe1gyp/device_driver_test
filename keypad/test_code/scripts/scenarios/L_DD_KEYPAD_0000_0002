@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_KEYPAD_0000_0002
+# Author  : Abraham Arce
+# Modified by: Aharon Campos
+# Date    :  Oct 15, 2009
+###############################################################################
+
+# Begin L_DD_KEYPAD_0000_0002
+
+01  set -x; $TESTROOT/../bin/openclose $DEVFS_KEYPAD
+
+# End L_DD_KEYPAD_0000_0002

@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_KEYPAD_0003_0001
+# Author  : Abraham Arce
+# Modified by: Aharon Campos
+# Date    :  Oct 15, 2009
+###############################################################################
+
+# Begin L_DD_KEYPAD_0003_0001
+
+01  set -x; echo -e "\n\n\nThe application will wait for 500 keypresses.\nPlease verify that keycodes correspond to values\nshown in the UTR.\n\n\n"; $TESTBIN/testkeypad $DEVFS_KEYPAD
+
+# End L_DD_KEYPAD_0003_0001

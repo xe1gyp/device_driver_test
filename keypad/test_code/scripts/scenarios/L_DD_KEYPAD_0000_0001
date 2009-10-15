@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_KEYPAD_0000_0001
+# Author  : Abraham Arce
+# Modified by: Aharon Campos
+# Date    :  Oct 15, 2009
+###############################################################################
+
+# Begin L_DD_KEYPAD_0000_0001
+
+01  set -x; cat /var/log/dmesg | grep -i keypad
+
+# End L_DD_KEYPAD_0000_0001

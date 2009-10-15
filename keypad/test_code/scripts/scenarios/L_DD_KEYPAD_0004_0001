@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_KEYPAD_0001_0001
+# Author  : Abraham Arce
+# Modified by: Aharon Campos
+# Date    :  Oct 15, 2009
+###############################################################################
+
+# Begin L_DD_KEYPAD_0001_0001
+
+01  set -x; "\n\n\nThe system is going to sleep.\nPlease press a key to bring it back\n\n\n"; echo -n 0 > /sys/power/wakeup_timer_seconds ;echo -n mem > /sys/power/state;
+
+# End L_DD_KEYPAD_0001_0001
