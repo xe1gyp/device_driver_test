@@ -8,12 +8,13 @@
 
 CC=$(CROSS_COMPILE)gcc
 
-TARGETS=time_difference
+TARGETS=time_difference system_time
 obj-m := clock_test.o prcm_test.o resource_test.o co_test.o cd_test.o
 
 all:
 	make -C $(KDIR) SUBDIRS=$(PWD)/utils/omap3 KERN=26 modules
 	$(CC) time_difference.c -o time_difference
+	$(CC) system_time.c -o system_time
 
 install:
 	cp -vf clock_test.ko ../../mods
