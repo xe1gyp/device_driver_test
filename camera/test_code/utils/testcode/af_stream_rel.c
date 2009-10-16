@@ -21,13 +21,16 @@
 #define DEFAULT_PIXEL_FMT "YUYV"
 #define DEFAULT_VIDEO_SIZE "VGA"
 
+#define MODE_MANUAL		1
+#define MODE_AUTO		2
+
 #define DSS_STREAM_START_FRAME	3
 
 int cfd, vfd;
 
 static void usage(void)
 {
-	printf("af_stream_rel [dev] [vid] [framerate]\n");
+	printf("af_stream_rel [dev] [vid] [framerate] [test]\n");
 	printf("\tSteaming capture of 1000 frames using video driver for"
 							" rendering\n");
 	printf("\t[dev] Camera device to be open\n\t 1:Micron sensor "
@@ -36,6 +39,9 @@ static void usage(void)
 							" 1(default) or 2\n");
 	printf("\t[framerate] is the framerate to be used, if no value"
 					"is given 30 fps is default\n");
+	printf("\t[test] is the test mode:\n\t"
+					"AUTO   - Auto test\n\t"
+					"MANUAL - Manual test (default)\n");
 }
 
 static void display_keys(void)
@@ -46,6 +52,24 @@ static void display_keys(void)
 	printf("  3 - Change lens position relative +1\n");
 	printf("  4 - Change lens position relative -5\n");
 	printf("  5 - Change lens position relative +5\n\n");
+}
+
+int auto_test(int cfd, int count)
+{
+	static int dir = -1;
+	struct v4l2_control control;
+
+	if (count % 50 == 0) {
+		memset(&control, 0, sizeof(control));
+		control.id = V4L2_CID_FOCUS_RELATIVE;
+		control.value = 300 * dir;
+		printf("Focus: %s\n", (dir == 1) ? "INFINTE" : "MACRO");
+		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
+			perror("Error V4L2_CID_FOCUS_RELATIVE: ");
+		dir *= -1;
+	}
+
+	return 0;
 }
 
 int main(int argc, char *argv[])
@@ -59,6 +83,7 @@ int main(int argc, char *argv[])
 	struct v4l2_format cformat, vformat;
 	struct v4l2_requestbuffers creqbuf, vreqbuf;
 	struct v4l2_buffer cfilledbuffer, vfilledbuffer;
+	struct v4l2_control control;
 	int vid = 1, set_video_img = 0, i, ret;
 
 	/*************************************************************/
@@ -75,9 +100,8 @@ int main(int argc, char *argv[])
 	int j = 0, index = 1;
 	FILE *fp_out;
 	int framerate = 30;
-	int device = 1;
-	struct v4l2_queryctrl queryctrl;
-	struct v4l2_control control;
+	int device = 1, mode = MODE_MANUAL;
+
 
 	af_config_user.alaw_enable = H3A_AF_ALAW_ENABLE;	/* Enable Alaw */
 	af_config_user.hmf_config.enable = H3A_AF_HMF_DISABLE;
@@ -140,6 +164,17 @@ int main(int argc, char *argv[])
 	} else
 		printf("Using framerate = 30, default value\n");
 
+	if (argc > index) {
+		if (strcmp(argv[index], "AUTO") == 0)
+			mode = MODE_AUTO;
+		index++;
+	}
+
+	if (mode == MODE_AUTO)
+		printf("Mode: Auto test\n");
+	else
+		printf("Mode: Manual test\n");
+
 
 	cfd = open_cam_device(O_RDWR, device);
 	if (cfd <= 0) {
@@ -179,7 +214,6 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	memset(&queryctrl, 0, sizeof(queryctrl));
 	memset(&control, 0, sizeof(control));
 
 
@@ -387,7 +421,8 @@ request:
 			fprintf(fp_out, "%6x\n", buff_preview[k]);
 	}
 
-	display_keys();
+	if (mode == MODE_MANUAL)
+		display_keys();
 
 	int bytes;
 	while (i < 1000) {
@@ -428,7 +463,10 @@ request:
 		}
 
 
-		if (kbhit()) {
+		if (mode == MODE_AUTO)
+			auto_test(cfd, i);
+
+		if (kbhit() && mode == MODE_MANUAL) {
 			input = getch();
 			if (input == '1') {
 				af_data_user.update = 0;
