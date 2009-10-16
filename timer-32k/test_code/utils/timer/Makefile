@@ -14,7 +14,7 @@ else
 endif
 
 
-MODULES = gptimer_request.o gptimer_request_specific.o
+MODULES = gptimer_request.o gptimer_request_specific.o timer32value.o
 
 obj-m:=$(MODULES)
 
