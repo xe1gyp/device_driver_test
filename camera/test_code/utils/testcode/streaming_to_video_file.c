@@ -23,6 +23,9 @@
 #define DEFAULT_PIXEL_FMT	"YUYV"
 #define DEFAULT_VIDEO_SIZE	"QCIF"
 
+#define FRAME_COUNT			300
+#define APPLY_COUNT			20
+
 static void usage(void)
 {
 	printf("streaming_to_video_file [camDevice] [pixelFormat]"
@@ -67,6 +70,7 @@ int main(int argc, char *argv[])
 	int framerate = 30;
 	int device = 1;
 	int orig_brightness, orig_contrast, orig_color;
+	int step_brightness;
 
 	if ((argc > index) && (!strcmp(argv[1], "?"))) {
 		usage();
@@ -358,6 +362,11 @@ int main(int argc, char *argv[])
 			"\nbrightness level is %d\n",
 			qc_brightness.minimum, qc_brightness.maximum, c_brightness.value);
 		orig_brightness = c_brightness.value;
+		step_brightness =
+			(qc_brightness.maximum-qc_brightness.minimum) /
+			(FRAME_COUNT / APPLY_COUNT);
+		printf("Brightness step for this test: %d\n",
+			step_brightness);
 	}
 
 	memset(&qc_contrast, 0, sizeof(qc_contrast));
@@ -436,7 +445,7 @@ int main(int argc, char *argv[])
 
 	i = 0;
 
-	while (i < 300) {
+	while (i < FRAME_COUNT) {
 		int aux = 0;
 		/* De-queue the next avaliable buffer */
 		while (ioctl(cfd, VIDIOC_DQBUF, &cfilledbuffer) < 0)
@@ -454,7 +463,8 @@ int main(int argc, char *argv[])
 		}
 		i++;
 
-		if (((i % 20) == 0) && (test != 0)) {
+		/* Apply change every APPLY_COUNT frames */
+		if (((i % APPLY_COUNT) == 0) && (test != 0)) {
 			if (test == CONT_TEST) {
 				c_contrast.id = V4L2_CID_CONTRAST;
 				c_contrast.value += qc_contrast.step;
@@ -475,7 +485,7 @@ int main(int argc, char *argv[])
 					printf("VIDIOC_S_CTRL failed!\n");
 			} else if (test == BRT_TEST) {
 				c_brightness.id = V4L2_CID_BRIGHTNESS;
-				c_brightness.value += qc_brightness.step;
+				c_brightness.value += step_brightness;
 				if (c_brightness.value > qc_brightness.maximum)
 					c_brightness.value = qc_brightness.minimum;
 				if (fOut != NULL && aux <= num_frames) {
