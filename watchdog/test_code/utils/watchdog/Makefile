@@ -9,7 +9,7 @@
 CC := $(CROSS_COMPILE)gcc
 CFLAGS += -I$(KDIR)/include -Wall
 
-TARGETS = testwdtioctl testwdtwrite
+TARGETS = testwdtioctl testwdtwrite testwdtreboot
 
 all: $(TARGETS)
 

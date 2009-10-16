@@ -1,10 +1,11 @@
 /*
  * Test Code for Watchdog Driver
  *
- * This program tests the various ioctls supported by watchdog timer driver.
- * This program opens "/dev/watchdog" and calls the various ioctls supported
- * by watchdog timer driver and prints the values. At the end it calls
- * KEEPALIVE ioctl in loop in turn resetting the watchdog timer.
+ * This program tests the setting of interval ioctls supported by watchdog
+ * timer driver. This program opens "/dev/watchdog" and calls the various
+ * ioctls supported by watchdog timer driver and prints the values. At the
+ * end it sets the timeout for watchdog timer and allows timeout to exprire
+ * by sleeping more than timeout period.
  *
  * Compile with:
  * gcc -s -Wall -Wstrict-prototypes testwdtioctl.c -o testwdtioctl
@@ -13,12 +14,9 @@
  *
  * History:
  *
- * 19-02-2004	Texas Instruments	Initial version of the testcode
- * 12-09-2008	Ricardo Perez Olivares	Adding basic comments, variable
- * 						names according to coding
- *						standars.
+ * 10-15-2009	Vimal Singh	Initial version of the testcode
  *
- * Copyright (C) 2004-2009 Texas Instruments, Inc
+ * Copyright (C) 2009 Texas Instruments, Inc
  * This package is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
  * published by the Free Software Foundation.
@@ -74,14 +72,11 @@ int main(int argc, const char *argv[]) {
 	else
 		printf("\nget Status : %x", data);
 
-
-
 	ret_val = ioctl(fd, WDIOC_GETBOOTSTATUS, &data);
 	if (ret_val)
 		printf("\nWatchdog Timer : WDIOC_GETBOOTSTATUS failed");
 	else
 		printf("\nBoot Status : %x", data);
-
 
 	ret_val = ioctl(fd, WDIOC_GETTIMEOUT, &data);
 	if (ret_val)
@@ -90,14 +85,11 @@ int main(int argc, const char *argv[]) {
 		printf("\nCurrent timeout value before settime is :"
 						"%d seconds\n", data);
 
-
 	ret_val = ioctl(fd, WDIOC_SETTIMEOUT, &data2);
 	if (ret_val)
 		printf("\nWatchdog Timer : WDIOC_SETTIMEOUT failed");
 	else
 		printf("\nNew timeout value is : %d seconds", data2);
-
-
 
 	ret_val = ioctl(fd, WDIOC_GETTIMEOUT, &data);
 	if (ret_val)
@@ -105,15 +97,7 @@ int main(int argc, const char *argv[]) {
 	else
 		printf("\nCurrent timeout value is : %d seconds\n", data);
 
+	sleep(data2 + 1);
 
-	while (1) {
-		ret_val = ioctl(fd, WDIOC_KEEPALIVE, &data);
-		if (ret_val)
-			printf("\nWatchdog Timer : WDIOC_KEEPALIVE failed");
-
-		sleep(data-1);
-	}
-	close(fd);
 	return 0;
-
 }
