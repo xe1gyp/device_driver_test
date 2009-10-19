@@ -17,9 +17,9 @@ COMMENT comment.sh "Verify that the alpha blending can be enabled/disabled and c
 0003 set -x; alpha_blending.sh "GLOBAL" "LCD" "200" "50" "OFF" && exit 0 || exit 1
 
 0004 set -x; comment.sh "Parameters: ALPHA=enabled; OUTPUT=TV; GFX ALPHA=150; VD2 ALPHA=180"
-0004 set -x; alpha_blending.sh "GLOBAL" "TV" "150" "180" "ON" && exit 0 || exit 1
+0004 set -x; alpha_blending.sh "GLOBAL" "HDMI" "150" "180" "ON" && exit 0 || exit 1
 
 0005 set -x; comment.sh "Parameters: ALPHA=disabled; OUTPUT=TV; GFX ALPHA=255; VD2 ALPHA=100"
-0005 set -x; alpha_blending.sh "GLOBAL" "TV" "255" "100" "OFF" && exit 0 || exit 1
+0005 set -x; alpha_blending.sh "GLOBAL" "HDMI" "255" "100" "OFF" && exit 0 || exit 1
 
 # End "L_DD_VIDEO_0013"

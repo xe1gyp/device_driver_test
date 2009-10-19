@@ -1,4 +1,4 @@
-#####################
+###################
 # FILENAME: L_DD_VIDEO_0003
 # Author  : David Miramontes
 # Date    : Tue Mar 9, 2009
@@ -7,7 +7,7 @@
 
 COMMENT_INT comment.sh "Verify that the rendered image can be up-sampled (scaled) in horizontal direction"
 
-0001_VD1 set -x; winstream.sh 1 "RGB565 640 480" "0 0 640 480" $VIDEOFILES/video_vga_rgb565 && exit 0 || exit 1
-0001_VD1 set -x; winstream.sh 2 "RGB565 640 480" "0 0 640 480" $VIDEOFILES/video_vga_rgb565 && exit 0 || exit 1
+0001_VD1 set -x; winstream.sh 1 "YUYV 864 480" "0 0 864 480" "0 0" $VIDEOFILES/wvga_video.yuv && exit 0 || exit 1
+0002_VD2 set -x; winstream.sh 2 "YUYV 864 480" "0 0 864 480" "0 0" $VIDEOFILES/wvga_video.yuv && exit 0 || exit 1
 
 # End "L_DD_VIDEO_0003"

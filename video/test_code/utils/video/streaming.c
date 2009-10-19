@@ -11,7 +11,7 @@
 #include "lib.h"
 
 static int streaming_video(int output_device, int file_descriptor,
-	int sleep_time)
+	int buff_num, int sleep_time)
 {
 	struct {
 		void *start;
@@ -43,10 +43,9 @@ static int streaming_video(int output_device, int file_descriptor,
 		perror("VIDIOC_G_FMT");
 		return result;
 	}
-
 	reqbuf.type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
 	reqbuf.memory = V4L2_MEMORY_MMAP;
-	reqbuf.count = 4;
+	reqbuf.count = buff_num;
 
 	result = ioctl(output_device, VIDIOC_REQBUFS, &reqbuf);
 	if (result != 0) {
@@ -54,8 +53,8 @@ static int streaming_video(int output_device, int file_descriptor,
 		return 1;
 	}
 
-	printf("Driver allocated %d buffers when 4 are requested\n",
-		reqbuf.count);
+	printf("Driver allocated %d buffers when %d are requested\n",
+		buff_num, reqbuf.count);
 
 	buffers = calloc(reqbuf.count, sizeof(*buffers));
 	for (i = 0; i < reqbuf.count ; ++i) {
@@ -169,13 +168,15 @@ exit:
 
 static int usage(void)
 {
-	printf("Usage: streaming <video_device> <inputfile> [<n>]\n");
+	printf("Usage: streaming <video_device> [<buff_num: 4 by default>] "
+		"<inputfile> [<n>]\n");
 	return 1;
 }
 
 int main(int argc, char *argv[])
 {
-	int video_device, file_descriptor, output_device, result;
+	int video_device, file_descriptor, output_device, result, i;
+	int buff_num = 4;
 	int sleep_time = 0;
 
 	if (argc < 3)
@@ -199,15 +200,26 @@ int main(int argc, char *argv[])
 		printf("openned %s\n",
 			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
 
-	output_device = open(argv[2], O_RDONLY);
+	if (atoi(argv[2]) == 0)
+		i = 0;
+
+	else {
+		i = 1;
+		buff_num = atoi(argv[2]);
+		if (buff_num < 4)
+		    buff_num = 4;
+	}
+
+	output_device = open(argv[2+i], O_RDONLY);
 	if (output_device <= 0) {
 		printf("Could not open input file %s\n", argv[2]);
 		return 1;
 	}
 
-	if (argc == 4)
-		sleep_time = atoi(argv[3]);
-	result = streaming_video(file_descriptor, output_device, sleep_time);
+	if (argc == 4+i)
+		sleep_time = atoi(argv[3+i]);
+	result = streaming_video(file_descriptor, output_device,
+				buff_num, sleep_time);
 
 	close(output_device);
 	close(file_descriptor);
