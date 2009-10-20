@@ -1,0 +1,14 @@
+##############################
+# File Name   : L_DD_MCBSP_0005_0001
+# Author      : Abraham Arce
+# Modified by : Aharon Campos
+# Date        : October 15, 2009
+# Description : McBSP Test Suite
+###############################
+
+# Begin L_DD_MCBSP_0005_0001
+
+#The McBSP driver supports configuring the "CLKX" parameters, this test case verifies the same.
+0001 set -x; testmcbsp.sh "0005_0001" "CLKX_Polarity" "6" "clkx_polarity=" "$CLKX_POLARITY_VALUES" && exit 0 || exit 1
+
+# End L_DD_MCBSP_0005_0001
