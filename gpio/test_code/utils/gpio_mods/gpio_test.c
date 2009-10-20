@@ -12,6 +12,7 @@
 static uint test;
 static uint gpio;
 static uint value;
+static uint iterations = 1;
 static uint request_flag;
 static uint input_direction_flag;
 static uint output_direction_flag;
@@ -21,6 +22,7 @@ static uint error_flag_1 = 1, error_flag_2 = 1, error_flag_3 = 1;
 module_param(test, int, S_IRUGO|S_IWUSR);
 module_param(gpio, int, S_IRUGO|S_IWUSR);
 module_param(value, int, S_IRUGO|S_IWUSR);
+module_param(iterations, int, S_IRUGO|S_IWUSR);
 
 static void gpio_test_request(void)
 {
@@ -117,6 +119,7 @@ static void gpio_test_irq(void)
 
 static void gpio_test(void)
 {
+		int loop;
 
 		switch (test) {
 
@@ -161,6 +164,30 @@ static void gpio_test(void)
 			if (request_flag) {
 				gpio_test_irq();
 				gpio_test_free();
+			}
+			break;
+
+		case 6: /* GPIO read */
+			for (loop = 0; loop < iterations; loop++) {
+				gpio_test_request();
+				if (request_flag) {
+					gpio_test_direction_input();
+					if (input_direction_flag)
+						gpio_test_read();
+					gpio_test_free();
+				}
+			}
+			break;
+
+		case 7: /* GPIO write */
+			for (loop = 0; loop < iterations; loop++) {
+				gpio_test_request();
+				if (request_flag) {
+					gpio_test_direction_output();
+					if (output_direction_flag)
+						gpio_test_write();
+					gpio_test_free();
+				}
 			}
 			break;
 
