@@ -27,15 +27,15 @@
 
 #define BYTES_PER_WINDOW	16
 #define DIGITAL_GAIN_DEFAULT	0x100
-#define DIGITAL_GAIN_MAX	0x500
+#define DIGITAL_GAIN_MAX	0x3FF
 #define BLUE_GAIN_DEFAULT	0x94
-#define BLUE_GAIN_MAX		0x194
+#define BLUE_GAIN_MAX		0xFF
 #define RED_GAIN_DEFAULT	0x68
-#define RED_GAIN_MAX		0x168
+#define RED_GAIN_MAX		0xFF
 #define GB_GAIN_DEFAULT		0x5C
-#define GB_GAIN_MAX		0x15C
+#define GB_GAIN_MAX		0xFF
 #define GR_GAIN_DEFAULT		0x5C
-#define GR_GAIN_MAX		0x15C
+#define GR_GAIN_MAX		0xFF
 
 static void usage(void)
 {
@@ -704,54 +704,45 @@ request:
 			break;
 
 		case 8:
-			aewb_data_user.dgain = aewb_data_user.dgain + 0x100;
+			aewb_data_user.dgain = DIGITAL_GAIN_DEFAULT;
 			printf("Digital gain: %d\r", aewb_data_user.dgain);
 			fflush(stdout);
 			aewb_data_user.update = SET_DIGITAL_GAIN;
-			if (aewb_data_user.dgain == DIGITAL_GAIN_DEFAULT)
-				done_flag = 1;
+			done_flag = 1;
 			break;
 
 		case 9:
-			aewb_data_user.wb_gain_b =
-					aewb_data_user.wb_gain_b + 0x100;
+			aewb_data_user.wb_gain_b = BLUE_GAIN_DEFAULT;
 			printf("Blue gain: %d\r", aewb_data_user.wb_gain_b);
 			fflush(stdout);
 			aewb_data_user.update = SET_DIGITAL_GAIN;
-			if (aewb_data_user.wb_gain_b == BLUE_GAIN_DEFAULT)
-				done_flag = 1;
+			done_flag = 1;
 			break;
 
 		case 10:
-			aewb_data_user.wb_gain_r =
-					aewb_data_user.wb_gain_r + 0x100;
+			aewb_data_user.wb_gain_r = GB_GAIN_DEFAULT;
 			printf("Red gain: %d\r", aewb_data_user.wb_gain_r);
 			fflush(stdout);
 			aewb_data_user.update = SET_DIGITAL_GAIN;
-			if (aewb_data_user.wb_gain_r == RED_GAIN_DEFAULT)
-				done_flag = 1;
+			done_flag = 1;
 			break;
 
 		case 11:
-			aewb_data_user.wb_gain_gb =
-					aewb_data_user.wb_gain_gb + 0x100;
+			aewb_data_user.wb_gain_gb = GB_GAIN_DEFAULT;
 			printf("Green/Blue gain: %d\r",
 				aewb_data_user.wb_gain_gb);
 			fflush(stdout);
 			aewb_data_user.update = SET_DIGITAL_GAIN;
-			if (aewb_data_user.wb_gain_gb == GB_GAIN_DEFAULT)
-				done_flag = 1;
+			done_flag = 1;
 			break;
 
 		case 12:
-			aewb_data_user.wb_gain_gr =
-					aewb_data_user.wb_gain_gr + 0x100;
+			aewb_data_user.wb_gain_gr = GR_GAIN_DEFAULT;
 			printf("Green/Red gain: %d\r",
 				aewb_data_user.wb_gain_gr);
 			fflush(stdout);
 			aewb_data_user.update = SET_DIGITAL_GAIN;
-			if (aewb_data_user.wb_gain_gr == GR_GAIN_DEFAULT)
-				done_flag = 1;
+			done_flag = 1;
 			break;
 
 		default:
