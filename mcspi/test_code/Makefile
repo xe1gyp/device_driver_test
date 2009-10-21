@@ -1,11 +1,6 @@
 # 
-# /vobs/wtbu/OMAPSW_L/linux/test/device_driver_test/mcspi/test_code/
-#
-# Makefile for compilation of 2.4 or 2.6 kernel based modules for 
+# Makefile for compilation of mcspi test code
 # Testing the McSPI
-# NOTE: 'make KERN=26' to compile for 2.6 kernel
-#
-# NOTE: with mv kernel, we may need to use insmod with -f option
 #
 # Copyright (C) 2004-2005 Texas Instruments, Inc.
 #
@@ -19,38 +14,19 @@
 #
 # Author : Syed Mohammed Khasim
 #
+# Revision History
+# ================
+# 21-Oct-2009 Manjunath GK     Cleaned up - removed 2.4 kernel references
+#
+#
 
-#Trying to make this work for 2.4 and 2.6 kernel
-#KDIR        := /vobs/wtbu/OMAPSW_L/linux/kernel_bk/2.6_kernel
-#KDIR	:= /vobs/wtbu/OMAPSW_L/linux/kernel_mv/2.4_kernel-arm11
-#KDIR	:= /vobs/wtbu/OMAPSW_L/linux/kernel_mv/2.6_kernel-arm11
-KDIR        := /vobs/wtbu/OMAPSW_L/linux/kernel_org/2.6_kernel
-
-ifneq ($(KERNELRELEASE),)
-ifeq ($(KERN),26)
     obj-m		+=	omap2_mcspi_datatest.o
-    obj-m		+=	omap2_mcspi_irqtest.o
-    obj-m		+=	omap2_mcspi_wktest.o
-    obj-m		+=	omap2_spi_seclcd.o
-else
-    export-objs		:=	omap2_mcspi_datatest.o
-    obj-m +=omap2_mcspi_datatest.o
-    export-objs		:=	omap2_mcspi_irqtest.o
-    obj-m +=omap2_mcspi_irqtest.o
-    export-objs		:=	omap2_mcspi_wktest.o
-    obj-m +=omap2_mcspi_wktest.o
-    export-objs		:=	omap2_spi_seclcd.o
-    obj-m +=omap2_spi_seclcd.o
-include $(TOPDIR)/Rules.make
-endif
-else
-    PWD=$(shell pwd)
-ifeq ($(KERN),26)
-    a :=$(shell touch .26)
-endif
+#    obj-m		+=	omap2_mcspi_irqtest.o
+#    obj-m		+=	omap2_mcspi_wktest.o
+#    obj-m		+=	omap2_spi_seclcd.o
+
     default:
-	$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) KERN=$(KERN) modules 
-endif
+	$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) modules
 
 clean:
 	$(RM) -r *.o *.ko *.mod.c .*.cmd .tmp_versions .*.flags .26

@@ -220,7 +220,6 @@ create_proc_file_entries(void)
 	status_file->read_proc  = read_proc_status;
 	transmission_file->write_proc = write_proc_entry;
 	
-	mcspi_test_dir->owner = status_file->owner = transmission_file->owner = THIS_MODULE;
 	return 0;
 	
 no_status:
