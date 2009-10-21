@@ -28,7 +28,7 @@ elif [ $TEST = "AE" ]; then
 elif [ $TEST="HIST" ]; then
   echo "";echo "Run histogram test progam './hist_test'"
   echo "";echo "Check if the application run without problems"
-  sleep 10
+  sleep 5
   $TESTBIN/hist_test $DEVICE
   RESULT=$?
   echo "Test returned $RESULT"
