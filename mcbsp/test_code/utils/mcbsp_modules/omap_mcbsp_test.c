@@ -172,6 +172,7 @@ struct omap_mcbsp_srg_fsg_cfg {
 	u8 dlb;         /* digital loopback mode */
 };
 
+#if 0
 struct omap_mcbsp_dma_transfer_parameters {
 	/* Skip the alternate element use fro stereo mode */
 	u8 skip_alt;
@@ -181,6 +182,7 @@ struct omap_mcbsp_dma_transfer_parameters {
 	u32 word_length1;
 
 } omap_mcbsp_dma_transfer_params;
+#endif
 
 static struct mcbsp_info_struct mcbsptest_info;
 
@@ -190,11 +192,10 @@ struct omap_mcbsp_srg_fsg_cfg   cfg;
 
 /* Module parameters are initialized to default values */
 
-static int rx_ready	 = 1;
 static int buffer_size   = 256;
-static int no_of_trans   = 50;
-static int no_of_tx      = 0;
-static int no_of_rx      = 0;
+static int no_of_trans   = 128;
+static int no_of_words_tx;
+static int no_of_words_rx;
 static int sample_rate   = 8000;
 
 static int phase         = OMAP_MCBSP_FRAME_SINGLEPHASE;
@@ -203,16 +204,17 @@ static int fsr_polarity  = OMAP_MCBSP_FS_ACTIVE_LOW;
 static int clkx_polarity = OMAP_MCBSP_CLKX_POLARITY_RISING;
 static int fsx_polarity  = OMAP_MCBSP_FS_ACTIVE_LOW;
 static int justification = OMAP_MCBSP_RJUST_ZEROMSB;
-static int word_length   = OMAP_MCBSP_WORD_16;
+static int word_length1   = OMAP_MCBSP_WORD_8;
+static int word_length2   = OMAP_MCBSP_WORD_8;
 static int test_mcbsp_id = OMAP_MCBSP1;
-static int words_per_frame = 0;
+static int words_per_frame = 1;
 long int tx_sec;
 long int tx_usec;
 
 module_param(buffer_size, int, 0);
 module_param(no_of_trans, int , 0);
-module_param(no_of_tx, int , 0);
-module_param(no_of_rx, int, 0);
+module_param(no_of_words_tx, int , 0);
+module_param(no_of_words_rx, int, 0);
 module_param(sample_rate, int, 0);
 module_param(phase, int, 0);
 module_param(clkr_polarity, int, 0);
@@ -220,7 +222,8 @@ module_param(fsr_polarity, int , 0);
 module_param(clkx_polarity, int, 0);
 module_param(fsx_polarity, int , 0);
 module_param(justification, int, 0);
-module_param(word_length, int , 0);
+module_param(word_length1, int , 0);
+module_param(word_length2, int , 0);
 module_param(words_per_frame, int, 0);
 module_param(test_mcbsp_id, int, 0);
 
@@ -255,10 +258,10 @@ read_proc_status(char *page, char **start, off_t off, int count,
 								buffer_size);
 	p += sprintf(p, "Number of transfers                      : %8d \n",
 								no_of_trans);
-	p += sprintf(p, "No. of buffers transmitted               : %8d \n",
-								no_of_tx);
-	p += sprintf(p, "No. of buffers received                  : %8d \n",
-								no_of_rx);
+	p += sprintf(p, "No. of words transmitted               : %8d \n",
+								no_of_words_tx);
+	p += sprintf(p, "No. of words received                  : %8d \n",
+								no_of_words_rx);
 	p += sprintf(p, "Sampling Rate (frequency, hertz)         : %8d \n",
 								sample_rate);
 	p += sprintf(p, "Phase [1=Single, 2=Dual]                 : %8d \n",
@@ -273,9 +276,11 @@ read_proc_status(char *page, char **start, off_t off, int count,
 								fsx_polarity);
 	p += sprintf(p, "Justification [0-RJUST,1-SRJUST,2-LJUST] : %8d\n",
 								justification);
-	p += sprintf(p, "Word Length   [0-8,2-16,5-32]bits        : %8d\n",
-								word_length);
-	p += sprintf(p, "Words Per frame [0-1, 1-2]               : %8d\n",
+	p += sprintf(p, "Word Length1  [0-8,2-16,5-32]bits       : %8d\n",
+								word_length1);
+	p += sprintf(p, "Word Length2(DualPhase)[0-8,2-16,5-32]bits: %8d\n",
+								word_length2);
+	p += sprintf(p, "Words Per frame [1-1, 2-2]               : %8d\n",
 							words_per_frame);
 
 readproc_status_end:
@@ -305,8 +310,10 @@ write_proc_entry(struct file *file, const char *buffer,
 
 	if (strncmp(val, "start", 4) == 0)
 		start_mcbsp_transmission();
-	else if (strncmp(val, "stop", 4) == 0)
-		return 0;
+	else if (strncmp(val, "stop", 4) == 0) {
+		omap_mcbsp_stop(mcbsptest_info.mcbsp_id, 1, 1);
+		printk(KERN_INFO "McBSP%d Stopped\n", mcbsptest_info.mcbsp_id);
+	}
 	else if (strncmp(val, "suspend", 4) == 0)
 		return 0;
 	else if (strncmp(val, "resume", 4) == 0)
@@ -361,10 +368,19 @@ static void remove_proc_file_entries(void)
 
 static void configure_mcbsp_interface(void)
 {
-	cfg.pulse_width = (bits_per_sample[word_length] - 1);
+	if (phase == OMAP_MCBSP_FRAME_SINGLEPHASE)
+		word_length2 = word_length1;
+	if (phase == OMAP_MCBSP_FRAME_DUALPHASE)
+		words_per_frame = 1;
+	cfg.period = bits_per_sample[word_length1] + 8;
+	if (phase == OMAP_MCBSP_FRAME_DUALPHASE)
+		cfg.period += (bits_per_sample[word_length2] + 8);
 	cfg.fsgm = 1;
 	cfg.sample_rate = sample_rate;
-	cfg.bits_per_sample = bits_per_sample[word_length];
+	cfg.pulse_width = (bits_per_sample[(word_length1 > word_length2 ?
+					word_length1 : word_length2)] + 1);
+	cfg.bits_per_sample = bits_per_sample[(word_length1 > word_length2 ?
+					word_length1 : word_length2)];
 	cfg.srg_src = OMAP_MCBSP_SRGCLKSRC_FCLK;
 	cfg.sync_mode = OMAP_MCBSP_SRG_FREERUNNING;
 	cfg.polarity = 0;
@@ -373,21 +389,24 @@ static void configure_mcbsp_interface(void)
 
 static void configure_mcbsp_tx(void)
 {
+#if 0
 	struct omap_mcbsp_dma_transfer_parameters tp;
-	int k;
-	char *ptr;
-
 	/* Configure transfer params */
 	tp.skip_alt = OMAP_MCBSP_SKIP_NONE;
 	tp.auto_reset = OMAP_MCBSP_AUTO_RST_NONE;
-	tp.word_length1 = word_length;
+	tp.word_length1 = word_length1;
+#endif
+	clkx_polarity = clkr_polarity;
+	fsx_polarity = fsr_polarity;
 
 	tp1.fsync_src = OMAP_MCBSP_TXFSYNC_INTERNAL;
 	tp1.fs_polarity = fsx_polarity;
 	tp1.clk_polarity = clkx_polarity;
 	tp1.clk_mode = OMAP_MCBSP_CLKTXSRC_INTERNAL;
-	tp1.frame_length1 = words_per_frame;
-	tp1.word_length1 = word_length;
+	tp1.frame_length1 = OMAP_MCBSP_FRAMELEN_N(words_per_frame);
+	tp1.frame_length2 = OMAP_MCBSP_FRAMELEN_N(words_per_frame);
+	tp1.word_length1 = word_length1;
+	tp1.word_length2 = word_length2;
 	tp1.justification = justification;
 	tp1.reverse_compand = OMAP_MCBSP_MSBFIRST;
 	tp1.phase = phase;
@@ -396,20 +415,24 @@ static void configure_mcbsp_tx(void)
 
 static void configure_mcbsp_rx(void)
 {
+#if 0
 	struct omap_mcbsp_dma_transfer_parameters rp;
 
 	/* Configure receiver params */
 	printk(KERN_INFO "\n configuring mcbsp rx \n");
 	rp.skip_alt = OMAP_MCBSP_SKIP_NONE;
 	rp.auto_reset = OMAP_MCBSP_AUTO_RST_NONE;
-	rp.word_length1 = word_length;
+	rp.word_length1 = word_length1;
+#endif
 
 	rp1.fsync_src = OMAP_MCBSP_RXFSYNC_INTERNAL;
 	rp1.fs_polarity = fsr_polarity;
 	rp1.clk_polarity = clkr_polarity;
 	rp1.clk_mode = OMAP_MCBSP_CLKRXSRC_EXTERNAL;
-	rp1.frame_length1 = words_per_frame;
-	rp1.word_length1 = word_length;
+	rp1.frame_length1 = OMAP_MCBSP_FRAMELEN_N(words_per_frame);
+	rp1.frame_length2 = OMAP_MCBSP_FRAMELEN_N(words_per_frame);
+	rp1.word_length1 = word_length1;
+	rp1.word_length2 = word_length2;
 	rp1.justification = justification;
 	rp1.reverse_compand = OMAP_MCBSP_MSBFIRST;
 	rp1.phase = phase;
@@ -425,8 +448,8 @@ void omap2_mcbsp_set_trans_param(unsigned int id,
 	if (tp->phase == OMAP_MCBSP_FRAME_SINGLEPHASE)
 		mcbsp_cfg->xcr2 = mcbsp_cfg->xcr2 & ~(XPHASE);
 	else
-	mcbsp_cfg->xcr2 = mcbsp_cfg->xcr2 | (XPHASE) |
-		RWDLEN2(tp->word_length2) | RFRLEN2(tp->frame_length2);
+		mcbsp_cfg->xcr2 = mcbsp_cfg->xcr2 | (XPHASE) |
+			RWDLEN2(tp->word_length2) | RFRLEN2(tp->frame_length2);
 	mcbsp_cfg->xcr1 = XWDLEN1(tp->word_length1) |
 		XFRLEN1(tp->frame_length1);
 	if (tp->fs_polarity == OMAP_MCBSP_FS_ACTIVE_LOW)
@@ -467,7 +490,6 @@ void omap2_mcbsp_set_srg_cfg_param(unsigned int id, int interface_mode,
 					struct omap_mcbsp_srg_fsg_cfg *param)
 {
 	u32 clk_rate, clkgdv;
-	struct omap_mcbsp *mcbsp;
 
 	mcbsp_cfg->srgr1 = FWID(param->pulse_width);
 
@@ -542,8 +564,8 @@ void omap2_mcbsp_set_srg_cfg_param(unsigned int id, int interface_mode,
 
 
 int omap2_mcbsp_params_cfg(unsigned int id, int interface_mode,
-				struct omap_mcbsp_cfg_param *rp,
 				struct omap_mcbsp_cfg_param *tp,
+				struct omap_mcbsp_cfg_param *rp,
 				struct omap_mcbsp_srg_fsg_cfg *param)
 {
 	if (rp)
@@ -555,23 +577,116 @@ int omap2_mcbsp_params_cfg(unsigned int id, int interface_mode,
 				interface_mode, &mcbsp_cfg, param);
 	omap_mcbsp_config(id, &mcbsp_cfg);
 	omap_mcbsp_start(id, 1, 1);
-
 	return 0;
 }
 
 /* transmit mode = receive (0) or transmit (1) */
 static int start_mcbsp_transmission(void)
 {
-	int k;
-	int ret;
-	char *temp;
-	char *ptr;
+	int j, k, data1, data2, ret, tx_err = 0, rx_err = 0;
+	u32 temp;
+
+	if (word_length1 == OMAP_MCBSP_WORD_8)
+		data1 = 0x80;
+	else if (word_length1 == OMAP_MCBSP_WORD_16)
+		data1 = 0xA500;
+	else if (word_length1 == OMAP_MCBSP_WORD_32)
+		data1 = 0x5A5A0000;
+
+	if (word_length2 == OMAP_MCBSP_WORD_8)
+		data2 = 0x80;
+	else if (word_length2 == OMAP_MCBSP_WORD_16)
+		data2 = 0xA500;
+	else if (word_length2 == OMAP_MCBSP_WORD_32)
+		data2 = 0xA5A50000;
 
 	/* Configure the Master, it should generate the FSX and CLKX */
 	configure_mcbsp_tx();
 	configure_mcbsp_rx();
 	omap2_mcbsp_params_cfg(mcbsptest_info.mcbsp_id, OMAP_MCBSP_MASTER,
 							&tp1, &rp1, &cfg);
+
+	for (j = 0, no_of_words_tx = 0; j < no_of_trans; j += 128) {
+		for (k = 0; k < 128; k++) {
+			if ((j+k) >= no_of_trans)
+				break;
+			ret = omap3_mcbsp_pollwrite(mcbsptest_info.mcbsp_id,
+						(data1 + k));
+			if (ret)
+				tx_err = -1;
+			else
+				no_of_words_tx++;
+
+			k++;
+			if ((j+k) >= no_of_trans)
+				break;
+			ret = omap3_mcbsp_pollwrite(mcbsptest_info.mcbsp_id,
+						(data2 + k));
+			if (ret)
+				tx_err = -1;
+			else
+				no_of_words_tx++;
+		}
+
+		for (k = 0; k < 128; k++) {
+			if ((j+k) >= no_of_trans)
+				break;
+			ret = omap3_mcbsp_pollread(mcbsptest_info.mcbsp_id,
+							&temp);
+			if (ret)
+				rx_err = -2;
+			else if ((justification == OMAP_MCBSP_RJUST_ZEROMSB) &&
+					(temp == (data1 + k)))
+				no_of_words_rx++;
+			else if ((justification == OMAP_MCBSP_LJUST_ZEROLSB) &&
+					(temp == ((data1 + k) << 24)))
+				no_of_words_rx++;
+			else if ((justification == OMAP_MCBSP_RJUST_SIGNMSB) &&
+					(temp == ((data1 + k) | 0xFFFFFF00)))
+				no_of_words_rx++;
+			else {
+				rx_err = -1;
+				no_of_words_rx++;
+			}
+
+			k++;
+			if ((j+k) >= no_of_trans)
+				break;
+			ret = omap3_mcbsp_pollread(mcbsptest_info.mcbsp_id,
+							&temp);
+			if (ret)
+				rx_err = -2;
+			else if ((justification == OMAP_MCBSP_RJUST_ZEROMSB) &&
+					(temp == (data2 + k)))
+				no_of_words_rx++;
+			else if ((justification == OMAP_MCBSP_LJUST_ZEROLSB) &&
+					(temp == ((data2 + k) << 24)))
+				no_of_words_rx++;
+			else if ((justification == OMAP_MCBSP_RJUST_SIGNMSB) &&
+					(temp == ((data2 + k) | 0xFFFFFF00)))
+				no_of_words_rx++;
+			else {
+				rx_err = -1;
+				no_of_words_rx++;
+			}
+		}
+	}
+
+	if (tx_err == -1)
+		printk(KERN_ERR "\nData-Tx Failed\n");
+	else
+		printk(KERN_ERR "\nData-Tx Success\n");
+
+	if (rx_err == -2)
+		printk(KERN_ERR "\nData-Rx Failed\n");
+	else if (rx_err == -1)
+		printk(KERN_ERR "\nFailed! Data Mismatch Error\n");
+	else
+		printk(KERN_ERR "\nData-Rx Success\n");
+
+	return 0;
+}
+#if 0
 	mcbsptest_info.tx_buf_dma_virt = (void *) dma_alloc_coherent(NULL,
 				buffer_size, &mcbsptest_info.tx_buf_dma_phys,
 							GFP_KERNEL | GFP_DMA);
@@ -607,11 +722,9 @@ static int start_mcbsp_transmission(void)
 
 	ptr = mcbsptest_info.rx_buf_dma_virt;
 	printk(KERN_INFO " ptr = 0x%x \n", *ptr);
+#endif
 
-	return 0;
-}
-
-static void fill_global_structure()
+static void fill_global_structure(void)
 {
 	mcbsptest_info.mcbsp_id = test_mcbsp_id;
 	mcbsptest_info.mode     = OMAP_MCBSP_MASTER ; /* Master or Slave */
@@ -631,8 +744,6 @@ static int __init omap2_mcbsp_init(void)
 	omap_mcbsp_set_io_type(mcbsptest_info.mcbsp_id, 0);
 
 	/* Requesting interface */
-	printk(KERN_INFO "\n i am in line %s %d\n", __func__, __LINE__);
-
 	ret = omap_mcbsp_request(mcbsptest_info.mcbsp_id);
 	if (ret) {
 		printk(KERN_ERR "McBSP Test Driver:"
