@@ -9,7 +9,7 @@
 CC=$(CROSS_COMPILE)gcc
 
 TARGETS=time_difference system_time
-obj-m := clock_test.o prcm_test.o resource_test.o co_test.o cd_test.o
+obj-m := clock_test.o prcm_test.o resource_test.o co_test.o cd_test.o pd_test.o
 
 all:
 	make -C $(KDIR) SUBDIRS=$(PWD)/utils/omap3 KERN=26 modules
@@ -22,6 +22,7 @@ install:
 	cp -vf resource_test.ko ../../mods
 	cp -vf co_test.ko ../../mods
 	cp -vf cd_test.ko ../../mods
+	cp -vf pd_test.ko ../../mods
 	cp -vf $(TARGETS) ../../bin
 
 clean:
