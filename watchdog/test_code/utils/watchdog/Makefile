@@ -17,7 +17,7 @@ install:
 	cp -v $(TARGETS) ../../bin
 
 $(TARGETS):
-	$(CC) $@.c -o $@
+	$(CC) $(CFLAGS) $@.c -o $@
 
 clean:
 	rm -vf *.o $(TARGETS)

@@ -8,7 +8,8 @@ MANDIR=/usr/man
 INCLUDEDIR=/usr/include
 CC := $(CROSS_COMPILE)gcc
 
-CFLAGS := -I./include -O2 -Wall
+LDFLAGS += $(CFLAGS)
+CFLAGS += -I./include -O2 -Wall
 
 #TARGETS = ftl_format flash_erase flash_eraseall nanddump doc_loadbios \
 	mkfs.jffs ftl_check mkfs.jffs2 flash_lock flash_unlock flash_info \
