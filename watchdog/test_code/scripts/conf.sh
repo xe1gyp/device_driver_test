@@ -23,6 +23,7 @@ export SCENARIO_NAMES=""
 # Driver specific
 export TESTWDTIOCTL=testwdtioctl
 export TESTWDTWRITE=testwdtwrite
+export TESTWDTREBOOT=testwdtreboot
 export WDT_DEV_ENTRY='/dev/watchdog'
 export KDIR='kernel_org/2.6_kernel'
 export TIME_PATH='arch/arm/plat-omap/dmtimer.c'	
