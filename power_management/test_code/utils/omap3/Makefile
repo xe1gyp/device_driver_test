@@ -26,5 +26,5 @@ install:
 	cp -vf $(TARGETS) ../../bin
 
 clean:
-	rm -vrf *.ko .*.cmd *.o *.mod.* *Module* .tmp_versions
+	rm -vrf *.ko .*.cmd *.o *.mod.* *Module* .tmp_versions *.o.d
 	rm -vf $(TARGETS)
