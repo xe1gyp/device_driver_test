@@ -2,7 +2,7 @@
 #include <string.h>  /* String function definitions */
 #include <unistd.h>  /* UNIX standard function definitions */
 #include <fcntl.h>   /* File control definitions */
-//#include <sys/time.h>    /* To calulate time taken for operaton */
+#include <sys/time.h>    /* To calulate time taken for operaton */
 #include <time.h>
 #include <errno.h>   /* Error number definitions */
 #include <termios.h> /* terminal control definitions */
@@ -11,10 +11,13 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <signal.h>
+#include <sys/ioctl.h>
 
 
 #define ERROR -1
 #define SUCCESS 1
+
+#define UART_DEV_NAME   "/dev/ttyO0"
 
 static int bufsize = 4096 ;             /* buffer of size 4K */
 
@@ -24,13 +27,20 @@ struct uart_test {
         long int baudrate;			        /* baudrate to be set for Tx and Rx */
         int flow_cntrl;			              /* flow control data */
         struct timeval tx_start_time, tx_end_time;      /* used to calulate time intervals */
-        long int tx_sec,tx_usec;                        /* used to store time interval */
 };
 
+/**
+* Structure used to store existing port informatiom
+* before we re-configure the port as per our testing
+* requirements.
+*/
 struct termios oldtio;
 
 int fd1,fd2;
 struct uart_test ut;
+char tx_rx;
+int read_flag;
+FILE *md5_fd;
 
 int writeport(int *fd, unsigned char *chars,int len);
 
@@ -45,3 +55,5 @@ int initport(int fd,long int baudrate,int flow_ctrl);
 void close_port();
 
 void display_intro();
+
+void signalHandler();

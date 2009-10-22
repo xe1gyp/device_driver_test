@@ -216,20 +216,42 @@ int initport(int fd,long baudrate,int flow_ctrl)
 	return SUCCESS;
 }
 
+void signalHandler()
+{
+	printf("\n Closing device %s\n",UART_DEV_NAME);
+	gettimeofday(&ut.end_time,NULL);
+	timersub(&ut.end_time,&ut.start_time,&ut.diff_time);
+
+	if(read_flag && tx_rx == 'r') {
+		ut.diff_time.tv_sec -= 3;
+		printf("\n Time taken %08ld sec, %08ld usec\n\n ",ut.diff_time.tv_sec,ut.diff_time.tv_usec);
+	}
+	if(tx_rx == 's')
+		printf("\n Time taken %08ld sec, %08ld usec\n\n ",ut.diff_time.tv_sec,ut.diff_time.tv_usec);
+
+	close_port();
+}
+
 void close_port()
 {
-        tcsetattr(ut.fd, TCSANOW, &oldtio);
-        close(fd1);
-        close(fd2);
-        close(ut.fd);
-        exit(1);
+	tcsetattr(ut.fd, TCSANOW, &oldtio);
+	if(tx_rx == 'r')
+		close(fd2);
+	else
+		close(fd1);
+	close(ut.fd);
+	exit(1);
 }
 
 void display_intro()
 {
-	printf("\n Use the following format to run the HS-UART TEST PROGRAM \n");
-	printf("\n For sending data: \n ./ts_uart s <file_name_for_tx> <baudrate> <flow_control(0/1)> \n");
-	printf("\n Ex. ./ts_uart s sample 115200 0 \n");
+	printf("\nUse the following format to run the HS-UART TEST PROGRAM \n");
+	printf("\nFor sending data: \n./ts_uart s <file_name_for_tx> <baudrate> <flow_control(0/1/2)>\n");
+	printf("\nFlow control bits: \n"
+			"0: Using No flow control. \n"
+			"1: Hardware FlowControl: To Enable RTS/CTS support.\n"
+			"2: Software FlowControl: To Enable XON/XOFF support.\n");
+	printf("\n Ex. ./ts_uart s sample 115200 1 \n");
 	printf("\n For Receiving data:");
-	printf("\n Ex. ./ts_uart r sample 115200 0 \n");
+	printf("\n Ex. ./ts_uart r sample 115200 1 \n");
 }
