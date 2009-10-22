@@ -1,0 +1,134 @@
+From: Teerth Reddy <teerth@ti.com>
+
+[PATCH] Clock Domain test
+
+This patch has the Clock Domain Test.Needs the cd_test.ko module
+to invoke this.
+
+Signed-off-by: Teerth Reddy <teerth@ti.com>
+---
+ arch/arm/mach-omap2/Makefile       |    3 +
+ arch/arm/mach-omap2/clk_dm_test.c  |   78 +++++++++++++++++++++++++++++++++++++
+ arch/arm/mach-omap2/clockdomains.h |    4 +
+ 3 files changed, 84 insertions(+), 1 deletion(-)
+
+Index: kernel-omap3/arch/arm/mach-omap2/clk_dm_test.c
+===================================================================
+--- /dev/null
++++ kernel-omap3/arch/arm/mach-omap2/clk_dm_test.c
+@@ -0,0 +1,78 @@
++#include <linux/init.h>
++#include <linux/module.h>
++#include <linux/moduleparam.h>
++#include <linux/file.h>
++#include <asm/uaccess.h>
++#include <linux/mm.h>
++
++#include <mach/powerdomain.h>
++#include <mach/clock.h>
++#include <mach/clockdomain.h>
++
++extern struct clockdomain *clockdomains_omap[];
++void clock_domain_test(void);
++
++static struct clk dummy_clk1 = {
++	.name = "clk1",
++};
++
++void clock_domain_test()
++{
++	int val, i;
++	static struct clockdomain *cd;
++	static struct powerdomain *pd;
++
++	for (i = 0; clockdomains_omap[i+1] != NULL; i++) {
++		val = omap2_clkdm_clk_enable(cd = clockdomains_omap[i],
++				 &dummy_clk1);
++		if (val == 0)
++			printk(KERN_INFO "Enabled Clock for %s\n", cd->name);
++		else
++			printk(KERN_ERR "Failed with value %d for %s\n",
++								 val, cd->name);
++	}
++
++	for (i = 0; clockdomains_omap[i] != NULL; i++) {
++		val = omap2_clkdm_clk_disable(cd = clockdomains_omap[i],
++				 &dummy_clk1);
++		if (val == 0)
++			printk(KERN_INFO "Disabled Clock for %s\n", cd->name);
++		else
++			printk(KERN_ERR "Failed with value %d for %s\n",
++								 val, cd->name);
++	}
++
++	for (i = 0; clockdomains_omap[i] != NULL; i++) {
++		pd = clkdm_get_pwrdm(cd = clockdomains_omap[i]);
++		if (pd)
++			printk(KERN_INFO "%s is PWRDM for %s\n", pd->name,
++							 cd->name);
++		else
++			printk(KERN_ERR "Invalid Clock Domain\n");
++	}
++
++	for (i = 0; clockdomains_omap[i] != NULL; i++)
++		omap2_clkdm_allow_idle(clockdomains_omap[i]);
++
++	for (i = 0; clockdomains_omap[i] != NULL; i++)
++		omap2_clkdm_deny_idle(clockdomains_omap[i]);
++
++	for (i = 0; clockdomains_omap[i] != NULL; i++) {
++		val = omap2_clkdm_wakeup(cd = clockdomains_omap[i]);
++		if (val == 0)
++			printk(KERN_INFO "Forced %s to Wake up\n", cd->name);
++		else
++			printk(KERN_ERR "Failed with value %d for %s\n",
++								 val, cd->name);
++	}
++
++	for (i = 0; clockdomains_omap[i] != NULL; i++) {
++		val = omap2_clkdm_sleep(cd = clockdomains_omap[i]);
++		if (val == 0)
++			printk(KERN_INFO "Forced %s sleep\n", cd->name);
++		else
++			printk(KERN_ERR "Failed with value %d for %s\n",
++								 val, cd->name);
++	}
++}
++EXPORT_SYMBOL(clock_domain_test);
+Index: kernel-omap3/arch/arm/mach-omap2/clockdomains.h
+===================================================================
+--- kernel-omap3.orig/arch/arm/mach-omap2/clockdomains.h
++++ kernel-omap3/arch/arm/mach-omap2/clockdomains.h
+@@ -314,7 +314,7 @@ static struct clkdm_pwrdm_autodep clkdm_
+  *
+  */
+ 
+-static struct clockdomain *clockdomains_omap[] = {
++struct clockdomain *clockdomains_omap[] = {
+ 
+ 	&wkup_clkdm,
+ 	&cm_clkdm,
+@@ -342,7 +342,9 @@ static struct clockdomain *clockdomains_
+ 	&mpu_34xx_clkdm,
+ 	&neon_clkdm,
+ 	&iva2_clkdm,
++#ifndef CONFIG_ARCH_OMAP34XX
+ 	&gfx_3430es1_clkdm,
++#endif
+ 	&sgx_clkdm,
+ 	&d2d_clkdm,
+ 	&core_l3_34xx_clkdm,
+Index: kernel-omap3/arch/arm/mach-omap2/Makefile
+===================================================================
+--- kernel-omap3.orig/arch/arm/mach-omap2/Makefile
++++ kernel-omap3/arch/arm/mach-omap2/Makefile
+@@ -12,6 +12,9 @@ clock-common				= clock.o clockdomain.o
+ # Power Domain Testcase for OMAP3
+ obj-$(CONFIG_ARCH_OMAP3)                += pwr_dm_test.o
+ 
++# Clock Domain Testcase for OMAP3
++obj-$(CONFIG_ARCH_OMAP3)                += clk_dm_test.o
++
+ obj-$(CONFIG_ARCH_OMAP2) += $(omap-2-3-common) $(prcm-common) $(clock-common)
+ obj-$(CONFIG_ARCH_OMAP3) += $(omap-2-3-common) $(prcm-common) $(clock-common)
+ 
