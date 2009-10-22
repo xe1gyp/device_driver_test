@@ -6,7 +6,7 @@
 
 # Begin L_DD_TIMER_0002_0001
 
-# Checking if GP timer was registered
-01 set -x; $TESTSCRIPT/requestTimerType.sh 1 && exit 0 || exit 1
+# Requesting for timer value twice with 1 Sec delay
+01 set -x; $TESTSCRIPT/getTimer32kValue.sh 1 && exit 0 || exit 1
 
 # End L_DD_TIMER_0002_0001
