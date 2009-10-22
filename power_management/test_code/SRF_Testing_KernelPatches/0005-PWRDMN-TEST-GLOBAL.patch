@@ -1,0 +1,26 @@
+From: Teerth Reddy <teerth@ti.com>
+
+[PATCH] Power domain test: Using powerdomains_omap as global
+
+Making the powerdomains_omap structure as global to avoid pointer
+corruption while executing test cases.
+
+Signed-off-by: Teerth Reddy <teerth@ti.com>
+---
+ arch/arm/mach-omap2/pwr_dm_test.c |    2 +-
+ 1 files changed, 1 insertion(+), 1 deletion(-)
+
+Index: kernel-omap3/arch/arm/mach-omap2/pwr_dm_test.c
+===================================================================
+--- kernel-omap3.orig/arch/arm/mach-omap2/pwr_dm_test.c
++++ kernel-omap3/arch/arm/mach-omap2/pwr_dm_test.c
+@@ -20,8 +20,8 @@
+ 
+ #include <linux/module.h>
+ #include <mach/clockdomain.h>
+-#include "powerdomains.h"
+ 
++extern struct powerdomain *powerdomains_omap[];
+ void power_domain_test(void);
+ 
+ static struct clockdomain dummy_clkdm = {

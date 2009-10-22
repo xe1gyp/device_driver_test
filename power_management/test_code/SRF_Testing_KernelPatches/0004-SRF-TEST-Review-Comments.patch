@@ -1,0 +1,62 @@
+From: Charulatha V <charu@ti.com>
+
+[PATCH] SRF Test Code:Incorporated review comments 
+
+Incorporating test code review comments to test all 
+the latency resources and remove code that sets OPPs to
+default level
+
+Signed-off-by: Charulatha V <charu@ti.com>
+---
+ arch/arm/plat-omap/resource-debug.c |   17 ++++++-----------
+ 1 files changed, 6 insertions(+), 11 deletions(-)
+
+Index: kernel-omap3/arch/arm/plat-omap/resource-debug.c
+===================================================================
+--- kernel-omap3.orig/arch/arm/plat-omap/resource-debug.c
++++ kernel-omap3/arch/arm/plat-omap/resource-debug.c
+@@ -777,7 +777,8 @@ void resource_test()
+ 
+ 	/* Test basic SRF APIs for power domain latency type resources */
+ 	result = TEST_PASS;
+-	for (i = NO_OF_OPP_FREQ_RESOURCES; i < NO_OF_PWRDM_LAT_RESOURCES; i++) {
++	for (i = NO_OF_OPP_FREQ_RESOURCES; i < (NO_OF_OPP_FREQ_RESOURCES +
++				NO_OF_PWRDM_LAT_RESOURCES); i++) {
+ 		for (j = 0; j < NO_OF_TEST_VALUES; j++) {
+ 			ret = resource_test_4(res_names[i],
+ 					res_test_table[i][j],
+@@ -794,7 +795,8 @@ void resource_test()
+ 
+ 	/* Test two devices resource sharing for pwrdmn lat type resources */
+ 	result = TEST_PASS;
+-	for (i = NO_OF_OPP_FREQ_RESOURCES; i < NO_OF_PWRDM_LAT_RESOURCES; i++) {
++	for (i = NO_OF_OPP_FREQ_RESOURCES; i < (NO_OF_OPP_FREQ_RESOURCES +
++				NO_OF_PWRDM_LAT_RESOURCES); i++) {
+ 		for (j = 0; j < NO_OF_TEST_VALUES; j++) {
+ 			for (k = 0; k < NO_OF_TEST_VALUES; k++) {
+ 				ret = resource_test_5(res_names[i],
+@@ -814,7 +816,8 @@ void resource_test()
+ 
+ 	/* Test four devices resource sharing for pwrdmn lat type resources */
+ 	result = TEST_PASS;
+-	for (i = NO_OF_OPP_FREQ_RESOURCES; i < NO_OF_PWRDM_LAT_RESOURCES; i++) {
++	for (i = NO_OF_OPP_FREQ_RESOURCES; i < (NO_OF_OPP_FREQ_RESOURCES +
++				NO_OF_PWRDM_LAT_RESOURCES); i++) {
+ 		ret = resource_test_6(res_names[i],
+ 					res_test_table[i][0],
+ 					res_test_table[i][1],
+@@ -838,14 +841,6 @@ void resource_test()
+ 	else
+ 		printk(KERN_ERR "Resource Test7 FAILED!!!!\n");
+ 
+-	/* Put the opp resources to default level - 3 */
+-	ret = resource_test_1("vdd1_opp", VDD1_OPP3);
+-	if (ret)
+-		printk(KERN_INFO "Placing vdd1_opp to level1 failed\n");
+-	ret = resource_test_1("vdd2_opp", VDD2_OPP3);
+-	if (ret)
+-		printk(KERN_INFO "Placing vdd2_opp to level2 failed\n");
+-
+ 	return;
+ }
+ EXPORT_SYMBOL(resource_test);
