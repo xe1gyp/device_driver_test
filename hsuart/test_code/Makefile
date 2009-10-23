@@ -18,17 +18,22 @@
 # Change Log:
 ############################################################################
 
-OBJS := modules install
+OBJS := utilities install
 
 all:$(OBJS)
 
-modules:
-	make -C mods 
+utilities:
+	make -C utils
 install:
+	mkdir bin
+	mkdir mods
+	make -C utils install
 	mkdir -p scripts/test
 	mkdir -p scripts/tmp
 clean:
-	make -C mods clean
+	make -C utils clean
 	rm -rf scripts/log*
 	rm -rf scripts/tmp
 	rm -rf scripts/test
+	rm -rf bin
+	rm -rf mods

@@ -21,7 +21,7 @@ static int __init cts_wakeup_init(void)
 
 	if (ret != 0)
 		printk(KERN_INFO "CTS_UART Test initialization failed.\n");
-	else 
+	else
 		 printk(KERN_INFO "CTS_UART Test initialized success.\n");
 
 	return ret;
@@ -34,4 +34,3 @@ static void __exit cts_wakeup_exit(void)
 
 module_init(cts_wakeup_init);
 module_exit(cts_wakeup_exit);
-

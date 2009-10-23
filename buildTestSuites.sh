@@ -50,7 +50,7 @@ then
 	DRIVERS="audio-alsa camera dma ethernet gpio framebuffer i2c keypad \
 mcbsp mmc nand norflash power_management realtimeclock \
 touchscreen video watchdog camera usb_device usb_host \
-usb_otg usb_ehci"
+usb_otg usb_ehci hsuart"
 fi	
 
 # Verify the current FS to add new CFLAGS in the compilation
@@ -75,7 +75,7 @@ then
 	TESTSUITES="audio-alsa camera dma ethernet gpio framebuffer i2c \
 keypad mcbsp mmc nand norflash power_management \
 realtimeclock touchscreen video watchdog usb_device \
-usb_host usb_otg usb_ehci"
+usb_host usb_otg usb_ehci hsuart"
 fi
 
 echo; echo "The following test suites will be compiled: $TESTSUITES"; echo; sleep 3
