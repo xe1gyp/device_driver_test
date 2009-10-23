@@ -1,43 +1,41 @@
-/* ============================================================================
+/* ========================================================================
 *             Texas Instruments OMAP(TM) Platform Software
 *  (c) Copyright Texas Instruments, Incorporated.  All Rights Reserved.
 *
 *  Use of this software is controlled by the terms and conditions found
 *  in the license agreement under which this software has been supplied.
-* ========================================================================== */
+* ========================================================================= */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <linux/fb.h>
 #include <sys/mman.h>
 #include <linux/videodev2.h>
-#include <errno.h>
+#include <string.h>
 #include <mach/isp_user.h>
 #include "kbget.h"
+#include <errno.h>
 
+#define VIDIOC_S_OMAP2_ROTATION		_IOW('V', 3, int)
+#define FBDEVICE "/dev/fb0"
 #define VIDEO_DEVICE1 "/dev/video1"
 #define VIDEO_DEVICE2 "/dev/video2"
+
+#define DEFAULT_PIXEL_FMT "YUYV"
+#define DEFAULT_VIDEO_SIZE "QVGA"
+
 #define BYTES_PER_WINDOW	16
-#define DSS_STREAM_START_FRAME	3
-
 #define DIGITAL_GAIN_DEFAULT	0x100
-#define DIGITAL_GAIN_MAX	0x500
+#define DIGITAL_GAIN_MAX	0x3FF
 #define BLUE_GAIN_DEFAULT	0x94
-#define BLUE_GAIN_MAX		0x194
+#define BLUE_GAIN_MAX		0xFF
 #define RED_GAIN_DEFAULT	0x68
-#define RED_GAIN_MAX		0x168
+#define RED_GAIN_MAX		0xFF
 #define GB_GAIN_DEFAULT		0x5C
-#define GB_GAIN_MAX		0x15C
+#define GB_GAIN_MAX		0xFF
 #define GR_GAIN_DEFAULT		0x5C
-#define GR_GAIN_MAX		0x15C
-#define ANALOG_GAIN_DEFAULT	0x40
-#define ANALOG_GAIN_MIN		0x08
-#define ANALOG_GAIN_MAX		0x7F
-#define SHUTTER_SPEED_DEFAULT	20000
-#define SHUTTER_SPEED_MIN	100
-#define SHUTTER_SPEED_MAX	33000
-
-int cfd, vfd;
+#define GR_GAIN_MAX		0xFF
 
 static void usage(void)
 {
@@ -64,7 +62,7 @@ int main(int argc, char *argv[])
 	struct {
 		void *start;
 		size_t length;
-	} *vbuffers;
+	} *vbuffers, *cbuffers;
 
 	/* Structure stores values for key strokes */
 	struct input_event{
@@ -78,29 +76,28 @@ int main(int argc, char *argv[])
 	struct v4l2_format cformat, vformat;
 	struct v4l2_requestbuffers creqbuf, vreqbuf;
 	struct v4l2_buffer cfilledbuffer, vfilledbuffer;
-	struct v4l2_control control;
-	struct v4l2_queryctrl qc;
+	int vfd, cfd, kfd;
+	int i, ret, count = -1, memtype = V4L2_MEMORY_USERPTR;
+	int index = 1, vid = 1, set_video_img = 0;
+	int device = 3;
+	char *pixelFmt;
+	int framerate = 30;
 
-	int vid = 1, set_video_img = 0, i, ret;
-
-	unsigned int num_windows = 0;
-	unsigned int buff_size = 0;
 	struct isph3a_aewb_config aewb_config_user;
 	struct isph3a_aewb_data aewb_data_user;
+	int gainType = 1;
+	struct v4l2_control control_exp, control_an_gain;
+	struct v4l2_queryctrl qc_exp, qc_an_gain;
+	unsigned int num_windows = 0;
+	unsigned int buff_size = 0;
 	__u16 *buff_preview = NULL;
 	__u8 *stats_buff = NULL;
 	unsigned int buff_prev_size = 0;
 	int data8, data2, window, unsat_cnt;
 	int frame_number;
 	int j = 0;
-	int device = 1;
-	int index = 1;
-	int framerate = 30;
-	int gainType = 1;
 	int done_flag = 0, skip_aewb_req_flag = 0;
 	int bytes;
-	unsigned int exp_max, exp_min, exp_step, exp_cur;
-	unsigned int gain_max, gain_min, gain_step, gain_cur;
 
 	/* H3A params */
 	aewb_config_user.saturation_limit = 0x1FF;
@@ -119,22 +116,17 @@ int main(int argc, char *argv[])
 	aewb_config_user.aewb_enable = 1;
 
 	/* Open keypad input device */
-	int kfd = open("/dev/input/event0", O_RDONLY | O_NONBLOCK);
+	kfd = open("/dev/input/event0", O_RDONLY | O_NONBLOCK);
 
 	if ((argc > 1) && (!strcmp(argv[1], "?"))) {
 		usage();
 		return 0;
 	}
+
 	if (argc > index) {
 		device = atoi(argv[index]);
 		index++;
 	}
-	if (argc > index) {
-		framerate = atoi(argv[index]);
-		index++;
-		printf("Framerate = %d\n", framerate);
-	} else
-		printf("Using framerate = 30, default value\n");
 
 	cfd = open_cam_device(O_RDWR, device);
 	if (cfd <= 0) {
@@ -143,14 +135,22 @@ int main(int argc, char *argv[])
 	}
 
 	if (argc > index) {
-		vid = atoi(argv[index]);
-		index++;
-		if ((vid != 1) && (vid != 2)) {
-			printf("vid has to be 1 or 2! vid=%d, argv[3]=%s\n",
-							vid, argv[index - 1]);
-			usage();
-			return 0;
+		framerate = atoi(argv[index]);
+		if (framerate == 0) {
+			printf("Invalid framerate value, Using Default "
+							"framerate = 15\n");
+			framerate = 15;
 		}
+		index++;
+	}
+
+	if (argc > index) {
+		vid = atoi(argv[index]);
+		if ((vid != 1) && (vid != 2)) {
+				printf("vid has to be 1 or 2!\n ");
+				return 0;
+		}
+		index++;
 	}
 
 	/* Added gain parameter */
@@ -164,37 +164,46 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	ret = cam_ioctl(cfd, "YUYV", "QVGA");
+	printf("Setting pixel format and video size with default "
+					"values\n");
+
+	ret = cam_ioctl(cfd, DEFAULT_PIXEL_FMT, DEFAULT_VIDEO_SIZE);
+	if (ret < 0)
+		return -1;
 	ret = setFramerate(cfd, framerate);
+	if (ret < 0) {
+		printf("Error setting framerate = %d\n", framerate);
+		return -1;
+	}
 	vfd = open((vid == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2, O_RDWR);
 	if (vfd <= 0) {
-		printf("Could not open %s\n", (vid == 1) ? VIDEO_DEVICE1 :
-								VIDEO_DEVICE2);
-		return -1;
-	} else {
+		printf("Could no open the device %s\n",
+			(vid == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
+		vid = 0;
+	} else
 		printf("openned %s for rendering\n",
 			(vid == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
-	}
 
 	if (ioctl(vfd, VIDIOC_QUERYCAP, &capability) == -1) {
-		perror("video VIDIOC_QUERYCAP");
+		perror("dss VIDIOC_QUERYCAP");
 		return -1;
 	}
 	if (capability.capabilities & V4L2_CAP_STREAMING)
 		printf("The video driver is capable of Streaming!\n");
 	else {
-		printf("The video driver is not capable of Streaming!\n");
+		printf("The video driver is not capable of "
+					"Streaming!\n");
 		return -1;
 	}
 
 	if (ioctl(cfd, VIDIOC_QUERYCAP, &capability) < 0) {
-		perror("VIDIOC_QUERYCAP");
+		perror("cam VIDIOC_QUERYCAP");
 		return -1;
 	}
 	if (capability.capabilities & V4L2_CAP_STREAMING)
-		printf("The camera driver is capable of Streaming!\n");
+		printf("The driver is capable of Streaming!\n");
 	else {
-		printf("The camera driver is not capable of Streaming!\n");
+		printf("The driver is not capable of Streaming!\n");
 		return -1;
 	}
 
@@ -206,96 +215,112 @@ int main(int argc, char *argv[])
 	}
 	printf("Camera Image width = %d, Image height = %d, size = %d\n",
 			cformat.fmt.pix.width, cformat.fmt.pix.height,
-			cformat.fmt.pix.sizeimage);
+					cformat.fmt.pix.sizeimage);
 
 	vformat.type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
 	ret = ioctl(vfd, VIDIOC_G_FMT, &vformat);
 	if (ret < 0) {
-		perror("video VIDIOC_G_FMT");
+		perror("dss VIDIOC_G_FMT");
 		return -1;
 	}
 	printf("Video Image width = %d, Image height = %d, size = %d\n",
-			vformat.fmt.pix.width, vformat.fmt.pix.height,
-			vformat.fmt.pix.sizeimage);
+		vformat.fmt.pix.width, vformat.fmt.pix.height,
+		vformat.fmt.pix.sizeimage);
 
 	if ((cformat.fmt.pix.width != vformat.fmt.pix.width) ||
-		(cformat.fmt.pix.height != vformat.fmt.pix.height)) {
+	    (cformat.fmt.pix.height != vformat.fmt.pix.height)) {
 		printf("image sizes don't match!\n");
 		set_video_img = 1;
 	}
-	if (cformat.fmt.pix.pixelformat != vformat.fmt.pix.pixelformat) {
+	if (cformat.fmt.pix.pixelformat !=
+	    vformat.fmt.pix.pixelformat) {
 		printf("pixel formats don't match!\n");
 		set_video_img = 1;
 	}
 
 	if (set_video_img) {
-		printf("set video image the same as camera image ...\n");
+		printf("set video image the same as camera image ..\n");
 		vformat.fmt.pix.width = cformat.fmt.pix.width;
 		vformat.fmt.pix.height = cformat.fmt.pix.height;
 		vformat.fmt.pix.sizeimage = cformat.fmt.pix.sizeimage;
-		vformat.fmt.pix.pixelformat = cformat.fmt.pix.pixelformat;
+		vformat.fmt.pix.pixelformat =
+					cformat.fmt.pix.pixelformat;
 		ret = ioctl(vfd, VIDIOC_S_FMT, &vformat);
 		if (ret < 0) {
-			perror("video VIDIOC_S_FMT");
+			perror("dss VIDIOC_S_FMT");
 			return -1;
 		}
+		printf("New Image & Video sizes, after "
+			"equaling:\nCamera Image width = %d, "
+			"Image height = %d, size = %d\n",
+			cformat.fmt.pix.width, cformat.fmt.pix.height,
+			cformat.fmt.pix.sizeimage);
+		printf("Video Image width = %d, Image height "
+			"= %d, size = %d\n",
+			vformat.fmt.pix.width, vformat.fmt.pix.height,
+			vformat.fmt.pix.sizeimage);
+
 		if ((cformat.fmt.pix.width != vformat.fmt.pix.width) ||
-			(cformat.fmt.pix.height != vformat.fmt.pix.height) ||
-			(cformat.fmt.pix.pixelformat !=
-			vformat.fmt.pix.pixelformat)) {
+		    (cformat.fmt.pix.height !=
+		     vformat.fmt.pix.height) ||
+		    (cformat.fmt.pix.pixelformat !=
+		     vformat.fmt.pix.pixelformat)) {
 			printf("can't make camera and video image "
-							"compatible!\n");
+				"compatible!\n");
 			return 0;
 		}
-
 	}
 
 	vreqbuf.type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
 	vreqbuf.memory = V4L2_MEMORY_MMAP;
 	vreqbuf.count = 4;
 	if (ioctl(vfd, VIDIOC_REQBUFS, &vreqbuf) == -1) {
-		perror("video VIDEO_REQBUFS");
+		perror("dss VIDEO_REQBUFS");
 		return;
 	}
-	printf("Video Driver allocated %d buffers when 4 are requested\n",
-								vreqbuf.count);
+	printf("Video Driver allocated %d buffers when 4 are "
+			"requested\n", vreqbuf.count);
 
 	vbuffers = calloc(vreqbuf.count, sizeof(*vbuffers));
-	for (i = 0; i < vreqbuf.count ; ++i) {
+	for (i = 0; i < vreqbuf.count; ++i) {
 		struct v4l2_buffer buffer;
 		buffer.type = vreqbuf.type;
 		buffer.index = i;
 		if (ioctl(vfd, VIDIOC_QUERYBUF, &buffer) == -1) {
-			perror("video VIDIOC_QUERYBUF");
+			perror("dss VIDIOC_QUERYBUF");
 			return;
 		}
-/*
-		printf("video %d: buffer.length=%d, buffer.m.offset=%d\n",
-				i, buffer.length, buffer.m.offset);
-*/
 		vbuffers[i].length = buffer.length;
-		vbuffers[i].start = mmap(NULL, buffer.length, PROT_READ|
-						PROT_WRITE, MAP_SHARED,
-						vfd, buffer.m.offset);
+		vbuffers[i].start = mmap(NULL, buffer.length,
+					 PROT_READ | PROT_WRITE,
+					 MAP_SHARED,
+					 vfd,
+					 buffer.m.offset);
 		if (vbuffers[i].start == MAP_FAILED) {
-			perror("video mmap");
+			perror("dss mmap");
 			return;
 		}
-		printf("Video Buffers[%d].start = %x  length = %d\n", i,
-					vbuffers[i].start, vbuffers[i].length);
+		printf("Video Buffers[%d].start = %x  length = %d\n",
+			i, vbuffers[i].start, vbuffers[i].length);
+
 	}
 
 	creqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-	creqbuf.memory = V4L2_MEMORY_USERPTR;
+	creqbuf.memory = memtype;
 	creqbuf.count = 4;
-	printf("Requesting %d buffers of type V4L2_MEMORY_USERPTR\n",
-								creqbuf.count);
+	printf("Requesting %d buffers of type %s\n", creqbuf.count,
+		(memtype == V4L2_MEMORY_USERPTR) ? "V4L2_MEMORY_USERPTR" :
+						"V4L2_MEMORY_MMAP");
 	if (ioctl(cfd, VIDIOC_REQBUFS, &creqbuf) < 0) {
 		perror("cam VIDEO_REQBUFS");
 		return -1;
 	}
-	printf("Camera Driver allowed %d buffers\n", creqbuf.count);
+	printf("Camera Driver allowed buffers reqbuf.count = %d\n",
+						creqbuf.count);
 
+
+	cbuffers = calloc(creqbuf.count, sizeof(*cbuffers));
+	/* mmap driver memory or allocate user memory, and queue each buffer */
 	for (i = 0; i < creqbuf.count; ++i) {
 		struct v4l2_buffer buffer;
 		buffer.type = creqbuf.type;
@@ -305,17 +330,25 @@ int main(int argc, char *argv[])
 			perror("cam VIDIOC_QUERYBUF");
 			return -1;
 		}
+		if (memtype == V4L2_MEMORY_USERPTR) {
+			buffer.flags = 0;
+			buffer.m.userptr = (unsigned int)vbuffers[i].start;
+			buffer.length = vbuffers[i].length;
+		} else {
+			cbuffers[i].length = buffer.length;
+			cbuffers[i].start = vbuffers[i].start;
+			printf("Mapped Buffers[%d].start = %x  length = %d\n",
+				i, cbuffers[i].start, cbuffers[i].length);
 
-		buffer.flags = 0;
-		buffer.m.userptr = (unsigned long) vbuffers[i].start;
-		buffer.length = vbuffers[i].length;
+			buffer.m.userptr = (unsigned int)cbuffers[i].start;
+			buffer.length = cbuffers[i].length;
+		}
 
 		if (ioctl(cfd, VIDIOC_QBUF, &buffer) < 0) {
 			perror("cam VIDIOC_QBUF");
 			return -1;
 		}
 	}
-
 
 	/* set h3a params */
 	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AEWB_CFG, &aewb_config_user);
@@ -325,65 +358,50 @@ int main(int argc, char *argv[])
 		return ret;
 	}
 
-	/************************************************************/
-	/* turn on streaming for camera */
-
+	/* turn on streaming */
 	if (ioctl(cfd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
 		perror("cam VIDIOC_STREAMON");
 		return -1;
 	}
 
-
 	/************************************************************/
 	/* Query Exposure limits */
-	qc.id = V4L2_CID_EXPOSURE;
-	if (ioctl(cfd, VIDIOC_QUERYCTRL, &qc) < 0) {
+	qc_exp.id = V4L2_CID_EXPOSURE;
+	if (ioctl(cfd, VIDIOC_QUERYCTRL, &qc_exp) < 0) {
 			perror("cam Query V4L2_CID_EXPOSURE");
 			return -1;
 	}
-	exp_max = qc.maximum;
-	exp_min = qc.minimum;
-	exp_step = qc.step;
-
-	/* Set initial value */
-	aewb_data_user.shutter = exp_min + exp_step;
 
 	/* Get current value */
-	control.id = V4L2_CID_EXPOSURE;
-	if (ioctl(cfd, VIDIOC_G_CTRL, &control) != 0) {
+	control_exp.id = V4L2_CID_EXPOSURE;
+	if (ioctl(cfd, VIDIOC_G_CTRL, &control_exp) != 0) {
 			perror("cam Get V4L2_CID_EXPOSURE");
 			return -1;
 	}
-	exp_cur = control.value;
+
+	/* Set initial value */
+	control_exp.value = qc_exp.minimum + qc_exp.step;
 
 	/************************************************************/
 	/* Query Gain limits */
-	qc.id = V4L2_CID_GAIN;
-	if (ioctl(cfd, VIDIOC_QUERYCTRL, &qc) < 0) {
+	qc_an_gain.id = V4L2_CID_GAIN;
+	if (ioctl(cfd, VIDIOC_QUERYCTRL, &qc_an_gain) < 0) {
 			perror("cam Query V4L2_CID_GAIN");
 			return -1;
 	}
-	gain_max = qc.maximum;
-	gain_min = qc.minimum;
-	gain_step = qc.step;
-
-	/* Set initial value */
-	aewb_data_user.gain = gain_min + gain_step;
 
 	/* Get current value */
-	control.id = V4L2_CID_GAIN;
-	if (ioctl(cfd, VIDIOC_G_CTRL, &control) != 0) {
+	control_an_gain.id = V4L2_CID_GAIN;
+	if (ioctl(cfd, VIDIOC_G_CTRL, &control_an_gain) != 0) {
 			perror("cam Get V4L2_CID_GAIN");
 			return -1;
 	}
-	gain_cur = control.value;
+
+	/* Set initial value */
+	control_an_gain.value = qc_an_gain.minimum + qc_an_gain.step;
 
 	/************************************************************/
 
-	/* capture 1000 frames */
-	cfilledbuffer.type = creqbuf.type;
-	vfilledbuffer.type = vreqbuf.type;
-	i = 0;
 	sleep(1);
 
 	num_windows = ((aewb_config_user.ver_win_count
@@ -414,7 +432,8 @@ int main(int argc, char *argv[])
 		perror("ISP_AEWB_REQ 1");
 		return ret;
 	}
-	aewb_data_user.frame_number = aewb_data_user.curr_frame + 3;
+
+	aewb_data_user.frame_number = aewb_data_user.curr_frame - 1;
 request:
 	frame_number = aewb_data_user.frame_number;
 	/* request stats */
@@ -423,18 +442,13 @@ request:
 	aewb_data_user.update = REQUEST_STATISTICS;
 	aewb_data_user.h3a_aewb_statistics_buf = stats_buff;
 	ret = ioctl(cfd,  VIDIOC_PRIVATE_ISP_AEWB_REQ, &aewb_data_user);
-	if (ret < 0) {
-		perror("ISP_AEWB_REQ 2");
-		return ret;
-	}
-
-	if (aewb_data_user.h3a_aewb_statistics_buf == NULL) {
-		printf("NULL buffer, current frame is  %d.\n",
+	if (ret) {
+		/* Stats not found, shall we retry? */
+		printf("No stats, current frame is %d.\n",
 			aewb_data_user.curr_frame);
 		aewb_data_user.frame_number =
-					aewb_data_user.curr_frame + 10;
+					aewb_data_user.curr_frame - 1;
 		aewb_data_user.update = REQUEST_STATISTICS;
-		aewb_data_user.h3a_aewb_statistics_buf = stats_buff;
 		goto request;
 	}
 
@@ -478,6 +492,9 @@ request:
 		goto request;
 	}
 
+	/* caputure 1000 frames or when we hit the passed nmuber of frames */
+	cfilledbuffer.type = creqbuf.type;
+	vfilledbuffer.type = vreqbuf.type;
 	i = 0;
 	while (!done_flag) {
 		/* De-queue the next avaliable buffer */
@@ -496,7 +513,7 @@ request:
 		}
 		i++;
 
-		if (i == DSS_STREAM_START_FRAME) {
+		if (i == 3) {
 			/* Turn on streaming for video */
 			if (ioctl(vfd, VIDIOC_STREAMON, &vreqbuf.type)) {
 				perror("dss VIDIOC_STREAMON");
@@ -504,7 +521,7 @@ request:
 			}
 		}
 
-		if (i >= DSS_STREAM_START_FRAME) {
+		if (i >= 3) {
 			/* De-queue the previous buffer from video driver */
 			if (ioctl(vfd, VIDIOC_DQBUF, &vfilledbuffer)) {
 				perror("dss VIDIOC_DQBUF");
@@ -512,7 +529,24 @@ request:
 			}
 		}
 
-		if (i >= DSS_STREAM_START_FRAME) {
+		if (i == count) {
+			printf("Cancelling the streaming capture...\n");
+			creqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+			if (ioctl(cfd, VIDIOC_STREAMOFF, &creqbuf.type) < 0) {
+				perror("cam VIDIOC_STREAMOFF");
+				return -1;
+			}
+			if (ioctl(vfd, VIDIOC_STREAMOFF,
+				  &vreqbuf.type) == -1) {
+				perror("dss VIDIOC_STREAMOFF");
+				return -1;
+			}
+
+			printf("Done\n");
+			break;
+		}
+
+		if (i >= 3) {
 			cfilledbuffer.index = vfilledbuffer.index;
 			while (ioctl(cfd, VIDIOC_QBUF, &cfilledbuffer) < 0)
 				perror("cam VIDIOC_QBUF");
@@ -534,7 +568,7 @@ request:
 				return ret;
 			}
 			aewb_data_user.frame_number =
-					aewb_data_user.curr_frame;
+					aewb_data_user.curr_frame - 1;
 			aewb_data_user.update = REQUEST_STATISTICS;
 			aewb_data_user.h3a_aewb_statistics_buf =
 							stats_buff;
@@ -542,39 +576,39 @@ request:
 					aewb_data_user.frame_number);
 			ret = ioctl(cfd,  VIDIOC_PRIVATE_ISP_AEWB_REQ,
 						&aewb_data_user);
-			if (ret < 0) {
+			if (ret) {
 				perror("ISP_AEWB_REQ 6");
-				return ret;
-			}
+			} else {
 				/* Display stats */
-			buff_preview =
-			(__u16 *)aewb_data_user.h3a_aewb_statistics_buf;
-				unsat_cnt = 0;
-			for (i = 0; i < (buff_prev_size); i++) {
-				data8 = (i + 1) % 8;
-				data2 = (i + 1) % 2;
-				window = (i + 1) / 8;
-				printf("%05d ", buff_preview[i]);
-				if (0 == data8) {
-					if (((window > 1) &&
-						(0 == (window % 9)))
-						|| (window ==
-						((num_windows +
-						(num_windows / 8) +
-						((num_windows % 8) ?
-						1 : 0))))) {
-						printf("   Unsaturated "
-							"block "
-							"count\n");
-						unsat_cnt++;
-					} else {
-						printf("    Window %5d\n",
-							(window - 1) -
-							unsat_cnt);
+				buff_preview =
+				(__u16 *)aewb_data_user.h3a_aewb_statistics_buf;
+					unsat_cnt = 0;
+				for (i = 0; i < (buff_prev_size); i++) {
+					data8 = (i + 1) % 8;
+					data2 = (i + 1) % 2;
+					window = (i + 1) / 8;
+					printf("%05d ", buff_preview[i]);
+					if (0 == data8) {
+						if (((window > 1) &&
+							(0 == (window % 9)))
+							|| (window ==
+							((num_windows +
+							(num_windows / 8) +
+							((num_windows % 8) ?
+							1 : 0))))) {
+							printf("   Unsaturated "
+								"block "
+								"count\n");
+							unsat_cnt++;
+						} else {
+							printf("    Window %5d\n",
+								(window - 1) -
+								unsat_cnt);
+						}
 					}
+					if (0 == data2)
+						printf("\n");
 				}
-				if (0 == data2)
-					printf("\n");
 			}
 		}
 
@@ -634,94 +668,81 @@ request:
 			break;
 
 		case 6:
-			aewb_data_user.gain =
-					aewb_data_user.gain + gain_step;
-			printf("Analog gain: %d\r", aewb_data_user.gain);
+			control_an_gain.value += qc_an_gain.step;
+			printf("Analog gain: %d\r", control_an_gain.value);
 			fflush(stdout);
 
-			if (aewb_data_user.gain >= gain_max) {
-				aewb_data_user.gain = gain_cur;
+			if (control_an_gain.value >= qc_an_gain.maximum) {
+				control_an_gain.value = qc_an_gain.maximum;
 				done_flag = 1;
 			}
 
-			control.id = V4L2_CID_GAIN;
-			control.value = aewb_data_user.gain;
-			ret = ioctl(cfd, VIDIOC_S_CTRL, &control);
+			control_an_gain.id = V4L2_CID_GAIN;
+			ret = ioctl(cfd, VIDIOC_S_CTRL, &control_an_gain);
 			if (ret != 0)
 				printf("Failed to set V4L2_CID_GAIN to %d\n",
-					control.value);
+					control_an_gain.value);
 			skip_aewb_req_flag = 1;
 			break;
 
 		case 7:
-			aewb_data_user.shutter =
-					aewb_data_user.shutter + exp_step;
-			printf("Shutter speed: %d\r", aewb_data_user.shutter);
+			control_exp.value += qc_exp.step;
+			printf("Shutter speed: %d\r", control_exp.value);
 			fflush(stdout);
 
-			if (aewb_data_user.shutter >= exp_max) {
-				aewb_data_user.shutter = exp_cur;
+			if (control_exp.value >= qc_exp.maximum) {
+				control_exp.value = qc_exp.maximum;
 				done_flag = 1;
 			}
 
-			control.id = V4L2_CID_EXPOSURE;
-			control.value = aewb_data_user.shutter;
-			ret = ioctl(cfd, VIDIOC_S_CTRL, &control);
+			control_exp.id = V4L2_CID_EXPOSURE;
+			ret = ioctl(cfd, VIDIOC_S_CTRL, &control_exp);
 			if (ret != 0)
 				printf("Failed to set V4L2_CID_EXPOSURE"
-					" to %d\n", control.value);
+					" to %d\n", control_exp.value);
 			skip_aewb_req_flag = 1;
 			break;
 
 		case 8:
-			aewb_data_user.dgain = aewb_data_user.dgain + 0x100;
+			aewb_data_user.dgain = DIGITAL_GAIN_DEFAULT;
 			printf("Digital gain: %d\r", aewb_data_user.dgain);
 			fflush(stdout);
 			aewb_data_user.update = SET_DIGITAL_GAIN;
-			if (aewb_data_user.dgain == DIGITAL_GAIN_DEFAULT)
-				done_flag = 1;
+			done_flag = 1;
 			break;
 
 		case 9:
-			aewb_data_user.wb_gain_b =
-					aewb_data_user.wb_gain_b + 0x100;
+			aewb_data_user.wb_gain_b = BLUE_GAIN_DEFAULT;
 			printf("Blue gain: %d\r", aewb_data_user.wb_gain_b);
 			fflush(stdout);
 			aewb_data_user.update = SET_DIGITAL_GAIN;
-			if (aewb_data_user.wb_gain_b == BLUE_GAIN_DEFAULT)
-				done_flag = 1;
+			done_flag = 1;
 			break;
 
 		case 10:
-			aewb_data_user.wb_gain_r =
-					aewb_data_user.wb_gain_r + 0x100;
+			aewb_data_user.wb_gain_r = GB_GAIN_DEFAULT;
 			printf("Red gain: %d\r", aewb_data_user.wb_gain_r);
 			fflush(stdout);
 			aewb_data_user.update = SET_DIGITAL_GAIN;
-			if (aewb_data_user.wb_gain_r == RED_GAIN_DEFAULT)
-				done_flag = 1;
+			done_flag = 1;
 			break;
 
 		case 11:
-			aewb_data_user.wb_gain_gb =
-					aewb_data_user.wb_gain_gb + 0x100;
+			aewb_data_user.wb_gain_gb = GB_GAIN_DEFAULT;
 			printf("Green/Blue gain: %d\r",
 				aewb_data_user.wb_gain_gb);
 			fflush(stdout);
 			aewb_data_user.update = SET_DIGITAL_GAIN;
-			if (aewb_data_user.wb_gain_gb == GB_GAIN_DEFAULT)
-				done_flag = 1;
+			done_flag = 1;
 			break;
 
 		case 12:
-			aewb_data_user.wb_gain_gr =
-					aewb_data_user.wb_gain_gr + 0x100;
+			aewb_data_user.wb_gain_gr = GR_GAIN_DEFAULT;
 			printf("Green/Red gain: %d\r",
 				aewb_data_user.wb_gain_gr);
 			fflush(stdout);
 			aewb_data_user.update = SET_DIGITAL_GAIN;
-			if (aewb_data_user.wb_gain_gr == GR_GAIN_DEFAULT)
-				done_flag = 1;
+			done_flag = 1;
 			break;
 
 		default:
@@ -742,7 +763,6 @@ request:
 
 exit:
 	aewb_config_user.aewb_enable = 0;
-	close(kfd);
 
 	/* H3A params */
 	aewb_config_user.saturation_limit = 0x1FF;
@@ -765,15 +785,19 @@ exit:
 		return ret;
 	}
 
-	printf("Captured and rendered %d frames!\n", i);
+	printf("Captured %d frames!\n", i);
 
-	if (ioctl(cfd, VIDIOC_STREAMOFF, &creqbuf.type) == -1) {
-		perror("cam VIDIOC_STREAMOFF");
-		return -1;
-	}
-	if (ioctl(vfd, VIDIOC_STREAMOFF, &vreqbuf.type) == -1) {
-		perror("video VIDIOC_STREAMOFF");
-		return -1;
+	/* we didn't turn off streaming yet */
+	if (count == -1) {
+		creqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+		if (ioctl(cfd, VIDIOC_STREAMOFF, &creqbuf.type) == -1) {
+			perror("cam VIDIOC_STREAMOFF");
+			return -1;
+		}
+		if (ioctl(vfd, VIDIOC_STREAMOFF, &vreqbuf.type) == -1) {
+			perror("dss VIDIOC_STREAMOFF");
+			return -1;
+		}
 	}
 
 	for (i = 0; i < vreqbuf.count; i++) {
@@ -782,8 +806,20 @@ exit:
 	}
 
 	free(vbuffers);
+
+	for (i = 0; i < creqbuf.count; i++) {
+		if (cbuffers[i].start) {
+			if (memtype == V4L2_MEMORY_USERPTR)
+				free(cbuffers[i].start);
+			else
+				munmap(cbuffers[i].start, cbuffers[i].length);
+		}
+	}
+
+	free(cbuffers);
 	free(stats_buff);
 
-	close(cfd);
 	close(vfd);
+	close(cfd);
+	close(kfd);
 }
