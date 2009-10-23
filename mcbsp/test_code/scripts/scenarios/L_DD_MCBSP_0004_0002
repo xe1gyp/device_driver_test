@@ -6,9 +6,9 @@
 # Description : McBSP Test Suite
 ###############################
 
-# Begin L_DD_MCBSP_0004_0001
+# Begin L_DD_MCBSP_0004_0002
 
 #The McBSP driver supports configuring the "FSR" parameters, this test case verifies the same.
 0002 set -x; testmcbsp.sh "0004_0002" "FSR_Polarity" "6" "fsr_polarity=" "$FSR_POLARITY_VALUES" && exit 0 || exit 1
 
-# End L_DD_MCBSP_0004_0001
+# End L_DD_MCBSP_0004_0002

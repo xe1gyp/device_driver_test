@@ -11,4 +11,4 @@
 #The McBSP driver shall use power resources on a need basis and relinquish the resources when not needed. If the system can successfully go to sleep after a transfer has been completed, this test is validated
 0002 set -x; testmcbsp.sh "0010_0001" "Sampling Rate (frequency, hertz)" "7" "sample_rate=" "$SAMPLE_RATES"; echo 5 > $POWERSYSFS/wakeup_timer_seconds; echo mem > $POWERSYSFS/state && exit 0 || exit 1
 
-# End L_DD_MCBSP_0001_0002
+# End L_DD_MCBSP_0010_0002
