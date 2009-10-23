@@ -1,0 +1,15 @@
+################################################################################
+# Scenario: L_DD_ETHERNET_0005_0001
+# Author  : Abraham Arce
+# Modified by : Aharon Campos
+# Date    : October 23, 2009
+################################################################################
+
+# Begin L_DD_ETHERNET_0005_0001
+
+01 $TESTROOT/../../utils/scripts/dvfs.opp.sh& ping -c 1  `cat /tmp/ipaddr` && exit 0 || exit 1
+02 ping -c 5  `cat /tmp/ipaddr` && exit 0 || exit 1
+03 ping -c 10 `cat /tmp/ipaddr` && exit 0 || exit 1
+04 ping -c 25 `cat /tmp/ipaddr` && exit 0 || exit 1
+
+# End L_DD_ETHERNET_0005_0001
