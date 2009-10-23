@@ -5,6 +5,9 @@
 #include <asm/irq.h>
 #include <linux/version.h>
 #include <linux/gpio.h>
+#include <mach/hardware.h>
+#include <mach/control.h>
+#include <linux/io.h>
 #include <mach/irqs.h>
 #include <linux/proc_fs.h>
 #define PROC_FILE "driver/gpio_test_result"
@@ -115,9 +118,55 @@ static void gpio_test_irq(void)
 	}
 }
 
+static void gpio_test7(void)
+{
+	int ret, request_status[32], i, j;
+	u32 *bank_base_addr[6], mod_status, bank_status;
+
+	if (!(cpu_is_omap24xx() || cpu_is_omap34xx() || cpu_is_omap44xx())) {
+		printk(KERN_ERR "Test case not applicable");
+		return;
+	}
+
+	/* Initialise base addresses for each bank */
+	bank_base_addr[0] = OMAP2_IO_ADDRESS(0x48310000);
+	bank_base_addr[1] = OMAP2_IO_ADDRESS(0x49050000);
+	bank_base_addr[2] = OMAP2_IO_ADDRESS(0x49052000);
+	bank_base_addr[3] = OMAP2_IO_ADDRESS(0x49054000);
+	bank_base_addr[4] = OMAP2_IO_ADDRESS(0x49056000);
+	bank_base_addr[5] = OMAP2_IO_ADDRESS(0x49058000);
+
+	for (bank_status = 0, i = 0; i < 6; i++) {
+		for (j = 0; j < 32; j++) {
+			ret = gpio_request(j+i*32, "titan_test");
+			if (!ret)
+				request_status[j] = 1;
+			else {
+				request_status[j] = 0;
+				printk(KERN_INFO "GPIO %d Busy\n", j+i*32);
+				bank_status = 1;
+			}
+		}
+		for (j = 0; j < 32; j++) {
+			if (request_status[j])
+				gpio_free(j+i*32);
+		}
+		/* Read OMAP24XX_GPIO_CTRL to verify the module status */
+		mod_status = __raw_readl(bank_base_addr[i] + 0x30)
+					& 0xFFFFFFFE;
+		if (mod_status)
+			printk(KERN_INFO "\n\nGPIO Module%d disable Success"
+				"\n", i);
+		else if (!bank_status)
+			printk(KERN_INFO "\n\nGPIO Module%d disable Failed"
+				"\n", i);
+		else
+			printk(KERN_INFO "\n\nGPIO Bank %d not free\n", i);
+	}
+}
+
 static void gpio_test(void)
 {
-
 		switch (test) {
 
 		case 1: /* Reserve and free GPIO Line */
@@ -164,12 +213,18 @@ static void gpio_test(void)
 			}
 			break;
 
+		case 7:/* Verify if GPIO module disable happens if all \
+				GPIOs in the module are inactive */
+			gpio_test7();
+			break;
+
 		default:
 			printk(KERN_INFO "Test option not available.\n");
 	}
 
-	printk(KERN_INFO "Logical ANDing of three error flags is: %d\n", \
-			(error_flag_1 && error_flag_2 && error_flag_3));
+	if (test != 7)
+		printk(KERN_INFO "Logical ANDing of three error flags is: %d"
+			"\n", (error_flag_1 && error_flag_2 && error_flag_3));
 	/* On failure of a testcase, one of the three error flags set to 0
 	 * if a gpio line request fails it is not considered as a failure
 	 * set test_passed =0 for failure
