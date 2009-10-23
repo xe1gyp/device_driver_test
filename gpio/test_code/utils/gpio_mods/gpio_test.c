@@ -171,6 +171,7 @@ static void gpio_test(void)
 			for (loop = 0; loop < iterations; loop++) {
 				gpio_test_request();
 				if (request_flag) {
+                                        printk(KERN_INFO "Running on %d ",smp_processor_id() );
 					gpio_test_direction_input();
 					if (input_direction_flag)
 						gpio_test_read();
@@ -183,6 +184,7 @@ static void gpio_test(void)
 			for (loop = 0; loop < iterations; loop++) {
 				gpio_test_request();
 				if (request_flag) {
+					printk(KERN_INFO "Running on %d ",smp_processor_id() );
 					gpio_test_direction_output();
 					if (output_direction_flag)
 						gpio_test_write();
