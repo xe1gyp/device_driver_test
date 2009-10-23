@@ -3,6 +3,9 @@
 MAXCOUNT=99999
 count=3
 
+echo 1 > /sys/power/sr_vdd1_autocomp
+echo 1 > /sys/power/sr_vdd2_autocomp
+
 while [ "$count" -le $MAXCOUNT ]
 do
 	vdd1_opp_no=`expr $count % 5`
