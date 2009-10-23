@@ -22,4 +22,5 @@ endif
 install:
 	cp -v $(MODULES:.o=.ko) ../../mods
 clean:
-	$(RM) -r *.o *.ko *.mod.c .*.cmd .tmp_versions .*.flags .26
+	$(RM) -r *.o *.ko *.mod.c .*.cmd .tmp_versions .*.flags .26 \
+	modules.order Module.symvers
