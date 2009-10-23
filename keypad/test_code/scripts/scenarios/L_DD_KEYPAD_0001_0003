@@ -1,11 +1,12 @@
 ###############################################################################
 # Scenario: L_DD_KEYPAD_0001_0003
 # Author  : Abraham Arce
-# Date    : Mon Dec  1 14:19:45 CST 2008
+# Modified by: Aharon Campos
+# Date    :  Oct 15, 2009
 ###############################################################################
 
 # Begin L_DD_KEYPAD_0001_0003
 
-01 $TESTBIN/testkeypad $DEVFS_KEYPAD && exit 0 || exit 1
+01  set -x; echo -e "\n\n\nThe application will wait for 500 keypresses.\nPlease press more than one key\nat the same time and verify all keycodes are properly reported.\n\n\n"; $TESTBIN/testkeypad $DEVFS_KEYPAD
 
 # End L_DD_KEYPAD_0001_0003

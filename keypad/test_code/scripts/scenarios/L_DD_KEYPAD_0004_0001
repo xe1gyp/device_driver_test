@@ -7,6 +7,6 @@
 
 # Begin L_DD_KEYPAD_0001_0001
 
-01  set -x; echo -e "\n\n\nThe application will wait for 500 keypresses.\nPlease verify that keycodes correspond to values\nshown in the UTR.\n\n\n"; $TESTBIN/testkeypad $DEVFS_KEYPAD
+01  set -x; "\n\n\nThe system is going to sleep.\nPlease press a key to bring it back\n\n\n"; echo -n 0 > /sys/power/wakeup_timer_seconds ;echo -n mem > /sys/power/state;
 
 # End L_DD_KEYPAD_0001_0001
