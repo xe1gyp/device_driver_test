@@ -11,7 +11,7 @@
 #include <stdlib.h>
 //#include "meera2.h"
 
-#define FBDEVICE "/dev/fb/0"
+#define FBDEVICE "/dev/fb0"
 int fd;
 struct fb_var_screeninfo var;
 struct fb_fix_screeninfo fix;
