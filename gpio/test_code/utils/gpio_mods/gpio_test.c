@@ -7,6 +7,8 @@
 #include <linux/gpio.h>
 #include <mach/irqs.h>
 #include <linux/proc_fs.h>
+#include <linux/sched.h>
+#include <linux/kthread.h>
 #define PROC_FILE "driver/gpio_test_result"
 
 static uint test;
@@ -117,9 +119,26 @@ static void gpio_test_irq(void)
 	}
 }
 
+void gpio_keep_reading(void *no_of_iterations)
+{
+	int loop;
+
+	for (loop = 0; loop < iterations; loop++) {
+		gpio_test_request();
+		if (request_flag) {
+		printk(KERN_INFO "Running on %d ",smp_processor_id() );
+			gpio_test_direction_input();
+			if (input_direction_flag)
+				gpio_test_read();
+			gpio_test_free();
+		}
+	}
+}
 static void gpio_test(void)
 {
 		int loop;
+		struct task_struct *p1, *p2;
+		int x;
 
 		switch (test) {
 
@@ -191,6 +210,14 @@ static void gpio_test(void)
 					gpio_test_free();
 				}
 			}
+			break;
+		case 8: /* thread */
+			p1 = kthread_create(gpio_keep_reading, NULL , "gpiotest/0");
+			p2 = kthread_create(gpio_keep_reading, NULL , "gpiotest/1");
+			kthread_bind(p1, 0);
+			kthread_bind(p2, 1);
+			x = wake_up_process(p1);
+			x = wake_up_process(p2);
 			break;
 
 		default:
