@@ -1,14 +1,13 @@
 CC:=$(CROSS_COMPILE)gcc
 CFLAGS= -g -c -Wall
 
-all: common.c uart_test.c ts_uart.c
+all: common.c ts_uart.c
 	$(CC)  $(CFLAGS) common.c -o common.o
-	$(CC)  $(CFLAGS) uart_test.c -o uart_test.o
-	$(CC)  uart_test.o common.o -o uart_test
+	$(CC)  $(CFLAGS) ts_uart.c -o ts_uart.o
 	$(CC)  ts_uart.o common.o -o ts_uart
 
 install:
-	cp uart_test ../../binaries
+	cp ts_uart ../../binaries
 
 clean:
-	rm -rf *.o uart_test ts_uart
+	rm -rf *.o ts_uart

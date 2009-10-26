@@ -1,11 +1,10 @@
-#include <stdio.h>   /* Standard input/output definitions */
-#include <string.h>  /* String function definitions */
-#include <unistd.h>  /* UNIX standard function definitions */
-#include <fcntl.h>   /* File control definitions */
-#include <sys/time.h>    /* To calulate time taken for operaton */
-#include <time.h>
-#include <errno.h>   /* Error number definitions */
-#include <termios.h> /* terminal control definitions */
+#include <stdio.h>	/* Standard input/output definitions */
+#include <string.h>	/* String function definitions */
+#include <unistd.h>	/* UNIX standard function definitions */
+#include <fcntl.h>	/* File control definitions */
+#include <sys/time.h>	/* To calulate time taken for operaton */
+#include <errno.h>	/* Error number definitions */
+#include <termios.h>	/* terminal control definitions */
 #include <stdlib.h>
 #include <fcntl.h>
 #include <sys/types.h>
@@ -13,20 +12,20 @@
 #include <signal.h>
 #include <sys/ioctl.h>
 
-
 #define ERROR -1
 #define SUCCESS 1
 
 #define UART_DEV_NAME   "/dev/ttyO0"
 
-static int bufsize = 4096 ;             /* buffer of size 4K */
+static int bufsize = 4096 ;	/* buffer of size 4K */
+//static int bufsize = 2048;	/* buffer of size 4K */
 
 /* contains varibles required for UART PORT TESTING */
 struct uart_test {
-        int fd;						/* varibale to store the port file descriptor value */
-        long int baudrate;			        /* baudrate to be set for Tx and Rx */
-        int flow_cntrl;			              /* flow control data */
-        struct timeval tx_start_time, tx_end_time;      /* used to calulate time intervals */
+        int		fd;          	               		/* varibale to store the port file descriptor value */
+        long int	baudrate;       	 	        /* baudrate to be set for Tx and Rx */
+        int		flow_cntrl;  		       		/* flow control data */
+        struct timeval start_time, end_time, diff_time;  	/* used to calulate time intervals */
 };
 
 /**
