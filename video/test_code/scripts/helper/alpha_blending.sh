@@ -30,8 +30,8 @@ if [ "$ALPHA_MODE" = "GLOBAL" ];then
 		echo SENT GFX, VIDEO1 AND VIDEO 2 TO LCD
 		sleep 3
 		# Changing Framebuffer configuration
-		$TESTSCRIPT/fbmode 32; sleep 2
-		$TESTSCRIPT/fbout 0; sleep 1
+#		$TESTSCRIPT/fbmode 32; sleep 2
+#		$TESTSCRIPT/fbout 0; sleep 1
 	fi
 	
 	# Configuring the test scenario for TV
@@ -42,8 +42,8 @@ if [ "$ALPHA_MODE" = "GLOBAL" ];then
 		echo SENT GFX, VIDEO1 AND VIDEO 2 TO TV
 		sleep 3
 		# Changing Framebuffer configuration
-		$TESTSCRIPT/fbmode 32; sleep 2
-		$TESTSCRIPT/fbout 1; sleep 1
+#		$TESTSCRIPT/fbmode 32; sleep 2
+#		$TESTSCRIPT/fbout 1; sleep 1
 	fi
 
 	# Changing the framebuffer color
@@ -52,21 +52,21 @@ if [ "$ALPHA_MODE" = "GLOBAL" ];then
 	if [ "$ALPHA_STATUS" = "ON" ];then
 		if [ "$OUTPUT" = "TV" ];then
 			# Eneabling alphablending for TV output device.
-			echo on > $TV_ALPHA_ENTRY
+			echo 1 > $TV_ALPHA_ENTRY
 		fi
 		if [ "$OUTPUT" = "LCD" ];then
 			# Eneabling alphablending for LCD output device.
-			echo on > $LCD_ALPHA_ENTRY
+			echo 1 > $LCD_ALPHA_ENTRY
 		fi
 		echo ALPHA BLENDING ENABLED
 	elif [ "$ALPHA_STATUS" = "OFF" ];then
 		if [ "$OUTPUT" = "TV" ];then
 			# Disabling alphablending for TV output device.
-                        echo off > $TV_ALPHA_ENTRY
+                        echo 0 > $TV_ALPHA_ENTRY
                 fi
                 if [ "$OUTPUT" = "LCD" ];then
 			# Disabling alphablending for LCD output device.
-                        echo off > $LCD_ALPHA_ENTRY
+                        echo 0 > $LCD_ALPHA_ENTRY
                 fi
 
 		echo ALPHA BLENDING DISABLED
@@ -75,7 +75,7 @@ if [ "$ALPHA_MODE" = "GLOBAL" ];then
 	# Changing the framebuffer transparency
 	echo $GLOBAL_ALPHA_GFX > $GFX_ALPHA_ENTRY
 	# Changing the video transperency
-	echo $GLOBAL_ALPHA_VID2 > $VID2_ALPHA_ENTRY
+#	echo $GLOBAL_ALPHA_VID2 > $VID2_ALPHA_ENTRY
 
 	$TESTBIN/setimg 1 YUYV 176 144
 	RESULT=`command_tracking.sh $RESULT $?`
@@ -106,10 +106,10 @@ if [ "$ALPHA_MODE" = "GLOBAL" ];then
 	
 	# Reseting to the previous values.
 	if [ "$OUTPUT" = "TV" ];then
-		 echo off > $TV_ALPHA_ENTRY
+		 echo 0 > $TV_ALPHA_ENTRY
 		 $TESTSCRIPT/fbout 0
 	else
-		echo off > $LCD_ALPHA_ENTRY
+		echo 0 > $LCD_ALPHA_ENTRY
 	fi
 
 	echo "$PREVIOUS_GFX" > $GRAPHICS_ENTRY
