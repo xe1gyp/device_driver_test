@@ -4,32 +4,33 @@
 # Name of the file: Makefile
 #
 # Brief description of the contents of the file:
-# Makefile for McSPI test suite
+# Makefile for hsuart tests
 #
 # Detailed description of the contents of the file:
-# This Makefile is used to compile mcspi test suite
+# This Makefile is used to compile hsuart test programs.
 #
 # Author: Abraham Arce
 #
 # Created on: Sat Mar  8 16:07:14 CST 2008
 #
 ############################################################################
-OBJS := modules install
+
+OBJS := utilities install
 
 all:$(OBJS)
 
-modules:
+utilities:
 	make -C utils
-
 install:
-	mkdir -p binaries
-	mkdir -p modules
+	mkdir bin
+	mkdir mods
+	make -C utils install
 	mkdir -p scripts/test
 	mkdir -p scripts/tmp
-	make -C utils install
 clean:
 	make -C utils clean
+	rm -rf scripts/log*
 	rm -rf scripts/tmp
 	rm -rf scripts/test
-	rm -rf modules
-	rm -rf binaries
+	rm -rf bin
+	rm -rf mods

@@ -1,6 +1,7 @@
 #include "common.h"
 
-int writeport(int *fd, unsigned char *chars, int len) {
+int writeport(int *fd, unsigned char *chars, int len)
+{
         int n = write(*fd, chars,len);
         if (n < 0) {
                 fputs("write failed!\n", stderr);
@@ -100,7 +101,7 @@ int initport(int fd,long baudrate,int flow_ctrl)
 				options.c_cflag |= B4800 | CBAUD;
 				break;
 		case 9600:
-				cfsetispeed(&options,B9600);
+				cfsetispeed(&options, B9600);
 				cfsetospeed(&options,B9600);
 				options.c_cflag |= B9600 | CBAUD;
 				break;
@@ -165,9 +166,10 @@ int initport(int fd,long baudrate,int flow_ctrl)
 				options.c_cflag |= B3500000 | CBAUDEX;
 				break;
 		default:
-				printf("\n Provided an Invalid Baudrate.\n Proceeding using default baud 115200\n");
-				cfsetispeed(&options,B115200);
-				cfsetospeed(&options,B115200);
+				printf("\n Provided an Invalid Baudrate.\n");
+				printf("Using default baud 115200\n");
+				cfsetispeed(&options, B115200);
+				cfsetospeed(&options, B115200);
 				options.c_cflag |= B115200 | CBAUDEX;
 				break;
 	}
@@ -177,48 +179,50 @@ int initport(int fd,long baudrate,int flow_ctrl)
 		options.c_cflag &= ~CRTSCTS;
 		options.c_iflag &= ~(IXON | IXOFF | IXANY);
 		printf("\n Flow control disabled \n");
-	} else if(flow_ctrl == 1) {
+	} else if (flow_ctrl == 1) {
 		options.c_cflag |= CRTSCTS;
 		options.c_iflag &= ~(IXON | IXOFF | IXANY);
-		printf("\n Hardware FlowControl: Enabling RTS/CTS support. \n");
-	} else if(flow_ctrl == 2) {
+		printf("\n Hardware FlowControl: Enabling RTS/CTS support.\n");
+	} else if (flow_ctrl == 2) {
 		options.c_cflag &= ~CRTSCTS;
 		options.c_iflag |= (IXON | IXOFF | IXANY);
 		/* XOFF - Pause transmission  - DC3 - 0x13  */
 		/* XON  - Resume transmission -	DC1 - 0x11  */
 		options.c_cc[VSTART] = 0x11;
 		options.c_cc[VSTOP] = 0x13;
-		printf("\n Software FlowControl: Enabling XON/XOFF support. \n");
+		printf("\nSoftware FlowControl:Enabling XON/XOFF support.\n");
 	}
         /* No Parity, 8N1. */
-        options.c_cflag &= ~PARENB; /* No parity bit 	*/
-        options.c_cflag &= ~CSTOPB; /* 1 stop bit 	*/
-        options.c_cflag &= ~CSIZE;  /* character size 8 */
+	options.c_cflag &= ~PARENB; /* No parity bit	*/
+	options.c_cflag &= ~CSTOPB; /* 1 stop bit	*/
+	options.c_cflag &= ~CSIZE;  /* character size 8 */
         options.c_cflag |=  CS8 ;
 
 	printf("\n  options.c_iflag = 0x%x \n", options.c_iflag);
 
-        /* Hardware Control Options - Set local mode and Enable receiver to receive characters */
-        options.c_cflag     |= (CLOCAL | CREAD );
+	/* Hardware Control Options - Set local mode and
+	* Enable receiver to receive characters */
+	options.c_cflag     |= (CLOCAL | CREAD);
 
-        /* Terminal Control options */
-        options.c_lflag     &= ~(ICANON | IEXTEN | ECHO | ISIG); /* Line options - Raw input */
-
+	/* Terminal Control options */
+	options.c_lflag     &= ~(ICANON | IEXTEN | ECHO | ISIG);
+	/* Line options - Raw input */
 	options.c_iflag     &= ~(ICRNL | INPCK | ISTRIP | BRKINT);
-        /* Output processing - Disable post processing of output. */
-        options.c_oflag     &= ~OPOST;      /* Output options - Raw output */
-        /* Control Characters - Min. no. of characters */
+	/* Output processing - Disable post processing of output. */
+	options.c_oflag     &= ~OPOST;      /* Output options - Raw output */
+	/* Control Characters - Min. no. of characters */
         options.c_cc[VMIN]  = 0;
-        /* Character/Packet timeouts. */
+	/* Character/Packet timeouts. */
         options.c_cc[VTIME] = 3;
 
-	if(ERROR == tcflush(fd,TCIOFLUSH) ) {
-                  printf("\n Flushing port failed");
+	if (ERROR == tcflush(fd, TCIOFLUSH)) {
+		printf("\n Flushing port failed");
                   return ERROR;
         }
 
 	if(ERROR == tcsetattr(fd, TCSANOW, &options))  {
-                printf("\n Error: Couldn't configure Serial port - %s", UART_DEV_NAME);
+		printf("\n Error: Couldn't configure Serial port - %s",
+		UART_DEV_NAME);
                 return ERROR;
         }
 /*
@@ -237,24 +241,26 @@ void signalHandler()
 	timersub(&ut.end_time,&ut.start_time,&ut.diff_time);
 
 	if(read_flag && tx_rx == 'r') {
-	        ut.diff_time.tv_sec -= 3;
-	        printf("\n Time taken %08ld sec, %08ld usec\n\n ",ut.diff_time.tv_sec,ut.diff_time.tv_usec);
+		ut.diff_time.tv_sec -= 3;
+		printf("\n Time taken %08ld sec, %08ld usec\n\n ",
+		ut.diff_time.tv_sec, ut.diff_time.tv_usec);
 	}
 	if(tx_rx == 's')
-	        printf("\n Time taken %08ld sec, %08ld usec\n\n ",ut.diff_time.tv_sec,ut.diff_time.tv_usec);
+		printf("\n Time taken %08ld sec, %08ld usec\n\n ",
+		ut.diff_time.tv_sec, ut.diff_time.tv_usec);
 
 	close_port();
 }
 
 void close_port()
 {
-        tcsetattr(ut.fd, TCSANOW, &oldtio);
+	tcsetattr(ut.fd, TCSANOW, &oldtio);
 	if(tx_rx == 'r')
-	        close(fd2);
+		close(fd2);
 	else
 		close(fd1);
-        close(ut.fd);
-        exit(1);
+	close(ut.fd);
+	exit(1);
 }
 
 void display_intro()
@@ -269,4 +275,3 @@ void display_intro()
 	printf("\n For Receiving data:");
 	printf("\n Ex. ./ts_uart r sample 115200 1 \n");
 }
-

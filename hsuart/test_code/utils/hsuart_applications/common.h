@@ -15,17 +15,17 @@
 #define ERROR -1
 #define SUCCESS 1
 
-#define UART_DEV_NAME   "/dev/ttyO0"
+#define UART_DEV_NAME   "/dev/ttyS0"
 
 static int bufsize = 4096 ;	/* buffer of size 4K */
-//static int bufsize = 2048;	/* buffer of size 4K */
+/*static int bufsize = 2048;	buffer of size 4K */
 
 /* contains varibles required for UART PORT TESTING */
 struct uart_test {
-        int		fd;          	               		/* varibale to store the port file descriptor value */
-        long int	baudrate;       	 	        /* baudrate to be set for Tx and Rx */
-        int		flow_cntrl;  		       		/* flow control data */
-        struct timeval start_time, end_time, diff_time;  	/* used to calulate time intervals */
+	int		fd;
+	long int	baudrate;
+	int		flow_cntrl;
+	struct timeval start_time, end_time, diff_time;
 };
 
 /**
