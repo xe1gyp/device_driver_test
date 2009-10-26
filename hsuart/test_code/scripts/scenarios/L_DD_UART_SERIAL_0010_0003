@@ -1,0 +1,14 @@
+###############################################################################
+# Scenario    : L_DD_UART_SERIAL_0010_0003
+# Author      : Venkatraman S
+# Date        : Thu Sep 17 11:25:35 CDT 2009
+# Description : Test HSUART CPU Affinity
+###############################################################################
+
+# Begin L_DD_UART_SERIAL_0010_0003
+01  set -x; rm -f $MODDIR/receivedfile
+02  set -x; $UTILS_DIR_HANDLERS/handleIRQaffinity.sh "switch" "$MODDIR/uart_test r $UART_TEST_PORT1 $MODDIR/receivedfile 115200 0" "2" "300" "104"
+03  set -x; $UTILS_DIR_HANDLERS/handleIRQaffinity.sh "switch" "$MODDIR/uart_test s $UART_TEST_PORT1 s /bin/sh 115200 0" "2" "300" "104"
+04  set -x; diff /bin/sh $MODDIR/receivedfile && exit 0 || exit 1
+
+# End L_DD_UART_SERIAL_0010_0003

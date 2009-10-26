@@ -1,0 +1,25 @@
+#########################################################################################
+# Scenario    : L_DD_UART_SERIAL_0002
+# Author      : Venkatraman S
+# Date        : Thu Sep 17 11:25:35 CDT 2009
+# Description : Test Parallel Access from 2 processes
+#########################################################################################
+
+# Begin L_DD_UART_SERIAL_0002
+
+#Here 2 UARTs are exercised simultaneously on 2 different CPUs
+# Each CPU is doing TX and RX on different ports
+01  set -x; rm -f $MODDIR/receivedfile
+02  set -x; rm -f $MODDIR/receivedfile2
+03  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "clean"
+04  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "$UTILS_DIR_BIN/taskset -c 1 $MODDIR/uart_test r $UART_TEST_PORT1 $MODDIR/receivedfile 115200 0"
+05  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "$UTILS_DIR_BIN/taskset -c 0 $MODDIR/uart_test s $UART_TEST_PORT1 /bin/sh 115200 0"
+06  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "$UTILS_DIR_BIN/taskset -c 0 $MODDIR/uart_test r $UART_TEST_PORT2 $MODDIR/receivedfile2 115200 0"
+07  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "$UTILS_DIR_BIN/taskset -c 1 $MODDIR/uart_test s $UART_TEST_PORT2 /bin/sh 115200 0"
+08  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "execute"
+09  set -x; diff /bin/sh $MODDIR/receivedfile && exit 0 || exit 1
+10  set -x; diff /bin/sh $MODDIR/receivedfile2 && exit 0 || exit 1
+
+
+
+# End L_DD_UART_SERIAL_0002
