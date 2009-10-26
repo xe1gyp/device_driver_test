@@ -38,12 +38,6 @@ int main(int argc, char *argv[])
 		return usage();
 	}
 
-	format.fmt.win.w.left = atoi(argv[2]);
-	format.fmt.win.w.top = atoi(argv[3]);
-	format.fmt.win.w.width = atoi(argv[4]);
-	format.fmt.win.w.height = atoi(argv[5]);
-	format.type = V4L2_BUF_TYPE_VIDEO_OVERLAY;
-
 	file_descriptor =
 		open((video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2,
 		O_RDONLY);
@@ -55,6 +49,19 @@ int main(int argc, char *argv[])
 		printf("openned %s\n",
 			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
 	}
+
+	format.type = V4L2_BUF_TYPE_VIDEO_OVERLAY;
+
+	result = ioctl(file_descriptor, VIDIOC_G_FMT, &format);
+	if (result != 0) {
+		perror("VIDIOC_G_FMT");
+		return 1;
+	}
+
+	format.fmt.win.w.left = atoi(argv[2]);
+	format.fmt.win.w.top = atoi(argv[3]);
+	format.fmt.win.w.width = atoi(argv[4]);
+	format.fmt.win.w.height = atoi(argv[5]);
 
 	result = ioctl(file_descriptor, VIDIOC_S_FMT, &format);
 	if (result != 0) {
