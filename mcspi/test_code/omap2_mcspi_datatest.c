@@ -131,7 +131,7 @@ struct spi_transfer     t1;
 	MODULE_PARM( word_length, "i");
 #else
 	module_param( buffer_size, int, 0);
-	module_param(clk_freq, int, 0);
+	module_param( clk_freq, int, 0);
 	module_param( clk_phase, int, 0);
 	module_param( clk_polarity, int, 0);
 	module_param( cs_polarity, int, 0);
@@ -204,7 +204,7 @@ write_proc_entry(struct file *file, const char *buffer,
 static int
 create_proc_file_entries(void)
 {
-	if (!(mcspi_test_dir == proc_mkdir("driver/mcspi_test", NULL))) {
+	if (!(mcspi_test_dir = proc_mkdir("driver/mcspi_test", NULL))) {
 		printk("\n No mem to create proc file \n");
 		return -ENOMEM;
 	}
@@ -242,7 +242,18 @@ static int spitst_probe(struct spi_device *spi)
 
 	printk(KERN_INFO " In spitst_probe \n");
 	spi_g = spi;
+
 	spi_g->mode = SPI_MODE_0;
+
+	if (clk_freq !=0 )
+		spi_g->max_speed_hz = clk_freq;
+
+	spi_g->mode |= (clk_phase & SPI_CPHA);
+	spi_g->mode |= (clk_polarity & SPI_CPOL);
+	spi_g->mode |= (cs_polarity & SPI_CS_HIGH);
+
+	if (word_length != 0)
+		spi_g->bits_per_word = word_length;
 
 	status = spi_setup(spi_g);
 
@@ -250,9 +261,11 @@ static int spitst_probe(struct spi_device *spi)
 		buffer_size = 1024;
 
 	clk_freq = spi_g->max_speed_hz;
-	clk_phase = spi_g->mode & SPI_CPHA;
-	clk_polarity = spi_g->mode & SPI_CPOL;
-	cs_polarity = spi_g->mode & SPI_CS_HIGH;
+
+	clk_phase = (spi_g->mode & SPI_CPHA) >> 0 ;
+	clk_polarity = (spi_g->mode & SPI_CPOL) >> 1;
+	cs_polarity = (spi_g->mode & SPI_CS_HIGH) >> 2;
+
 	word_length = spi_g->bits_per_word;
 
 	printk(KERN_INFO " spi_setup status %d buffer_size %d\n", status, buffer_size);
@@ -262,7 +275,7 @@ static int spitst_probe(struct spi_device *spi)
 				GFP_KERNEL | GFP_DMA);
 
 	spi2_tx_buf_dma_virt =
-	dma_alloc_coherent(NULL, buffer_size, &spi2_tx_buf_dma_phys,
+		dma_alloc_coherent(NULL, buffer_size, &spi2_tx_buf_dma_phys,
 				GFP_KERNEL | GFP_DMA);
 
 	if ((spi2_rx_buf_dma_virt != NULL) && (spi2_tx_buf_dma_virt != NULL))
@@ -385,20 +398,20 @@ int __init test_mcspi_init(void)
 
 	if (slave_mode) {
 		printk(KERN_INFO "configuring slave mode \n");
-/*
+
 		omap_writew(0x1700,spi2_clk);
 		omap_writew(0x1700,spi2_simo);
 		omap_writew(0x1700,spi2_somi);
 		omap_writew(0x1708,spi2_cs0);
-*/
+
 	} else {
 		printk(KERN_INFO "configuring master mode \n");
-/*
+
 		omap_writew(0x1700,spi2_clk);
 		omap_writew(0x1700,spi2_simo);
 		omap_writew(0x1700,spi2_somi);
 		omap_writew(0x1708,spi2_cs0);
-*/
+
 	}
 
 	printk(" spi2_clk %x\n", omap_readl(spi2_clk));
