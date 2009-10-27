@@ -218,8 +218,8 @@ int initport(int fd,long baudrate,int flow_ctrl)
         }
 
 	if(ERROR == tcsetattr(fd, TCSANOW, &options))  {
-                printf("\n Error: Couldn't configure Serial port - %s", UART_DEV_NAME);
-                return ERROR;
+		printf("\n Error: Couldn't configure Serial port");
+		return ERROR;
         }
 /*
 	printf("\n\n");
@@ -232,7 +232,7 @@ int initport(int fd,long baudrate,int flow_ctrl)
 
 void signalHandler()
 {
-	printf("\n Closing device %s\n",UART_DEV_NAME);
+	printf("\n Closing device\n");
 	gettimeofday(&ut.end_time,NULL);
 	timersub(&ut.end_time,&ut.start_time,&ut.diff_time);
 

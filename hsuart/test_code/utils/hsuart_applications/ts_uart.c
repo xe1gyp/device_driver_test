@@ -28,6 +28,7 @@ int main(int argc, char **argv)
 	int retval;
 	struct timeval respTime;
 	unsigned char input_buf[bufsize], output_buf[bufsize];
+	char uartportname[20];
 	int size = 0;
 	int chk_flag, error = 0;
 
@@ -40,15 +41,15 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	if (argc != 5) {
+	if (argc != 6) {
 		display_intro();
 		exit(1);
 	}
 
-	chk_flag = sscanf(argv[3], "%li", &ut.baudrate);
+	chk_flag = sscanf(argv[4], "%li", &ut.baudrate);
 	if (chk_flag != 1)
 		error = 1;
-	chk_flag = sscanf(argv[4], "%i", &ut.flow_cntrl);
+	chk_flag = sscanf(argv[5], "%i", &ut.flow_cntrl);
 	if (chk_flag != 1)
 		error = 1;
 
@@ -56,15 +57,18 @@ int main(int argc, char **argv)
 		error = 1;
 	if (error) {
 		printf("\n [%s] or [%s] : Invalid command line argument \n",
-							argv[3], argv[4]);
+							argv[4], argv[5]);
 		display_intro();
 		exit(1);
 	}
-
-	ut.fd = open(UART_DEV_NAME, O_RDWR | O_NOCTTY | O_NDELAY | O_NONBLOCK);
+	sprintf(uartportname, "/dev/%s", argv[2]);
+	uartportname[strlen(argv[2]) + 5] = '\0';
+	printf("Opening %s", uartportname);
+	ut.fd = open(uartportname, O_RDWR | O_NOCTTY | O_NDELAY | O_NONBLOCK);
 
 	if (ut.fd == -1) {
-		printf("\n [%s]: Failure in opening the port\n", UART_DEV_NAME);
+		printf("Failed to open the port %s, returncode=%d\n",
+			uartportname, ut.fd);
 		exit(1);
 	} else {
 		fcntl(ut.fd, F_SETFL, 0);
@@ -81,10 +85,10 @@ int main(int argc, char **argv)
 
 	case 'r':
 	/* open(const char *pathname, int flags, mode_t mode); */
-		fd2 = open(argv[2], O_WRONLY | O_CREAT , S_IRWXU | S_IRWXO);
+		fd2 = open(argv[3], O_WRONLY | O_CREAT , S_IRWXU | S_IRWXO);
 		if (fd2 == -1) {
 			printf("\n [%s]: Failure in opening the file.\n",
-								argv[2]);
+								argv[3]);
 			close(ut.fd);
 			exit(1);
 		}
@@ -119,9 +123,9 @@ int main(int argc, char **argv)
 				}
 			}
 			if (read_flag == 0) {
-				if (unlink(argv[2]) == -1)
+				if (unlink(argv[3]) == -1)
 					printf("\n Failed to delete the \
-						file %s \n", argv[2]);
+						file %s \n", argv[3]);
 				printf("\n Waited for 10 seconds no data was \
 						available to read exiting \n");
 				close_port();
@@ -138,7 +142,7 @@ int main(int argc, char **argv)
 		gettimeofday(&ut.end_time, NULL);
 		printf("\n Read %d bytes from port \n", size);
 
-		sprintf(cmd_buf, "md5sum %s ", argv[2]);
+		sprintf(cmd_buf, "md5sum %s ", argv[3]);
 		md5_fd = popen(cmd_buf, "r");
 		if (!ferror(md5_fd)) {
 			/* md5sum returns 32 bit checksum value */
@@ -150,16 +154,16 @@ int main(int argc, char **argv)
 								argv[2]);
 			break;
 		}
-		printf("\n CheckSum generated for [%s] = %s \n",
-						argv[2], md5_sum1);
+		printf("\n Checksum generated for [%s] = %s \n",
+						argv[3], md5_sum1);
 
 		FD_CLR(ut.fd, &readFds);
 		break;
 
 	case 's':
-		fd1 = open(argv[2], O_RDONLY);
+		fd1 = open(argv[3], O_RDONLY);
 		if (fd1 == -1) {
-			printf("\n cannot open %s \n", argv[2]);
+			printf("\n cannot open %s \n", argv[3]);
 			close(ut.fd);
 			exit(1);
 		}
@@ -189,7 +193,7 @@ int main(int argc, char **argv)
 			printf("\n Sending break sequence fialed use \
 				 ctrl + c to terminate read process\n");
 
-		sprintf(cmd_buf, "md5sum %s ", argv[2]);
+		sprintf(cmd_buf, "md5sum %s ", argv[3]);
 		md5_fd = popen(cmd_buf, "r");
 		if (!ferror(md5_fd)) {
 			/* md5sum returns 32 bit checksum value */
@@ -199,11 +203,15 @@ int main(int argc, char **argv)
 			md5_sum1[32] = '\0';
 		} else {
 			printf("\n Check sum generation for %s \
-					failed \n",argv[2]);
+					failed \n", argv[3]);
 			break;
 		}
 		printf("\n CheckSum generated for [%s] = %s \n",
-						argv[2], md5_sum1);
+						argv[3], md5_sum1);
+		break;
+	default:
+		printf("\n Unspecified operation %c:", tx_rx);
+		break;
 	}
 
 	timersub(&ut.end_time, &ut.start_time, &ut.diff_time);

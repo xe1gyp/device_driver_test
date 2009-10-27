@@ -15,8 +15,6 @@
 #define ERROR -1
 #define SUCCESS 1
 
-#define UART_DEV_NAME   "/dev/ttyO0"
-
 static int bufsize = 4096 ;	/* buffer of size 4K */
 //static int bufsize = 2048;	/* buffer of size 4K */
 
