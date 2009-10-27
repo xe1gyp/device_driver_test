@@ -1,0 +1,16 @@
+###############################################################################
+# Scenario    : L_DD_BATTERY_0009_0001
+# Author      : Venkatraman S
+# Date        : Thu Sep 24 2009
+# Description : Battery process Parallelism
+###############################################################################
+
+# Begin L_DD_BATTERY_0009_0001
+
+01  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "clean"
+02  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "$TESTSCRIPT/battery_thread.sh $TEST_PLATFORM 400"
+03  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "$TESTSCRIPT/battery_thread.sh $TEST_PLATFORM 400"
+03  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "$TESTSCRIPT/battery_thread.sh $TEST_PLATFORM 400"
+04  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "execute"
+
+# End L_DD_BATTERY_0009_0001
