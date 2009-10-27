@@ -269,15 +269,26 @@ static int spitst_probe(struct spi_device *spi)
 	spi_g = spi;
 	spi_g->mode = SPI_MODE_0;
 
+	if (clk_freq != 0)
+		spi_g->max_speed_hz = clk_freq;
+
+	spi_g->mode |= (clk_phase & SPI_CPHA);
+	spi_g->mode |= (clk_polarity & SPI_CPOL);
+	spi_g->mode |= (cs_polarity & SPI_CS_HIGH);
+	if (word_length != 0)
+		spi_g->bits_per_word = word_length;
+
 	status = spi_setup(spi_g);
 
 	if (buffer_size == 0)
 		buffer_size = 1024;
 
 	clk_freq = spi_g->max_speed_hz;
-	clk_phase = spi_g->mode & SPI_CPHA;
-	clk_polarity = spi_g->mode & SPI_CPOL;
-	cs_polarity = spi_g->mode & SPI_CS_HIGH;
+
+	clk_phase = (spi_g->mode & SPI_CPHA) >> 0 ;
+	clk_polarity = (spi_g->mode & SPI_CPOL) >> 1;
+	cs_polarity = (spi_g->mode & SPI_CS_HIGH) >> 2;
+
 	word_length = spi_g->bits_per_word;
 
 	printk(KERN_INFO "spi_setup status %d buffer_size %d\n",
@@ -437,23 +448,19 @@ int __init test_mcspi_init(void)
 
 		printk(KERN_INFO "configuring slave mode\n");
 
-		/*
 		omap_writew(0x1700, spi2_clk);
 		omap_writew(0x1700, spi2_simo);
 		omap_writew(0x1700, spi2_somi);
 		omap_writew(0x1708, spi2_cs0);
-		*/
 
 	} else {
 
 		printk(KERN_INFO "configuring master mode \n");
 
-		/*
 		omap_writew(0x1700, spi2_clk);
 		omap_writew(0x1700, spi2_simo);
 		omap_writew(0x1700, spi2_somi);
 		omap_writew(0x1708, spi2_cs0);
-		*/
 
 	}
 
