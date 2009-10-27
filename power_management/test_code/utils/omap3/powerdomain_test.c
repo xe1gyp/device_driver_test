@@ -1,6 +1,6 @@
 /*
- * SRF/resource-debug-test.c
- * OMAP3 SRF test file
+ * SRF/pd_test.c
+ * OMAP3 Power Domain test file
  *
  * Copyright (C) 2009-2010 Texas Instruments, Inc.
  * Charulatha Varadarajan <charu@ti.com>
@@ -27,20 +27,20 @@
 
 MODULE_LICENSE("GPL");
 
-extern void resource_test(void);
+extern void power_domain_test(void);
 
-int __init resource_test_init(void)
+static int __init pd_test_init(void)
 {
-        resource_test();
-        printk("\nEnd of Test...\n");
-        return 0;
+	power_domain_test();
+	printk("End of Test...\n");
+	return 0;
 }
 
-void __exit resource_test_exit(void)
+static void __exit pd_test_exit(void)
 {
-        printk(" \nExiting Module \n");
-        printk(" Done \n");
+	printk(" Exiting Module \n");
+	printk(" Done \n");
 }
 
-module_init(resource_test_init);
-module_exit(resource_test_exit);
+module_init(pd_test_init);
+module_exit(pd_test_exit);

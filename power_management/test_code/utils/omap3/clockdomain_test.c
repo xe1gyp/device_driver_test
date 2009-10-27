@@ -1,9 +1,9 @@
 /*
- * SRF/resource-debug-test.c
- * OMAP3 SRF test file
+ * SRF/cd_test.c
+ * OMAP3 Clock Domain test
  *
  * Copyright (C) 2009-2010 Texas Instruments, Inc.
- * Charulatha Varadarajan <charu@ti.com>
+ * Teerth Reddy <teerth@ti.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
@@ -14,9 +14,10 @@
  * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  * History:
  *
- * 2009-09-17: Charulatha V         Initial code
+ * 2009-10-13: Teerth Reddy        Ported from 23x
  *
  */
+
 
 #include <linux/init.h>
 #include <linux/module.h>
@@ -27,20 +28,20 @@
 
 MODULE_LICENSE("GPL");
 
-extern void resource_test(void);
+extern void clock_domain_test(void);
 
-int __init resource_test_init(void)
+static int __init cd_test_init(void)
 {
-        resource_test();
-        printk("\nEnd of Test...\n");
+        clock_domain_test();
+        printk("End of Test...\n");
         return 0;
 }
 
-void __exit resource_test_exit(void)
+static void __exit cd_test_exit(void)
 {
-        printk(" \nExiting Module \n");
+        printk(" Exiting Module \n");
         printk(" Done \n");
 }
 
-module_init(resource_test_init);
-module_exit(resource_test_exit);
+module_init(cd_test_init);
+module_exit(cd_test_exit);
