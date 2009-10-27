@@ -4,7 +4,7 @@ error=0
 COUNT=$FIRST_GPIO_LINE
 while [ $COUNT -le $MAX_GPIO_LINES ]
 do
-	$UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "insmod gpio_test.ko test=6  gpio=1  value=1  iterations=20 " "1" "15"
+	$UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "insmod $TEST_MODULE test=6  gpio=1  value=1  iterations=20 " "1" "15"
 	cat /proc/driver/gpio_test_result | grep FAILED
 	if [ $? -eq 0 ]
 	then
