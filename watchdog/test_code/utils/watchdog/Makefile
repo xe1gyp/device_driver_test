@@ -15,15 +15,16 @@ TARGETS = watchdog_keepalive \
 	watchdog_support \
 	watchdog_timeout_get \
 	watchdog_timeout_set \
+	watchdog_keepalive_smp \
 	watchdog_write \
 
 all: $(TARGETS)
 
 install:
 	cp -v $(TARGETS) ../../binaries
-
+#lpthread is needed for smp files only
 $(TARGETS):
-	$(CC) $@.c -o $@
+	$(CC) -D_GNU_SOURCE -lpthread $@.c -o $@
 
 clean:
 	rm -vf *.o $(TARGETS)
