@@ -46,11 +46,11 @@ DRIVERS_OBSOLETE="led sound_services"
 if [ -z $DRIVERS ]
 then
 	# Compiling all drivers test suites
-	# Missing Test Suites > sdio, timer-32k, hdq
+	# Missing Test Suites > sdio, hdq
 	DRIVERS="audio-alsa camera dma ethernet gpio framebuffer i2c keypad \
 mcbsp mmc nand norflash power_management realtimeclock \
 touchscreen video watchdog camera usb_device usb_host \
-usb_otg usb_ehci hsuart"
+usb_otg usb_ehci hsuart timer-32k"
 fi	
 
 # Verify the current FS to add new CFLAGS in the compilation
@@ -75,7 +75,7 @@ then
 	TESTSUITES="audio-alsa camera dma ethernet gpio framebuffer i2c \
 keypad mcbsp mmc nand norflash power_management \
 realtimeclock touchscreen video watchdog usb_device \
-usb_host usb_otg usb_ehci hsuart"
+usb_host usb_otg usb_ehci hsuart timer-32k"
 fi
 
 echo; echo "The following test suites will be compiled: $TESTSUITES"; echo; sleep 3

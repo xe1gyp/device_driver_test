@@ -7,13 +7,18 @@
 #===============================================================================
 
 CC := $(CROSS_COMPILE)gcc
+ifneq ($(strip $(TESTSUITES_ROOT)),)
+ SOURCE_DIR := ${TESTSUITES_ROOT}/timer-32k/test_code/utils/timer
+else
+ SOURCE_DIR := ${PWD}/utils/timer
+endif
 
 MODULES = gptimer_request.o gptimer_request_specific.o
 
 obj-m:=$(MODULES)
 
 all: $(TARGETS)
-	make -C $(KDIR) -I$(KDIR)/include SUBDIRS=$(PWD)/utils/timer KERN=26 modules
+	make -C $(KDIR) SUBDIRS=$(SOURCE_DIR) KERN=26 modules
 
 install:
 	cp -v $(MODULES:.o=.ko) ../../mods
