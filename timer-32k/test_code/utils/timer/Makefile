@@ -8,7 +8,7 @@
 
 CC := $(CROSS_COMPILE)gcc
 
-MODULES = gptimer_request.o gptimer_request_specific.o timer32value-smp.o
+MODULES = gptimer_request.o gptimer_request_specific.o timer32value-smp.o timer32value.o
 
 obj-m:=$(MODULES)
 
