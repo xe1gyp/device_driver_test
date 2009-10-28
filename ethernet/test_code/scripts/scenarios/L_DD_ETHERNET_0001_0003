@@ -1,0 +1,15 @@
+################################################################################
+# Scenario: L_DD_ETHERNET_0001_0003
+# Author  : Abraham Arce
+# Date    : Fri Mar 28 13:59:10 CDT 2008
+################################################################################
+
+# Begin L_DD_ETHERNET_0001_0003
+
+01 set -x; ifconfig | grep "UP BROADCAST RUNNING MULTICAST" && exit 0 || exit 1;
+02 set -x; ifconfig eth0 promisc && exit 0 || exit 1;
+03 set -x; ifconfig | grep "UP BROADCAST RUNNING PROMISC MULTICAST" && exit 0 || exit 1;
+04 set -x; ifconfig eth0 -promisc && exit 0 || exit 1;
+05 set -x; ifconfig | grep "UP BROADCAST RUNNING MULTICAST" && exit 0 || exit 1;
+
+# End L_DD_ETHERNET_0001_0003
