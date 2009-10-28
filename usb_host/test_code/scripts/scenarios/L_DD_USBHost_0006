@@ -1,0 +1,49 @@
+###############################################################################
+# Scenario: L_DD_USBHost_0006
+# Author  : Axel Castaneda Gonzalez
+# Date    : May 4, 2007
+# Description:  Testing a full speed device that uses bulk data transfers.
+#	(USB serial adapter).
+# ChangeLog:
+#	5 Mar 2009 - Diego Zavala Trujillo - Update Scenario.
+###############################################################################
+
+foo 	echo L_DD_USBHost_0006
+
+0   set -x; insmod $MODULE_PATH/g_zero.ko  &&  exit 0 || exit 1
+
+#  Setup 
+
+1   set -x; echo -e "\n\n\t Testing a full speed device that uses bulk data \n\t transfers (USB serial adapter)  \n\n\t Loading Keyspan module \n\n" && insmod $MODULE_PATH/keyspan.ko  &&  exit 0 || exit 1
+
+2   set -x; echo -e "\n\n\t Connect USB serial adapter to OMAP USB port.  \n\n"  &&  sleep $DELAY2  &&  echo -e "\n\n\t Checking if ${DEVICE_NAME} is connected. \n\n" &&  export ENUM_INFO="Keyspan"; $TESTSCRIPT/enum.sh connectDevice  &&  exit 0 || exit 1
+
+
+
+#   Checking Enumeration 
+#4   echo 'F' > /proc/driver/musb_hdrc
+#    cat  /proc/bus/usb/devices | grep 'Keyspan'
+4   set -x; echo -e '\n\n\t Checking enumeration \n\n ' && if [ $USB_DRIVER = "MENTOR" ] ; then  echo 'F' > $PROC_INT && sleep $DELAY2 ; fi && cat $ENUM_COMM | grep 'Keyspan'  && exit 0 || exit 1
+
+#   Port Setup
+#5   mknod /dev/ttyUSB0 c 188 0
+#    ls -l / > /testsuites/usb_host/scripts/misc/ls.txt
+5   set -x; mknod /dev/ttyUSB0 c 188 0 && echo -e '\n\n\t Connect a null modem cable from the USB-serial adapter to a Serial port of  Linux PC \n\n ' && sleep $DELAY3 && ls -l / > $MISC_PATH/ls.txt && exit 0 || exit 0
+
+#   Sending data from OMAP to Host
+#6   ((ssh root@10.87.230.48 -i /testsuites/usb_host/scripts/misc/id_rsa cat /dev/ttyS0)  &  (cat /ls.txt > /dev/ttyUSB0)) > /testsuites/usb_host/scripts/misc/usbserialHSide.log 
+6   set -x; ((ssh root@$REMOTE_IP -i $SSH_PATH cat /dev/ttyS0)  &  (cat $SERIAL_FILE_HOST > /dev/ttyUSB0)) > $MISC_PATH/usbserialHSide.log & sleep $DELAY1 && exit 0 || exit 0
+
+#   Sending data from Host to OMAP
+#7   cat file.txt > cat /dev/ttyS0
+#    cat /dev/ttyUSB0 > /testsuites/usb_host/scripts/misc/ls.txt
+7   set -x; echo -e '\n\n\t Send data data from Linux PC  (file.txt > cat /dev/ttyS0) \n\n' && (cat /dev/ttyUSB0)   > $MISC_PATH/usbserialDSide.log & sleep $DELAY3 && exit 0 || exit 0
+
+#   Results validation
+8   set -x; cat $MISC_PATH/usbserialHSide.log && echo -e '\n\n\t This is the data received on Linux PC, is it correct? \n\n' && sleep 1 && $KEY_PATH/akey && exit 0 || exit 1
+9   set -x; cat $MISC_PATH/usbserialDSide.log && echo -e '\n\n\t This is the data received on OMAP, is it correct? \n\n' && sleep 1 && $KEY_PATH/akey && exit 0 || exit 1
+
+## Unloading g serial module 
+10  rmmod keyspan && rmmod usbserial && rmmod g_zero && exit 0 || exit 1
+
+bar 	echo L_DD_USBHost_6

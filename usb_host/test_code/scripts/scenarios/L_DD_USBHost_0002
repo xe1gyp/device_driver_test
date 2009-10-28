@@ -1,0 +1,44 @@
+###############################################################################
+# Scenario: L_DD_USBHost_0002
+# Author  : Axel Castaneda Gonzalez
+# Date    : June 14, 2006
+# Description: Enumeration with various high speed, full speed and low speed
+#	devices and hubs.
+# ChangeLog:
+#	3 Mar 2009 - Diego Zavala Trujillo - Update Scenario.
+###############################################################################
+
+foo 	echo L_DD_USBHost_0002
+
+0	echo -e "\n\n\t Testing enumeration with various high speed, full speed \n\t and low speed devices. \n\n" && sleep $DELAY1  &&  insmod $MODULE_PATH/g_zero.ko  &&  exit 0 || exit 1
+ 
+###  Checking mass storage device enumeration
+1	export DEVICE_NAME="Mass Storage"; export ENUM_INFO="stor"; export LEV="01";  export SPEED="480"  &&  ${TESTROOT}/test_runner.sh -p L_DD_USBHost_0002_core  &&  exit 0 || exit 1
+
+###  Checking usb serial device enumeration
+2	export DEVICE_NAME="Serial Adapter";    export ENUM_INFO="Keyspan" ; export LEV="01";  export SPEED="12";    ${TESTROOT}/test_runner.sh -p L_DD_USBHost_0002_core  &&  exit 0 || exit 1
+
+###  Checking usb ethernet device enumeration
+3	export DEVICE_NAME="Ethernet Adapter";  export ENUM_INFO="ifc" ; export LEV="01";       export SPEED="12";   ${TESTROOT}/test_runner.sh -p L_DD_USBHost_0002_core  &&  exit 0 || exit 1
+
+###  Checking usb mouse device enumeration
+4	export DEVICE_NAME="Mouse"; export ENUM_INFO="HID"; export LEV="01"; export SPEED="1.5";  ${TESTROOT}/test_runner.sh -p L_DD_USBHost_0002_core  &&  exit 0 || exit 1
+
+###  Checking Enumeration using HS HUB
+5	export DEVICE_NAME="HS Hub"; export ENUM_INFO="hub";export LEV="01"; export SPEED="480"  &&  ${TESTROOT}/test_runner.sh -p L_DD_USBHost_0002_core  && exit 0 || exit 1
+
+###  Checking mass storage device enumeration
+6	export DEVICE_NAME="Mass Storage"; export ENUM_INFO="stor";export LEV="02"; export SPEED="480"  &&  ${TESTROOT}/test_runner.sh -p L_DD_USBHost_0002_core  && exit 0 || exit 1
+
+###  Checking usb serial device enumeration
+7	export DEVICE_NAME="Serial Adapter"; export ENUM_INFO="Keyspan"; export LEV="02"; export SPEED="12"; ${TESTROOT}/test_runner.sh -p L_DD_USBHost_0002_core  &&  exit 0 || exit 1
+
+###  Checking usb ethernet device enumeration
+8	export DEVICE_NAME="Ethernet Adapter";  export ENUM_INFO="ifc"; export LEV="02"; export SPEED="12"; ${TESTROOT}/test_runner.sh -p L_DD_USBHost_0002_core  && exit 0 || exit 1
+
+###  Checking usb mouse device enumeration
+9	export DEVICE_NAME="Mouse"; export ENUM_INFO="HID"; export LEV="02"; export SPEED="1.5";  ${TESTROOT}/test_runner.sh -p L_DD_USBHost_0002_core  &&  exit 0 || exit 1
+
+10	rmmod g_zero.ko  &&  exit 0 || exit 1  
+
+bar 	echo L_DD_USBHost_0002

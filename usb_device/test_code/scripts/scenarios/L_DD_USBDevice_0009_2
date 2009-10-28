@@ -1,0 +1,21 @@
+###################################################################################################################
+# Scenario: L_DD_USBDevice_0009_2
+# Author  : Axel Castaneda Gonzalez
+# Date    : January 19, 2006
+# Description: Testing the suspend and resume functionality of the USB device
+#	controller. After a suspend and resume cycle the loaded gadget driver
+#	must re-enumerate with the host and continue to work without error.
+#	serial gadget.
+# ChangeLog:
+#	25 Feb 2009 - Diego Zavala Trujillo - Update Scenario.
+################################################################################
+
+foo	echo L_DD_USBDevice_0009_2
+
+0	echo -e "\n\n\t Testing the suspend and resume functionality of the USB device controller for g_serial \n\n"  &&  insmod $MODULE_PATH/g_serial.ko  &&  echo "0" > $LOGBASE/log.panresult  &&  exit 0  || echo -e "\n\n\t ERROR1 - No module found. \n\n"; echo "1" > $LOGBASE/log.panresult  &&  exit 1
+
+1	if [ `cat $LOGBASE/log.panresult` = 0 ]; then  export ENUM_INFO="Gadget Serial";  ${TESTROOT}/test_runner.sh -p L_DD_USBDevice_0009_core  &&  exit 0 || exit 1; else echo -e "\n\n\t ERROR1 - Could not run this test because the module has not been inserted. \n\n"; exit 1; fi
+
+2	rm -rf $LOGBASE/log.panresult; rmmod g_zero.ko && exit 0 || exit 1
+
+bar	echo L_DD_USBDevice_0009_2

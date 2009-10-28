@@ -1,0 +1,32 @@
+###############################################################################
+# Scenario: L_DD_USBDevice_0003_core
+# Author  : Axel Castaneda Gonzalez
+# Date    : December 4, 2006
+# Description:  Running control transfer (Chapter 9) tests using 'usbtest'
+#	on high-speed test device (Control In Out)
+# ChangeLog:
+#	11 Feb 2009 - Diego Zavala Trujillo - Update Scenario.
+#		Chage the struture, adding enum.sh script.
+###############################################################################
+
+foo	echo L_DD_USBDevice_0003_core
+
+1  echo -e '\n\n\t Linux PC: Loading usbtest module. \n\n'; export MODULE="usbtest"  &&  $TESTSCRIPT/enum.sh insertRemoteModule  &&  exit 0 || exit 1
+
+### Checking Enumeration
+
+2  echo -e '\n\n\t Checking usbtest enumeration. \n\n'  &&  export ENUM_INFO="usbtest"; $TESTSCRIPT/enum.sh connectHostRemote   &&  exit 0 || exit 1
+
+3  echo -e '\n\n\t Checking Gadget Zero enumeration. \n\n'  &&  export ENUM_INFO="Gadget Zero"; $TESTSCRIPT/enum.sh connectHostRemote  &&  exit 0 || exit 1
+
+### Running  the control transfer tests
+
+5  if [ "$ACTION" = "c" ]; then (echo "$LOGBASE/log.testControlLinuxPC" > $LOGBASE/log.tmp; $TESTSCRIPT/enum.sh testc  &&  exit 0  || exit 0); elif [ "$ACTION" = "io" ]; then (echo "$LOGBASE/log.testInOutLinuxPC" > $LOGBASE/log.tmp; $TESTSCRIPT/enum.sh testio  &&  exit 0  || exit 0); elif [ "$ACTION" = "cio" ]; then (echo "$LOGBASE/log.testControlInOutLinuxPC" > $LOGBASE/log.tmp; $TESTSCRIPT/enum.sh testcio  &&  exit 0  || exit 0) fi
+
+6  set -x; (TMP=`cat $LOGBASE/log.tmp` && cat $TMP | grep "FAIL")  &&  echo -e "\n\n\t ERROR-4 - Found FAIL on the test ${COMMAND}. \n\n" &&  exit 1 || echo -e "\n\n\t Ok \n\n" && exit 0
+7  set -x; (TMP=`cat $LOGBASE/log.tmp` && cat $TMP | grep "error") &&  echo -e "\n\n\t ERROR-4 - Found an error on the test ${COMMAND}. \n\n" &&  exit 1 || echo -e "\n\n\t Ok \n\n" && exit 0
+8  set -x; (TMP=`cat $LOGBASE/log.tmp` && cat $TMP | grep "pipe")  &&  echo -e "\n\n\t ERROR-4 - Found a pipe on the test ${COMMAND}. \n\n"  &&  exit 1 || echo -e "\n\n\t Ok \n\n"  &&  exit 0
+
+9  echo -e '\n\n\t Linux PC: Removing usbtest module. \n\n'  &&  export MODULE="usbtest"  &&  $TESTSCRIPT/enum.sh removeRemoteModule  && exit 0 || exit 1
+
+bar	echo L_DD_USBDevice_0003_core

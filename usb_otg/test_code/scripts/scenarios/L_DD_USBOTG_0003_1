@@ -1,0 +1,19 @@
+################################################################################
+# Scenario: L_DD_USBOTG_0003_1
+# Author  : Axel Castaneda Gonzalez
+# Date    : January  4, 2006
+# Description: Cable based role switching device and host mode for usb-otg
+#	(Gadget Zero).
+# Changelog:
+#	19 Jan 2009 - Diego Zavala Trujillo - Update instructions.
+################################################################################
+
+foo	echo 'L_DD_USBOTG_0003_1'
+
+0  insmod $MODULE_PATH/g_zero.ko && echo -e '\n\n\t Testing if the OMAP can switch roles on cable \n\t Change dynamically and repeatedly betewn Host and Device \n\n' && sleep $DELAY1 && exit 0 || exit 1
+
+1  ${TESTROOT}/test_runner.sh -p L_DD_USBOTG_0003_1_core  && exit 0 || exit 1
+
+2  rmmod g_zero && exit 0 || exit 1
+
+bar	echo 'L_DD_USBOTG_0003_1'

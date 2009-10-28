@@ -1,0 +1,23 @@
+################################################################################
+# Scenario: L_DD_USBDevice_0007_1
+# Author  : Axel Castaneda Gonzalez
+# Date    : June 26, 2007
+# Description:  Functional test for Ethernet gadget using Linux PC host.
+# ChangeLog:
+#	25 Feb 2009 - Diego Zavala Trujillo - Update Scenario.
+# Notes:
+#	You can give an specific MAC and Host Addres:
+#	insmod g_ether.ko host_addr=D6:F7:63:A9:F5:3B dev_addr=00:11:22:33:44:ee
+#	Where host_addr will be HOST MAC
+#	and dev_addr will be MAC
+################################################################################
+
+foo	echo L_DD_USBDevice_0007_1
+
+0	echo -e "\n\n\t Testing Ethernet Gadget Functionality using a Windows PC \n\n"  &&  insmod $MODULE_PATH/g_ether.ko  &&  echo "0" > $LOGBASE/log.panresult  &&  exit 0  || echo -e "\n\n\t ERROR1 - No module found. \n\n"; echo "1" > $LOGBASE/log.panresult  &&  exit 1
+
+1	if [ `cat $LOGBASE/log.panresult` = 0 ]; then export MACHINE="LinuxPC"; echo -e "\n\n\t Please connect cable. [ MiniB to OMAP - Std-A to LinuxPC ] \n "  &&  sleep $DELAY3  &&  ${TESTROOT}/test_runner.sh -p L_DD_USBDevice_0007_core  &&  exit 0 || exit 1; else echo -e "\n\n\t ERROR1 - Could not run this test because the module has not been inserted. \n\n"; exit 1; fi
+
+2	rm -rf $LOGBASE/log.panresult; rmmod g_ether  &&  exit 0 || exit 1
+
+bar	echo L_DD_USBDevice_0007_1

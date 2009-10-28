@@ -1,0 +1,88 @@
+Compile Instructions
+--------------------
+1. Clean the environment.
+   Perform 'make clean'. This will erase all files and directories created during previous compilation.
+2. Install.
+   Perform 'make KDIR='kernel directory' CROSS_COMPILE='compiler prefix''
+   For 23.x Program
+      * KDIR=/vobs/wtbu/OMAPSW_L/linux/kernel_org/2.6_kernel
+      * CROSS_COMPILE=arm-nonel-linux-gnueabi-
+
+
+Testsuite execution
+-------------------
+1. Go to 'scripts' subdirectory inside the testsuite directory.
+2. Execute the main script:
+	test_runner.sh -p 'scenario_id'
+   * The scenarios IDs can be found under script/scenarios/
+3. Results will be reported showing Scenario-TestCase IDs and the result of each test.
+   * 0 - Successful
+   * Any other value different of 0 - Failure
+
+
+Requirements
+------------
+The file system on which the testsuite is going to be executed needs to have the following utilities:
+* sh
+* bc
+* bash
+* diff
+* cmp
+
+
+Notes
+-----
+
+Creating a 4 Mb file:
+---------------------
+
+1) In the filesystem for the OMAP Device, create a file to use as the mass
+   storage, the following creates a 4MB file:
+
+	# dd bs=1M count=4 if=/dev/zero of=backing_file_ext2
+
+2) Create a filesystem on the backing_file_ext2.
+
+	# mke2fs backing_file_ext2
+
+Creating the id_rsa for set up passphrase authentication:
+---------------------------------------------------------
+
+   On the OMAP:
+
+1. Make sure you have SSH installed on your filesystem.
+2. Make sure you have a directory named /root/.ssh on your filesystem.
+3. Run the command ssh-keygen -t rsa. By default, this will create files in
+   /root/.ssh named id_rsa and id_rsa.pub.
+   The file id_rsa contains your private key.
+   The file id_rsa.pub is the corresponding public key.
+   You will be prompted to enter a "passphrase" that is a text string,
+   that you will use for passphrase authentication.
+
+    On the remote machine that you want to access:
+
+1. Make a directory $HOME/.ssh on the remote machine.
+2. Copy the contents of the file on your filesystem named /root/.ssh/id_rsa.pub
+   into a file on the remote machine named $HOME/.ssh/authorized_keys.
+   Make sure that you have not introduced any spurious line breaks into the file
+   when you copy it.
+   This single file can hold multiple public keys on separate lines.
+3. Log out of the remote machine. Now when you connect to the remote machine
+   from the OMAP, SSH will prompt you for the passphrase.
+
+Using testusb on the remote desktop:
+------------------------------------
+
+1. You will need to download test.sh and testusb.c from the following web page
+   http://www.linux-usb.org/usbtest/
+2. Put this files on /data/utilities/usb folder of your Linux PC.
+3. To do testusb on the remote PC from the OMAP terminal, you will use the
+   id_rsa utility. For this you have to modify the test.sh file changing the
+   directory where testusb is located on the remote PC (/data/utilities/usb).
+   You can apply the patch that is located in the utils folder called
+   testusb-onRemotePC.patch for this.
+4.
+
+To build testusb.c for the OMAP, you should execute:
+----------------------------------------------------
+# arm-none-linux-gnueabi-gcc -Wall -g -lpthread -o testusb testusb.c
