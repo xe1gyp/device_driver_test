@@ -1,15 +1,13 @@
 ###############################################################################
-# Scenario: L_DD_I2C_0004_0009
+# Scenario: L_DD_I2C_0010_0007
 # Author  : Nishanth Menon
-# Modificaitons : Abraham Arce
+# Modificaitons : Abraham Arce;Datta Shubhrajyoti
 # Date    : Tue Oct 12 12:23:42 CDT 2009
 ###############################################################################
 
-# Begin L_DD_I2C_0004_0009
+# Begin L_DD_I2C_0010_0007
 
-01 set -x; $TESTSCRIPT/filesystemtype.sh; runtestcase.sh 9
+01 set -x; $TESTSCRIPT/filesystemtype.sh; runtestcase.sh 11
 02 set -x; rm -f $TMPBASE/result.tmp; ls $TMPBASE/ | grep result.tmp | exit 0 || exit 1;
 
-
-
-# End L_DD_I2C_0004_0009
+# End L_DD_I2C_0010_0007
