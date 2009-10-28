@@ -20,7 +20,8 @@ export SCENARIO_NAMES=""
 export INTERACTIVE=""
 export STRESS=""
 export UTILBIN=${TESTROOT}/../../utils/bin
-
+export UTILS_DIR_HANDLERS=${TESTROOT}/../../utils/handlers
+export ETH_IRQ=167
 # Checking if bc is available in the filesystem
 
 if [ ! `echo 1+1 | bc` ]; then

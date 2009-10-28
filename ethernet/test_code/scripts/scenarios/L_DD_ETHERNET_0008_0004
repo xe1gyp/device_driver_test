@@ -1,0 +1,17 @@
+################################################################################
+# Scenario: L_DD_ETHERNET_0008_0004
+# Author  : Shubhro
+# Date    : Tue Oct 27 13:59:10 CDT 2009
+################################################################################
+
+# Begin L_DD_ETHERNET_0008_0004
+
+01  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "clean"
+02  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "ping -c 15  `cat /tmp/ipaddr`"
+03  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "ping -c 15  `cat /tmp/ipaddr`"
+04  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "ping -c 15  `cat /tmp/ipaddr`"
+05  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "ping -c 15  `cat /tmp/ipaddr`"
+06  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "ping -c 15  `cat /tmp/ipaddr`"
+07  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "execute"
+
+# End L_DD_ETHERNET_0008_0004

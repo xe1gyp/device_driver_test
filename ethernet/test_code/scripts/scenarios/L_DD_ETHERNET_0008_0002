@@ -1,0 +1,18 @@
+################################################################################
+# Scenario: L_DD_ETHERNET_0008_0002
+# Author  : Shubhro
+# Date    : Tue Oct 27 13:59:10 CDT 2009
+################################################################################
+
+# Begin L_DD_ETHERNET_0008_0002
+
+#01 ping -c 1  `cat /tmp/ipaddr` && exit 0 || exit 1
+01 ping -c 15  `cat /tmp/ipaddr` &
+02 PING_PID=`echo $!`
+03 $UTILS_DIR_BIN/taskset -p 1 $PING_PID
+
+04 ping -c 15  `cat /tmp/ipaddr` &
+05 PING_PID=`echo $!
+06 $UTILS_DIR_BIN/taskset -p 2 $PING_PID
+
+# End L_DD_ETHERNET_0008_0002

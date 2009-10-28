@@ -1,0 +1,12 @@
+################################################################################
+# Scenario: L_DD_ETHERNET_0008_0003
+# Author  : Shubhro
+# Date    : Tue Oct 27 13:59:10 CDT 2009
+################################################################################
+
+# Begin L_DD_ETHERNET_0008_0003
+
+$UTILS_DIR_BIN/handlerIrqAffinity.sh "switch" "ping -c 15  `cat /tmp/ipaddr` " "5" "1" "$ETH_IRQ" && exit 0 || exit 1
+
+
+# End L_DD_ETHERNET_0008_0003

@@ -1,0 +1,12 @@
+################################################################################
+# Scenario: L_DD_ETHERNET_0008_0001
+# Author  : Shubhro
+# Date    : Tue Oct 27 13:59:10 CDT 2009
+################################################################################
+
+# Begin L_DD_ETHERNET_0008_0001
+
+$UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "ping -c 15  `cat /tmp/ipaddr` " "5" "15" && exit 0 || exit 1
+
+
+# End L_DD_ETHERNET_0008_0001
