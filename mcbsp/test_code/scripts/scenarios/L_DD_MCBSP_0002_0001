@@ -9,6 +9,6 @@
 # Begin L_DD_MCBSP_0002_0001
 
 #The McBSP driver supports configuring the sampling rate, this test case verifies the same.
-0002 set -x; mcbsp-multiparams.sh "0002_0001" "Phase \[1=Single, 2=Dual\]" "6" "phase=" '2' "word_length1=" '5' "word_length2=" '0' && exit 0 || exit 1
+0002 set -x; mcbsp-multipleargs.sh "0002_0001" "Phase \[1=Single, 2=Dual\]" "6" "phase=" '2' "word_length1=" '5' "word_length2=" '0' && exit 0 || exit 1
 
 # End L_DD_MCBSP_0002_0001
