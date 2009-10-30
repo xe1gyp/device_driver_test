@@ -45,6 +45,7 @@
 #include <linux/smp_lock.h>
 #include <linux/wait.h>
 #include <linux/sched.h>
+#include <linux/kthread.h>
 
 #include <linux/spi/spi.h>
 #include <linux/io.h>
@@ -72,7 +73,6 @@
 #endif
 
 #ifdef CONFIG_ARCH_OMAP34XX
-
 	/* SPI 2 SLAVE */
 	#define spi2_clk        0x480021D6 /* spi2_clk  mode 0*/
 	#define spi2_simo       0x480021D8 /* spi2_simo mode 0*/
@@ -87,11 +87,9 @@
 	#define spi3_simo       0x48002A34 /* spi3_simo mode 1*/
 	#define spi3_somi       0x48002A36 /* spi3_somi mode 1*/
 	#define spi3_cs1        0x48002A3A /* spi3_cs1  mode 1*/
-
 #endif
 
-
-struct spi_device *spi_g;
+struct spi_device *spi_g, *spi_g2;
 
 static unsigned int slave_mode = 0;
 module_param(slave_mode, int, 0);
@@ -99,31 +97,48 @@ module_param(slave_mode, int, 0);
 static unsigned int systst_mode = 0;
 module_param(systst_mode, int, 0);
 
-dma_addr_t spi2_rx_buf_dma_phys = 0;
+dma_addr_t spi2_rx_buf_dma_phys;
 void *spi2_rx_buf_dma_virt;
 
 dma_addr_t spi2_tx_buf_dma_phys;
 void *spi2_tx_buf_dma_virt;
 
-static unsigned int buffer_size		= 0;
+dma_addr_t spi2_rx_buf_dma_phys2;
+void *spi2_rx_buf_dma_virt2;
+
+dma_addr_t spi2_tx_buf_dma_phys2;
+void *spi2_tx_buf_dma_virt2;
+
+static unsigned int trans1;
+static unsigned int trans2;
+
+static unsigned int buffer_size		= 1024;
 static unsigned int clk_freq		= 0;
 static unsigned int clk_phase		= 0;
 static unsigned int clk_polarity	= 0;
 static unsigned int cs_polarity		= 0;
 static unsigned int word_length		= 0;
 static unsigned int transmit_mode	= 0;
+static unsigned int test_mcspi_smp;
 
 static unsigned int buffers_allocated = 0;
-struct timeval tx_start_time, tx_end_time;
+struct timeval tx_start_time1, tx_end_time1;
+struct timeval tx_start_time2, tx_end_time2;
 static int spitst_trans(int);
+static int spitst_trans1(void);
+static int spitst_remove(struct spi_device *spi);
+
 
 /* Proc interface declaration */
-static struct proc_dir_entry  *mcspi_test_dir, *transmission_file, *status_file;
+static struct proc_dir_entry  *mcspi_test_dir,
+			*transmission_file, *status_file;
 static int file_type[2] = {0, 1};
 
-long int tx_sec = 0, tx_usec = 0;
-struct spi_message	m;
-struct spi_transfer	t1;
+long int tx_sec1 = 0, tx_usec1 = 0;
+long int tx_sec2 = 0, tx_usec2 = 0;
+struct spi_message	m, msg;
+struct spi_transfer	t1, t2;
+static int flag = 1;
 
 #if (LINUX_VERSION_CODE <= KERNEL_VERSION(2, 6, 00))
 	MODULE_PARM(buffer_size, "i");
@@ -139,6 +154,7 @@ struct spi_transfer	t1;
 	module_param(clk_polarity, int, 0);
 	module_param(cs_polarity, int, 0);
 	module_param(word_length, int, 0);
+	module_param(test_mcspi_smp, int, 0);
 #endif
 
 
@@ -178,7 +194,10 @@ read_proc_status(char *page, char **start, off_t off, int count,
 				": %8d\n", transmit_mode);
 	p += sprintf(p, "Time taken for transmission              "
 				": %08li sec %08li usec\n\n\n",
-				tx_sec, tx_usec);
+				tx_sec1, tx_usec1);
+	p += sprintf(p, "Time taken for transmission              "
+				": %08li sec %08li usec\n\n\n",
+				tx_sec2, tx_usec2);
 
 readproc_status_end:
 	len = (p - page);
@@ -195,6 +214,8 @@ write_proc_entry(struct file *file, const char *buffer,
 {
 	int len, i;
 	char val[10];
+	int trans2 = 1;
+	int trans1 = 1;
 
 	if (!buffer || (count == 0))
 		return 0;
@@ -204,18 +225,24 @@ write_proc_entry(struct file *file, const char *buffer,
 		val[i] = buffer[i];
 	val[i] = '\0';
 
-	if (strncmp(val, "txrx", 4) == 0)
-		spitst_trans(0);
-	else if (strncmp(val, "tx", 2) == 0)
-		spitst_trans(2);
-	else if (strncmp(val, "rx", 2) == 0)
-		spitst_trans(1);
-	else
+	if (strncmp(val, "txrx", 4) == 0) {
+		if (!test_mcspi_smp)
+			spitst_trans(0);
+		spitst_trans1();
+	} else if (strncmp(val, "tx", 2) == 0) {
+		if (!test_mcspi_smp)
+			spitst_trans(2);
+		spitst_trans1();
+	} else if (strncmp(val, "rx", 2) == 0) {
+		if (!test_mcspi_smp)
+			spitst_trans(1);
+		spitst_trans1();
+	} else {
 		return -EINVAL;
+	}
 
 	return count;
 }
-
 
 static int
 create_proc_file_entries(void)
@@ -225,7 +252,6 @@ create_proc_file_entries(void)
 		printk(KERN_INFO "\n No mem to create proc file \n");
 		return -ENOMEM;
 	}
-
 	transmission_file = create_proc_entry("transmission",
 			0644, mcspi_test_dir);
 	if (!transmission_file)
@@ -239,14 +265,11 @@ create_proc_file_entries(void)
 
 	status_file->read_proc  = read_proc_status;
 	transmission_file->write_proc = write_proc_entry;
-
 #if 0
   mcspi_test_dir->owner = status_file->owner =
 			transmission_file->owner = THIS_MODULE;
 #endif
-
 	return 0;
-
 no_status:
 	remove_proc_entry("status", mcspi_test_dir);
 no_transmission:
@@ -263,9 +286,7 @@ void remove_proc_file_entries(void)
 
 static int spitst_probe(struct spi_device *spi)
 {
-	int status = 0;
-
-	printk(KERN_INFO "In spitst_probe \n");
+	int status;
 	spi_g = spi;
 	spi_g->mode = SPI_MODE_0;
 
@@ -294,121 +315,192 @@ static int spitst_probe(struct spi_device *spi)
 	printk(KERN_INFO "spi_setup status %d buffer_size %d\n",
 			status, buffer_size);
 
-	spi2_rx_buf_dma_virt =
-		dma_alloc_coherent(NULL, buffer_size, &spi2_rx_buf_dma_phys,
-				GFP_KERNEL | GFP_DMA);
-
-	spi2_tx_buf_dma_virt =
-		dma_alloc_coherent(NULL, buffer_size, &spi2_tx_buf_dma_phys,
-				GFP_KERNEL | GFP_DMA);
-
-	if ((spi2_rx_buf_dma_virt != NULL) && (spi2_tx_buf_dma_virt != NULL))
-		buffers_allocated = 1;
-	else
-		status = -ENOMEM;
-
 	return status;
 }
 
-static int spitst_trans(int mode)
+static int spitst_probe2(struct spi_device *spi)
 {
+	int status;
+	spi_g2 = spi;
+	spi_g2->mode = SPI_MODE_0;
 
-	int status, i = buffer_size;
-	char *string = "McSPI Master Slave Testing";
-	int len = strlen(string);
-	void *tmp;
+	status = spi_setup(spi_g2);
 
-	memset(spi2_tx_buf_dma_virt, 0, buffer_size);
-	memset(spi2_rx_buf_dma_virt, 0, buffer_size);
+	if (buffer_size == 0)
+		buffer_size = 1024;
 
-	tmp = spi2_tx_buf_dma_virt;
-	transmit_mode = mode;
+	printk(KERN_INFO "spi_setup status %d buffer_size %d\n",
+			status, buffer_size);
+	return status;
+}
 
-	while (i) {
-
-		strncpy(tmp, string, i < len ? i : len);
-		tmp += len;
-
-		if ((i -= len) < 0)
-			i = 0;
-	}
-
-	if (mode == 0) {
-
-		t1.tx_buf		= spi2_tx_buf_dma_virt;
-		t1.tx_dma		= spi2_tx_buf_dma_phys;
-		t1.rx_buf		= spi2_rx_buf_dma_virt;
-		t1.rx_dma		= spi2_rx_buf_dma_phys;
-		t1.len			= buffer_size;
-
-		/*
-			printk(KERN_INFO "Transmit Buf %s\n",
-					(char *) spi2_tx_buf_dma_virt);
-			printk(KERN_INFO "len %d %d \n",
-					len, strlen(spi2_tx_buf_dma_virt));
-		*/
-
-	} else if (mode == 2) {
-
-		t1.tx_buf		= spi2_tx_buf_dma_virt;
-		t1.tx_dma		= spi2_tx_buf_dma_phys;
-		t1.rx_buf		= 0;
-		t1.rx_dma		= 0;
-		t1.len			= buffer_size;
-
-		/*
-			printk(KERN_INFO "Transmit Buf %s\n",
-					(char *) spi2_tx_buf_dma_virt );
-			printk(KERN_INFO "len %d %d \n",
-					len, strlen(spi2_tx_buf_dma_virt));
-		*/
-
-	} else if (mode == 1) {
-
-		t1.rx_buf		= spi2_rx_buf_dma_virt;
-		t1.rx_dma		= spi2_rx_buf_dma_phys;
-		t1.tx_buf		= 0;
-		t1.tx_dma		= 0;
-		t1.len			= buffer_size;
-
-	} else {
-		return -1;
-	}
+static int spitst_trans1()
+{
+	int status;
 
 	spi_message_init(&m);
 	m.is_dma_mapped = 1;
 
 	spi_message_add_tail(&t1, &m);
 
-	do_gettimeofday(&tx_start_time);
+	do_gettimeofday(&tx_start_time1);
 
 	status = spi_sync(spi_g, &m);
 
-	do_gettimeofday(&tx_end_time);
+	do_gettimeofday(&tx_end_time1);
 
-	tx_sec = tx_end_time.tv_sec-tx_start_time.tv_sec;
-	tx_usec = tx_end_time.tv_usec-tx_start_time.tv_usec;
+	tx_sec1 = tx_end_time1.tv_sec-tx_start_time1.tv_sec;
+	tx_usec1 = tx_end_time1.tv_usec-tx_start_time1.tv_usec;
 
 	printk(KERN_INFO "spi_sync status %d\n", status);
 
-	if (mode == 1 || mode == 0) {
-		/*
-			printk(KERN_INFO "Receive Buf %s\n",
-					(char *)spi2_rx_buf_dma_virt);
-		*/
-		printk(KERN_INFO "Transmisstion status %s\n",
-		strcmp(spi2_tx_buf_dma_virt,
-				spi2_rx_buf_dma_virt) ? "FAIL" : "SUCCESS");
-	}
+	printk(KERN_INFO "Receive Buf %s\n", (char *)spi2_rx_buf_dma_virt);
+	printk(KERN_INFO "Transmisstion status %s\n",
+	strcmp(spi2_tx_buf_dma_virt, spi2_rx_buf_dma_virt) ?
+				"FAIL" : "SUCCESS");
 
 	return status;
 }
 
-
-static int spitst_remove(struct spi_device *spi)
+static int spitst_trans2()
 {
-	printk(KERN_INFO "In spitst_remove \n");
-	return 0;
+	int status;
+
+	spi_message_init(&msg);
+	msg.is_dma_mapped = 1;
+
+	spi_message_add_tail(&t2, &msg);
+
+	do_gettimeofday(&tx_start_time2);
+
+	status = spi_sync(spi_g2, &msg);
+
+	do_gettimeofday(&tx_end_time2);
+
+	tx_sec2 = tx_end_time2.tv_sec-tx_start_time2.tv_sec;
+	tx_usec2 = tx_end_time2.tv_usec-tx_start_time2.tv_usec;
+
+	printk(KERN_INFO "spi_sync status %d\n", status);
+
+	printk(KERN_INFO "Receive Buf %s\n", (char *)spi2_rx_buf_dma_virt2);
+	printk(KERN_INFO "Transmisstion status %s\n",
+	strcmp(spi2_tx_buf_dma_virt2, spi2_rx_buf_dma_virt2) ? "FAIL" :
+				"SUCCESS");
+	return status;
+}
+
+static int spitst_trans(int mode)
+{
+	int status, i = buffer_size = 1024;
+	char *string = "McSPI Master Slave Testing";
+	int len = strlen(string);
+	void *tmp, *tmp1;
+
+	printk("\n spitst_trans\n");
+	{
+		spi2_rx_buf_dma_virt2 =
+			dma_alloc_coherent(NULL, buffer_size,
+			&spi2_rx_buf_dma_phys2, GFP_KERNEL | GFP_DMA);
+
+		spi2_tx_buf_dma_virt2 =
+			dma_alloc_coherent(NULL, buffer_size,
+			&spi2_tx_buf_dma_phys2, GFP_KERNEL | GFP_DMA);
+
+		if ((spi2_rx_buf_dma_virt2 != NULL) &&
+			(spi2_tx_buf_dma_virt2 != NULL))
+			buffers_allocated = 1;
+		else
+			status = -ENOMEM;
+
+	spi2_rx_buf_dma_virt =
+		dma_alloc_coherent(NULL, buffer_size,
+		&spi2_rx_buf_dma_phys, GFP_KERNEL | GFP_DMA);
+
+	spi2_tx_buf_dma_virt =
+		dma_alloc_coherent(NULL, buffer_size,
+		&spi2_tx_buf_dma_phys, GFP_KERNEL | GFP_DMA);
+
+	if ((spi2_rx_buf_dma_virt != NULL) && (spi2_tx_buf_dma_virt != NULL))
+		buffers_allocated = 1;
+	else
+		status = -ENOMEM;
+
+	memset(spi2_tx_buf_dma_virt, 0, buffer_size);
+	memset(spi2_rx_buf_dma_virt, 0, buffer_size);
+	if (test_mcspi_smp) {
+		memset(spi2_tx_buf_dma_virt2, 0, buffer_size);
+		memset(spi2_rx_buf_dma_virt2, 0, buffer_size);
+	}
+
+	tmp  = spi2_tx_buf_dma_virt;
+	tmp1 = spi2_tx_buf_dma_virt2;
+	transmit_mode = mode;
+
+	while (i) {
+		strncpy(tmp, string, i < len ? i : len);
+		strncpy(tmp1, string, i < len ? i : len);
+		tmp += len;
+		tmp1 += len;
+		if ((i -= len) < 0)
+			i = 0;
+		}
+	}
+	if (mode == 0) {
+		t1.tx_buf		= spi2_tx_buf_dma_virt;
+		t1.tx_dma		= spi2_tx_buf_dma_phys;
+		t1.rx_buf		= spi2_rx_buf_dma_virt;
+		t1.rx_dma		= spi2_rx_buf_dma_phys;
+		t1.len 			= buffer_size;
+		if (test_mcspi_smp) {
+			t2.tx_buf	= spi2_tx_buf_dma_virt2;
+			t2.tx_dma	= spi2_tx_buf_dma_phys2;
+			t2.rx_buf	= spi2_rx_buf_dma_virt2;
+			t2.rx_dma	= spi2_rx_buf_dma_phys2;
+			t2.len		= buffer_size;
+		}
+			printk("\n spitst_trans\n");
+			printk(KERN_INFO "Transmit Buf1 %s\n Buf2 = %s \n ",
+						(char *) spi2_tx_buf_dma_virt);
+			printk(KERN_INFO "Transmit Buf2 %s\n Buf2 = %s \n ",
+						(char *) spi2_tx_buf_dma_virt2);
+			printk("\n spitst_trans\n");
+	} else if (mode == 2) {
+
+		if (test_mcspi_smp) {
+			t2.tx_buf	= spi2_tx_buf_dma_virt2;
+			t2.tx_dma	= spi2_tx_buf_dma_phys2;
+			t2.rx_buf	= 0;
+			t2.rx_dma	= 0;
+			t2.len		= buffer_size;
+		}
+		t1.tx_buf		= spi2_tx_buf_dma_virt;
+		t1.tx_dma		= spi2_tx_buf_dma_phys;
+		t1.rx_buf		= 0;
+		t1.rx_dma		= 0;
+		t1.len			= buffer_size;
+		/*
+			printk(KERN_INFO "Transmit Buf %s\n",
+					(char *) spi2_tx_buf_dma_virt );
+			printk(KERN_INFO "len %d %d \n",
+					len, strlen(spi2_tx_buf_dma_virt));
+		*/
+	} else if (mode == 1) {
+		if (test_mcspi_smp) {
+			t2.rx_buf	= spi2_rx_buf_dma_virt2;
+			t2.rx_dma	= spi2_rx_buf_dma_phys2;
+			t2.tx_buf	= 0;
+			t2.tx_dma	= 0;
+			t2.len		= buffer_size;
+		}
+		t1.rx_buf		= spi2_rx_buf_dma_virt;
+		t1.rx_dma		= spi2_rx_buf_dma_phys;
+		t1.tx_buf		= 0;
+		t1.tx_dma		= 0;
+		t1.len			= buffer_size;
+	} else
+		return -1;
+
+	return status;
 }
 
 static struct spi_driver spitst_spi = {
@@ -420,18 +512,70 @@ static struct spi_driver spitst_spi = {
 	.remove =       __devexit_p(spitst_remove),
 };
 
+static struct spi_driver spitst_spi2 = {
+	.driver = {
+		.name =         "spitst2",
+		.owner =        THIS_MODULE,
+	},
+	.probe =        spitst_probe2,
+	.remove =       __devexit_p(spitst_remove),
+
+};
+
+static
+int  omap2_mcspi_test1()
+{
+	int status;
+
+	status = spi_register_driver(&spitst_spi);
+	if (status < 0)
+		printk(KERN_ERR "spi_register_driver failed, status %d",
+							status);
+	else
+		printk(KERN_INFO "spi_register_driver successful \n");
+	{
+	/*		while (trans1 != 1)
+				schedule_timeout(1000);
+	*/
+		spitst_trans1();
+		trans1 = 0;
+		return status;
+	}
+}
+
+static
+int  omap2_mcspi_test2()
+{
+	int status;
+
+	status = spi_register_driver(&spitst_spi2);
+	if (status < 0)
+		printk(KERN_ERR "spi_register_driver failed, status %d",
+						status);
+	else
+		printk(KERN_INFO "spi_register_driver successful \n");
+	{
+		/* while (trans2 != 1)
+			schedule_timeout(1000);
+		*/
+		spitst_trans2();
+		trans2 = 0;
+		return status;
+	}
+}
+
+static int spitst_remove(struct spi_device *spi)
+{
+	printk(KERN_INFO "In spitst_remove \n");
+	return 0;
+}
+
+
 int __init test_mcspi_init(void)
 
 {
-
-#define IEN             (1 << 8)
-#define IDIS            (0 << 8)
-#define PTU             (1 << 4)
-#define PTD             (0 << 4)
-#define EN              (1 << 3)
-#define DIS             (0 << 3)
-
-#define M0              0
+	struct task_struct *p1, *p2;
+	int x;
 
 #define MODCTRL		0xd809a028
 #define SYSTST		0xd809a024
@@ -448,29 +592,36 @@ int __init test_mcspi_init(void)
 
 		printk(KERN_INFO "configuring slave mode\n");
 
-		omap_writew(0x1700, spi2_clk);
-		omap_writew(0x1700, spi2_simo);
-		omap_writew(0x1700, spi2_somi);
-		omap_writew(0x1708, spi2_cs0);
+//		omap_writew(0x1700, spi2_clk);
+//		omap_writew(0x1700, spi2_simo);
+//		omap_writew(0x1700, spi2_somi);
+//		omap_writew(0x1708, spi2_cs0);
 
 	} else {
 
 		printk(KERN_INFO "configuring master mode \n");
 
-		omap_writew(0x1700, spi2_clk);
-		omap_writew(0x1700, spi2_simo);
-		omap_writew(0x1700, spi2_somi);
-		omap_writew(0x1708, spi2_cs0);
+//		omap_writew(0x1700, spi2_clk);
+//		omap_writew(0x1700, spi2_simo);
+//		omap_writew(0x1700, spi2_somi);
+//		omap_writew(0x1708, spi2_cs0);
 
 	}
-
-	printk(KERN_INFO "spi2_clk %x\n", omap_readl(spi2_clk));
-	printk(KERN_INFO "spi2_simo %x\n", omap_readl(spi2_simo));
-	printk(KERN_INFO "spi2_cs0 %x\n", omap_readl(spi2_cs0));
-
 	create_proc_file_entries();
 
-	if (systst_mode == 1) {
+	if (test_mcspi_smp) {
+		spitst_trans(0);
+		p1 = kthread_create(omap2_mcspi_test1, NULL, "mcspitest/0");
+		p2 = kthread_create(omap2_mcspi_test2, NULL, "mcspitest/1");
+
+		kthread_bind(p1, 0);
+		kthread_bind(p2, 1);
+
+		x = wake_up_process(p1);
+		x = wake_up_process(p2);
+	}
+       if (systst_mode == 1 && !test_mcspi_smp) {
+
 		/* SPI clocks need to be always enabled for this to work */
 		__raw_writel(0x8, MODCTRL);
 		printk(KERN_INFO "MODCTRL %x\n", __raw_readl(MODCTRL));
@@ -501,7 +652,7 @@ int __init test_mcspi_init(void)
 		}
 	}
 
-	if (systst_mode == 0) {
+	if (systst_mode == 0 && !test_mcspi_smp) {
 		status = spi_register_driver(&spitst_spi);
 		if (status < 0)
 			printk(KERN_ERR "spi_register_driver failed, status %d",
@@ -510,7 +661,6 @@ int __init test_mcspi_init(void)
 			printk("spi_register_driver successful \n");
 		return status;
 	}
-
 	return 0;
 }
 
@@ -518,27 +668,38 @@ static void __exit test_mcspi_exit(void)
 {
 
 	spi_unregister_driver(&spitst_spi);
+	if (test_mcspi_smp)
+		spi_unregister_driver(&spitst_spi2);
+
 	remove_proc_file_entries();
 
 	if (buffers_allocated == 1) {
+		if (test_mcspi_smp) {
+	#if (LINUX_VERSION_CODE <= KERNEL_VERSION(2, 6, 00))
+		consistent_free((void *)spi2_rx_buf_dma_virt2, buffer_size,
+				spi2_rx_buf_dma_phys2);
+		consistent_free((void *)spi2_tx_buf_dma_virt2, buffer_size,
+				spi2_tx_buf_dma_phys2);
+	#else
+		dma_free_coherent(NULL, buffer_size,
+			(void *)spi2_rx_buf_dma_virt2, spi2_rx_buf_dma_phys2);
+		dma_free_coherent(NULL, buffer_size,
+			(void *)spi2_tx_buf_dma_virt2, spi2_tx_buf_dma_phys2);
+	#endif
+		}
+	#if (LINUX_VERSION_CODE <= KERNEL_VERSION(2, 6, 00))
+		consistent_free((void *)spi2_rx_buf_dma_virt2, buffer_size,
+				spi2_rx_buf_dma_phys2);
+		consistent_free((void *)spi2_tx_buf_dma_virt2, buffer_size,
+				spi2_tx_buf_dma_phys2);
+	#else
 
-#if (LINUX_VERSION_CODE <= KERNEL_VERSION(2, 6, 00))
-
-	consistent_free((void *)spi2_rx_buf_dma_virt, buffer_size,
-			spi2_rx_buf_dma_phys);
-	consistent_free((void *)spi2_tx_buf_dma_virt, buffer_size,
-			spi2_tx_buf_dma_phys);
-
-#else
-
-	dma_free_coherent(NULL, buffer_size, (void *)spi2_rx_buf_dma_virt,
-			spi2_rx_buf_dma_phys);
-	dma_free_coherent(NULL, buffer_size, (void *)spi2_tx_buf_dma_virt,
-			spi2_tx_buf_dma_phys);
-
-#endif
+		dma_free_coherent(NULL, buffer_size,
+			(void *)spi2_rx_buf_dma_virt2, spi2_rx_buf_dma_phys2);
+		dma_free_coherent(NULL, buffer_size,
+			(void *)spi2_tx_buf_dma_virt2, spi2_tx_buf_dma_phys2);
+	#endif
 	}
-
 	return;
 }
 
