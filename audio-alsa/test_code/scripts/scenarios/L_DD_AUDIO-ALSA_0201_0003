@@ -1,0 +1,20 @@
+##############################################################################
+# Scenario: L_DD_AUDIO-ALSA_0201_0003
+# Author  : Cristopherson Torres
+# Date    : 29 October 2009
+# Description: Audio driver shall support configuration of
+# 	audio codec device in 'play and record' mode
+##############################################################################
+
+# Begin L_DD_AUDIO-ALSA_0201_0003
+
+01 set -x; amixer cset numid=34 1 && exit 0 || exit 1
+02 set -x; amixer cset numid=36 1 && exit 0 || exit 1
+03 set -x; amixer cset numid=35 2 && exit 0 || exit 1
+04 set -x; amixer cset numid=37 2 && exit 0 || exit 1
+05 set -x; amixer cset numid=7 18 && exit 0 || exit 1
+06 set -x; amixer cset numid=24 1 && exit 0 || exit 1
+07 set -x; arecord -f cd -d 10 $TEST_RECORD_STEREO_FILE &
+08 set -x; aplay $STEREO_AUDIO_FILE"11025.wav" && exit 0 || exit 1
+
+# End L_DD_AUDIO-ALSA_0201_0003

@@ -1,0 +1,18 @@
+##############################################################################
+# Scenario: L_DD_AUDIO-ALSA_0203_0001
+# Author  : Cristopherson Torres
+# Date    : 29 October 2009
+# Description: Audio driver shall support mute and unmute
+# 	of the output audio channel.
+##############################################################################
+
+# Begin L_DD_AUDIO-ALSA_0203_0001
+
+01 set -x; amixer cset numid=34 1 && exit 0 || exit 1
+02 set -x; amixer cset numid=36 1 && exit 0 || exit 1
+03 set -x; amixer cset numid=35 2 && exit 0 || exit 1
+04 set -x; amixer cset numid=37 2 && exit 0 || exit 1
+05 set -x; amixer cset numid=7 18 && exit 0 || exit 1
+06 set -x; $TESTSCRIPT/mute_test.sh && exit 0 || exit 1
+
+# End L_DD_AUDIO-ALSA_0203_0001
