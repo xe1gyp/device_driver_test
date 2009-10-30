@@ -1,0 +1,27 @@
+Compile Instructions
+--------------------
+1. Clean the environment.
+   Perform 'make clean'. This will erase all files and directories created during previous compilation.
+2. Install.
+   Perform 'make CROSS_COMPILE='compiler prefix''
+   For 24.x Program
+      * CROSS_COMPILE=arm-none-linux-gnueabi-
+
+
+Testsuite execution
+-------------------
+1. Go to 'bin' subdirectory inside the testsuite directory.
+2. Execute the binary 'htop'.
+3. Results will be reported showing % of cpu usage and process running.
+
+
+Requirements
+------------
+The file system on which the testsuite is going to be executed needs to have the following utilities:
+* ncurses - cross compiled
+* sh
+* bash
+
+
+Notes
+-----
