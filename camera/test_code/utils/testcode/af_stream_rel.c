@@ -51,7 +51,8 @@ static void display_keys(void)
 	printf("  2 - Change lens position relative -1\n");
 	printf("  3 - Change lens position relative +1\n");
 	printf("  4 - Change lens position relative -5\n");
-	printf("  5 - Change lens position relative +5\n\n");
+	printf("  5 - Change lens position relative +5\n");
+	printf("  q - Quit\n\n");
 }
 
 int auto_test(int cfd, int count)
@@ -62,7 +63,7 @@ int auto_test(int cfd, int count)
 	if (count % 50 == 0) {
 		memset(&control, 0, sizeof(control));
 		control.id = V4L2_CID_FOCUS_RELATIVE;
-		control.value = 300 * dir;
+		control.value = 250 * dir;
 		printf("Focus: %s\n", (dir == 1) ? "INFINTE" : "MACRO");
 		if (ioctl(cfd, VIDIOC_S_CTRL, &control) == -1)
 			perror("Error V4L2_CID_FOCUS_RELATIVE: ");
@@ -378,14 +379,15 @@ int main(int argc, char *argv[])
 	af_data_user.af_statistics_buf = stats_buff;
 	af_data_user.frame_number = 8; /* dummy */
 
-	printf("Setting first parameters \n");
+	printf("Getting first parameters \n");
 	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ, &af_data_user);
-	if (ret < 0)
+	if (ret < 0 && errno != EBUSY)
 		perror("ISP_AF_REQ 1");
 
-	printf("Frame No %d\n", af_data_user.frame_number);
-	printf("Frame Curr %d\n", af_data_user.curr_frame);
+	printf("Request Frame No: %d\n", af_data_user.frame_number);
+	printf("Current Frame No: %d\n", af_data_user.curr_frame);
 	af_data_user.frame_number = af_data_user.curr_frame + 10;
+
 
 request:
 	frame_number = af_data_user.frame_number;
@@ -395,14 +397,19 @@ request:
 	af_data_user.af_statistics_buf = stats_buff;
 	printf("Requesting stats for frame %d, try %d\n", frame_number, j);
 	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ, &af_data_user);
-	if (ret < 0)
+	if (ret < 0 && errno == EBUSY)
+		printf("No stats for frame number %d (current=%d)\n",
+			af_data_user.frame_number,
+			af_data_user.curr_frame);
+	else if (ret < 0)
 		perror("ISP_AF_REQ 2");
-
-	printf("Frame No %d\n", af_data_user.frame_number);
-	printf("xs.ts %d:%d\n", af_data_user.xtrastats.ts.tv_sec,
-					af_data_user.xtrastats.ts.tv_usec);
-	printf("xs.field_count %d\n", af_data_user.xtrastats.field_count);
-	printf("xs.lens_position %d\n", af_data_user.xtrastats.lens_position);
+	else {
+		printf("Frame No %d\n", af_data_user.frame_number);
+		printf("xs.ts %d:%d\n", af_data_user.xtrastats.ts.tv_sec,
+				af_data_user.xtrastats.ts.tv_usec);
+		printf("xs.field_count %d\n", af_data_user.xtrastats.field_count);
+		printf("xs.lens_position %d\n", af_data_user.xtrastats.lens_position);
+	}
 
 	if (af_data_user.af_statistics_buf == NULL) {
 		printf("NULL buffer, current frame is  %d.\n",
@@ -413,7 +420,7 @@ request:
 		af_data_user.af_statistics_buf = stats_buff;
 		goto request;
 	} else {
-	/* Display stats */
+		/* Display stats */
 		buff_preview = (__u16 *)af_data_user.af_statistics_buf;
 		printf("H3A AE/AWB: buffer to display = %d data pointer = %p\n",
 			buff_prev_size, af_data_user.af_statistics_buf);
@@ -424,8 +431,8 @@ request:
 	if (mode == MODE_MANUAL)
 		display_keys();
 
-	int bytes;
-	while (i < 1000) {
+
+	while (i < 1000 || mode == MODE_MANUAL) {
 		/* De-queue the next avaliable buffer */
 		while (ioctl(cfd, VIDIOC_DQBUF, &cfilledbuffer) < 0)
 			perror("cam VIDIOC_DQBUF");
