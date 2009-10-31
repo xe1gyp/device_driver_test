@@ -605,7 +605,7 @@ static int start_mcbsp_transmission(int id)
 		for (k = 0; k < 128; k++) {
 			if ((j+k) >= no_of_trans)
 				break;
-			ret = omap3_mcbsp_pollwrite(mcbsptest_info[id].mcbsp_id,
+			ret = omap_mcbsp_pollwrite(mcbsptest_info[id].mcbsp_id,
 						(data1 + k));
 			if (ret)
 				tx_err = -1;
@@ -615,7 +615,7 @@ static int start_mcbsp_transmission(int id)
 			k++;
 			if ((j+k) >= no_of_trans)
 				break;
-			ret = omap3_mcbsp_pollwrite(mcbsptest_info[id].mcbsp_id,
+			ret = omap_mcbsp_pollwrite(mcbsptest_info[id].mcbsp_id,
 						(data2 + k));
 			if (ret)
 				tx_err = -1;
@@ -627,7 +627,7 @@ static int start_mcbsp_transmission(int id)
 		for (k = 0; k < 128; k++) {
 			if ((j+k) >= no_of_trans)
 				break;
-			ret = omap3_mcbsp_pollread(mcbsptest_info[id].mcbsp_id,
+			ret = omap_mcbsp_pollread(mcbsptest_info[id].mcbsp_id,
 							&temp);
 			if (ret)
 				rx_err = -2;
@@ -648,7 +648,7 @@ static int start_mcbsp_transmission(int id)
 			k++;
 			if ((j+k) >= no_of_trans)
 				break;
-			ret = omap3_mcbsp_pollread(mcbsptest_info[id].mcbsp_id,
+			ret = omap_mcbsp_pollread(mcbsptest_info[id].mcbsp_id,
 							&temp);
 			if (ret)
 				rx_err = -2;
