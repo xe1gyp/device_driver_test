@@ -6,11 +6,12 @@
 #
 # Script to Build OMAP Test Suites for OMAP4
 #
-# 3 variables need to be exported
+# 4 variables need to be exported
 # export CROSS_COMPILE=arm-non-linux-gneuabi-
 # export KDIR=/path/to/kernel/directory
 # export HOST=arm-none-linux-gnueabi
 # export TESTSUITES="dma mcbsp" || export TESTSUITES="all"
+# export ARCH=arm
 #
 # ###########################################################################
 
@@ -59,6 +60,13 @@ then
         echo -e "\nPlease export your HOST variable\n"
 	exit 1
 fi
+
+if [ -z $ARCH ]
+then
+	echo -e "\nPlease export your ARCH variable\n"
+	exit 1
+fi
+ 
 
 export CROSS_COMPILE
 export KDIR

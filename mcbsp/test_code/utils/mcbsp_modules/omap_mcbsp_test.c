@@ -25,6 +25,7 @@
 #include <linux/ioport.h>
 #include <linux/proc_fs.h>
 #include <linux/version.h>
+#include <linux/kthread.h>
 
 #include <linux/irq.h>
 #include <linux/io.h>
@@ -127,7 +128,7 @@
 
 #define OMAP_MCBSP_FRAMELEN_N(NUM_WORDS)	((NUM_WORDS - 1) & 0x7F)
 
-static int start_mcbsp_transmission(void);
+static int start_mcbsp_transmission(int);
 struct mcbsp_info_struct {
 	int mcbsp_id;
 	int mode; /* Master or Slave */
@@ -184,7 +185,7 @@ struct omap_mcbsp_dma_transfer_parameters {
 } omap_mcbsp_dma_transfer_params;
 #endif
 
-static struct mcbsp_info_struct mcbsptest_info;
+static struct mcbsp_info_struct mcbsptest_info[2];
 
 struct omap_mcbsp_cfg_param tp1;
 struct omap_mcbsp_cfg_param rp1;
@@ -206,8 +207,9 @@ static int fsx_polarity  = OMAP_MCBSP_FS_ACTIVE_LOW;
 static int justification = OMAP_MCBSP_RJUST_ZEROMSB;
 static int word_length1   = OMAP_MCBSP_WORD_8;
 static int word_length2   = OMAP_MCBSP_WORD_8;
-static int test_mcbsp_id = OMAP_MCBSP1;
+static int test_mcbsp_id = OMAP_MCBSP2;
 static int words_per_frame = 1;
+static int test_mcbsp_smp = 0;
 long int tx_sec;
 long int tx_usec;
 
@@ -226,6 +228,7 @@ module_param(word_length1, int , 0);
 module_param(word_length2, int , 0);
 module_param(words_per_frame, int, 0);
 module_param(test_mcbsp_id, int, 0);
+module_param(test_mcbsp_smp, int, 0);
 
 unsigned int bits_per_sample[6] = {8, 12, 16, 20, 24, 32};
 struct timeval tx_start_time, tx_end_time;
@@ -282,7 +285,6 @@ read_proc_status(char *page, char **start, off_t off, int count,
 								word_length2);
 	p += sprintf(p, "Words Per frame [1-1, 2-2]               : %8d\n",
 							words_per_frame);
-
 readproc_status_end:
 	len = (p - page);
 	*eof = 1;
@@ -308,11 +310,12 @@ write_proc_entry(struct file *file, const char *buffer,
 		val[i] = buffer[i];
 	val[i] = '\0';
 
-	if (strncmp(val, "start", 4) == 0)
-		start_mcbsp_transmission();
+	if (strncmp(val, "start", 4) == 0) {
+		start_mcbsp_transmission(0);
+	}
 	else if (strncmp(val, "stop", 4) == 0) {
-		omap_mcbsp_stop(mcbsptest_info.mcbsp_id);
-		printk(KERN_INFO "McBSP%d Stopped\n", mcbsptest_info.mcbsp_id);
+		omap_mcbsp_stop(mcbsptest_info[0].mcbsp_id);
+		printk(KERN_INFO "McBSP%d Stopped\n", mcbsptest_info[0].mcbsp_id);
 	}
 	else if (strncmp(val, "suspend", 4) == 0)
 		return 0;
@@ -552,7 +555,6 @@ void omap2_mcbsp_set_srg_cfg_param(unsigned int id, int interface_mode,
 		break;
 
 	}
-
 	if (param->sync_mode == OMAP_MCBSP_SRG_FREERUNNING)
 		mcbsp_cfg->srgr2 = mcbsp_cfg->srgr2 & ~(GSYNC);
 	else if (param->sync_mode == OMAP_MCBSP_SRG_RUNNING)
@@ -561,7 +563,6 @@ void omap2_mcbsp_set_srg_cfg_param(unsigned int id, int interface_mode,
 	if (param->dlb)
 		mcbsp_cfg->xccr = mcbsp_cfg->xccr | (DILB);
 }
-
 
 int omap2_mcbsp_params_cfg(unsigned int id, int interface_mode,
 				struct omap_mcbsp_cfg_param *tp,
@@ -581,7 +582,7 @@ int omap2_mcbsp_params_cfg(unsigned int id, int interface_mode,
 }
 
 /* transmit mode = receive (0) or transmit (1) */
-static int start_mcbsp_transmission(void)
+static int start_mcbsp_transmission(int id)
 {
 	int j, k, data1, data2, ret, tx_err = 0, rx_err = 0;
 	u32 temp;
@@ -600,17 +601,11 @@ static int start_mcbsp_transmission(void)
 	else if (word_length2 == OMAP_MCBSP_WORD_32)
 		data2 = 0xA5A50000;
 
-	/* Configure the Master, it should generate the FSX and CLKX */
-	configure_mcbsp_tx();
-	configure_mcbsp_rx();
-	omap2_mcbsp_params_cfg(mcbsptest_info.mcbsp_id, OMAP_MCBSP_MASTER,
-							&tp1, &rp1, &cfg);
-
 	for (j = 0, no_of_words_tx = 0; j < no_of_trans; j += 128) {
 		for (k = 0; k < 128; k++) {
 			if ((j+k) >= no_of_trans)
 				break;
-			ret = omap_mcbsp_pollwrite(mcbsptest_info.mcbsp_id,
+			ret = omap3_mcbsp_pollwrite(mcbsptest_info[id].mcbsp_id,
 						(data1 + k));
 			if (ret)
 				tx_err = -1;
@@ -620,18 +615,19 @@ static int start_mcbsp_transmission(void)
 			k++;
 			if ((j+k) >= no_of_trans)
 				break;
-			ret = omap_mcbsp_pollwrite(mcbsptest_info.mcbsp_id,
+			ret = omap3_mcbsp_pollwrite(mcbsptest_info[id].mcbsp_id,
 						(data2 + k));
 			if (ret)
 				tx_err = -1;
 			else
 				no_of_words_tx++;
+
 		}
 
 		for (k = 0; k < 128; k++) {
 			if ((j+k) >= no_of_trans)
 				break;
-			ret = omap_mcbsp_pollread(mcbsptest_info.mcbsp_id,
+			ret = omap3_mcbsp_pollread(mcbsptest_info[id].mcbsp_id,
 							&temp);
 			if (ret)
 				rx_err = -2;
@@ -652,7 +648,7 @@ static int start_mcbsp_transmission(void)
 			k++;
 			if ((j+k) >= no_of_trans)
 				break;
-			ret = omap_mcbsp_pollread(mcbsptest_info.mcbsp_id,
+			ret = omap3_mcbsp_pollread(mcbsptest_info[id].mcbsp_id,
 							&temp);
 			if (ret)
 				rx_err = -2;
@@ -724,61 +720,112 @@ static int start_mcbsp_transmission(void)
 	printk(KERN_INFO " ptr = 0x%x \n", *ptr);
 #endif
 
-static void fill_global_structure(void)
+static void fill_global_structure(int i)
 {
-	mcbsptest_info.mcbsp_id = test_mcbsp_id;
-	mcbsptest_info.mode     = OMAP_MCBSP_MASTER ; /* Master or Slave */
-	mcbsptest_info.rx_cnt   = 0;
-	mcbsptest_info.tx_cnt   = 0;
-	mcbsptest_info.num_of_tx_transfers = 256;
-	mcbsptest_info.num_of_rx_transfers = 256;
-	mcbsptest_info.send_cnt   = 0;
-	mcbsptest_info.recv_cnt   = 0;
+	mcbsptest_info[i].mcbsp_id = test_mcbsp_id + i;
+	mcbsptest_info[i].mode     = OMAP_MCBSP_MASTER ; /* Master or Slave */
+	mcbsptest_info[i].rx_cnt   = 0;
+	mcbsptest_info[i].tx_cnt   = 0;
+	mcbsptest_info[i].num_of_tx_transfers = 256;
+	mcbsptest_info[i].num_of_rx_transfers = 256;
+	mcbsptest_info[i].send_cnt   = 0;
+	mcbsptest_info[i].recv_cnt   = 0;
+}
+
+static
+int  omap2_mcbsp_request_interface(u8 id)
+{
+	int ret;
+	fill_global_structure(id);
+
+	omap_mcbsp_set_io_type(mcbsptest_info[id].mcbsp_id, 0);
+
+	/* Requesting interface */
+	ret = omap_mcbsp_request(mcbsptest_info[id].mcbsp_id);
+	if (ret) {
+		printk(KERN_ERR "McBSP Test Driver:"
+			"Requesting mcbsp interface failed\n");
+		return -1;
+	}
+	omap2_mcbsp_params_cfg(mcbsptest_info[id].mcbsp_id, OMAP_MCBSP_MASTER,
+						&tp1, &rp1, &cfg);
+
+}
+
+static
+int  omap2_mcbsp_test1(void)
+{
+	omap2_mcbsp_request_interface(0);
+	start_mcbsp_transmission(0);
+}
+
+static
+int  omap2_mcbsp_test2(void)
+{
+	omap2_mcbsp_request_interface(1);
+	start_mcbsp_transmission(1);
 }
 
 static int __init omap2_mcbsp_init(void)
 {
-	int ret;
+	struct task_struct *p1, *p2;
+        int x;
 
-	fill_global_structure();
-	omap_mcbsp_set_io_type(mcbsptest_info.mcbsp_id, 0);
+        create_proc_file_entries();
+        configure_mcbsp_interface();
 
-	/* Requesting interface */
-	ret = omap_mcbsp_request(mcbsptest_info.mcbsp_id);
-	if (ret) {
-		printk(KERN_ERR "McBSP Test Driver:"
-				"Requesting mcbsp interface failed\n");
-		return -1;
+	configure_mcbsp_tx();
+	configure_mcbsp_rx();
+
+	if (!test_mcbsp_smp)
+		omap2_mcbsp_request_interface(0);
+
+	if( test_mcbsp_smp ) {
+
+		p1 = kthread_create(omap2_mcbsp_test1, NULL, "mcbsptest/0");
+		p2 = kthread_create(omap2_mcbsp_test2, NULL, "mcbsptest/1");
+
+		kthread_bind(p1, 0);
+		kthread_bind(p2, 1);
+
+		x = wake_up_process(p1);
+		x = wake_up_process(p2);
 	}
 
-	configure_mcbsp_interface();
-	create_proc_file_entries();
-	printk(KERN_INFO "\n OMAP McBSP TEST driver installed successfully \n");
+	printk("\n OMAP McBSP TEST driver installed successfully \n");
 	return 0;
+}
+
+static
+int omap2_mcbsp_exit(int id)
+{
+#if (LINUX_VERSION_CODE <= KERNEL_VERSION(2, 6, 00))
+        consistent_free((void *)mcbsptest_info[id].rx_buf_dma_virt, buffer_size,
+                                                mcbsptest_info.rx_buf_dma_phys);
+        consistent_free((void *)mcbsptest_info[id].tx_buf_dma_virt, buffer_size,
+                                                mcbsptest_info.tx_buf_dma_phys);
+#else
+        if (mcbsptest_info[id].rx_buf_dma_virt != NULL ||
+                        mcbsptest_info[id].tx_buf_dma_virt != NULL) {
+                dma_free_coherent(NULL, buffer_size,
+                                (void *)mcbsptest_info[id].rx_buf_dma_virt,
+                                        mcbsptest_info[id].rx_buf_dma_phys);
+                dma_free_coherent(NULL, buffer_size,
+                                (void *)mcbsptest_info[id].tx_buf_dma_virt,
+                                        mcbsptest_info[id].tx_buf_dma_phys);
+        }
+#endif
+	omap_mcbsp_free(mcbsptest_info[id].mcbsp_id);
 }
 
 static
 void __exit omap_mcbsp_exit(void)
 {
-#if (LINUX_VERSION_CODE <= KERNEL_VERSION(2, 6, 00))
-	consistent_free((void *)mcbsptest_info.rx_buf_dma_virt, buffer_size,
-						mcbsptest_info.rx_buf_dma_phys);
-	consistent_free((void *)mcbsptest_info.tx_buf_dma_virt, buffer_size,
-						mcbsptest_info.tx_buf_dma_phys);
-#else
-	if (mcbsptest_info.rx_buf_dma_virt != NULL ||
-			mcbsptest_info.tx_buf_dma_virt != NULL) {
-		dma_free_coherent(NULL, buffer_size,
-				(void *)mcbsptest_info.rx_buf_dma_virt,
-					mcbsptest_info.rx_buf_dma_phys);
-		dma_free_coherent(NULL, buffer_size,
-				(void *)mcbsptest_info.tx_buf_dma_virt,
-					mcbsptest_info.tx_buf_dma_phys);
-	}
-
-#endif
-
-	omap_mcbsp_free(mcbsptest_info.mcbsp_id);
+	if (test_mcbsp_smp) {
+		omap2_mcbsp_exit(0);
+		omap2_mcbsp_exit(1);
+	}else
+		omap2_mcbsp_exit(0);
 	remove_proc_file_entries();
 	return ;
 }

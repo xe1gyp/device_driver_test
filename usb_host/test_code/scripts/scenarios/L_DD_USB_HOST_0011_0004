@@ -1,0 +1,20 @@
+###############################################################################
+# Scenario    : L_DD_USB_HOST_0011_0004
+# Description : USB Host Mentor | Mass Storage | IRQ Affinity
+###############################################################################
+
+# Begin L_DD_USB_HOST_0011_0004
+
+01	set -x; handlerUsbHostSetup.sh  "create"  "mentor"
+02	set -x; handlerUsbHost.sh  "add"  "mass_storage" "sda1" "/mnt/mentor/"
+
+03	set -x; mount && df -h && sleep 5; exit 0
+
+04	set -x; $UTILS_DIR_HANDLERS/handlerIrqAffinity.sh "switch" "dd if=/dev/urandom of=/mnt/mentor/sda1/file.01 bs=1M count=500" "10" "15" "92"
+
+05	set -x; mount && df -h && sleep 5; exit 0
+
+06	set -x; handlerUsbHost.sh  "remove"  "mass_storage" "sda1" "/mnt/mentor/"
+07	set -x; handlerUsbHostSetup.sh  "remove"  "mentor"
+
+# End L_DD_USB_HOST_0011_0004
