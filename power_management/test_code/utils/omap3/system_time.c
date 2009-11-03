@@ -20,19 +20,49 @@
 
 #include <sys/time.h>
 #include <stdio.h>
+#include <linux/rtc.h>
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <errno.h>
 
 int main()
 {
-	struct timeval t1;
-	struct timeval t2;
-	int t_diff;
-	gettimeofday(&t1, NULL);
+	int fd, retval, t_diff;
+	struct rtc_time rtc_tm1, rtc_tm2;
+
+	/* Creating a file descriptor for RTC */
+	fd = open("/dev/rtc0", O_RDONLY);
+	if (fd == -1) {
+		perror("Requested device cannot be opened!");
+		_exit(errno);
+	}
+
+	/* Reading Current RTC Date/Time */
+	retval = ioctl(fd, RTC_RD_TIME, &rtc_tm1);
+	if (retval == -1) {
+		perror("ioctl");
+		_exit(errno);
+	}
+
 	sleep(600);
-	gettimeofday(&t2, NULL);
-	t_diff = t2.tv_sec - t1.tv_sec;
-	if (t_diff != 600)
+
+	retval = ioctl(fd, RTC_RD_TIME, &rtc_tm2);
+	if (retval == -1) {
+		perror("ioctl");
+		_exit(errno);
+	}
+	t_diff = rtc_tm2.tm_min - rtc_tm1.tm_min;
+	if (t_diff != 3)
 		printf("Test FAIL\n");
-	else
-		printf("Test PASS\n");
+	else {
+
+		t_diff = rtc_tm2.tm_sec - rtc_tm1.tm_sec;
+		if (t_diff == 0)
+			printf("Test PASS\n");
+		else
+			printf("Test FAIL\n");
+	}
 }
 
