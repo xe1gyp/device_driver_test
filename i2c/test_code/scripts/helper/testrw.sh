@@ -33,7 +33,7 @@ do
 	data_hex=`printf "0x%x" $data_byte`
 	
 	# Let's write to i2c bus
-	i2cset -y $OPTIONS $BUS $REG $DATA $data_hex b
+	i2cset -f -y $OPTIONS $BUS $REG $DATA $data_hex b
 	
 	if [ $? -ne 0 ]; then
 		echo "Failed in i2cset"
@@ -41,7 +41,7 @@ do
 	fi
 	
 	# Get data from i2c bus
-	data_read=`i2cdump -y $OPTIONS $BUS $REG b | cut -d ' ' -f $COL | head $HEAD_OPTION $ROW | tail $TAIL_OPTION 1`
+	data_read=`i2cdump -f -y $OPTIONS $BUS $REG b | cut -d ' ' -f $COL | head $HEAD_OPTION $ROW | tail $TAIL_OPTION 1`
 	
 	if [ $? -ne 0 ]; then
 		echo "Failed in i2cdump"

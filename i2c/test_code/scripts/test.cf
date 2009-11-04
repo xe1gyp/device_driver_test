@@ -44,10 +44,10 @@ export HIGH_SPEED_MODE=2600
 export I2C_ADDRESSES="0x48 0x49 0x4A 0x4B"
 
 # Registers
-export I2C_REG_1=0x48
+export I2C_REG_1=0x49
 export I2C_REG_1_VALUE_INITIAL=0x01
-export I2C_REG_2=0x48
-export I2C_REG_2_VALUE_INITIAL=0x40
+export I2C_REG_2=0x4A
+export I2C_REG_2_VALUE_INITIAL=0xD4
 export I2C_REG_INVALID=0x2D
 
 # Irqs
