@@ -19,7 +19,7 @@ INSTALL_PROGRAM	:= $(INSTALL) -m 755
 RM		:= rm -f
 
 CC	:= $(CROSS_COMPILE)gcc
-CFLAGS	:= -Wall
+CFLAGS	+= -Wall
 
 CFLAGS	+= -O2
 # When debugging, use the following instead

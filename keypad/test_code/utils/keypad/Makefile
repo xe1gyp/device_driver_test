@@ -7,7 +7,7 @@
 # ================================================================================ */
 
 CC := $(CROSS_COMPILE)gcc
-CFLAGS=-g -O -Wall -I.. 
+CFLAGS+=-g -O -Wall -I..
 
 TARGETS = dev_name openclose testkeypad
 
