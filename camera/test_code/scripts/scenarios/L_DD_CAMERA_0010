@@ -13,9 +13,9 @@ COMMENT comment.sh "Observe that the captured frames are cropped for video and i
 
 COMMENT comment.sh "Verify the capture frame is saved with the desired zoom factor"
 
-0001_A set -x; burstest.sh "VGA" "YUYV" "1" "1" "10"&& exit 0 || exit 1
-0001_B set -x; burstest.sh "VGA" "YUYV" "1" "1" "20"&& exit 0 || exit 1
-0001_C_SAN set -x; burstest.sh "VGA" "YUYV" "1" "1" "40"&& exit 0 || exit 1
+0001_A set -x; burstest.sh "VGA" "YUYV" "1" "1" "30" "10"&& exit 0 || exit 1
+0001_B set -x; burstest.sh "VGA" "YUYV" "1" "1" "30" "20"&& exit 0 || exit 1
+0001_C_SAN set -x; burstest.sh "VGA" "YUYV" "1" "1" "30" "40"&& exit 0 || exit 1
 
 0002 comment.sh "Test case 0002 is passed by inspection"
 

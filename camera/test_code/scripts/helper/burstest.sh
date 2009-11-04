@@ -4,12 +4,16 @@ SIZE=$1
 FORMAT=$2
 DEVICE=$3
 FRNUM=$4
-TEST=$5
-
+FPS=$5
+TEST=$6
 
 if [ -z "$5" ]; then
+FPS=30
+fi
+
+if [ -z "$6" ]; then
 FNAME="${TMPBASE}/${SIZE}bm.yuv"
-elif [ "$TEST" = "120" ];then
+elif [ "$FPS" = "120" ];then
 FNAME="${TMPBASE}/${SIZE}_120fps.yuv"
 else
 FNAME="${TMPBASE}/${SIZE}-${TEST}bm.yuv"
@@ -31,22 +35,22 @@ if [ "$SIZE" = "982 560" ]; then
   FNAME="${TMPBASE}/982_560vid.yuv"
 fi
 
-if [ -z "$5" ]; then
+if [ -z "$6" ]; then
   # Usage: burst_mode <camDevice><pixelFmt><size><num_of_images><file_name>
-  $TESTBIN/burst_mode $DEVICE $FORMAT $SIZE $FRNUM "$FNAME"
+  $TESTBIN/burst_mode $DEVICE $FORMAT $SIZE $FRNUM "$FNAME" $FPS
   RESULT=$?
   echo "Test returned $RESULT"
 elif [ "$TEST" = "BW" ]; then
     # Usage: busrt_mode <camDevice><pixelFmt><size><num_of_images><file_name><effect>
-   $TESTBIN/burst_mode $DEVICE $FORMAT $SIZE $FRNUM "$FNAME" $TEST
+   $TESTBIN/burst_mode $DEVICE $FORMAT $SIZE $FRNUM "$FNAME" $FPS $TEST
    RESULT=$?
    echo "Test returned $RESULT"
 elif [ "$TEST" = "SEPIA" ]; then
       # Usage: busrt_mode <camDevice><pixelFmt><size><num_of_images><file_name><effect>
-      $TESTBIN/burst_mode $DEVICE $FORMAT $SIZE $FRNUM "$FNAME" $TEST
+      $TESTBIN/burst_mode $DEVICE $FORMAT $SIZE $FRNUM "$FNAME" $FPS $TEST
       RESULT=$?
       echo "Test returned $RESULT"
-elif [ "$TEST" = "120" ]; then
+elif [ "$FPS" = "120" ]; then
       #Usage: burst_mode_120 <pixelFmt><size><file_name>
       $TESTBIN/burst_mode_120 $FORMAT $SIZE "$FNAME"
       RESULT=$?
