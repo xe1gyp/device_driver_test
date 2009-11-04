@@ -802,7 +802,7 @@ int snapshot(int cfd, char *pixelFmt, int w, int h, int fps)
 	for (i = 0; i < count; i++)
 		write(fd_save, cbuffers[i].start_aligned,
 			cfmt.fmt.pix.width * cfmt.fmt.pix.height * 2);
-	printf("Completed writing to file\n");
+	printf("Completed writing to file: %s\n", filename);
 	close(fd_save);
 
 	/********************************************************************/
