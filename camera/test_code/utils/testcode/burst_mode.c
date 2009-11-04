@@ -42,6 +42,8 @@ static void usage(void)
 	printf("   [file] Optionally captured image can be saved to file "
 								"<file>\n");
 	printf("    If no file is specified output.yuv file is the default\n");
+	printf("   [framerate] is the framerate to be used, if no value"
+			" is given \n\t      30 fps is default\n");
 	printf("   [colorEffect] COLOR The image captured with "
 						"no color effect\n");
 
@@ -71,7 +73,7 @@ int main(int argc, char *argv[])
 	int fd, i, ret, count = 1, memtype = V4L2_MEMORY_USERPTR;
 	int fd_save = 0;
 	int index = 1;
-	int device = 1;
+	int device = 1, framerate = 30;
 	int colorLevel = V4L2_COLORFX_NONE;
 	char *pixelFmt;
 	char *fileName;
@@ -133,16 +135,6 @@ int main(int argc, char *argv[])
 			return -1;
 	}
 
-	/**********************************************************************/
-	if (cformat.fmt.pix.width == 2592 && cformat.fmt.pix.height == 1944)
-		ret = setFramerate(fd, 13);
-	else
-		ret = setFramerate(fd, DEFAULT_FRAMERATE);
-
-	if (ret < 0) {
-		printf("Error setting framerate");
-		return -1;
-	}
 
 	if (argc > index)
 		count = atoi(argv[index]);
@@ -171,6 +163,15 @@ int main(int argc, char *argv[])
 	}
 
 	index++;
+	if (argc > index) {
+		framerate = atoi(argv[index]);
+		if (framerate == 0) {
+			printf("Invalid framerate value, Using Default "
+							"framerate = 15\n");
+			framerate = DEFAULT_FRAMERATE;
+		}
+		index++;
+	}
 
 	if (argc > index) {
 		if (!strcmp(argv[index], "COLOR")) {
@@ -199,7 +200,15 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	index++;
+	/*************************************************************/
+	/* Set Frame Rate */
+
+	ret = setFramerate(fd, framerate);
+	if (ret < 0) {
+		printf("Error setting framerate = %d\n", framerate);
+		return -1;
+	}
+
 
 	if (ioctl(fd, VIDIOC_QUERYCAP, &capability) < 0) {
 		perror("VIDIOC_QUERYCAP");
