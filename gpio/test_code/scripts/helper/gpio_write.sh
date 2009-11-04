@@ -20,7 +20,7 @@ done
 if [ $error -gt 0 ]
 then
 	echo " The number of errors = $error, Please refer the log for more details "
-	return 1
+	exit 1
 else
-	return 0
+	exit 0
 fi
