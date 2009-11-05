@@ -29,8 +29,8 @@
 #include <linux/irq.h>
 #include <linux/io.h>
 #include <linux/serial.h>
-#include <mach/dma.h>
-#include <mach/mcbsp.h>
+#include <plat/dma.h>
+#include <plat/mcbsp.h>
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 00))
 #include <linux/dma-mapping.h>
@@ -311,7 +311,7 @@ write_proc_entry(struct file *file, const char *buffer,
 	if (strncmp(val, "start", 4) == 0)
 		start_mcbsp_transmission();
 	else if (strncmp(val, "stop", 4) == 0) {
-		omap_mcbsp_stop(mcbsptest_info.mcbsp_id);
+		omap_mcbsp_stop(mcbsptest_info.mcbsp_id, 1, 1);
 		printk(KERN_INFO "McBSP%d Stopped\n", mcbsptest_info.mcbsp_id);
 	}
 	else if (strncmp(val, "suspend", 4) == 0)
@@ -568,15 +568,20 @@ int omap2_mcbsp_params_cfg(unsigned int id, int interface_mode,
 				struct omap_mcbsp_cfg_param *rp,
 				struct omap_mcbsp_srg_fsg_cfg *param)
 {
-	if (rp)
+	int tx = 0, rx = 0;
+	if (rp) {
 		omap2_mcbsp_set_recv_param(id, &mcbsp_cfg, rp);
-	if (tp)
+		rx = 1;
+	}
+	if (tp) {
 		omap2_mcbsp_set_trans_param(id, &mcbsp_cfg, tp);
+		tx = 1;
+	}
 	if (param)
 		omap2_mcbsp_set_srg_cfg_param(id,
 				interface_mode, &mcbsp_cfg, param);
 	omap_mcbsp_config(id, &mcbsp_cfg);
-	omap_mcbsp_start(id);
+	omap_mcbsp_start(id, tx, rx);
 	return 0;
 }
 
