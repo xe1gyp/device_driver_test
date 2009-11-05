@@ -37,6 +37,8 @@
 #define EV_SYN 0
 #endif
 
+#define MAX_LIMIT_INTERACTIONS 1000
+
 char *events[EV_MAX + 1] = {
 	[0 ... EV_MAX] = NULL,
 	[EV_SYN] = "Sync",			[EV_KEY] = "Key",
@@ -303,6 +305,7 @@ int main (int argc, char **argv)
 	unsigned long bit[EV_MAX][NBITS(KEY_MAX)];
 	char name[256] = "Unknown";
 	int abs[5];
+	int counter = 0;
 
 	if (argc < 2) {
 		printf("Usage: evtest /dev/input/eventX\n");
@@ -352,9 +355,9 @@ int main (int argc, char **argv)
 		}
 
 
-	printf("Testing ... (interrupt to exit)\n");
+	printf("Testing 1000 times... (interrupt to exit)\n");
 
-	while (1) {
+	while (counter < MAX_LIMIT_INTERACTIONS) {
 		rd = read(fd, ev, sizeof(struct input_event) * 64);
 
 		if (rd < (int) sizeof(struct input_event)) {
@@ -383,6 +386,6 @@ int main (int argc, char **argv)
 					names[ev[i].type] ? (names[ev[i].type][ev[i].code] ? names[ev[i].type][ev[i].code] : "?") : "?",
 					ev[i].value);
 			}
-
+    counter++;
 	}
 }

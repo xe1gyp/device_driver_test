@@ -7,6 +7,6 @@
 
 # Begin L_DD_KEYPAD_0000_0002
 
-01  set -x; $TESTROOT/../bin/openclose $DEVFS_KEYPAD
+01  set -x; $KEYPAD_DIR_BINARIES/testkeypad $DEVFS_KEYPAD
 
 # End L_DD_KEYPAD_0000_0002

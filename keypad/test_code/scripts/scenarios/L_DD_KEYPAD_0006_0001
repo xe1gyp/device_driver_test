@@ -6,9 +6,9 @@
 
 # Begin L_DD_KEYPAD_0006_0001
 
-01  set -x; $UTILHANDLERS/handlerProcessPriority.sh "add" "1" "$TESTBIN/testkeypad $DEVFS_KEYPAD" "-20"
-02  set -x; $UTILHANDLERS/handlerProcessPriority.sh "add" "2" "$TESTBIN/testkeypad $DEVFS_KEYPAD" "+20"
-03  set -x; $UTILHANDLERS/handlerProcessPriority.sh "execute" "1"
-04  set -x; $UTILHANDLERS/handlerProcessPriority.sh "verify"
+01  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "add" "1" "$KEYPAD_DIR_BINARIES/evtest $DEVFS_KEYPAD" "-20"
+02  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "add" "2" "$KEYPAD_DIR_BINARIES/evtest $DEVFS_KEYPAD" "+20"
+03  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "execute" "1"
+04  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "verify"
 
 # End L_DD_KEYPAD_0006_0001
