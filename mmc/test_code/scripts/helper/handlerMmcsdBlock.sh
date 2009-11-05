@@ -6,7 +6,6 @@
 
 LOCAL_COMMAND=$1
 LOCAL_PARTITIONS=$2
-LOCAL_FILESYSTEM_TYPE=$3
 
 # =============================================================================
 # Functions
@@ -19,8 +18,12 @@ LOCAL_FILESYSTEM_TYPE=$3
 
 if [ "$LOCAL_COMMAND" = "create" ]; then
 
-  MMCSD_MOUNTPOINT_1=$4
-  MMCSD_MOUNTPOINT_2=$5
+  LOCAL_FILESYSTEM_TYPE=$3
+
+  if [ ! -z $4 ] ; then
+    MMCSD_MOUNTPOINT_1=$4
+    MMCSD_MOUNTPOINT_2=$5
+  fi
 
 	$MMCSD_DIR_HELPER/handlerMmcsdSetup.sh "create" $LOCAL_PARTITIONS
 
@@ -33,7 +36,7 @@ if [ "$LOCAL_COMMAND" = "create" ]; then
 			mount -t ext2 $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
 		elif [ "$LOCAL_FILESYSTEM_TYPE" = "dos" ]; then
 			$MMCSD_DIR_BINARIES/mkdosfs $MMCSD_DEVFS_PARTITION_1
-			mount -t vfat $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
+			mount -t msdos $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
 		fi
 
 
@@ -50,13 +53,13 @@ if [ "$LOCAL_COMMAND" = "create" ]; then
 		elif [ "$LOCAL_FILESYSTEM_TYPE" = "dos" ]; then
 			$MMCSD_DIR_BINARIES/mkdosfs $MMCSD_DEVFS_PARTITION_1
 			$MMCSD_DIR_BINARIES/mkdosfs $MMCSD_DEVFS_PARTITION_2
-			mount -t vfat $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
-			mount -t vfat $MMCSD_DEVFS_PARTITION_2 $MMCSD_MOUNTPOINT_2
+			mount -t msdos $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
+			mount -t msdos $MMCSD_DEVFS_PARTITION_2 $MMCSD_MOUNTPOINT_2
     elif [ "$LOCAL_FILESYSTEM_TYPE" = "mixed" ]; then
       $MMCSD_DIR_BINARIES/mke2fs $MMCSD_DEVFS_PARTITION_1
 		  mount -t ext2 $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
 		  $MMCSD_DIR_BINARIES/mkdosfs $MMCSD_DEVFS_PARTITION_2
-		  mount -t vfat $MMCSD_DEVFS_PARTITION_2 $MMCSD_MOUNTPOINT_2
+		  mount -t msdos $MMCSD_DEVFS_PARTITION_2 $MMCSD_MOUNTPOINT_2
 		fi
 
 	fi
@@ -64,8 +67,10 @@ if [ "$LOCAL_COMMAND" = "create" ]; then
 
 elif [ "$LOCAL_COMMAND" = "remove" ]; then
 
-  MMCSD_MOUNTPOINT_1=$3
-  MMCSD_MOUNTPOINT_2=$4
+  if [ ! -z $4 ] ; then
+    MMCSD_MOUNTPOINT_1=$3
+    MMCSD_MOUNTPOINT_2=$4
+  fi
 
 	if [ "$LOCAL_PARTITIONS" = "1" ]; then
 		sync && umount $MMCSD_DEVFS_PARTITION_1

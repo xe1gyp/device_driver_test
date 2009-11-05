@@ -38,24 +38,24 @@
 
 02_01  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "create" "1" "dos" "/mnt/mmc/"
 
-02_02  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "add" "1" "dd if=/dev/urandom of=/mnt/mmc/file.1 bs=1M count=5 && sync" "-20"
-02_03  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "add" "2" "dd if=/dev/zero of=/mnt/mmc/file.2 bs=1M count=5 && sync" "+20"
+02_02  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "add" "1" "dd if=/dev/urandom of=/mnt/mmc/file.1 bs=1M count=50 && sync" "-20"
+02_03  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "add" "2" "dd if=/dev/zero of=/mnt/mmc/file.2 bs=1M count=50 && sync" "+20"
 02_04  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "execute" "5"
 02_05  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "verify"
 
-02_06  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "add" "1" "dd if=/dev/urandom of=/mnt/mmc/file.1 bs=1M count=5 && sync" "+20"
-02_07  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "add" "2" "dd if=/dev/zero of=/mnt/mmc/file.2 bs=1M count=5 && sync" "-20"
+02_06  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "add" "1" "dd if=/dev/urandom of=/mnt/mmc/file.1 bs=1M count=50 && sync" "+20"
+02_07  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "add" "2" "dd if=/dev/zero of=/mnt/mmc/file.2 bs=1M count=50 && sync" "-20"
 02_08  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "execute" "5"
 02_09  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "verify"
 
-02_10  set -x; dd if=/dev/urandom of=$MMCSD_DIR_TMP/file.temporal bs=1M count=50 && sync
+02_10  set -x; dd if=/dev/urandom of=$MMCSD_DIR_TMP/file.temporal bs=1M count=500 && sync
 02_11  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "add" "1" "cp $MMCSD_DIR_TMP/file.temporal /mnt/mmc/file.temporal.1 && sync" "-20"
 02_12  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "add" "2" "cp $MMCSD_DIR_TMP/file.temporal /mnt/mmc/file.temporal.2 && sync" "+20"
 02_13  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "execute" "5"
 02_14  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "verify"
 02_15  set -x; cmp /mnt/mmc/file.temporal.1 /mnt/mmc/file.temporal.2
 
-02_16  set -x; dd if=/dev/urandom of=$MMCSD_DIR_TMP/file.temporal bs=1M count=50 && sync
+02_16  set -x; dd if=/dev/urandom of=$MMCSD_DIR_TMP/file.temporal bs=1M count=500 && sync
 02_17  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "add" "1" "cp $MMCSD_DIR_TMP/file.temporal /mnt/mmc/file.temporal.1 && sync" "+20"
 02_18  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "add" "2" "cp $MMCSD_DIR_TMP/file.temporal /mnt/mmc/file.temporal.2 && sync" "-20"
 02_19  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "execute" "5"
