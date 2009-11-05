@@ -8,7 +8,7 @@
 
 # Clean up
 01  set -x; rm -rf $MMC_MOUNT_POINT_1 $MMC_MOUNT_POINT_2; exit 0
-02  set -x; mkdir $MMC_MOUNT_POINT_1 && mkdir $MMC_MOUNT_POINT_2; exit 0
+02  set -x; mkdir -p $MMC_MOUNT_POINT_1 && mkdir -p $MMC_MOUNT_POINT_2; exit 0
 
 # Creating, verifying and printing partition
 03  set -x; echo -e "n\n p\n 1\n $MMC_DEVICE_SECTOR_START\n $MMC_DEVICE_SECTOR_END\n w\n" | fdisk $MMC_ROOT_ENTRY && exit 0 || exit 1
