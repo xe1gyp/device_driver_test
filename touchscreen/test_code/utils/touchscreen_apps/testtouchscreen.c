@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 		unsigned int value;
 	} keyinfo;
 
-	#define MAX_LIMIT_INTERACTIONS 100
+	#define MAX_LIMIT_INTERACTIONS 1000
 
 	int bytes;
 	int fd = open(argv[1], O_RDONLY);
