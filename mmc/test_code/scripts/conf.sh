@@ -23,6 +23,14 @@ export DURATION=""
 export PATH="${PATH}:${TESTROOT}:${TESTBIN}:${TESTSCRIPT}"
 export TC_SCENARIO="${TESTROOT}/scenarios"
 export SCENARIO_NAMES=""
+export BLOCK_FOLDER=/dev/block
+
+if [ -f "$BLOCK_FOLDER" ]
+then
+	export BLOCK_FOLDER=/dev
+fi
+
+
 
 # Check if bc is available, otherwise abort
 if [ ! `echo 1+1 | bc` ]; then
@@ -46,11 +54,11 @@ export PROCFS_INTERRUPTS=/proc/interrupts
 export PROCFS_PARTITIONS=/proc/partitions
 
 export MMC_ROOT_NAME=mmcblk$SLOT
-export MMC_ROOT_ENTRY=/dev/$MMC_ROOT_NAME
+export MMC_ROOT_ENTRY=$BLOCK_FOLDER/$MMC_ROOT_NAME
 export MMC_PARTITION_NAME1=${MMC_ROOT_NAME}p1
 export MMC_PARTITION_NAME2=${MMC_ROOT_NAME}p2
-export MMC_PARTITION_ENTRY1=/dev/$MMC_PARTITION_NAME1
-export MMC_PARTITION_ENTRY2=/dev/$MMC_PARTITION_NAME2
+export MMC_PARTITION_ENTRY1=$BLOCK_FOLDER/$MMC_PARTITION_NAME1
+export MMC_PARTITION_ENTRY2=$BLOCK_FOLDER/$MMC_PARTITION_NAME2
 export MMC_MOUNT_POINT_1=/mnt/mmc$SLOT
 export MMC_MOUNT_POINT_2=/mnt/mmc`echo "$SLOT+2" | bc`
 export MMC_DEVICE_SECTOR_START=1
