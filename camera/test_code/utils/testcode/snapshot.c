@@ -24,6 +24,8 @@
 /* For parameter parser */
 #include <getopt.h>
 
+#define DEFAULT_CAM_DEV				"/dev/video0"
+#define DEFAULT_VID_DEV				"/dev/video1"
 #define DEFAULT_PREVIEW_PIXFMT 		"YUYV"
 #define DEFAULT_PREVIEW_WIDTH 		640
 #define DEFAULT_PREVIEW_HEIGHT 		480
@@ -41,18 +43,38 @@ static void usage(void)
 	printf("Usage:\n");
 	printf("\tsnapshot <options>\n");
 	printf("\t-d <device-node>\n"
-	       "\t\tCamera device node to open (default: /dev/video0)\n");
-	printf("\t-p <pixelFormat>\n"
-	       "\t\tPixel format to use."
-			"(default: " DEFAULT_PREVIEW_PIXFMT ")\n\n"
-	       "\t\t\tSupported:\n"
-	       "\t\t\t\tYUYV, UYVY, RAW10\n");
-	printf("\t-w <width>\n");
-	printf("\t\tLCD preview width (default: 640)\n");
-	printf("\t-h <height>\n");
-	printf("\t\tLCD preview height (default: 480)\n");
+			"\t\tCamera device node to open (default: "
+			DEFAULT_CAM_DEV ")\n");
 	printf("\t-v <device-node>\n"
-	       "\t\tVideo device node to open (default: /dev/video1)\n");
+			"\t\tVideo device node to open (default: "
+			DEFAULT_VID_DEV ")\n");
+
+	printf("\t-p <preview pixelFormat>\n"
+			"\t\tPixel format for streaming. (default: "
+			DEFAULT_PREVIEW_PIXFMT ")\n"
+			"\t\tSupported: YUYV, UYVY, RAW10\n");
+	printf("\t-w <preview width>\n");
+	printf("\t\tLCD preview width (default: %u)\n",
+			DEFAULT_PREVIEW_WIDTH);
+	printf("\t-h <preview height>\n");
+	printf("\t\tLCD preview height (default: %u)\n",
+			DEFAULT_PREVIEW_HEIGHT);
+	printf("\t-p <preview fps>\n");
+	printf("\t\tLCD preview frame rate (default: %u)\n",
+			DEFAULT_PREVIEW_FPS);
+
+	printf("\t-q <capture pixelFormat>\n"
+			"\t\tPixel format for Snapshot. (default: "
+			DEFAULT_CAPTURE_PIXFMT ")\n");
+	printf("\t-x <capture width>\n");
+	printf("\t\tSnapshot capture width (default: %u)\n",
+			DEFAULT_CAPTURE_WIDTH);
+	printf("\t-y <capture height>\n");
+	printf("\t\tSnapshot capture height (default: %u)\n",
+			DEFAULT_CAPTURE_HEIGHT);
+	printf("\t-g <capture fps>\n");
+	printf("\t\tSnapshot capture frame rate (default: %u)\n",
+			DEFAULT_CAPTURE_FPS);
 }
 
 static void display_keys(void)
@@ -75,7 +97,7 @@ static void dump_sensor_info(int cfd)
 	ret = ioctl(cfd, VIDIOC_PRIVATE_OMAP34XXCAM_SENSOR_INFO,
 				&sens_info);
 	if (ret < 0) {
-		printf("VIDIOC_PRIVATE_OMAP34XXCAM_SENSOR_INFO not supported!");
+		printf("VIDIOC_PRIVATE_OMAP34XXCAM_SENSOR_INFO not supported.\n");
 	} else {
 		printf("  Sensor xclk:       %d Hz\n", sens_info.current_xclk);
 		printf("  Max Base size:     %d x %d\n",
@@ -102,8 +124,8 @@ int main(int argc, char **argv)
 	int memtype = V4L2_MEMORY_USERPTR;
 	int quit_flag = 0, snap_flag = 0;
 	int set_video_img = 0;
-	char *camdev = NULL;
-	char *viddev = NULL;
+	char *camdev = DEFAULT_CAM_DEV;
+	char *viddev = DEFAULT_VID_DEV;
 	int prvw = DEFAULT_PREVIEW_WIDTH, prvh = DEFAULT_PREVIEW_HEIGHT;
 	int prvfps = DEFAULT_PREVIEW_FPS;
 	char *prvpix = DEFAULT_PREVIEW_PIXFMT;
@@ -178,23 +200,30 @@ int main(int argc, char **argv)
 			    (optopt == 'x') ||
 			    (optopt == 'y') ||
 			    (optopt == 'g') ||
-			    (optopt == 'v'))
+			    (optopt == 'v')) {
 				fprintf(stderr,
 					"Option -%c requires an argument.\n",
 					optopt);
-			else if (isprint(optopt))
+				usage();
+			} else if (isprint(optopt)) {
 				fprintf(stderr,
 					"Unknown option `-%c'.\n",
 					optopt);
-			else
+				usage();
+			} else {
 				fprintf(stderr,
 					"Unknown option character `\\x%x'.\n",
 					optopt);
+				usage();
+			}
 			return 1;
 		default:
 			abort();
 		}
 	}
+
+	/********************************************************************/
+	/* Camera: Open handle to camera driver */
 
 	cfd = open(camdev, O_RDWR);
 	if (cfd <= 0) {
@@ -458,6 +487,18 @@ restart_streaming:
 		}
 	}
 
+	/********************************************************************/
+	/* Start Camera streaming */
+
+	if (ioctl(cfd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
+		perror("cam VIDIOC_STREAMON");
+		return -1;
+	}
+
+
+	/********************************************************************/
+	/* Display some information to the user */
+
 	dump_sensor_info(cfd);
 
 	printf("Streaming %d x %d...\n",
@@ -466,13 +507,6 @@ restart_streaming:
 
 	display_keys();
 
-	/********************************************************************/
-	/* Start Camera streaming */
-
-	if (ioctl(cfd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
-		perror("cam VIDIOC_STREAMON");
-		return -1;
-	}
 
 	/********************************************************************/
 	/* Start streaming loop */
@@ -756,7 +790,6 @@ int snapshot(int cfd, char *pixelFmt, int w, int h, int fps)
 	cfilledbuffer.type = creqbuf.type;
 	cfilledbuffer.memory = memtype;
 
-	dump_sensor_info(cfd);
 
 	/********************************************************************/
 	/* Camera: turn on streaming  */
@@ -765,6 +798,15 @@ int snapshot(int cfd, char *pixelFmt, int w, int h, int fps)
 		perror("VIDIOC_STREAMON");
 		return -1;
 	}
+
+	/********************************************************************/
+	/* Display some information to the user */
+
+	dump_sensor_info(cfd);
+
+	printf("Snapshot size %d x %d...\n",
+			cfmt.fmt.pix.width,
+			cfmt.fmt.pix.height);
 
 	/********************************************************************/
 	/* Camera: Queue/Dequeue one time  */
@@ -797,7 +839,7 @@ int snapshot(int cfd, char *pixelFmt, int w, int h, int fps)
 	/********************************************************************/
 	/* Save buffer to file  */
 
-	printf("Captured %d frames!\n", i);
+	printf("Captured %d frame!\n", i);
 	printf("Start writing to file\n");
 	for (i = 0; i < count; i++)
 		write(fd_save, cbuffers[i].start_aligned,
