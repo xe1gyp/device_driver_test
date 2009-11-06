@@ -3,7 +3,7 @@
 #include <linux/irq.h>
 #include <linux/init.h>
 #include <linux/interrupt.h>
-#include <mach/dmtimer.h>
+#include <plat/dmtimer.h>
 #include <linux/clk.h>
 #include <linux/types.h>
 #include <linux/delay.h>
