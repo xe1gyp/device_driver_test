@@ -268,8 +268,9 @@ int main(int argc, const char *argv[])
 		ret_val = fwrite(out_start, 1, out_hsize * out_vsize * 2,
 								out_data);
 
-	printf("Written %d  bytes of %d to %s\n",
-		ret_val, out_hsize * out_vsize * 2, argv[2]);
+	printf("\nOutput file: %s\n", argv[2]);
+	printf("Output size: %d x %d pixels\n", out_hsize, out_vsize);
+	printf("Wrote %d bytes to file.\n", ret_val);
 exit:
 	fclose(in_data);
 	fclose(out_data);
