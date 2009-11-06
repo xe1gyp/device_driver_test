@@ -11,7 +11,7 @@
 
 COMMENT comment.sh "Test if the resizer driver shall support: memory image upscaling, memory image downscaling and multi-pass approach image downscaling"
 
-0001 set -x; rsz.sh "QVGAtoSXGA" && exit 0 || exit 1
+0001 set -x; rsz.sh "QVGAto1248x932" && exit 0 || exit 1
 0002 set -x; rsz.sh "SXGAtoQVGA" && exit 0 || exit 1
 0003_SAN set -x; rsz.sh "5MPtoQCIF" && exit 0 || exit 1
 

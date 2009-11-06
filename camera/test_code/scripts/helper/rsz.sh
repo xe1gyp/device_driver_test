@@ -2,11 +2,11 @@
 TESTYPE=$1
 
 # Usage:rsz_vbuff <input_file> <output_file> <input_width> <input_height> <output_width> <output_height>
-if [ $TESTYPE = "QVGAtoSXGA" ]; then
+if [ $TESTYPE = "QVGAto1248x932" ]; then
   FIN="${TESTSCRIPT}/QVGArsz.yuv"
-  FNAME="${TMPBASE}/newSXGA.yuv"
+  FNAME="${TMPBASE}/new1248x932.yuv"
   INSIZE="320 240"
-  OUTSIZE="1280 960"
+  OUTSIZE="1248 932"
 elif [ $TESTYPE = "SXGAtoQVGA" ]; then
   FIN="${TESTSCRIPT}/SXGArsz.yuv"
   FNAME="${TMPBASE}/newQVGA.yuv"
