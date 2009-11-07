@@ -40,16 +40,16 @@ else
 fi
 
 # MTD General Testsuite
-export MTD_TESTSUITE=$COMBO_ROOT/../../mtd/scripts/
-if [ ! -d "$MTD_TESTSUITE" ]
-then
-	echo "FATAL: MTD TestSuite cannot be found!"
-	exit 1
-else
-  cd $MTD_TESTSUITE
-  . $MTD_TESTSUITE/conf.sh
-  cd $COMBO_ROOT
-fi
+#export MTD_TESTSUITE=$COMBO_ROOT/../../mtd/scripts/
+#if [ ! -d "$MTD_TESTSUITE" ]
+#then
+#	echo "FATAL: MTD TestSuite cannot be found!"
+#	exit 1
+#else
+#  cd $MTD_TESTSUITE
+#  . $MTD_TESTSUITE/conf.sh
+#  cd $COMBO_ROOT
+#fi
 
 # Combo Specific Variables
 export COMBO_MOUNTPOINT_NAND=/mnt/nand/
