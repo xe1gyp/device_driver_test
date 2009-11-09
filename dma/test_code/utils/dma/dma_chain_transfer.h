@@ -28,8 +28,10 @@
 #include <linux/delay.h>
 #include <linux/init.h>
 #include <asm/io.h>
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,27))
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,27) && LINUX_VERSION_CODE <= (2,6,31))
  #include <mach/dma.h>
+#elif LINUX_VERSION_CODE >= (2,6,32)
+ #include <plat/dma.h>
 #else
  #include <asm/arch/dma.h>
 #endif
