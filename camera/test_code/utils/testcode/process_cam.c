@@ -15,6 +15,8 @@
 #define DEFAULT_PIXEL_FMT "YUYV"
 #define DEFAULT_VIDEO_SIZE "CIF"
 #define DSS_FRAME_START		3
+#define DEFAULT_PROCESS1_PRIORITY	20
+#define DEFAULT_PROCESS2_PRIORITY	-10
 
 struct child_args {
 	int priority;
@@ -118,6 +120,9 @@ int main(int argc, char *argv[])
 		printf("ERROR: cannot create stack for child");
 		exit(1);
 	}
+
+	t_args1.priority = DEFAULT_PROCESS1_PRIORITY;
+	t_args2.priority = DEFAULT_PROCESS2_PRIORITY;
 
 	if (argc > index) {
 		t_args1.priority = atoi(argv[index]);
@@ -355,11 +360,9 @@ int main(int argc, char *argv[])
 
 
 	/* Set values to pass to new processes */
-	t_args1.priority = 20;
 	t_args1.value = qc.minimum;
 	t_args1.device = device;
 
-	t_args2.priority = -10;
 	t_args2.value = qc.maximum;
 	t_args2.device = device;
 
