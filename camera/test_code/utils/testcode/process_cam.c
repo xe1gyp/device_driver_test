@@ -7,6 +7,7 @@
 #include <string.h>
 #include <signal.h>
 #include <sys/resource.h>
+#include <sys/wait.h>
 
 #define VIDEO_DEVICE1 "/dev/video1"
 #define VIDEO_DEVICE2 "/dev/video2"
@@ -73,12 +74,14 @@ void set_control(void *t_args)
 	close(args->fd);
 	printf("File descriptor for priority %d closed\n", args->priority);
 
+	exit(0);
 }
 
 int main(int argc, char *argv[])
 {
 	struct child_args t_args1, t_args2;
 	int child1_pid, child2_pid;
+	int child1_status, child2_status;
 	void *child1_stack;
 	void *child2_stack;
 	struct {
@@ -400,8 +403,9 @@ int main(int argc, char *argv[])
 			}
 		}
 		if (i == 300) {
+			printf("Killing Child process 2 (pid=%i)\n",
+				child2_pid);
 			kill(child2_pid, SIGKILL);
-			printf("Child process 2 killed\n");
 		}
 		/* De-queue the next avaliable buffer */
 		while (ioctl(cfd, VIDIOC_DQBUF, &cfilledbuffer) < 0)
@@ -459,9 +463,21 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	/* Killing child process*/
+	waitpid(child2_pid, &child2_status, 0);
+	if (WIFEXITED(child2_status))
+		printf("child2 exit status %i\n", child2_status);
+
+	/* Kill child1 process*/
+	printf("Killing Child process 1 (pid=%i)\n",
+				child1_pid);
+	setpriority(PRIO_PROCESS, child1_pid, 0);
 	kill(child1_pid, SIGKILL);
-	printf("Child process 1 killed\n");
+
+	waitpid(child1_pid, &child1_status, 0);
+	if (WIFEXITED(child1_status))
+		printf("child1 exit status %i\n", child1_status);
+
+
 	printf("Captured %d frames!\n", i);
 
 	/* Set back to old brightness value */
