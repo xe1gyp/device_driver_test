@@ -385,7 +385,7 @@ int main(int argc, char *argv[])
 	printf("Priority of parent process: %d\n", retn);
 	while (i < 1000) {
 		/*Creating threads to execute the same function*/
-		if (i == 100) {
+		if (i == 200) {
 			printf("Invoking clone for child1\n");
 			child1_pid = fork();
 			if (child1_pid == 0) {
@@ -395,7 +395,7 @@ int main(int argc, char *argv[])
 				exit(2);
 			}
 		}
-		if (i == 200) {
+		if (i == 400) {
 			printf("Invoking clone for child2\n");
 			child2_pid = fork();
 			if (child2_pid == 0)
@@ -405,7 +405,7 @@ int main(int argc, char *argv[])
 				exit(2);
 			}
 		}
-		if (i == 300) {
+		if (i == 600) {
 			printf("Killing Child process 2 (pid=%i)\n",
 				child2_pid);
 			kill(child2_pid, SIGKILL);
