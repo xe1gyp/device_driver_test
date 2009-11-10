@@ -5,10 +5,22 @@
 #include <asm/irq.h>
 #include <linux/version.h>
 #include <linux/gpio.h>
-#include <mach/hardware.h>
-#include <mach/control.h>
 #include <linux/io.h>
-#include <mach/irqs.h>
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,27) && LINUX_VERSION_CODE <= (2,6,31))
+ #include <mach/hardware.h>
+ #include <mach/control.h>
+ #include <mach/irqs.h>
+#elif LINUX_VERSION_CODE >= (2,6,32)
+ #include <plat/hardware.h>
+ #include <plat/control.h>
+ #include <plat/irqs.h>
+#else
+ #include <asm/arch/hardware.h>
+ #include <asm/arch/control.h>
+ #include <asm/arch/irqs.h>
+#endif
+
 #include <linux/proc_fs.h>
 #define PROC_FILE "driver/gpio_test_result"
 
@@ -129,12 +141,12 @@ static void gpio_test7(void)
 	}
 
 	/* Initialise base addresses for each bank */
-	bank_base_addr[0] = OMAP2_IO_ADDRESS(0x48310000);
-	bank_base_addr[1] = OMAP2_IO_ADDRESS(0x49050000);
-	bank_base_addr[2] = OMAP2_IO_ADDRESS(0x49052000);
-	bank_base_addr[3] = OMAP2_IO_ADDRESS(0x49054000);
-	bank_base_addr[4] = OMAP2_IO_ADDRESS(0x49056000);
-	bank_base_addr[5] = OMAP2_IO_ADDRESS(0x49058000);
+	bank_base_addr[0] = OMAP2_L4_IO_ADDRESS(0x48310000);
+	bank_base_addr[1] = OMAP2_L4_IO_ADDRESS(0x49050000);
+	bank_base_addr[2] = OMAP2_L4_IO_ADDRESS(0x49052000);
+	bank_base_addr[3] = OMAP2_L4_IO_ADDRESS(0x49054000);
+	bank_base_addr[4] = OMAP2_L4_IO_ADDRESS(0x49056000);
+	bank_base_addr[5] = OMAP2_L4_IO_ADDRESS(0x49058000);
 
 	for (bank_status = 0, i = 0; i < 6; i++) {
 		for (j = 0; j < 32; j++) {
