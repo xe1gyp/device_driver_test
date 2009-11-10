@@ -4,7 +4,7 @@ error=0
 COUNT=$FIRST_GPIO_LINE
 while [ $COUNT -le $MAX_GPIO_LINES ]
 do
-	insmod $TEST_MODULE test=1 gpio=$COUNT value=1
+	insmod $TEST_MODULE test=$1 gpio=$COUNT value=1
 	cat /proc/driver/gpio_test_result | grep FAILED
 	if [ $? -eq 0 ]
 	then

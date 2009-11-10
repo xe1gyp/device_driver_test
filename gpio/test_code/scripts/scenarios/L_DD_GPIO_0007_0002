@@ -1,0 +1,13 @@
+################################################################################
+# Scenario: L_DD_GPIO_0007_0002
+# Author  : Charulatha V
+# Date    : Wed 10th Nov, 2009
+# Description: Verify if GPIO driver disables a GPIO module when all the
+#              pins of the GPIO module are inactive.
+################################################################################
+
+# Begin L_DD_GPIO_0007_0002
+
+00 set -x; $TESTSCRIPT/gpio_mod_enable_disable.sh
+
+# End L_DD_GPIO_0007_0002

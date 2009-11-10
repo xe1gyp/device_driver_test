@@ -148,7 +148,8 @@ static void gpio_test7(void)
 	bank_base_addr[4] = OMAP2_L4_IO_ADDRESS(0x49056000);
 	bank_base_addr[5] = OMAP2_L4_IO_ADDRESS(0x49058000);
 
-	for (bank_status = 0, i = 0; i < 6; i++) {
+	for (i = 0; i < 6; i++) {
+		bank_status = 0;
 		for (j = 0; j < 32; j++) {
 			ret = gpio_request(j+i*32, "titan_test");
 			if (!ret)
@@ -164,16 +165,17 @@ static void gpio_test7(void)
 				gpio_free(j+i*32);
 		}
 		/* Read OMAP24XX_GPIO_CTRL to verify the module status */
-		mod_status = __raw_readl(bank_base_addr[i] + 0x30)
-					& 0xFFFFFFFE;
+		mod_status = __raw_readl(bank_base_addr[i] + 0xc) & 0x1;
 		if (mod_status)
-			printk(KERN_INFO "\n\nGPIO Module%d disable Success"
-				"\n", i);
-		else if (!bank_status)
-			printk(KERN_INFO "\n\nGPIO Module%d disable Failed"
-				"\n", i);
+			printk(KERN_INFO "GPIO Module %d disable Success"
+				"\n\n", i);
+		else if (!bank_status) {
+			test_passed = 0;
+			printk(KERN_INFO "GPIO Module %d disable Failed"
+				"\n\n", i);
+		}
 		else
-			printk(KERN_INFO "\n\nGPIO Bank %d not free\n", i);
+			printk(KERN_INFO "GPIO Module %d not free\n\n", i);
 	}
 }
 
@@ -230,19 +232,31 @@ static void gpio_test(void)
 			gpio_test7();
 			break;
 
+		case 8:/* Request for same GPIO twice and free \
+				the GPIO */
+			gpio_test_request();
+			if (request_flag) {
+				request_flag = 0;
+				gpio_test_request();
+				if (request_flag)
+					test_passed = 0;
+				gpio_test_free();
+			}
+			break;
 		default:
 			printk(KERN_INFO "Test option not available.\n");
 	}
 
-	if (test != 7)
+	if (test < 7) {
 		printk(KERN_INFO "Logical ANDing of three error flags is: %d"
 			"\n", (error_flag_1 && error_flag_2 && error_flag_3));
-	/* On failure of a testcase, one of the three error flags set to 0
-	 * if a gpio line request fails it is not considered as a failure
-	 * set test_passed =0 for failure
-	 */
-	if (!(error_flag_1 && error_flag_2 && error_flag_3))
-		test_passed = 0;
+		/* On failure of a testcase, one of the three error flags set
+		 * to 0 if a gpio line request fails it is not considered as
+		 * a failure. Set test_passed =0 for failure
+		 */
+		if (!(error_flag_1 && error_flag_2 && error_flag_3))
+			test_passed = 0;
+	}
 }
 
 /*
