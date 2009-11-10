@@ -1,0 +1,11 @@
+###############################################################################
+# Scenario: L_DD_RTC_0002_0001
+# Author  : Misael Lopez Cruz
+# Date    : Octuber 5, 2006
+###############################################################################
+
+# Begin L_DD_RTC_0002_0001
+
+01	set -x; echo -e "$APP_VAL_INPUT_USER\n $APP_VALID_DATE\n $APP_VALID_TIME\n" | $APP_TIME_SET $DEVFS_RTC && $APP_TIME_GET $DEVFS_RTC | grep "${MSG_DATE_TIME_USE_CURRENT} ${RTC_VALID_DATE}" && exit 0 || exit 1
+
+# End L_DD_RTC_0002_0001
