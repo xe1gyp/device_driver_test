@@ -8,7 +8,7 @@ if [ -z "$DEVICE" ];then
    DEVICE=1
 fi
 
-${TESTBIN}/process_cam 10 20 $DEVICE
+${TESTBIN}/process_cam 20 -10 $DEVICE
 RESULT=$?
 echo "Test returned $RESULT"
 
