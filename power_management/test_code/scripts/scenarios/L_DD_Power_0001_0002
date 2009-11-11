@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_POWER_0001_0002
+# Testing : 0002 Test that the tick suppresion is happening.
+###############################################################################
+
+# Begin L_DD_POWER_0001_0002
+
+0001 set -x; echo "To start the interrup test please press a button" && $UTILBIN/waitkey
+0002 set -x; echo "Interrupt Test has started" && date && t1=`cat /proc/interrupts | grep timer | awk '{print $2}'` && t1=`echo $t1 | awk '{print $1}'` && $TESTBIN/time_difference `date '+%H %M %S';sleep 30; date '+%H %M %S'` 30 && t2=`cat /proc/interrupts | grep timer | awk '{print $2}'` && t2=`echo $t2 | awk '{print $1}'` && dt=`echo "$t2-$t1" | bc` && echo "Number of interrupts: $dt" && test $dt -ge $MIN_INT_PER_SECOND && test $dt -le $MAX_INT_PER_SECOND && exit 0 || exit 1
+
+
+# End L_DD_POWER_0001_0002

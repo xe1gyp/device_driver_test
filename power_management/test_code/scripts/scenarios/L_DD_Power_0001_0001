@@ -1,0 +1,13 @@
+###################################################################################################################
+# Scenario: L_DD_Power_0001_0001
+# Author  : Misael Lopez Cruz
+# Date    : 04 Jul 07
+# Description: 0001 Tests that the system time is maintained with dynamic tick.
+###################################################################################################################
+
+# Begin  L_DD_Power_0001_0001
+
+0001  set -x; echo "Please count for 600 secs, use a wall clock or watch for reference" && $UTILBIN/waitkey
+0002  set -x; echo "Count has started!" && $TESTBIN/time_difference `date '+%H %M %S'; sleep 600; date '+%H %M %S'` 600 && exit 0 || exit 1
+
+#End L_DD_Power_0001_0001

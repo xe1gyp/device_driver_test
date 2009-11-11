@@ -1,39 +1,39 @@
 ###############################################################################
-# Scenario: L_DD_POWER_0005_0002
-# Testing : OPPs Control: Requesting/Confirming OPPs
+# Scenario: L_DD_POWER_0005_0006
+# Testing : OPPs Control: Locking/Confirming OPPs + Suspend/Resume
 ###############################################################################
 
-# Begin L_DD_POWER_0005_0002
+# Begin L_DD_POWER_0005_0006
 
 01  set -x; smartReflexAutoComp.sh  enable  VDD1
 02  set -x; smartReflexAutoComp.sh  enable  VDD2
 
 03  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
 
-04  set -x; oppControl.sh  request  VDD1  1
+04  set -x; oppControl.sh  lock  VDD1  1
 05  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
-06  set -x; oppControl.sh  request  VDD1  2
+06  set -x; oppControl.sh  lock  VDD1  2
 07  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
-08  set -x; oppControl.sh  request  VDD1  3
+08  set -x; oppControl.sh  lock  VDD1  3
 09  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
-10  set -x; oppControl.sh  request  VDD1  4
+10  set -x; oppControl.sh  lock  VDD1  4
 11  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
-12  set -x; oppControl.sh  request  VDD1  5
+12  set -x; oppControl.sh  lock  VDD1  5
 13  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
-14  set -x; oppControl.sh  request  VDD1  3
+14  set -x; oppControl.sh  lock  VDD1  0
 15  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
 
-16  set -x; oppControl.sh  request  VDD2  1  && exit 1 || exit 0
+16  set -x; oppControl.sh  lock  VDD2  1  && exit 1 || exit 0
 17  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
-18  set -x; oppControl.sh  request  VDD2  2  && exit 0 || exit 1
+18  set -x; oppControl.sh  lock  VDD2  2  && exit 0 || exit 1
 19  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
-20  set -x; oppControl.sh  request  VDD2  3  && exit 0 || exit 1
+20  set -x; oppControl.sh  lock  VDD2  3  && exit 0 || exit 1
 21  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
-22  set -x; oppControl.sh  request  VDD2  4  && exit 1 || exit 0
+22  set -x; oppControl.sh  lock  VDD2  4  && exit 1 || exit 0
 23  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
-24  set -x; oppControl.sh  request  VDD2  5  && exit 1 || exit 0
+24  set -x; oppControl.sh  lock  VDD2  5  && exit 1 || exit 0
 25  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
-26  set -x; oppControl.sh  request  VDD2  3  && exit 1 || exit 0
+26  set -x; oppControl.sh  lock  VDD2  0  && exit 1 || exit 0
 27  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
 
 28  set -x; smartReflexAutoComp.sh  disable  VDD1
@@ -41,4 +41,4 @@
 
 30  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
 
-# End L_DD_POWER_0005_0002
+# End L_DD_POWER_0005_0006

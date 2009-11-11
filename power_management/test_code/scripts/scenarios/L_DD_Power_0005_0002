@@ -1,28 +1,28 @@
-###################################################################################################################
-# Scenario: L_DD_Power_0005_0002
-# Author  : Ricardo Perez Olivares
-# Date    : 02 Sep 08
-# Description: Test for Shared Resource Framework 
-###################################################################################################################
+###############################################################################
+# Scenario: L_DD_POWER_0005_0002
+# Testing : OPPs Control: Requesting/Confirming OPPs
+###############################################################################
 
+# Begin L_DD_POWER_0005_0002
 
+01  set -x; smartReflexAutoComp.sh  enable  VDD1
+02  set -x; smartReflexAutoComp.sh  enable  VDD2
 
-#Begin L_DD_Power_0005_0002
+03  set -x; oppControl.sh  request  VDD1  1
+04  set -x; oppControl.sh  request  VDD1  2
+05  set -x; oppControl.sh  request  VDD1  3
+06  set -x; oppControl.sh  request  VDD1  4
+07  set -x; oppControl.sh  request  VDD1  5
+08  set -x; oppControl.sh  request  VDD1  3
 
-0002_a  insmod $TESTMODS/resource_test.ko opt1=0x2 opt2=0x1 && rmmod resource_test.ko && echo "VALIDATION CRITERIA: Verify that \"Test Passed\" message is printed" && sleep 1 && $UTILBIN/akey && sleep 2 && echo "Reboot the system after this test" && sleep 1 && $UTILBIN/waitkey && exit 0 || exit 1
+09  set -x; oppControl.sh  request  VDD2  1  && exit 1 || exit 0
+10  set -x; oppControl.sh  request  VDD2  2  && exit 0 || exit 1
+11  set -x; oppControl.sh  request  VDD2  3  && exit 0 || exit 1
+12  set -x; oppControl.sh  request  VDD2  4  && exit 1 || exit 0
+13  set -x; oppControl.sh  request  VDD2  5  && exit 1 || exit 0
+14  set -x; oppControl.sh  request  VDD2  3  && exit 1 || exit 0
 
-0002_b  insmod $TESTMODS/resource_test.ko opt1=0x2 opt2=0x2 && rmmod resource_test.ko && echo "VALIDATION CRITERIA: Verify that \"Test Passed\" message is printed" && sleep 1 && $UTILBIN/akey && sleep 2 && echo "Reboot the system after this test" && sleep 1 && $UTILBIN/waitkey && exit 0 || exit 1
+15  set -x; smartReflexAutoComp.sh  disable  VDD1
+16  set -x; smartReflexAutoComp.sh  disable  VDD2
 
-0002_c  insmod $TESTMODS/resource_test.ko opt1=0x2 opt2=0x3 && rmmod resource_test.ko && echo "VALIDATION CRITERIA: Verify that \"Test Passed\" message is printed" && sleep 1 && $UTILBIN/akey && sleep 2 && echo "Reboot the system after this test" && sleep 1 && $UTILBIN/waitkey && exit 0 || exit 1
-
-0002_d  insmod $TESTMODS/resource_test.ko opt1=0x2 opt2=0x4 && rmmod resource_test.ko && echo "VALIDATION CRITERIA: Verify that \"Test Passed\" message is printed" && sleep 1 && $UTILBIN/akey && sleep 2 && echo "Reboot the system after this test" && sleep 1 && $UTILBIN/waitkey && exit 0 || exit 1
-
-0002_e  insmod $TESTMODS/resource_test.ko opt1=0x2 opt2=0x5 && rmmod resource_test.ko && echo "VALIDATION CRITERIA: Verify that \"Test Passed\" message is printed" && sleep 1 && $UTILBIN/akey && sleep 2 && echo "Reboot the system after this test" && sleep 1 && $UTILBIN/waitkey && exit 0 || exit 1
-
-0002_f  insmod $TESTMODS/resource_test.ko opt1=0x2 opt2=0x6 && rmmod resource_test.ko && echo "VALIDATION CRITERIA: Verify that \"Test Passed\" message is printed" && sleep 1 && $UTILBIN/akey && sleep 2 && echo "Reboot the system after this test" && sleep 1 && $UTILBIN/waitkey && exit 0 || exit 1
-
-0002_g  insmod $TESTMODS/resource_test.ko opt1=0x2 opt2=0x7 && rmmod resource_test.ko && echo "VALIDATION CRITERIA: Verify that \"Test Passed\" message is printed" && sleep 1 && $UTILBIN/akey && sleep 2 && echo "Reboot the system after this test" && sleep 1 && $UTILBIN/waitkey && exit 0 || exit 1
-
-0002_h  insmod $TESTMODS/resource_test.ko opt1=0x2 opt2=0x8 && rmmod resource_test.ko && echo "VALIDATION CRITERIA: Verify that \"Test Passed\" message is printed" && sleep 1 && $UTILBIN/akey && sleep 2 && echo "Reboot the system after this test" && sleep 1 && $UTILBIN/waitkey && exit 0 || exit 1
-
-#End L_DD_Power_0005_0002
+# End L_DD_POWER_0005_0002
