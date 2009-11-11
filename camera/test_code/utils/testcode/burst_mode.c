@@ -297,24 +297,6 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	/********************************************************/
-	/* Get Sensor info using SENSOR_INFO ioctl */
-
-	printf("Getting Sensor Info...\n");
-	if (ioctl(fd, VIDIOC_PRIVATE_OMAP34XXCAM_SENSOR_INFO, &sens_info) < 0) {
-		printf("VIDIOC_PRIVATE_OMAP34XXCAM_SENSOR_INFO not supported!");
-	} else {
-		printf("  Sensor xclk:       %d Hz\n", sens_info.current_xclk);
-		printf("  Max Base size:     %d x %d\n",
-			sens_info.full_size.width,
-			sens_info.full_size.height);
-		printf("  Current Base size: %d x %d\n",
-			sens_info.active_size.width,
-			sens_info.active_size.height);
-	}
-
-	/********************************************************/
-
 	/* capture 1000 frames or when we hit the passed number of frames */
 	cfilledbuffer.type = creqbuf.type;
 	cfilledbuffer.memory = memtype;
@@ -353,6 +335,24 @@ int main(int argc, char *argv[])
 		perror("VIDIOC_STREAMON");
 		return -1;
 	}
+
+	/********************************************************/
+	/* Get Sensor info using SENSOR_INFO ioctl */
+
+	printf("Getting Sensor Info...\n");
+	if (ioctl(fd, VIDIOC_PRIVATE_OMAP34XXCAM_SENSOR_INFO, &sens_info) < 0) {
+		printf("VIDIOC_PRIVATE_OMAP34XXCAM_SENSOR_INFO not supported.\n");
+	} else {
+		printf("  Pixel clk:   %d Hz\n", sens_info.current_xclk);
+		printf("  Full size:   %d x %d\n",
+			sens_info.full_size.width,
+			sens_info.full_size.height);
+		printf("  Active size: %d x %d\n",
+			sens_info.active_size.width,
+			sens_info.active_size.height);
+	}
+
+	/********************************************************/
 
 	while (i < 1000) {
 		/* De-queue the next avaliable buffer */
@@ -397,7 +397,7 @@ int main(int argc, char *argv[])
 			       cformat.fmt.pix.width * cformat.fmt.pix.height *
 			       2);
 	}
-	printf("Completed writing to file\n");
+	printf("Completed writing to file: %s\n", fileName);
 	for (i = 0; i < creqbuf.count; i++) {
 		if (cbuffers[i].start) {
 			if (memtype == V4L2_MEMORY_USERPTR)
