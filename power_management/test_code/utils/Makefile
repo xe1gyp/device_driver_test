@@ -6,21 +6,15 @@
 #  in the license agreement under which this software has been supplied.
 # ================================================================================
 
-#SUBDIRS=dhry_app omap3_app
 SUBDIRS=omap3_app
 
 all: $(SUBDIRS)
-
-dhry_app:
-	make -C dhry
 
 omap3_app:
 	make -C omap3
 
 clean:
-	make -C dhry clean
 	make -C omap3 clean
 
 install:
-	make -C dhry clean
 	make -C omap3 install
