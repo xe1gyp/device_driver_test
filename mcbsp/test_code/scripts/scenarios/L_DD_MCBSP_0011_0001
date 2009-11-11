@@ -9,6 +9,6 @@
 # Begin L_DD_MCBSP_0011_0001
 
 #Driver shall allow DVFS during data transfer. This testcase verifies the same
-0001 set -x; $TESTROOT/../../utils/scripts/dvfs.opp.sh & testmcbsp.sh "0001_0001" "McBSP ID" "" "" "None" && exit 0 || exit 1
+0001 set -x; $UTILSCRIPTS/dvfs.opp.sh & testmcbsp.sh "0001_0001" "McBSP ID" "" "" "None" && exit 0 || exit 1
 
 # End L_DD_MCBSP_0011_0001

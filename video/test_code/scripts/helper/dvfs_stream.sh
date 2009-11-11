@@ -9,7 +9,7 @@ RESULT=0
 $TESTBIN/setimg $VIDEO_PIPELINE $SETIMG_PARAMETERS
 RESULT=`command_tracking.sh $RESULT $?`
 
-dvfs.opp.sh&
+$UTILSCRIPTS/dvfs.opp.sh&
 sleep 1
 # Usage: streaming <vid> <inputfile> [<n>]
 $TESTBIN/streaming $VIDEO_PIPELINE $STREAMING_PARAMETERS 1

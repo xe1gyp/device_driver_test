@@ -28,6 +28,7 @@ export SCENARIO_NAMES=""
 
 # Utilities
 export UTILBIN=${TESTROOT}/../../utils/bin
+export UTILSCRIPTS=${TESTROOT}/../../utils/scripts
 
 # Adapters
 export I2C_ADAPTERS="1 2 3"
