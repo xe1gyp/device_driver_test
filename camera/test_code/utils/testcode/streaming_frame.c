@@ -13,6 +13,7 @@
 #include <sys/mman.h>
 #include <linux/videodev2.h>
 #include <string.h>
+#include "mach/isp_user.h"
 
 #define VIDIOC_S_OMAP2_ROTATION		_IOW('V', 3, int)
 #define FBDEVICE "/dev/fb0"
@@ -44,6 +45,25 @@ static void usage(void)
 	printf("   [count] amount of frames to be displayed/saved\n");
 	printf("   [file] Optionally the captured image can be saved to file "
 						"<file>\n");
+}
+
+int show_sensor_info(int fd)
+{
+	struct omap34xxcam_sensor_info sens_info;
+
+	printf("Getting Sensor Info...\n");
+	if (ioctl(fd, VIDIOC_PRIVATE_OMAP34XXCAM_SENSOR_INFO, &sens_info) < 0) {
+		printf("VIDIOC_PRIVATE_OMAP34XXCAM_SENSOR_INFO not supported.\n");
+	} else {
+		printf("  Pixel clk:   %d Hz\n", sens_info.current_xclk);
+		printf("  Full size:   %d x %d\n",
+			sens_info.full_size.width,
+			sens_info.full_size.height);
+		printf("  Active size: %d x %d\n",
+			sens_info.active_size.width,
+			sens_info.active_size.height);
+	}
+	return 0;
 }
 
 int main(int argc, char *argv[])
@@ -330,6 +350,8 @@ int main(int argc, char *argv[])
 		perror("cam VIDIOC_STREAMON");
 		return -1;
 	}
+
+	show_sensor_info(cfd);
 
 	/* caputure 1000 frames or when we hit the passed nmuber of frames */
 	cfilledbuffer.type = creqbuf.type;
