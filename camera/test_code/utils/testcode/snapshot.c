@@ -42,7 +42,7 @@ static void usage(void)
 {
 	printf("Usage:\n");
 	printf("\tsnapshot <options>\n");
-	printf("\t-d <device-node>\n"
+	printf("\t-c <device-node>\n"
 			"\t\tCamera device node to open (default: "
 			DEFAULT_CAM_DEV ")\n");
 	printf("\t-v <device-node>\n"
