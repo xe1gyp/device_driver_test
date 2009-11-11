@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
 	int framerate = 30;
 	int device = 1;
 	int orig_brightness, orig_contrast, orig_color;
-	int step_brightness;
+	int step_brightness, step_contrast;
 
 	if ((argc > index) && (!strcmp(argv[1], "?"))) {
 		usage();
@@ -383,6 +383,10 @@ int main(int argc, char *argv[])
 				"level is %d\n", qc_contrast.minimum,
 				qc_contrast.maximum, c_contrast.value);
 		orig_contrast = c_contrast.value;
+		step_contrast = (qc_contrast.maximum-qc_contrast.minimum) /
+			(FRAME_COUNT / APPLY_COUNT);
+		printf("Contrast step for this test: %d\n",
+			step_contrast);
 	}
 
 	memset(&qc_colorfx, 0, sizeof(qc_colorfx));
@@ -467,7 +471,7 @@ int main(int argc, char *argv[])
 		if (((i % APPLY_COUNT) == 0) && (test != 0)) {
 			if (test == CONT_TEST) {
 				c_contrast.id = V4L2_CID_CONTRAST;
-				c_contrast.value += qc_contrast.step;
+				c_contrast.value += step_contrast;
 				if (c_contrast.value > qc_contrast.maximum)
 					c_contrast.value = qc_contrast.minimum;
 				if (fOut != NULL && aux <= num_frames) {
