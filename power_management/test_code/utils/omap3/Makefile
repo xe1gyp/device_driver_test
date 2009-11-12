@@ -8,20 +8,25 @@
 
 CC=$(CROSS_COMPILE)gcc
 
-TARGETS= system_time
-obj-m := clock_test.o resource_test.o clockdomain_test.o powerdomain_test.o
+ifneq ($(strip $(TESTSUITES_ROOT)),)
+ SOURCE_DIR := ${TESTSUITES_ROOT}/power_management/test_code/utils/omap3/
+else
+ SOURCE_DIR := ${PWD}/utils/omap3
+endif
+
+TARGETS= time_difference
+MODULES= prcm_test.o clockdomain_test.o powerdomain_test.o
+obj-m:=$(MODULES)
+ccflags-y += -Iarch/arm
 
 all:
-	make -C $(KDIR) SUBDIRS=$(PWD)/utils/omap3 KERN=26 modules
-	$(CC) system_time.c -o system_time
+	make -C $(KDIR) SUBDIRS=$(SOURCE_DIR)  KERN=26 modules
+	$(CC) time_difference.c -o time_difference
 
 install:
-	cp -vf clock_test.ko ../../mods
-	cp -vf resource_test.ko ../../mods
-	cp -vf clockdomain_test.ko ../../mods
-	cp -vf powerdomain_test.ko ../../mods
+	cp -v $(MODULES:.o=.ko) ../../mods
 	cp -vf $(TARGETS) ../../bin
 
 clean:
 	rm -vrf *.ko .*.cmd *.o *.mod.* *Module* .tmp_versions *.o.d
-	rm -vf $(TARGETS)
+	rm -vf $(TARGETS) modules.order
