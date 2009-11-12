@@ -7,20 +7,8 @@
 * ========================================================================= */
 
 #include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <linux/fb.h>
-#include <unistd.h>
-#include <sys/mman.h>
 #include <sys/ioctl.h>
-#include <stdlib.h>
-#include <string.h>
 
-#include <sys/time.h>
-#include <errno.h>
-#include <linux/fs.h>
-#include <linux/kernel.h>
 #include <linux/videodev2.h>
 
 int setFramerate(int fd, int framerate)

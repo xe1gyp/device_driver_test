@@ -7,22 +7,8 @@
 * ========================================================================== */
 
 #include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <linux/fb.h>
-#include <unistd.h>
-#include <sys/mman.h>
-#include <sys/ioctl.h>
-#include <stdlib.h>
-#include <string.h>
 
-#include <sys/time.h>
-#include <errno.h>
-#include <linux/fs.h>
-#include <linux/kernel.h>
 #include <linux/videodev2.h>
-#define V4L2_PIX_FMT_SGRBG10		v4l2_fourcc('B', 'A', '1', '0')
 
 #define VIDEO_DEVICE_0 "/dev/video0"
 #define VIDEO_DEVICE_4 "/dev/video4"
