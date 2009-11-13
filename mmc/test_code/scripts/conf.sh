@@ -25,7 +25,7 @@ export TC_SCENARIO="${TESTROOT}/scenarios"
 export SCENARIO_NAMES=""
 export BLOCK_FOLDER=/dev/block
 
-if [ -f "$BLOCK_FOLDER" ]
+if [ ! -d "$BLOCK_FOLDER" ]
 then
 	export BLOCK_FOLDER=/dev
 fi

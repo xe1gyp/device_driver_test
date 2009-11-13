@@ -46,17 +46,17 @@ export DEVFS_ZERO=/dev/zero
 export MTD_FOLDER=/dev/mtd
 export BLOCK_FOLDER=/dev/block
 
-if [ -f "$MTD_FOLDER" ]
+if [ ! -d "$MTD_FOLDER" ]
 then
         export MTD_FOLDER=/dev
 fi
 
-if [ -f "$BLOCK_FOLDER" ]
+if [ ! -d "$BLOCK_FOLDER" ]
 then
         export BLOCK_FOLDER=/dev
 fi
 
-if [ -f  "$DEFAULT_MOUNT_POINT" ]
+if [ ! -d  "$DEFAULT_MOUNT_POINT" ]
 then
 	mkdir -p $DEFAULT_MOUNT_POINT
 fi
