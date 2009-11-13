@@ -61,7 +61,7 @@ fbout: fb_general.c
 
 fbflipbut: fb_general.c
 	echo "#define FUNCTION_FLIPBUF" > fb_general_config.h
-	$(CC) $(CFLAGS) fb_general.c -o fbflipbut
+	$(CC) $(CFLAGS) fb_general.c -o fbflipbuf
 
 fbtest: fbtest.c
 	$(CC) $(CFLAGS) fbtest.c -o fbtest

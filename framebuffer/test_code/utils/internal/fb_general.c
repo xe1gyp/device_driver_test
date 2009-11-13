@@ -11,7 +11,7 @@
 #include <stdlib.h>
 //#include "meera2.h"
 
-#define FBDEVICE "/dev/fb0"
+#define FBDEVICE "/dev/fb/0"
 int fd;
 struct fb_var_screeninfo var;
 struct fb_fix_screeninfo fix;
@@ -463,20 +463,45 @@ int flip_to_buffer(int i)
 	return 0;
 }
 
-int test_triple_buffer()
+int test_triple_buffer(int verbose)
 {
 	int width=0, height=0;
 	int i=0, j=0, k=0;
 	int num_buf = 3;
 	unsigned char col_8;
+	int ret = 0;
+
+	ret = ioctl(fd, FBIOGET_VSCREENINFO, &var);
+	if (ret)
+		return ret;
+
+	var.xres_virtual = var.xres;
+	var.yres_virtual = var.yres * num_buf;
+
+	ret = ioctl(fd, FBIOPUT_VSCREENINFO, &var);
+	if (ret)
+		return ret;
+
+	ret = ioctl(fd, FBIOGET_VSCREENINFO, &var);
+	if (ret)
+		return ret;
+
+	if (verbose)
+		show_screeninfo(&var, &fix);
 	
 	width = fix.line_length;
-	height = var.yres;
+	height = var.yres_virtual;
+
+	if (height < var.yres * num_buf) {
+		printf("No enough VRAM memory");
+		return -ENOMEM;
+	}
 
 	data = (unsigned char *)mmap (0,
-				width*height*num_buf,
+				width*height,
 				(PROT_READ|PROT_WRITE),
 				MAP_SHARED, fd, 0) ;
+
 	if (!data) {
 		printf("MMap failed for %d x %d  of %d\n", width, height*num_buf, fix.smem_len);
 		return -ENOMEM;
@@ -484,25 +509,28 @@ int test_triple_buffer()
 
 	/* fill buffer 2 with col_8 = 0xAA */
 	col_8 = 0xAA;
-	for(i=var.yres; i<var.yres*2; i++)			//vertical
-		for(j=0; j<var.xres*var.bits_per_pixel/8; j++)	//horizontal
+	for (i = var.yres; i < var.yres*2; i++)
+		for (j = 0; j < var.xres*var.bits_per_pixel / 8; j++)
 			data[i*fix.line_length + j] = col_8;
-	
+
 	/* fill buffer 3 with col_8 = 0x22 */
 	col_8 = 0x22;
-	for(i=var.yres*2; i<var.yres*3; i++)			//vertical
-		for(j=0; j<var.xres*var.bits_per_pixel/8; j++)	//horizontal
+	for (i = var.yres * 2; i < var.yres*3; i++)
+		for (j = 0; j < var.xres*var.bits_per_pixel / 8; j++)
 			data[i*fix.line_length + j] = col_8;
 
 	munmap(data, fix.line_length * var.yres);
-	
+
+	printf("Flipping to buffer 2\n");
 	flip_to_buffer(2);
 	sleep(1);
+	printf("Flipping to buffer 3\n");
 	flip_to_buffer(3);
 	sleep(1);
+	printf("Flipping to buffer 1\n");
 	flip_to_buffer(1);
 
-	return 0;
+	return ret;
 }
 
 int mmap_test()
@@ -738,7 +766,7 @@ int main(int argc, char **argv)
 #endif
 
 #ifdef FUNCTION_FLIPBUF
-	test_triple_buffer();
+	test_triple_buffer(VERBOSE);
 #endif
 	printf("-----------------------------------\n");
 	close(fd);
