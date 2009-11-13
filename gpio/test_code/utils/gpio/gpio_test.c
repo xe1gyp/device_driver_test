@@ -154,7 +154,7 @@ static void gpio_test(void){
 		default:
 			printk(KERN_INFO "Test option not available.\n");
 	}
-	
+
 	printk(KERN_INFO "Logical ANDing of three error flags is: %d\n", (error_flag_1 && error_flag_2 && error_flag_3));
 	/* On failure of a testcase, one of the three error flags set to 0
 	 * if a gpio line request fails it is not considered as a failure
