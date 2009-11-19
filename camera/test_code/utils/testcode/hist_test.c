@@ -25,6 +25,11 @@
 #define DEFAULT_PIXEL_FMT "YUYV"
 #define DEFAULT_VIDEO_SIZE "QVGA"
 
+#define MODE_MANUAL		1
+#define MODE_AUTO		2
+
+#define MAX_FRAME_AUTO_MODE		1000
+
 #define BYTES_PER_WINDOW	16
 #define DIGITAL_GAIN_DEFAULT	0x100
 #define DIGITAL_GAIN_MAX	0x3FF
@@ -39,7 +44,7 @@
 
 static void usage(void)
 {
-	printf("hist_test [camDevice] [framerate] [vid]\n");
+	printf("hist_test [camDevice] [framerate] [vid] [mode]\n");
 	printf("\tEnable 2A and capture  of 1000 frames using video driver for "
 								"rendering\n");
 	printf("\t[camDevice] Camera device to be open\n\t\t 1:Micron sensor "
@@ -48,7 +53,44 @@ static void usage(void)
 				" is given \n\t           30 fps is default\n");
 	printf("\t[vid] is the video pipeline to be used. Valid vid is 1"
 							"(default) or 2\n");
+	printf("\t[mode] is the tesing mode.\n"
+			"\t\tAUTO   - Automatic (default)\n"
+			"\t\tMANUAL - Manual key press mode\n");
 }
+
+static void display_keys(void)
+{
+	printf("\nControl Keys:\n");
+	printf("  h - Request histogram\n");
+	printf("  q - Quit\n\n");
+}
+
+static int get_histogram(int cfd, __u32 *stats_buff, int *frame)
+{
+	int ret;
+	struct isp_hist_data hist_data_user;
+
+	hist_data_user.hist_statistics_buf = stats_buff;
+	hist_data_user.update = 0;
+	ret = ioctl(cfd,  VIDIOC_PRIVATE_ISP_HIST_REQ,
+				&hist_data_user);
+	if (ret < 0) {
+		if (frame) *frame = -1;
+		return ret;
+	}
+
+	hist_data_user.frame_number =
+			hist_data_user.curr_frame - 1;
+	if (frame)
+		*frame = hist_data_user.frame_number;
+	hist_data_user.update = REQUEST_STATISTICS;
+	hist_data_user.hist_statistics_buf = stats_buff;
+	ret = ioctl(cfd,  VIDIOC_PRIVATE_ISP_HIST_REQ,
+				&hist_data_user);
+
+	return ret;
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -57,39 +99,26 @@ int main(int argc, char *argv[])
 		size_t length;
 	} *vbuffers, *cbuffers;
 
-	/* Structure stores values for key strokes */
-	struct input_event{
-		struct timeval time;
-		unsigned short type;
-		unsigned short code;
-		unsigned int value;
-	} keyinfo;
-
 	struct v4l2_capability capability;
 	struct v4l2_format cformat, vformat;
 	struct v4l2_requestbuffers creqbuf, vreqbuf;
 	struct v4l2_buffer cfilledbuffer, vfilledbuffer;
-	int vfd, cfd, kfd;
-	int i, ret, count = -1, memtype = V4L2_MEMORY_USERPTR;
+	int vfd, cfd;
+	int i, ret, memtype = V4L2_MEMORY_USERPTR;
 	int index = 1, vid = 1, set_video_img = 0;
 	int device = 3;
 	char *pixelFmt;
-	int framerate = 30;
+	int framerate = 30, mode = MODE_AUTO;
 
 	struct isp_hist_config hist_config_user;
 	struct isp_hist_data hist_data_user;
-	int frames = 1;
 	struct v4l2_control control_exp, control_an_gain;
 	struct v4l2_queryctrl qc_exp, qc_an_gain;
-	unsigned int buff_size = 0;
 	__u32 *stats_buff = NULL;
-	int frame_number;
-	int j = 0;
+	int frame_number, input, pass = 0;
+	int try = 0, buff_size;
 	int done_flag = 0;
-	int bytes;
-
-	/* Open keypad input device */
-	kfd = open("/dev/input/event0", O_RDONLY | O_NONBLOCK);
+char *dom;
 
 	if ((argc > 1) && (!strcmp(argv[1], "?"))) {
 		usage();
@@ -126,27 +155,19 @@ int main(int argc, char *argv[])
 		index++;
 	}
 
-	/* H3A params */
-	hist_config_user.enable = 1;
-	hist_config_user.source = HIST_SOURCE_CCDC;
-	hist_config_user.input_bit_width = 10; /* 10-bit coming from CCDC */
-	hist_config_user.num_acc_frames = 1;
-	hist_config_user.hist_bins = HIST_BINS_256;
-	hist_config_user.cfa = HIST_CFA_BAYER;
+	if (argc > index) {
+		if (strcmp(argv[index], "MANUAL") == 0)
+			mode = MODE_MANUAL;
+		else
+			mode = MODE_AUTO;
+		index++;
+	}
 
-	/* Memory input specific registers need to be zero */
-	hist_config_user.hist_h_v_info = 0;
-	hist_config_user.hist_radd = 0;
-	hist_config_user.hist_radd_off = 0;
+	if (mode == MODE_AUTO)
+		printf("Mode: Auto test\n");
+	else
+		printf("Mode: Manual test\n");
 
-	hist_config_user.wg[0] = 32; /* WB Field-to-Pattern Assignments */
-	hist_config_user.wg[1] = 32; /* WB Field-to-Pattern Assignments */
-	hist_config_user.wg[2] = 32; /* WB Field-to-Pattern Assignments */
-	hist_config_user.wg[3] = 32; /* WB Field-to-Pattern Assignments */
-
-	hist_config_user.num_regions = HIST_MIN_REGIONS;
-	hist_config_user.reg_hor[0] = 320;	/* Region 0 size and position */
-	hist_config_user.reg_ver[0] = 240;	/* Region 0 size and position */
 
 	printf("Setting pixel format and video size with default "
 					"values\n");
@@ -334,6 +355,30 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	/*************************************************************/
+	/* H3A params */
+
+	hist_config_user.enable = 1;
+	hist_config_user.source = HIST_SOURCE_CCDC;
+	hist_config_user.input_bit_width = 10; /* 10-bit coming from CCDC */
+	hist_config_user.num_acc_frames = 1;
+	hist_config_user.hist_bins = HIST_BINS_256;
+	hist_config_user.cfa = HIST_CFA_BAYER;
+
+	/* Memory input specific registers need to be zero */
+	hist_config_user.hist_h_v_info = 0;
+	hist_config_user.hist_radd = 0;
+	hist_config_user.hist_radd_off = 0;
+
+	hist_config_user.wg[0] = 32; /* WB Field-to-Pattern Assignments */
+	hist_config_user.wg[1] = 32; /* WB Field-to-Pattern Assignments */
+	hist_config_user.wg[2] = 32; /* WB Field-to-Pattern Assignments */
+	hist_config_user.wg[3] = 32; /* WB Field-to-Pattern Assignments */
+
+	hist_config_user.num_regions = HIST_MIN_REGIONS;
+	hist_config_user.reg_hor[0] = 320;	/* Region 0 size and position */
+	hist_config_user.reg_ver[0] = 240;	/* Region 0 size and position */
+
 	/* set h3a params */
 	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_HIST_CFG, &hist_config_user);
 	if (ret < 0) {
@@ -342,21 +387,32 @@ int main(int argc, char *argv[])
 		return ret;
 	}
 
-	/* turn on streaming */
+	/*************************************************************/
+	/* Start Camera streaming */
+
 	if (ioctl(cfd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
 		perror("cam VIDIOC_STREAMON");
 		return -1;
 	}
 
+
+	/*************************************************************/
+	/* Grab initial histogram data before queue/dequeue loop */
+
 	sleep(1);
 
-	stats_buff = malloc(HIST_MEM_SIZE);
+	buff_size = HIST_MEM_SIZE_BINS(256) *
+					hist_config_user.num_regions;
+	stats_buff = malloc(buff_size);
+	if (stats_buff == NULL) {
+		perror("Memory allocation failed\n");
+		return -1;
+	}
 
 	hist_data_user.hist_statistics_buf = stats_buff;
-
 	hist_data_user.update = 0;
 
-	printf("Setting first parameters \n");
+	printf("Get the current histogram frame number...\n");
 	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_HIST_REQ, &hist_data_user);
 	if (ret < 0) {
 		perror("ISP_HIST_REQ 1");
@@ -365,10 +421,9 @@ int main(int argc, char *argv[])
 
 	hist_data_user.frame_number = hist_data_user.curr_frame - 1;
 request:
-	frame_number = hist_data_user.frame_number;
 	/* request stats */
 	printf("Requesting stats for frame %d, try %d\n",
-						frame_number, j);
+				hist_data_user.frame_number, ++try);
 	hist_data_user.update = REQUEST_STATISTICS;
 	hist_data_user.hist_statistics_buf = stats_buff;
 	ret = ioctl(cfd,  VIDIOC_PRIVATE_ISP_HIST_REQ, &hist_data_user);
@@ -377,22 +432,19 @@ request:
 		printf("No stats, current frame is %d.\n",
 			hist_data_user.curr_frame);
 		hist_data_user.frame_number =
-					hist_data_user.curr_frame - 1;
+					hist_data_user.curr_frame;
 		hist_data_user.update = REQUEST_STATISTICS;
 		goto request;
 	}
 
-	sleep(1);
+	/*************************************************************/
 
-	j++;
-	if (j < 2) {
-		hist_data_user.frame_number += 100;
-		hist_data_user.update = REQUEST_STATISTICS;
-		hist_data_user.hist_statistics_buf = stats_buff;
-		goto request;
-	}
+	if (mode == MODE_MANUAL)
+		display_keys();
 
-	/* caputure 1000 frames or when we hit the passed nmuber of frames */
+	/*************************************************************/
+	/* Start main queue/dequeue loop */
+
 	cfilledbuffer.type = creqbuf.type;
 	vfilledbuffer.type = vreqbuf.type;
 	i = 0;
@@ -429,7 +481,7 @@ request:
 			}
 		}
 
-		if (i == count) {
+		if (i == MAX_FRAME_AUTO_MODE && mode == MODE_AUTO) {
 			printf("Cancelling the streaming capture...\n");
 			creqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 			if (ioctl(cfd, VIDIOC_STREAMOFF, &creqbuf.type) < 0) {
@@ -452,32 +504,27 @@ request:
 				perror("cam VIDIOC_QBUF");
 		}
 
-		/* Checks if key has been pressed */
-		bytes = read(kfd, &keyinfo, sizeof(struct input_event));
-		if ((bytes < 0) && (errno != EAGAIN)) {
-			return 1;
-		} else if (bytes > 0 && keyinfo.code == 35) {
-			printf("\n");
-			goto exit;
-		} else if (bytes > 0 && keyinfo.code == 46) {
-			hist_data_user.update = 0;
-			ret = ioctl(cfd,  VIDIOC_PRIVATE_ISP_HIST_REQ,
-						&hist_data_user);
-			if (ret < 0) {
-				perror("ISP_HIST_REQ 5");
-				return ret;
+
+		if (mode == MODE_AUTO) {
+			ret = get_histogram(cfd, stats_buff, NULL);
+			pass += (ret == 0);
+			printf("Histogram collection results: "
+				"Pass %i  Failed %i\r", pass, i-pass);
+			fflush(stdout);
+		}
+
+		/* Manual mode */
+		if (mode == MODE_MANUAL && kbhit()) {
+			input = getch();
+			if (input == 'h') {
+				ret = get_histogram(cfd, stats_buff,
+					&frame_number);
+				printf("Histogram collection results"
+					" for frame %i: %s\n", frame_number,
+					(ret == 0) ? "RETRIEVED" : "FAIL");
+			} else if (input == 'q') {
+				done_flag = 1;
 			}
-			hist_data_user.frame_number =
-					hist_data_user.curr_frame - 1;
-			hist_data_user.update = REQUEST_STATISTICS;
-			hist_data_user.hist_statistics_buf =
-							stats_buff;
-				printf("Obtaining stats frame:%d\n",
-					hist_data_user.frame_number);
-			ret = ioctl(cfd,  VIDIOC_PRIVATE_ISP_HIST_REQ,
-						&hist_data_user);
-			if (ret)
-				perror("ISP_HIST_REQ 6");
 		}
 	}
 
@@ -493,7 +540,7 @@ exit:
 	printf("Captured %d frames!\n", i);
 
 	/* we didn't turn off streaming yet */
-	if (count == -1) {
+	if (done_flag == 1) {
 		creqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 		if (ioctl(cfd, VIDIOC_STREAMOFF, &creqbuf.type) == -1) {
 			perror("cam VIDIOC_STREAMOFF");
@@ -509,22 +556,12 @@ exit:
 		if (vbuffers[i].start)
 			munmap(vbuffers[i].start, vbuffers[i].length);
 	}
-
 	free(vbuffers);
 
-	for (i = 0; i < creqbuf.count; i++) {
-		if (cbuffers[i].start) {
-			if (memtype == V4L2_MEMORY_USERPTR)
-				free(cbuffers[i].start);
-			else
-				munmap(cbuffers[i].start, cbuffers[i].length);
-		}
-	}
-
 	free(cbuffers);
-	free(stats_buff);
+	if (stats_buff)
+		free(stats_buff);
 
 	close(vfd);
 	close(cfd);
-	close(kfd);
 }
