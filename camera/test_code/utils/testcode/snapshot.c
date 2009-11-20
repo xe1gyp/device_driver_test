@@ -621,7 +621,7 @@ restart_streaming:
 	/* Take snapshot ? */
 
 	if (snap_flag) {
-		snapshot(cfd, cappix, capw, caph);
+		snapshot(cfd, cappix, capw, caph, capfps);
 		snap_flag = 0;
 		goto restart_streaming;
 	}
