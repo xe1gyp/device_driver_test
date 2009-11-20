@@ -27,9 +27,9 @@ static void usage(void)
 {
 	printf("Burst Mode Test Case\n");
 	printf("Usage: burst_mode [camDevice] [pixelFormat] [<sizeW> <sizeH>]"
-			" [<numberOfFrames>] [<file>] [<colorEffect>]\n");
+		" [<numberOfFrames>] [<file>] [framerate] [<colorEffect>]\n");
 	printf("   [camDevice] Camera device to be open\n\t 1:Micron sensor "
-					"2:OV sensor\n");
+					"2:OV sensor 3:IMX046\n");
 	printf("   [pixelFormat] set the pixelFormat to use. \n\tSupported:"
 					" YUYV, UYVY, RGB565, RGB555, RGB565X,"
 							" RGB555X, RAW10 \n");
