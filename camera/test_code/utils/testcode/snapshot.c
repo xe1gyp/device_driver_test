@@ -649,7 +649,7 @@ int snapshot(int cfd, char *pixelFmt, int w, int h, int fps)
 	struct v4l2_buffer cfilledbuffer;
 	int i, ret, count = 1, memtype = V4L2_MEMORY_USERPTR;
 	int fd_save = 0;
-	char filename[16];
+	char filename[64];
 	int file_is_yuv = 0, file_is_raw = 0;
 
 	printf("\nTaking snapshot...\n");
@@ -699,9 +699,17 @@ int snapshot(int cfd, char *pixelFmt, int w, int h, int fps)
 	}
 
 	/********************************************************************/
-	/* Open image output file */
+	/* Open image output file
+	 * Create filename to be compatible with PYUV image viewer
+	 * Filename format details:
+	 * http://dsplab.diei.unipg.it/~baruffa/dvbt/pyuvhelp/doc2.htm#control
+	 */
 
-	sprintf(filename, "snap%04X.%s", snap_count,
+	sprintf(filename, "snap%04X_%dx%d_%iHz_%s_%s.%s", snap_count,
+		cfmt.fmt.pix.width, cfmt.fmt.pix.height,
+		fps,
+		file_is_yuv ? "8b_I422" : "10bpp",
+		file_is_yuv ? pixelFmt : "RGGB",
 		file_is_yuv ? "yuv" : (file_is_raw ? "raw" : "dat"));
 
 	/* Create a file with 644 permissions */
