@@ -10,11 +10,11 @@
 # Begin "L_DD_VIDEO_0010"
 
 COMMENT comment.sh "Verify the background color of the canvas can be configured"
-COMMENT comment.sh "SENDING GFX PIPELINE TO TV"
-0001 echo tv > /sys/class/display_control/omap_disp_control/graphics && exit 0 || exit 1
-0001 set -x; background.sh "1" "123456"&& exit 0 || exit 1
-0001 set -x; background.sh "1" "765432"&& exit 0 || exit 1
-COMMENT_INT comment.sh "SENDING GFX PIPELINE TO TV"
-0001 echo lcd > /sys/class/display_control/omap_disp_control/graphics && exit 0 || exit 1
+COMMENT comment.sh "Disabling GFX"
+0001 echo 0 > /sys/devices/platform/omapdss/overlay0/enabled & exit 0 || exit 1
+0001 set -x; background.sh "1" "123456" && exit 0 || exit 1
+0001 set -x; background.sh "1" "765432" && exit 0 || exit 1
+COMMENT_INT comment.sh "Enabling GFX"
+0001 echo 1 > /sys/devices/platform/omapdss/overlay0/enabled && exit 0 || exit 1
 
 # End "L_DD_VIDEO_0010"

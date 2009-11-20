@@ -7,6 +7,7 @@
 #define OMAP2_V2	2
 
 #define V4L2_CID_ROTATE (V4L2_CID_BASE+32)
+#define V4L2_CID_BG_COLOR (V4L2_CID_BASE+33)
 
 int show_info(int fd);
 
