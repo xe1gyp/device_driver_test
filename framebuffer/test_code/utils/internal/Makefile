@@ -1,7 +1,7 @@
 export CC:=$(CROSS_COMPILE)gcc
 
 objects = fbcmap fbblank fbmode fbrotate \
-fbmmap fbsize fbshift fbmirror fbout fbflipbut fbtest wait_for_vsync \
+fbmmap fbsize fbshift fbmirror fbout fbflipbuf fbtest wait_for_vsync \
 fb_mirror
 
 all: fb_user_test_o liblog fb_user_tests $(objects)
@@ -59,7 +59,7 @@ fbout: fb_general.c
 	echo "#define FUNCTION_OUTPUTDEV" > fb_general_config.h
 	$(CC) $(CFLAGS) fb_general.c -o fbout
 
-fbflipbut: fb_general.c
+fbflipbuf: fb_general.c
 	echo "#define FUNCTION_FLIPBUF" > fb_general_config.h
 	$(CC) $(CFLAGS) fb_general.c -o fbflipbuf
 
