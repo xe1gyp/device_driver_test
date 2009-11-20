@@ -59,7 +59,7 @@ static void usage(void)
 	printf("\t-h <preview height>\n");
 	printf("\t\tLCD preview height (default: %u)\n",
 			DEFAULT_PREVIEW_HEIGHT);
-	printf("\t-p <preview fps>\n");
+	printf("\t-f <preview fps>\n");
 	printf("\t\tLCD preview frame rate (default: %u)\n",
 			DEFAULT_PREVIEW_FPS);
 
