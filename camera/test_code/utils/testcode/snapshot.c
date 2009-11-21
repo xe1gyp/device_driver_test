@@ -49,6 +49,14 @@ static struct isph3a_aewb_data aewb_data_user;
 static unsigned int aewb_buff_size;
 static __u16 *aewb_stats_buff;
 
+/* H3A AF related declares */
+#define use_af		1
+
+static struct af_configuration af_config_user;
+static struct isp_af_data af_data_user;
+static unsigned int af_buff_size;
+static __u16 *af_stats_buff;
+
 static void usage(void)
 {
 	printf("Usage:\n");
@@ -209,6 +217,96 @@ static int h3a_aewb_request_stats(int cfd, int *frame_num)
 	return ret;
 }
 
+static int h3a_af_init(int cfd)
+{
+	unsigned int num_windows;
+	int ret = 0, index;
+
+	/* AF params */
+	af_config_user.alaw_enable = H3A_AF_ALAW_ENABLE;	/* Enable Alaw */
+	af_config_user.hmf_config.enable = H3A_AF_HMF_DISABLE;
+	af_config_user.iir_config.hz_start_pos = 0;
+	af_config_user.paxel_config.height = 16;
+	af_config_user.paxel_config.width = 16;
+	af_config_user.paxel_config.line_incr = 0;
+	af_config_user.paxel_config.vt_start = 0;
+	af_config_user.paxel_config.hz_start = 2;
+	af_config_user.paxel_config.hz_cnt = 8;
+	af_config_user.paxel_config.vt_cnt = 8;
+	af_config_user.af_config = H3A_AF_CFG_ENABLE;
+	af_config_user.hmf_config.threshold = 0;
+	/* Set Accumulator mode */
+	af_config_user.mode = ACCUMULATOR_SUMMED;
+
+	for (index = 0; index < 11; index++) {
+		af_config_user.iir_config.coeff_set0[index] = 12;
+		af_config_user.iir_config.coeff_set1[index] = 12;
+	}
+
+	/************************************************************/
+	/* Set params */
+	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_CFG, &af_config_user);
+	if (ret < 0)
+		goto out_err;
+
+	af_buff_size = (af_config_user.paxel_config.hz_cnt + 1) *
+		       (af_config_user.paxel_config.vt_cnt + 1) *
+		       AF_PAXEL_SIZE;
+
+	af_stats_buff = malloc(af_buff_size);
+
+	if (!af_stats_buff)
+		ret = -ENOMEM;
+
+	printf("h3a_af_init: Successfully initted AF SCM\n");
+	fflush(stdout);
+out_err:
+	return ret;
+}
+
+static int h3a_af_close(int cfd)
+{
+	unsigned int num_windows;
+	int ret = 0;
+
+	af_config_user.af_config = H3A_AF_CFG_DISABLE;
+	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_CFG, &af_config_user);
+	if (ret < 0)
+		goto out_err;
+
+	free(af_stats_buff);
+
+	printf("h3a_af_init: Successfully disabled AF SCM\n");
+	fflush(stdout);
+out_err:
+	return ret;
+}
+
+static int h3a_af_request_frame_num(int cfd, int *frame_num)
+{
+	int ret = 0;
+
+	af_data_user.update = 0;
+	ret = ioctl(cfd,  VIDIOC_PRIVATE_ISP_AF_REQ, &af_data_user);
+	*frame_num = af_data_user.curr_frame;
+
+	return ret;
+}
+
+static int h3a_af_request_stats(int cfd, int *frame_num)
+{
+	int ret = 0;
+
+	af_data_user.update = REQUEST_STATISTICS;
+	af_data_user.af_statistics_buf = af_stats_buff;
+	af_data_user.frame_number = *frame_num;
+
+	ret = ioctl(cfd,  VIDIOC_PRIVATE_ISP_AF_REQ, &af_data_user);
+	*frame_num = af_data_user.curr_frame;
+
+	return ret;
+}
+
 int main(int argc, char **argv)
 {
 	struct buffers {
@@ -230,7 +328,7 @@ int main(int argc, char **argv)
 	int capw = DEFAULT_CAPTURE_WIDTH, caph = DEFAULT_CAPTURE_HEIGHT;
 	int capfps = DEFAULT_CAPTURE_FPS;
 	char *cappix = DEFAULT_CAPTURE_PIXFMT;
-	int aewb_curr_frame;
+	int aewb_curr_frame, af_curr_frame;
 
 	opterr = 0;
 
@@ -598,6 +696,14 @@ restart_streaming:
 	}
 
 	/********************************************************************/
+	/* Init and Configure AF SCM */
+	if (use_af) {
+		if (h3a_af_init(cfd)) {
+			perror("h3a_af_init");
+			return -1;
+		}
+	}
+	/********************************************************************/
 	/* Start streaming loop */
 
 	cfilledbuffer.type = creqbuf.type;
@@ -628,6 +734,17 @@ restart_streaming:
 			if (h3a_aewb_request_stats(cfd, &aewb_curr_frame))
 				perror("AEWB");
 		}
+
+		/* Syncup with internal AF frame count */
+		if (use_af) {
+			if (i == 0) {
+				h3a_af_request_frame_num(cfd, &af_curr_frame);
+				af_curr_frame -=1;
+			}
+			if (h3a_af_request_stats(cfd, &af_curr_frame))
+				perror("AF");
+		}
+
 		i++;
 
 		if (i == DSS_STREAM_START_FRAME) {
@@ -721,6 +838,14 @@ restart_streaming:
 	if (use_aewb) {
 		if (h3a_aewb_close(cfd)) {
 			perror("h3a_aewb_close");
+			return -1;
+		}
+	}
+
+	/* Stop AF */
+	if (use_af) {
+		if (h3a_af_close(cfd)) {
+			perror("h3a_af_close");
 			return -1;
 		}
 	}
