@@ -38,6 +38,8 @@
 
 #define DSS_STREAM_START_FRAME		3
 
+#define memtype				V4L2_MEMORY_USERPTR
+
 static void usage(void)
 {
 	printf("Usage:\n");
@@ -91,22 +93,21 @@ static void display_keys(void)
 static void dump_sensor_info(int cfd)
 {
 	struct omap34xxcam_sensor_info sens_info;
-	int ret;
 
 	printf("Getting Sensor Info...\n");
-	ret = ioctl(cfd, VIDIOC_PRIVATE_OMAP34XXCAM_SENSOR_INFO,
-				&sens_info);
-	if (ret < 0) {
-		printf("VIDIOC_PRIVATE_OMAP34XXCAM_SENSOR_INFO not supported.\n");
-	} else {
-		printf("  Sensor xclk:       %d Hz\n", sens_info.current_xclk);
-		printf("  Max Base size:     %d x %d\n",
-			sens_info.full_size.width,
-			sens_info.full_size.height);
-		printf("  Current Base size: %d x %d\n",
-			sens_info.active_size.width,
-			sens_info.active_size.height);
+	if (ioctl(cfd, VIDIOC_PRIVATE_OMAP34XXCAM_SENSOR_INFO,
+		  &sens_info) < 0) {
+		printf("VIDIOC_PRIVATE_OMAP34XXCAM_SENSOR_INFO not"
+		       " supported.\n");
+		return;
 	}
+	printf("  Sensor xclk:       %d Hz\n", sens_info.current_xclk);
+	printf("  Max Base size:     %d x %d\n",
+		sens_info.full_size.width,
+		sens_info.full_size.height);
+	printf("  Current Base size: %d x %d\n",
+		sens_info.active_size.width,
+		sens_info.active_size.height);
 }
 
 int main(int argc, char **argv)
@@ -120,10 +121,8 @@ int main(int argc, char **argv)
 	struct v4l2_requestbuffers creqbuf, vreqbuf;
 	struct v4l2_buffer cfilledbuffer, vfilledbuffer;
 	struct v4l2_control control;
-	int cfd, vfd, i, ret, input;
-	int memtype = V4L2_MEMORY_USERPTR;
+	int cfd, vfd, i;
 	int quit_flag = 0, snap_flag = 0;
-	int set_video_img = 0;
 	char *camdev = DEFAULT_CAM_DEV;
 	char *viddev = DEFAULT_VID_DEV;
 	int prvw = DEFAULT_PREVIEW_WIDTH, prvh = DEFAULT_PREVIEW_HEIGHT;
@@ -132,7 +131,6 @@ int main(int argc, char **argv)
 	int capw = DEFAULT_CAPTURE_WIDTH, caph = DEFAULT_CAPTURE_HEIGHT;
 	int capfps = DEFAULT_CAPTURE_FPS;
 	char *cappix = DEFAULT_CAPTURE_PIXFMT;
-	int c;
 
 	opterr = 0;
 
@@ -151,6 +149,7 @@ int main(int argc, char **argv)
 			{0, 0, 0, 0}
 		};
 		int option_index = 0;
+		static int c;
 
 		c = getopt_long_only(argc, argv, "c:p:w:h:f:q:x:y:g:v:",
 				long_options, &option_index);
@@ -251,14 +250,12 @@ int main(int argc, char **argv)
 		perror("dss VIDIOC_QUERYCAP");
 		return -1;
 	}
-	if (capability.capabilities & V4L2_CAP_STREAMING)
-		printf("The video driver is capable of Streaming!\n");
-	else {
+	if (!(capability.capabilities & V4L2_CAP_STREAMING)) {
 		printf("The video driver is not capable of "
-							"Streaming!\n");
+		       "Streaming!\n");
 		return -1;
 	}
-
+	printf("The video driver is capable of Streaming!\n");
 
 restart_streaming:
 	printf("Restart streaming...\n");
@@ -267,8 +264,7 @@ restart_streaming:
 	/* Camera: Set Frame rate to 30fps */
 
 	printf("Set Camera frame rate to %ufps...\n", DEFAULT_PREVIEW_FPS);
-	ret = setFramerate(cfd, prvfps);
-	if (ret < 0) {
+	if (setFramerate(cfd, prvfps) < 0) {
 		printf("Error setting framerate = %d\n", DEFAULT_PREVIEW_FPS);
 		return -1;
 	}
@@ -280,8 +276,7 @@ restart_streaming:
 
 	/* get the current format of the video capture */
 	cfmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-	ret = ioctl(cfd, VIDIOC_G_FMT, &cfmt);
-	if (ret < 0) {
+	if (ioctl(cfd, VIDIOC_G_FMT, &cfmt) < 0) {
 		perror("VIDIOC_G_FMT");
 		return -1;
 	}
@@ -300,8 +295,7 @@ restart_streaming:
 		return -1;
 	}
 
-	ret = ioctl(cfd, VIDIOC_S_FMT, &cfmt);
-	if (ret < 0) {
+	if (ioctl(cfd, VIDIOC_S_FMT, &cfmt) < 0) {
 		perror("cam VIDIOC_S_FMT");
 		return -1;
 	}
@@ -314,19 +308,17 @@ restart_streaming:
 		perror("cam VIDIOC_QUERYCAP");
 		return -1;
 	}
-	if (capability.capabilities & V4L2_CAP_STREAMING)
-		printf("The Camera driver is capable of Streaming!\n");
-	else {
+	if (!(capability.capabilities & V4L2_CAP_STREAMING)) {
 		printf("The Camera driver is not capable of Streaming!\n");
 		return -1;
 	}
+	printf("The Camera driver is capable of Streaming!\n");
 
 	/********************************************************************/
 	/* Camera: Get Pixel Format */
 
 	cfmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-	ret = ioctl(cfd, VIDIOC_G_FMT, &cfmt);
-	if (ret < 0) {
+	if (ioctl(cfd, VIDIOC_G_FMT, &cfmt) < 0) {
 		perror("cam VIDIOC_G_FMT");
 		return -1;
 	}
@@ -339,8 +331,7 @@ restart_streaming:
 	/* Video: Get Pixel Format */
 
 	vfmt.type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
-	ret = ioctl(vfd, VIDIOC_G_FMT, &vfmt);
-	if (ret < 0) {
+	if (ioctl(vfd, VIDIOC_G_FMT, &vfmt) < 0) {
 		perror("dss VIDIOC_G_FMT");
 		return -1;
 	}
@@ -353,26 +344,16 @@ restart_streaming:
 
 	if ((cfmt.fmt.pix.width != vfmt.fmt.pix.width) ||
 		(cfmt.fmt.pix.height != vfmt.fmt.pix.height) ||
-		(cfmt.fmt.pix.sizeimage !=
-				vfmt.fmt.pix.sizeimage)) {
-		printf("image sizes don't match!\n");
-		set_video_img = 1;
-	}
-	if (cfmt.fmt.pix.pixelformat !=
-				vfmt.fmt.pix.pixelformat) {
-		printf("pixel formats don't match!\n");
-		set_video_img = 1;
-	}
-
-	if (set_video_img) {
+		(cfmt.fmt.pix.pixelformat !=
+				vfmt.fmt.pix.pixelformat)) {
+		printf("image specs don't match!\n");
 		printf("set video image the same as camera image...\n");
 		vfmt.fmt.pix.width = cfmt.fmt.pix.width;
 		vfmt.fmt.pix.height = cfmt.fmt.pix.height;
 		vfmt.fmt.pix.sizeimage = cfmt.fmt.pix.sizeimage;
 		vfmt.fmt.pix.pixelformat = cfmt.fmt.pix.pixelformat;
-		ret = ioctl(vfd, VIDIOC_S_FMT, &vfmt);
 
-		if (ret < 0) {
+		if (ioctl(vfd, VIDIOC_S_FMT, &vfmt) < 0) {
 			perror("dss VIDIOC_S_FMT");
 			return -1;
 		}
@@ -389,8 +370,7 @@ restart_streaming:
 				vfmt.fmt.pix.sizeimage);
 
 		if ((cfmt.fmt.pix.width != vfmt.fmt.pix.width) ||
-			(cfmt.fmt.pix.height != vfmt.fmt.pix.height)/* ||
-			(cfmt.fmt.pix.sizeimage != vfmt.fmt.pix.sizeimage) */||
+			(cfmt.fmt.pix.height != vfmt.fmt.pix.height) ||
 			(cfmt.fmt.pix.pixelformat !=
 				vfmt.fmt.pix.pixelformat)) {
 			printf("can't make camera and video image "
@@ -543,12 +523,12 @@ restart_streaming:
 			/* De-queue the previous buffer from video driver */
 			if (ioctl(vfd, VIDIOC_DQBUF, &vfilledbuffer)) {
 				perror("dss VIDIOC_DQBUF");
-				return;
+				return -1;
 			}
 		}
 
 		if (kbhit()) {
-			input = getch();
+			int input = getch();
 			if (input == '2') {
 				control.id = V4L2_CID_FOCUS_RELATIVE;
 				control.value = -1;
@@ -579,6 +559,7 @@ restart_streaming:
 				quit_flag = 1;
 			}
 		}
+
 
 		if (quit_flag | snap_flag) {
 			printf("Cancelling the streaming capture...\n");
@@ -621,11 +602,14 @@ restart_streaming:
 	/* Take snapshot ? */
 
 	if (snap_flag) {
-		snapshot(cfd, cappix, capw, caph, capfps);
+		int ret;
+
+		ret = snapshot(cfd, cappix, capw, caph, capfps);
+		if (ret)
+			return ret;
 		snap_flag = 0;
 		goto restart_streaming;
 	}
-
 
 	close(vfd);
 	close(cfd);
@@ -647,7 +631,7 @@ int snapshot(int cfd, char *pixelFmt, int w, int h, int fps)
 	struct v4l2_format cfmt;
 	struct v4l2_requestbuffers creqbuf;
 	struct v4l2_buffer cfilledbuffer;
-	int i, ret, count = 1, memtype = V4L2_MEMORY_USERPTR;
+	int i, count = 1;
 	int fd_save = 0;
 	char filename[64];
 	int file_is_yuv = 0, file_is_raw = 0;
@@ -656,21 +640,17 @@ int snapshot(int cfd, char *pixelFmt, int w, int h, int fps)
 
 	/********************************************************************/
 	/* Set frame rate */
-
-	ret = setFramerate(cfd, fps);
-	if (ret < 0) {
+	if (setFramerate(cfd, fps) < 0) {
 		printf("Error setting framerate");
 		return -1;
 	}
-
 
 	/********************************************************************/
 	/* Set snapshot frame format */
 
 	/* get the current format of the video capture */
 	cfmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-	ret = ioctl(cfd, VIDIOC_G_FMT, &cfmt);
-	if (ret < 0) {
+	if (ioctl(cfd, VIDIOC_G_FMT, &cfmt) < 0) {
 		perror("VIDIOC_G_FMT");
 		return -1;
 	}
@@ -692,8 +672,7 @@ int snapshot(int cfd, char *pixelFmt, int w, int h, int fps)
 		return -1;
 	}
 
-	ret = ioctl(cfd, VIDIOC_S_FMT, &cfmt);
-	if (ret < 0) {
+	if (ioctl(cfd, VIDIOC_S_FMT, &cfmt) < 0) {
 		perror("cam VIDIOC_S_FMT");
 		return -1;
 	}
@@ -718,17 +697,14 @@ int snapshot(int cfd, char *pixelFmt, int w, int h, int fps)
 	if (fd_save <= 0) {
 		printf("Can't create file %s\n", filename);
 		return -1;
-	} else {
-		printf("The captured frames will be saved into: %s\n",
-			filename);
 	}
+	printf("The captured frames will be saved into: %s\n", filename);
 
 	/********************************************************************/
 	/* Camera: Get format */
 
 	cfmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-	ret = ioctl(cfd, VIDIOC_G_FMT, &cfmt);
-	if (ret < 0) {
+	if (ioctl(cfd, VIDIOC_G_FMT, &cfmt) < 0) {
 		perror("VIDIOC_G_FMT");
 		return -1;
 	}
@@ -868,5 +844,5 @@ int snapshot(int cfd, char *pixelFmt, int w, int h, int fps)
 	free(cbuffers);
 	snap_count++;
 
-	return 1;
+	return 0;
 }
