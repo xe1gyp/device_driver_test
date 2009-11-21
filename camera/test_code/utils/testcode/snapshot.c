@@ -40,6 +40,15 @@
 
 #define memtype				V4L2_MEMORY_USERPTR
 
+/* H3A AEWB related declares */
+#define BYTES_PER_WINDOW	16
+#define use_aewb	1
+
+static struct isph3a_aewb_config aewb_config_user;
+static struct isph3a_aewb_data aewb_data_user;
+static unsigned int aewb_buff_size;
+static __u16 *aewb_stats_buff;
+
 static void usage(void)
 {
 	printf("Usage:\n");
@@ -110,6 +119,96 @@ static void dump_sensor_info(int cfd)
 		sens_info.active_size.height);
 }
 
+static int h3a_aewb_init(int cfd)
+{
+	unsigned int num_windows;
+	int ret = 0;
+
+	/* H3A params */
+	aewb_config_user.saturation_limit = 0x1FF;
+	aewb_config_user.win_height = 10;
+	aewb_config_user.win_width = 10;
+	aewb_config_user.ver_win_count = 2;
+	aewb_config_user.hor_win_count = 3;
+	aewb_config_user.ver_win_start = 3;
+	aewb_config_user.hor_win_start = 10;
+	aewb_config_user.blk_ver_win_start = 30;
+	/* blk_win_height MUST NOT be the same height as win_height*/
+	aewb_config_user.blk_win_height = 8;
+	aewb_config_user.subsample_ver_inc = 2;
+	aewb_config_user.subsample_hor_inc = 2;
+	aewb_config_user.alaw_enable = 1;
+	aewb_config_user.aewb_enable = 1;
+
+	/************************************************************/
+	/* Set params */
+	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AEWB_CFG, &aewb_config_user);
+	if (ret < 0)
+		goto out_err;
+
+	num_windows = ((aewb_config_user.ver_win_count
+			* aewb_config_user.hor_win_count)
+			+ aewb_config_user.hor_win_count);
+	aewb_buff_size = ((num_windows +
+			   (num_windows / 8) +
+			   ((num_windows % 8) ? 1 : 0)) *
+			  BYTES_PER_WINDOW);
+
+	aewb_stats_buff = malloc(aewb_buff_size);
+
+	if (!aewb_stats_buff)
+		ret = -ENOMEM;
+
+	printf("h3a_aewb_init: Successfully initted AE & AWB SCM\n");
+	fflush(stdout);
+out_err:
+	return ret;
+}
+
+static int h3a_aewb_close(int cfd)
+{
+	unsigned int num_windows;
+	int ret = 0;
+
+	aewb_config_user.aewb_enable = 0;
+
+	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AEWB_CFG, &aewb_config_user);
+	if (ret < 0)
+		goto out_err;
+
+	free(aewb_stats_buff);
+
+	printf("h3a_aewb_init: Successfully disabled AE & AWB SCM\n");
+	fflush(stdout);
+out_err:
+	return ret;
+}
+
+static int h3a_aewb_request_frame_num(int cfd, int *frame_num)
+{
+	int ret = 0;
+
+	aewb_data_user.update = 0;
+	ret = ioctl(cfd,  VIDIOC_PRIVATE_ISP_AEWB_REQ, &aewb_data_user);
+	*frame_num = aewb_data_user.curr_frame;
+
+	return ret;
+}
+
+static int h3a_aewb_request_stats(int cfd, int *frame_num)
+{
+	int ret = 0;
+
+	aewb_data_user.update = REQUEST_STATISTICS;
+	aewb_data_user.h3a_aewb_statistics_buf = aewb_stats_buff;
+	aewb_data_user.frame_number = *frame_num;
+
+	ret = ioctl(cfd,  VIDIOC_PRIVATE_ISP_AEWB_REQ, &aewb_data_user);
+	*frame_num = aewb_data_user.curr_frame;
+
+	return ret;
+}
+
 int main(int argc, char **argv)
 {
 	struct buffers {
@@ -131,6 +230,7 @@ int main(int argc, char **argv)
 	int capw = DEFAULT_CAPTURE_WIDTH, caph = DEFAULT_CAPTURE_HEIGHT;
 	int capfps = DEFAULT_CAPTURE_FPS;
 	char *cappix = DEFAULT_CAPTURE_PIXFMT;
+	int aewb_curr_frame;
 
 	opterr = 0;
 
@@ -151,7 +251,7 @@ int main(int argc, char **argv)
 		int option_index = 0;
 		static int c;
 
-		c = getopt_long_only(argc, argv, "c:p:w:h:f:q:x:y:g:v:",
+		c = getopt_long_only(argc, argv, "c:p:w:h:f:q:x:y:g:v:a",
 				long_options, &option_index);
 
 		/* Detect the end of the options. */
@@ -489,6 +589,15 @@ restart_streaming:
 
 
 	/********************************************************************/
+	/* Init and Configure AE & AWB SCM */
+	if (use_aewb) {
+		if (h3a_aewb_init(cfd)) {
+			perror("h3a_aewb_init");
+			return -1;
+		}
+	}
+
+	/********************************************************************/
 	/* Start streaming loop */
 
 	cfilledbuffer.type = creqbuf.type;
@@ -508,6 +617,16 @@ restart_streaming:
 		if (ioctl(vfd, VIDIOC_QBUF, &vfilledbuffer) < 0) {
 			perror("dss VIDIOC_QBUF");
 			return -1;
+		}
+
+		/* Syncup with internal AEWB frame count */
+		if (use_aewb) {
+			if (i == 0) {
+				h3a_aewb_request_frame_num(cfd, &aewb_curr_frame);
+				aewb_curr_frame -=1;
+			}
+			if (h3a_aewb_request_stats(cfd, &aewb_curr_frame))
+				perror("AEWB");
 		}
 		i++;
 
@@ -597,6 +716,14 @@ restart_streaming:
 
 	/* Cleanup structure that holds info about camera buffers */
 	free(cbuffers);
+
+	/* Stop AE & AWB */
+	if (use_aewb) {
+		if (h3a_aewb_close(cfd)) {
+			perror("h3a_aewb_close");
+			return -1;
+		}
+	}
 
 	/********************************************************************/
 	/* Take snapshot ? */
