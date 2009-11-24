@@ -113,7 +113,7 @@ echo
 if [ -d $OUTPUT_DIRECTORY ]
 then
 	echo "WARNING: This script will delete the testsuites directory of your output folder to create"
-	echo "a clean copy from Clear Case, do you want to continue (Y/N)?"
+	echo "a clean copy built from sources, do you want to continue (Y/N)?"
 	read answer
 	if [[ ($answer = "Y") || ($answer = "y") ]]
 	then
