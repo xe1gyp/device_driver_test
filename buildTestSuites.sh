@@ -80,7 +80,7 @@ echo -e "Testsuite(s) will be copied to $OUTPUT_DIRECTORY\n"
 if [ -d $OUTPUT_DIRECTORY ]
 then
 	echo -e "WARNING: This script will delete the testsuites directory of your output folder to create"
-	echo -e "a clean copy from Clear Case, do you want to continue (Y||y/N||n)? "
+	echo -e "a clean copy built from sources, do you want to continue (Y||y/N||n)? "
 	read answer
 	if [[ ($answer = "Y") || ($answer = "y") ]]
 	then
