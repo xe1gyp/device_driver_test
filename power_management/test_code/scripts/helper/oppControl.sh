@@ -67,6 +67,46 @@ elif [ "$LOCAL_COMMAND" = "stress" ]; then
   	count=`expr $count + 1`
   done
   
+elif [ "$LOCAL_COMMAND" = "stress_invalid_opp" ]; then
+  maxcount=99
+
+  if [ "$LOCAL_VDD" = "VDD1" ]; then
+	  count=5
+	  while [ "$count" -le $maxcount ]
+	  do
+	  	vdd1_opp_no=`expr $count + 1`	
+	  	echo -n $vdd1_opp_no > $VDD1_OPP
+	  	echo VDD1:
+	  	cat $VDD1_OPP
+		temp_value=`cat $VDD1_OPP`
+		if [ "$vdd1_opp_no" = "$temp_value" ]; then
+		    echo "Error: OPP value was set in $vdd1_opp_no"
+	    	    exit 1
+		  else
+		    echo "OPP value $vdd1_opp_no was not set properly, as expected"
+		fi
+	  	count=`expr $count + 1`
+	   done
+
+   elif [ "$LOCAL_VDD" = "VDD2" ]; then
+	 count=3
+	 while [ "$count" -le $maxcount ]
+	  do
+	  	vdd2_opp_no=`expr $count + 1`
+	  	echo -n $vdd2_opp_no > $VDD2_OPP
+	  	echo VDD2:
+	  	cat $VDD2_OPP
+		temp_value=`cat $VDD2_OPP`
+		if [ "$vdd2_opp_no" = "$temp_value" ]; then
+		    echo "Error: OPP value was set in $vdd2_opp_no"
+	    	    exit 1
+		  else
+		    echo "OPP value $vdd2_opp_no was not set properly, as expected"
+		fi
+  		count=`expr $count + 1`
+	  done
+   fi
+
 else
   echo "Command in oppControl is not supported"
   exit 1
