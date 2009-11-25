@@ -1,0 +1,32 @@
+###############################################################################
+# Scenario: L_DD_POWER_0005_0007
+# Author  : Miramontes, David
+# Date    : November 25, 2009
+# Testing : OPPs Control: Requesting invalid OPPs
+###############################################################################
+
+# Begin L_DD_POWER_0005_0007
+
+01  set -x; smartReflexAutoComp.sh  enable  VDD1
+02  set -x; smartReflexAutoComp.sh  enable  VDD2
+
+03  set -x; oppControl.sh  request  VDD1  0  && exit 1 || exit 0
+04  set -x; oppControl.sh  request  VDD1  6  && exit 1 || exit 0
+05  set -x; oppControl.sh  request  VDD1  7  && exit 1 || exit 0
+06  set -x; oppControl.sh  request  VDD1  8  && exit 1 || exit 0
+07  set -x; oppControl.sh  request  VDD1  9  && exit 1 || exit 0
+08  set -x; oppControl.sh  request  VDD1  10 && exit 1 || exit 0
+
+09  set -x; oppControl.sh  request  VDD2  0  && exit 1 || exit 0
+10  set -x; oppControl.sh  request  VDD2  4  && exit 1 || exit 0
+11  set -x; oppControl.sh  request  VDD2  5  && exit 1 || exit 0
+12  set -x; oppControl.sh  request  VDD2  6  && exit 1 || exit 0
+13  set -x; oppControl.sh  request  VDD2  7  && exit 1 || exit 0
+14  set -x; oppControl.sh  request  VDD2  8  && exit 1 || exit 0
+15  set -x; oppControl.sh  request  VDD2  9  && exit 1 || exit 0
+16  set -x; oppControl.sh  request  VDD2  10 && exit 1 || exit 0
+
+17  set -x; smartReflexAutoComp.sh  disable  VDD1
+18  set -x; smartReflexAutoComp.sh  disable  VDD2
+
+# End L_DD_POWER_0005_0007
