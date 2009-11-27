@@ -20,7 +20,7 @@
 
 #include <linux/init.h>
 #include <linux/module.h>
-#include <mach/clock.h>
+#include <plat/clock.h>
 #include <linux/clk.h>
 
 MODULE_LICENSE("GPL");
