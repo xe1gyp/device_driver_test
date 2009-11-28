@@ -30,13 +30,18 @@ export DISABLE=0
 export WAKEUP_TIMER_DEFAULT_VALUE=1
 export MEM="mem"
 
+# debugFileSystem.sh Script
+export DEBUGFS_DIRECTORY=/debug
+export DEBUGFS_PMCOUNT=$DEBUGFS_DIRECTORY/pm_debug/count
+
 # All sysfs entries for Power
 export SYSFS_POWER_ENTRY=/sys/power/
+export DEBUGFS_POWER_ENTRY=$DEBUGFS_DIRECTORY/pm_debug
 export STATE=$SYSFS_POWER_ENTRY/state
-export SLEEP_WHILE_IDLE=$SYSFS_POWER_ENTRY/sleep_while_idle
-export ENABLED_OFF_MODE=$SYSFS_POWER_ENTRY/enable_off_mode
-export VOLTAGE_OFF_WHILE_IDLE=$SYSFS_POWER_ENTRY/voltage_off_while_idle
-export WAKEUP_TIMER_SECONDS=$SYSFS_POWER_ENTRY/wakeup_timer_seconds
+export SLEEP_WHILE_IDLE=$DEBUGFS_POWER_ENTRY/sleep_while_idle
+export ENABLED_OFF_MODE=$DEBUGFS_POWER_ENTRY/enable_off_mode
+export VOLTAGE_OFF_WHILE_IDLE=$DEBUGFS_POWER_ENTRY/voltage_off_while_idle
+export WAKEUP_TIMER_SECONDS=$DEBUGFS_POWER_ENTRY/wakeup_timer_seconds
 
 # SmartReflex
 export SR_VDD1_AUTOCOMP=$SYSFS_POWER_ENTRY/sr_vdd1_autocomp
@@ -71,10 +76,6 @@ export GOVERNOR_ONDEMAND=ondemand
 export GOVERNOR_POWERSAVE=powersave
 export GOVERNOR_USERSPACE=userspace
 export GOVERNOR_PERFORMANCE=performance
-
-# debugFileSystem.sh Script
-export DEBUGFS_DIRECTORY=/debug
-export DEBUGFS_PMCOUNT=$DEBUGFS_DIRECTORY/pm_debug/count
 
 if [ ! `echo 1+1 | bc` ]; then
 	echo "FATAL: BC is unavailable, cannot continue"
