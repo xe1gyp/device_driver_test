@@ -21,7 +21,9 @@ export SCENARIO_NAMES=""
 export INTERACTIVE=""
 export STRESS=""
 export UTILBIN=${TESTROOT}/../../utils/bin
-export POWERSYSFS=/sys/power
+export DEBUG_DIR=/debug/
+export POWERSYSFS=/sys/power/
+export DEBUGFS=$DEBUG_DIR/pm_debug/
 
 # Modules
 export MODNAME="omap_mcbsp_test"
