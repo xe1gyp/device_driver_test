@@ -47,7 +47,7 @@ do
     echo 'stop' > /proc/driver/mcbsp_test/transmission
     TX=`cat /proc/driver/mcbsp_test/status | grep "No. of words transmitted" | sed -e "s/ */ /g" | cut -d ' ' -f7`
     RX=`cat /proc/driver/mcbsp_test/status | grep "No. of words received" | sed -e "s/ */ /g" | cut -d ' ' -f7`
-    if [ $TX != $RX  ]
+    if [ $TX != $RX  ] || !(cat /proc/driver/mcbsp_test/transmission | grep "0" > /dev/null)
     then
       print "Tx Value = $TX | $RX = Rx Value"    
       print "Succesful cancellation of data transfer on McBSP Interface $i using $COMMAND$j"
