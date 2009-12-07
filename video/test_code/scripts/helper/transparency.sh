@@ -3,8 +3,7 @@
 VIDEO_PIPELINE=$1
 SETIMG_PARAMETERS=$2
 SETTRANSCK_PARAMETERS=$3
-ENABLECOLKEY_PARAMETERS=$4
-STREAMING_PARAMETERS=$5
+STREAMING_PARAMETERS=$4
 RESULT=0
 
 sleep $MESSAGE_DELAY
@@ -20,9 +19,7 @@ RESULT=`command_tracking.sh $RESULT $?`
 $TESTBIN/settransck $SETTRANSCK_PARAMETERS
 RESULT=`command_tracking.sh $RESULT $?`
 
-# Usage: enablecolkey < o/p device [1:LCD 2:TV]> <enable/disable [1:0]>
-$TESTBIN/enablecolkey $ENABLECOLKEY_PARAMETERS
-RESULT=`command_tracking.sh $RESULT $?`
+cat $VIDEOFILES/f801.txt > /dev/fb0
 
 # Usage: streaming <vid> <inputfile> [<n>]
 $TESTBIN/streaming $VIDEO_PIPELINE $STREAMING_PARAMETERS
