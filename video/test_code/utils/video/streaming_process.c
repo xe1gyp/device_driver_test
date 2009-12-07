@@ -16,7 +16,6 @@
 
 #include "lib.h"
 
-#define V4L2_CID_ROTATE (V4L2_CID_BASE+32)
 
 struct child_args {
 	int priority;
