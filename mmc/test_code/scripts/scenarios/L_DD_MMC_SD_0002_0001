@@ -1,10 +1,10 @@
 ###############################################################################
-# Scenario: L_DD_MMC_0002_0001
+# Scenario: L_DD_MMC_SD_0002_0001
 # Author  : Misael Lopez Cruz
 # Date    : September 20, 2006
 ###############################################################################
 
-# Begin L_DD_MMC_0002_0001
+# Begin L_DD_MMC_SD_0002_0001
 
 # Clean up
 01  set -x; rm -rf $MMC_MOUNT_POINT_1 $MMC_MOUNT_POINT_2; exit 0
@@ -21,4 +21,4 @@
 # Verifying partition
 05  set -x; cat $PROCFS_PARTITIONS | grep $MMC_PARTITION_NAME1 && exit 1 || exit 0
 
-# End L_DD_MMC_0002_0001
+# End L_DD_MMC_SD_0002_0001

@@ -1,10 +1,10 @@
 ###############################################################################
-# Scenario: L_DD_MMC_0004_0003
+# Scenario: L_DD_MMC_SD_0004_0003
 # Author  : Misael Lopez Cruz
 # Date    : September 20, 2006
 ###############################################################################
 
-# Begin L_DD_MMC_0004_0003
+# Begin L_DD_MMC_SD_0004_0003
 
 # Clean up
 01  set -x; rm -rf $MMC_MOUNT_POINT_1 $MMC_MOUNT_POINT_2; exit 0
@@ -60,4 +60,4 @@
 31  set -x; cat $PROCFS_PARTITIONS | grep $MMC_PARTITION_NAME1 && exit 1 || exit 0
 32  set -x; cat $PROCFS_PARTITIONS | grep $MMC_PARTITION_NAME2 && exit 1 || exit 0
 
-# End L_DD_MMC_0004_0003
+# End L_DD_MMC_SD_0004_0003
