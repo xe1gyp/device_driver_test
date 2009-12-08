@@ -11,7 +11,7 @@
 #include "lib.h"
 
 static int streaming_video(int output_device, int file_descriptor,
-	int buff_num, int sleep_time)
+	int buff_num, int sleep_time, int cache_flush_able)
 {
 	struct {
 		void *start;
@@ -46,6 +46,16 @@ static int streaming_video(int output_device, int file_descriptor,
 	reqbuf.type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
 	reqbuf.memory = V4L2_MEMORY_MMAP;
 	reqbuf.count = buff_num;
+
+	if (cache_flush_able) {
+		printf("Buffers are made cacheable and flushable\n");
+		reqbuf.reserved[0] = 1;
+		reqbuf.reserved[1] = 1;
+	} else {
+		printf("Buffers are made non-cacheable and non-flushable\n");
+		reqbuf.reserved[0] = 0;
+		reqbuf.reserved[1] = 0;
+	}
 
 	result = ioctl(output_device, VIDIOC_REQBUFS, &reqbuf);
 	if (result != 0) {
@@ -178,6 +188,7 @@ int main(int argc, char *argv[])
 	int video_device, file_descriptor, output_device, result, i;
 	int buff_num = 4;
 	int sleep_time = 0;
+	int cache_flush_able = 0;
 
 	if (argc < 3)
 		return usage();
@@ -218,8 +229,12 @@ int main(int argc, char *argv[])
 
 	if (argc == 4+i)
 		sleep_time = atoi(argv[3+i]);
+
+	if (argc == 5+i)
+		cache_flush_able = atoi(argv[4+i]);
+
 	result = streaming_video(file_descriptor, output_device,
-				buff_num, sleep_time);
+				buff_num, sleep_time, cache_flush_able);
 
 	close(output_device);
 	close(file_descriptor);
