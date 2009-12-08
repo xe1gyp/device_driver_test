@@ -1,21 +1,31 @@
 #!/bin/sh
 
-MAXCOUNT=99999
-count=3
+# Changing the governor to userspace 
+echo "userspace" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 
-while [ "$count" -le $MAXCOUNT ]
+# Checking if scaling_setspeed has been created
+if [ ! -e /sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed ]
+then
+	echo "Fatal: scaling_setspeed is not available"
+	exit 1
+fi
+
+# Changing through all the frequencies available
+available_frequencies=`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies`
+
+while true 
 do
-	vdd1_opp_no=`expr $count % 5`	
-	vdd1_opp_no=`expr $vdd1_opp_no + 1`
-	echo -n $vdd1_opp_no > /sys/power/vdd1_opp_value
-	echo VDD1:
-	cat /sys/power/vdd1_opp_value
-	sleep 1
-	vdd2_opp_no=`expr $count % 2`
-	vdd2_opp_no=`expr $vdd2_opp_no + 2`
-	echo -n $vdd2_opp_no > /sys/power/vdd2_opp_value
-	echo VDD2:
-	cat /sys/power/vdd2_opp_value
-	sleep 1
-	count=`expr $count + 1` 
+	for i in $available_frequencies
+	do
+		echo "Setting ARM Frequency to" $i
+		echo $i > /sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed
+		cur_frequency=`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq`
+		if [ "$i" != "$cur_frequency" ]
+		then
+			echo "Fatal: Current frequency is different from the set one"
+			exit 1
+		fi
+		cur_frequency=`cat /debug/clock/virt_26m_ck/osc_sys_ck/sys_ck/dpll2_ck/dpll2_m2_ck/iva2_ck/rate`
+		echo "DSP/IVA2 Frequency ==> " $cur_frequency "when ARM Frequency ==>" $i
+	done
 done
