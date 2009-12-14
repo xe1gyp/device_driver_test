@@ -686,6 +686,24 @@ restart_streaming:
 	}
 
 	/********************************************************************/
+	/* Init and Configure AE & AWB SCM */
+	if (use_aewb) {
+		if (h3a_aewb_init(cfd)) {
+			perror("h3a_aewb_init");
+			return -1;
+		}
+	}
+
+	/********************************************************************/
+	/* Init and Configure AF SCM */
+	if (use_af) {
+		if (h3a_af_init(cfd)) {
+			perror("h3a_af_init");
+			return -1;
+		}
+	}
+
+	/********************************************************************/
 	/* Start Camera streaming */
 
 	if (ioctl(cfd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
@@ -704,25 +722,6 @@ restart_streaming:
 			cfmt.fmt.pix.height);
 
 	display_keys();
-
-
-	/********************************************************************/
-	/* Init and Configure AE & AWB SCM */
-	if (use_aewb) {
-		if (h3a_aewb_init(cfd)) {
-			perror("h3a_aewb_init");
-			return -1;
-		}
-	}
-
-	/********************************************************************/
-	/* Init and Configure AF SCM */
-	if (use_af) {
-		if (h3a_af_init(cfd)) {
-			perror("h3a_af_init");
-			return -1;
-		}
-	}
 
 	/********************************************************************/
 	/* Start streaming loop */
