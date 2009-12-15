@@ -36,6 +36,17 @@ export TVSTD=/sys/class/display_control/omap_disp_control/tv_standard
 
 export FBTEST=arm-none-linux-gnueabi-fbtest
 
+if [ ! -c /dev/fb0 ]
+then
+	if [ -c /dev/graphics/fb0 ]
+	then
+	        ln -s /dev/graphics/fb0 /dev/fb0
+	else
+		echo "FATAL: there is not FB device registered."
+		exit 1
+	fi
+fi
+
 export MESSAGE_DELAY=1
 export WAIT_ANSWER=$UTILBIN/akey
 export WAIT_KEY=$UTILBIN/waitkey
