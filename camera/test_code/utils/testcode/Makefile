@@ -98,9 +98,9 @@ streaming_zoom: streaming_zoom.c lib.c ioctl.c framerateLib.c
 	@echo "  CC  streaming_zoom"
 	@$(CC) $(CFLAGS) -g streaming_zoom.c lib.c ioctl.c framerateLib.c -o streaming_zoom
 
-snapshot: snapshot.c framerateLib.c lib.c ioctl.c
+snapshot: snapshot.c snapshot_lsc.c framerateLib.c lib.c ioctl.c
 	@echo "  CC  snapshot"
-	@$(CC) $(CFLAGS) -g snapshot.c framerateLib.c lib.c ioctl.c -o snapshot
+	@$(CC) $(CFLAGS) -g snapshot.c snapshot_lsc.c framerateLib.c lib.c ioctl.c -o snapshot
 
 clean:
 	@echo "Cleaning up objects..."

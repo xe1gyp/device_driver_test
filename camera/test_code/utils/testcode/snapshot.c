@@ -20,6 +20,7 @@
 #include <sys/time.h>
 #include <mach/isp_user.h>
 #include "kbget.h"
+#include "snapshot_lsc.h"
 
 /* For parameter parser */
 #include <getopt.h>
@@ -35,6 +36,8 @@
 #define DEFAULT_CAPTURE_WIDTH 		1024
 #define DEFAULT_CAPTURE_HEIGHT 		768
 #define DEFAULT_CAPTURE_FPS 		10
+
+#define DEFAULT_LSC_TEST			0
 
 #define DSS_STREAM_START_FRAME		3
 
@@ -94,6 +97,10 @@ static void usage(void)
 	printf("\t-g <capture fps>\n");
 	printf("\t\tSnapshot capture frame rate (default: %u)\n",
 			DEFAULT_CAPTURE_FPS);
+
+	printf("\t-l <lsc test>\n"
+			"\t\tLSC Test: 1-enable, 0-disable "
+			"(default: %d)\n", DEFAULT_LSC_TEST);
 }
 
 static void display_keys(void)
@@ -328,6 +335,7 @@ int main(int argc, char **argv)
 	int capw = DEFAULT_CAPTURE_WIDTH, caph = DEFAULT_CAPTURE_HEIGHT;
 	int capfps = DEFAULT_CAPTURE_FPS;
 	char *cappix = DEFAULT_CAPTURE_PIXFMT;
+	int use_lsc = DEFAULT_LSC_TEST;
 	int aewb_curr_frame, af_curr_frame;
 
 	opterr = 0;
@@ -344,12 +352,13 @@ int main(int argc, char **argv)
 			{"hcap",	required_argument,	0, 'y'},
 			{"fpscap",	required_argument,	0, 'g'},
 			{"viddev",	required_argument,	0, 'v'},
+			{"lsc",		required_argument,	0, 'l'},
 			{0, 0, 0, 0}
 		};
 		int option_index = 0;
 		static int c;
 
-		c = getopt_long_only(argc, argv, "c:p:w:h:f:q:x:y:g:v:a",
+		c = getopt_long_only(argc, argv, "c:p:w:h:f:q:x:y:g:v:l:a",
 				long_options, &option_index);
 
 		/* Detect the end of the options. */
@@ -387,6 +396,9 @@ int main(int argc, char **argv)
 		case 'v':
 			viddev = optarg;
 			break;
+		case 'l':
+			use_lsc = atoi(optarg);
+			break;
 		case '?':
 			if ((optopt == 'c') ||
 			    (optopt == 'p') ||
@@ -397,7 +409,8 @@ int main(int argc, char **argv)
 			    (optopt == 'x') ||
 			    (optopt == 'y') ||
 			    (optopt == 'g') ||
-			    (optopt == 'v')) {
+			    (optopt == 'v') ||
+				(optopt == 'l')) {
 				fprintf(stderr,
 					"Option -%c requires an argument.\n",
 					optopt);
@@ -666,6 +679,13 @@ restart_streaming:
 	}
 
 	/********************************************************************/
+	/* Init and Configure LSC */
+	if (use_lsc) {
+		lsc_init_table();
+		lsc_update_table(cfd);
+	}
+
+	/********************************************************************/
 	/* Start Camera streaming */
 
 	if (ioctl(cfd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
@@ -703,6 +723,7 @@ restart_streaming:
 			return -1;
 		}
 	}
+
 	/********************************************************************/
 	/* Start streaming loop */
 
@@ -744,6 +765,11 @@ restart_streaming:
 			if (h3a_af_request_stats(cfd, &af_curr_frame))
 				perror("AF");
 		}
+
+#if 0
+		if (use_lsc)
+			lsc_update_table(cfd);
+#endif
 
 		i++;
 
@@ -849,6 +875,9 @@ restart_streaming:
 			return -1;
 		}
 	}
+
+	if (use_lsc)
+		lsc_cleanup();
 
 	/********************************************************************/
 	/* Take snapshot ? */
