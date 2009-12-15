@@ -5,6 +5,7 @@ export POSTFIX=`date "+%Y%m%d-%H%M%S"`
 export TESTROOT=${PWD}
 export TESTBIN=${PWD}/../bin
 export UTILBIN=${PWD}/../../utils/bin
+export UTILSCRIPTS=${PWD}/../../utils/scripts
 export TESTMODS=${PWD}/../mods
 export TESTSCRIPT=${PWD}/helper
 export TMPBASE=${TESTROOT}/tmp

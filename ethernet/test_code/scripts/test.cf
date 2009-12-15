@@ -20,6 +20,7 @@ export SCENARIO_NAMES=""
 export INTERACTIVE=""
 export STRESS=""
 export UTILBIN=${TESTROOT}/../../utils/bin
+export UTILSCRIPTS=${TESTROOT}/../../utils/scripts
 
 # Checking if bc is available in the filesystem
 

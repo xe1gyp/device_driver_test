@@ -7,12 +7,12 @@
 # Begin L_DD_ONENAND_0001_0001
 
 # Check if MTD device is registered while booting
-01  set -x; $TESTSCRIPT/filesystemtype.sh; cat $TESTSCRIPT/result.tmp | grep $TYPE && exit 0 || exit 1
+01  set -x; $UTILSCRIPTS/filesystemtype.sh; cat $TMPBASE/result.tmp | grep $TYPE && exit 0 || exit 1
 
 # Check if the MTD FSs are registered
 02  set -x; cat /proc/devices | grep mtd && exit 0 || exit 1
 
 # Erasing the temporary file to get the filesystem type
-03 set -x; rm -f $TESTSCRIPT/result.tmp; ls $TESTSCRIPT/ | grep result.tmp | exit 0 || exit 1;
+03 set -x; rm -f $TMPBASE/result.tmp; ls $TMPBASE/ | grep result.tmp | exit 0 || exit 1;
 
 # End L_DD_ONENAND_0001_0001

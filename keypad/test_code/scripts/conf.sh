@@ -22,6 +22,7 @@ export STRESS=""
 
 # Utilities
 export UTILBIN=${TESTROOT}/../../utils/bin
+export UTILSCRIPTS=${TESTROOT}/../../utils/scripts
 export WAITKEY=$UTILBIN/akey
 
 # General variables

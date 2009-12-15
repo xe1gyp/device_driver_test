@@ -6,7 +6,7 @@
 
 # Begin L_DD_I2C_0001_0001
 
-01 set -x; $TESTSCRIPT/filesystemtype.sh; cat $TMPBASE/result.tmp | grep i2c && exit 0 || exit 1
+01 set -x; $UTILSCRIPTS/filesystemtype.sh; cat $TMPBASE/result.tmp | grep i2c && exit 0 || exit 1
 02 set -x; for i in $I2C_ADAPTERS; do cat $TMPBASE/result.tmp | grep "bus $i" || exit 1; done && exit 0
 03 set -x; rm -f $TMPBASE/result.tmp; ls $TMPBASE/ | grep result.tmp | exit 0 || exit 1;
 04 set -x; for i in $I2C_ADAPTERS; do i2cdetect -l | grep i2c-$i || exit 1; done && exit 0

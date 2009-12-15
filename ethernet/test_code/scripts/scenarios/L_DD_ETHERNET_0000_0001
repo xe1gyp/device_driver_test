@@ -6,7 +6,7 @@
 
 # Begin L_DD_ETHERNET_0000_0001
 
-01 set -x; $TESTSCRIPT/filesystemtype.sh; cat $TESTSCRIPT/result.tmp | grep eth0 && exit 0 || exit 1;
-02 set -x; rm -f $TESTSCRIPT/result.tmp; ls $TESTSCRIPT/ | grep result.tmp | exit 0 || exit 1;
+01 set -x; $UTILSCRIPTS/filesystemtype.sh; cat $TMPBASE/result.tmp | grep eth0 && exit 0 || exit 1;
+02 set -x; rm -f $TMPBASE/result.tmp; ls $TMPBASE/ | grep result.tmp | exit 0 || exit 1;
 
 # End L_DD_ETHERNET_0000_0001
