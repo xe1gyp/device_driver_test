@@ -682,7 +682,7 @@ restart_streaming:
 	/* Init and Configure LSC */
 	if (use_lsc) {
 		lsc_init_table();
-		lsc_update_table(cfd);
+		lsc_update_table(cfd, 1);
 	}
 
 	/********************************************************************/
@@ -768,7 +768,7 @@ restart_streaming:
 
 #if 0
 		if (use_lsc)
-			lsc_update_table(cfd);
+			lsc_update_table(cfd, 1);
 #endif
 
 		i++;
@@ -876,9 +876,6 @@ restart_streaming:
 		}
 	}
 
-	if (use_lsc)
-		lsc_cleanup();
-
 	/********************************************************************/
 	/* Take snapshot ? */
 
@@ -890,6 +887,14 @@ restart_streaming:
 			return ret;
 		snap_flag = 0;
 		goto restart_streaming;
+	}
+
+	/********************************************************************/
+	/* LSC: Disable and cleanup resources */
+
+	if (use_lsc) {
+		lsc_update_table(cfd, 0);
+		lsc_cleanup();
 	}
 
 	close(vfd);

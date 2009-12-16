@@ -101,10 +101,12 @@ int lsc_init_table(void)
 }
 
 /** lsc_update_table - Update driver with current table
+ * @cfd: camera file descriptor
+ * @enable: enable(1) or disable(0) LSC
  *
  * Return: 0 - Success,  -ve - Ioctl error
  **/
-int lsc_update_table(int cfd)
+int lsc_update_table(int cfd, int enable)
 {
 	struct ispccdc_lsc_config lsc_config_t;
 	struct ispccdc_update_config ccdc_t;
@@ -128,7 +130,7 @@ int lsc_update_table(int cfd)
 	ccdc_t.lsc_cfg = &lsc_config_t;
 	ccdc_t.lsc = (void *)lsc_tbl;
 	ccdc_t.update = ISP_ABS_CCDC_CONFIG_LSC | ISP_ABS_TBL_LSC;
-	ccdc_t.flag = ISP_ABS_CCDC_CONFIG_LSC;
+	ccdc_t.flag = (enable) ? ISP_ABS_CCDC_CONFIG_LSC : 0;
 
 	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_CCDC_CFG, &ccdc_t);
 	if (ret < 0)
