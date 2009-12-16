@@ -5,6 +5,8 @@
 
 # Begin L_DD_POWER_0005_0002
 
+00  set -x; debugFileSystem.sh "mount"
+
 01  set -x; smartReflexAutoComp.sh  enable  VDD1
 02  set -x; smartReflexAutoComp.sh  enable  VDD2
 
