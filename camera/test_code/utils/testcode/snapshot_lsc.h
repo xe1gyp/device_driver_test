@@ -16,7 +16,7 @@
 #define _SNAPSHOT_H_
 
 int  lsc_init_table(void);
-int  lsc_update_table(int cfd);
+int  lsc_update_table(int cfd, int);
 void lsc_cleanup(void);
 
 #endif
