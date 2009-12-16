@@ -51,22 +51,28 @@ void lsc_cleanup(void)
 int lsc_init_table(void)
 {
 	int x, y;
+	int paxel_width, paxel_height;
 	__u8 *ptr;
 	__u8 gain;
 
 	if (lsc_tbl)
 		lsc_cleanup();
 
-	/* Calculate LSC table width and height:
+	/* Calculate LSC table width and height.
+	 * Table is calculated for a maximum 8MP image.
 	 * e.g For width:
-	 *    3280/64 = 51.25 (round up to 52)
+	 *    (3280+64-1)/64 = 52.23 (round up to 53)
 	 */
-	lsc_tbl_width  = (MAX_IMAGE_WIDTH  / (1<<LSC_GAIN_MODE_M)) + 1;
-	lsc_tbl_height = (MAX_IMAGE_HEIGHT / (1<<LSC_GAIN_MODE_N)) + 1;
+	paxel_width  = 1 << LSC_GAIN_MODE_M;
+	paxel_height = 1 << LSC_GAIN_MODE_N;
+	lsc_tbl_width  = ((MAX_IMAGE_WIDTH + paxel_width - 1)
+			/ paxel_width) + 1;
+	lsc_tbl_height = ((MAX_IMAGE_HEIGHT + paxel_height - 1)
+			/ paxel_height) + 1;
 	lsc_tbl_size = lsc_tbl_width * lsc_tbl_height * 4;
 
-	printf("LSC paxel width:  %d\n", 1<<LSC_GAIN_MODE_M);
-	printf("LSC paxel height: %d\n", 1<<LSC_GAIN_MODE_N);
+	printf("LSC paxel width:  %i\n", paxel_width);
+	printf("LSC paxel height: %i\n", paxel_height);
 	printf("LSC table width in paxels:  %i\n", lsc_tbl_width);
 	printf("LSC table height in paxels: %i\n", lsc_tbl_height);
 
