@@ -388,20 +388,24 @@ int main(int argc, char *argv[])
 	printf("Current Frame No: %d\n", af_data_user.curr_frame);
 	af_data_user.frame_number = af_data_user.curr_frame + 10;
 
-
 request:
-	frame_number = af_data_user.frame_number;
 	/* request stats */
 
 	af_data_user.update = REQUEST_STATISTICS;
 	af_data_user.af_statistics_buf = stats_buff;
-	printf("Requesting stats for frame %d, try %d\n", frame_number, j);
+	printf("Requesting stats for frame %d, try %d\n",
+	       af_data_user.frame_number, j);
 	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ, &af_data_user);
-	if (ret < 0 && errno == EBUSY)
+	if (ret < 0 && errno == EBUSY) {
 		printf("No stats for frame number %d (current=%d)\n",
 			af_data_user.frame_number,
 			af_data_user.curr_frame);
-	else if (ret < 0)
+		if (af_data_user.curr_frame > af_data_user.frame_number) {
+			af_data_user.frame_number = af_data_user.curr_frame - 1;
+			j++;
+			goto request;
+		}
+	} else if (ret < 0)
 		perror("ISP_AF_REQ 2");
 	else {
 		printf("Frame No %d\n", af_data_user.frame_number);
@@ -411,26 +415,15 @@ request:
 		printf("xs.lens_position %d\n", af_data_user.xtrastats.lens_position);
 	}
 
-	if (af_data_user.af_statistics_buf == NULL) {
-		printf("NULL buffer, current frame is  %d.\n",
-			af_data_user.curr_frame);
-		af_data_user.frame_number =
-					af_data_user.curr_frame + 5;
-		af_data_user.update = REQUEST_STATISTICS;
-		af_data_user.af_statistics_buf = stats_buff;
-		goto request;
-	} else {
-		/* Display stats */
-		buff_preview = (__u16 *)af_data_user.af_statistics_buf;
-		printf("H3A AE/AWB: buffer to display = %d data pointer = %p\n",
-			buff_prev_size, af_data_user.af_statistics_buf);
-		for (k = 0; k < 1024; k++)
-			fprintf(fp_out, "%6x\n", buff_preview[k]);
-	}
+	/* Display stats */
+	buff_preview = (__u16 *)af_data_user.af_statistics_buf;
+	printf("H3A AE/AWB: buffer to display = %d data pointer = %p\n",
+		buff_prev_size, af_data_user.af_statistics_buf);
+	for (k = 0; k < 1024; k++)
+		fprintf(fp_out, "%6x\n", buff_preview[k]);
 
 	if (mode == MODE_MANUAL)
 		display_keys();
-
 
 	while (i < 1000 || mode == MODE_MANUAL) {
 		/* De-queue the next avaliable buffer */
@@ -485,7 +478,7 @@ request:
 				}
 
 				af_data_user.frame_number =
-						af_data_user.curr_frame;
+						af_data_user.curr_frame - 1;
 				af_data_user.update = REQUEST_STATISTICS;
 				af_data_user.af_statistics_buf = stats_buff;
 				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
