@@ -7,23 +7,22 @@
 * ============================================================================*/
 
 #include <sys/types.h>
-#include <sys/stat.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include <linux/ioctl.h>
-#include <sys/mman.h>
 #include <linux/videodev2.h>
 #include <linux/errno.h>
 #include <errno.h>
 #include <string.h>
-#include <sys/time.h>
 #include <mach/isp_user.h>
 
 #define MAX_IMAGE_WIDTH		3280
 #define MAX_IMAGE_HEIGHT	2464
 #define LSC_GAIN_MODE_M		6
 #define LSC_GAIN_MODE_N		6
+#define GAIN_ZERO			0x00
+#define GAIN_UNITY			0x40
 
 static __u8 *lsc_tbl;
 static int lsc_tbl_size;		/* Table size in bytes */
@@ -92,7 +91,7 @@ int lsc_init_table(void)
 	for (y = 0; y < lsc_tbl_height; y++) {
 		for (x = 0; x < lsc_tbl_width; x++) {
 			/* Setup paxel gain */
-			gain = (((y%2)+x)%2) ? 0x00 : 0x40;
+			gain = (((y%2)+x)%2) ? GAIN_UNITY : GAIN_ZERO;
 
 			/* Set gain for each color component */
 			*(ptr++) = gain;
