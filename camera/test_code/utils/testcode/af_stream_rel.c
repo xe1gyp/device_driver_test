@@ -463,8 +463,32 @@ request:
 		}
 
 
-		if (mode == MODE_AUTO)
+		if (mode == MODE_AUTO) {
 			auto_test(cfd, i);
+
+			/* Request stats every second */
+			if (!(i % framerate)) {
+				af_data_user.update = 0;
+				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
+							 &af_data_user);
+				if (ret < 0) {
+					perror("ISP_AF_REQ 3");
+					return ret;
+				}
+
+				af_data_user.frame_number =
+						af_data_user.curr_frame - 1;
+				af_data_user.update = REQUEST_STATISTICS;
+				af_data_user.af_statistics_buf = stats_buff;
+				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
+							 &af_data_user);
+				if (ret < 0)
+					perror("ISP_AF_REQ 4");
+				else
+					printf("Stats success! (frame: %d)\n",
+						af_data_user.curr_frame);
+			}
+		}
 
 		if (kbhit() && mode == MODE_MANUAL) {
 			input = getch();
