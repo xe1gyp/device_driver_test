@@ -21,7 +21,7 @@ ccflags-y += -Iarch/arm
 
 all:
 	make -C $(KDIR) SUBDIRS=$(SOURCE_DIR)  KERN=26 modules
-	$(CC) time_difference.c -o time_difference
+	$(CC) $(CFLAGS) time_difference.c -o time_difference
 
 install:
 	cp -v $(MODULES:.o=.ko) ../../mods
