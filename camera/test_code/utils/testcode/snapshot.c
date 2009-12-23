@@ -336,6 +336,7 @@ int main(int argc, char **argv)
 	int capfps = DEFAULT_CAPTURE_FPS;
 	char *cappix = DEFAULT_CAPTURE_PIXFMT;
 	int use_lsc = DEFAULT_LSC_TEST;
+	int lsc_toggle = 0;
 	int aewb_curr_frame, af_curr_frame;
 
 	opterr = 0;
@@ -765,10 +766,11 @@ restart_streaming:
 				perror("AF");
 		}
 
-#if 0
-		if (use_lsc)
-			lsc_update_table(cfd, 1);
-#endif
+		/* Toggle LSC every second */
+		if (use_lsc && ((i % prvfps) == 0)) {
+			lsc_toggle = lsc_toggle ? 0 : 1;
+			lsc_update_table(cfd, lsc_toggle);
+		}
 
 		i++;
 
