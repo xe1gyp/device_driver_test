@@ -352,12 +352,6 @@ int main(int argc, char *argv[])
 		"max %d.\nCurrent color is level is %d\n",
 		queryctrl.minimum, queryctrl.maximum, control.value);
 
-	/* turn on streaming */
-	if (ioctl(fd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
-		perror("VIDIOC_STREAMON");
-		return -1;
-	}
-
 	/********************************************************/
 	/* Get Sensor info using SENSOR_INFO ioctl */
 
@@ -372,6 +366,12 @@ int main(int argc, char *argv[])
 		printf("  Active size: %d x %d\n",
 			sens_info.active_size.width,
 			sens_info.active_size.height);
+	}
+
+	/* turn on streaming */
+	if (ioctl(fd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
+		perror("VIDIOC_STREAMON");
+		return -1;
 	}
 
 	/********************************************************/

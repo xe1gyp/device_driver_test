@@ -345,13 +345,13 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	show_sensor_info(cfd);
+
 	/* turn on streaming */
 	if (ioctl(cfd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
 		perror("cam VIDIOC_STREAMON");
 		return -1;
 	}
-
-	show_sensor_info(cfd);
 
 	/* caputure 1000 frames or when we hit the passed nmuber of frames */
 	cfilledbuffer.type = creqbuf.type;

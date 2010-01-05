@@ -703,6 +703,8 @@ restart_streaming:
 		}
 	}
 
+	dump_sensor_info(cfd);
+
 	/********************************************************************/
 	/* Start Camera streaming */
 
@@ -714,8 +716,6 @@ restart_streaming:
 
 	/********************************************************************/
 	/* Display some information to the user */
-
-	dump_sensor_info(cfd);
 
 	printf("Streaming %d x %d...\n",
 			cfmt.fmt.pix.width,
