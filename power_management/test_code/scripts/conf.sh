@@ -77,6 +77,13 @@ export GOVERNOR_POWERSAVE=powersave
 export GOVERNOR_USERSPACE=userspace
 export GOVERNOR_PERFORMANCE=performance
 
+export AUDIO_SAMPLE=/testsuites/audio-alsa/scripts/helper/audio-samples
+
+if [ ! -e "$AUDIO_SAMPLE" ]; then
+	echo "FATAL: Audio Samples cannot be found -> $AUDIO_SAMPLE"
+	return 1
+fi
+
 if [ ! `echo 1+1 | bc` ]; then
 	echo "FATAL: BC is unavailable, cannot continue"
 	return 1

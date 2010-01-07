@@ -1,0 +1,16 @@
+###############################################################################
+# Scenario: L_DD_POWER_0001_0004
+# Author  : David Miramontes
+# Date    : January 06, 2010
+# Description: Suspend the system when playing audio
+#
+# NOTE: To execute this scenario, you must compile
+#       Audio Alsa test suites to reproduce the audio.
+###############################################################################
+
+# Begin L_DD_POWER_0001_0004
+
+00  set -x; debugFileSystem.sh "mount"
+01  set -x; aplay $AUDIO_SAMPLE/beethoven_8000.wav & sleep 8 && suspendResume.sh  "suspend" "5"
+
+# End L_DD_POWER_0001_0004
