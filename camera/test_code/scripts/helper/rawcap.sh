@@ -12,7 +12,7 @@ if [ "$SIZE" = "3280 2464" ]; then
   FNAME="${TMPBASE}/8MPsi.raw"
 fi
 
-$TESTBIN/burst_mode $DEVICE RAW10 $SIZE 1 $FNAME
+$TESTBIN/burst_mode $DEVICE SRGGB10 $SIZE 1 $FNAME
 RESULT=$?
 echo "Test returned $RESULT"
 chmod 744 $FNAME

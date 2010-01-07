@@ -80,7 +80,8 @@ static void usage(void)
 	printf("   [camDevice] Camera device to be open\n\t 1:Micron sensor "
 					"2:OV sensor\n");
 	printf("   [pixelFormat] set the pixelFormat to use. \n\tSupported: "
-		"YUYV, UYVY, RGB565, RGB555, RGB565X, RGB555X, RAW10 \n");
+		"YUYV, UYVY, RGB565, RGB555, RGB565X, RGB555X, SGRBG10,"
+		" SRGGB10, SBGGR10, SGBRG10 \n");
 	printf("   [sizeW] Set the video width\n");
 	printf("   [sizeH] Set the video heigth\n");
 	printf("\tOptionally size can be specified using standard name sizes"

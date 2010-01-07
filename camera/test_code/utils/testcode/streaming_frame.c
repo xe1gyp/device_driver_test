@@ -34,7 +34,8 @@ static void usage(void)
 	printf("   [framerate] is the framerate to be used, if no value"
 			" is given \n\t      30 fps is default\n");
 	printf("   [pixelFormat] set the pixelFormat to use. \n\tSupported: "
-		"YUYV, UYVY, RGB565, RGB555, RGB565X, RGB555X, RAW10 \n");
+		"YUYV, UYVY, RGB565, RGB555, RGB565X, RGB555X, SGRBG10,"
+		" SRGGB10, SBGGR10, SGBRG10 \n");
 	printf("   [sizeW] Set the video width\n");
 	printf("   [sizeH] Set the video heigth\n");
 	printf("\tOptionally size can be specified using standard name sizes"

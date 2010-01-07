@@ -13,8 +13,6 @@
 #include <string.h>
 #include <linux/videodev2.h>
 
-#define V4L2_PIX_FMT_SGRBG10	v4l2_fourcc('B', 'A', '1', '0')
-
 int cam_ioctl(int fd, char *pixFormat, char *size, char *sizeH)
 {
 	struct v4l2_format format;
@@ -95,8 +93,14 @@ int cam_ioctl(int fd, char *pixFormat, char *size, char *sizeH)
 		format.fmt.pix.pixelformat = V4L2_PIX_FMT_RGB565X;
 	else if (!strcmp(pixFormat, "RGB555X"))
 		format.fmt.pix.pixelformat = V4L2_PIX_FMT_RGB555X;
-	else if (!strcmp(pixFormat, "RAW10"))
+	else if (!strcmp(pixFormat, "SGRBG10"))
 		format.fmt.pix.pixelformat = V4L2_PIX_FMT_SGRBG10;
+	else if (!strcmp(pixFormat, "SRGGB10"))
+		format.fmt.pix.pixelformat = V4L2_PIX_FMT_SRGGB10;
+	else if (!strcmp(pixFormat, "SBGGR10"))
+		format.fmt.pix.pixelformat = V4L2_PIX_FMT_SBGGR10;
+	else if (!strcmp(pixFormat, "SGBRG10"))
+		format.fmt.pix.pixelformat = V4L2_PIX_FMT_SGBRG10;
 	else {
 		printf("unsupported pixel format!\n");
 		return -1;

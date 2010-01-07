@@ -53,7 +53,16 @@ void print_image_size_format(struct v4l2_format *format)
 		printf("RGB555X\n");
 		break;
 	case V4L2_PIX_FMT_SGRBG10:
-		printf("RAW10\n");
+		printf("SGRBG10\n");
+		break;
+	case V4L2_PIX_FMT_SRGGB10:
+		printf("SRGGB10\n");
+		break;
+	case V4L2_PIX_FMT_SBGGR10:
+		printf("SBGGR10\n");
+		break;
+	case V4L2_PIX_FMT_SGBRG10:
+		printf("SGBRG10\n");
 		break;
 	default:
 		printf("unkown\n");

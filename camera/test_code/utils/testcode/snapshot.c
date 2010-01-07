@@ -32,7 +32,7 @@
 #define DEFAULT_PREVIEW_HEIGHT 		480
 #define DEFAULT_PREVIEW_FPS 		30
 
-#define DEFAULT_CAPTURE_PIXFMT 		"RAW10"
+#define DEFAULT_CAPTURE_PIXFMT 		"SGRBG10"
 #define DEFAULT_CAPTURE_WIDTH 		1024
 #define DEFAULT_CAPTURE_HEIGHT 		768
 #define DEFAULT_CAPTURE_FPS 		10
@@ -74,7 +74,8 @@ static void usage(void)
 	printf("\t-p <preview pixelFormat>\n"
 			"\t\tPixel format for streaming. (default: "
 			DEFAULT_PREVIEW_PIXFMT ")\n"
-			"\t\tSupported: YUYV, UYVY, RAW10\n");
+			"\t\tSupported: YUYV, UYVY, SGRBG10,"
+			" SRGGB10, SBGGR10, SGBRG10\n");
 	printf("\t-w <preview width>\n");
 	printf("\t\tLCD preview width (default: %u)\n",
 			DEFAULT_PREVIEW_WIDTH);
@@ -499,8 +500,14 @@ restart_streaming:
 		cfmt.fmt.pix.pixelformat = V4L2_PIX_FMT_YUYV;
 	else if (!strcmp(prvpix, "UYVY"))
 		cfmt.fmt.pix.pixelformat = V4L2_PIX_FMT_UYVY;
-	else if (!strcmp(prvpix, "RAW10"))
+	else if (!strcmp(prvpix, "SGRBG10"))
 		cfmt.fmt.pix.pixelformat = V4L2_PIX_FMT_SGRBG10;
+	else if (!strcmp(prvpix, "SRGGB10"))
+		cfmt.fmt.pix.pixelformat = V4L2_PIX_FMT_SRGGB10;
+	else if (!strcmp(prvpix, "SBGGR10"))
+		cfmt.fmt.pix.pixelformat = V4L2_PIX_FMT_SBGGR10;
+	else if (!strcmp(prvpix, "SGBRG10"))
+		cfmt.fmt.pix.pixelformat = V4L2_PIX_FMT_SGBRG10;
 	else {
 		printf("unsupported pixel format!\n");
 		return -1;
@@ -949,8 +956,17 @@ int snapshot(int cfd, char *pixelFmt, int w, int h, int fps)
 	} else if (!strcmp(pixelFmt, "UYVY")) {
 		cfmt.fmt.pix.pixelformat = V4L2_PIX_FMT_UYVY;
 		file_is_yuv = 1;
-	} else if (!strcmp(pixelFmt, "RAW10")) {
+	} else if (!strcmp(pixelFmt, "SGRBG10")) {
 		cfmt.fmt.pix.pixelformat = V4L2_PIX_FMT_SGRBG10;
+		file_is_raw = 1;
+	} else if (!strcmp(pixelFmt, "SRGGB10")) {
+		cfmt.fmt.pix.pixelformat = V4L2_PIX_FMT_SRGGB10;
+		file_is_raw = 1;
+	} else if (!strcmp(pixelFmt, "SBGGR10")) {
+		cfmt.fmt.pix.pixelformat = V4L2_PIX_FMT_SBGGR10;
+		file_is_raw = 1;
+	} else if (!strcmp(pixelFmt, "SGBRG10")) {
+		cfmt.fmt.pix.pixelformat = V4L2_PIX_FMT_SGBRG10;
 		file_is_raw = 1;
 	} else {
 		printf("unsupported pixel format!\n");
