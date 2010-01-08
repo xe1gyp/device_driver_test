@@ -19,7 +19,11 @@ COMMENT comment.sh "Verify different format are rendered, both pipelines will be
 0005_VD2 set -x; imgstream.sh 2 "RGB565 640 480" $VIDEOFILES/video_vga_rgb565 "0 0 640 480"	&& exit 0 || exit 1
 0006_VD1 set -x; imgstream.sh 1 "YUYV 864 480"   $VIDEOFILES/wvga_video.yuv "0 0 864 480"	&& exit 0 || exit 1
 0006_VD2 set -x; imgstream.sh 2 "YUYV 864 480"   $VIDEOFILES/wvga_video.yuv "0 0 864 480"	&& exit 0 || exit 1
+
+#720p uses VRFB and needs rotation set
+0007_VD1 set -x; $TESTBIN/setrotation 1 0 && exit 0 || exit 1
 0007_VD1 set -x; imgstream.sh 1 "YUYV 1280 720"  $VIDEOFILES/720p.yuv "0 0 1280 720"	&& exit 0 || exit 1
+0007_VD1 set -x; $TESTBIN/setrotation 2 0 && exit 0 || exit 1
 0007_VD2 set -x; imgstream.sh 2 "YUYV 1280 720"  $VIDEOFILES/720p.yuv "0 0 1280 720"	&& exit 0 || exit 1
 
 
