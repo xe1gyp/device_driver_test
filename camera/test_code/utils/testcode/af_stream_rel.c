@@ -6,6 +6,9 @@
  *  in the license agreement under which this software has been supplied.
  * ========================================================================= */
 
+#include <sys/select.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/mman.h>
@@ -98,11 +101,15 @@ int main(int argc, char *argv[])
 	int input;
 	__u16 wposn = 1;
 	int frame_number;
-	int j = 0, index = 1;
+	int index = 1;
 	FILE *fp_out;
 	int framerate = 30;
 	int device = 1, mode = MODE_MANUAL;
 
+	/* V4L2 Video Event handling */
+	struct v4l2_event_subscription cam_sub;
+	struct v4l2_event cam_ev;
+	fd_set excfds;
 
 	af_config_user.alaw_enable = H3A_AF_ALAW_ENABLE;	/* Enable Alaw */
 	af_config_user.hmf_config.enable = H3A_AF_HMF_DISABLE;
@@ -347,13 +354,24 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	/* set h3a params */
+	/* Set AF params */
 	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_CFG, &af_config_user);
 	if (ret < 0) {
 		printf("Error: %d, ", ret);
 		perror("ISP_AF_CFG 1");
 		return ret;
 	}
+
+	/* Subscribe to internal SCM AF_DONE event */
+	cam_sub.type = V4L2_EVENT_OMAP3ISP_AF;
+
+	ret = ioctl(cfd, VIDIOC_SUBSCRIBE_EVENT, &cam_sub);
+	if (ret < 0)
+		perror("subscribe()");
+
+	/* Init file descriptor list to check with select call */
+	FD_ZERO(&excfds);
+	FD_SET(cfd, &excfds);
 
 	/* turn on streaming on camera driver */
 	if (ioctl(cfd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
@@ -371,49 +389,50 @@ int main(int argc, char *argv[])
 			AF_PAXEL_SIZE;
 
 	stats_buff = malloc(buff_size);
+	af_data_user.af_statistics_buf = stats_buff;
 
 	buff_prev_size = (buff_size / 2);
 
-	af_data_user.af_statistics_buf = NULL;
-	af_data_user.update = REQUEST_STATISTICS;
-	af_data_user.af_statistics_buf = stats_buff;
-	af_data_user.frame_number = 8; /* dummy */
+	printf("Syncup on frame number, before starting streaming\n");
+	do {
+		ret = pselect(cfd + 1, NULL, NULL, &excfds, NULL, NULL);
+		if (ret < 0) {
+			perror("cam select()");
+			return -1;
+		}
 
+		ret = ioctl(cfd, VIDIOC_DQEVENT, &cam_ev);
+		if (ret < 0) {
+			perror("cam DQEVENT");
+			return -1;
+		}
+	} while (cam_ev.type != V4L2_EVENT_OMAP3ISP_AF);
+
+	/* Syncup on frame number */
+	af_data_user.update = 0;
 	printf("Getting first parameters \n");
 	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ, &af_data_user);
-	if (ret < 0 && errno != EBUSY)
+	if (ret < 0)
 		perror("ISP_AF_REQ 1");
 
 	printf("Request Frame No: %d\n", af_data_user.frame_number);
 	printf("Current Frame No: %d\n", af_data_user.curr_frame);
-	af_data_user.frame_number = af_data_user.curr_frame + 10;
+	af_data_user.frame_number = af_data_user.curr_frame - 1;
 
-request:
-	/* request stats */
-
+	/* Request stats */
 	af_data_user.update = REQUEST_STATISTICS;
-	af_data_user.af_statistics_buf = stats_buff;
-	printf("Requesting stats for frame %d, try %d\n",
-	       af_data_user.frame_number, j);
+	printf("Requesting stats for frame %d\n", af_data_user.frame_number);
 	ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ, &af_data_user);
-	if (ret < 0 && errno == EBUSY) {
-		printf("No stats for frame number %d (current=%d)\n",
-			af_data_user.frame_number,
-			af_data_user.curr_frame);
-		if (af_data_user.curr_frame > af_data_user.frame_number) {
-			af_data_user.frame_number = af_data_user.curr_frame - 1;
-			j++;
-			goto request;
-		}
-	} else if (ret < 0)
+	if (ret < 0) {
 		perror("ISP_AF_REQ 2");
-	else {
-		printf("Frame No %d\n", af_data_user.frame_number);
-		printf("xs.ts %d:%d\n", af_data_user.xtrastats.ts.tv_sec,
-				af_data_user.xtrastats.ts.tv_usec);
-		printf("xs.field_count %d\n", af_data_user.xtrastats.field_count);
-		printf("xs.lens_position %d\n", af_data_user.xtrastats.lens_position);
+		return -1;
 	}
+
+	printf("Frame No %d\n", af_data_user.frame_number);
+	printf("xs.ts %d:%d\n", af_data_user.xtrastats.ts.tv_sec,
+			af_data_user.xtrastats.ts.tv_usec);
+	printf("xs.field_count %d\n", af_data_user.xtrastats.field_count);
+	printf("xs.lens_position %d\n", af_data_user.xtrastats.lens_position);
 
 	/* Display stats */
 	buff_preview = (__u16 *)af_data_user.af_statistics_buf;
@@ -468,6 +487,21 @@ request:
 
 			/* Request stats every second */
 			if (!(i % framerate)) {
+				do {
+					ret = pselect(cfd + 1, NULL, NULL, &excfds,
+						      NULL, NULL);
+					if (ret < 0) {
+						perror("cam select()");
+						return -1;
+					}
+
+					ret = ioctl(cfd, VIDIOC_DQEVENT, &cam_ev);
+					if (ret < 0) {
+						perror("cam DQEVENT");
+						return -1;
+					}
+				} while (cam_ev.type != V4L2_EVENT_OMAP3ISP_AF);
+
 				af_data_user.update = 0;
 				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
 							 &af_data_user);
@@ -479,20 +513,31 @@ request:
 				af_data_user.frame_number =
 						af_data_user.curr_frame - 1;
 				af_data_user.update = REQUEST_STATISTICS;
-				af_data_user.af_statistics_buf = stats_buff;
 				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
 							 &af_data_user);
 				if (ret < 0)
 					perror("ISP_AF_REQ 4");
-				else
-					printf("Stats success! (frame: %d)\n",
-						af_data_user.curr_frame);
+				printf("Stats success! (frame: %d)\n",
+				       af_data_user.curr_frame);
 			}
 		}
 
 		if (kbhit() && mode == MODE_MANUAL) {
 			input = getch();
 			if (input == '1') {
+				ret = pselect(cfd + 1, NULL, NULL, &excfds,
+					      NULL, NULL);
+				if (ret < 0) {
+					perror("cam select()");
+					return -1;
+				}
+
+				ret = ioctl(cfd, VIDIOC_DQEVENT, &cam_ev);
+				if (ret < 0) {
+					perror("cam DQEVENT");
+					return -1;
+				}
+
 				af_data_user.update = 0;
 				ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AF_REQ,
 							 &af_data_user);
