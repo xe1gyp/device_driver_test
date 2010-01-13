@@ -192,7 +192,7 @@ static int dmasglist_test1(void *info)
 	tls->bsptest_dma_dst_addr = bsptest_dma_dst_addr;
 	tls->bsptest_dma_dst_addr_phy = bsptest_dma_dst_addr_phy;
 
-	rc = omap_request_dma_sglist(OMAP_DMA_NO_DEVICE,
+	rc = omap_request_dma_sglist(NULL, OMAP_DMA_NO_DEVICE,
 			"SGlist transfer", dma_sglist_cb_final,
 			&sglist_id, num_elements_in_list, &user_sglist);
 	if (rc)
@@ -203,7 +203,7 @@ static int dmasglist_test1(void *info)
 	tls->sglist_id = sglist_id;
 	dmatest_populate_sglist(tls, num_elements_in_list);
 	rc = omap_set_dma_sglist_params(sglist_id,
-			user_sglist, &transfer_params);
+			&transfer_params);
 	if (rc)
 		return rc;
 

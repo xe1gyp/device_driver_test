@@ -199,7 +199,7 @@ static int dmasglist_test1(void *info)
 	tls->bsptest_dma_dst_addr = bsptest_dma_dst_addr;
 	tls->bsptest_dma_dst_addr_phy = bsptest_dma_dst_addr_phy;
 
-	rc = omap_request_dma_sglist(OMAP_DMA_NO_DEVICE,
+	rc = omap_request_dma_sglist(NULL, OMAP_DMA_NO_DEVICE,
 			"SGlist transfer", dma_sglist_cb_final,
 			&sglist_id, num_elements_in_list, &user_sglist);
 	if (rc)
@@ -210,7 +210,7 @@ static int dmasglist_test1(void *info)
 	tls->sglist_id = sglist_id;
 	dmatest_populate_sglist(tls, num_elements_in_list);
 	rc = omap_set_dma_sglist_params(sglist_id,
-			user_sglist, &transfer_params);
+			&transfer_params);
 	if (rc)
 		return rc;
 
@@ -227,20 +227,20 @@ static void __exit dmatest_cleanup(void)
 {
 	int i;
 	dma_free_coherent(NULL, tls1.total_num_elements * 4,
-		tls1.bsptest_dma_dst_addr, tls1.bsptest_dma_dst_addr_phy);
+		tls1.bsptest_dma_dst_addr, (int)tls1.bsptest_dma_dst_addr_phy);
 	for (i = 0; i < num_elements_in_list; ++i)
 		dma_free_coherent(NULL,
 				tls1.transfer_sizes[i] * 4,
 				(void *)tls1.bsptest_dma_src_addr[i],
-				(void *)tls1.bsptest_dma_src_addr_phy[i]);
+				(int)tls1.bsptest_dma_src_addr_phy[i]);
 	i = omap_release_dma_sglist(tls1.sglist_id);
 	dma_free_coherent(NULL, tls2.total_num_elements * 4,
-		tls2.bsptest_dma_dst_addr, tls2.bsptest_dma_dst_addr_phy);
+		tls2.bsptest_dma_dst_addr, (int)tls2.bsptest_dma_dst_addr_phy);
 	for (i = 0; i < num_elements_in_list; ++i)
 		dma_free_coherent(NULL,
 				tls2.transfer_sizes[i] * 4,
 				(void *)tls2.bsptest_dma_src_addr[i],
-				(void *)tls2.bsptest_dma_src_addr_phy[i]);
+				(int)tls2.bsptest_dma_src_addr_phy[i]);
 	i = omap_release_dma_sglist(tls2.sglist_id);
 }
 
