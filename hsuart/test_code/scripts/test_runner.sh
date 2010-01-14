@@ -42,18 +42,23 @@ setup()
 	# Load config file
 	if [ -f "./conf.sh" ]; then
 		. ./conf.sh
+		if [ $? -eq 0 ]; then
+			echo "INFO: Requested tests will be started"
+		else
+			echo "FATAL: Configuration file with errors"
+		fi
 	else
-		die "FATAL: Test suite driver 'pan' not found"
+		die "FATAL: Configuration file not found"
 	fi
 
 	# scenario less tests?? have the user organize it properly at least..
-	[ -d $TC_SCENARIO ] ||
+	[ -d $HSUART_DIR_SCENARIOS ] ||
 	{
 		die "Test suite not installed correctly - no scenarios"
 	}
 
 	# we'd need the reporting tool ofcourse..
-	[ -e $UTILBIN/pan ] ||
+	[ -e $UTILS_DIR_BIN/pan ] ||
 	{
 		die "FATAL: Test suite driver 'pan' not found"
 	}
@@ -62,29 +67,29 @@ setup()
 usage()
 {
 	# Human redable please
-	local PP=` if [ -z "$PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
-	local VV=` if [ -z "$VERBOSE" ]; then echo "off"; else echo "on"; fi`
+	local PP=` if [ -z "$HSUART_PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
+	local VV=` if [ -z "$HSUART_VERBOSE" ]; then echo "off"; else echo "on"; fi`
 
 	# Give the gyan
 	cat <<-EOF >&2
-	usage: ./${0##*/} [-z] [-h] [-v] [-d TESTDIR] [-o OUTPUTFILE] [-l LOGFILE]
-	[-n DURATION ] [-t TMPDIR] [SCENARIO_NAMES..]
+	usage: ./${0##*/} [-z] [-h] [-v] [-d HSUART_DIR_TEST] [-o HSUART_FILE_OUTPUT] [-l HSUART_FILE_LOG]
+	[-n HSUART_DURATION ] [-t TMPDIR] [HSUART_SCENARIO_NAMES..]
 
-	-d TESTDIR      Run LTP to test the filesystem mounted here. [Current - $TESTDIR]
+	-d HSUART_DIR_TEST      Run LTP to test the filesystem mounted here. [Current - $HSUART_DIR_TEST]
 			At the end of test, the testdir gets cleaned out
-	-s TC_SCENARIO  Test scenarios are located here. [Current - $TC_SCENARIO]
-	-o OUTPUTFILE   Redirect test output to a file. [Current- $OUTPUTFILE {psid}]
+	-s HSUART_DIR_SCENARIOS  Test scenarios are located here. [Current - $HSUART_DIR_SCENARIOS]
+	-o HSUART_FILE_OUTPUT   Redirect test output to a file. [Current- $HSUART_FILE_OUTPUT {psid}]
 	-p              Human readable(dont laugh too much) format logfiles. [Current - ($PP)]
 	-z              Dont Merge the Scenario Name with tcid to create final tc id
 	-E              Use Extended Test cases also - these are painful and can take real long time
-	-l LOGFILE      Log results of test in a logfile. [Current- $LOGFILE {psid}]
-	-t TMPDIR       Run LTP using tmp dir [Current - $TMPBASE]
-	-n DURATION     Execute the testsuite for given duration. Examples:
+	-l HSUART_FILE_LOG      Log results of test in a logfile. [Current- $HSUART_FILE_LOG {psid}]
+	-t TMPDIR       Run LTP using tmp dir [Current - $HSUART_DIR_TMP]
+	-n HSUART_DURATION     Execute the testsuite for given duration. Examples:
 			-n 60s = 60 seconds
 			-n 45m = 45 minutes
 			-n 24h = 24 hours
 			-n 2d  = 2 days
-			[Current - $DURATION]
+			[Current - $HSUART_DURATION]
 
 	-v              Print more verbose output to screen.[Current - ($VV)]
 	-q              No messages from this script. no info too - Brave eh??
@@ -94,11 +99,11 @@ usage()
 			List to appear here
 	-S              Run in Stress mode
 
-	SCENARIO_NAMES  List of scenarios to test.. else, take all scenarios
-			[Current - These are all filenames from $TC_SCENARIO]
+	HSUART_SCENARIO_NAMES  List of scenarios to test.. else, take all scenarios
+			[Current - These are all filenames from $HSUART_DIR_SCENARIOS]
 
 	Good News: Ctrl+c stops and cleans up for you :)
-	More help: Read the $TESTROOT/README
+	More help: Read the $HSUART_ROOT/README
 
 	EOF
 	exit 0
@@ -110,57 +115,57 @@ sanity_check()
     # Check the current values...
     # Just ensure that pan can run with a bit of peace of mind...
 
-    [ ! -d "$TMPBASE" -o ! -w "$TMPBASE" ] && die "$TMPBASE - cannot work as temporary directory"
-    [ ! -d "$TESTDIR" -o ! -w "$TESTDIR" ] && die "$TESTDIR - cannot work as test directory"
-    [ ! -d "$TC_SCENARIO" ] && die "$TC_SCENARIO - No such directories"
-    [ -z "$SCENARIO_NAMES" ] && die "No Scenarios"
-		[ ! -z "$VERBOSE" -a ! -z "$QUIET_MODE" ] && die "Make up your mind - verbose or quiet??"
+    [ ! -d "$HSUART_DIR_TMP" -o ! -w "$HSUART_DIR_TMP" ] && die "$HSUART_DIR_TMP - cannot work as temporary directory"
+    [ ! -d "$HSUART_DIR_TEST" -o ! -w "$HSUART_DIR_TEST" ] && die "$HSUART_DIR_TEST - cannot work as test directory"
+    [ ! -d "$HSUART_DIR_SCENARIOS" ] && die "$HSUART_DIR_SCENARIOS - No such directories"
+    [ -z "$HSUART_SCENARIO_NAMES" ] && die "No Scenarios"
+		[ ! -z "$HSUART_VERBOSE" -a ! -z "$HSUART_QUIET_MODE" ] && die "Make up your mind - verbose or quiet??"
 
-    export CMDFILE=$TMPBASE/$CMDFILE
-    rm -f $CMDFILE
+    export HSUART_FILE_CMD=$HSUART_DIR_TMP/$HSUART_FILE_CMD
+    rm -f $HSUART_FILE_CMD
 
-		for SCEN in $SCENARIO_NAMES
+		for SCEN in $HSUART_SCENARIO_NAMES
     do
-		  [ ! -f "$TC_SCENARIO/$SCEN" -o ! -r "$TC_SCENARIO/$SCEN" ] && die "$TC_SCENARIO/$SCEN - not a scenario file"
-			cat $TC_SCENARIO/$SCEN|grep -v "#"|sed -e "s/^[  ]*$//g"|sed -e "/^$/d">$TMPFILE|| die "Count not create tmp file $TMPFILE"
+		  [ ! -f "$HSUART_DIR_SCENARIOS/$SCEN" -o ! -r "$HSUART_DIR_SCENARIOS/$SCEN" ] && die "$HSUART_DIR_SCENARIOS/$SCEN - not a scenario file"
+			cat $HSUART_DIR_SCENARIOS/$SCEN|grep -v "#"|sed -e "s/^[  ]*$//g"|sed -e "/^$/d">$HSUART_FILE_TMP|| die "Count not create tmp file $HSUART_FILE_TMP"
 			if [ -z "$DONT" ]; then
-				cat $TMPFILE|sed -e "s/^/$SCEN-/g"|sed -e "s/-/_/" >>$CMDFILE || die "Count not create command file $CMDFILE"
+				cat $HSUART_FILE_TMP|sed -e "s/^/$SCEN-/g"|sed -e "s/-/_/" >>$HSUART_FILE_CMD || die "Count not create command file $HSUART_FILE_CMD"
 				else
-				cat $TMPFILE>>$CMDFILE || die "Count not create command file $CMDFILE"
+				cat $HSUART_FILE_TMP>>$HSUART_FILE_CMD || die "Count not create command file $HSUART_FILE_CMD"
 			fi
 
 			# Remove the extended test cases
 			if [ -z "$EXTENDED_TEST" ]; then
 
-				cat $CMDFILE|grep -v "^[_A-Za-z0-9]*_EXT ">$TMPFILE || die "intermediate file gen failed"
-				cat $TMPFILE>$CMDFILE || die "Second intermediate creation failed"
+				cat $HSUART_FILE_CMD|grep -v "^[_A-Za-z0-9]*_EXT ">$HSUART_FILE_TMP || die "intermediate file gen failed"
+				cat $HSUART_FILE_TMP>$HSUART_FILE_CMD || die "Second intermediate creation failed"
 			fi
 
-			rm -f $TMPFILE
+			rm -f $HSUART_FILE_TMP
 
     done
 
-		local PP=` if [ -z "$PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
-    local VV=` if [ -z "$VERBOSE" ]; then echo "off"; else echo "on"; fi`
-    export TMPDIR=${TESTDIR}
+		local PP=` if [ -z "$HSUART_PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
+    local VV=` if [ -z "$HSUART_VERBOSE" ]; then echo "off"; else echo "on"; fi`
+    export TMPDIR=${HSUART_DIR_TEST}
 
 		# Print some nice info
-    if [ ! -z "$VERBOSE" ]; then
-        debug "POSTFIX        $POSTFIX       "
-        info  "TESTROOT       $TESTROOT      "
-        info  "TMPBASE        $TMPBASE       "
-        info  "TMPFILE        $TMPFILE       "
-        debug "CMDFILE        $CMDFILE       "
-        info  "TESTDIR        $TESTDIR       "
-        info  "PRETTY_PRT     $PP            "
-        info  "VERBOSE        $VV            "
-        info  "OUTPUTFILE     $OUTPUTFILE    "
-        info  "LOGFILE        $LOGFILE       "
-        info  "DURATION       $DURATION      "
+    if [ ! -z "$HSUART_VERBOSE" ]; then
+        debug "HSUART_POSTFIX        $HSUART_POSTFIX       "
+        info  "HSUART_ROOT       $HSUART_ROOT      "
+        info  "HSUART_DIR_TMP        $HSUART_DIR_TMP       "
+        info  "HSUART_FILE_TMP        $HSUART_FILE_TMP       "
+        debug "HSUART_FILE_CMD        $HSUART_FILE_CMD       "
+        info  "HSUART_DIR_TEST        $HSUART_DIR_TEST       "
+        info  "HSUART_PRETTY_PRT     $PP            "
+        info  "HSUART_VERBOSE        $VV            "
+        info  "HSUART_FILE_OUTPUT     $HSUART_FILE_OUTPUT    "
+        info  "HSUART_FILE_LOG        $HSUART_FILE_LOG       "
+        info  "HSUART_DURATION       $HSUART_DURATION      "
         debug "PATH           $PATH          "
-        info  "TC_SCENARIO    $TC_SCENARIO   "
+        info  "HSUART_DIR_SCENARIOS    $HSUART_DIR_SCENARIOS   "
         info  "TMPDIR         $TMPDIR        "
-        info  "SCENARIO_NAMES $SCENARIO_NAMES"
+        info  "HSUART_SCENARIO_NAMES $HSUART_SCENARIO_NAMES"
     fi
 }
 
@@ -170,25 +175,25 @@ main()
 	while getopts zx:Sd:qt:po:l:vn:hs:E:I arg
 	do  case $arg in
 		d)
-			TESTDIR=${OPTARG} ;;
+			HSUART_DIR_TEST=${HSUART_OPTARG} ;;
 		t)
-			TMPBASE=${OPTARG} ;;
+			HSUART_DIR_TMP=${HSUART_OPTARG} ;;
 		E)
 			EXTENDED_TEST=y ;;
 	        q)
-			QUIET_MODE=" -q " ;;
+			HSUART_QUIET_MODE=" -q " ;;
 	        z)
 			DONT=" " ;;
 		p)
-			PRETTY_PRT=" -p " ;;
+			HSUART_PRETTY_PRT=" -p " ;;
 		o)
-			OUTPUTFILE=${OPTARG};OO_LOG=1 ;;
+			HSUART_FILE_OUTPUT=${HSUART_OPTARG};OO_LOG=1 ;;
 		l)
-			LOGFILE=${OPTARG} ;;
+			HSUART_FILE_LOG=${HSUART_OPTARG} ;;
 		v)
-			VERBOSE="-v" ;;
+			HSUART_VERBOSE="-v" ;;
 		n)
-			DURATION=" -t ${OPTARG}" ;;
+			HSUART_DURATION=" -t ${HSUART_OPTARG}" ;;
 		h)
 			usage ;;
 		x)  # number of ltp's to run
@@ -199,20 +204,20 @@ main()
 			to be ran exclusively.
 			Pausing for 10 seconds...Last chance to hit that ctrl+c
 			EOF
-				sleep 10
-			INSTANCES="-x $OPTARG -O ${TMP}" ;;
+					sleep 10
+			HSUART_INSTANCES="-x $HSUART_OPTARG -O ${TMP}" ;;
 		s)
-			TC_SCENARIO=${OPTARG} ;;
+			HSUART_DIR_SCENARIOS=${HSUART_OPTARG} ;;
 		S)
-			STRESS=y
-			STRESSARG="-S";;
+			HSUART_STRESS=y
+			HSUART_STRESSARG="-S";;
 
 		\?) # Handle illegals
 			usage ;;
 
 	esac
 
-	if [ ! -z "${OPTARG}" ]; then
+	if [ ! -z "${HSUART_OPTARG}" ]; then
 		count=" $count + 2"
 	else
 		count=" $count + 1"
@@ -227,29 +232,27 @@ main()
 		count=$(($count - 1))
 	done
 
-	SCENARIO_NAMES=$@
+	HSUART_SCENARIO_NAMES=$@
 
 	sanity_check
 
 	# Test start
 
-	[ -z "$QUIET_MODE" ] && { info "Test start time: $(date)" ; }
-	# run pan
-	# $PAN_COMMAND #Duplicated code here, because otherwise if we fail, only "PAN_COMMAND" gets output
-	#Usage: pan -n name [ -SyAehp ] [ -s starts ] [-t time[s|m|h|d] [ -x nactive ] [
-	#-l logfile ]
-	#[ -a active-file ] [ -f command-file ] [ -d debug-level ]
-	#[-o output-file] [-O output-buffer-directory] [cmd]
+	[ -z "$HSUART_QUIET_MODE" ] && { info "Test start time: $(date)" ; }
 
-	cd $TESTDIR
-	PAN_COMMAND="${UTILBIN}/pan $QUIET_MODE -e -S $INSTANCES $DURATION -a $$ -n $$ $PRETTY_PRT -f ${CMDFILE} -l $LOGFILE"
+	# Usage: pan -n name [ -SyAehp ] [ -s starts ] [-t time[s|m|h|d] [ -x nactive ] [-l logfile ]
+	# [ -a active-file ] [ -f command-file ] [ -d debug-level ]
+	# [-o output-file] [-O output-buffer-directory] [cmd]
 
-	[ ! -z "$VERBOSE" ] && { info "PAN_COMMAND=$PAN_COMMAND"; }
+	cd $HSUART_DIR_TEST
+	PAN_COMMAND="${UTILS_DIR_BIN}/pan $HSUART_QUIET_MODE -e -S $HSUART_INSTANCES $HSUART_DURATION -a $$ -n $$ $HSUART_PRETTY_PRT -f ${HSUART_FILE_CMD} -l $HSUART_FILE_LOG"
+
+	[ ! -z "$HSUART_VERBOSE" ] && { info "PAN_COMMAND=$PAN_COMMAND"; }
 
 	if [ -z "$OO_LOG" ]; then
 		$PAN_COMMAND
 	else
-		$PAN_COMMAND|tee $OUTPUTFILE
+		$PAN_COMMAND|tee $HSUART_FILE_OUTPUT
 	fi
 
 	if [ $? -eq 0 ]; then
@@ -261,18 +264,18 @@ main()
 	fi
 
 	# Test end
-	[ -z "$QUIET_MODE" ] && { info "Test end time: $(date)" ; }
-	[ -z "$QUIET_MODE" ] && {
+	[ -z "$HSUART_QUIET_MODE" ] && { info "Test end time: $(date)" ; }
+	[ -z "$HSUART_QUIET_MODE" ] && {
 
 	cat <<-EOF >&1
 
 	###############################################################"
 		Done executing testcases."
-		Result log is in the $LOGFILE "
+		Result log is in the $HSUART_FILE_LOG "
 	###############################################################"
 
 	EOF
-	cat $LOGFILE
+	cat $HSUART_FILE_LOG
 
 	}
 	cleanup
@@ -282,14 +285,14 @@ main()
 
 cleanup()
 {
-	[  -z "$QUIET_MODE" ] && echo -n "INFO: Cleaning up..."
-	if [ -n "${TMPFILE}" -a -n "${CMDFILE}" -a -n "${TESTDIR}" -a -n "${TMPBASE}" ]; then
-		rm -rf ${TMPFILE} ${CMDFILE} ${TESTDIR}/* ${TMPBASE}/*
+	[  -z "$HSUART_QUIET_MODE" ] && echo -n "INFO: Cleaning up..."
+	if [ -n "${HSUART_FILE_TMP}" -a -n "${HSUART_FILE_CMD}" -a -n "${HSUART_DIR_TEST}" -a -n "${HSUART_DIR_TMP}" ]; then
+		rm -rf ${HSUART_FILE_TMP} ${HSUART_FILE_CMD} ${HSUART_DIR_TEST}/* ${HSUART_DIR_TMP}/*
 	else
 		echo "INFO: Clean up process won't be executed because variables for directories to be removed are not set..."
 	fi
 
-	[  -z "$QUIET_MODE" ] && echo "done."
+	[  -z "$HSUART_QUIET_MODE" ] && echo "done."
 }
 
 
