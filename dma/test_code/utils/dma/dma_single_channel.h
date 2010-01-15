@@ -28,7 +28,9 @@
 #include <linux/delay.h>
 #include <linux/init.h>
 #include <asm/io.h>
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,27))
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,33))
+ #include <plat/dma.h>
+#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,27))
  #include <mach/dma.h>
 #else
  #include <asm/arch/dma.h>

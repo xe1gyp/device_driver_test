@@ -93,8 +93,10 @@ static void dma_sglist_cb_final(int sglistid, u16 ch_status, void *data)
 	int ncur = omap_get_completed_sglist_nodes(sglistid);
 
 	printk(KERN_INFO "Final callback status %x, ncur=%d", ch_status, ncur);
-	if (verify_dest_buffer(data, num_elements_in_list) == 0)
+	if (verify_dest_buffer(data, num_elements_in_list) == 0) {
 		printk(KERN_INFO "Test PASSED\n");
+		set_test_passed(1);
+	}
 }
 
 static void dma_sglist_cb_inter(int sglistid, u16 ch_status, void *data)
@@ -109,6 +111,7 @@ static void dma_sglist_cb_inter(int sglistid, u16 ch_status, void *data)
 	stat = verify_dest_buffer(data, PAUSE_AT_ELEMENT);
 	if (stat) {
 		printk(KERN_INFO "Test FAILED\n");
+		set_test_passed(0);
 		return;
 	}
 	omap_set_dma_callback(sglistid, dma_sglist_cb_final, data);
@@ -215,9 +218,12 @@ static int dmasglist_test1(void *info)
 
 	return rc;
 }
+
 static void __exit dmatest_cleanup(void)
 {
 	int i;
+
+	remove_dma_proc(PROC_FILE);
 	dma_free_coherent(NULL, tls1.total_num_elements * 4,
 		tls1.bsptest_dma_dst_addr, (int)tls1.bsptest_dma_dst_addr_phy);
 	for (i = 0; i < num_elements_in_list; ++i)
@@ -233,6 +239,7 @@ static int __init dmatest_init(void)
 	int ret = 0;
 
 	test_result = 0;
+	create_dma_proc(PROC_FILE);
 	/* Init channel independent config parameters */
 	omap_dma_set_global_params(DMA_DEFAULT_ARB_RATE,
 				DMA_DEFAULT_FIFO_DEPTH,

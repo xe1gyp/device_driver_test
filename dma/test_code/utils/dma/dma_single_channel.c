@@ -68,7 +68,6 @@ int check_dma_transfer_complete(struct dma_transfer *transfers,
 				int num_transfer)
 {
 	int i;
-	int returncode = 0;
 	/* Check that all the transfers finished */
 	for (i = 0; i < num_transfer; i++) {
 		if (!transfers[i].data_correct) {
