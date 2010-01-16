@@ -91,6 +91,28 @@ static int get_histogram(int cfd, __u32 *stats_buff, int *frame)
 	return ret;
 }
 
+static int wait_for_hist_event(int cfd, fd_set *excfds,
+			struct v4l2_event *cam_ev)
+{
+	int ret;
+
+	do {
+		ret = pselect(cfd + 1, NULL, NULL, excfds, NULL, NULL);
+		if (ret < 0) {
+			perror("cam select()");
+			return -1;
+		}
+
+		ret = ioctl(cfd, VIDIOC_DQEVENT, cam_ev);
+		if (ret < 0) {
+			perror("cam DQEVENT");
+			return -1;
+		}
+	} while (cam_ev->type != V4L2_EVENT_OMAP3ISP_HIST);
+
+	return 0;
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -116,9 +138,14 @@ int main(int argc, char *argv[])
 	struct v4l2_queryctrl qc_exp, qc_an_gain;
 	__u32 *stats_buff = NULL;
 	int frame_number, input, pass = 0;
-	int try = 0, buff_size;
+	int buff_size;
 	int done_flag = 0;
-char *dom;
+
+	/* V4L2 Video Event handling */
+	struct v4l2_event_subscription cam_sub;
+	struct v4l2_event cam_ev;
+	fd_set excfds;
+
 
 	if ((argc > 1) && (!strcmp(argv[1], "?"))) {
 		usage();
@@ -387,6 +414,21 @@ char *dom;
 		return ret;
 	}
 
+	/************************************************************/
+	/* Subscribe to internal SCM HIST_DONE event */
+
+	cam_sub.type = V4L2_EVENT_OMAP3ISP_HIST;
+
+	ret = ioctl(cfd, VIDIOC_SUBSCRIBE_EVENT, &cam_sub);
+	if (ret < 0)
+		perror("subscribe()");
+
+	printf("Subscribed for SCM HIST_DONE event.\n");
+
+	/* Init file descriptor list to check with select call */
+	FD_ZERO(&excfds);
+	FD_SET(cfd, &excfds);
+
 	/*************************************************************/
 	/* Start Camera streaming */
 
@@ -395,11 +437,18 @@ char *dom;
 		return -1;
 	}
 
+	/************************************************************/
+	/* Wait for HIST event */
+
+	printf("Syncup on frame number, before starting streaming\n");
+	ret = wait_for_hist_event(cfd, &excfds, &cam_ev);
+	if (ret != 0) {
+		perror("Failed wait_for_hist_event()");
+		return -1;
+	}
 
 	/*************************************************************/
 	/* Grab initial histogram data before queue/dequeue loop */
-
-	sleep(1);
 
 	buff_size = HIST_MEM_SIZE_BINS(256) *
 					hist_config_user.num_regions;
@@ -420,10 +469,10 @@ char *dom;
 	}
 
 	hist_data_user.frame_number = hist_data_user.curr_frame - 1;
-request:
+
 	/* request stats */
-	printf("Requesting stats for frame %d, try %d\n",
-				hist_data_user.frame_number, ++try);
+	printf("Requesting stats for frame %d\n",
+				hist_data_user.frame_number);
 	hist_data_user.update = REQUEST_STATISTICS;
 	hist_data_user.hist_statistics_buf = stats_buff;
 	ret = ioctl(cfd,  VIDIOC_PRIVATE_ISP_HIST_REQ, &hist_data_user);
@@ -431,10 +480,6 @@ request:
 		/* Stats not found, shall we retry? */
 		printf("No stats, current frame is %d.\n",
 			hist_data_user.curr_frame);
-		hist_data_user.frame_number =
-					hist_data_user.curr_frame;
-		hist_data_user.update = REQUEST_STATISTICS;
-		goto request;
 	}
 
 	/*************************************************************/
@@ -506,6 +551,10 @@ request:
 
 
 		if (mode == MODE_AUTO) {
+			ret = wait_for_hist_event(cfd, &excfds, &cam_ev);
+			if (ret != 0)
+				perror("Failed wait_for_hist_event()");
+
 			ret = get_histogram(cfd, stats_buff, NULL);
 			pass += (ret == 0);
 			printf("Histogram collection results: "
@@ -517,6 +566,11 @@ request:
 		if (mode == MODE_MANUAL && kbhit()) {
 			input = getch();
 			if (input == 'h') {
+				ret = wait_for_hist_event(cfd, &excfds,
+						&cam_ev);
+				if (ret != 0)
+					perror("Failed wait_for_hist_event()");
+
 				ret = get_histogram(cfd, stats_buff,
 					&frame_number);
 				printf("Histogram collection results"
