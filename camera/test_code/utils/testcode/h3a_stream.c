@@ -57,6 +57,45 @@ static void usage(void)
 		"\t\t7: Shutter Speed\n");
 }
 
+static int display_h3a_stats(unsigned int num_windows,
+			unsigned int buff_prev_size,
+			struct isph3a_aewb_data *aewb_data_user,
+			struct isph3a_aewb_config *aewb_config_user)
+{
+	int i, data8, data2, window, unsat_cnt;
+	__u16 *buff_preview = NULL;
+
+	printf("H3A AE/AWB: buffer to display = %d data pointer = %p\n",
+		buff_prev_size, aewb_data_user->h3a_aewb_statistics_buf);
+	printf("num_windows = %d\n", num_windows);
+	printf("ver_windows = %d\n", aewb_config_user->ver_win_count);
+	printf("hor_windows = %d\n", aewb_config_user->hor_win_count);
+	printf("plus one row of black windows\n");
+
+	unsat_cnt = 0;
+	buff_preview = (__u16 *)aewb_data_user->h3a_aewb_statistics_buf;
+	for (i = 0; i < (buff_prev_size); i++) {
+		data8 = (i + 1) % 8;
+		data2 = (i + 1) % 2;
+		window = (i + 1) / 8;
+		printf("%05d ", buff_preview[i]);
+		if (0 == data8) {
+			if (((window > 1) && (0 == (window % 9))) ||
+				(window == ((num_windows + (num_windows / 8) +
+				((num_windows % 8) ? 1 : 0))))) {
+				printf("   Unsaturated block count\n");
+				unsat_cnt++;
+			} else {
+				printf("    Window %5d\n", (window - 1) -
+					unsat_cnt);
+			}
+		}
+		if (0 == data2)
+			printf("\n");
+	}
+	return 0;
+}
+
 int main(int argc, char *argv[])
 {
 	struct {
@@ -90,10 +129,8 @@ int main(int argc, char *argv[])
 	struct v4l2_queryctrl qc_exp, qc_an_gain;
 	unsigned int num_windows = 0;
 	unsigned int buff_size = 0;
-	__u16 *buff_preview = NULL;
 	__u8 *stats_buff = NULL;
 	unsigned int buff_prev_size = 0;
-	int data8, data2, window, unsat_cnt;
 	int frame_number;
 	int j = 0;
 	int done_flag = 0, skip_aewb_req_flag = 0;
@@ -442,45 +479,14 @@ request:
 	aewb_data_user.update = REQUEST_STATISTICS;
 	aewb_data_user.h3a_aewb_statistics_buf = stats_buff;
 	ret = ioctl(cfd,  VIDIOC_PRIVATE_ISP_AEWB_REQ, &aewb_data_user);
-	if (ret) {
-		/* Stats not found, shall we retry? */
+	if (!ret)
+		display_h3a_stats(num_windows,
+					buff_prev_size,
+					&aewb_data_user,
+					&aewb_config_user);
+	else
 		printf("No stats, current frame is %d.\n",
 			aewb_data_user.curr_frame);
-		aewb_data_user.frame_number =
-					aewb_data_user.curr_frame - 1;
-		aewb_data_user.update = REQUEST_STATISTICS;
-		goto request;
-	}
-
-	/* Display stats */
-	buff_preview = (__u16 *)aewb_data_user.h3a_aewb_statistics_buf;
-	printf("H3A AE/AWB: buffer to display = %d data pointer = %p\n",
-		buff_prev_size, aewb_data_user.h3a_aewb_statistics_buf);
-	printf("num_windows = %d\n", num_windows);
-	printf("ver_windows = %d\n", aewb_config_user.ver_win_count);
-	printf("hor_windows = %d\n", aewb_config_user.hor_win_count);
-	printf("plus one row of black windows\n");
-
-	unsat_cnt = 0;
-	for (i = 0; i < (buff_prev_size); i++) {
-		data8 = (i + 1) % 8;
-		data2 = (i + 1) % 2;
-		window = (i + 1) / 8;
-		printf("%05d ", buff_preview[i]);
-		if (0 == data8) {
-			if (((window > 1) && (0 == (window % 9))) ||
-			    (window == ((num_windows + (num_windows / 8) +
-			     ((num_windows % 8) ? 1 : 0))))) {
-				printf("   Unsaturated block count\n");
-				unsat_cnt++;
-			} else {
-				printf("    Window %5d\n", (window - 1) -
-					unsat_cnt);
-			}
-		}
-		if (0 == data2)
-			printf("\n");
-	}
 
 	sleep(1);
 
@@ -580,35 +586,10 @@ request:
 				perror("ISP_AEWB_REQ 6");
 			} else {
 				/* Display stats */
-				buff_preview =
-				(__u16 *)aewb_data_user.h3a_aewb_statistics_buf;
-					unsat_cnt = 0;
-				for (i = 0; i < (buff_prev_size); i++) {
-					data8 = (i + 1) % 8;
-					data2 = (i + 1) % 2;
-					window = (i + 1) / 8;
-					printf("%05d ", buff_preview[i]);
-					if (0 == data8) {
-						if (((window > 1) &&
-							(0 == (window % 9)))
-							|| (window ==
-							((num_windows +
-							(num_windows / 8) +
-							((num_windows % 8) ?
-							1 : 0))))) {
-							printf("   Unsaturated "
-								"block "
-								"count\n");
-							unsat_cnt++;
-						} else {
-							printf("    Window %5d\n",
-								(window - 1) -
-								unsat_cnt);
-						}
-					}
-					if (0 == data2)
-						printf("\n");
-				}
+				display_h3a_stats(num_windows,
+						buff_prev_size,
+						&aewb_data_user,
+						&aewb_config_user);
 			}
 		}
 
