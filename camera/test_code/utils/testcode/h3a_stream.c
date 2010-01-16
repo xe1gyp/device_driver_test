@@ -6,6 +6,9 @@
 *  in the license agreement under which this software has been supplied.
 * ========================================================================= */
 
+#include <sys/select.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -96,6 +99,29 @@ static int display_h3a_stats(unsigned int num_windows,
 	return 0;
 }
 
+static int wait_for_h3a_event(int cfd, fd_set *excfds,
+			struct v4l2_event *cam_ev)
+{
+	int ret;
+
+	do {
+		ret = pselect(cfd + 1, NULL, NULL, excfds, NULL, NULL);
+		if (ret < 0) {
+			perror("cam select()");
+			return -1;
+		}
+
+		ret = ioctl(cfd, VIDIOC_DQEVENT, cam_ev);
+		if (ret < 0) {
+			perror("cam DQEVENT");
+			return -1;
+		}
+	} while (cam_ev->type != V4L2_EVENT_OMAP3ISP_AEWB);
+
+	return 0;
+}
+
+
 int main(int argc, char *argv[])
 {
 	struct {
@@ -132,9 +158,13 @@ int main(int argc, char *argv[])
 	__u8 *stats_buff = NULL;
 	unsigned int buff_prev_size = 0;
 	int frame_number;
-	int j = 0;
 	int done_flag = 0, skip_aewb_req_flag = 0;
 	int bytes;
+
+	/* V4L2 Video Event handling */
+	struct v4l2_event_subscription cam_sub;
+	struct v4l2_event cam_ev;
+	fd_set excfds;
 
 	/* H3A params */
 	aewb_config_user.saturation_limit = 0x1FF;
@@ -395,7 +425,23 @@ int main(int argc, char *argv[])
 		return ret;
 	}
 
-	/* turn on streaming */
+	/************************************************************/
+	/* Subscribe to internal SCM AEWB_DONE event */
+
+	cam_sub.type = V4L2_EVENT_OMAP3ISP_AEWB;
+
+	ret = ioctl(cfd, VIDIOC_SUBSCRIBE_EVENT, &cam_sub);
+	if (ret < 0)
+		perror("subscribe()");
+
+	printf("Subscribed for SCM AEWB_DONE event.\n");
+
+	/* Init file descriptor list to check with select call */
+	FD_ZERO(&excfds);
+	FD_SET(cfd, &excfds);
+
+	/************************************************************/
+	/* Turn on streaming */
 	if (ioctl(cfd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
 		perror("cam VIDIOC_STREAMON");
 		return -1;
@@ -438,8 +484,16 @@ int main(int argc, char *argv[])
 	control_an_gain.value = qc_an_gain.minimum + qc_an_gain.step;
 
 	/************************************************************/
+	/* Wait for H3A event */
 
-	sleep(1);
+	printf("Syncup on frame number, before starting streaming\n");
+	ret = wait_for_h3a_event(cfd, &excfds, &cam_ev);
+	if (ret != 0) {
+		perror("Failed wait_for_h3a_event()");
+		return -1;
+	}
+
+	/************************************************************/
 
 	num_windows = ((aewb_config_user.ver_win_count
 			* aewb_config_user.hor_win_count)
@@ -470,15 +524,16 @@ int main(int argc, char *argv[])
 		return ret;
 	}
 
+	/* Request stats */
 	aewb_data_user.frame_number = aewb_data_user.curr_frame - 1;
-request:
 	frame_number = aewb_data_user.frame_number;
-	/* request stats */
-	printf("Requesting stats for frame %d, try %d\n",
-						frame_number, j);
+	printf("Requesting stats for frame %d\n",
+						frame_number);
 	aewb_data_user.update = REQUEST_STATISTICS;
 	aewb_data_user.h3a_aewb_statistics_buf = stats_buff;
 	ret = ioctl(cfd,  VIDIOC_PRIVATE_ISP_AEWB_REQ, &aewb_data_user);
+
+	/* Display stats */
 	if (!ret)
 		display_h3a_stats(num_windows,
 					buff_prev_size,
@@ -488,17 +543,11 @@ request:
 		printf("No stats, current frame is %d.\n",
 			aewb_data_user.curr_frame);
 
+
+	/************************************************************/
+	/* Capture 1000 frames OR when we hit the passed number of frames */
+
 	sleep(1);
-
-	j++;
-	if (j < 2) {
-		aewb_data_user.frame_number += 100;
-		aewb_data_user.update = REQUEST_STATISTICS;
-		aewb_data_user.h3a_aewb_statistics_buf = stats_buff;
-		goto request;
-	}
-
-	/* caputure 1000 frames or when we hit the passed nmuber of frames */
 	cfilledbuffer.type = creqbuf.type;
 	vfilledbuffer.type = vreqbuf.type;
 	i = 0;
@@ -566,6 +615,8 @@ request:
 			printf("\n");
 			goto exit;
 		} else if (bytes > 0 && keyinfo.code == 46) {
+			wait_for_h3a_event(cfd, &excfds, &cam_ev);
+
 			aewb_data_user.update = 0;
 			ret = ioctl(cfd,  VIDIOC_PRIVATE_ISP_AEWB_REQ,
 						&aewb_data_user);
@@ -578,7 +629,7 @@ request:
 			aewb_data_user.update = REQUEST_STATISTICS;
 			aewb_data_user.h3a_aewb_statistics_buf =
 							stats_buff;
-				printf("Obtaining stats frame:%d\n",
+			printf("Obtaining stats frame:%d\n",
 					aewb_data_user.frame_number);
 			ret = ioctl(cfd,  VIDIOC_PRIVATE_ISP_AEWB_REQ,
 						&aewb_data_user);
@@ -732,6 +783,7 @@ request:
 		}
 
 		if (!skip_aewb_req_flag) {
+			wait_for_h3a_event(cfd, &excfds, &cam_ev);
 			ret = ioctl(cfd, VIDIOC_PRIVATE_ISP_AEWB_REQ,
 							&aewb_data_user);
 			if (ret < 0) {
