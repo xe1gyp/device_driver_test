@@ -75,7 +75,6 @@ void calc_fps(int wrap_count)
 
 struct {
 	void *start;
-	void *start_aligned;
 	size_t length;
 } *cbuffers;
 
@@ -254,22 +253,10 @@ int main(int argc, char *argv[])
 		}
 		if (memtype == V4L2_MEMORY_USERPTR) {
 			cbuffers[i].length = buffer.length;
-			if (cbuffers[i].length & 0xfff) {
-				cbuffers[i].length =
-				    (cbuffers[i].length & 0xfffff000) + 0x1000;
-			}
-			cbuffers[i].start = malloc(cbuffers[i].length + 0x1000);
-			if (cbuffers[i].start == NULL) {
-				printf("ERROR: Memory alloc failed for"
-					" size %i\n", cbuffers[i].length);
-				return -1;
-			}
-			cbuffers[i].start_aligned =
-			    (void *)((unsigned int)(cbuffers[i].start + 0xfff)
-				& 0xfffff000);
-			buffer.length = cbuffers[i].length;
+			posix_memalign(&cbuffers[i].start, 0x1000,
+				       cbuffers[i].length);
 			buffer.m.userptr =
-			    (unsigned int)cbuffers[i].start_aligned;
+			    (unsigned int)cbuffers[i].start;
 			printf("User Buffer [%d].start = 0x%08X  length = %d\n",
 				 i, cbuffers[i].start, cbuffers[i].length);
 		} else {
