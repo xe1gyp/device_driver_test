@@ -35,7 +35,6 @@ enum io_method {
 
 struct buffer {
 	void *start;
-	unsigned long align_start;
 	size_t length;
 };
 
@@ -148,7 +147,7 @@ static int read_frame(void)
 		}
 
 		for (i = 0; i < n_buffers; ++i)
-			if (buf.m.userptr == buffers[i].align_start
+			if (buf.m.userptr == (unsigned long)buffers[i].start
 			    && buf.length == buffers[i].length)
 				break;
 
@@ -265,7 +264,7 @@ static void start_capturing(void)
 
 			buf.type	= V4L2_BUF_TYPE_VIDEO_CAPTURE;
 			buf.memory	= V4L2_MEMORY_USERPTR;
-			buf.m.userptr	= (unsigned long)buffers[i].align_start;
+			buf.m.userptr	= (unsigned long)buffers[i].start;
 			buf.length	= buffers[i].length;
 			buf.index	= i;
 
@@ -386,7 +385,6 @@ static void init_mmap(void)
 static void init_userp(unsigned int buffer_size)
 {
 	struct v4l2_requestbuffers req;
-	unsigned long align_size;
 
 	CLEAR(req);
 
@@ -411,22 +409,15 @@ static void init_userp(unsigned int buffer_size)
 		exit(EXIT_FAILURE);
 	}
 
-	/* Align buffer size to page boundary */
-	align_size = (buffer_size + PAGE_SIZE) & 0xFFFFE000;
-
 	for (n_buffers = 0; n_buffers < 4; ++n_buffers) {
-		buffers[n_buffers].length = align_size;
-		buffers[n_buffers].start = malloc(align_size+PAGE_SIZE);
+		buffers[n_buffers].length = buffer_size;
+		posix_memalign(&buffers[n_buffers].start, PAGE_SIZE,
+			       buffers[n_buffers].length);
 
 		if (!buffers[n_buffers].start) {
 			fprintf(stderr, "Out of memory\n");
 			exit(EXIT_FAILURE);
 		}
-
-		/* Align pointer to page boundary */
-		buffers[n_buffers].align_start =
-			((unsigned long)buffers[n_buffers].start & 0xFFFFE000)
-			+ PAGE_SIZE;
 	}
 }
 

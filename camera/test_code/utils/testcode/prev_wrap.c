@@ -193,14 +193,8 @@ int main(int argc, const char *argv[])
 
 	if (memtype == V4L2_MEMORY_USERPTR) {
 	        ibuffer_length = vbuffer.length;
-		if (ibuffer_length & 0xfff)
-			ibuffer_length = (ibuffer_length & 0xfffff000) + 0x1000;
-
-		ibuffer = malloc(ibuffer_length+0x2000);
-	        ibuffer_aligned = (void *)(((unsigned int)(ibuffer) + 0xfff) &
-					   (0xfffff000));
+		posix_memalign(&ibuffer, 0x1000, ibuffer_length);
 	        vbuffer.flags = 0;
-	        vbuffer.length = ibuffer_length;
 	        vbuffer.m.userptr = (unsigned int)ibuffer_aligned;
 	} else {
 		ibuffer = mmap(NULL, vbuffer.length, PROT_READ |

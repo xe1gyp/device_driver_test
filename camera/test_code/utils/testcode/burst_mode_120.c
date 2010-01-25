@@ -48,7 +48,6 @@ static void usage(void)
 
 struct {
 	void *start;
-	void *start_aligned;
 	size_t length;
 } *cbuffers, *tempBuffers;
 
@@ -195,25 +194,13 @@ int main(int argc, char *argv[])
 		}
 		if (memtype == V4L2_MEMORY_USERPTR) {
 			cbuffers[i].length = buffer.length;
-			if (cbuffers[i].length & 0xfff) {
-				cbuffers[i].length =
-				    (cbuffers[i].length & 0xfffff000) + 0x1000;
-			}
-			cbuffers[i].start = malloc(cbuffers[i].length);
-			cbuffers[i].start_aligned = cbuffers[i].start;
-			if ((unsigned int)cbuffers[i].start_aligned & 0xfff) {
-				cbuffers[i].start_aligned =
-					(void *)((unsigned int)cbuffers[i].start_aligned +
-					(0x1000 -
-					((unsigned int)cbuffers[i].start_aligned & 0xfff)));
-			}
-			buffer.length = cbuffers[i].length;
+			posix_memalign(&cbuffers[i].start, 0x1000,
+				       cbuffers[i].length);
 			buffer.m.userptr =
-			    (unsigned int)cbuffers[i].start_aligned;
-			printf("User Buffers[%d].start=[%x]start_aligned= "
-				"= %x  length = %d\n",
+			    (unsigned int)cbuffers[i].start;
+			printf("User Buffers[%d].start=[%x]"
+				" length = %d\n",
 				i, cbuffers[i].start,
-				cbuffers[i].start_aligned,
 				cbuffers[i].length);
 		} else {
 			cbuffers[i].length = buffer.length;
@@ -249,23 +236,14 @@ int main(int argc, char *argv[])
 
 		if (memtype == V4L2_MEMORY_USERPTR) {
 			tempBuffers[i].length = buffer2.length;
-			if (tempBuffers[i].length & 0xfff) {
-				tempBuffers[i].length =
-				    (tempBuffers[i].length & 0xfffff000) +
-				    0x1000;
-			}
-			tempBuffers[i].start = malloc(tempBuffers[i].length);
-			tempBuffers[i].start_aligned =
-			    (void *)((unsigned int)(tempBuffers[i].start) &
-				     (0xffffffe0)) + 0x20;
-			buffer2.length = tempBuffers[i].length;
+			posix_memalign(&tempBuffers[i].start, 0x1000,
+				       tempBuffers[i].length);
 			buffer2.m.userptr =
-			    (unsigned int)tempBuffers[i].start_aligned;
+			    (unsigned int)tempBuffers[i].start;
 #ifdef DEBUG
-			printf("Temp Buffer [%d].start:[%x].start_aligned "
-				"= %x  length = %d\n", i,
+			printf("Temp Buffer [%d].start:[%x]"
+				" length = %d\n", i,
 				tempBuffers[i].start,
-				tempBuffers[i].start_aligned,
 				tempBuffers[i].length);
 #endif
 		}
@@ -292,8 +270,8 @@ int main(int argc, char *argv[])
 			printf(" ERROR HAS OCCURED\n");
 		}
 
-		memcpy(tempBuffers[i].start_aligned,
-			cbuffers[cfilledbuffer.index].start_aligned,
+		memcpy(tempBuffers[i].start,
+			cbuffers[cfilledbuffer.index].start,
 			cfilledbuffer.length);
 
 		i++;
@@ -326,7 +304,7 @@ int main(int argc, char *argv[])
 	printf("Start writing to file\n");
 	if (fd_save > 0) {
 		for (i = 0; i < CAPTURED_FRAMES; i++) {
-			write(fd_save, tempBuffers[i].start_aligned,
+			write(fd_save, tempBuffers[i].start,
 			       cformat.fmt.pix.width * cformat.fmt.pix.height *
 			       2);
 		}
