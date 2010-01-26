@@ -38,6 +38,7 @@
 #define DEFAULT_CAPTURE_FPS 		10
 
 #define DEFAULT_LSC_TEST			0
+#define DEFAULT_FRAME_COUNT			-1
 
 #define DSS_STREAM_START_FRAME		3
 
@@ -102,6 +103,11 @@ static void usage(void)
 	printf("\t-l <lsc test>\n"
 			"\t\tLSC Test: 1-enable, 0-disable "
 			"(default: %d)\n", DEFAULT_LSC_TEST);
+
+	printf("\t-n <frame count>\n"
+			"\t\tNumber of frames to capture before exit:\n"
+			"\t\t -1 - for unlimited capture "
+			"(default: %d)\n", DEFAULT_FRAME_COUNT);
 }
 
 static void display_keys(void)
@@ -337,7 +343,7 @@ int main(int argc, char **argv)
 	int capfps = DEFAULT_CAPTURE_FPS;
 	char *cappix = DEFAULT_CAPTURE_PIXFMT;
 	int use_lsc = DEFAULT_LSC_TEST;
-	int lsc_toggle = 0;
+	int lsc_toggle = 0, count_max = DEFAULT_FRAME_COUNT;
 	int aewb_curr_frame, af_curr_frame;
 
 	opterr = 0;
@@ -355,12 +361,13 @@ int main(int argc, char **argv)
 			{"fpscap",	required_argument,	0, 'g'},
 			{"viddev",	required_argument,	0, 'v'},
 			{"lsc",		required_argument,	0, 'l'},
+			{"nbr",		required_argument,	0, 'n'},
 			{0, 0, 0, 0}
 		};
 		int option_index = 0;
 		static int c;
 
-		c = getopt_long_only(argc, argv, "c:p:w:h:f:q:x:y:g:v:l:a",
+		c = getopt_long_only(argc, argv, "c:p:w:h:f:q:x:y:g:v:l:n:a",
 				long_options, &option_index);
 
 		/* Detect the end of the options. */
@@ -401,6 +408,9 @@ int main(int argc, char **argv)
 		case 'l':
 			use_lsc = atoi(optarg);
 			break;
+		case 'n':
+			count_max = atoi(optarg);
+			break;
 		case '?':
 			if ((optopt == 'c') ||
 			    (optopt == 'p') ||
@@ -412,6 +422,7 @@ int main(int argc, char **argv)
 			    (optopt == 'y') ||
 			    (optopt == 'g') ||
 			    (optopt == 'v') ||
+				(optopt == 'n') ||
 				(optopt == 'l')) {
 				fprintf(stderr,
 					"Option -%c requires an argument.\n",
@@ -830,6 +841,9 @@ restart_streaming:
 			}
 		}
 
+		/* Have we reached the frame count limit ? */
+		if (i >= count_max && count_max != -1)
+			quit_flag = 1;
 
 		if (quit_flag | snap_flag) {
 			printf("Cancelling the streaming capture...\n");
