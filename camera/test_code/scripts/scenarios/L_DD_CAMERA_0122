@@ -54,5 +54,8 @@ COMMENT comment.sh "Test if the Abstraction Layer functionality works for CCDC, 
 # BLACK CLAMP UPDATE AFTER STREAMON FLAG = 1
 0005 set -x; abslayer.sh "3" "CCDC" "bcl" "2"&& exit 0 || exit 1
 
+# LSC tests
+0006 set -x; snap.sh "/dev/video5" "LSC" && exit 0 || exit 1
+
 # End "L_DD_CAMERA_0122"
 
