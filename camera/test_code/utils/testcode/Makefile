@@ -86,9 +86,9 @@ streaming_abs: streaming_abs.c framerateLib.c lib.c ioctl.c
 	@echo "  CC  streaming_abs"
 	@$(CC) $(CFLAGS) -g streaming_abs.c framerateLib.c lib.c ioctl.c -o streaming_abs
 
-streaming_frame: streaming_frame.c framerateLib.c lib.c ioctl.c
+streaming_frame: streaming_frame.c framerateLib.c lib.c ioctl.c dss_utils.c
 	@echo "  CC  streaming_frame"
-	@$(CC) $(CFLAGS) -g streaming_frame.c framerateLib.c lib.c ioctl.c -o streaming_frame
+	@$(CC) $(CFLAGS) -g streaming_frame.c framerateLib.c lib.c ioctl.c dss_utils.c -o streaming_frame
 
 streaming_to_video_file: streaming_to_video_file.c lib.c ioctl.c framerateLib.c
 	@echo "  CC  streaming_to_video_file"

@@ -83,6 +83,7 @@ int main(int argc, char *argv[])
 	int device = 1;
 	char *pixelFmt;
 	int framerate = 30;
+	int req_width = 0, req_height = 0;
 
 	if ((argc > 1) && (!strcmp(argv[1], "?"))) {
 		usage();
@@ -139,6 +140,8 @@ int main(int argc, char *argv[])
 				usage();
 				return -1;
 			}
+			req_width = atoi(argv[index-1]);
+			req_height = atoi(argv[index]);
 		}
 		index++;
 	} else {
@@ -170,6 +173,17 @@ int main(int argc, char *argv[])
 
 	if (count >= 1000 || count <= 0)
 		count = -1;
+
+	/************************************************************/
+	/* Special DSS setup for 720p */
+
+	if (req_width == 1280 && req_height == 720) {
+		ret = dss_setup_720p(vid);
+		if (ret != 0)
+			return ret;
+	}
+
+	/************************************************************/
 
 	vfd = open((vid == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2, O_RDWR);
 	if (vfd <= 0) {
@@ -449,4 +463,11 @@ int main(int argc, char *argv[])
 
 	close(vfd);
 	close(cfd);
+
+	/************************************************************/
+	/* Reset DSS setup if it was modified for 720p */
+	if (req_width == 1280 && req_height == 720)
+		dss_reset(vid);
+
+	/************************************************************/
 }
