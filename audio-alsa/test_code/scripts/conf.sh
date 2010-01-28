@@ -47,4 +47,8 @@ export GENERIC_STEREO_SAMPLE_RATE=44100
 export TEST_RECORD_MONO_FILE="$TMPBASE/record_mono_file.wav"
 export TEST_RECORD_STEREO_FILE="$TMPBASE/record_stereo_file.wav"
 
+export AMIXER=alsa_amixer
+export APLAY=alsa_aplay
+export ARECORD=arecord
+
 # End of file

@@ -8,11 +8,11 @@
 
 # Begin L_DD_AUDIO-ALSA_0203_0001
 
-01 set -x; amixer cset numid=34 1 && exit 0 || exit 1
-02 set -x; amixer cset numid=36 1 && exit 0 || exit 1
-03 set -x; amixer cset numid=35 2 && exit 0 || exit 1
-04 set -x; amixer cset numid=37 2 && exit 0 || exit 1
-05 set -x; amixer cset numid=7 18 && exit 0 || exit 1
+01 set -x; $AMIXER cset numid=34 1 && exit 0 || exit 1
+02 set -x; $AMIXER cset numid=36 1 && exit 0 || exit 1
+03 set -x; $AMIXER cset numid=35 2 && exit 0 || exit 1
+04 set -x; $AMIXER cset numid=37 2 && exit 0 || exit 1
+05 set -x; $AMIXER cset numid=7 18 && exit 0 || exit 1
 06 set -x; $TESTSCRIPT/mute_test.sh && exit 0 || exit 1
 
 # End L_DD_AUDIO-ALSA_0203_0001

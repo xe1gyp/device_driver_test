@@ -2,7 +2,7 @@
 
 COUNT=0
 GAIN=0
-aplay $STEREO_AUDIO_FILE"11025.wav" &
+$APLAY $STEREO_AUDIO_FILE"11025.wav" &
 while [ $COUNT -le 9 ]
 do
 	if [ "$GAIN" == 0 ]; then
@@ -11,7 +11,7 @@ do
 		GAIN=0
 	fi
 
-	amixer cset numid=7 $GAIN
+	$AMIXER cset numid=7 $GAIN
 	sleep 2
 	COUNT=`expr $COUNT + 1`
 done

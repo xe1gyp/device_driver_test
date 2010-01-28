@@ -8,12 +8,12 @@
 
 # Begin L_DD_AUDIO-ALSA_0201_0005
 
-01 set -x; amixer cset numid=34 1 && exit 0 || exit 1
-02 set -x; amixer cset numid=36 1 && exit 0 || exit 1
-03 set -x; amixer cset numid=35 2 && exit 0 || exit 1
-04 set -x; amixer cset numid=37 2 && exit 0 || exit 1
-05 set -x; amixer cset numid=7 18 && exit 0 || exit 1
-06 set -x; aplay -c 1 $MONO_AUDIO_FILE && exit 0 || exit 1
-08 set -x; aplay -c 2 $STEREO_AUDIO_FILE"11025.wav" && exit 0 || exit 1
+01 set -x; $AMIXER cset numid=34 1 && exit 0 || exit 1
+02 set -x; $AMIXER cset numid=36 1 && exit 0 || exit 1
+03 set -x; $AMIXER cset numid=35 2 && exit 0 || exit 1
+04 set -x; $AMIXER cset numid=37 2 && exit 0 || exit 1
+05 set -x; $AMIXER cset numid=7 18 && exit 0 || exit 1
+06 set -x; $APLAY -c 1 $MONO_AUDIO_FILE && exit 0 || exit 1
+08 set -x; $APLAY -c 2 $STEREO_AUDIO_FILE"11025.wav" && exit 0 || exit 1
 
 # End L_DD_AUDIO-ALSA_0201_0005
