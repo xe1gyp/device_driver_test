@@ -1,0 +1,20 @@
+################################################################################
+# Scenario: L_DD_ETHERNET_0003_0001
+# Author  : Cristopherson Torres
+# Date    : Fri Mar 28 13:59:10 CDT 2008
+################################################################################
+
+# Begin L_DD_ETHERNET_0003_0001
+
+# Checking the current setup
+01 set -x; if [ "$IPADDR" == "" ]; then echo "FATAL: IPADDR is not set"; exit 1; fi; exit 0
+02 set -x; if [ "$USER" == "" ]; then echo "FATAL: USER is not set"; exit 1; fi; exit 0
+03 set -x; if [ "$PASSWD" == "" ]; then echo "FATAL: PASSWD is not set"; exit 1; fi; exit 0
+04 set -x; echo "NOTE: In order to run this scenario you need to have a ftp server in your remote machine.";
+
+# Validating the scenario
+05 set -x; date > $TMPBASE/test_file1; ftpput -u $USER -p $PASSWD $IPADDR test_file $TMPBASE/test_file1 && exit 0 || exit 1
+06 set -x; ftpget -u $USER -p $PASSWD $IPADDR $TMPBASE/test_file2 test_file && exit 0 || exit 1
+07 set -x; cmp $TMPBASE/test_file1 $TMPBASE/test_file2 && exit 0 || exit 1
+
+# End L_DD_ETHERNET_0003_0001

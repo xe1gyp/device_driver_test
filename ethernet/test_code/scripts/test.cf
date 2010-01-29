@@ -19,6 +19,7 @@ export TC_SCENARIO="${TESTROOT}/scenarios"
 export SCENARIO_NAMES=""
 export INTERACTIVE=""
 export STRESS=""
+export MOUNT_POINT=/mnt/nfsmount/
 export UTILBIN=${TESTROOT}/../../utils/bin
 export UTILSCRIPTS=${TESTROOT}/../../utils/scripts
 

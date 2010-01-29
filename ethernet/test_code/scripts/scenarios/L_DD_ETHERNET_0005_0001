@@ -1,0 +1,13 @@
+################################################################################
+# Scenario: L_DD_ETHERNET_0005_0001
+# Author  : Cristopherson Torres
+# Date    : Fri Mar 28 13:59:10 CDT 2008
+################################################################################
+
+# Begin L_DD_ETHERNET_0005_0001
+
+# Validating the scenario.
+01 set -x; ifconfig | grep addr: | sed -e 's@inet addr:@@' | sed q | awk '{print $1}' > $TMPBASE/ipaddr && exit 0 || exit 1
+02 set -x; $TESTSCRIPT/dvfs-test.sh && exit 0 || exit 1
+
+# End L_DD_ETHERNET_0005_0001
