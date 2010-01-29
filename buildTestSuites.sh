@@ -140,14 +140,18 @@ do
 	make -C $TESTSUITES_ROOT/$DRIVER/test_code/
 	mkdir $OUTPUT_DIRECTORY/$DRIVER
 	cp -r $TESTSUITES_ROOT/$DRIVER/test_code/* $OUTPUT_DIRECTORY/$DRIVER/
+	rm -rf $OUTPUT_DIRECTORY/$DRIVER/utils
 	make -C $TESTSUITES_ROOT/$DRIVER/test_code/ clean
 done
 
 # Compile utils
 make -C $TESTSUITES_ROOT/utils
-cp -r $TESTSUITES_ROOT/utils $OUTPUT_DIRECTORY/
+mkdir $OUTPUT_DIRECTORY/utils
+cp -r $TESTSUITES_ROOT/utils/bin $OUTPUT_DIRECTORY/utils
+cp -r $TESTSUITES_ROOT/utils/scripts $OUTPUT_DIRECTORY/utils
+cp -r $TESTSUITES_ROOT/utils/configuration $OUTPUT_DIRECTORY/utils
 make -C $TESTSUITES_ROOT/utils/ clean
 # Change permissions
 chmod -R 755 $OUTPUT_DIRECTORY
 
-#s End of buildTestSuites.sh script
+# End of buildTestSuites.sh script
