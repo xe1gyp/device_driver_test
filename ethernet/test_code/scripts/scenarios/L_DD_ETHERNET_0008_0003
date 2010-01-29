@@ -1,12 +1,13 @@
-################################################################################
+###############################################################################
 # Scenario: L_DD_ETHERNET_0008_0003
 # Author  : Shubhro
 # Date    : Tue Oct 27 13:59:10 CDT 2009
-################################################################################
+###############################################################################
 
 # Begin L_DD_ETHERNET_0008_0003
 
-$UTILS_DIR_BIN/handlerIrqAffinity.sh "switch" "ping -c 15  `cat /tmp/ipaddr` " "5" "1" "$ETH_IRQ" && exit 0 || exit 1
+01  set -x; ifconfig | grep eth0 && ifconfig | grep addr: | sed -e 's@inet addr:@@' | sed q | awk '{print $1}' > $ETHERNET_DIR_TMP/ipaddr && exit 0 || exit 1;
 
+02  set -x; $UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "ping -c 100 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_DIR_TMP/ipaddr`" "5" "15" && exit 0 || exit 1
 
 # End L_DD_ETHERNET_0008_0003

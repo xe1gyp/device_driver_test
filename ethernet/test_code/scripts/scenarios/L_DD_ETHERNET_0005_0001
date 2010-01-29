@@ -7,9 +7,9 @@
 
 # Begin L_DD_ETHERNET_0005_0001
 
-01 $TESTROOT/../../utils/scripts/dvfs.opp.sh& ping -c 1  `cat /tmp/ipaddr` && exit 0 || exit 1
-02 ping -c 5  `cat /tmp/ipaddr` && exit 0 || exit 1
-03 ping -c 10 `cat /tmp/ipaddr` && exit 0 || exit 1
-04 ping -c 25 `cat /tmp/ipaddr` && exit 0 || exit 1
+01  set -x; $ETHERNET_ROOT/../../utils/scripts/dvfs.opp.sh& ping -c 1  `cat $ETHERNET_DIR_TMP/ipaddr` && exit 0 || exit 1
+02  set -x; ping -c 5 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_DIR_TMP/ipaddr` && exit 0 || exit 1
+03  set -x; ping -c 10 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_DIR_TMP/ipaddr` && exit 0 || exit 1
+04  set -x; ping -c 25 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_DIR_TMP/ipaddr` && exit 0 || exit 1
 
 # End L_DD_ETHERNET_0005_0001

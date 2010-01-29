@@ -1,12 +1,24 @@
-################################################################################
+###############################################################################
 # Scenario: L_DD_ETHERNET_0008_0001
 # Author  : Shubhro
 # Date    : Tue Oct 27 13:59:10 CDT 2009
-################################################################################
+###############################################################################
 
 # Begin L_DD_ETHERNET_0008_0001
 
-$UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "ping -c 15  `cat /tmp/ipaddr` " "5" "15" && exit 0 || exit 1
+01  set -x; ifconfig | grep eth0 && ifconfig | grep addr: | sed -e 's@inet addr:@@' | sed q | awk '{print $1}' > $ETHERNET_DIR_TMP/ipaddr && exit 0 || exit 1;
 
+02  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "clean"
+03  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "ping -c 25 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_DIR_TMP/ipaddr`"
+04  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "ping -c 25 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_DIR_TMP/ipaddr`"
+05  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "ping -c 25 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_DIR_TMP/ipaddr`"
+06  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "ping -c 25 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_DIR_TMP/ipaddr`"
+07  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "ping -c 25 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_DIR_TMP/ipaddr`"
+08  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "ping -c 25 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_DIR_TMP/ipaddr`"
+09  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "ping -c 25 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_DIR_TMP/ipaddr`"
+11  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "ping -c 25 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_DIR_TMP/ipaddr`"
+12  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "ping -c 25 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_DIR_TMP/ipaddr`"
+13  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "ping -c 25 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_DIR_TMP/ipaddr`"
+14  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "execute"
 
 # End L_DD_ETHERNET_0008_0001
