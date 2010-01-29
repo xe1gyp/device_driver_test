@@ -1,0 +1,15 @@
+################################################################################
+# Scenario:    L_DD_UART_SERIAL_0000
+# Author  :    David Miramontes
+# Date    :    January 29th, 2010
+# Description: Baudrate: Support & Configuration
+#
+# NOTE: Some help is required from user-side
+################################################################################
+
+# Begin L_DD_UART_SERIAL_0000
+
+0001	set -x; transferData.sh $SEND $SAMPLE_FILE "115200"  $NO_FLOW_CONTROL $NORMAL && exit 1 || exit 0
+0002	set -x; transferData.sh $SEND $SAMPLE_FILE "3500000" $AUTOCTS_AUTORTS $NORMAL && exit 1 || exit 0
+
+# End L_DD_UART_SERIAL_0000

@@ -1,0 +1,14 @@
+################################################################################
+# Scenario:    L_DD_UART_SERIAL_0002
+# Author  :    David Miramontes
+# Date    :    January 29th, 2010
+# Description: Software Control: XON/XOFF
+#
+# NOTE: Some help is required from user-side
+################################################################################
+
+# Begin L_DD_UART_SERIAL_0002
+
+0001	set -x; transferData.sh $SEND $SAMPLE_FILE "921600" $XON_XOFF $NORMAL && exit 1 || exit 0
+
+# End L_DD_UART_SERIAL_0002
