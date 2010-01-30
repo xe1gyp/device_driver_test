@@ -16,4 +16,4 @@ clean:
 	rm -f *.o $(TARGETS)
 
 install:
-	cp $(TARGETS) ../bin/
+	cp $(TARGETS) $(UTILS_BINARIES)

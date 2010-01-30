@@ -1,13 +1,17 @@
-export UTIL_DIR = $(PWD)
-export UTIL_DESTDIR = ($PWD)/bin
+ifneq ($(strip $(TESTSUITES_ROOT)),)
+ export UTILS_BINARIES := ${TESTSUITES_ROOT}/utils/bin
+else
+ export UTILS_BINARIES := ${PWD}/bin
+endif
 
-BINARIES:=pan/pan akey/akey akey/waitkey akey/choice
-
-all: pan_app akey_app install
+all: pan_app akey_app priority_app schedutils_app install
 
 install:
-	mkdir -p bin
-	cp $(BINARIES) bin/
+	mkdir -p $(UTILS_BINARIES)
+	make -C akey install
+	make -C pan install
+	make -C priority install
+	make -C schedutils install
 
 pan_app:
 	make -C pan
@@ -15,7 +19,15 @@ pan_app:
 akey_app:
 	make -C akey
 
+priority_app:
+	make -C priority
+
+schedutils_app:
+	make -C schedutils
+
 clean:
 	make -C pan clean
 	make -C akey clean
-	rm -rf bin
+	make -C priority clean
+	make -C schedutils clean
+	rm -rf $(UTILS_BINARIES)

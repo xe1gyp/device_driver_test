@@ -17,5 +17,7 @@ choice:
 	$(CC) $(CFLAGS) choice.c -o choice
 
 clean:
-	rm -f $(BIN_DIR)/$(TARGETS)
 	rm -f *.o $(TARGETS)
+
+install:
+	cp $(TARGETS) $(UTILS_BINARIES)
