@@ -1,6 +1,6 @@
 ###############
 # Sample Configuration Script
-# Rename as test.cf to use
+# Rename as conf.sh to use
 ###############
 # if we have a working rtc, this is good.. else use next line
 export POSTFIX=`date "+%Y%m%d-%H%M%S"`

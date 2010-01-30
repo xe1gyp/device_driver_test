@@ -40,8 +40,8 @@ setup()
 	}
 	
 	# Load config file 
-	if [ -f "./test.cf" ]; then
-		. ./test.cf
+	if [ -f "./conf.sh" ]; then
+		. ./conf.sh
 	else
 		die "FATAL: Test suite configuration file not found"
 	fi
