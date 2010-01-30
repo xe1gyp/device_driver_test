@@ -23,6 +23,10 @@ export MOUNT_POINT=/mnt/nfsmount/
 export UTILBIN=${TESTROOT}/../../utils/bin
 export UTILSCRIPTS=${TESTROOT}/../../utils/scripts
 
+# Utils General Variables
+. ${TESTROOT}/../../utils/configuration/general.configuration
+# Specific Ethernet Variables
+export PACKET_SIZE=32768
 # Checking if bc is available in the filesystem
 
 if [ ! `echo 1+1 | bc` ]; then
