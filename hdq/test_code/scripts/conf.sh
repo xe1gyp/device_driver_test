@@ -41,6 +41,3 @@ export DELAY=5
 export KERNEL_RELEASE_LABEL_DIR=${TESTROOT}/../../utils/kernel_release_labels
 export KERNEL_RELEASE_LABEL=`uname -r`
 source $KERNEL_RELEASE_LABEL_DIR/$KERNEL_RELEASE_LABEL "hdq"
-
-
-

@@ -82,7 +82,7 @@ if [ -f /sys/power/fb_timeout_value ]
 then
 	export SYSFS_FB_TIMEOUT_VALUE=/sys/power/fb_timeout_value
 else
-	export SYSFS_FB_TIMEOUT_VALUE=	
+	export SYSFS_FB_TIMEOUT_VALUE=
 fi
 
 # End of file
