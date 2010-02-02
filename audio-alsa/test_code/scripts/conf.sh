@@ -4,7 +4,6 @@
 export POSTFIX=`date "+%Y%m%d-%H%M%S"`
 export TESTROOT=${PWD}
 export TESTBIN=${PWD}/../bin
-export UTILBIN=${PWD}/../../utils/bin
 export TESTMODS=${PWD}/../mods
 export TESTSCRIPT=${PWD}/helper
 export TMPBASE=${TESTROOT}/tmp
@@ -19,6 +18,10 @@ export DURATION=""
 export PATH="${PATH}:${TESTROOT}:${TESTBIN}:${TESTSCRIPT}"
 export TC_SCENARIO="${TESTROOT}/scenarios"
 export SCENARIO_NAMES=""
+
+# Utilities
+export UTILBIN=${TESTROOT}/../../utils/bin
+export UTILSCRIPTS=${TESTROOT}/../../utils/scripts
 
 # Audio files path
 export DEFAULT_INPUT_SOURCE="Mic_Headset"

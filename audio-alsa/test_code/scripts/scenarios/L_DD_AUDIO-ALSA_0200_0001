@@ -10,6 +10,7 @@
 
 # Begin L_DD_AUDIO-ALSA_0200
 
-0001 set -x; cat /var/log/dmesg | grep -i "Advanced Linux Sound Architecture" | grep -i "1.0." && exit 0 || exit 1
+0001 set -x; $UTILSCRIPTS/filesystemtype.sh && exit 0 || exit 1
+0001 set -x; cat $TMPBASE/result.tmp | grep -i "Advanced Linux Sound Architecture" | grep -i "1.0." && exit 0 || exit 1
 
 # End L_DD_AUDIO-ALSA_0200
