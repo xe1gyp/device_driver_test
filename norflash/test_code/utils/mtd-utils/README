@@ -1,3 +1,0 @@
-mtd-cvs-utils - put the latest mtd-cvs utilities here.
-mtd-mobilinux-utils - put the mobilinux MTD utils here
-old-kern-files -> old kernel files are located here just in case the kernel misses some of the files required by the mtd -utils
