@@ -2,12 +2,9 @@
 
 ################################################################################
 # enum.sh
-# Author  : Diego Zavala Trujillo
-# Date    : Janury 21, 2009
-# Description: Script to enumerate the device or host. Ober the Mentor USB.
-#	If an error happens, it will tell you where does it happens.
-# Change Log:
-#
+# Author  : Erandi Chavolla Ugarte
+# Date    : October 23th, 2009
+# Description: Script to enumerate the device or host. Over the Mentor USB.
 ################################################################################
 
 #1   echo 'F' > /proc/driver/musb_hdrc
@@ -60,46 +57,45 @@ case $ACT in
 # Connect a Host on the OMAP
 connectHost )
 	echo -e "\n\t ${ACT} \n"
-	cat $PROC_INT | grep "Mode" | grep "$PERIPHERAL_MODE"
-	detect_error $? 0 $PERIPHERAL_MODE $PROC_INT
-	cat $PROC_INT | grep "$QUEUE_EMPTY"
-	detect_error $? 0 $QUEUE_EMPTY $PROC_INT
+	cat $MODE | grep "$PERIPHERAL_MODE"
+	cat $MODE | grep "$QUEUE_EMPTY"
 	exit 0
 	;;
-
+	
 connectHostRemote )
 	echo -e "\n\t ${ACT} \n"
-	(ssh root@$REMOTE_IP -i $SSH_PATH cat $ENUM_COMM) | grep "$ENUM_INFO"
-	detect_error $? 0 $ENUM_INFO $ENUM_COMM-RemotePC
-	exit 0
-	;;
-
-connectHostRemoteSusp )
-	echo -e "\n\t ${ACT} \n"
-	(ssh root@$REMOTE_IP -i $SSH_PATH cat $ENUM_COMM) | grep "$ENUM_INFO"
-	detect_error $? 1 $ENUM_INFO $ENUM_COMM-RemotePC
+	(ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH cat $ENUM_COMM | grep "$ENUM_INFO")
 	exit 0
 	;;
 
 connectProcRemote )
 	echo -e "\n\t ${ACT} \n"
-	(ssh root@$REMOTE_IP -i $SSH_PATH cat $GADGET_PROC) | grep "$ENUM_INFO"
-	detect_error $? 0 $ENUM_INFO $GADGET_PROC-RemotePC
+	(ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH cat $GADGET_PROC) | grep "$ENUM_INFO"
+	exit 0
+	;;
+	
+connectHostRemoteSusp )
+	echo -e "\n\t ${ACT} \n"
+	(ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH cat $ENUM_COMM) | grep "$ENUM_INFO"
 	exit 0
 	;;
 
+connectNetworkInterface )
+	echo -e "\n\t ${ACT} \n"
+	(ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH cat $NET_INTERFACE)
+  	exit 0
+	;;
 disconnectHost )
 	echo -e "\n\t ${ACT} \n"
-	cat $PROC_INT | grep "Mode" | grep "$PERIPHERAL_MODE"
-	detect_error $? 0 $PERIPHERAL_MODE $PROC_INT
-	cat $PROC_INT | grep "$QUEUE_EMPTY"
-	cat $PROC_INT | grep "$QUEUE_EMPTY" && detect_error 1 1 $QUEUE_EMPTY $PROC_INT
+	cat $MODE | grep "Mode" | grep "$PERIPHERAL_MODE"
+	cat $MODE | grep "$QUEUE_EMPTY"
+	cat $MODE | grep "$QUEUE_EMPTY" && detect_error 1 1 $QUEUE_EMPTY $MODE
 	exit 0
 	;;
 
 disconnectHostRemote )
 	echo -e "\n\t ${ACT} \n"
-	(ssh root@$REMOTE_IP -i $SSH_PATH cat $ENUM_COMM) | grep "$ENUM_INFO" && detect_error 1 1 $ENUM_INFO $ENUM_COMM-RemotePC
+	(ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH cat $ENUM_COMM | grep "$ENUM_INFO" )
 	exit 0
 	;;
 
@@ -107,50 +103,46 @@ disconnectHostRemote )
 connectDevice )
 	echo -e "\n\t ${ACT} \n"
 	if [ "$USB_DRIVER" = "MENTOR" ] ; then
-	echo 'F' > $PROC_INT
-	cat $PROC_INT | grep "Mode" | grep "$HOST_MODE"
-	detect_error $? 0 $HOST_MODE $PROC_INT
+	echo 'F' > $MODE
+	cat $MODE | grep "Mode" | grep "$HOST_MODE"
 	fi
 	cat $ENUM_COMM | grep "$ENUM_INFO"
-	detect_error $? 0 $ENUM_INFO $PROC_INT
 	exit 0
 	;;
 
 disconnectDevice )
 	echo -e "\n\t ${ACT} \n"
 	if [ $USB_DRIVER = "MENTOR" ] ; then
-        echo 'F' > $PROC_INT
+        echo 'F' > $MODE
         fi
-	cat $PROC_INT | grep 'Mode' | grep "$PERIPHERAL_MODE"
-	detect_error $? 0 $PERIPHERAL_MODE $PROC_INT
+	cat $MODE | grep 'Mode' | grep "$PERIPHERAL_MODE"
 	exit 0
 	;;
 
 checkinfoDevice )
 	echo -e "\n\t ${ACT} \n"
 	cat $ENUM_COMM | awk "/Bus=$BUS/, /$ENUM_INFO/" | awk "/Lev=$LEV/, /$ENUM_INFO/"  | grep "$ENUM_INFO"
-	detect_error $? 0 $ENUM_INFO InfoDevice
 	exit 0
 	;;
 
 checkspeedDevice )
 	echo -e "\n\t ${ACT} \n"
-        cat $ENUM_COMM | awk "/Bus=$BUS/, /$ENUM_INFO/" | awk "/Lev=$LEV/, /$ENUM_INFO/"  | grep "$SPEED"
-        detect_error $? 0 $SPEED SpeedDevice
-        exit 0
+	cat $ENUM_COMM | awk "/Bus=$BUS/, /$ENUM_INFO/" | awk "/Lev=$LEV/, /$ENUM_INFO/"  | grep "$SPEED"
+	exit 0
 	;;
 
 # Insert module on the Linux PC
 insertRemoteModule )
 	echo -e "\n\t ${ACT} \n"
-	ssh root@$REMOTE_IP -i $SSH_PATH modprobe $MODULE
-	detect_error $? 0 $PERIPHERAL_MODE $PROC_INT
-	exit 0
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH modprobe $MODULE 
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH lsmod | grep $MODULE
+ 	exit 0
 	;;
 
 removeRemoteModule )
 	echo -e "\n\t ${ACT} \n"
-	ssh root@$REMOTE_IP -i $SSH_PATH rmmod $MODULE
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH rmmod $MODULE
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH lsmod | grep $MODULE
 	exit 0
 	;;
 
@@ -158,52 +150,683 @@ createRemoteNode )
 	echo -e "\n\t ${ACT} \n"
 	;;
 
-# Test USB control in out
+# IRQ AFFINITY LINUX 
 
-testcio )
+irqaffinityL )
+	
 	echo -e "\n\t ${ACT} \n"
-	if [ "$MODE" = "Host" ]; then
-	echo -e '\n\n\t '$MESSAGE'  \n\n'
-	cd ${TESTSCRIPT}/
-	./test.sh control in out > $LOGBASE/log.testControlInOutOMAP
-	detect_error_testusb $? "control in out"
-	cd -
-	else
-	(ssh root@$REMOTE_IP -i $SSH_PATH $REMOTE_PATH/test.sh control in out) > $LOGBASE/log.testControlInOutLinuxPC
-	detect_error_testusb $? "control in out"
-	exit 0
-	fi
+	echo -e "\nInfo: IRQ AFFINITY\n"
+
+test -f /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+
+if [ $? -eq 1 ]
+then
+	echo "Error: Cannot set affinity for irq $LOCAL_IRQ_NUMBER!"
+	
+fi
+		
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH cp  $REMOTE_PATH/$GADGET_ST_FILE $REMOTE_PATH/mass_storage &&  sleep $DELAY2  &
+	
+while [ $count -le $LOCAL_EXECUTION_TIMES ]
+	do
+
+		echo -e "\nInfo: PID $LOCAL_COMMAND_PID | Irq Number $LOCAL_IRQ_NUMBER | Count $count of $LOCAL_EXECUTION_TIMES"
+		if [ ! -d "/proc/$LOCAL_COMMAND_PID" ]
+		then
+			break
+		fi
+
+		rem=$(( $count % 2 ))
+
+		if [ $rem -eq 0 ]
+		then
+
+			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo 1 > /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+			sleep $LOCAL_TIME_TO_WAIT
+			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2
+			if [ "$initial_value_p1" -lt "$final_value_p1" ]
+			then
+				continue
+			else
+				echo "Error: Number of interrupts were not increased in Processor 1"
+				
+			fi
+
+		else
+
+			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo 2 > /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+			sleep $LOCAL_TIME_TO_WAIT
+			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2
+			if [ "$initial_value_p2" -lt "$final_value_p2" ]
+			then
+				continue
+			else
+				echo "Error: Number of interrupts were not increased in Processor 2"
+				
+			fi
+
+		fi
+
+		count=`expr $count + 1`
+		sleep $LOCAL_TIME_TO_WAIT
+
+	done
+
+	echo -e "Info: Waiting for it to finish..."
+	wait
+	echo -e "Info: Done!\n"
+exit 0
 	;;
 
-testc )
+
+# IRQ AFFINITY OMAP
+
+irqaffinityO )
+	
 	echo -e "\n\t ${ACT} \n"
-	if [ "$MODE" = "Host" ]; then
-	echo -e '\n\n\t '$MESSAGE'  \n\n'
-	cd ${TESTSCRIPT}/
-	./test.sh control > $LOGBASE/log.testControlOMAP
-	detect_error_testusb $? "control"
-	cd -
-	else
-	(ssh root@$REMOTE_IP -i $SSH_PATH $REMOTE_PATH/test.sh control) > $LOGBASE/log.testControlLinuxPC
+	echo -e "\nInfo: IRQ AFFINITY\n"
+
+test -f /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+
+if [ $? -eq 1 ]
+then
+	echo "Error: Cannot set affinity for irq $LOCAL_IRQ_NUMBER!"
+fi
+		
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH cp  $REMOTE_PATH/mass_storage/$GADGET_ST_FILE  $REMOTE_PATH/  &&  sleep $DELAY2  &
+	
+while [ $count -le $LOCAL_EXECUTION_TIMES ]
+	do
+
+		echo -e "\nInfo: PID $LOCAL_COMMAND_PID | Irq Number $LOCAL_IRQ_NUMBER | Count $count of $LOCAL_EXECUTION_TIMES"
+		if [ ! -d "/proc/$LOCAL_COMMAND_PID" ]
+		then
+			break
+		fi
+
+		rem=$(( $count % 2 ))
+
+		if [ $rem -eq 0 ]
+		then
+
+			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo 1 > /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+			sleep $LOCAL_TIME_TO_WAIT
+			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2
+			if [ "$initial_value_p1" -lt "$final_value_p1" ]
+			then
+				continue
+			else
+				echo "Error: Number of interrupts were not increased in Processor 1"
+			fi
+
+		else
+
+			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo 2 > /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+			sleep $LOCAL_TIME_TO_WAIT
+			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2
+			if [ "$initial_value_p2" -lt "$final_value_p2" ]
+			then
+				continue
+			else
+				echo "Error: Number of interrupts were not increased in Processor 2"
+			fi
+
+		fi
+
+		count=`expr $count + 1`
+		sleep $LOCAL_TIME_TO_WAIT
+
+	done
+
+	echo -e "Info: Waiting for it to finish..."
+	wait
+	echo -e "Info: Done!\n"
+exit 0
+	;;
+
+# CPU AFFINITY LINUX PC
+
+cpuaffinityL )
+	
+	echo -e "\n\t ${ACT} \n"
+	echo -e "\nInfo: CPU AFFINITY\n"
+	
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH cp  $REMOTE_PATH/$GADGET_ST_FILE $REMOTE_PATH/mass_storage &&  sleep $DELAY2  &
+		
+	LOCAL_COMMAND_PID=`echo $!`	
+	
+	while [ $count -le $LOCAL_EXECUTION_TIMES ]
+	do
+		echo -e "\nInfo: PID $LOCAL_COMMAND_PID | Processor $processor | Count $count of $LOCAL_EXECUTION_TIMES"
+
+		if [ ! -d "/proc/$LOCAL_COMMAND_PID" ]
+		then
+			break
+		fi
+		rem=$(( $count % 2 ))
+
+		if [ $rem -eq 0 ]
+		then
+			processor=1
+			$UTILS_DIR_BIN/taskset -p $processor $LOCAL_COMMAND_PID
+		else
+			processor=2
+			$UTILS_DIR_BIN/taskset -p $processor $LOCAL_COMMAND_PID
+		fi
+
+		if [ $? -ne 0 ]
+		then
+			echo -e "Error: Could not set cpu affinity for processor $processor!"
+
+		fi
+
+		count=`expr $count + 1`
+		sleep $LOCAL_TIME_TO_WAIT
+
+	done
+
+	echo -e "Info: Waiting for it to finish..."
+	wait
+	echo -e "Info: Done!\n"
+exit 0
+	;;
+	
+# CPU AFFINITY OMAP
+
+cpuaffinityO )
+	
+	echo -e "\n\t ${ACT} \n"
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH cp  $REMOTE_PATH/mass_storage/$GADGET_ST_FILE  $REMOTE_PATH/  &&  sleep $DELAY2  &
+		
+	LOCAL_COMMAND_PID=`echo $!`	
+	
+	while [ $count -le $LOCAL_EXECUTION_TIMES ]
+	do
+		echo -e "\nInfo: PID $LOCAL_COMMAND_PID | Processor $processor | Count $count of $LOCAL_EXECUTION_TIMES"
+
+		if [ ! -d "/proc/$LOCAL_COMMAND_PID" ]
+		then
+			break
+		fi
+		rem=$(( $count % 2 ))
+
+		if [ $rem -eq 0 ]
+		then
+			processor=1
+			$UTILS_DIR_BIN/taskset -p $processor $LOCAL_COMMAND_PID
+		else
+			processor=2
+			$UTILS_DIR_BIN/taskset -p $processor $LOCAL_COMMAND_PID
+		fi
+
+		if [ $? -ne 0 ]
+		then
+			echo -e "Error: Could not set cpu affinity for processor $processor!"
+
+		fi
+
+		count=`expr $count + 1`
+		sleep $LOCAL_TIME_TO_WAIT
+
+	done
+
+	echo -e "Info: Waiting for it to finish..."
+	wait
+	echo -e "Info: Done!\n"
+exit 0
+	;;
+	
+	
+# Serial Process
+
+irqserialonlinux )
+
+	echo -e "\n\t ${ACT} \n"
+	echo -e "\nInfo: IRQ AFFINITY\n"
+
+test -f /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+
+if [ $? -eq 1 ]
+then
+	echo "Error: Cannot set affinity for irq $LOCAL_IRQ_NUMBER!"
+fi
+	(cat $MISC_PATH/file2send-OMAP > /dev/ttyGS0)&  sleep $DELAYMAX	
+	
+while [ $count -le $LOCAL_EXECUTION_TIMES ]
+	do
+
+		echo -e "\nInfo: PID $LOCAL_COMMAND_PID | Irq Number $LOCAL_IRQ_NUMBER | Count $count of $LOCAL_EXECUTION_TIMES"
+		if [ ! -d "/proc/$LOCAL_COMMAND_PID" ]
+		then
+			break
+		fi
+
+		rem=$(( $count % 2 ))
+
+		if [ $rem -eq 0 ]
+		then
+
+			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo 1 > /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+			sleep $LOCAL_TIME_TO_WAIT
+			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2
+			if [ "$initial_value_p1" -lt "$final_value_p1" ]
+			then
+				continue
+			else
+				echo "Error: Number of interrupts were not increased in Processor 1"
+			fi
+
+		else
+
+			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo 2 > /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+			sleep $LOCAL_TIME_TO_WAIT
+			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2
+			if [ "$initial_value_p2" -lt "$final_value_p2" ]
+			then
+				continue
+			else
+				echo "Error: Number of interrupts were not increased in Processor 2"
+			fi
+
+		fi
+
+		count=`expr $count + 1`
+		sleep $LOCAL_TIME_TO_WAIT
+
+	done
+
+	exit 0
+	;;
+
+
+irqserialonOMAP )
+
+	echo -e "\n\t ${ACT} \n"
+	echo -e "\nInfo: IRQ AFFINITY\n"
+
+test -f /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+
+if [ $? -eq 1 ]
+then
+	echo "Error: Cannot set affinity for irq $LOCAL_IRQ_NUMBER!"
+fi
+	((cat /dev/ttyGS0)  &  (sleep $DELAY2 && ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH  cat $REMOTE_PATH/file2send-PC) > $USBDEVICE_DIR_LOG/log.serial-PCSide)& sleep $DELAYMAX  
+		
+while [ $count -le $LOCAL_EXECUTION_TIMES ]
+	do
+
+		echo -e "\nInfo: PID $LOCAL_COMMAND_PID | Irq Number $LOCAL_IRQ_NUMBER | Count $count of $LOCAL_EXECUTION_TIMES"
+		if [ ! -d "/proc/$LOCAL_COMMAND_PID" ]
+		then
+			break
+		fi
+
+		rem=$(( $count % 2 ))
+
+		if [ $rem -eq 0 ]
+		then
+
+			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo 1 > /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+			sleep $LOCAL_TIME_TO_WAIT
+			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2
+			if [ "$initial_value_p1" -lt "$final_value_p1" ]
+			then
+				continue
+			else
+				echo "Error: Number of interrupts were not increased in Processor 1"
+			fi
+
+		else
+
+			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo 2 > /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+			sleep $LOCAL_TIME_TO_WAIT
+			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2
+			if [ "$initial_value_p2" -lt "$final_value_p2" ]
+			then
+				continue
+			else
+				echo "Error: Number of interrupts were not increased in Processor 2"
+			fi
+
+		fi
+
+		count=`expr $count + 1`
+		sleep $LOCAL_TIME_TO_WAIT
+
+	done
+
+	exit 0
+	;;
+	
+# Ethernet 
+
+etherneto )
+
+	echo -e "\n\t ${ACT} \n"
+	echo -e "\nInfo: IRQ AFFINITY\n"
+
+test -f /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+
+if [ $? -eq 1 ]
+then
+	echo "Error: Cannot set affinity for irq $LOCAL_IRQ_NUMBER!"
+fi
+	ping -c 5 $HOST_IP > $USBDEVICE_DIR_LOG/log.ethernetOMAP
+		
+while [ $count -le $LOCAL_EXECUTION_TIMES ]
+	do
+
+		echo -e "\nInfo: PID $LOCAL_COMMAND_PID | Irq Number $LOCAL_IRQ_NUMBER | Count $count of $LOCAL_EXECUTION_TIMES"
+		if [ ! -d "/proc/$LOCAL_COMMAND_PID" ]
+		then
+			break
+		fi
+
+		rem=$(( $count % 2 ))
+
+		if [ $rem -eq 0 ]
+		then
+
+			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo 1 > /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+			sleep $LOCAL_TIME_TO_WAIT
+			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2
+			if [ "$initial_value_p1" -lt "$final_value_p1" ]
+			then
+				continue
+			else
+				echo "Error: Number of interrupts were not increased in Processor 1"
+			fi
+
+		else
+
+			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo 2 > /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+			sleep $LOCAL_TIME_TO_WAIT
+			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2
+			if [ "$initial_value_p2" -lt "$final_value_p2" ]
+			then
+				continue
+			else
+				echo "Error: Number of interrupts were not increased in Processor 2"
+			fi
+
+		fi
+
+		count=`expr $count + 1`
+		sleep $LOCAL_TIME_TO_WAIT
+
+	done
+
+	exit 0
+	;;
+
+
+
+ethernetl )
+
+	echo -e "\n\t ${ACT} \n"
+	echo -e "\nInfo: IRQ AFFINITY\n"
+
+test -f /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+
+if [ $? -eq 1 ]
+then
+	echo "Error: Cannot set affinity for irq $LOCAL_IRQ_NUMBER!"
+fi
+	((ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH ping -c 5 $GADGET_IP) > $USBDEVICE_DIR_LOG/log.ethernetLinuxPC)& sleep $DELAYMAX
+		
+while [ $count -le $LOCAL_EXECUTION_TIMES ]
+	do
+
+		echo -e "\nInfo: PID $LOCAL_COMMAND_PID | Irq Number $LOCAL_IRQ_NUMBER | Count $count of $LOCAL_EXECUTION_TIMES"
+		if [ ! -d "/proc/$LOCAL_COMMAND_PID" ]
+		then
+			break
+		fi
+
+		rem=$(( $count % 2 ))
+
+		if [ $rem -eq 0 ]
+		then
+
+			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo 1 > /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+			sleep $LOCAL_TIME_TO_WAIT
+			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2
+			if [ "$initial_value_p1" -lt "$final_value_p1" ]
+			then
+				continue
+			else
+				echo "Error: Number of interrupts were not increased in Processor 1"
+			fi
+
+		else
+
+			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo 2 > /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+			sleep $LOCAL_TIME_TO_WAIT
+			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2
+			if [ "$initial_value_p2" -lt "$final_value_p2" ]
+			then
+				continue
+			else
+				echo "Error: Number of interrupts were not increased in Processor 2"
+			fi
+
+		fi
+
+		count=`expr $count + 1`
+		sleep $LOCAL_TIME_TO_WAIT
+
+	done
+
+	exit 0
+	;;
+	
+# Test USB control in out
+
+testcontrol )
+	echo -e "\n\t ${ACT} \n"
+	
+	(ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH $REMOTE_PATH/test.sh control > $USBDEVICE_DIR_LOG/log.testControlLinuxPC)& sleep $DELAYMAX 
 	detect_error_testusb $? "control"
 	exit 0
-	fi
+	;;
+	
+testc )
+
+	echo -e "\n\t ${ACT} \n"
+	echo -e "\nInfo: IRQ AFFINITY\n"
+
+test -f /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+
+if [ $? -eq 1 ]
+then
+	echo "Error: Cannot set affinity for irq $LOCAL_IRQ_NUMBER!"
+fi
+	(ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH $REMOTE_PATH/test.sh control > $USBDEVICE_DIR_LOG/log.testControlLinuxPC)& sleep $DELAYMAX 		
+
+	
+while [ $count -le $LOCAL_EXECUTION_TIMES ]
+	do
+
+		echo -e "\nInfo: PID $LOCAL_COMMAND_PID | Irq Number $LOCAL_IRQ_NUMBER | Count $count of $LOCAL_EXECUTION_TIMES"
+		if [ ! -d "/proc/$LOCAL_COMMAND_PID" ]
+		then
+			break
+		fi
+
+		rem=$(( $count % 2 ))
+
+		if [ $rem -eq 0 ]
+		then
+
+			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo 1 > /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+			sleep $LOCAL_TIME_TO_WAIT
+			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2
+			if [ "$initial_value_p1" -lt "$final_value_p1" ]
+			then
+				continue
+			else
+				echo "Error: Number of interrupts were not increased in Processor 1"
+			fi
+
+		else
+
+			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo 2 > /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+			sleep $LOCAL_TIME_TO_WAIT
+			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2
+			if [ "$initial_value_p2" -lt "$final_value_p2" ]
+			then
+				continue
+			else
+				echo "Error: Number of interrupts were not increased in Processor 2"
+			fi
+
+		fi
+
+		count=`expr $count + 1`
+		sleep $LOCAL_TIME_TO_WAIT
+
+	done
+
+	echo -e "Info: Waiting for it to finish..."
+	wait
+	echo -e "Info: Done!\n"
+
+	cat $USBDEVICE_DIR_LOG/log.testControlLinuxPC
+	sleep $DELAY5
+	exit 0
 	;;
 
 testio )
+
 	echo -e "\n\t ${ACT} \n"
-	if [ "$MODE" = "Host" ]; then
-	echo -e '\n\n\t '$MESSAGE'  \n\n'
-	cd ${TESTSCRIPT}/
-	./test.sh in out > $LOGBASE/log.testInOutOMAP
-	detect_error_testusb $? "in out"
-	cd -
-	else
-	(ssh root@$REMOTE_IP -i $SSH_PATH $REMOTE_PATH/test.sh in out) > $LOGBASE/log.testInOutlLinuxPC
-	detect_error_testusb $? "in out"
+	echo -e "\nInfo: IRQ AFFINITY\n"
+
+test -f /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+
+if [ $? -eq 1 ]
+then
+	echo "Error: Cannot set affinity for irq $LOCAL_IRQ_NUMBER!"
+fi
+	(ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH $REMOTE_PATH/test.sh in out > $USBDEVICE_DIR_LOG/log.testInOutlLinuxPC)& sleep $DELAYMAX  		
+
+	
+while [ $count -le $LOCAL_EXECUTION_TIMES ]
+	do
+
+		echo -e "\nInfo: PID $LOCAL_COMMAND_PID | Irq Number $LOCAL_IRQ_NUMBER | Count $count of $LOCAL_EXECUTION_TIMES"
+		if [ ! -d "/proc/$LOCAL_COMMAND_PID" ]
+		then
+			break
+		fi
+
+		rem=$(( $count % 2 ))
+
+		if [ $rem -eq 0 ]
+		then
+
+			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo 1 > /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+			sleep $LOCAL_TIME_TO_WAIT
+			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2
+			if [ "$initial_value_p1" -lt "$final_value_p1" ]
+			then
+				continue
+			else
+				echo "Error: Number of interrupts were not increased in Processor 1"
+				
+			fi
+
+		else
+
+			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo 2 > /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
+			sleep $LOCAL_TIME_TO_WAIT
+			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
+			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			echo $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2
+			if [ "$initial_value_p2" -lt "$final_value_p2" ]
+			then
+				continue
+			else
+				echo "Error: Number of interrupts were not increased in Processor 2"
+			fi
+
+		fi
+
+		count=`expr $count + 1`
+		sleep $LOCAL_TIME_TO_WAIT
+
+	done
+
+	echo -e "Info: Waiting for it to finish..."
+	wait
+	echo -e "Info: Done!\n"
+
+	cat $USBDEVICE_DIR_LOG/log.testInOutlLinuxPCC
+	sleep $DELAY5
 	exit 0
-	fi
 	;;
+
 
 createvFat )
 	echo -e "\n\t ${ACT} \n"
@@ -219,18 +842,26 @@ dellvFat )
 
 creatFileRemote )
 	echo -e "\n\t ${ACT} \n"
-	ssh root@$REMOTE_IP -i $SSH_PATH dd if=/dev/zero of=${REMOTE_PATH}/${GADGET_ST_FILE} bs=1M count=1
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH dd if=${DD_IF} of=${REMOTE_PATH}/${GADGET_ST_FILE} bs=1M count=1
 	;;
-
+	
 dellFileRemote )
 	echo -e "\n\t ${ACT} \n"
-	ssh root@$REMOTE_IP -i $SSH_PATH rm -rf ${REMOTE_PATH}/$GADGET_ST_FILE
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH rm -rf ${REMOTE_PATH}/$GADGET_ST_FILE
 	;;
 
 mountRemote )
 	echo -e "\n\t ${ACT} \n"
-	ssh root@$REMOTE_IP -i $SSH_PATH mkdir $REMOTE_PATH/mass_storage
-	ssh root@$REMOTE_IP -i $SSH_PATH mount $GADGET_ST_NODE $REMOTE_PATH/mass_storage
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH mkdir $REMOTE_PATH/mass_storage
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH df -h
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH sleep $DELAY2
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH ls /dev/sd*
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH 'echo -e "p\n n\n p\n 1\n \n +128\n p\n w\n" | fdisk /dev/sdb'
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH sleep $DELAY2
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH mke2fs ${USB_DEVFS_PARTITION}
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH mount ${USB_DEVFS_PARTITION} $REMOTE_PATH/mass_storage
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH df -h
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH sleep $DELAY2
 	if [ $? = "0" ]; then
 		echo -e "\n\n\t The device was mounted with out any problem \n\n"
 		exit 0
@@ -242,8 +873,9 @@ mountRemote )
 
 umountRemote )
 	echo -e "\n\t ${ACT} \n"
-	ssh root@$REMOTE_IP -i $SSH_PATH umount $REMOTE_PATH/mass_storage
-	ssh root@$REMOTE_IP -i $SSH_PATH rm -rf $REMOTE_PATH/mass_storage
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH umount $REMOTE_PATH/mass_storage
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH rm -rf $REMOTE_PATH/mass_storage
+	ssh $REMOTE_USER@$REMOTE_IP -i $SSH_PATH df -h
 	if [ $? = "0" ]; then
 		echo -e "\n\n\t The device was unmounted with out any problem. \n\n"
 		exit 0

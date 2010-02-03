@@ -1,0 +1,24 @@
+##########################################################################################
+# Scenario    : L_DD_USB_DEVICE_0006_0001
+# Description : USB Device | GADGET ZERO | Power Management: Suspend/Resume | For Android
+##########################################################################################
+
+# Begin L_DD_USB_DEVICE_0006_0001
+
+01	set -x; handlerUsbDeviceSetup.sh  "create" "zero"
+
+# Checking enumeration on the Linux PC
+
+02	echo -e "\n\n\t Testing the suspend and resume functionality of the USB device controller for g_zero. After a suspend and resume cycle the loaded gadget driver must re-enumerate with the host and continue to work without error \n\n"  &&  exit 0 || exit 1
+03	set -x; echo -e '\n\n\t Please connect cable. [ MiniB to OMAP - StdA to Linux PC ] \n\n'  &&  sleep $DELAY3  &&  $USBDEVICE_DIR_HELPER/enum.sh connectHost  &&  exit 0 || exit 1
+04	set -x; export ENUM_INFO="Zero"; $USBDEVICE_DIR_HELPER/enum.sh connectHostRemote  &&  exit 0 || exit 1
+
+### Suspending
+05	echo -e "\n\n\t Suspending the System on the OMAP. \n\t Press the key F2 for suspend \n\t" && sleep $DELAY5 &&  exit 0 || exit 1
+06	echo -e '\n\n\t Checking enumeration on the Linux PC, (the LinuxPC should detect the OMAP) \n\n' && $TESTSCRIPT/enum.sh connectHostRemote  &&  exit 0 || exit 1
+07	echo -e "\n\n\t Press any key to resume the System on the OMAP. \n" &&  sleep $DELAY1 &&  exit 0 || exit 1
+08	echo -e '\n\n\t Checking enumeration on the Linux PC, (the LinuxPC should detect the OMAP) \n\n' && $TESTSCRIPT/enum.sh connectHostRemote  &&  exit 0 || exit 1
+
+18	set -x; handlerUsbDeviceSetup.sh  "remove" "zero"
+
+# End L_DD_USB_Device_0006_0001

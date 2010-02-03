@@ -1,0 +1,13 @@
+###############################################################################
+# Scenario    : L_DD_USB_Device_0001_0005b
+# Description : Enumeration: Standard Host: Gadget Android (Cold Plugging)
+# Filesystem  : Android
+###############################################################################
+
+# This scenario is the continuation of scenario L_DD_USB_Device_0001_0005a
+
+01	set -x; echo -e '\n\n\t Please connect cable. [ MiniB to OMAP - StdA to Linux PC ] USB and ADB icons should appear again. \n\n'  &&  sleep $DELAY3  &&  $USBDEVICE_DIR_HELPER/enum.sh connectHost  &&  exit 0 || exit 1
+02	set -x; export ENUM_INFO="Android"; $USBDEVICE_DIR_HELPER/enum.sh connectHostRemote  &&  exit 0 || exit 1
+03	set -x; export ENUM_INFO="Android"; echo -e '\n\n\t Disconnect USB cable from OMAP, icons should disappear\n\n'  &&  sleep $DELAY3 && $USBDEVICE_DIR_HELPER/enum.sh	disconnectHostRemote  &&  exit 0 || exit
+
+# End L_DD_USB_Device_0001_0005b

@@ -1,37 +1,55 @@
 #!/bin/sh
-################################################################################
-# Configuration script
-# Author  : Axel Castaneda Gonzalez
-# Date    : November 27, 2006
-# Description: Configuration script with user specified value for some
-#	environment variables.
-# Change Log:
-#	9 Jan 2009 - Diego Zavala Trujillo - Updating environment variables.
-################################################################################
 
+# TestSuite General Variables
+export USBDEVICE_POSTFIX=`date "+%Y%m%d-%H%M%S"`
+export USBDEVICE_ROOT=`pwd`
 
-#These variables dont' need to be modified
-export POSTFIX=`date "+%Y%m%d-%H%M%S"`
-export TESTROOT=${PWD}
-export TESTBIN=${PWD}/../bin
-export UTILBIN=${PWD}/../../utils/bin
-export TESTMODS=${PWD}/../mods
-export TESTSCRIPT=${PWD}/helper
-export TMPBASE=${TESTROOT}/tmp
-export TMPFILE=${TMPBASE}/tmp.$POSTFIX
-export CMDFILE=cmd.$POSTFIX
-export TESTDIR=${TESTROOT}/test
-export PRETTY_PRT=""
-export VERBOSE=""
-export OUTPUTFILE=${TESTROOT}/output.$POSTFIX
-export LOGBASE=${TESTROOT}/log
-export LOGFILE=${LOGBASE}/log.$POSTFIX
-export LOGERROR=${LOGBASE}/log-error.$POSTFIX
-export DURATION="1h"
-export PATH="${PATH}:${TESTROOT}:${TESTBIN}:${TESTSCRIPT}"
-export TC_SCENARIO="${TESTROOT}/scenarios"
-export SCENARIO_NAMES=""
-##########################################
+export UTILSBINARIES=${USBDEVICE_ROOT}/../binaries
+export UTILSBINARIES=${USBDEVICE_ROOT}/../../utils
+export USBDEVICE_DIR_HANDLER=${USBDEVICE_ROOT}/handler
+export USBDEVICE_DIR_HELPER=${USBDEVICE_ROOT}/helper
+export USBDEVICE_DIR_TMP=${USBDEVICE_ROOT}/tmp
+export USBDEVICE_DIR_TEST=${USBDEVICE_ROOT}/test
+export USBDEVICE_DIR_SCENARIOS="${USBDEVICE_ROOT}/scenarios"
+export USBDEVICE_DIR_BINARIES=${USBDEVICE_ROOT}/../binaries
+export USBDEVICE_DIR_LOG=${USBDEVICE_ROOT}/log
+
+export USBDEVICE_FILE_OUTPUT=${USBDEVICE_ROOT}/output.$USBDEVICE_POSTFIX
+export USBDEVICE_FILE_LOG=${USBDEVICE_DIR_LOG}/log.$USBDEVICE_POSTFIX
+export USBDEVICE_FILE_TMP=${USBDEVICE_DIR_TMP}/tmp.$USBDEVICE_POSTFIX
+export USBDEVICE_FILE_CMD=cmd.$USBDEVICE_POSTFIX
+
+export USBDEVICE_DURATION=""
+export USBDEVICE_PRETTY_PRT=""
+export USBDEVICE_VERBOSE=""
+export USBDEVICE_SCENARIO_NAMES=""
+export USBDEVICE_STRESS=""
+
+export PATH="${USBDEVICE_ROOT}:${USBDEVICE_DIR_HELPER}:${USBDEVICE_DIR_BINARIES}:${PATH}"
+
+# Utils General Variables
+. ${USBDEVICE_ROOT}/../../utils/configuration/general.configuration
+export UTILS_DIR_BIN=${USBDEVICE_ROOT}/../../utils/bin
+export UTILS_DIR_HANDLERS=${USBDEVICE_ROOT}/../../utils/handlers
+export DD_IF=/dev/urandom
+export count=1
+export processor=1
+export LOCAL_EXECUTION_TIMES=1
+export LOCAL_TIME_TO_WAIT=10
+export LOCAL_IRQ_NUMBER=92
+
+# USB Specific directories
+export MODULES_STORAGE=${USBDEVICE_ROOT}
+export RESULTS_STORAGE=${TMPBASE}
+export USB_DEVFS_ENTRY=/dev/sdb
+export USB_DEVFS_PARTITION=/dev/sdb1
+export USB_MOUNTPOINT_PATH=/mnt/usb
+
+#PATHS
+export DPM_SCRIPT=${USBDEVICE_DIR_HELPER}/dpm_test_8x.bash
+export MISC_PATH=${USBDEVICE_ROOT}/misc
+export SSH_PATH=${MISC_PATH}/id_rsa
+export KEY_PATH=${UTILBIN}
 
 #USB
 #Common
@@ -40,68 +58,40 @@ export DELAY1=3
 export DELAY2=5
 export DELAY3=7
 export DELAY4=10
-export DELAY5=20
-export DELAYEXT=20
+export DELAY5=30
+export DELAYEXT=50
+export DELAYMAX=30
 export ENUM_COMM=/proc/bus/usb/devices
-export PROC_INT=/proc/driver/musb_hdrc
+export MODE=/sys/devices/platform/musb_hdrc/mode 
+export MODE1=/sys/devices/platform/musb_hdrc.0/mode 
+export NET_INTERFACE=/proc/net/dev
 export SLEEP_STATE=/sys/power/state
-#export SYSFS_MENTORNODE=/sys/devices/platform/musb_hdrc.0/power/state
-#export SYSFS_OHCINODE=/sys/devices/platform/ohci/power/state
-#export SUSPEND="3"
-#export RESUME="0"
-export USB_DRIVER="MENTOR"
-#export SLOW_FREQ='s\n0\n'
-#export FAST_FREQ='f\n0\n'
-#export SWITCH_FREQ='6\n0\n'
-#export SWITCH_FREQS='9\n1\n6\n0\n'
-#export SYSTEM_SUSPEND='4\n0\n'
 
-#PATHS
-export SCRIPT_PATH=${pwd}
-export MODULE_PATH=${TESTMODS}
-export DPM_SCRIPT=${TESTSCRIPT}/dpm_test_8x.bash
-export MISC_PATH=${TESTROOT}/misc
-export SSH_PATH=${MISC_PATH}/id_rsa
-export KEY_PATH=${UTILBIN}
-##########################################
+# handler.ram.drive..sh
+export RAMDRIVE_PATH=/mnt/ramdrive
+export RAMDRIVE_SIZE=200M
 
-##Host
+# Dummy File
+export DUMMY_FILE_NAME=temp.file
 
-## Enumeration
-export BUS="01"
-## Mass storage
-export MASS_DIRECTORY=${MISC_PATH}/mass_storage
-export MASS_FILE=6m #uImage18.5_HSHOST #6m
-## Serial adapter
-export SERIAL_FILE_HOST=${MISC_PATH}/file.txt
-export SERIAL_FILE_CLIENT=$REMOTE_PATH/ls.txt
-## Ethernet adapter
-export LOCAL_IP=10.87.230.232
-export ETH1_IP=10.87.230.244
-## HID
-export HID_NODE=/dev/event1
-##########################################
+# USB Host Specific Variables
+export USBDEVICE_DIR_MODULES=${USBDEVICE_ROOT}/../modules
 
 ##Device
 export REMOTE_PATH=/data/utilities/usb
 export REMOTE_IP=10.87.230.75
+export REMOTE_USER=root
 ###File storage gadget
 export GADGET_ST_FILE=OMAPonLinuxPC
-export GADGET_ST_NODE=/dev/sdc
-export GADGET_PROC=/proc/scsi/scsi
+export GADGET_ST_NODE=/dev/sdb
 ### Ethernet gadget
-export GADGET_IP=192.168.0.7
-export HOST_IP=192.168.0.77
-export NETMASK_IP=255.255.255.0
+export GADGET_IP=128.247.77.13
+export HOST_IP=128.247.76.46
+export NETMASK_IP=255.255.254.0
 
-##########################################
-
-# 23.x
-##Device
-###File storage gadget
-export VFAT_FILE=${MISC_PATH}/vfat-4M
-export VEXT_FILE=${MISC_PATH}/file_ext2_4Mb
 ##OTG
-export HOST_MODE="Host"
-export PERIPHERAL_MODE="Peripheral"
-export QUEUE_EMPTY="ep1"
+export HOST_MODE="host"
+export PERIPHERAL_MODE="peripheral"
+export QUEUE_EMPTY="idle"
+
+# End of file

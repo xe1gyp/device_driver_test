@@ -1,24 +1,17 @@
-Compile Instructions
---------------------
-1. Clean the environment.
-   Perform 'make clean'. This will erase all files and directories created during previous compilation.
-2. Install.
-   Perform 'make KDIR='kernel directory' CROSS_COMPILE='compiler prefix''
-   For 23.x Program
-      * KDIR=/vobs/wtbu/OMAPSW_L/linux/kernel_org/2.6_kernel
-      * CROSS_COMPILE=arm-nonel-linux-gnueabi-
-
 
 Testsuite execution
 -------------------
 1. Go to 'scripts' subdirectory inside the testsuite directory.
-2. Execute the main script:
-	test_runner.sh -p 'scenario_id'
+2. Open conf.sh and modifiy the following ambient variables:
+        export REMOTE_USER=<linuxPCUser>
+        export REMOTE_IP=<linuxPCIP>
+3. Copy your modules in the ${USBDEVICE_ROOT}/../modules path.
+4. Execute the main script:
+        test_runner.sh -p 'scenario_id'
    * The scenarios IDs can be found under script/scenarios/
-3. Results will be reported showing Scenario-TestCase IDs and the result of each test.
+5. Results will be reported showing Scenario-TestCase IDs and the result of each test.
    * 0 - Successful
    * Any other value different of 0 - Failure
-
 
 Requirements
 ------------
@@ -33,107 +26,32 @@ The file system on which the testsuite is going to be executed needs to have the
 Notes
 -----
 
-Creating a 4 Mb file:
+
+Creating a 50 Mb file: 
 ---------------------
 
-1) In the filesystem for the OMAP Device, create a file to use as the mass
-   storage, the following creates a 4MB file:
+For the scenario  L_DD_USB_Device_0005_0001 | Functional Test: Gadget File Storage: Linux PC Host
+we are creating a 20Mb file to use as the mass storage under the handlerUsbDeviceSetup.sh script, 
+if we are interested in create a bigger than file we can change the value on this line:
 
-	$dd if=/dev/zero of=vfat_4MBeta bs=1M count=4
-	4+0 records in
-	4+0 records out
-	4194304 bytes (4.2 MB) copied, 0.0207035 s, 203 MB/s
+dd if=/dev/urandom of=/mnt/ramdrive/usb.ext2.temporal.file bs=1M count=50
 
-2) Create a filesystem on the backing_file_ext2.
+We need increase o decrease the value in the count variable, on this case we are creating a 50Mb file.
 
-	$mkfs.vfat vfat_4MBeta
-	mkfs.vfat 2.11 (12 Mar 2005)
-
-
-
-1) Creat a 4 Mb back file:
-	$dd if=/dev/zero of=vfat_4M bs=1M count=4
-	4+0 records in
-	4+0 records out
-	4194304 bytes (4.2 MB) copied, 0.0293511 s, 143 MB/s
-
-2) Give a fat32 partition to the back file:
-	$fdisk vfat_4M
-	Device contains neither a valid DOS partition table, nor Sun, SGI or OSF disklabel
-	Building a new DOS disklabel with disk identifier 0xa4e0c663.
-	Changes will remain in memory only, until you decide to write them.
-	After that, of course, the previous content won't be recoverable.
-
-	You must set cylinders.
-	You can do this from the extra functions menu.
-	Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)
-
-	Command (m for help): x
-
-	Expert command (m for help): s
-	Number of sectors (1-63, default 63): 8
-	Warning: setting sector offset for DOS compatiblity
-
-	Expert command (m for help): h
-	Number of heads (1-256, default 255): 1
-
-	Expert command (m for help): c
-	Number of cylinders (1-1048576): 1024
-
-	Expert command (m for help): r
-
-	Command (m for help): n
-	Command action
-	   e   extended
-	   p   primary partition (1-4)
-	p
-	Partition number (1-4): 1
-	First cylinder (2-1024, default 2): 2
-	Last cylinder or +size or +sizeM or +sizeK (2-1024, default 1024):
-	Using default value 1024
-
-	Command (m for help): t
-	Selected partition 1
-	Hex code (type L to list codes): b
-	Changed system type of partition 1 to b (W95 FAT32)
-
-	Command (m for help): p
-
-	Disk vfat_4M: 0 MB, 0 bytes
-	1 heads, 8 sectors/track, 1024 cylinders
-	Units = cylinders of 8 * 512 = 4096 bytes
-	Disk identifier: 0xa4e0c663
-
-	  Device Boot      Start         End      Blocks   Id  System
-	vfat_4M1               2        1024        4092    b  W95 FAT32
-
-	Command (m for help): w
-	The partition table has been altered!
-
-	Calling ioctl() to re-read partition table.
-
-	WARNING: Re-reading the partition table failed with error 25: Inappropriate ioctl for device.
-	The kernel still uses the old table.
-	The new table will be used at the next reboot.
-
-	WARNING: If you have created or modified any DOS 6.x
-	partitions, please see the fdisk manual page for additional
-	information.
-	Syncing disks.
 
 Creating the id_rsa for set up passphrase authentication:
 ---------------------------------------------------------
-
    On the OMAP:
 
 1. Make sure you have SSH installed on your filesystem.
 2. Make sure you have a directory named /root/.ssh on your filesystem.
-3. Run the command ssh-keygen -t rsa. By default, this will create files in
+3. Run the command ssh-keygen -t rsa*. By default, this will create files in
    /root/.ssh named id_rsa and id_rsa.pub.
    The file id_rsa contains your private key.
    The file id_rsa.pub is the corresponding public key.
    You will be prompted to enter a "passphrase" that is a text string,
    that you will use for passphrase authentication.
+4. Copy the id_rsa on the SSH_PATH
 
     On the remote machine that you want to access:
 
@@ -146,6 +64,10 @@ Creating the id_rsa for set up passphrase authentication:
 3. Log out of the remote machine. Now when you connect to the remote machine
    from the OMAP, SSH will prompt you for the passphrase.
 
+*In case of getting this error: -/bin/sh: ssh-keygen: not found. Go to /ssh and run
+./ssh-keygen -t rsa.
+
+
 Using testusb on the remote desktop:
 ------------------------------------
 
@@ -157,4 +79,30 @@ Using testusb on the remote desktop:
    directory where testusb is located on the remote PC (/data/utilities/usb).
    You can apply the patch that is located in the utils folder called
    testusb-onRemotePC.patch for this.
-4.
+
+
+STEPS FOR TEST ETHERNET USING A LINUX PC
+--------------------------------------
+
+Functional test for ethernet gadget using Linux PC host (CDC-ethernet).
+1) Load the ethernet gadget driver (compiled with RNDIS support, because CDC-ethernet works regardless of whether RNDIS is enabled or not) on the OMAP board:
+   insmod g_ether.ko
+2) Connect the OMAP board to the Linux PC host using a std-A to mini-B USB cable. Check enumeration by running:
+   cat /proc/bus/usb/devices
+3) Check that a new network interface (usb0) is created on the host PC by running: 
+  cat /proc/net/dev
+An entry for usb0 must be present.
+4) Now configure the host and device network interfaces using 'ifconfig' and add a route. We are assigning the address <IP_HOST> to the host and <IP_DEV> to the device. The netmask should be such that the host and device are able to see each other. For example, if IP_HOST=128.247.76.46 and IP_DEV=128.247.77.13, then netmask must be 255.255.254.0.
+On the host:
+   # ifconfig usb0 <IP_HOST> netmask <NETMASK>
+   # route add <IP_DEV> dev usb0 
+On the device: 
+   # ifconfig usb0 <IP_DEV> netmask <NETMASK>
+   # route add <IP_HOST> dev usb0
+5) Unplug the ethernet connection of the host PC from the network.
+6) On the host, run:
+   # ping <IP_DEV>
+7) On the device, run:
+   # ping <IP_HOST>
+
+Execute this test case using high speed as well as full speed hosts.

@@ -1,0 +1,48 @@
+###############################################################################
+# Scenario    : L_DD_USBDEVICE_0004_0001
+# Description : USB Device | SERIAL GADGET | Linux PC Host
+###############################################################################
+
+# Begin L_DD_USBDEVICE_0004_0001
+
+01	set -x; handlerUsbDeviceSetup.sh  "create" "serial"
+
+02	set -x; mknod /dev/ttyGS0 c 127 0 && exit 0 || exit 0
+
+03	set -x;	ls /dev/ttyGS0 && exit 0 || exit 0
+
+04	export MODULE="usbserial vendor=0x0525 product=0xa4a6";  $USBDEVICE_DIR_HELPER/enum.sh insertRemoteModule  &&  exit 0 || exit 1
+
+05	export MODULE="cdc-acm";  $USBDEVICE_DIR_HELPER/enum.sh insertRemoteModule  &&  exit 0 || exit 1
+
+06	export ENUM_INFO="Gadget"; echo -e "\n\n\t Checking for ${ENUM_INFO} enumeration on the Linux PC \n\n"  && $USBDEVICE_DIR_HELPER/enum.sh connectHostRemoteSusp  &&  exit 0 || exit
+
+07	export ENUM_INFO="usbserial"; echo -e "\n\n\t Checking for ${ENUM_INFO} enumeration on the Linux PC \n\n"  &&  $USBDEVICE_DIR_HELPER/enum.sh connectHostRemote &&  exit 0 || exit
+
+### From OMAP to Linux PC
+
+08	set -x; echo -e "\n\n\t Sending data from OMAP to LinuxPC \n (cat $MISC_PATH/file2send-OMAP > /dev/ttyGS0)&  sleep $DELAYMAX && exit 0 || exit 1
+
+09	set -x;	((ssh root@$REMOTE_IP -i $SSH_PATH 'cat /dev/ttyACM0') > $USBDEVICE_DIR_LOG/log.serial-OMAPSide)& sleep $DELAY3 && exit 0 || exit 1
+
+10 	set -x; cat $USBDEVICE_DIR_LOG/log.serial-OMAPSide &&  sleep $DELAY4  &&  exit 0 || exit 1
+
+### From Linux PC to OMAP
+
+11	echo -e "\n\n\t Sending data from LinuxPC to OMAP \n cat file2send-PC > /dev/ttyACM0 \n\n" &&  exit 0 || exit 1 
+
+12	set -x; ((cat /dev/ttyGS0)  &  (sleep $DELAY2 && ssh root@$REMOTE_IP -i $SSH_PATH  cat $REMOTE_PATH/file2send-PC) > $USBDEVICE_DIR_LOG/log.serial-PCSide)& sleep $DELAYMAX  &&  exit 0 || exit 1
+
+13	cat $USBDEVICE_DIR_LOG/log.serial-PCSide &&  sleep $DELAY4  &&  exit 0 || exit 1
+
+14	cat $USBDEVICE_DIR_LOG/log.serial-PCSide | grep "send it by the the Linux PC to the OMAP"  &&  echo -e "\n\n\t Message from Linux PC was successfully received on the OMAP \n\n"  &&  rm -rf $USBDEVICE_DIR_LOG/log.serial-PCSide  &&  sleep $DELAY1 &&  exit 0  || exit 1
+
+15	echo -e '\n\n\t Linux PC: Removing usbserialmodule. \n\n'  &&  export MODULE="usbserial"  &&  $USBDEVICE_DIR_HELPER/enum.sh removeRemoteModule  && exit 0 || exit 1
+
+16	echo -e '\n\n\t Linux PC: Removing cdc-acm module. \n\n'  &&  export MODULE="cdc-acm"  &&  $USBDEVICE_DIR_HELPER/enum.sh removeRemoteModule  && exit 0 || exit 1
+
+17	set -x; handlerUsbDeviceSetup.sh  "remove" "serial"
+
+# End L_DD_USBDEVICE_0004_0001
+
+

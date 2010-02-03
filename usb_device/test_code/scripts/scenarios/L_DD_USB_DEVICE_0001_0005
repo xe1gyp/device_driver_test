@@ -1,0 +1,19 @@
+###############################################################################
+# Scenario    : L_DD_USB_Device_0001_0005a
+# Description : Enumeration: Standard Host: Gadget Android (Cold Plugging)
+# Filesystem  : Android
+###############################################################################
+
+# Compile Gadget Android Statically in the kernel
+
+01	set -x; export ENUM_INFO="Android"; echo -e '\n\n\t Keep USB cable plugged in during kernel boot-up \n\n'  &&  sleep $DELAY3  &&  $USBDEVICE_DIR_HELPER/enum.sh connectHostRemote  &&  exit 0 || exit 1
+02	set -x; echo -e '\n\n\t Verify
+03	set -x; export ENUM_INFO="Android"; echo -e '\n\n\t Disconnect USB cable from OMAP, icon should disappear\n\n'  &&  sleep $DELAY3 && $USBDEVICE_DIR_HELPER/enum.sh	disconnectHostRemote  &&  exit 0 || exit
+04	set -x; echo -e '\n\n\t Please connect cable. [ MiniB to OMAP - StdA to Linux PC ] Icon should appear again. \n\n'  &&  sleep $DELAY3  &&  $USBDEVICE_DIR_HELPER/enum.sh connectHost  &&  exit 0 || exit 1
+05	set -x; export ENUM_INFO="Android"; $USBDEVICE_DIR_HELPER/enum.sh connectHostRemote  &&  exit 0 || exit 1
+06	set -x; echo -e '\n\n\t Reboot the omap, without the USB cable attached and continuous with the scenario L_DD_USB_Device_0001_0005b n\n'  &&  sleep $DELAY3  &&  exit 0 || exit 1
+
+# End L_DD_USB_Device_0001_0005a
+
+
+
