@@ -1,0 +1,15 @@
+##############################################################################
+# Scenario: L_DD_GPIO_0000_0001
+# Author  : Cristopherson Torres
+# Date    : 02 Frebuary 2010
+# Description: Specifications
+# L_DD_GPIO_0000_0001: GPIO driver shall support all the GPIO hardware
+# modules available.
+##############################################################################
+
+# Begin L_DD_GPIO_0000_0001
+
+0001 set -x; $UTILSCRIPTS/filesystemtype.sh && exit 0 || exit 1
+0002 set -x; cat $TMPBASE/result.tmp | grep -i "twl4030: gpio" && exit 0 || exit 1
+
+# End L_DD_GPIO_0000_0001
