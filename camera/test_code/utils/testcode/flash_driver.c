@@ -14,8 +14,6 @@
 #include <errno.h>
 #include <linux/videodev2.h>
 
-#define V4L2_CID_FLASH_STROBE			(V4L2_CID_CAMERA_CLASS_BASE+17)
-#define V4L2_CID_FLASH_TIMEOUT			(V4L2_CID_CAMERA_CLASS_BASE+18)
 #define V4L2_CID_FLASH_TORCH_INTENSITY		(V4L2_CID_CAMERA_CLASS_BASE+19)
 
 int main(void)
