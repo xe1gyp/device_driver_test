@@ -3,7 +3,7 @@
 # Author  : Cristopherson Torres
 # Date    : 29 October 2009
 # Description: Audio driver shall support configuration of the
-# 	audio codec for the channel type - mono,stereo
+# audio codec for the channel type - mono,stereo
 ##############################################################################
 
 # Begin L_DD_AUDIO-ALSA_0201_0005
@@ -14,6 +14,6 @@
 04 set -x; $AMIXER cset numid=37 2 && exit 0 || exit 1
 05 set -x; $AMIXER cset numid=7 18 && exit 0 || exit 1
 06 set -x; $APLAY -c 1 $MONO_AUDIO_FILE && exit 0 || exit 1
-08 set -x; $APLAY -c 2 $STEREO_AUDIO_FILE"11025.wav" && exit 0 || exit 1
+07 set -x; $APLAY -c 2 $STEREO_AUDIO_FILE"11025.wav" && exit 0 || exit 1
 
 # End L_DD_AUDIO-ALSA_0201_0005

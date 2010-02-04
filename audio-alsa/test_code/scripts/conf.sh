@@ -24,31 +24,11 @@ export UTILBIN=${TESTROOT}/../../utils/bin
 export UTILSCRIPTS=${TESTROOT}/../../utils/scripts
 
 # Audio files path
-export DEFAULT_INPUT_SOURCE="Mic_Headset"
-export DEFAULT_INPUT_VOLUME=100
-export DEFAULT_CAPTURE_TIME=5
-export DEFAULT_CAPTURE_RATE=48000
-export DEFAULT_CAPTURE_CHANNELS="Stereo"
-
-export DEFAULT_OUTPUT_SOURCE="Stereo_Headset"
-export DEFAULT_OUTPUT_VOLUME=100
-export DEFAULT_PLAYBACK_CHANNELS="Stereo"
-
-export DEFAULT_CAPTURE="Capture"
-export DEFAULT_PLAYBACK="Playback"
-export DEFAULT_PLAYBACK_CAPTURE="PlaybackCapture"
-
 export MONO_AUDIO_FILE="$TESTSCRIPT/audio-samples/rainbow_mono.wav"
 export STEREO_AUDIO_FILE="$TESTSCRIPT/audio-samples/beethoven_"
-
 export GENERIC_MONO_AUDIO_FILE="$TESTSCRIPT/audio-samples/rainbow_mono.wav"
-export GENERIC_MONO_SAMPLE_RATE=22050
-
-export GENERIC_STEREO_AUDIO_FILE="$TESTSCRIPT/audio-samples/beat_stereo.wav"
-export GENERIC_STEREO_SAMPLE_RATE=44100
-
-export TEST_RECORD_MONO_FILE="$TMPBASE/record_mono_file.wav"
 export TEST_RECORD_STEREO_FILE="$TMPBASE/record_stereo_file.wav"
+export RECORD_FILE="$TMPBASE/filename_rec.wav"
 
 export AMIXER=alsa_amixer
 export APLAY=alsa_aplay

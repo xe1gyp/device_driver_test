@@ -3,7 +3,7 @@
 # Author  : Cristopherson Torres
 # Date    : 29 October 2009
 # Description: Audio driver shall support configuration
-#	of the audio codec device in play mode
+# of the audio codec device in play mode
 ##############################################################################
 
 # Begin L_DD_AUDIO-ALSA_0201_0002
