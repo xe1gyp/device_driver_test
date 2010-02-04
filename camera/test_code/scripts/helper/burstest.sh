@@ -27,6 +27,10 @@ if [ "$SIZE" = "2592 1944" ]; then
   FNAME="${TMPBASE}/5MPbm.yuv"
 fi
 
+if [ "$SIZE" = "1280 720" ]; then
+  FNAME="${TMPBASE}/1280x720.yuv"
+fi
+
 if [ "$SIZE" = "864 656" ]; then
   FNAME="${TMPBASE}/864_656bm.yuv"
 fi
