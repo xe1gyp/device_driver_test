@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<titan>
+
+<driverinformation>
+    <name>USB EHCI Power and Performance Low OPP</name>
+    <description>Power and Performance Test Suite</description>
+</driverinformation>
+
+</titan>

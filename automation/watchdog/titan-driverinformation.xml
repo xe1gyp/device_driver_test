@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<titan>
+
+<driverinformation>
+    <name>WATCHDOG</name>
+    <description>Tests suites for WATCHDOG</description>
+</driverinformation>
+
+</titan>

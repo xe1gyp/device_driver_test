@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<titan>
+
+<driverinformation>
+    <name>TIMER-32K</name>
+    <description>Tests suites for TIMER-32K</description>
+</driverinformation>
+
+</titan>

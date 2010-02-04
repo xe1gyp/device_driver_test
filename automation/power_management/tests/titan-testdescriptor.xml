@@ -1,0 +1,549 @@
+<?xml version="1.0"?>
+<titan>
+    <test id="L_DD_Power_0001">
+        <information>
+            <autor>Misael Lopez Cruz</autor>
+            <description>0001 Tests that the system time is maintained with dynamic tick.0002 Test that the tick suppresion is happening</description>
+            <dateofcreation> 07/04/07 </dateofcreation>
+        </information>
+        <run>
+            <action>
+                <deviceundertest>reboot</deviceundertest>
+            </action>
+            <action>
+                <command>cd /testsuites/power_management/scripts/</command>
+            </action>
+            <action>
+                <command>./test_runner.sh L_DD_Power_0001</command>
+            </action>
+            <action>
+                <command>rm log.*</command>
+            </action>
+        </run>
+        <pass>
+            <output>
+                <value>stat=0</value>
+            </output>
+        </pass>
+        <fail>
+            <timeout time="1200"/>
+            <output>
+                <regularexpression>stat=[^0]\d*</regularexpression>
+            </output>
+        </fail>
+    </test>
+    <test id="L_DD_Power_0002">
+        <information>
+            <autor>Misael Lopez Cruz</autor>
+            <description>Test Clock Framework APIs, using clock_test.ko</description>
+            <dateofcreation> 07/04/07 </dateofcreation>
+        </information>
+        <run>
+            <action>
+                <deviceundertest>reboot</deviceundertest>
+            </action>
+            <action>
+                <command>cd /testsuites/power_management/scripts/</command>
+            </action>
+            <action>
+                <command>./test_runner.sh L_DD_Power_0002</command>
+            </action>
+            <action>
+                <command>rm log.*</command>
+            </action>
+        </run>
+        <pass>
+            <output>
+                <value>stat=0</value>
+            </output>
+        </pass>
+        <fail>
+            <timeout time="600"/>
+            <output>
+                <regularexpression>stat=[^0]\d*</regularexpression>
+            </output>
+        </fail>
+    </test>
+    <test id="L_DD_Power_0003">
+        <information>
+            <autor>Misael Lopez Cruz</autor>
+            <description>This tests use the prcm_test.ko module with the option 0x3F to run all possible options</description>
+            <dateofcreation> 07/04/07 </dateofcreation>
+        </information>
+        <run>
+            <action>
+                <deviceundertest>reboot</deviceundertest>
+            </action>
+            <action>
+                <command>cd /testsuites/power_management/scripts/</command>
+            </action>
+            <action>
+                <command>./test_runner.sh L_DD_Power_0003</command>
+            </action>
+            <action>
+                <command>rm log.*</command>
+            </action>
+        </run>
+        <pass>
+            <output>
+                <value>stat=0</value>
+            </output>
+        </pass>
+        <fail>
+            <timeout time="600"/>
+            <output>
+                <regularexpression>stat=[^0]\d*</regularexpression>
+            </output>
+        </fail>
+    </test>
+    <test id="L_DD_Power_0004">
+        <information>
+            <autor>Misael Lopez Cruz</autor>
+            <description>This tests verify the functionallity of the wait / suspend, turning off the LCD, and turning
+	on again when the LCD is touched or a key is pressed
+            </description>
+            <dateofcreation> 07/04/07 </dateofcreation>
+        </information>
+        <run>
+            <action>
+                <deviceundertest>reboot</deviceundertest>
+            </action>
+            <action>
+                <command>cd /testsuites/power_management/scripts/</command>
+            </action>
+            <action>
+                <command>./test_runner.sh L_DD_Power_0004</command>
+            </action>
+            <action>
+                <command>rm log.*</command>
+            </action>
+        </run>
+        <pass>
+            <output>
+                <value>stat=0</value>
+            </output>
+        </pass>
+        <fail>
+            <timeout time="600"/>
+            <output>
+                <regularexpression>stat=[^0]\d*</regularexpression>
+            </output>
+        </fail>
+    </test>
+    <test id="L_DD_Power_0005_0001">
+        <information>
+            <autor> Ricardo Perez Olivares </autor>
+            <description>Test for Shared Resource Framework  inserting the module resource_test.ko with opt1=0x1</description>
+            <dateofcreation> 08/02/08 </dateofcreation>
+        </information>
+        <run>
+            <action>
+                <deviceundertest>reboot</deviceundertest>
+            </action>
+            <action>
+                <command>cd /testsuites/power_management/scripts/</command>
+            </action>
+            <action>
+                <command>./test_runner.sh L_DD_Power_0005_0001</command>
+            </action>
+            <action>
+                <command>rm log.*</command>
+            </action>
+        </run>
+        <pass>
+            <output>
+                <value>stat=0</value>
+            </output>
+        </pass>
+        <fail>
+            <timeout time="600"/>
+            <output>
+                <regularexpression>stat=[^0]\d*</regularexpression>
+            </output>
+        </fail>
+    </test>
+    <test id="L_DD_Power_0005_0002">
+        <information>
+            <autor> Ricardo Perez Olivares </autor>
+            <description>Test for Shared Resource Framework  inserting the module resource_test.ko with opt1=0x2 and opt2 from 0x1 to 0x8</description>
+            <dateofcreation> 08/02/08 </dateofcreation>
+        </information>
+        <run>
+            <action>
+                <deviceundertest>reboot</deviceundertest>
+            </action>
+            <action>
+                <command>cd /testsuites/power_management/scripts/</command>
+            </action>
+            <action>
+                <command>./test_runner.sh L_DD_Power_0005_0002</command>
+            </action>
+            <action>
+                <command>rm log.*</command>
+            </action>
+        </run>
+        <pass>
+            <output>
+                <value>stat=0</value>
+            </output>
+        </pass>
+        <fail>
+            <timeout time="600"/>
+            <output>
+                <regularexpression>stat=[^0]\d*</regularexpression>
+            </output>
+        </fail>
+    </test>
+    <test id="L_DD_Power_0005_0003">
+        <information>
+            <autor> Ricardo Perez Olivares </autor>
+            <description>Test for Shared Resource Framework  inserting the module resource_test.ko with opt1=0x3 and opt2 from 0x1 to 0x8 </description>
+            <dateofcreation> 08/02/08 </dateofcreation>
+        </information>
+        <run>
+            <action>
+                <deviceundertest>reboot</deviceundertest>
+            </action>
+            <action>
+                <command>cd /testsuites/power_management/scripts/</command>
+            </action>
+            <action>
+                <command>./test_runner.sh L_DD_Power_0005_0003</command>
+            </action>
+            <action>
+                <command>rm log.*</command>
+            </action>
+        </run>
+        <pass>
+            <output>
+                <value>stat=0</value>
+            </output>
+        </pass>
+        <fail>
+            <timeout time="600"/>
+            <output>
+                <regularexpression>stat=[^0]\d*</regularexpression>
+            </output>
+        </fail>
+    </test>
+    <test id="L_DD_Power_0005_0004">
+        <information>
+            <autor> Ricardo Perez Olivares </autor>
+            <description>Test for Shared Resource Framework</description>
+            <dateofcreation> 08/02/08 </dateofcreation>
+        </information>
+        <run>
+            <action>
+                <deviceundertest>reboot</deviceundertest>
+            </action>
+            <action>
+                <command>cd /testsuites/power_management/scripts/</command>
+            </action>
+            <action>
+                <command>./test_runner.sh L_DD_Power_0005_0004</command>
+            </action>
+            <action>
+                <command>rm log.*</command>
+            </action>
+        </run>
+        <pass>
+            <output>
+                <value>stat=0</value>
+            </output>
+        </pass>
+        <fail>
+            <timeout time="600"/>
+            <output>
+                <regularexpression>stat=[^0]\d*</regularexpression>
+            </output>
+        </fail>
+    </test>
+    <test id="L_DD_Power_0006_001a">
+        <information>
+            <autor> Ricardo Perez Olivares </autor>
+            <description>Test for OPP Constraints Framework</description>
+            <dateofcreation> 08/02/08 </dateofcreation>
+        </information>
+        <run>
+            <action>
+                <deviceundertest>reboot</deviceundertest>
+            </action>
+            <action>
+                <command>cd /testsuites/power_management/scripts/</command>
+            </action>
+            <action>
+                <command>./test_runner.sh L_DD_Power_0006_001a</command>
+            </action>
+            <action>
+                <command>rm log.*</command>
+            </action>
+        </run>
+        <pass>
+            <output>
+                <value>stat=0</value>
+            </output>
+        </pass>
+        <fail>
+            <timeout time="600"/>
+            <output>
+                <regularexpression>stat=[^0]\d*</regularexpression>
+            </output>
+        </fail>
+    </test>
+    <test id="L_DD_Power_0006_001b">
+        <information>
+            <autor> Ricardo Perez Olivares </autor>
+            <description>Test for OPP Constraints Framework</description>
+            <dateofcreation> 08/02/08 </dateofcreation>
+        </information>
+        <run>
+            <action>
+                <deviceundertest>reboot</deviceundertest>
+            </action>
+            <action>
+                <command>cd /testsuites/power_management/scripts/</command>
+            </action>
+            <action>
+                <command>./test_runner.sh L_DD_Power_0006_001b</command>
+            </action>
+            <action>
+                <command>rm log.*</command>
+            </action>
+        </run>
+        <pass>
+            <output>
+                <value>stat=0</value>
+            </output>
+        </pass>
+        <fail>
+            <timeout time="600"/>
+            <output>
+                <regularexpression>stat=[^0]\d*</regularexpression>
+            </output>
+        </fail>
+    </test>
+    <test id="L_DD_Power_0006_001c">
+        <information>
+            <autor> Ricardo Perez Olivares </autor>
+            <description>Test for OPP Constraints Framework</description>
+            <dateofcreation> 08/02/08 </dateofcreation>
+        </information>
+        <run>
+            <action>
+                <deviceundertest>reboot</deviceundertest>
+            </action>
+            <action>
+                <command>cd /testsuites/power_management/scripts/</command>
+            </action>
+            <action>
+                <command>./test_runner.sh L_DD_Power_0006_001c</command>
+            </action>
+            <action>
+                <command>rm log.*</command>
+            </action>
+        </run>
+        <pass>
+            <output>
+                <value>stat=0</value>
+            </output>
+        </pass>
+        <fail>
+            <timeout time="600"/>
+            <output>
+                <regularexpression>stat=[^0]\d*</regularexpression>
+            </output>
+        </fail>
+    </test>
+    <test id="L_DD_Power_0006_001d">
+        <information>
+            <autor> Ricardo Perez Olivares </autor>
+            <description>Test for OPP Constraints Framework</description>
+            <dateofcreation> 08/02/08 </dateofcreation>
+        </information>
+        <run>
+            <action>
+                <deviceundertest>reboot</deviceundertest>
+            </action>
+            <action>
+                <command>cd /testsuites/power_management/scripts/</command>
+            </action>
+            <action>
+                <command>./test_runner.sh L_DD_Power_0006_001d</command>
+            </action>
+            <action>
+                <command>rm log.*</command>
+            </action>
+        </run>
+        <pass>
+            <output>
+                <value>stat=0</value>
+            </output>
+        </pass>
+        <fail>
+            <timeout time="600"/>
+            <output>
+                <regularexpression>stat=[^0]\d*</regularexpression>
+            </output>
+        </fail>
+    </test>
+    <test id="L_DD_Power_0006_001e">
+        <information>
+            <autor> Ricardo Perez Olivares </autor>
+            <description>Test for OPP Constraints Framework</description>
+            <dateofcreation> 08/02/08 </dateofcreation>
+        </information>
+        <run>
+            <action>
+                <deviceundertest>reboot</deviceundertest>
+            </action>
+            <action>
+                <command>cd /testsuites/power_management/scripts/</command>
+            </action>
+            <action>
+                <command>./test_runner.sh L_DD_Power_0006_001e</command>
+            </action>
+            <action>
+                <command>rm log.*</command>
+            </action>
+        </run>
+        <pass>
+            <output>
+                <value>stat=0</value>
+            </output>
+        </pass>
+        <fail>
+            <timeout time="600"/>
+            <output>
+                <regularexpression>stat=[^0]\d*</regularexpression>
+            </output>
+        </fail>
+    </test>
+    <test id="L_DD_Power_0006_002a">
+        <information>
+            <autor> Ricardo Perez Olivares </autor>
+            <description>Test for OPP Constraints Framework</description>
+            <dateofcreation> 08/02/08 </dateofcreation>
+        </information>
+        <run>
+            <action>
+                <deviceundertest>reboot</deviceundertest>
+            </action>
+            <action>
+                <command>cd /testsuites/power_management/scripts/</command>
+            </action>
+            <action>
+                <command>./test_runner.sh L_DD_Power_0006_002a</command>
+            </action>
+            <action>
+                <command>rm log.*</command>
+            </action>
+        </run>
+        <pass>
+            <output>
+                <value>stat=0</value>
+            </output>
+        </pass>
+        <fail>
+            <timeout time="600"/>
+            <output>
+                <regularexpression>stat=[^0]\d*</regularexpression>
+            </output>
+        </fail>
+    </test>
+    <test id="L_DD_Power_0006_002b">
+        <information>
+            <autor> Ricardo Perez Olivares </autor>
+            <description>Test for OPP Constraints Framework</description>
+            <dateofcreation> 08/02/08 </dateofcreation>
+        </information>
+        <run>
+            <action>
+                <deviceundertest>reboot</deviceundertest>
+            </action>
+            <action>
+                <command>cd /testsuites/power_management/scripts/</command>
+            </action>
+            <action>
+                <command>./test_runner.sh L_DD_Power_0006_002b</command>
+            </action>
+            <action>
+                <command>rm log.*</command>
+            </action>
+        </run>
+        <pass>
+            <output>
+                <value>stat=0</value>
+            </output>
+        </pass>
+        <fail>
+            <timeout time="600"/>
+            <output>
+                <regularexpression>stat=[^0]\d*</regularexpression>
+            </output>
+        </fail>
+    </test>
+    <test id="L_DD_Power_0006_0003">
+        <information>
+            <autor> Ricardo Perez Olivares </autor>
+            <description>Test for OPP Constraints Framework</description>
+            <dateofcreation> 08/02/08 </dateofcreation>
+        </information>
+        <run>
+            <action>
+                <deviceundertest>reboot</deviceundertest>
+            </action>
+            <action>
+                <command>cd /testsuites/power_management/scripts/</command>
+            </action>
+            <action>
+                <command>./test_runner.sh L_DD_Power_0006_0003</command>
+            </action>
+            <action>
+                <command>rm log.*</command>
+            </action>
+        </run>
+        <pass>
+            <output>
+                <value>stat=0</value>
+            </output>
+        </pass>
+        <fail>
+            <timeout time="600"/>
+            <output>
+                <regularexpression>stat=[^0]\d*</regularexpression>
+            </output>
+        </fail>
+    </test>
+    <test id="L_DD_Power_0006_0004">
+        <information>
+            <autor> Ricardo Perez Olivares </autor>
+            <description>Test for OPP Constraints Framework</description>
+            <dateofcreation> 08/02/08 </dateofcreation>
+        </information>
+        <run>
+            <action>
+                <deviceundertest>reboot</deviceundertest>
+            </action>
+            <action>
+                <command>cd /testsuites/power_management/scripts/</command>
+            </action>
+            <action>
+                <command>./test_runner.sh L_DD_Power_0006_0004</command>
+            </action>
+            <action>
+                <command>rm log.*</command>
+            </action>
+        </run>
+        <pass>
+            <output>
+                <value>stat=0</value>
+            </output>
+        </pass>
+        <fail>
+            <timeout time="600"/>
+            <output>
+                <regularexpression>stat=[^0]\d*</regularexpression>
+            </output>
+        </fail>
+    </test>
+</titan>

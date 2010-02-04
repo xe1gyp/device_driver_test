@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<titan>
+
+<driverinformation>
+    <name>NAND</name>
+    <description>Tests suites for NAND</description>
+</driverinformation>
+
+</titan>

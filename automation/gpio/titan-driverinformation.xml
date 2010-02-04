@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<titan>
+
+<driverinformation>
+    <name>GPIO</name>
+    <description>Tests suites for GPIO</description>
+</driverinformation>
+
+</titan>

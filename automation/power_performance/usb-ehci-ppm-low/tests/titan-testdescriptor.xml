@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<titan>
+
+<test id="L_PP_LOW_USB_EHCI_0001">
+<information>
+<autor> Erandi Chavolla Ugarte</autor>
+<description> USB PPM (Buffer Test) Input/Output </description>
+<dateofcreation> 13/11/2008 </dateofcreation>
+</information>
+
+<run>
+
+  <!-- The followings commands are executed under the PC -->
+
+	<action>
+		<!-- Setup Linux PC as device, insert required modules -->
+		<localmachine>/data/utilities/ppcTitanExpV10/tmp_usb/handlerUsbDevice.sh "insert" "device" "buffer"</localmachine>
+	</action>
+
+  <!-- The followings commands are executed under OMAP -->
+
+  <!-- Set up omap governor to performance -->
+	<action>
+    <command>echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor</command>
+  </action>
+  <action>
+    <command>sleep 5</command>
+  </action>
+
+	<!-- Run scenario -->
+  <action>
+      <command>/testsuites/power_and_performance/ehci/scripts/test_runner.sh L_PP_USB_EHCI_0001</command>
+  </action>
+
+  <!-- The followings commands are executed under the PC -->
+	<action>
+		<!-- Setup Linux PC as device, insert required modules -->
+		<localmachine>/data/utilities/ppcTitanExpV10/tmp_usb/handlerUsbDevice.sh "remove" "device"</localmachine>
+	</action>
+
+</run>
+
+<!-- Pass Criteria -->
+<pass>
+	<output>
+		<value>stat=0</value>
+	</output>
+</pass>
+
+<!-- Fail Criteria -->
+<fail>
+	<timeout time="600"/>
+	<output>
+		<regularexpression>stat=[^0]\d*</regularexpression>
+	</output>
+</fail>
+
+</test>
+
+<test id="L_PP_LOW_USB_EHCI_0002">
+<information>
+<autor> Erandi Chavolla Ugarte</autor>
+<description> USB PPM (File Test) Input/Output </description>
+<dateofcreation> 13/11/2008 </dateofcreation>
+</information>
+
+<run>
+
+  <!-- The followings commands are executed under the PC -->
+
+	<action>
+		<!-- Setup Linux PC as device, insert required modules -->
+		<localmachine>/data/utilities/ppcTitanExpV10/tmp_usb/handlerUsbDevice.sh "insert" "device" "file"</localmachine>
+	</action>
+
+  <!-- The followings commands are executed under OMAP -->
+
+  <!-- Set up omap governor to performance -->
+	<action>
+    <command>echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor</command>
+  </action>
+  <action>
+    <command>sleep 5</command>
+  </action>
+
+	<!-- Run scenario -->
+  <action>
+      <command>/testsuites/power_and_performance/ehci/scripts/test_runner.sh L_PP_USB_EHCI_0002</command>
+  </action>
+
+  <!-- The followings commands are executed under the PC -->
+	<action>
+		<!-- Setup Linux PC as device, insert required modules -->
+		<localmachine>/data/utilities/ppcTitanExpV10/tmp_usb/handlerUsbDevice.sh "remove" "device"</localmachine>
+	</action>
+
+</run>
+
+<!-- Pass Criteria -->
+<pass>
+	<output>
+		<value>stat=0</value>
+	</output>
+</pass>
+
+<!-- Fail Criteria -->
+<fail>
+	<timeout time="600"/>
+	<output>
+		<regularexpression>stat=[^0]\d*</regularexpression>
+	</output>
+</fail>
+
+</test>
+
+</titan>

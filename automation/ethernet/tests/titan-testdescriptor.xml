@@ -1,0 +1,195 @@
+<?xml version="1.0"?> 
+<titan> 
+
+<test id="L_DD_ETHERNET_0000_0001">
+
+ <information> 
+  <autor> Benjamin Mejia </autor> 
+  <description> Ethernet driver shall support onboard Standard Microsystems Corporation (SMSC) LAN91C96 - TQFP Lan controller </description>
+  <dateofcreation> 03/25/2008 </dateofcreation> 
+ </information> 
+
+ <run> 
+  <action> 
+    <command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0000_0001</command>
+  </action>
+  <action>
+    <command>rm /testsuites/ethernet/scripts/log.*</command>
+  </action> 
+ </run>
+
+ <pass>
+	<timeout time="60"/>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="L_DD_ETHERNET_0001_0001">
+
+ <information>
+  <autor> Benjamin Mejia </autor>
+  <description> Ethernet driver shall be able to report statistical information </description>
+  <dateofcreation> 03/25/2008 </dateofcreation>
+ </information>
+
+ <run>
+  <action>
+    <command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0001_0001</command>
+  </action>
+  <action>  
+    <command>rm /testsuites/ethernet/scripts/log.*</command>
+  </action> 
+ </run> 
+  
+ <pass> 
+  <output> 
+    <value>stat=0</value> 
+  </output> 
+ </pass> 
+  
+ <fail> 
+  <timeout time="60"/>
+  <output> 
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output> 
+ </fail>
+  
+</test>
+
+<test id="L_DD_ETHERNET_0001_0002"> 
+
+ <information> 
+  <autor> Benjamin Mejia </autor> 
+  <description> Ethernet driver shall allocate the resource IRQ properly. IRQ number shall be present under /proc/interrupts and ifconfig output </description>
+  <dateofcreation> 03/25/2008 </dateofcreation> 
+ </information> 
+
+ <run> 
+  <action> 
+    <command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0001_0002</command>
+  </action>
+  <action>  
+    <command>rm /testsuites/ethernet/scripts/log.*</command>
+  </action> 
+ </run> 
+  
+ <pass> 
+  <output> 
+    <value>stat=0</value> 
+  </output> 
+ </pass> 
+  
+ <fail> 
+  <output> 
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output> 
+ </fail>
+  
+</test>
+
+<test id="L_DD_ETHERNET_0001_0003"> 
+
+ <information> 
+  <autor> Benjamin Mejia </autor> 
+  <description> Ethernet driver shall be able to support the setting of the interface to promiscuous mode </description>
+  <dateofcreation> 03/25/2008 </dateofcreation> 
+ </information> 
+
+ <run> 
+  <action> 
+    <command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0001_0003</command>
+  </action>
+  <action>  
+    <command>rm /testsuites/ethernet/scripts/log.*</command>
+  </action> 
+ </run> 
+  
+ <pass> 
+  <output> 
+    <value>stat=0</value> 
+  </output> 
+ </pass> 
+  
+ <fail>
+	<timeout time="60"/>
+  <output> 
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output> 
+ </fail>
+  
+</test>
+
+<test id="L_DD_ETHERNET_0001_0004"> 
+
+ <information> 
+  <autor> Benjamin Mejia </autor> 
+  <description> Ethernet driver shall support changing of the MTU </description>
+  <dateofcreation> 03/25/2008 </dateofcreation> 
+ </information> 
+
+ <run> 
+  <action> 
+    <command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0001_0004</command>
+  </action>
+  <action>  
+    <command>rm /testsuites/ethernet/scripts/log.*</command>
+  </action> 
+ </run> 
+  
+ <pass> 
+  <output> 
+    <value>stat=0</value> 
+  </output> 
+ </pass> 
+  
+ <fail>
+	<timeout time="180"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output> 
+ </fail>
+  
+</test>
+
+<test id="L_DD_ETHERNET_0002_0001">
+
+ <information> 
+  <autor> Benjamin Mejia </autor> 
+  <description> Ethernet driver shall be able to send and receive ICMP using ping utility </description>
+  <dateofcreation> 03/25/2008 </dateofcreation> 
+ </information> 
+
+ <run> 
+  <action> 
+    <command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0002_0001</command>
+  </action>
+  <action>  
+    <command>rm /testsuites/ethernet/scripts/log.*</command>
+  </action> 
+ </run> 
+  
+ <pass> 
+  <output> 
+    <value>stat=0</value> 
+  </output> 
+ </pass> 
+  
+ <fail>
+	<timeout time="180"/>
+  <output> 
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output> 
+ </fail>
+  
+</test>
+
+</titan>

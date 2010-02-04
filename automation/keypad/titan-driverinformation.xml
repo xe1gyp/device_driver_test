@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<titan>
+
+<driverinformation>
+    <name>Keypad</name>
+    <description>Tests suites for Keypad</description>
+</driverinformation>
+
+</titan>

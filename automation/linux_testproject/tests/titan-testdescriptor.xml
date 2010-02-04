@@ -1,0 +1,568 @@
+<?xml version="1.0"?>
+<titan>
+
+<test id="01 Resource Management">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description>
+		Resource Management testing
+	</description>
+  <dateofcreation> 08/17/2008 </dateofcreation>
+ </information>
+
+ <run>
+	<action>
+		<deviceundertest>reboot</deviceundertest>
+	</action>
+  <action>
+      <command>rm /temp; rm /temp.failed</command>
+  </action>
+  <action>
+      <command>/ltp/runltp -l /temp -C /temp.failed -f controllers</command>
+  </action>
+  <action>
+      <command>cat /temp; cat /temp.failed</command>
+  </action>
+ </run>
+
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="600"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="02 Resource Namespaces">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description>
+		Resource Namespaces
+	</description>
+  <dateofcreation> 08/17/2008 </dateofcreation>
+ </information>
+
+ <run>
+  <action>
+		<deviceundertest>reboot</deviceundertest>
+	</action>
+  <action>
+      <command>rm /temp; rm /temp.failed</command>
+  </action>
+  <action>
+      <command>/ltp/runltp -l /temp -C /temp.failed -f containers</command>
+  </action>
+  <action>
+      <command>cat /temp; echo; cat /temp.failed</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="600"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="03 Crash Me">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description>
+		Utility to crash your machine
+	</description>
+  <dateofcreation> 08/17/2008 </dateofcreation>
+ </information>
+
+ <run>
+	<action>
+		<deviceundertest>reboot</deviceundertest>
+	</action>
+  <action>
+      <command>rm /temp; rm /temp.failed</command>
+  </action>
+  <action>
+      <command>/ltp/runltp -l /temp -C /temp.failed -f crashme</command>
+  </action>
+  <action>
+      <command>cat /temp; echo; cat /temp.failed</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="3600"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="04 Direct IO">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description>
+		Direct IO tests
+	</description>
+  <dateofcreation> 08/17/2008 </dateofcreation>
+ </information>
+
+ <run>
+	<action>
+		<deviceundertest>reboot</deviceundertest>
+	</action>
+  <action>
+      <command>rm /temp; rm /temp.failed</command>
+  </action>
+  <action>
+      <command>/ltp/runltp -l /temp -C /temp.failed -f dio</command>
+  </action>
+  <action>
+      <command>cat /temp; echo; cat /temp.failed</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="600"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="05 Filesystem Stress">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description>
+		Filesystem Stress Tests
+	</description>
+  <dateofcreation> 08/17/2008 </dateofcreation>
+ </information>
+
+ <run>
+	<action>
+		<deviceundertest>reboot</deviceundertest>
+	</action>
+  <action>
+      <command>rm /temp; rm /temp.failed</command>
+  </action>
+  <action>
+      <command>/ltp/runltp -l /temp -C /temp.failed -f fs</command>
+  </action>
+  <action>
+      <command>cat /temp; echo; cat /temp.failed</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="10800"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="06 Interprocess Communication Stress">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description>
+		Interprocess Communication Stress
+	</description>
+  <dateofcreation> 08/17/2008 </dateofcreation>
+ </information>
+
+ <run>
+	<action>
+		<deviceundertest>reboot</deviceundertest>
+	</action>
+  <action>
+      <command>rm /temp; rm /temp.failed</command>
+  </action>
+  <action>
+      <command>/ltp/runltp -l /temp -C /temp.failed -f ipc</command>
+  </action>
+  <action>
+      <command>cat /temp; echo; cat /temp.failed</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="7200"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="07 Math Library">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description>
+		Math library Tests - CPU tests
+	</description>
+  <dateofcreation> 08/17/2008 </dateofcreation>
+ </information>
+
+ <run>
+	<action>
+		<deviceundertest>reboot</deviceundertest>
+	</action>
+  <action>
+      <command>rm /temp; rm /temp.failed</command>
+  </action>
+  <action>
+      <command>/ltp/runltp -l /temp -C /temp.failed -f math</command>
+  </action>
+  <action>
+      <command>cat /temp; echo; cat /temp.failed</command>
+  </action>
+ </run>
+
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="7200"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="08 Memory Management">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description>
+		Memory Management Tests
+	</description>
+  <dateofcreation> 08/17/2008 </dateofcreation>
+ </information>
+
+ <run>
+	<action>
+		<deviceundertest>reboot</deviceundertest>
+	</action>
+  <action>
+      <command>rm /temp; rm /temp.failed</command>
+  </action>
+  <action>
+      <command>/ltp/runltp -l /temp -C /temp.failed -f mm</command>
+  </action>
+  <action>
+      <command>cat /temp; echo; cat /temp.failed</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="7200"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="09 Native POSIX Thread Library">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description>
+		Native POSIX Thread Library (NPTL) Tests
+	</description>
+  <dateofcreation> 08/17/2008 </dateofcreation>
+ </information>
+
+ <run>
+	<action>
+		<deviceundertest>reboot</deviceundertest>
+	</action>
+  <action>
+      <command>rm /temp; rm /temp.failed</command>
+  </action>
+  <action>
+      <command>/ltp/runltp -l /temp -C /temp.failed -f nptl</command>
+  </action>
+  <action>
+      <command>cat /temp; echo; cat /temp.failed</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="7200"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+
+<test id="10 IPC Pipes Stress">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description>
+		IPC Pipes Stress
+	</description>
+  <dateofcreation> 08/17/2008 </dateofcreation>
+ </information>
+
+ <run>
+	<action>
+		<deviceundertest>reboot</deviceundertest>
+	</action>
+  <action>
+      <command>rm /temp; rm /temp.failed</command>
+  </action>
+  <action>
+      <command>/ltp/runltp -l /temp -C /temp.failed -f pipes</command>
+  </action>
+  <action>
+      <command>cat /temp; echo; cat /temp.failed</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="7200"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="11 Small subset of Syscalls">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description>
+		A small subset of the syscalls
+	</description>
+  <dateofcreation> 08/17/2008 </dateofcreation>
+ </information>
+
+ <run>
+	<action>
+		<deviceundertest>reboot</deviceundertest>
+	</action>
+  <action>
+      <command>rm /temp; rm /temp.failed</command>
+  </action>
+  <action>
+      <command>/ltp/runltp -l /temp -C /temp.failed -f quickhit</command>
+  </action>
+  <action>
+      <command>cat /temp; echo; cat /temp.failed</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="7200"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="12 Scheduler Stress">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description>
+		Scheduler Stress Tests
+	</description>
+  <dateofcreation> 08/17/2008 </dateofcreation>
+ </information>
+
+ <run>
+	<action>
+		<deviceundertest>reboot</deviceundertest>
+	</action>
+  <action>
+      <command>rm /temp; rm /temp.failed</command>
+  </action>
+  <action>
+      <command>/ltp/runltp -l /temp -C /temp.failed -f sched</command>
+  </action>
+  <action>
+      <command>cat /temp; echo; cat /temp.failed</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="14400"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="13 Posix Timer">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description>
+		Posix Timer Tests
+	</description>
+  <dateofcreation> 08/17/2008 </dateofcreation>
+ </information>
+
+ <run>
+	<action>
+		<deviceundertest>reboot</deviceundertest>
+	</action>
+  <action>
+      <command>rm /temp; rm /temp.failed</command>
+  </action>
+  <action>
+      <command>/ltp/runltp -l /temp -C /temp.failed -f timers</command>
+  </action>
+  <action>
+      <command>cat /temp; echo; cat /temp.failed</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="7200"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="14 Kernel system calls">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description>
+		Kernel System Calls
+	</description>
+  <dateofcreation> 08/17/2008 </dateofcreation>
+ </information>
+
+ <run>
+	<action>
+		<deviceundertest>reboot</deviceundertest>
+	</action>
+  <action>
+      <command>rm /temp; rm /temp.failed</command>
+  </action>
+  <action>
+      <command>/ltp/runltp -l /temp -C /temp.failed -f syscalls</command>
+  </action>
+  <action>
+      <command>cat /temp; echo; cat /temp.failed</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="7200"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+
+</titan>

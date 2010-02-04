@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<titan>
+
+<test id="L_PP_HIGH_NAND_0001">
+
+ <information>
+  <autor> Ricardo Perez </autor>
+  <description> Scenario A (Buffer Test) </description>
+  <dateofcreation> 01/01/08 </dateofcreation>
+ </information>
+
+ <run>
+   <action>
+      <deviceundertest>reboot</deviceundertest>
+  </action>
+   <action>
+      <command>echo</command>
+  </action>
+    <action>
+      <command>echo</command>
+  </action>
+  <action>
+      <command>echo</command>
+  </action>
+	<action>
+      <command>echo "performance" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor</command>
+  </action>
+    <action>
+      <command>sleep 5</command>
+  </action>
+  <action>
+      <command>/testsuites/power_and_performance/mtd/scripts/test_runner.sh L_PP_NAND_0001</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+	<timeout time="1800"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="L_PP_HIGH_NAND_0002">
+
+ <information>
+  <autor> Ricardo Perez </autor>
+  <description> Scenario A (Buffer Test) </description>
+  <dateofcreation> 01/01/08 </dateofcreation>
+ </information>
+
+ <run>
+   <action>
+      <deviceundertest>reboot</deviceundertest>
+  </action>
+   <action>
+      <command>echo</command>
+  </action>
+    <action>
+      <command>echo</command>
+  </action>
+  <action>
+      <command>echo</command>
+  </action>
+	<action>
+      <command>echo "performance" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor</command>
+  </action>
+  <action>
+      <command>sleep 5</command>
+  </action>
+  <action>
+      <command>/testsuites/power_and_performance/mtd/scripts/test_runner.sh L_PP_NAND_0002</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+	<timeout time="10800"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+</titan>

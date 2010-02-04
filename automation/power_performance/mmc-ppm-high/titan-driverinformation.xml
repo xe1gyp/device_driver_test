@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<titan>
+
+<driverinformation>
+    <name>Mmc Power and Performance High Opp</name>
+    <description>Performance Test Suite for MMC driver High OPP</description>
+</driverinformation>
+
+</titan>

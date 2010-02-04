@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<titan>
+
+<driverinformation>
+    <name>Audio-ALSA</name>
+    <description>Audio-ALSA</description>
+</driverinformation>
+
+</titan>

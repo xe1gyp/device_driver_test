@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<titan>
+
+<driverinformation>
+    <name>DMA</name>
+    <description>The tests contained in this folder tests the DMA features available in the DMA Framework API</description>
+</driverinformation>
+
+</titan>

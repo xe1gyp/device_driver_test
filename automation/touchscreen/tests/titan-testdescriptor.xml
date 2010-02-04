@@ -1,0 +1,260 @@
+<?xml version="1.0"?>
+<titan>
+
+<test id="L_DD_TOUCHSCREEN_0000_0001">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description> Touch Screen driver shall support touch screen controller on Texas Instruments TSC2046 device </description>
+  <dateofcreation> 12/5/2008 </dateofcreation>
+ </information>
+
+ <run>
+  <action>
+      <command>/testsuites/touchscreen/scripts/test_runner.sh L_DD_TOUCHSCREEN_0000_0001</command>
+  </action>
+  <action>
+    <command>rm /testsuites/touchscreen/scripts/log.*</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="60"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="L_DD_TOUCHSCREEN_0000_0002">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description> Touch Screen driver shall support Linux input subsystem </description>
+  <dateofcreation> 12/5/2008 </dateofcreation>
+ </information>
+
+ <run>
+  <action>
+      <command>/testsuites/touchscreen/scripts/test_runner.sh L_DD_TOUCHSCREEN_0000_0002</command>
+  </action>
+  <action>
+    <command>rm /testsuites/touchscreen/scripts/log.*</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="60"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="L_DD_TOUCHSCREEN_0001_0001">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description> Touch Screen driver shall report raw events on press, and cease on release </description>
+  <dateofcreation> 12/5/2008 </dateofcreation>
+ </information>
+
+ <run>
+  <action>
+      <command>/testsuites/touchscreen/scripts/test_runner.sh L_DD_TOUCHSCREEN_0001_0001</command>
+  </action>
+  <action>
+    <command>rm /testsuites/touchscreen/scripts/log.*</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="75"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="L_DD_TOUCHSCREEN_0001_0002">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description> Touch Screen driver shall report reasonable values </description>
+  <dateofcreation> 12/5/2008 </dateofcreation>
+ </information>
+
+ <run>
+  <action>
+      <command>/testsuites/touchscreen/scripts/test_runner.sh L_DD_TOUCHSCREEN_0001_0002</command>
+  </action>
+  <action>
+    <command>rm /testsuites/touchscreen/scripts/log.*</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="75"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="L_DD_TOUCHSCREEN_0001_0003">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description> Touch Screen driver shall report events after applying filter. Verify events are getting filtered on press, and cease on release </description>
+  <dateofcreation> 12/5/2008 </dateofcreation>
+ </information>
+
+ <run>
+  <action>
+      <command>/testsuites/touchscreen/scripts/test_runner.sh L_DD_TOUCHSCREEN_0001_0003</command>
+  </action>
+  <action>
+    <command>rm /testsuites/touchscreen/scripts/log.*</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="75"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="L_DD_TOUCHSCREEN_0001_0004">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description> Touch Screen driver shall place cursor in the framebuffer corresponding to the pen down location, following it when dragged </description>
+  <dateofcreation> 12/5/2008 </dateofcreation>
+ </information>
+
+ <run>
+  <action>
+      <command>/testsuites/touchscreen/scripts/test_runner.sh L_DD_TOUCHSCREEN_0001_0004</command>
+  </action>
+  <action>
+    <command>rm /testsuites/touchscreen/scripts/log.*</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="75"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="L_DD_TOUCHSCREEN_0001_0005">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description> Touch Screen driver shall support Dejitter Filtering. Smoothness shall be seen in the drawn lines </description>
+  <dateofcreation> 12/5/2008 </dateofcreation>
+ </information>
+
+ <run>
+  <action>
+      <command>/testsuites/touchscreen/scripts/test_runner.sh L_DD_TOUCHSCREEN_0001_0005</command>
+  </action>
+  <action>
+    <command>rm /testsuites/touchscreen/scripts/log.*</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="75"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="L_DD_TOUCHSCREEN_0001_0006">
+
+ <information>
+  <autor> Abraham Arce </autor>
+  <description> Touch Screen driver shall support Variance Filtering. Cursor shall never jump away from where the pen is down. Testing at varying amounts of pressure, including very light, as many touch screen panels get inaccurate information when the touch is light </description>
+  <dateofcreation> 12/5/2008 </dateofcreation>
+ </information>
+
+ <run>
+  <action>
+      <command>/testsuites/touchscreen/scripts/test_runner.sh L_DD_TOUCHSCREEN_0001_0006</command>
+  </action>
+  <action>
+    <command>rm /testsuites/touchscreen/scripts/log.*</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="75"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+</titan>

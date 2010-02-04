@@ -1,0 +1,39 @@
+<?xml version="1.0"?> 
+<titan> 
+ 
+<test id="L_DD_WDT_0001"> 
+ 
+ <information> 
+  <autor> Ricardo Perez  </autor> 
+  <description> WDT Test Scenario 0001: Tests the various ioctls supported by watchdog timer driver. </description> 
+  <dateofcreation> 03/26/2008 </dateofcreation> 
+ </information> 
+ 
+ <run> 
+  <action> 
+    <command>cd /testsuites/watchdog/scripts/</command> 
+  </action>   
+  <action> 
+      <command>./test_runner.sh L_DD_WDT_0001</command> 
+  </action> 
+  <action> 
+    <command>rm log.*</command> 
+  </action>       
+ </run> 
+ 
+ <pass> 
+  <output> 
+    <value>stat=0</value> 
+  </output> 
+ </pass> 
+ 
+ <fail>
+   <timeout time="300"/>  
+  <output> 
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output> 
+ </fail> 
+  
+</test> 
+ 
+</titan>

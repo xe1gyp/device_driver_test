@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<titan>
+
+<driverinformation>
+    <name>NOR</name>
+    <description>Tests suites for NOR flash</description>
+</driverinformation>
+
+</titan>

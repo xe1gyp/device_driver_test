@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<titan>
+
+<test id="L_DD_TIMER_0001_0001">
+
+ <information>
+  <autor> Cristopherson Torres </autor>
+  <description>GPTimer library shall support requests for reserve and release of a GPTimer</description>
+  <dateofcreation> 07/29/2009 </dateofcreation>
+ </information>
+
+ <run>
+  <action>
+    <command>cd /testsuites/timer-32k/scripts/</command>
+  </action>
+  <action>
+      <command>./test_runner.sh L_DD_TIMER_0001_0001</command>
+  </action>
+  <action>
+    <command>rm log.*</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+  <timeout time="120"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+</test>
+
+<test id="L_DD_TIMER_0002_0001">
+ <information>
+  <autor> Cristopherson Torres </autor>
+  <description>Timer driver shall support query of the 32Khz sync timer value.</description>
+  <dateofcreation> 07/29/2009 </dateofcreation>
+ </information>
+
+  <run>
+  <action>
+    <command>cd /testsuites/timer-32k/scripts/</command>
+  </action>
+  <action>
+      <command>./test_runner.sh L_DD_TIMER_0002_0001</command>
+  </action>
+  <action>
+    <command>rm log.*</command>
+  </action>
+  </run>
+  
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="120"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+</test>
+
+</titan>
