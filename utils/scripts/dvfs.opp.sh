@@ -3,6 +3,9 @@
 MAXCOUNT=99999
 count=3
 
+test -d /sys/power/sr_vdd1_autocomp || exit 1
+test -d /sys/power/sr_vdd2_autocomp || exit 1
+
 echo 1 > /sys/power/sr_vdd1_autocomp
 echo 1 > /sys/power/sr_vdd2_autocomp
 
