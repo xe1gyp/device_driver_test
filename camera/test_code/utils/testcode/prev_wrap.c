@@ -192,10 +192,11 @@ int main(int argc, const char *argv[])
 	}
 
 	if (memtype == V4L2_MEMORY_USERPTR) {
-	        ibuffer_length = vbuffer.length;
+		ibuffer_length = vbuffer.length;
 		posix_memalign(&ibuffer, 0x1000, ibuffer_length);
-	        vbuffer.flags = 0;
-	        vbuffer.m.userptr = (unsigned int)ibuffer_aligned;
+		ibuffer_aligned = ibuffer;
+		vbuffer.flags = 0;
+		vbuffer.m.userptr = (unsigned int)ibuffer_aligned;
 	} else {
 		ibuffer = mmap(NULL, vbuffer.length, PROT_READ |
 				PROT_WRITE, MAP_SHARED, fd, vbuffer.m.offset);
