@@ -6,45 +6,14 @@
 
 # Begin L_DD_MMC_0004_0002
 
-# Clean up
-01  set -x; rm -rf $MMC_MOUNT_POINT_1 $MMC_MOUNT_POINT_2; exit 0
-02  set -x; mkdir $MMC_MOUNT_POINT_1 && mkdir $MMC_MOUNT_POINT_2; exit 0
+01  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "create" "1" "ext2"
+02  set -x; $UTILS_DIR_HANDLERS/handlerTmpfs.sh "create" "250" $MMCSD_TMPFS_MOUNTPOINT
 
-# Creating, verifying and printing partition
-03  set -x; echo -e "n\n p\n 1\n $MMC_DEVICE_SECTOR_START\n $MMC_DEVICE_SECTOR_END\n w\n" | fdisk $MMC_ROOT_ENTRY && exit 0 || exit 1
-04  set -x; cat $PROCFS_PARTITIONS | grep $MMC_PARTITION_NAME1 && exit 0 || exit 1
-05  set -x; echo -e "p\n w\n" | fdisk $MMC_ROOT_ENTRY && exit 0 || exit 1
+03  set -x; dd if=/dev/urandom of=$MMCSD_TMPFS_MOUNTPOINT/$MMCSD_FILE_SIZE_BIG bs=1M count=100
+04  set -x; cp $MMCSD_TMPFS_MOUNTPOINT/$MMCSD_FILE_SIZE_BIG $MMCSD_MOUNTPOINT_1 && sync
+05  set -x; diff $MMCSD_TMPFS_MOUNTPOINT/$MMCSD_FILE_SIZE_BIG $MMCSD_MOUNTPOINT_1/$MMCSD_FILE_SIZE_BIG && exit 0 || exit 1
 
-# Formatting partition
-06  set -x; sleep 1 && $TESTBIN/mke2fs $MMC_PARTITION_ENTRY1 && exit 0 || exit 1
-
-# Mounting and verifying partition
-07  set -x; mount -t ext2 $MMC_PARTITION_ENTRY1 $MMC_MOUNT_POINT_1 && exit 0 || exit 1
-08  set -x; mount | grep $MMC_PARTITION_ENTRY1 | grep "ext2" && exit 0 || exit 1
-
-# Copying and verifying content
-09  set -x; cp $TESTROOT/$FILE_SIZE_BIG $MMC_MOUNT_POINT_1 && sync && exit 0 || exit 1
-10  set -x; test -e $MMC_MOUNT_POINT_1/$FILE_SIZE_BIG && exit 0 || exit 1
-
-# Unmounting partition
-11  set -x; umount $MMC_MOUNT_POINT_1 && sync && exit 0 || exit 1
-12  set -x; test -e $MMC_MOUNT_POINT_1/$FILE_SIZE_BIG && exit 1 || exit 0
-
-# Mounting and verifying partition
-13  set -x; mount -t ext2 $MMC_PARTITION_ENTRY1 $MMC_MOUNT_POINT_1 && exit 0 || exit 1
-14  set -x; mount | grep $MMC_PARTITION_ENTRY1 | grep "ext2" && exit 0 || exit 1
-
-# Verifying content
-15  set -x; test -e $MMC_MOUNT_POINT_1/$FILE_SIZE_BIG && exit 0 || exit 1
-
-# Unmounting partition
-16  set -x; umount $MMC_MOUNT_POINT_1 && sync && exit 0 || exit 1
-17  set -x; test -e $MMC_MOUNT_POINT_1/$FILE_SIZE_BIG && exit 1 || exit 0
-
-# Removing partitions
-18  set -x; echo -e "d\n w\n" | fdisk $MMC_ROOT_ENTRY && exit 0 || exit 1
-
-# Verifying partitions
-19  set -x; cat $PROCFS_PARTITIONS | grep $MMC_PARTITION_NAME1 && exit 1 || exit 0
+06  set -x; $UTILS_DIR_HANDLERS/handlerTmpfs.sh "remove" $MMCSD_TMPFS_MOUNTPOINT
+07  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "remove" "1"
 
 # End L_DD_MMC_0004_0002

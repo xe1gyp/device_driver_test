@@ -1,0 +1,50 @@
+#!/bin/sh
+
+export UTILS_DIR_TMP=/tmp/
+test -d $HANDLERS_DIR_TMP || mkdir -p $UTILS_DIR_TMP
+
+# General Variables
+export GENERAL_LOG_FILE=$UTILS_DIR_TMP/general.log.file
+export GENERAL_ERROR=$UTILS_DIR_TMP/general.error
+export SLEEP_TIME=5
+export DEBUG=n
+export TIME_APPLICATION=/testsuites/power_and_performance/utils/binaries/
+
+# handlerProcessPriority.sh || handlerProcessPriorityExecutor.sh
+export HPP_PROCFS_PID_SCHED_START=$UTILS_DIR_TMP/hpp.procfs.pid.sched.start
+export HPP_PROCFS_PID_SCHED_CURRENT=$UTILS_DIR_TMP/hpp.procfs.pid.sched.current
+export HPP_COMMAND_LINE=$UTILS_DIR_TMP/hpp.command.line
+export HPP_COMMAND_PRIORITY_VALUE=$UTILS_DIR_TMP/hpp.command.priority.value
+export HPP_COMMAND_PRIORITY_HIGHER=$UTILS_DIR_TMP/hpp.command.priority.higher
+
+# handlerProcessParallelism.sh || handlerProcessParallelismExecutor.sh
+export HPP_LIST_OF_COMMANDS=$UTILS_DIR_TMP/hpp.list.of.commands
+export HPP_LIST_OF_PIDS_RUNNING=$UTILS_DIR_TMP/hpp.list.of.pids.running
+export HPP_LIST_OF_PIDS_FAILED=$UTILS_DIR_TMP/hpp.list.of.pids.failed
+
+# handlerAppTop2.sh
+export HAT_LOG_FILE=$UTILS_DIR_TMP/cpu.log.file
+export HAT_TOP2_DATA_RAW=$UTILS_DIR_TMP/hat.top2.raw.data
+export HAT_TOP2_DATA_TEMPORAL=$UTILS_DIR_TMP/hat.top2.raw.temporal
+export HAT_CPU_USAGE_VALUE_AVR=$UTILS_DIR_TMP/hat.cpu.usage.value.avr
+export HAT_CPU_USAGE_VALUE_MAX=$UTILS_DIR_TMP/hat.cpu.usage.value.max
+export HAT_CPU_USAGE_VALUE_MIN=$UTILS_DIR_TMP/hat.cpu.usage.value.min
+
+# handlerCmdDd.sh
+export HCDD_LOG_FILE=$UTILS_DIR_TMP/hcdd.log.file
+export HCDD_EXECUTION_TIME_DD=$UTILS_DIR_TMP/hcdd.execution.time.dd
+export HCDD_EXECUTION_TIME_SYNC=$UTILS_DIR_TMP/hcdd.execution.time.sync
+
+# handlerCmdCp.sh
+export HCCP_LOG_FILE=$UTILS_DIR_TMP/hccp.log.file
+export HCCP_EXECUTION_TIME_CP=$UTILS_DIR_TMP/hccp.execution.time.cp
+export HCCP_EXECUTION_TIME_SYNC=$UTILS_DIR_TMP/hccp.execution.time.sync
+
+# handlerFileThroughput.sh
+export HFT_THROUGHPUT_MBps=$UTILS_DIR_TMP/hft.throughput.mbs
+export HFT_THROUGHPUT_Mbps=$UTILS_DIR_TMP/hft.throughput.mbps
+
+# handlerStatistics.sh
+export HS_STATISTICS_GENERAL_FILE=$UTILS_DIR_TMP/hs.statistics.general.file
+
+# End of file

@@ -1,14 +1,13 @@
 #!/bin/sh
-
 #-----------------------
-# Based on runltp script from LTP 
+# Based on runltp script from LTP
 # Much of the functions are copied over from there
 # Copyright remains
 #-----------------------
 
 # Give standard error message and die
 die()
-{	
+{
 	echo "FATAL: $*"
 	usage
 	exit 1
@@ -39,22 +38,27 @@ setup()
 	{
 		die "unable to change directory to $(dirname $0)"
 	}
-	
-	# Load config file 
-	if [ -f "./test.cf" ]; then
-		. ./test.cf
+
+	# Load config file
+	if [ -f "./conf.sh" ]; then
+		. ./conf.sh
+		if [ $? -eq 0 ]; then
+			echo "INFO: Requested tests will be started"
+		else
+			echo "FATAL: Configuration file with errors"
+		fi
 	else
 		die "FATAL: Configuration file not found"
 	fi
 
 	# scenario less tests?? have the user organize it properly at least..
-	[ -d $TC_SCENARIO ] ||
+	[ -d $ETHERNET_DIR_SCENARIOS ] ||
 	{
 		die "Test suite not installed correctly - no scenarios"
 	}
 
 	# we'd need the reporting tool ofcourse..
-	[ -e $UTILBIN/pan ] ||
+	[ -e $UTILS_DIR_BIN/pan ] ||
 	{
 		die "FATAL: Test suite driver 'pan' not found"
 	}
@@ -63,42 +67,44 @@ setup()
 usage()
 {
 	# Human redable please
-	local PP=` if [ -z "$PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
-	local VV=` if [ -z "$VERBOSE" ]; then echo "off"; else echo "on"; fi`
-	
+	local PP=` if [ -z "$ETHERNET_PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
+	local VV=` if [ -z "$ETHERNET_VERBOSE" ]; then echo "off"; else echo "on"; fi`
+
 	# Give the gyan
 	cat <<-EOF >&2
-	usage: ./${0##*/} [-z] [-h] [-v] [-d TESTDIR] [-o OUTPUTFILE] [-l LOGFILE] 
-	[-n DURATION ] [-t TMPDIR] [SCENARIO_NAMES..]
+	usage: ./${0##*/} [-z] [-h] [-v] [-d ETHERNET_DIR_TEST] [-o ETHERNET_FILE_OUTPUT] [-l ETHERNET_FILE_LOG]
+	[-n ETHERNET_DURATION ] [-t TMPDIR] [ETHERNET_SCENARIO_NAMES..]
 
-	-d TESTDIR      Run LTP to test the filesystem mounted here. [Current - $TESTDIR]
+	-d ETHERNET_DIR_TEST      Run LTP to test the filesystem mounted here. [Current - $ETHERNET_DIR_TEST]
 			At the end of test, the testdir gets cleaned out
-	-s TC_SCENARIO  Test scenarios are located here. [Current - $TC_SCENARIO]
-	-o OUTPUTFILE   Redirect test output to a file. [Current- $OUTPUTFILE {psid}]
+	-s ETHERNET_DIR_SCENARIOS  Test scenarios are located here. [Current - $ETHERNET_DIR_SCENARIOS]
+	-o ETHERNET_FILE_OUTPUT   Redirect test output to a file. [Current- $ETHERNET_FILE_OUTPUT {psid}]
 	-p              Human readable(dont laugh too much) format logfiles. [Current - ($PP)]
 	-z              Dont Merge the Scenario Name with tcid to create final tc id
 	-E              Use Extended Test cases also - these are painful and can take real long time
-	-l LOGFILE      Log results of test in a logfile. [Current- $LOGFILE {psid}]
-	-t TMPDIR       Run LTP using tmp dir [Current - $TMPBASE]
-	-n DURATION     Execute the testsuite for given duration. Examples:
+	-l ETHERNET_FILE_LOG      Log results of test in a logfile. [Current- $ETHERNET_FILE_LOG {psid}]
+	-t TMPDIR       Run LTP using tmp dir [Current - $ETHERNET_DIR_TMP]
+	-n ETHERNET_DURATION     Execute the testsuite for given duration. Examples:
 			-n 60s = 60 seconds
 			-n 45m = 45 minutes
 			-n 24h = 24 hours
 			-n 2d  = 2 days
-			[Current - $DURATION]
+			[Current - $ETHERNET_DURATION]
+
 	-v              Print more verbose output to screen.[Current - ($VV)]
 	-q              No messages from this script. no info too - Brave eh??
 	-h              This screen [Current - guess...]
 	-x INSTANCES    Run multiple instances of this testsuite.(think well...)
-	-r PRE_DEF      Run predefined set of scenarios [Not Implemented yet]
+	-r PRE_DEF      Run predefined set of scenarios[Not Implemented yet]
 			List to appear here
 	-S              Run in Stress mode
-	
-	SCENARIO_NAMES  List of scenarios to test.. else, take all scenarios 
-			[Current - These are all filenames from $TC_SCENARIO]
-    
+
+	ETHERNET_SCENARIO_NAMES  List of scenarios to test.. else, take all scenarios
+			[Current - These are all filenames from $ETHERNET_DIR_SCENARIOS]
+
 	Good News: Ctrl+c stops and cleans up for you :)
-	More help: Read the $TESTROOT/README
+	More help: Read the $ETHERNET_ROOT/README
+
 	EOF
 	exit 0
 }
@@ -108,60 +114,60 @@ sanity_check()
 {
     # Check the current values...
     # Just ensure that pan can run with a bit of peace of mind...
-    
-    [ ! -d "$TMPBASE" -o ! -w "$TMPBASE" ] && die "$TMPBASE - cannot work as temporary directory"
-    [ ! -d "$TESTDIR" -o ! -w "$TESTDIR" ] && die "$TESTDIR - cannot work as test directory"
-    [ ! -d "$TC_SCENARIO" ] && die "$TC_SCENARIO - No such directories"
-    [ -z "$SCENARIO_NAMES" ] && die "No Scenarios"
-		[ ! -z "$VERBOSE" -a ! -z "$QUIET_MODE" ] && die "Make up your mind - verbose or quiet??"
-		
-    export CMDFILE=$TMPBASE/$CMDFILE
-    rm -f $CMDFILE
-    
-		for SCEN in $SCENARIO_NAMES
+
+    [ ! -d "$ETHERNET_DIR_TMP" -o ! -w "$ETHERNET_DIR_TMP" ] && die "$ETHERNET_DIR_TMP - cannot work as temporary directory"
+    [ ! -d "$ETHERNET_DIR_TEST" -o ! -w "$ETHERNET_DIR_TEST" ] && die "$ETHERNET_DIR_TEST - cannot work as test directory"
+    [ ! -d "$ETHERNET_DIR_SCENARIOS" ] && die "$ETHERNET_DIR_SCENARIOS - No such directories"
+    [ -z "$ETHERNET_SCENARIO_NAMES" ] && die "No Scenarios"
+		[ ! -z "$ETHERNET_VERBOSE" -a ! -z "$ETHERNET_QUIET_MODE" ] && die "Make up your mind - verbose or quiet??"
+
+    export ETHERNET_FILE_CMD=$ETHERNET_DIR_TMP/$ETHERNET_FILE_CMD
+    rm -f $ETHERNET_FILE_CMD
+
+		for SCEN in $ETHERNET_SCENARIO_NAMES
     do
-		  [ ! -f "$TC_SCENARIO/$SCEN" -o ! -r "$TC_SCENARIO/$SCEN" ] && die "$TC_SCENARIO/$SCEN - not a scenario file"
-			cat $TC_SCENARIO/$SCEN|grep -v "#"|sed -e "s/^[  ]*$//g"|sed -e "/^$/d">$TMPFILE|| die "Count not create tmp file $TMPFILE"
+		  [ ! -f "$ETHERNET_DIR_SCENARIOS/$SCEN" -o ! -r "$ETHERNET_DIR_SCENARIOS/$SCEN" ] && die "$ETHERNET_DIR_SCENARIOS/$SCEN - not a scenario file"
+			cat $ETHERNET_DIR_SCENARIOS/$SCEN|grep -v "#"|sed -e "s/^[  ]*$//g"|sed -e "/^$/d">$ETHERNET_FILE_TMP|| die "Count not create tmp file $ETHERNET_FILE_TMP"
 			if [ -z "$DONT" ]; then
-				cat $TMPFILE|sed -e "s/^/$SCEN-/g"|sed -e "s/-/_/" >>$CMDFILE || die "Count not create command file $CMDFILE"
+				cat $ETHERNET_FILE_TMP|sed -e "s/^/$SCEN-/g"|sed -e "s/-/_/" >>$ETHERNET_FILE_CMD || die "Count not create command file $ETHERNET_FILE_CMD"
 				else
-				cat $TMPFILE>>$CMDFILE || die "Count not create command file $CMDFILE"
+				cat $ETHERNET_FILE_TMP>>$ETHERNET_FILE_CMD || die "Count not create command file $ETHERNET_FILE_CMD"
 			fi
 
 			# Remove the extended test cases
 			if [ -z "$EXTENDED_TEST" ]; then
-				
-				cat $CMDFILE|grep -v "^[_A-Za-z0-9]*_EXT ">$TMPFILE || die "intermediate file gen failed"
-				cat $TMPFILE>$CMDFILE || die "Second intermediate creation failed"
+
+				cat $ETHERNET_FILE_CMD|grep -v "^[_A-Za-z0-9]*_EXT ">$ETHERNET_FILE_TMP || die "intermediate file gen failed"
+				cat $ETHERNET_FILE_TMP>$ETHERNET_FILE_CMD || die "Second intermediate creation failed"
 			fi
-	
-			rm -f $TMPFILE
-			
+
+			rm -f $ETHERNET_FILE_TMP
+
     done
-    
-		local PP=` if [ -z "$PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
-    local VV=` if [ -z "$VERBOSE" ]; then echo "off"; else echo "on"; fi`
-    export TMPDIR=${TESTDIR}
-		
+
+		local PP=` if [ -z "$ETHERNET_PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
+    local VV=` if [ -z "$ETHERNET_VERBOSE" ]; then echo "off"; else echo "on"; fi`
+    export TMPDIR=${ETHERNET_DIR_TEST}
+
 		# Print some nice info
-    if [ ! -z "$VERBOSE" ]; then
-        debug "POSTFIX        $POSTFIX       "
-        info  "TESTROOT       $TESTROOT      "
-        info  "TMPBASE        $TMPBASE       "
-        info  "TMPFILE        $TMPFILE       "
-        debug "CMDFILE        $CMDFILE       "
-        info  "TESTDIR        $TESTDIR       "
-        info  "PRETTY_PRT     $PP            "
-        info  "VERBOSE        $VV            "
-        info  "OUTPUTFILE     $OUTPUTFILE    "
-        info  "LOGFILE        $LOGFILE       "
-        info  "DURATION       $DURATION      "
+    if [ ! -z "$ETHERNET_VERBOSE" ]; then
+        debug "ETHERNET_POSTFIX        $ETHERNET_POSTFIX       "
+        info  "ETHERNET_ROOT       $ETHERNET_ROOT      "
+        info  "ETHERNET_DIR_TMP        $ETHERNET_DIR_TMP       "
+        info  "ETHERNET_FILE_TMP        $ETHERNET_FILE_TMP       "
+        debug "ETHERNET_FILE_CMD        $ETHERNET_FILE_CMD       "
+        info  "ETHERNET_DIR_TEST        $ETHERNET_DIR_TEST       "
+        info  "ETHERNET_PRETTY_PRT     $PP            "
+        info  "ETHERNET_VERBOSE        $VV            "
+        info  "ETHERNET_FILE_OUTPUT     $ETHERNET_FILE_OUTPUT    "
+        info  "ETHERNET_FILE_LOG        $ETHERNET_FILE_LOG       "
+        info  "ETHERNET_DURATION       $ETHERNET_DURATION      "
         debug "PATH           $PATH          "
-        info  "TC_SCENARIO    $TC_SCENARIO   "
+        info  "ETHERNET_DIR_SCENARIOS    $ETHERNET_DIR_SCENARIOS   "
         info  "TMPDIR         $TMPDIR        "
-        info  "SCENARIO_NAMES $SCENARIO_NAMES"
+        info  "ETHERNET_SCENARIO_NAMES $ETHERNET_SCENARIO_NAMES"
     fi
-} 
+}
 
 main()
 {
@@ -169,25 +175,25 @@ main()
 	while getopts zx:Sd:qt:po:l:vn:hs:E:I arg
 	do  case $arg in
 		d)
-			TESTDIR=${OPTARG} ;;
+			ETHERNET_DIR_TEST=${ETHERNET_OPTARG} ;;
 		t)
-			TMPBASE=${OPTARG} ;;
+			ETHERNET_DIR_TMP=${ETHERNET_OPTARG} ;;
 		E)
 			EXTENDED_TEST=y ;;
 	        q)
-			QUIET_MODE=" -q " ;;
+			ETHERNET_QUIET_MODE=" -q " ;;
 	        z)
 			DONT=" " ;;
 		p)
-			PRETTY_PRT=" -p " ;;
+			ETHERNET_PRETTY_PRT=" -p " ;;
 		o)
-			OUTPUTFILE=${OPTARG};OO_LOG=1 ;;
+			ETHERNET_FILE_OUTPUT=${ETHERNET_OPTARG};OO_LOG=1 ;;
 		l)
-			LOGFILE=${OPTARG} ;;
+			ETHERNET_FILE_LOG=${ETHERNET_OPTARG} ;;
 		v)
-			VERBOSE="-v" ;;
-		n) 
-			DURATION=" -t ${OPTARG}" ;;
+			ETHERNET_VERBOSE="-v" ;;
+		n)
+			ETHERNET_DURATION=" -t ${ETHERNET_OPTARG}" ;;
 		h)
 			usage ;;
 		x)  # number of ltp's to run
@@ -198,57 +204,57 @@ main()
 			to be ran exclusively.
 			Pausing for 10 seconds...Last chance to hit that ctrl+c
 			EOF
-            				sleep 10
-			INSTANCES="-x $OPTARG -O ${TMP}" ;;
+					sleep 10
+			ETHERNET_INSTANCES="-x $ETHERNET_OPTARG -O ${TMP}" ;;
 		s)
-			TC_SCENARIO=${OPTARG} ;;
+			ETHERNET_DIR_SCENARIOS=${ETHERNET_OPTARG} ;;
 		S)
-			STRESS=y
-			STRESSARG="-S";;
-		
+			ETHERNET_STRESS=y
+			ETHERNET_STRESSARG="-S";;
+
 		\?) # Handle illegals
 			usage ;;
-        
+
 	esac
-	
-	if [ ! -z "${OPTARG}" ]; then
+
+	if [ ! -z "${ETHERNET_OPTARG}" ]; then
 		count=" $count + 2"
 	else
 		count=" $count + 1"
 	fi
 
 	done
-	
+
 	count=$(( $count ))
-	while [ $count -ne 0 ] 
+	while [ $count -ne 0 ]
 	do
 		shift;
 		count=$(($count - 1))
 	done
-	
-	SCENARIO_NAMES=$@
+
+	ETHERNET_SCENARIO_NAMES=$@
 
 	sanity_check
-	
+
 	# Test start
-	
-	[ -z "$QUIET_MODE" ] && { info "Test start time: $(date)" ; }
+
+	[ -z "$ETHERNET_QUIET_MODE" ] && { info "Test start time: $(date)" ; }
 
 	# Usage: pan -n name [ -SyAehp ] [ -s starts ] [-t time[s|m|h|d] [ -x nactive ] [-l logfile ]
 	# [ -a active-file ] [ -f command-file ] [ -d debug-level ]
 	# [-o output-file] [-O output-buffer-directory] [cmd]
 
-	cd $TESTDIR
-	PAN_COMMAND="${UTILBIN}/pan $QUIET_MODE -e -S $INSTANCES $DURATION -a $$ -n $$ $PRETTY_PRT -f ${CMDFILE} -l $LOGFILE"
-    
-	[ ! -z "$VERBOSE" ] && { info "PAN_COMMAND=$PAN_COMMAND"; }
-    	
+	cd $ETHERNET_DIR_TEST
+	PAN_COMMAND="${UTILS_DIR_BIN}/pan $ETHERNET_QUIET_MODE -e -S $ETHERNET_INSTANCES $ETHERNET_DURATION -a $$ -n $$ $ETHERNET_PRETTY_PRT -f ${ETHERNET_FILE_CMD} -l $ETHERNET_FILE_LOG"
+
+	[ ! -z "$ETHERNET_VERBOSE" ] && { info "PAN_COMMAND=$PAN_COMMAND"; }
+
 	if [ -z "$OO_LOG" ]; then
 		$PAN_COMMAND
 	else
-		$PAN_COMMAND|tee $OUTPUTFILE
+		$PAN_COMMAND|tee $ETHERNET_FILE_OUTPUT
 	fi
-    
+
 	if [ $? -eq 0 ]; then
 		echo "INFO: pan reported all tests PASS"
 		VALUE=0
@@ -256,21 +262,21 @@ main()
 		echo "INFO: pan reported some tests FAIL"
 		VALUE=1
 	fi
-    
+
 	# Test end
-	[ -z "$QUIET_MODE" ] && { info "Test end time: $(date)" ; }
-	[ -z "$QUIET_MODE" ] && { 
+	[ -z "$ETHERNET_QUIET_MODE" ] && { info "Test end time: $(date)" ; }
+	[ -z "$ETHERNET_QUIET_MODE" ] && {
 
 	cat <<-EOF >&1
 
 	###############################################################"
 		Done executing testcases."
-		Result log is in the $LOGFILE "
+		Result log is in the $ETHERNET_FILE_LOG "
 	###############################################################"
-       
+
 	EOF
-	cat $LOGFILE
-	
+	cat $ETHERNET_FILE_LOG
+
 	}
 	cleanup
 	exit $VALUE
@@ -279,14 +285,14 @@ main()
 
 cleanup()
 {
-	[  -z "$QUIET_MODE" ] && echo -n "INFO: Cleaning up..."
-	if [ -n "${TMPFILE}" -a -n "${CMDFILE}" -a -n "${TESTDIR}" -a -n "${TMPBASE}" ]; then
-		rm -rf ${TMPFILE} ${CMDFILE} ${TESTDIR}/* ${TMPBASE}/*
+	[  -z "$ETHERNET_QUIET_MODE" ] && echo -n "INFO: Cleaning up..."
+	if [ -n "${ETHERNET_FILE_TMP}" -a -n "${ETHERNET_FILE_CMD}" -a -n "${ETHERNET_DIR_TEST}" -a -n "${ETHERNET_DIR_TMP}" ]; then
+		rm -rf ${ETHERNET_FILE_TMP} ${ETHERNET_FILE_CMD} ${ETHERNET_DIR_TEST}/* ${ETHERNET_DIR_TMP}/*
 	else
 		echo "INFO: Clean up process won't be executed because variables for directories to be removed are not set..."
 	fi
 
-	[  -z "$QUIET_MODE" ] && echo "done."
+	[  -z "$ETHERNET_QUIET_MODE" ] && echo "done."
 }
 
 

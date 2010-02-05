@@ -1,0 +1,10 @@
+###############################################################################
+# Scenario: L_DD_POWER_0001_0003
+# Testing : Suspend/Resume using wake-up timer, 1 second, 30 times
+###############################################################################
+
+# Begin L_DD_POWER_0001_0003
+
+01  set -x; count=0; while [ "$count" -le 30 ]; do suspendResume.sh  "suspend"  1; count=`expr $count + 1`; done
+
+# End L_DD_POWER_0001_0003

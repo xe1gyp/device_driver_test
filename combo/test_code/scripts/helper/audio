@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -x
+
+operation=$1
+
+if [ "$operation" = "record" ]; then
+  to=$1
+  time dd if=/dev/urandom of=/mnt/$to/file.$to.audio bs=1M count=1
+elif [ "$operation" = "play" ]; then
+  from=$1
+  time dd if=/dev/urandom of=/mnt/$to/file.$to.audio bs=1M count=1
+fi
+
+# End of file

@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_WATCHDOG_0002_0001
+# Author  : Misael Lopez Cruz, Abraham Arce
+# Date    : August 4, 2009
+###############################################################################
+
+# Begin L_DD_WATCHDOG_0002_0001
+
+01 set -x; $WATCHDOG_TIMEOUT_SET $WATCHDOG_DEVFS 5
+02 set -x; $WATCHDOG_TIMEOUT_GET $WATCHDOG_DEVFS | grep 5
+
+# End L_DD_WATCHDOG_0002_0001

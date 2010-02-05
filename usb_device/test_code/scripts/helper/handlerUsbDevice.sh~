@@ -1,0 +1,89 @@
+#!/bin/sh
+
+# =============================================================================
+# Variables
+# =============================================================================
+
+TESTUSB_DRIVER=$1
+TESTUSB_INPUT_OUTPUT=$2
+TESTUSB_FILE_SIZE=$3
+LOCAL_TEST=$4
+
+# =============================================================================
+# Functions
+# =============================================================================
+
+testIdentification() {
+  echo -e "\n\n\nUSB File Test | Operation = ${TESTUSB_INPUT_OUTPUT} | Size = ${TESTUSB_FILE_SIZE}\n\n\n"
+}
+
+initialSetup () {
+  
+  # Create a file wherever needed
+  if [ "$TESTUSB_INPUT_OUTPUT" = "output" ]; then
+    DUMMY_FILE_PATH=$RAMDRIVE_PATH/$DUMMY_FILE_NAME
+    TO=$USB_MOUNTPOINT_PATH
+	echo "TO $TO"
+	
+  elif [ "$TESTUSB_INPUT_OUTPUT" = "input" ]; then
+    DUMMY_FILE_PATH=$USB_MOUNTPOINT_PATH/$DUMMY_FILE_NAME
+    TO=$RAMDRIVE_PATH
+	echo "TO $TO"
+  fi
+  FROM=${DUMMY_FILE_PATH}
+	echo "FROM $FROM"
+  
+  test -d $TO || mkdir $TO
+
+  # USB module insertion
+  $UTILSHANDLER/usb/handlerUsbDevice.sh "insert" "$TESTUSB_DRIVER" "$LOCAL_TEST"
+
+  # Ramdrive creation
+  $UTILSHANDLER/ram/handlerRamDrive.sh "create" "$RAMDRIVE_PATH" "$RAMDRIVE_SIZE"
+
+  # File creation deberia ir al final quita este
+ # $UTILSHANDLER/handlerDd.sh "create" "MB" "$TESTUSB_FILE_SIZE" "$DD_SOURCE" "$DUMMY_FILE_PATH"
+ 
+  # USB Device Initialization
+  ${TESTHELPER}/usbDeviceHandler.sh "create" "$USB_DEVFS_ENTRY" "$USB_MOUNTPOINT_PATH"
+ 
+  # File creation deberia ir al final
+  $UTILSHANDLER/handlerDd.sh "create" "MB" "$TESTUSB_FILE_SIZE" "$DD_SOURCE" "$DUMMY_FILE_PATH"
+ 
+}
+
+cleanUp () {
+  
+  # File removal
+  $UTILSHANDLER/handlerDd.sh "remove" $DUMMY_FILE_PATH
+  # USB Device removal
+  $TESTHELPER/usbDeviceHandler.sh "remove" "$USB_DEVFS_ENTRY" "$USB_MOUNTPOINT_PATH"
+  # Ramdrive removal
+  $UTILSHANDLER/ram/handlerRamDrive.sh "remove" "$RAMDRIVE_PATH"
+  #USB module removal
+  $UTILSHANDLER/usb/handlerUsbDevice.sh "remove" "$TESTUSB_DRIVER" "$LOCAL_TEST"
+
+  test -d $TO && rm -rf $TO
+
+}
+# =============================================================================
+# Main
+# =============================================================================
+
+testIdentification
+initialSetup
+
+$UTILSHANDLER/handlerTop2.sh "start"
+$UTILSHANDLER/handlerCp.sh "start" $FROM $TO
+$UTILSHANDLER/handlerTop2.sh "stop"
+
+cleanUp
+
+# =============================================================================
+# Data Parsing
+# =============================================================================
+
+$UTILSHANDLER/handlerCp.sh "parse" $TESTUSB_FILE_SIZE
+$UTILSHANDLER/handlerTop2.sh "parse" "User"
+$UTILSHANDLER/handlerTop2.sh "parse" "System"
+$UTILSPARSER/parserBspPpm.sh "logit" $TESTUSB_DRIVER

@@ -1,15 +1,13 @@
-################################################################################
+#########################################################################################
 # Scenario: L_DD_GPIO_0001_0002
-# Author  : Abraham Arce
-# Date    : Sat May 17 18:29:54 CDT 2008
-# Description: Verify if GPIO driver configures the GPIO lines in input direction
-################################################################################
+# Author  : Moiz Sonasath
+# Date    : Wed 10th June, 2009
+# Description: Verify if GPIO driver configures the GPIO lines in input/output direction
+#########################################################################################
 
 # Begin L_DD_GPIO_0001_0002
 
-01 set -x; COUNT=20; while [ $COUNT -lt $OMAP_MAX_GPIO_LINES ] ; do insmod $TEST_MODULE test=1 gpio=$COUNT value=1 && rmmod gpio_test ; COUNT=`expr $COUNT + 1` ; done && exit 0 || exit 1
-02 set -x; COUNT=20; while [ $COUNT -lt $OMAP_MAX_GPIO_LINES ] ; do insmod $TEST_MODULE test=3 gpio=$COUNT value=1 && rmmod gpio_test ; COUNT=`expr $COUNT + 1` ; done && exit 0 || exit 1
-03 set -x; COUNT=20; while [ $COUNT -lt $OMAP_MAX_GPIO_LINES ] ; do insmod $TEST_MODULE test=2 gpio=$COUNT value=1 && rmmod gpio_test ; COUNT=`expr $COUNT + 1` ; done && exit 0 || exit 1
+00 set -x; $TESTSCRIPT/gpio_input_output_direction.sh
 
 # End L_DD_GPIO_0001_0002
 

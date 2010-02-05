@@ -2,12 +2,13 @@
 # Misael Lopez Cruz
 # Compile akey utility
 
-CFLAGS += -I$(KDIR)/include -Wall
-
+CFLAGS += -Wall
 TARGETS=akey waitkey choice
 
 all: $(TARGETS)
 
+install:
+	mv $(TARGETS) $(UTILS_BINARIES)
+
 clean:
-	rm -f $(BIN_DIR)/$(TARGETS)
 	rm -f *.o $(TARGETS)

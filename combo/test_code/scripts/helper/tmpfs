@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -x
+
+operation=$1
+
+if [ "$operation" = "setup" ]; then
+  $UTILS_DIR_HANDLERS/handlerTmpfs.sh "create" "75" /mnt/tmpfs/
+elif [ "$operation" = "cleanup" ]; then
+  $UTILS_DIR_HANDLERS/handlerTmpfs.sh "remove" /mnt/tmpfs/
+fi
+
+# End of file

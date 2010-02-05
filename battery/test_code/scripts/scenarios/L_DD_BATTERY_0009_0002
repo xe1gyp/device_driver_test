@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario    : L_DD_BATTERY_0009_0002
+# Author      : Venkatraman S
+# Date        : Thu Sep 24 2009
+# Description : Battery SMP Tests
+##############################################################################
+
+# Begin L_DD_BATTERY_0009_0002
+
+01  set -x; $UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "battery_thread.sh $TEST_PLATFORM 400" "10" "10"
+
+# End L_DD_BATTERY_0009_0002

@@ -1,36 +1,34 @@
 #!/bin/sh
 
-GetEndSector(){
-	echo -e "p\nq\n" | fdisk $1 | grep "heads" | awk '{print $5}'
-}
+# TestSuite General Variables
+export MMCSD_POSTFIX=`date "+%Y%m%d-%H%M%S"`
+export MMCSD_ROOT=`pwd`
 
-# Testsuite variables
-export POSTFIX=`date "+%Y%m%d-%H%M%S"`
-export TESTROOT=${PWD}
-export TESTBIN=${TESTROOT}/../bin
-export UTILBIN=${TESTROOT}/../../utils/bin
-export TESTMODS=${TESTROOT}/../mods
-export TESTSCRIPT=${TESTROOT}/helper
-export TMPBASE=${TESTROOT}/tmp
-export TMPFILE=${TMPBASE}/tmp.$POSTFIX
-export CMDFILE=cmd.$POSTFIX
-export TESTDIR=${TESTROOT}/test
-export PRETTY_PRT=""
-export VERBOSE=""
-export OUTPUTFILE=${TESTROOT}/output.$POSTFIX
-export LOGFILE=${TESTROOT}/log.$POSTFIX
-export DURATION=""
-export PATH="${PATH}:${TESTROOT}:${TESTBIN}:${TESTSCRIPT}"
-export TC_SCENARIO="${TESTROOT}/scenarios"
-export SCENARIO_NAMES=""
+export MMCSD_DIR_BINARIES=${MMCSD_ROOT}/../binaries
+export MMCSD_DIR_HELPER=${MMCSD_ROOT}/helper
+export MMCSD_DIR_TMP=${MMCSD_ROOT}/tmp
+export MMCSD_DIR_TEST=${MMCSD_ROOT}/test
+export MMCSD_DIR_SCENARIOS="${MMCSD_ROOT}/scenarios"
 
-# Check if bc is available, otherwise abort
-if [ ! `echo 1+1 | bc` ]; then
-	echo "FATAL: BC is unavailable, cannot continue"
-	return 1
-fi
+export MMCSD_FILE_OUTPUT=${MMCSD_ROOT}/output.$MMCSD_POSTFIX
+export MMCSD_FILE_LOG=${MMCSD_ROOT}/log.$MMCSD_POSTFIX
+export MMCSD_FILE_TMP=${MMCSD_DIR_TMP}/tmp.$MMCSD_POSTFIX
+export MMCSD_FILE_CMD=cmd.$MMCSD_POSTFIX
 
-# Check if SLOT variable is initialized, otherwise abort
+export MMCSD_DURATION=""
+export MMCSD_PRETTY_PRT=""
+export MMCSD_VERBOSE=""
+export MMCSD_SCENARIO_NAMES=""
+export MMCSD_STRESS=""
+
+export PATH="${MMCSD_ROOT}:${MMCSD_DIR_HELPER}:${PATH}"
+
+# Utils General Variables
+. ${MMCSD_ROOT}/../../utils/configuration/general.configuration
+export UTILS_DIR_BIN=${MMCSD_ROOT}/../../utils/bin
+export UTILS_DIR_HANDLERS=${MMCSD_ROOT}/../../utils/handlers
+
+# MMC/SD General Variables
 if [ "$SLOT" == "" ]
 then
 	echo "FATAL: Please specify the slot number by exporting it through SLOT variable"
@@ -39,35 +37,36 @@ then
 	exit 1
 fi
 
+export MMCSD_DEVFS_NAME=mmcblk$SLOT
+export MMCSD_DEVFS_ENTRY=/dev/${MMCSD_DEVFS_NAME}
+export MMCSD_DEVFS_PARTITION_1=${MMCSD_DEVFS_ENTRY}p1
+export MMCSD_DEVFS_PARTITION_2=${MMCSD_DEVFS_ENTRY}p2
 
-# MMC specific variables
+export MMCSD_MOUNTPOINT_1=/media/mmcsdp`echo "$SLOT+1" | bc`
+export MMCSD_MOUNTPOINT_2=/media/mmcsdp`echo "$SLOT+2" | bc`
+export MMCSD_TMPFS_MOUNTPOINT=/media/tmpfs
+
+export MMCSD_FILE_SIZE_BIG=file.size.big
+export MMCSD_FILE_SIZE_SMALL=file.size.small
+
+$MMCSD_DIR_HELPER/removePartitions.sh
+
+mount | grep $MMCSD_DEVFS_ENTRY
+if [ "$?" -eq "0" ]; then
+	echo "FATAL: mmc/sd $MMCSD_DEVFS_ENTRY is not inserted in the specified slot, cannot continue"
+	exit 1
+fi
+
+# System Variables
 export PROCFS_DEVICES=/proc/devices
 export PROCFS_INTERRUPTS=/proc/interrupts
 export PROCFS_PARTITIONS=/proc/partitions
 
-export MMC_ROOT_NAME=mmcblk$SLOT
-export MMC_ROOT_ENTRY=/dev/$MMC_ROOT_NAME
-export MMC_PARTITION_NAME1=${MMC_ROOT_NAME}p1
-export MMC_PARTITION_NAME2=${MMC_ROOT_NAME}p2
-export MMC_PARTITION_ENTRY1=/dev/$MMC_PARTITION_NAME1
-export MMC_PARTITION_ENTRY2=/dev/$MMC_PARTITION_NAME2
-export MMC_MOUNT_POINT_1=/mnt/mmc$SLOT
-export MMC_MOUNT_POINT_2=/mnt/mmc`echo "$SLOT+2" | bc`
-export MMC_DEVICE_SECTOR_START=1
-export MMC_DEVICE_SECTOR_END=`GetEndSector $MMC_ROOT_ENTRY`
-export MMC_DEVICE_SECTOR_MIDDLE=`echo $MMC_DEVICE_SECTOR_END/2|bc`
-
-export FILE_SIZE_BIG=bigfile.tar.bz2
-export FILE_SIZE_SMALL=smallfiles
-
-# Remove any existing partition
-$TESTSCRIPT/RemovePartitions.bash
-
-# See if MMC in inserted, otherwise abort
-cat $PROCFS_PARTITIONS | grep $MMC_ROOT_NAME
-if [ "$?" -eq "1" ]; then
-	echo "FATAL: MMC is not inserted in the specified slot, cannot continue"
-	exit 1
+# Check if bc is available, otherwise abort
+if [ ! `echo 1+1 | bc` ]; then
+	echo "FATAL: BC is unavailable, cannot continue"
+	return 1
 fi
+
 
 # End of file

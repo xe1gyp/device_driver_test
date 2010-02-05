@@ -1,0 +1,11 @@
+###############################################################################
+# Scenario: L_DD_TOUCHSCREEN_0005_0002
+# Author  : Abraham Arce
+# Date    : Tue Sep 22 16:43:35 CDT 2009
+###############################################################################
+
+# Begin L_DD_TOUCHSCREEN_0005_0002
+
+01  set -x; $UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "$TOUCHSCREEN_DIR_BINARIES/evtest $DEVFS_TOUCHSCREEN" "10" "5"
+
+# End L_DD_TOUCHSCREEN_0005_0002

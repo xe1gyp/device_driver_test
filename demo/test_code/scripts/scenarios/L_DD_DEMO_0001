@@ -1,0 +1,12 @@
+#########################################################################################
+# Scenario    : L_DD_DEMO_0001
+# Author      : Name of Author
+# Date        : Thu Sep 17 11:25:35 CDT 2009
+# Description : Test Hello World User Space
+#########################################################################################
+
+# Begin L_DD_DEMO_0001
+
+01  set -x; $APPLICATION_HELLO_WORLD | grep "Hello World!" && exit 0 || exit 1
+
+# End L_DD_DEMO_0001

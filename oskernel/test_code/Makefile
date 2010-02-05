@@ -1,31 +1,51 @@
+###########################################################################
+#(C) Copyright Texas Instruments, 2007. All Rights Reserved.
+#
+# Name of the file: Makefile
+#
+# Location of the file:
+#
+# Brief description of the contents of the file:
+#       Makefile for OS-Kernel tests
+#
+# Detailed description of the contents of the file:
+# This Makefile is used to compile NCURSES / HTOP test programs.
+#
+# Author: Ricardo Perez Olivares (x0081762@ti.com)
+#
+# Created on: 27 Oct 2009
+#
+# Change Log:
+#############################################################################
 
-# To build modules outside of the kernel tree, we run "make"
-# in the kernel source tree; the Makefile these then includes this
-# Makefile once again.
-# This conditional selects whether we are being included from the
-# kernel Makefile or not.
-ifeq ($(KERNELRELEASE),)
+DESTDIR := bin
+OBJS := utilities install
 
-    # Assume the source tree is where the running kernel was built
-    # You should set KERNELDIR in the environment if it's elsewhere
-    KERNELDIR ?= /home/a0384864/ker/MOT/MobiLinux41/2.6_kernel-arm11
-    # The current directory is passed to sub-makes as argument
-    PWD := $(shell pwd)
+HTOP_PWD=${PWD}
+CPPFLAGS := "-I$(HTOP_PWD)/utils/ncurses-5.7/include/"
+LDFLAGS := "-L$(HTOP_PWD)/utils/ncurses-5.7/lib/"
+CONFIG_HOST := --host=arm-none-linux-gnueabi
+NCURSESFLAGS := --with-shared --without-ada --disable-big-core --enable-termcap --enable-echo --enable-warnings
 
-modules:
-	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
+all: $(OBJS)
 
-modules_install:
-	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules_install
+utilities:
+	cd utils/ncurses-5.7; ./configure $(CONFIG_HOST) $(NCURSESFLAGS)
+	make -C utils/ncurses-5.7/
+	cd utils/htop-0.8.1/; CPPFLAGS=$(CPPFLAGS) LDFLAGS=$(LDFLAGS) ./configure $(CONFIG_HOST)
+	make -C utils/htop-0.8.1/
+
+install:
+	mkdir -p $(DESTDIR)
+	cp utils/htop-0.8.1/htop $(DESTDIR)
+	mkdir -p scripts/test
+	mkdir -p scripts/tmp
 
 clean:
-	rm -rf *.o *~ core .depend .*.cmd *.ko *.mod.c .tmp_versions
-
-.PHONY: modules modules_install clean
-
-else
-    # called from kernel build system: just declare what our modules are
-    obj-m := pri_tst1.o pri_tst2.o
-endif
-
+	rm -rvf $(DESTDIR)
+	make -C utils/ncurses-5.7/ clean
+	make -C utils/htop-0.8.1/ clean
+	rm -rf scripts/log*
+	rm -rf scripts/tmp
+	rm -rf scripts/test
 

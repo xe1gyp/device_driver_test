@@ -1,24 +1,33 @@
-
 CC := $(CROSS_COMPILE)gcc
 
-export UTIL_DIR = $(PWD)
-export UTIL_DESTDIR = ($PWD)/bin
+export UTILS_DIR = $(PWD)
+export UTILS_BINARIES = $(PWD)/bin
 
-BINARIES:=pan/pan akey/akey akey/waitkey akey/choice
-
-all: pan_app akey_app install
+#all: pan_app akey_app priority_app install
+all: akey_app pan_app priority_app schedutils_app install
 
 install:
-	mkdir -p bin
-	cp $(BINARIES) bin/
+	mkdir -p $(UTILS_BINARIES)
+	make -C akey install
+	make -C pan install
+	make -C priority install
+	make -C schedutils install
+
+akey_app:
+	make -C akey CC=${CC}
 
 pan_app:
-	make -C pan CC=$(CC)
-	
-akey_app:
-	make -C akey CC=$(CC)
+	make -C pan CC=${CC}
+
+priority_app:
+	make -C priority CC=${CC}
+
+schedutils_app:
+	make -C schedutils CC=${CC}
 
 clean:
-	make -C pan clean
 	make -C akey clean
-	rm -rf bin
+	make -C pan clean
+	make -C priority clean
+	make -C schedutils clean
+	rm -rf $(UTILS_BINARIES)

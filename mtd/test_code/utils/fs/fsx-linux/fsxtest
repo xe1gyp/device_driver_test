@@ -1,0 +1,75 @@
+#!/bin/sh
+#
+# Copyright (c) 2001 Silicon Graphics, Inc.  All Rights Reserved.
+# Copyright (c) International Business Machines  Corp., 2001
+#
+# This program is free software;  you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY;  without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+# the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program;  if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+#
+#
+#
+# Proper error checking and result reporting still needed
+#
+# usage:  fsxtest $1 $2 $3
+# $1 scratch device to use for testing
+# $2 optional file system type
+# $3 number of operations to perform
+# $4 nor/nand/sibley
+
+#-----------------------------------------------------------------------
+# Initialize local variables
+#-----------------------------------------------------------------------
+if [ -z "$TCbin" ]; then
+TCbin=${TCbin:-`pwd`}
+fi
+if [ -z "$TCbin" ]; then
+TCtmp=${TCtmp:=/tmp/$TC$$}
+else
+TCtmp=${TCtmp}/$TC$$
+fi
+export PATH=$PATH:$TCbin:../../../bin
+export TCID=$TC
+export TST_TOTAL=1
+export TST_COUNT=1
+TARGET_DIR=$1
+
+#Uncomment line below for debugging
+#set -x
+if [ $2 == "jfs" ]; then
+  mkfs -t $2 -q $1
+elif [ $2 == "jffs2" ]; then
+	if [ $3 != "sibley" ]; then
+		J=-j
+	fi
+	$TCbin/flash_eraseall $J $1
+else
+  mkfs -t $2 $1
+fi
+mkdir /testmount
+mount -t $2 $1 /testmount
+touch /testmount/testfile
+$TCbin/fsx-linux -N $3 /testmount/testfile
+RESULT=$?
+# report the results
+if [ $RESULT -eq "0" ]; then
+  echo "PASS: fsxtest $1 $2 $3"
+else
+  echo "FAIL: fsxtest $1 $2 $3"
+fi
+umount /testmount
+rm -rf /testmount
+if [ $2 != "jffs2" ]; then
+fsck -a -t $2 $1  # report the results
+fi
+exit $RESULT

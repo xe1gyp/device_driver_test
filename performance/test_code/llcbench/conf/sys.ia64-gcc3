@@ -1,0 +1,34 @@
+# Linux-mpich sys.def
+
+# Intel MKL
+MKL_PATH 	= /pdc/vol/mkl/6.0p-11/lib/64
+MKL_LIB		= -L$(MKL_PATH) -lmkl_i2p -lguide
+
+# Goto
+GOTO_PATH	= /afs/pdc.kth.se/home/p/pek/tmp
+GOTO_LIB	= -L$(GOTO_PATH) -lgoto_it2-r0.7
+
+# Myrinet
+GM_PATH 	= /pdc/vol/gm/2.0/lib
+
+# Blasbench values
+
+BB_CC		= gcc
+BB_CFLAGS	= -O3 -Wall -DREGISTER 
+BB_LDFLAGS	= 
+BB_LIBS		= $(GOTO_LIB) $(MKL_LIB)
+
+# Cachebench values
+
+CB_CC		= $(BB_CC)
+CB_CFLAGS	= $(BB_CFLAGS)
+CB_LDFLAGS	= -Wl,--rpath,$(ECCLIB_PATH)
+# MPbench values
+
+MP_MPI_CC	= mpicc
+MP_CFLAGS	= $(BB_CFLAGS) -DINLINE
+#MP_LDFLAGS	= -Wl,--rpath,$(GM_PATH) -Wl,--rpath,$(ECCLIB_PATH)
+MP_LDFLAGS	= -Wl,--rpath,$(ECCLIB_PATH)
+MPIRUNCMD	= mpirun $(MP_Hostfile)
+MPIRUNPROCS	= -np
+MPIRUNPOSTOPTS	= mpi_bench

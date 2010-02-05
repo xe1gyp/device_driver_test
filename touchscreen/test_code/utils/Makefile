@@ -1,20 +1,12 @@
-#/* ================================================================================
-#             Texas Instruments OMAP(TM) Platform Software
-#  (c) Copyright Texas Instruments, Incorporated.  All Rights Reserved.
-#
-#  Use of this software is controlled by the terms and conditions found 
-#  in the license agreement under which this software has been supplied.
-# ================================================================================ */
-
-SUBDIRS=touchscreen_app
+SUBDIRS=touchscreen_apps_dir
 
 all: $(SUBDIRS)
 
 install:
-	make -C touchscreen install
+	make -C touchscreen_apps install
 
-touchscreen_app:
-	make -C touchscreen
+touchscreen_apps_dir:
+	make -C touchscreen_apps
 
 clean:
-	make -C touchscreen clean
+	make -C touchscreen_apps clean

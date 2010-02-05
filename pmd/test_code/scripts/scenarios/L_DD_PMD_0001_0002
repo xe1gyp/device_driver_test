@@ -1,0 +1,10 @@
+###############################################################################
+# Scenario: L_DD_POWER_0001_0002
+# Testing : Suspend/Resume using wake-up timer, 5 minutes
+###############################################################################
+
+# Begin L_DD_POWER_0001_0002
+
+01  set -x; suspendResume.sh  "suspend"  "30"
+
+# End L_DD_POWER_0001_0002

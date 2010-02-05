@@ -1,11 +1,12 @@
 ###############################################################################
 # Scenario: L_DD_KEYPAD_0001_0002
 # Author  : Abraham Arce
-# Date    : Mon Dec  1 14:19:45 CST 2008
+# Modified by: Aharon Campos
+# Date    :  Oct 15, 2009
 ###############################################################################
 
 # Begin L_DD_KEYPAD_0001_0002
 
-01 $TESTBIN/testkeypad $DEVFS_KEYPAD && exit 0 || exit 1
+01  set -x; echo -e "\n\n\nThe application will wait for 500 keypresses.\nkeep one key depressed to verify\nthat 'value' (last column)\nis reported as 2.\n\n\n"; $KEYPAD_DIR_BINARIES/testkeypad $DEVFS_KEYPAD | grep value=2
 
 # End L_DD_KEYPAD_0001_0002

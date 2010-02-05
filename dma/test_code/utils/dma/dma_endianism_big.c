@@ -175,9 +175,9 @@ void setup_dma_transfer_(struct dma_transfer *transfer){
                 0x0,
                 0x0);
 
-        omap_set_dma_src_endian_type(
+        /*omap_set_dma_src_endian_type(
                 transfer->transfer_id,
-                DMA_TEST_BIG_ENDIAN);
+                DMA_TEST_BIG_ENDIAN);*/
 
         omap_set_dma_src_burst_mode(
                 transfer->transfer_id,
@@ -192,9 +192,9 @@ void setup_dma_transfer_(struct dma_transfer *transfer){
                 0x0,
                 0x0);
 
-        omap_set_dma_dst_endian_type(
+        /*omap_set_dma_dst_endian_type(
                 transfer->transfer_id,
-                DMA_TEST_LITTLE_ENDIAN);
+                DMA_TEST_LITTLE_ENDIAN);*/
 
         omap_set_dma_dest_burst_mode(
                 transfer->transfer_id,

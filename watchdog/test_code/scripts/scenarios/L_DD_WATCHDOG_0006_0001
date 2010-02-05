@@ -1,0 +1,11 @@
+###############################################################################
+# Scenario: L_DD_WATCHDOG_0006_0001
+# Author  : Misael Lopez Cruz, Abraham Arce
+# Date    : October 8, 2009
+###############################################################################
+
+# Begin L_DD_WATCHDOG_0006_0001
+
+01 set -x; ($UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "$WATCHDOG_KEEPALIVE $WATCHDOG_DEVFS " "1" "15" &) && sleep 1 && killall handlerCpuAffinity
+02 set -x; sleep 1
+# End L_DD_WATCHDOG_0006_0001

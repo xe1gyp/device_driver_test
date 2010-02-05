@@ -1,13 +1,13 @@
 #!/bin/sh
 #-----------------------
-# Based on runltp script from LTP 
+# Based on runltp script from LTP
 # Much of the functions are copied over from there
 # Copyright remains
 #-----------------------
 
 # Give standard error message and die
 die()
-{	
+{
 	echo "FATAL: $*"
 	usage
 	exit 1
@@ -38,27 +38,27 @@ setup()
 	{
 		die "unable to change directory to $(dirname $0)"
 	}
-	
-	# Load config file 
+
+	# Load config file
 	if [ -f "./conf.sh" ]; then
 		. ./conf.sh
 		if [ $? -eq 0 ]; then
 			echo "INFO: Requested tests will be started"
 		else
 			echo "FATAL: Configuration file with errors"
-		fi		
+		fi
 	else
 		die "FATAL: Configuration file not found"
 	fi
 
 	# scenario less tests?? have the user organize it properly at least..
-	[ -d $TC_SCENARIO ] ||
+	[ -d $KEYPAD_DIR_SCENARIOS ] ||
 	{
 		die "Test suite not installed correctly - no scenarios"
 	}
 
 	# we'd need the reporting tool ofcourse..
-	[ -e $UTILBIN/pan ] ||
+	[ -e $UTILS_DIR_BIN/pan ] ||
 	{
 		die "FATAL: Test suite driver 'pan' not found"
 	}
@@ -67,29 +67,29 @@ setup()
 usage()
 {
 	# Human redable please
-	local PP=` if [ -z "$PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
-	local VV=` if [ -z "$VERBOSE" ]; then echo "off"; else echo "on"; fi`
-	
+	local PP=` if [ -z "$KEYPAD_PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
+	local VV=` if [ -z "$KEYPAD_VERBOSE" ]; then echo "off"; else echo "on"; fi`
+
 	# Give the gyan
 	cat <<-EOF >&2
-	usage: ./${0##*/} [-z] [-h] [-v] [-d TESTDIR] [-o OUTPUTFILE] [-l LOGFILE] 
-	[-n DURATION ] [-t TMPDIR] [SCENARIO_NAMES..]
+	usage: ./${0##*/} [-z] [-h] [-v] [-d KEYPAD_DIR_TEST] [-o KEYPAD_FILE_OUTPUT] [-l KEYPAD_FILE_LOG]
+	[-n KEYPAD_DURATION ] [-t TMPDIR] [KEYPAD_SCENARIO_NAMES..]
 
-	-d TESTDIR      Run LTP to test the filesystem mounted here. [Current - $TESTDIR]
+	-d KEYPAD_DIR_TEST      Run LTP to test the filesystem mounted here. [Current - $KEYPAD_DIR_TEST]
 			At the end of test, the testdir gets cleaned out
-	-s TC_SCENARIO  Test scenarios are located here. [Current - $TC_SCENARIO]
-	-o OUTPUTFILE   Redirect test output to a file. [Current- $OUTPUTFILE {psid}]
+	-s KEYPAD_DIR_SCENARIOS  Test scenarios are located here. [Current - $KEYPAD_DIR_SCENARIOS]
+	-o KEYPAD_FILE_OUTPUT   Redirect test output to a file. [Current- $KEYPAD_FILE_OUTPUT {psid}]
 	-p              Human readable(dont laugh too much) format logfiles. [Current - ($PP)]
 	-z              Dont Merge the Scenario Name with tcid to create final tc id
 	-E              Use Extended Test cases also - these are painful and can take real long time
-	-l LOGFILE      Log results of test in a logfile. [Current- $LOGFILE {psid}]
-	-t TMPDIR       Run LTP using tmp dir [Current - $TMPBASE]
-	-n DURATION     Execute the testsuite for given duration. Examples:
+	-l KEYPAD_FILE_LOG      Log results of test in a logfile. [Current- $KEYPAD_FILE_LOG {psid}]
+	-t TMPDIR       Run LTP using tmp dir [Current - $KEYPAD_DIR_TMP]
+	-n KEYPAD_DURATION     Execute the testsuite for given duration. Examples:
 			-n 60s = 60 seconds
 			-n 45m = 45 minutes
 			-n 24h = 24 hours
 			-n 2d  = 2 days
-			[Current - $DURATION]
+			[Current - $KEYPAD_DURATION]
 
 	-v              Print more verbose output to screen.[Current - ($VV)]
 	-q              No messages from this script. no info too - Brave eh??
@@ -98,13 +98,13 @@ usage()
 	-r PRE_DEF      Run predefined set of scenarios[Not Implemented yet]
 			List to appear here
 	-S              Run in Stress mode
-	
-	SCENARIO_NAMES  List of scenarios to test.. else, take all scenarios 
-			[Current - These are all filenames from $TC_SCENARIO]
-    
+
+	KEYPAD_SCENARIO_NAMES  List of scenarios to test.. else, take all scenarios
+			[Current - These are all filenames from $KEYPAD_DIR_SCENARIOS]
+
 	Good News: Ctrl+c stops and cleans up for you :)
-	More help: Read the $TESTROOT/README
-		
+	More help: Read the $KEYPAD_ROOT/README
+
 	EOF
 	exit 0
 }
@@ -114,60 +114,60 @@ sanity_check()
 {
     # Check the current values...
     # Just ensure that pan can run with a bit of peace of mind...
-    
-    [ ! -d "$TMPBASE" -o ! -w "$TMPBASE" ] && die "$TMPBASE - cannot work as temporary directory"
-    [ ! -d "$TESTDIR" -o ! -w "$TESTDIR" ] && die "$TESTDIR - cannot work as test directory"
-    [ ! -d "$TC_SCENARIO" ] && die "$TC_SCENARIO - No such directories"
-    [ -z "$SCENARIO_NAMES" ] && die "No Scenarios"
-		[ ! -z "$VERBOSE" -a ! -z "$QUIET_MODE" ] && die "Make up your mind - verbose or quiet??"
-		
-    export CMDFILE=$TMPBASE/$CMDFILE
-    rm -f $CMDFILE
-    
-		for SCEN in $SCENARIO_NAMES
+
+    [ ! -d "$KEYPAD_DIR_TMP" -o ! -w "$KEYPAD_DIR_TMP" ] && die "$KEYPAD_DIR_TMP - cannot work as temporary directory"
+    [ ! -d "$KEYPAD_DIR_TEST" -o ! -w "$KEYPAD_DIR_TEST" ] && die "$KEYPAD_DIR_TEST - cannot work as test directory"
+    [ ! -d "$KEYPAD_DIR_SCENARIOS" ] && die "$KEYPAD_DIR_SCENARIOS - No such directories"
+    [ -z "$KEYPAD_SCENARIO_NAMES" ] && die "No Scenarios"
+		[ ! -z "$KEYPAD_VERBOSE" -a ! -z "$KEYPAD_QUIET_MODE" ] && die "Make up your mind - verbose or quiet??"
+
+    export KEYPAD_FILE_CMD=$KEYPAD_DIR_TMP/$KEYPAD_FILE_CMD
+    rm -f $KEYPAD_FILE_CMD
+
+		for SCEN in $KEYPAD_SCENARIO_NAMES
     do
-		  [ ! -f "$TC_SCENARIO/$SCEN" -o ! -r "$TC_SCENARIO/$SCEN" ] && die "$TC_SCENARIO/$SCEN - not a scenario file"
-			cat $TC_SCENARIO/$SCEN|grep -v "#"|sed -e "s/^[  ]*$//g"|sed -e "/^$/d">$TMPFILE|| die "Count not create tmp file $TMPFILE"
+		  [ ! -f "$KEYPAD_DIR_SCENARIOS/$SCEN" -o ! -r "$KEYPAD_DIR_SCENARIOS/$SCEN" ] && die "$KEYPAD_DIR_SCENARIOS/$SCEN - not a scenario file"
+			cat $KEYPAD_DIR_SCENARIOS/$SCEN|grep -v "#"|sed -e "s/^[  ]*$//g"|sed -e "/^$/d">$KEYPAD_FILE_TMP|| die "Count not create tmp file $KEYPAD_FILE_TMP"
 			if [ -z "$DONT" ]; then
-				cat $TMPFILE|sed -e "s/^/$SCEN-/g"|sed -e "s/-/_/" >>$CMDFILE || die "Count not create command file $CMDFILE"
+				cat $KEYPAD_FILE_TMP|sed -e "s/^/$SCEN-/g"|sed -e "s/-/_/" >>$KEYPAD_FILE_CMD || die "Count not create command file $KEYPAD_FILE_CMD"
 				else
-				cat $TMPFILE>>$CMDFILE || die "Count not create command file $CMDFILE"
+				cat $KEYPAD_FILE_TMP>>$KEYPAD_FILE_CMD || die "Count not create command file $KEYPAD_FILE_CMD"
 			fi
 
 			# Remove the extended test cases
 			if [ -z "$EXTENDED_TEST" ]; then
-				
-				cat $CMDFILE|grep -v "^[_A-Za-z0-9]*_EXT ">$TMPFILE || die "intermediate file gen failed"
-				cat $TMPFILE>$CMDFILE || die "Second intermediate creation failed"
+
+				cat $KEYPAD_FILE_CMD|grep -v "^[_A-Za-z0-9]*_EXT ">$KEYPAD_FILE_TMP || die "intermediate file gen failed"
+				cat $KEYPAD_FILE_TMP>$KEYPAD_FILE_CMD || die "Second intermediate creation failed"
 			fi
-	
-			rm -f $TMPFILE
-			
+
+			rm -f $KEYPAD_FILE_TMP
+
     done
-    
-		local PP=` if [ -z "$PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
-    local VV=` if [ -z "$VERBOSE" ]; then echo "off"; else echo "on"; fi`
-    export TMPDIR=${TESTDIR}
-		
+
+		local PP=` if [ -z "$KEYPAD_PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
+    local VV=` if [ -z "$KEYPAD_VERBOSE" ]; then echo "off"; else echo "on"; fi`
+    export TMPDIR=${KEYPAD_DIR_TEST}
+
 		# Print some nice info
-    if [ ! -z "$VERBOSE" ]; then
-        debug "POSTFIX        $POSTFIX       "
-        info  "TESTROOT       $TESTROOT      "
-        info  "TMPBASE        $TMPBASE       "
-        info  "TMPFILE        $TMPFILE       "
-        debug "CMDFILE        $CMDFILE       "
-        info  "TESTDIR        $TESTDIR       "
-        info  "PRETTY_PRT     $PP            "
-        info  "VERBOSE        $VV            "
-        info  "OUTPUTFILE     $OUTPUTFILE    "
-        info  "LOGFILE        $LOGFILE       "
-        info  "DURATION       $DURATION      "
+    if [ ! -z "$KEYPAD_VERBOSE" ]; then
+        debug "KEYPAD_POSTFIX        $KEYPAD_POSTFIX       "
+        info  "KEYPAD_ROOT       $KEYPAD_ROOT      "
+        info  "KEYPAD_DIR_TMP        $KEYPAD_DIR_TMP       "
+        info  "KEYPAD_FILE_TMP        $KEYPAD_FILE_TMP       "
+        debug "KEYPAD_FILE_CMD        $KEYPAD_FILE_CMD       "
+        info  "KEYPAD_DIR_TEST        $KEYPAD_DIR_TEST       "
+        info  "KEYPAD_PRETTY_PRT     $PP            "
+        info  "KEYPAD_VERBOSE        $VV            "
+        info  "KEYPAD_FILE_OUTPUT     $KEYPAD_FILE_OUTPUT    "
+        info  "KEYPAD_FILE_LOG        $KEYPAD_FILE_LOG       "
+        info  "KEYPAD_DURATION       $KEYPAD_DURATION      "
         debug "PATH           $PATH          "
-        info  "TC_SCENARIO    $TC_SCENARIO   "
+        info  "KEYPAD_DIR_SCENARIOS    $KEYPAD_DIR_SCENARIOS   "
         info  "TMPDIR         $TMPDIR        "
-        info  "SCENARIO_NAMES $SCENARIO_NAMES"
+        info  "KEYPAD_SCENARIO_NAMES $KEYPAD_SCENARIO_NAMES"
     fi
-} 
+}
 
 main()
 {
@@ -175,25 +175,25 @@ main()
 	while getopts zx:Sd:qt:po:l:vn:hs:E:I arg
 	do  case $arg in
 		d)
-			TESTDIR=${OPTARG} ;;
+			KEYPAD_DIR_TEST=${KEYPAD_OPTARG} ;;
 		t)
-			TMPBASE=${OPTARG} ;;
+			KEYPAD_DIR_TMP=${KEYPAD_OPTARG} ;;
 		E)
 			EXTENDED_TEST=y ;;
 	        q)
-			QUIET_MODE=" -q " ;;
+			KEYPAD_QUIET_MODE=" -q " ;;
 	        z)
 			DONT=" " ;;
 		p)
-			PRETTY_PRT=" -p " ;;
+			KEYPAD_PRETTY_PRT=" -p " ;;
 		o)
-			OUTPUTFILE=${OPTARG};OO_LOG=1 ;;
+			KEYPAD_FILE_OUTPUT=${KEYPAD_OPTARG};OO_LOG=1 ;;
 		l)
-			LOGFILE=${OPTARG} ;;
+			KEYPAD_FILE_LOG=${KEYPAD_OPTARG} ;;
 		v)
-			VERBOSE="-v" ;;
-		n) 
-			DURATION=" -t ${OPTARG}" ;;
+			KEYPAD_VERBOSE="-v" ;;
+		n)
+			KEYPAD_DURATION=" -t ${KEYPAD_OPTARG}" ;;
 		h)
 			usage ;;
 		x)  # number of ltp's to run
@@ -204,57 +204,57 @@ main()
 			to be ran exclusively.
 			Pausing for 10 seconds...Last chance to hit that ctrl+c
 			EOF
-            				sleep 10
-			INSTANCES="-x $OPTARG -O ${TMP}" ;;
+					sleep 10
+			KEYPAD_INSTANCES="-x $KEYPAD_OPTARG -O ${TMP}" ;;
 		s)
-			TC_SCENARIO=${OPTARG} ;;
+			KEYPAD_DIR_SCENARIOS=${KEYPAD_OPTARG} ;;
 		S)
-			STRESS=y
-			STRESSARG="-S";;
-		
+			KEYPAD_STRESS=y
+			KEYPAD_STRESSARG="-S";;
+
 		\?) # Handle illegals
 			usage ;;
-        
+
 	esac
-	
-	if [ ! -z "${OPTARG}" ]; then
+
+	if [ ! -z "${KEYPAD_OPTARG}" ]; then
 		count=" $count + 2"
 	else
 		count=" $count + 1"
 	fi
 
 	done
-	
+
 	count=$(( $count ))
-	while [ $count -ne 0 ] 
+	while [ $count -ne 0 ]
 	do
 		shift;
 		count=$(($count - 1))
 	done
-	
-	SCENARIO_NAMES=$@
+
+	KEYPAD_SCENARIO_NAMES=$@
 
 	sanity_check
-	
+
 	# Test start
-	
-	[ -z "$QUIET_MODE" ] && { info "Test start time: $(date)" ; }
+
+	[ -z "$KEYPAD_QUIET_MODE" ] && { info "Test start time: $(date)" ; }
 
 	# Usage: pan -n name [ -SyAehp ] [ -s starts ] [-t time[s|m|h|d] [ -x nactive ] [-l logfile ]
 	# [ -a active-file ] [ -f command-file ] [ -d debug-level ]
 	# [-o output-file] [-O output-buffer-directory] [cmd]
 
-	cd $TESTDIR
-	PAN_COMMAND="${UTILBIN}/pan $QUIET_MODE -e -S $INSTANCES $DURATION -a $$ -n $$ $PRETTY_PRT -f ${CMDFILE} -l $LOGFILE"
-    
-	[ ! -z "$VERBOSE" ] && { info "PAN_COMMAND=$PAN_COMMAND"; }
-    	
+	cd $KEYPAD_DIR_TEST
+	PAN_COMMAND="${UTILS_DIR_BIN}/pan $KEYPAD_QUIET_MODE -e -S $KEYPAD_INSTANCES $KEYPAD_DURATION -a $$ -n $$ $KEYPAD_PRETTY_PRT -f ${KEYPAD_FILE_CMD} -l $KEYPAD_FILE_LOG"
+
+	[ ! -z "$KEYPAD_VERBOSE" ] && { info "PAN_COMMAND=$PAN_COMMAND"; }
+
 	if [ -z "$OO_LOG" ]; then
 		$PAN_COMMAND
 	else
-		$PAN_COMMAND|tee $OUTPUTFILE
+		$PAN_COMMAND|tee $KEYPAD_FILE_OUTPUT
 	fi
-    
+
 	if [ $? -eq 0 ]; then
 		echo "INFO: pan reported all tests PASS"
 		VALUE=0
@@ -262,21 +262,21 @@ main()
 		echo "INFO: pan reported some tests FAIL"
 		VALUE=1
 	fi
-    
+
 	# Test end
-	[ -z "$QUIET_MODE" ] && { info "Test end time: $(date)" ; }
-	[ -z "$QUIET_MODE" ] && { 
+	[ -z "$KEYPAD_QUIET_MODE" ] && { info "Test end time: $(date)" ; }
+	[ -z "$KEYPAD_QUIET_MODE" ] && {
 
 	cat <<-EOF >&1
 
 	###############################################################"
 		Done executing testcases."
-		Result log is in the $LOGFILE "
+		Result log is in the $KEYPAD_FILE_LOG "
 	###############################################################"
-       
+
 	EOF
-	cat $LOGFILE
-	
+	cat $KEYPAD_FILE_LOG
+
 	}
 	cleanup
 	exit $VALUE
@@ -285,14 +285,14 @@ main()
 
 cleanup()
 {
-	[  -z "$QUIET_MODE" ] && echo -n "INFO: Cleaning up..."
-	if [ -n "${TMPFILE}" -a -n "${CMDFILE}" -a -n "${TESTDIR}" -a -n "${TMPBASE}" ]; then
-		rm -rf ${TMPFILE} ${CMDFILE} ${TESTDIR}/* ${TMPBASE}/*
+	[  -z "$KEYPAD_QUIET_MODE" ] && echo -n "INFO: Cleaning up..."
+	if [ -n "${KEYPAD_FILE_TMP}" -a -n "${KEYPAD_FILE_CMD}" -a -n "${KEYPAD_DIR_TEST}" -a -n "${KEYPAD_DIR_TMP}" ]; then
+		rm -rf ${KEYPAD_FILE_TMP} ${KEYPAD_FILE_CMD} ${KEYPAD_DIR_TEST}/* ${KEYPAD_DIR_TMP}/*
 	else
 		echo "INFO: Clean up process won't be executed because variables for directories to be removed are not set..."
 	fi
 
-	[  -z "$QUIET_MODE" ] && echo "done."
+	[  -z "$KEYPAD_QUIET_MODE" ] && echo "done."
 }
 
 

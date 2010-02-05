@@ -1,0 +1,36 @@
+###############################################################################
+# Scenario: L_DD_COMBO_0001_0002
+# Author  : Abraham Arce
+# Date    : Wed Sep 23 11:11:20 CDT 2009
+###############################################################################
+
+# Begin L_DD_COMBO_0001_0002
+
+# logger cleanup
+01  logger    clean
+
+# device setup
+02  onenand   setup
+03  mmcsd     setup
+04  tmpfs     setup
+
+# file creation
+05  file      create     25        tmpfs
+06  file      create     25        mmcsd
+
+# copy files
+07  file      copy       tmpfs     onenand
+08  file      copy       tmpfs     mmcsd
+
+# read/write parallel operations
+09  file      readwrite  tmpfs     mmcsd
+
+# device cleanup
+10  tmpfs     cleanup
+11  mmcsd     cleanup
+12  onenand   cleanup
+
+# logger display
+13  logger    display
+
+# End L_DD_COMBO_0001_0002

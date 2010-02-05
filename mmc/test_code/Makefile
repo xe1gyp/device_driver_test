@@ -1,24 +1,19 @@
 ###########################################################################
-# (C) Copyright Texas Instruments, 2007. All Rights Reserved.
+# (C) Copyright Texas Instruments. All Rights Reserved.
 #
 # Name of the file: Makefile
 #
-# Location of the file:  
+# Location of the file:
 #
 # Brief description of the contents of the file:
-#       Makefile for Camera tests 
+#       Makefile for mmc tests
 #
 # Detailed description of the contents of the file:
-# This Makefile is used to compile MMC test programs.  
+# This Makefile is used to compile mmc test programs.
 #
-# Author: Misael Lopez Cruz (x0052729@ti.com)
-#
-# Created on: 08 May 2007
-#
-# Change Log:
 ############################################################################
 
-DESTDIR := ${PWD}/bin
+DESTDIR := binaries
 OBJS := utilities install
 
 all: $(OBJS)
@@ -28,13 +23,13 @@ utilities:
 
 install:
 	mkdir -p $(DESTDIR)
-	make -C utils install
 	mkdir -p scripts/test
 	mkdir -p scripts/tmp
+	make -C utils install
 
 clean:
-	rm -rvf $(DESTDIR)
 	make -C utils clean
 	rm -rf scripts/log*
 	rm -rf scripts/tmp
 	rm -rf scripts/test
+	rm -rvf $(DESTDIR)

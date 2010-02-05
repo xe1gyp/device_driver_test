@@ -3,22 +3,19 @@
 #
 # Name of the file: Makefile
 #
-# Location of the file:
-#
 # Brief description of the contents of the file:
-#       Makefile for Camera tests
+#  Makefile for Watchdog tests
 #
 # Detailed description of the contents of the file:
-# This Makefile is used to compile Timer test programs.
+#  This Makefile is used to compile Timer test programs.
 #
 # Author: Misael Lopez Cruz (x0052729@ti.com)
 #
 # Created on: 09 May 2007
 #
-# Change Log:
 ############################################################################
 
-DESTDIR := ${PWD}/bin ${PWD}/mods
+DESTDIR := ${PWD}/binaries
 OBJS := utilities install
 
 all: $(OBJS)

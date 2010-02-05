@@ -1,0 +1,14 @@
+###############################################################################
+# Scenario: L_DD_KEYPAD_0006_0001
+# Author  : Abraham Arce
+# Date    : Tue Sep 22 16:43:35 CDT 2009
+###############################################################################
+
+# Begin L_DD_KEYPAD_0006_0001
+
+01  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "add" "1" "$KEYPAD_DIR_BINARIES/evtest $DEVFS_KEYPAD" "-20"
+02  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "add" "2" "$KEYPAD_DIR_BINARIES/evtest $DEVFS_KEYPAD" "+20"
+03  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "execute" "1"
+04  set -x; $UTILS_DIR_HANDLERS/handlerProcessPriority.sh "verify"
+
+# End L_DD_KEYPAD_0006_0001

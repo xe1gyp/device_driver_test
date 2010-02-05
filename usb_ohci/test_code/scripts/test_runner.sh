@@ -1,120 +1,112 @@
 #!/bin/sh
 #-----------------------
-# Based on runltp script from LTP
-# Much of the functions are copier over
-# from there
+# Based on runltp script from LTP 
+# Much of the functions are copied over from there
 # Copyright remains
 #-----------------------
 
 # Give standard error message and die
 die()
-{
-        echo "FATAL: $*"
-        usage
-        exit 1
+{	
+	echo "FATAL: $*"
+	usage
+	exit 1
 }
 
+# Give information message
 info()
 {
 	echo "INFO: $*"
 }
 
+# Give debug message
+
 debug_a()
 {
 	echo "DEBUG: $*"
 }
-# comment out and suit urself..Debug help
+
+# Comment out and suit urself..Debug help
 alias debug=/bin/true
-#alias debug=debug_a
+# alias debug=debug_a
 
 # Defaults and sanity stuff
 setup()
 {
-    cd `dirname $0` || \
-    {
-        die "unable to change directory to $(dirname $0)"
-    }
-    # Load config file if found
-    if [ -f "./conf.sh" ]; then
-        . ./conf.sh
-    else
-        # Load defaults..
-        # if we have a working rtc, this is good.. else use next line
-        export POSTFIX=`date "+%Y%m%d-%H%M%S"`
-        export TESTROOT=${PWD}
-        export TESTBIN=${PWD}/../bin
-        export UTILBIN=${PWD}/../../utils/bin
-        export TESTMODS=${PWD}/../mods
-        export TESTSCRIPT=${PWD}/helper
-        export TMPBASE=${TESTROOT}/tmp
-        export TMPFILE=${TMPBASE}/tmp.$POSTFIX
-        export CMDFILE=cmd.$POSTFIX
-        export TESTDIR=${TESTROOT}/test
-        export PRETTY_PRT=""
-        export VERBOSE=""
-        export OUTPUTFILE=${TESTROOT}/output.$POSTFIX
-        export LOGFILE=${TESTROOT}/log.$POSTFIX
-        export DURATION="1h"
-        export PATH="${PATH}:${TESTROOT}:${TESTBIN}:${TESTSCRIPT}"
-        export TC_SCENARIO="${TESTROOT}/scenarios"
-        export SCENARIO_NAMES=""
 
-    fi
+	cd `dirname $0` || \
+	{
+		die "unable to change directory to $(dirname $0)"
+	}
+	
+	# Load config file 
+	if [ -f "./conf.sh" ]; then
+		. ./conf.sh
+		if [ $? -eq 0 ]; then
+			echo "INFO: Requested tests will be started"
+		else
+			echo "FATAL: Configuration file with errors"
+		fi		
+	else
+		die "FATAL: Configuration file not found"
+	fi
 
-    # scenario less tests?? have the user organize it properly at least..
-    [ -d $TC_SCENARIO ] ||
-    {
-        die "Test suite not installed correctly - no scenarios"
-    }
+	# scenario less tests?? have the user organize it properly at least..
+	[ -d $USBHOST_DIR_SCENARIOS ] ||
+	{
+		die "Test suite not installed correctly - no scenarios"
+	}
 
-    # we'd need the reporting tool ofcourse..
-    [ -e ${UTILBIN}/pan ] ||
-    {
-        die "FATAL: Test suite driver 'pan' not found"
-    }
+	# we'd need the reporting tool ofcourse..
+	[ -e $UTILS_DIR_BIN/pan ] ||
+	{
+		die "FATAL: Test suite driver 'pan' not found"
+	}
 }
 
 usage()
 {
-    # Human redable please
-    local PP=` if [ -z "$PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
-    local VV=` if [ -z "$VERBOSE" ]; then echo "off"; else echo "on"; fi`
-    # Give the gyan
-    cat <<-EOF >&2
+	# Human redable please
+	local PP=` if [ -z "$USBHOST_PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
+	local VV=` if [ -z "$USBHOST_VERBOSE" ]; then echo "off"; else echo "on"; fi`
+	
+	# Give the gyan
+	cat <<-EOF >&2
+	usage: ./${0##*/} [-z] [-h] [-v] [-d USBHOST_DIR_TEST] [-o USBHOST_FILE_OUTPUT] [-l USBHOST_FILE_LOG] 
+	[-n USBHOST_DURATION ] [-t TMPDIR] [USBHOST_SCENARIO_NAMES..]
 
-    usage: ./${0##*/} [-z] [-h] [-v] [-d TESTDIR] [-o OUTPUTFILE] [-l LOGFILE]
-    [-n DURATION ] [-t TMPDIR] [SCENARIO_NAMES..]
+	-d USBHOST_DIR_TEST      Run LTP to test the filesystem mounted here. [Current - $USBHOST_DIR_TEST]
+			At the end of test, the testdir gets cleaned out
+	-s USBHOST_DIR_SCENARIOS  Test scenarios are located here. [Current - $USBHOST_DIR_SCENARIOS]
+	-o USBHOST_FILE_OUTPUT   Redirect test output to a file. [Current- $USBHOST_FILE_OUTPUT {psid}]
+	-p              Human readable(dont laugh too much) format logfiles. [Current - ($PP)]
+	-z              Dont Merge the Scenario Name with tcid to create final tc id
+	-E              Use Extended Test cases also - these are painful and can take real long time
+	-l USBHOST_FILE_LOG      Log results of test in a logfile. [Current- $USBHOST_FILE_LOG {psid}]
+	-t TMPDIR       Run LTP using tmp dir [Current - $USBHOST_DIR_TMP]
+	-n USBHOST_DURATION     Execute the testsuite for given duration. Examples:
+			-n 60s = 60 seconds
+			-n 45m = 45 minutes
+			-n 24h = 24 hours
+			-n 2d  = 2 days
+			[Current - $USBHOST_DURATION]
 
-    -d TESTDIR      Run LTP to test the filesystem mounted here. [Current - $TESTDIR]
-                    At the end of test, the testdir gets cleaned out
-    -s TC_SCENARIO  Test scenarios are located here. [Current - $TC_SCENARIO]
-    -o OUTPUTFILE   Redirect test output to a file. [Current- $OUTPUTFILE {psid}]
-    -p              Human readable(dont laugh too much) format logfiles. [Current - ($PP)]
-    -z              Dont Merge the Scenario Name with tcid to create final tc id
-    -E              Use Extended Test cases also - these are painful and can take real long time
-    -l LOGFILE      Log results of test in a logfile. [Current- $LOGFILE {psid}]
-    -t TMPDIR       Run LTP using tmp dir [Current - $TMPBASE]
-    -n DURATION     Execute the testsuite for given duration. Examples:
-                      -n 60s = 60 seconds
-                      -n 45m = 45 minutes
-                      -n 24h = 24 hours
-                      -n 2d  = 2 days
-                    [Current - $DURATION]
-    -v              Print more verbose output to screen.[Current - ($VV)]
-    -q              No messages from this script. no info too - Brave eh??
-    -h              This screen [Current - guess...]
-    -x INSTANCES    Run multiple instances of this testsuite.(think well...)
-    -r PRE_DEF      Run predefined set of scenarios[Not Implemented yet]
-                     List to appear here
-    SCENARIO_NAMES  List of scenarios to test.. else, take all scenarios
-                    [Current - These are all filenames from $TC_SCENARIO]
-
-    Good News: Ctrl+c stops and cleans up for you :)
-    More help: Read the $TESTROOT/README
-
-
+	-v              Print more verbose output to screen.[Current - ($VV)]
+	-q              No messages from this script. no info too - Brave eh??
+	-h              This screen [Current - guess...]
+	-x INSTANCES    Run multiple instances of this testsuite.(think well...)
+	-r PRE_DEF      Run predefined set of scenarios[Not Implemented yet]
+			List to appear here
+	-S              Run in Stress mode
+	
+	USBHOST_SCENARIO_NAMES  List of scenarios to test.. else, take all scenarios 
+			[Current - These are all filenames from $USBHOST_DIR_SCENARIOS]
+    
+	Good News: Ctrl+c stops and cleans up for you :)
+	More help: Read the $USBHOST_ROOT/README
+		
 	EOF
-exit 0
+	exit 0
 }
 
 # Insane world.. insane set of human mistakes!!
@@ -122,161 +114,190 @@ sanity_check()
 {
     # Check the current values...
     # Just ensure that pan can run with a bit of peace of mind...
-    [ ! -d "$TMPBASE" -o ! -w "$TMPBASE" ] && die "$TMPBASE - cannot work as temporary directory"
-
-    [ ! -d "$TESTBIN" ] && die "$TESTBIN - cannot find test binary directory"
-    [ ! -d "$TESTDIR" -o ! -w "$TESTDIR" ] && die "$TESTDIR - cannot work as test directory"
-    [ ! -d "$TC_SCENARIO" ] && die "$TC_SCENARIO - No such directories"
-    [ -z "$SCENARIO_NAMES" ] && die "No Scenarios"
-    #[ ! -z "$VERBOSE" -a ! -z "$QUIET_MODE" ] && die "Make up your mind - verbose or quiet??"
-    export CMDFILE=$TMPBASE/$CMDFILE
-    rm -f $CMDFILE
-    for SCEN in $SCENARIO_NAMES
+    
+    [ ! -d "$USBHOST_DIR_TMP" -o ! -w "$USBHOST_DIR_TMP" ] && die "$USBHOST_DIR_TMP - cannot work as temporary directory"
+    [ ! -d "$USBHOST_DIR_TEST" -o ! -w "$USBHOST_DIR_TEST" ] && die "$USBHOST_DIR_TEST - cannot work as test directory"
+    [ ! -d "$USBHOST_DIR_SCENARIOS" ] && die "$USBHOST_DIR_SCENARIOS - No such directories"
+    [ -z "$USBHOST_SCENARIO_NAMES" ] && die "No Scenarios"
+		[ ! -z "$USBHOST_VERBOSE" -a ! -z "$USBHOST_QUIET_MODE" ] && die "Make up your mind - verbose or quiet??"
+		
+    export USBHOST_FILE_CMD=$USBHOST_DIR_TMP/$USBHOST_FILE_CMD
+    rm -f $USBHOST_FILE_CMD
+    
+		for SCEN in $USBHOST_SCENARIO_NAMES
     do
-        [ ! -f "$TC_SCENARIO/$SCEN" -o ! -r "$TC_SCENARIO/$SCEN" ] && die "$TC_SCENARIO/$SCEN - not a scenario file"
-	cat $TC_SCENARIO/$SCEN|grep -v "#"|sed -e "s/^[  ]*$//g"|sed -e "/^$/d">$TMPFILE|| die "Count not create tmp file $TMPFILE"
-	if [ -z "$DONT" ]; then
-	cat $TMPFILE|sed -e "s/^/$SCEN-/g"|sed -e "s/-/_/" >>$CMDFILE || die "Count not create command file $CMDFILE"
-	else
-	cat $TMPFILE>>$CMDFILE || die "Count not create command file $CMDFILE"
-	fi
-	if [ -z "$EXTENDED_TEST"]; then
-		#Remove the extended test cases
-		cat $CMDFILE|grep -v "^[_A-Za-z0-9]*_EXT ">$TMPFILE || die "intermediate file gen failed"
-		cat $TMPFILE>$CMDFILE || die "Second intermediate creation failed"
-	fi
-	rm -f $TMPFILE
+		  [ ! -f "$USBHOST_DIR_SCENARIOS/$SCEN" -o ! -r "$USBHOST_DIR_SCENARIOS/$SCEN" ] && die "$USBHOST_DIR_SCENARIOS/$SCEN - not a scenario file"
+			cat $USBHOST_DIR_SCENARIOS/$SCEN|grep -v "#"|sed -e "s/^[  ]*$//g"|sed -e "/^$/d">$USBHOST_FILE_TMP|| die "Count not create tmp file $USBHOST_FILE_TMP"
+			if [ -z "$DONT" ]; then
+				cat $USBHOST_FILE_TMP|sed -e "s/^/$SCEN-/g"|sed -e "s/-/_/" >>$USBHOST_FILE_CMD || die "Count not create command file $USBHOST_FILE_CMD"
+				else
+				cat $USBHOST_FILE_TMP>>$USBHOST_FILE_CMD || die "Count not create command file $USBHOST_FILE_CMD"
+			fi
+
+			# Remove the extended test cases
+			if [ -z "$EXTENDED_TEST" ]; then
+				
+				cat $USBHOST_FILE_CMD|grep -v "^[_A-Za-z0-9]*_EXT ">$USBHOST_FILE_TMP || die "intermediate file gen failed"
+				cat $USBHOST_FILE_TMP>$USBHOST_FILE_CMD || die "Second intermediate creation failed"
+			fi
+	
+			rm -f $USBHOST_FILE_TMP
+			
     done
-    local PP=` if [ -z "$PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
-    local VV=` if [ -z "$VERBOSE" ]; then echo "off"; else echo "on"; fi`
-    export TMPDIR=${TESTDIR}
-    #print some nice info
-    if [ ! -z "$VERBOSE" ]; then
-        debug "POSTFIX        $POSTFIX       "
-        info  "TESTROOT       $TESTROOT      "
-        info  "TMPBASE        $TMPBASE       "
-        info  "TMPFILE        $TMPFILE       "
-        debug "CMDFILE        $CMDFILE       "
-        info  "TESTDIR        $TESTDIR       "
-        info  "PRETTY_PRT     $PP            "
-        info  "VERBOSE        $VV            "
-        info  "OUTPUTFILE     $OUTPUTFILE    "
-        info  "LOGFILE        $LOGFILE       "
-        info  "DURATION       $DURATION      "
+    
+		local PP=` if [ -z "$USBHOST_PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
+    local VV=` if [ -z "$USBHOST_VERBOSE" ]; then echo "off"; else echo "on"; fi`
+    export TMPDIR=${USBHOST_DIR_TEST}
+		
+		# Print some nice info
+    if [ ! -z "$USBHOST_VERBOSE" ]; then
+        debug "USBHOST_POSTFIX        $USBHOST_POSTFIX       "
+        info  "USBHOST_ROOT       $USBHOST_ROOT      "
+        info  "USBHOST_DIR_TMP        $USBHOST_DIR_TMP       "
+        info  "USBHOST_FILE_TMP        $USBHOST_FILE_TMP       "
+        debug "USBHOST_FILE_CMD        $USBHOST_FILE_CMD       "
+        info  "USBHOST_DIR_TEST        $USBHOST_DIR_TEST       "
+        info  "USBHOST_PRETTY_PRT     $PP            "
+        info  "USBHOST_VERBOSE        $VV            "
+        info  "USBHOST_FILE_OUTPUT     $USBHOST_FILE_OUTPUT    "
+        info  "USBHOST_FILE_LOG        $USBHOST_FILE_LOG       "
+        info  "USBHOST_DURATION       $USBHOST_DURATION      "
         debug "PATH           $PATH          "
-        info  "TC_SCENARIO    $TC_SCENARIO   "
+        info  "USBHOST_DIR_SCENARIOS    $USBHOST_DIR_SCENARIOS   "
         info  "TMPDIR         $TMPDIR        "
-        info  "SCENARIO_NAMES $SCENARIO_NAMES"
+        info  "USBHOST_SCENARIO_NAMES $USBHOST_SCENARIO_NAMES"
     fi
-}
+} 
 
 main()
 {
-   count=0
-    while getopts zx:d:qt:po:l:vn:hs:E arg
-    do  case $arg in
-        d)
-           TESTDIR=${OPTARG} ;;
-        t)
-           TMPBASE=${OPTARG} ;;
-	E)
-	   EXTENDED_TEST=y ;;
-        q)
-           QUIET_MODE=" -q " ;;
-        z)
-           DONT=" " ;;
-        p)
-           PRETTY_PRT=" -p " ;;
-        o)
-           OUTPUTFILE=${OPTARG};OO_LOG=1 ;;
-        l)
-           LOGFILE=${OPTARG} ;;
-        v)
-           VERBOSE="-v" ;;
-        n)
-           DURATION=" -t ${OPTARG}" ;;
-        h)
-            usage ;;
-        x)  # number of ltp's to run
-            cat <<-EOF >&1
-            WARNING: The use of -x can cause unpredictable failures, as a
-                     result of concurrently running multiple tests designed
-                     to be ran exclusively.
-                     Pausing for 10 seconds...Last chance to hit that ctrl+c
+	count=0
+	while getopts zx:Sd:qt:po:l:vn:hs:E:I arg
+	do  case $arg in
+		d)
+			USBHOST_DIR_TEST=${USBHOST_OPTARG} ;;
+		t)
+			USBHOST_DIR_TMP=${USBHOST_OPTARG} ;;
+		E)
+			EXTENDED_TEST=y ;;
+	        q)
+			USBHOST_QUIET_MODE=" -q " ;;
+	        z)
+			DONT=" " ;;
+		p)
+			USBHOST_PRETTY_PRT=" -p " ;;
+		o)
+			USBHOST_FILE_OUTPUT=${USBHOST_OPTARG};OO_LOG=1 ;;
+		l)
+			USBHOST_FILE_LOG=${USBHOST_OPTARG} ;;
+		v)
+			USBHOST_VERBOSE="-v" ;;
+		n) 
+			USBHOST_DURATION=" -t ${USBHOST_OPTARG}" ;;
+		h)
+			usage ;;
+		x)  # number of ltp's to run
+
+			cat <<-EOF >&1
+			WARNING: The use of -x can cause unpredictable failures, as a
+			result of concurrently running multiple tests designed
+			to be ran exclusively.
+			Pausing for 10 seconds...Last chance to hit that ctrl+c
+			EOF
+            				sleep 10
+			USBHOST_INSTANCES="-x $USBHOST_OPTARG -O ${TMP}" ;;
+		s)
+			USBHOST_DIR_SCENARIOS=${USBHOST_OPTARG} ;;
+		S)
+			USBHOST_STRESS=y
+			USBHOST_STRESSARG="-S";;
+		
+		\?) # Handle illegals
+			usage ;;
+        
+	esac
+	
+	if [ ! -z "${USBHOST_OPTARG}" ]; then
+		count=" $count + 2"
+	else
+		count=" $count + 1"
+	fi
+
+	done
+	
+	count=$(( $count ))
+	while [ $count -ne 0 ] 
+	do
+		shift;
+		count=$(($count - 1))
+	done
+	
+	USBHOST_SCENARIO_NAMES=$@
+
+	sanity_check
+	
+	# Test start
+	
+	[ -z "$USBHOST_QUIET_MODE" ] && { info "Test start time: $(date)" ; }
+
+	# Usage: pan -n name [ -SyAehp ] [ -s starts ] [-t time[s|m|h|d] [ -x nactive ] [-l logfile ]
+	# [ -a active-file ] [ -f command-file ] [ -d debug-level ]
+	# [-o output-file] [-O output-buffer-directory] [cmd]
+
+	cd $USBHOST_DIR_TEST
+	PAN_COMMAND="${UTILS_DIR_BIN}/pan $USBHOST_QUIET_MODE -e -S $USBHOST_INSTANCES $USBHOST_DURATION -a $$ -n $$ $USBHOST_PRETTY_PRT -f ${USBHOST_FILE_CMD} -l $USBHOST_FILE_LOG"
+    
+	[ ! -z "$USBHOST_VERBOSE" ] && { info "PAN_COMMAND=$PAN_COMMAND"; }
+    	
+	if [ -z "$OO_LOG" ]; then
+		$PAN_COMMAND
+	else
+		$PAN_COMMAND|tee $USBHOST_FILE_OUTPUT
+	fi
+    
+	if [ $? -eq 0 ]; then
+		echo "INFO: pan reported all tests PASS"
+		VALUE=0
+	else
+		echo "INFO: pan reported some tests FAIL"
+		VALUE=1
+	fi
+    
+	# Test end
+	[ -z "$USBHOST_QUIET_MODE" ] && { info "Test end time: $(date)" ; }
+	[ -z "$USBHOST_QUIET_MODE" ] && { 
+
+	cat <<-EOF >&1
+
+	###############################################################"
+		Done executing testcases."
+		Result log is in the $USBHOST_FILE_LOG "
+	###############################################################"
+       
 	EOF
-            sleep 20
-            INSTANCES="-x $OPTARG -O ${TMP}";;
-
-        s)
-           TC_SCENARIO=${OPTARG} ;;
-        \?) # Handle illegals
-            usage ;;
-        esac
-     if [ ! -z "${OPTARG}" ]; then
-	count=" $count + 2"
-     else
-	count=" $count + 1"
-     fi
-    done
-    count=$(( $count ))
-    while [ $count -ne 0 ]
-    do
-       shift;
-       count=$(($count - 1))
-    done
-    SCENARIO_NAMES=$@
-    sanity_check
-    # test start
-    [ -z "$QUIET_MODE" ] && { info "Test start time: $(date)" ; }
-    # run pan
-    #$PAN_COMMAND #Duplicated code here, because otherwise if we fail, only "PAN_COMMAND" gets output
-        #Usage: pan -n name [ -SyAehp ] [ -s starts ] [-t time[s|m|h|d] [ -x nactive ] [
-        #-l logfile ]
-        #[ -a active-file ] [ -f command-file ] [ -d debug-level ]
-        #[-o output-file] [-O output-buffer-directory] [cmd]
-    cd $TESTDIR
-    PAN_COMMAND="${UTILBIN}/pan $QUIET_MODE -e -S $INSTANCES $DURATION -a $$ -n $$ $PRETTY_PRT -f ${CMDFILE} -l $LOGFILE "
-    [ ! -z "$VERBOSE" ] && { info "PAN_COMMAND=$PAN_COMMAND"; }
-    if [ -z "$OO_LOG" ]; then
-    $PAN_COMMAND
-    else
-	    $PAN_COMMAND|tee $OUTPUTFILE
-    fi
-
-    if [ $? -eq 0 ]; then
-      echo "INFO: pan reported all tests PASS"
-      VALUE=0
-    else
-      echo "INFO: pan reported some tests FAIL"
-      VALUE=1
-    fi
-    # test end
-    [ -z "$QUIET_MODE" ] && { info "Test end time: $(date)" ; }
-    [ -z "$QUIET_MODE" ] && {
-
-    cat <<-EOF >&1
-
-       ###############################################################"
-
-            Done executing testcases."
-            result log is in the $LOGFILE "
-
-       ###############################################################"
-
-	EOF
-	cat $LOGFILE
-    }
-    cleanup
-    exit $VALUE
+	cat $USBHOST_FILE_LOG
+	
+	}
+	cleanup
+	exit $VALUE
 }
+
 
 cleanup()
 {
-    [  -z "$QUIET_MODE" ] && echo -n "INFO: Cleaning up..."
-    rm -rf ${TMPFILE} ${CMDFILE} ${TESTDIR}/*
-    [  -z "$QUIET_MODE" ] && echo "done."
+	[  -z "$USBHOST_QUIET_MODE" ] && echo -n "INFO: Cleaning up..."
+	if [ -n "${USBHOST_FILE_TMP}" -a -n "${USBHOST_FILE_CMD}" -a -n "${USBHOST_DIR_TEST}" -a -n "${USBHOST_DIR_TMP}" ]; then
+		rm -rf ${USBHOST_FILE_TMP} ${USBHOST_FILE_CMD} ${USBHOST_DIR_TEST}/* ${USBHOST_DIR_TMP}/*
+	else
+		echo "INFO: Clean up process won't be executed because variables for directories to be removed are not set..."
+	fi
+
+	[  -z "$USBHOST_QUIET_MODE" ] && echo "done."
 }
+
 
 trap "cleanup" 0
 setup
 main "$@"
+
+# End of file

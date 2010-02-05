@@ -1,0 +1,40 @@
+###############################################################################
+# Scenario    : L_DD_USB_HOST_0003_0002
+# Description : USB Host Mentor | USBTEST| IN OUT
+###############################################################################
+
+# Begin L_DD_USB_HOST_0003_0002
+
+01	set -x; handlerUsbHostSetup.sh  "create"  "mentor"
+
+02	set -x; handlerUsbHostSetup.sh  "create"  "usbtest"
+
+03	echo -e "\n\n\t Testing Chapter 9, Test Control. \n\n" &&  sleep $DELAY1  &&  exit 0 || exit 1
+
+04	export MODE="Host"; export COMMAND="in out"; export MESSAGE="Testing In Out Transfers" && exit 0 || exit 1
+
+05	echo -e '\n\n\t Linux PC: Loading net2280 module. \n\n'; export MODULE="net2280"  &&  $USBHOST_DIR_HELPER/enum.sh insertRemoteModule  &&  exit 0 || exit 1
+
+06	echo -e '\n\n\t Linux PC: Loading g_zero module. \n\n'; export MODULE="g_zero"  &&  $USBHOST_DIR_HELPER/enum.sh insertRemoteModule  &&  exit 0 || exit 1
+
+07	echo -e '\n\n\t Connect cable (Net2280 Std B - miniA OMAP)  \n\n'  &&  sleep $DELAY2  &&  exit 0 || exit 1
+
+### Checking Enumeration
+08	echo -e '\n\n\t Checking enumeration. \n\n'  &&  export ENUM_INFO="Gadget Zero"; $USBHOST_DIR_HELPER/enum.sh connectDevice  &&  exit 0 || exit 1
+
+### Running  the control transfer tests
+09	echo "$USBHOST_DIR_LOG/log.testInOutOMAP" > $USBHOST_DIR_LOG/log.tmp; $USBHOST_DIR_HELPER/enum.sh testio  &&  exit 0  || exit 0
+
+10	set -x; (TMP=`cat $USBHOST_DIR_LOG/log.tmp` && cat $TMP | grep "FAIL")  &&  echo -e "\n\n\t ERROR-4 - Found an error on the test ${COMMAND}. \n\n" &&  exit 1 || echo -e "\n\n\t Ok \n\n" && exit 0
+11	set -x; (TMP=`cat $USBHOST_DIR_LOG/log.tmp` && cat $TMP | grep "error") &&  echo -e "\n\n\t ERROR-4 - Found an error on the test ${COMMAND}. \n\n" &&  exit 1 || echo -e "\n\n\t Ok \n\n" && exit 0
+12	set -x; (TMP=`cat $USBHOST_DIR_LOG/log.tmp` && cat $TMP | grep "pipe")  &&  echo -e "\n\n\t ERROR-4 - Found a pipe on the test ${COMMAND}. \n\n"  &&  exit 1 || echo -e "\n\n\t Ok \n\n"  &&  exit 0
+
+13	echo -e '\n\n\t Linux PC: Removing g_zero module. \n\n'  &&  export MODULE="g_zero"  &&  $USBHOST_DIR_HELPER/enum.sh removeRemoteModule  && exit 0 || exit 1
+
+14	echo -e '\n\n\t Linux PC: Removing net2280 module. \n\n'  &&  export MODULE="net2280"  &&  $USBHOST_DIR_HELPER/enum.sh removeRemoteModule  && exit 0 || exit 1
+
+15	set -x; handlerUsbHostSetup.sh  "remove"  "usbtest"
+
+16	set -x; handlerUsbHostSetup.sh  "remove"  "mentor"
+
+# End L_DD_USB_HOST_0003_0002

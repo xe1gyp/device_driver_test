@@ -1,4 +1,0 @@
-IRDA=yes
-DEVICE=/dev/ttyS2
-#DONGLE=actisys+
-DISCOVERY=yes

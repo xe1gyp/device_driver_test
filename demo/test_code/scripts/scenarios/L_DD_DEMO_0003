@@ -1,0 +1,18 @@
+###############################################################################
+# Scenario    : L_DD_DEMO_0003
+# Author      : Name of Author
+# Date        : Thu Sep 17 11:25:35 CDT 2009
+# Description : Process Parallelism
+###############################################################################
+
+# Begin L_DD_DEMO_0003
+
+01  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "clean"
+02  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/tmp/tmp.1 bs=1M count=5"
+03  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/tmp/tmp.2 bs=1M count=5"
+04  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/tmp/tmp.3 bs=1M count=5"
+05  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/tmp/tmp.4 bs=1M count=5"
+06  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/tmp/tmp.5 bs=1M count=5"
+07  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "execute"
+
+# End L_DD_DEMO_0003

@@ -6,61 +6,37 @@
 
 # Begin L_DD_MMC_0005_0001
 
-# Clean up
-01  set -x; rm -rf $MMC_MOUNT_POINT_1 $MMC_MOUNT_POINT_2; exit 0
-02  set -x; mkdir $MMC_MOUNT_POINT_1 && mkdir $MMC_MOUNT_POINT_2; exit 0
+01  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "create" "1" "dos"
+02  set -x; $UTILS_DIR_HANDLERS/handlerTmpfs.sh "create" "250" $MMCSD_TMPFS_MOUNTPOINT
 
-# Creating, verifying and printing partition
-03  set -x; echo -e "n\n p\n 1\n $MMC_DEVICE_SECTOR_START\n $MMC_DEVICE_SECTOR_END\n w\n" | fdisk $MMC_ROOT_ENTRY && exit 0 || exit 1
-04  set -x; cat $PROCFS_PARTITIONS | grep $MMC_PARTITION_NAME1 && exit 0 || exit 1
-05  set -x; echo -e "p\n w\n" | fdisk $MMC_ROOT_ENTRY && exit 0 || exit 1
+03  set -x; dd if=/dev/urandom of=$MMCSD_TMPFS_MOUNTPOINT/$MMCSD_FILE_SIZE_BIG bs=1M count=100
 
-# Formatting partition
-06  set -x; sleep 1 && $TESTBIN/mkdosfs $MMC_PARTITION_ENTRY1 && exit 0 || exit 1
+04  set -x; $UTILS_DIR_HANDLERS/handlerTmpfs.sh "remove" $MMCSD_TMPFS_MOUNTPOINT
+05  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "remove" "1"
 
-# Mounting and verifying partition
-07  set -x; mount -t vfat $MMC_PARTITION_ENTRY1 $MMC_MOUNT_POINT_1 && exit 0 || exit 1
-08  set -x; mount | grep $MMC_PARTITION_ENTRY1 | grep "vfat" && exit 0 || exit 1
-
-0001  set -x; mmc_test_dev0 1 testing1 && mmc_test_dev0 1 testing2 && exit 0 || exit 1
-0002  set -x; mmc_test_dev0 2 testing1 10 && mmc_test_dev0 2 testing2 10 && exit 0 || exit 1
-0003  set -x; mmc_test_dev0 3 testing1 10 && exit 0 || exit 1
-0004  set -x; mmc_test_dev0 4 testing1 && exit 0 || exit 1
-0005  set -x; mmc_test_dev0 5 testing1 && exit 0 || exit 1
-0006  set -x; mmc_test_dev0 6 testing1 test && exit 0 || exit 1
-0007  set -x; mmc_test_dev0 7 && exit 0 || exit 1
-0008  set -x; mmc_test_dev0 8 test 777 && exit 0 || exit 1
-0009  set -x; mmc_test_dev0 9 newdir && exit 0 || exit 1
-0010  set -x; mmc_test_dev0 10 $MMC_MOUNT_POINT_1/test newdir && exit 0 || exit 1
-0011  set -x; mmc_test_dev0 11 testing2 200308171820 && exit 0 || exit 1
-0012  set -x; mmc_test_dev0 12 newdir rendir && exit 0 || exit 1
-0013  set -x; mmc_test_dev0 13 $MMC_MOUNT_POINT_1/testing2 $MMC_MOUNT_POINT_1/rendir/
-0014  set -x; mmc_test_dev0 14 rendir 123
-0015  set -x; mmc_test_dev0 15 $MMC_MOUNT_POINT_1/rendir/test && mmc_test_dev0 15 $MMC_MOUNT_POINT_1/rendir/testing2 && mmc_test_dev0 15 $MMC_MOUNT_POINT_1/test && exit 0 || exit 1
-0016  set -x; mmc_test_dev0 16 rendir && exit 0 || exit 1
-0017  set -x; mmc_test_dev0 17 $TESTROOT/$FILE_SIZE_BIG $MMC_MOUNT_POINT_1 && exit 0 || exit 1
-0018  set -x; mmc_test_dev0 18 $TESTROOT/$FILE_SIZE_SMALL $MMC_MOUNT_POINT_1 && exit 0 || exit 1
-0019  set -x; cp $TESTROOT/$FILE_SIZE_BIG $MMC_MOUNT_POINT_1 && mmc_test_dev0 19 $MMC_MOUNT_POINT_1/$FILE_SIZE_BIG $TMPBASE && exit 0 || exit 1
-0020  set -x; cp -r $TESTROOT/$FILE_SIZE_SMALL $MMC_MOUNT_POINT_1 && mmc_test_dev0 20 $MMC_MOUNT_POINT_1/$FILE_SIZE_SMALL $TMPBASE && exit 0 || exit 1
-0021  set -x; mmc_test_dev0 21 && exit 0 || exit 1
-0022  set -x; mmc_test_dev0 24 testing && exit 0 || exit 1
-0023  set -x; mmc_test_dev0 9 dir && mmc_test_dev0 25 dir && exit 0 || exit 1
-0024  set -x; mmc_test_dev0 1 testing3 && mmc_test_dev0 26 testing3 && exit 0 || exit 1
-
-# Unmounting partition
-11  set -x; umount $MMC_MOUNT_POINT_1 && sync && exit 0 || exit 1
-
-# Mounting and verifying partition
-13  set -x; mount -t vfat $MMC_PARTITION_ENTRY1 $MMC_MOUNT_POINT_1 && exit 0 || exit 1
-14  set -x; mount | grep $MMC_PARTITION_ENTRY1 | grep "vfat" && exit 0 || exit 1
-
-# Unmounting partition
-16  set -x; umount $MMC_MOUNT_POINT_1 && sync && exit 0 || exit 1
-
-# Removing partitions
-18  set -x; echo -e "d\n w\n" | fdisk $MMC_ROOT_ENTRY && exit 0 || exit 1
-
-# Verifying partitions
-19  set -x; cat $PROCFS_PARTITIONS | grep $MMC_PARTITION_NAME1 && exit 1 || exit 0
+#01  set -x; mmc_test_dev0 1 testing1 && mmc_test_dev0 1 testing2 && exit 0 || exit 1
+#02  set -x; mmc_test_dev0 2 testing1 10 && mmc_test_dev0 2 testing2 10 && exit 0 || exit 1
+#03  set -x; mmc_test_dev0 3 testing1 10 && exit 0 || exit 1
+#04  set -x; mmc_test_dev0 4 testing1 && exit 0 || exit 1
+#05  set -x; mmc_test_dev0 5 testing1 && exit 0 || exit 1
+#06  set -x; mmc_test_dev0 6 testing1 test && exit 0 || exit 1
+#07  set -x; mmc_test_dev0 7 && exit 0 || exit 1
+#08  set -x; mmc_test_dev0 8 test 777 && exit 0 || exit 1
+#09  set -x; mmc_test_dev0 9 newdir && exit 0 || exit 1
+#10  set -x; mmc_test_dev0 10 $MMC_MOUNT_POINT_1/test newdir && exit 0 || exit 1
+#11  set -x; mmc_test_dev0 11 testing2 200308171820 && exit 0 || exit 1
+#12  set -x; mmc_test_dev0 12 newdir rendir && exit 0 || exit 1
+#13  set -x; mmc_test_dev0 13 $MMC_MOUNT_POINT_1/testing2 $MMC_MOUNT_POINT_1/rendir/
+#14  set -x; mmc_test_dev0 14 rendir 123
+#15  set -x; mmc_test_dev0 15 $MMC_MOUNT_POINT_1/rendir/test && mmc_test_dev0 15 $MMC_MOUNT_POINT_1/rendir/testing2 && mmc_test_dev0 15 $MMC_MOUNT_POINT_1/test && exit 0 || exit 1
+#16  set -x; mmc_test_dev0 16 rendir && exit 0 || exit 1
+#17  set -x; mmc_test_dev0 17 $MMCSD_DIR_TMP/$MMCSD_FILE_SIZE_BIG $MMC_MOUNT_POINT_1 && exit 0 || exit 1
+#18  set -x; mmc_test_dev0 18 $MMCSD_DIR_TMP/$MMCSD_FILE_SIZE_SMALL $MMC_MOUNT_POINT_1 && exit 0 || exit 1
+#19  set -x; cp $MMCSD_DIR_TMP/$MMCSD_FILE_SIZE_BIG $MMC_MOUNT_POINT_1 && mmc_test_dev0 19 $MMC_MOUNT_POINT_1/$MMCSD_FILE_SIZE_BIG $TESTDIR && exit 0 || exit 1
+#20  set -x; cp $MMCSD_DIR_TMP/$MMCSD_FILE_SIZE_SMALL $MMC_MOUNT_POINT_1 && mmc_test_dev0 20 $MMC_MOUNT_POINT_1/$MMCSD_FILE_SIZE_SMALL $TESTDIR && exit 0 || exit 1
+#21  set -x; mmc_test_dev0 21 && exit 0 || exit 1
+#22  set -x; mmc_test_dev0 24 testing && exit 0 || exit 1
+#23  set -x; mmc_test_dev0 9 dir && mmc_test_dev0 25 dir && exit 0 || exit 1
+#24  set -x; mmc_test_dev0 1 testing3 && mmc_test_dev0 26 testing3 && exit 0 || exit 1
 
 # End L_DD_MMC_0005_0001

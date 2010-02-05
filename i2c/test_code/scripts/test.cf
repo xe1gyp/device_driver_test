@@ -72,6 +72,10 @@ export HEAD_OPTION="-n "
 export TAIL_OPTION="-n "
 export ADAPTER_INFO=None
 export MODE=None
+export UTILS_DIR_HANDLERS=${TESTROOT}/../../utils/handlers
+
+# Creating local mdev devices
+mdev -s
 
 # Checking if we have bc available in our filesystem
 

@@ -1,13 +1,3 @@
-Compile Instructions
---------------------
-1. Clean the environment.
-   Perform 'make clean'. This will erase all files and directories created during previous compilation.
-2. Install.
-   Perform 'make KDIR='kernel directory' CROSS_COMPILE='compiler prefix''
-   For 23.x Program
-      * KDIR=/vobs/wtbu/OMAPSW_L/linux/kernel_org/2.6_kernel
-      * CROSS_COMPILE=arm-nonel-linux-gnueabi-
-
 
 Testsuite execution
 -------------------
@@ -157,4 +147,30 @@ Using testusb on the remote desktop:
    directory where testusb is located on the remote PC (/data/utilities/usb).
    You can apply the patch that is located in the utils folder called
    testusb-onRemotePC.patch for this.
-4.
+
+
+STEPS FOR TEST ETHERNET USING A LINUX PC
+--------------------------------------
+
+Functional test for ethernet gadget using Linux PC host (CDC-ethernet).
+1) Load the ethernet gadget driver (compiled with RNDIS support, because CDC-ethernet works regardless of whether RNDIS is enabled or not) on the OMAP board:
+   insmod g_ether.ko
+2) Connect the OMAP board to the Linux PC host using a std-A to mini-B USB cable. Check enumeration by running:
+   cat /proc/bus/usb/devices
+3) Check that a new network interface (usb0) is created on the host PC by running: 
+  cat /proc/net/dev
+An entry for usb0 must be present.
+4) Now configure the host and device network interfaces using 'ifconfig' and add a route. We are assigning the address <IP_HOST> to the host and <IP_DEV> to the device. The netmask should be such that the host and device are able to see each other. For example, if IP_HOST=128.247.76.46 and IP_DEV=128.247.77.13, then netmask must be 255.255.254.0.
+On the host:
+   # ifconfig usb0 <IP_HOST> netmask <NETMASK>
+   # route add <IP_DEV> dev usb0 
+On the device: 
+   # ifconfig usb0 <IP_DEV> netmask <NETMASK>
+   # route add <IP_HOST> dev usb0
+5) Unplug the ethernet connection of the host PC from the network.
+6) On the host, run:
+   # ping <IP_DEV>
+7) On the device, run:
+   # ping <IP_HOST>
+
+Execute this test case using high speed as well as full speed hosts.

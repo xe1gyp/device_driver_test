@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -x
+
+operation=$1
+
+if [ "$operation" = "capture" ]; then
+  to=$2
+  time dd if=/dev/urandom of=/mnt/$to/file.$to.picture bs=1M count=1
+fi
+
+# End of file

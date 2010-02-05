@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -x
+
+operation=$1
+
+if [ "$operation" = "setup" ]; then
+  time $MTD_DIR_HELPER/handlerMtdBlock.sh "create" "onenand" /mnt/onenand/
+elif [ "$operation" = "cleanup" ]; then
+  time $MTD_DIR_HELPER/handlerMtdBlock.sh "remove" /mnt/onenand/
+fi
+
+# End of file

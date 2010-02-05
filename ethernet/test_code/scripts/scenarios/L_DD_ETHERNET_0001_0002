@@ -1,13 +1,17 @@
 ################################################################################
 # Scenario: L_DD_ETHERNET_0001_0002
 # Author  : Abraham Arce
+# Modifications: Aharon Campos
 # Date    : Fri Mar 28 13:59:10 CDT 2008
 ################################################################################
 
 # Begin L_DD_ETHERNET_0001_0002
 
-01 set -x; cat /proc/interrupts | grep eth0 | sed -e 's@:@@' | sed q | awk '{print $1}' > /tmp/IRQ1 && exit 0 || exit 1;
-02 set -x; ifconfig | grep Interrupt: | sed -e 's@Interrupt:@@' | sed q | awk '{print $1}' > /tmp/IRQ2 && exit 0 || exit 1;
-03 set -x; cmp /tmp/IRQ1 /tmp/IRQ2 && exit 0 || exit 1;
+01  set -x; cat /proc/interrupts | grep eth0
+02  set -x; ifconfig | grep Interrupt:
+03  set -x; cat /proc/interrupts | grep eth0 | sed -e 's@:@@' | sed q | awk '{print $2}' > $ETHERNET_DIR_TMP/COUNT1 && exit 0 || exit 1;
+04  set -x; ping -c2 `cat $ETHERNET_DIR_TMP/ipaddr`
+05  set -x; cat /proc/interrupts | grep eth0 | sed -e 's@:@@' | sed q | awk '{print $2}' > $ETHERNET_DIR_TMP/COUNT2 && exit 0 || exit 1;
+06  set -x; if [ `cat $ETHERNET_DIR_TMP/COUNT1` -lt `cat $ETHERNET_DIR_TMP/COUNT2` ]; then exit 0; else exit 1; fi;
 
 # End L_DD_ETHERNET_0001_0002

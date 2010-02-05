@@ -173,7 +173,7 @@ static int __init dma_module_init(void) {
                /* Set the other transfers to high priority */
                transfers[i].priority = DMA_CH_PRIO_HIGH;
            }
-           transfers[i].buffers.buf_size = 1024 * 1024;
+		transfers[i].buffers.buf_size = 1024 * 1024;
 
            /* Request a dma transfer */
            error = request_dma(&transfers[i]);

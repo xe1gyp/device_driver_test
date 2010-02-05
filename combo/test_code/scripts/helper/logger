@@ -1,0 +1,11 @@
+#!/bin/sh
+
+operation=$1
+
+if [ "$operation" = "clean" ]; then
+  $UTILS_DIR_HANDLERS/handlerStatistics.sh "clean"
+elif [ "$operation" = "display" ]; then
+  $UTILS_DIR_HANDLERS/handlerStatistics.sh "display"
+fi
+
+# End of file

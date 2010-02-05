@@ -1,0 +1,11 @@
+###############################################################################
+# Scenario: L_DD_KEYPAD_0006_0002
+# Author  : Abraham Arce
+# Date    : Tue Sep 22 16:43:35 CDT 2009
+###############################################################################
+
+# Begin L_DD_KEYPAD_0006_0002
+
+01  set -x; $UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "$KEYPAD_DIR_BINARIES/evtest $DEVFS_KEYPAD" "10" "15"
+
+# End L_DD_KEYPAD_0006_0002
