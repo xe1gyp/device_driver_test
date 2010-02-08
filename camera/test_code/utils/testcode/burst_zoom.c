@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
 	int index = 1;
 	int zoomFactor = 10;
 	int device = 1;
-	char *pixelFmt;
+	char *pixelFmt, *filename;
 
 	if ((argc > 1) && (!strcmp(argv[1], "?"))) {
 		usage();
@@ -186,6 +186,7 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 	if (argc > index) {
+		filename = argv[index];
 		fd_save = creat(argv[index], O_RDWR);
 		if (fd_save <= 0) {
 			printf("Can't create file %s\n", argv[index]);
@@ -333,14 +334,17 @@ int main(int argc, char *argv[])
 		}
 	}
 	printf("Captured %d frames!\n", i);
-	printf("Start writing to file\n");
+
 	if (fd_save > 0) {
+		printf("Start writing to file\n");
 		for (i = 0; i < count; i++)
 			write(fd_save, cbuffers[i].start,
 			       cformat.fmt.pix.width * cformat.fmt.pix.height *
 			       2);
+		printf("Completed writing to file: %s\n", filename);
 	}
-	printf("Completed writing to file\n");
+
+
 	for (i = 0; i < creqbuf.count; i++) {
 		if (cbuffers[i].start) {
 			if (memtype == V4L2_MEMORY_USERPTR)
