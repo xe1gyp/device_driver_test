@@ -647,6 +647,7 @@ int main(int argc, char **argv)
 	else
 		test_display_size();
 #endif
+set_display_size(864, 480, 1, 1);
 #ifdef FUNCTION_SHIFT
 	xoff = yoff = 100;
 	if (argv[1])
