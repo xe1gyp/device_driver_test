@@ -1,5 +1,5 @@
 #!/bin/sh
-
+lcd2ovl1.sh
 echo "TO PERFORM THIS TEST,"
 echo "IT IS NECESSARY TO ADD omapfb.tiler=y in the bootargs"
 echo "1" > /sys/devices/platform/omapdss/display0/enabled
