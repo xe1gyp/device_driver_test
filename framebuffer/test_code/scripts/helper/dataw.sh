@@ -10,25 +10,25 @@ else
   BPP_MODE="default"
 fi
 
-$TESTBIN/fbtest  -w -l 0x4b000 -f 0x0fab
+$TESTBIN/fbtest  -w -l 0xCA800 -f 0x0fab
 echo "====7===="
 sleep 2
-$TESTBIN/fbtest  -w -l 0x4b000 -f 0x0bad
+$TESTBIN/fbtest  -w -l 0xCA800 -f 0x0bad
 echo "====6===="
 sleep 2
-$TESTBIN/fbtest  -w -l 0x4b000 -f 0x0add
+$TESTBIN/fbtest  -w -l 0xCA800 -f 0x0add
 echo "====5===="
 sleep 2
-$TESTBIN/fbtest  -w -l 0x4b000 -f 0x0fff
+$TESTBIN/fbtest  -w -l 0xCA800 -f 0x0fff
 echo "====4===="
 sleep 2
-$TESTBIN/fbtest  -w -l 0x4b000 -f 0x0000
+$TESTBIN/fbtest  -w -l 0xCA800 -f 0x0000
 echo "====3===="
 sleep 2
-$TESTBIN/fbtest  -w -l 0x4b000 -f 0x0ff0
+$TESTBIN/fbtest  -w -l 0xCA800 -f 0x0ff0
 echo "====2===="
 sleep 2
-$TESTBIN/fbtest  -w -l 0x4b000 -f 0x00f2
+$TESTBIN/fbtest  -w -l 0xCA800 -f 0x00f2
 echo "====1===="
 sleep 2
 

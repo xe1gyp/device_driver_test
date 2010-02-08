@@ -10,9 +10,13 @@ else
   BPP_MODE="default"
 fi
 
-$FBTEST
-
-$TESTBIN/fbmode 16
+if [ "$2" ]; then
+$FBDEV=$2
+	echo "Yes.. $2 is present here "
+	$TESTBIN/arm-none-linux-gnueabi-fbtest -f $2
+else
+	$TESTBIN/arm-none-linux-gnueabi-fbtest -f /dev/fb0
+fi
 
 if [ -z "$STRESS" ]; then
   echo "";echo "Was framebuffer performing all funtions fine in $BPP_MODE bits mode";echo ""
