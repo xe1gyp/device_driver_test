@@ -15,7 +15,14 @@
 #include <fcntl.h>
 #include <string.h>
 #include <linux/fb.h>
-#define FBIO_WAITFORVSYNC       _IOW('F', 0x20, u_int32_t)
+#include <linux/fb.h>
+#include <asm/ioctl.h>
+#include <asm/types.h>
+
+/* IOCTL commands. */
+#define OMAP_IO(num)		_IO('O', num)
+
+#define OMAPFB_WAITFORVSYNC	OMAP_IO(57)
 
 #define WAIT_FOR_VSYNC	1
 /* If wait_for_vsync is used, the movement of the bar on the screen is smooth. 
@@ -52,7 +59,8 @@ int show_frame(int buf_no)
 	}	
 	
 	/* pan to that frame */
-	if (ret = ioctl (fd, FBIOPAN_DISPLAY, &v)) {
+	ret = ioctl(fd, FBIOPAN_DISPLAY, &v);
+	if (ret) {
 		printf("ioctl FBIOPAN_DISPLAY failed\n");	
 		return ret;
 	}	
@@ -71,13 +79,15 @@ int movie(int num_buf, int wait_vsync)
 	int k = 0, ret = 0;
 	
 	for (k = 0; k < ITERATIONS; k++) {
-	
-		if (ret = show_frame(buf_no))
+
+		ret = show_frame(buf_no);
+		if (ret)
 			return ret;
 			
 		if (wait_vsync) {
-			if (ret = ioctl (fd, FBIO_WAITFORVSYNC, 0)) {
-				printf("ioctl FBIO_WAITFORVSYNC failed\n");
+			ret = ioctl(fd, OMAPFB_WAITFORVSYNC, 0);
+			if (ret) {
+				printf("\n ioctl OMAPFB_WAITFORVSYNC failed");
 				return ret;
 			}
 		}
@@ -96,11 +106,13 @@ int init_fb(char *devname)
 	if (fd <= 0) {
 		printf("Could not open device\n");
 	}
-	if (ret = ioctl (fd, FBIOGET_FSCREENINFO, &fix)) {
+	ret = ioctl(fd, FBIOGET_FSCREENINFO, &fix);
+	if (ret) {
 		printf("ioctl FBIOGET_FSCREENINFO failed\n");
 		return ret;
 	}
-	if (ret = ioctl (fd, FBIOGET_VSCREENINFO, &var)) {
+	ret = ioctl(fd, FBIOGET_VSCREENINFO, &var);
+	if (ret) {
 		printf("ioctl FBIOGET_VSCREENINFO failed\n");
 		return ret;
 	}
