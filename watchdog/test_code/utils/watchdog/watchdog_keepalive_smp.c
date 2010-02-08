@@ -10,6 +10,7 @@ void thread_read(int fd);
 #define MAXIMUM_TIME 1000000
 #define NUMBER_OF_THREADS 2
 int cpunum;
+int sleep_time = 1;
 
 int main(int argc, const char *argv[])
 {
@@ -19,6 +20,11 @@ int main(int argc, const char *argv[])
 	struct watchdog_info wd_test;
 	int i;
 	pthread_t thread[NUMBER_OF_THREADS];
+
+	if (argc == 3)
+		sscanf(argv[argc-1], "%d", &sleep_time);
+	else
+		sleep_time = 4;
 
 	if (argc < 2) {
 		printf("Please specify <devfs interface> for watchdog!\n");
@@ -103,9 +109,13 @@ void thread_read(int fd)
 	fprintf(stdout, "Thread id[%lu]  Starting...\n", pthread_self());
 
 	while (1) {
+		sleep(sleep_time);
 		return_value = ioctl(fd, WDIOC_KEEPALIVE, &timeout_value);
 		if (return_value)
 			printf("ioctl WDIOC_KEEPALIVE failed");
+		else
+			fprintf(stdout, "Thread id[%lu]  Running...\n",\
+					pthread_self());
 	}
 	fprintf(stdout, "Thread id[%lu]  Finished...\n", pthread_self());
 }
