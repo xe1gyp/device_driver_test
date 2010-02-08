@@ -20,11 +20,13 @@
 #define DEFAULT_PIXEL_FMT "YUYV"
 #define DEFAULT_VIDEO_SIZE "QCIF"
 
-static int crop(int cfd, int left, int top, int width, int height)
+static int crop(int cfd, int zoomfactor)
 {
 	struct v4l2_cropcap cropcap;
 	struct v4l2_crop crop;
 	int ret;
+
+	printf(" Set zoom factor: %1.1f\n", (float)zoomfactor/10.0f);
 
 	cropcap.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 	ret = ioctl(cfd, VIDIOC_CROPCAP, &cropcap);
@@ -32,8 +34,9 @@ static int crop(int cfd, int left, int top, int width, int height)
 		perror("VIDIOC_CROPCAP");
 		return -1;
 	}
-	printf("Video Crop bounds (%d, %d) (%d, %d), defrect (%d, %d) "
-		"(%d, %d)\n", cropcap.bounds.left, cropcap.bounds.top,
+	printf(" Video Crop bounds (%d, %d) (%d, %d),"
+		" defrect (%d, %d) (%d, %d)\n",
+		cropcap.bounds.left, cropcap.bounds.top,
 		cropcap.bounds.width, cropcap.bounds.height,
 		cropcap.defrect.left, cropcap.defrect.top,
 		cropcap.defrect.width, cropcap.defrect.height);
@@ -44,30 +47,36 @@ static int crop(int cfd, int left, int top, int width, int height)
 		perror("VIDIOC_G_CROP");
 		return -1;
 	}
+	printf(" Old Crop (%d, %d) (%d, %d)\n",
+			crop.c.left, crop.c.top,
+			crop.c.width, crop.c.height);
 
-	printf("Old Crop (%d, %d) (%d, %d)\n", crop.c.left, crop.c.top,
-						crop.c.width, crop.c.height);
-	printf("wanted Crop (%d, %d) (%d, %d)\n", left, top, width, height);
+	crop.c.left = (cropcap.defrect.width -
+			(cropcap.defrect.width * 10) / zoomfactor) / 2;
+	crop.c.top = (cropcap.defrect.height -
+			(cropcap.defrect.height * 10) / zoomfactor) / 2;
+	crop.c.width = (cropcap.defrect.width * 10) / zoomfactor;
+	crop.c.height = (cropcap.defrect.height * 10) / zoomfactor;
 
-
-	crop.c.left = left;
-	crop.c.top = top;
-	crop.c.width = width;
-	crop.c.height = height;
+	printf(" Requested Crop  (%d, %d) (%d, %d)\n",
+			crop.c.left, crop.c.top,
+			crop.c.width, crop.c.height);
 
 	ret = ioctl(cfd, VIDIOC_S_CROP, &crop);
 	if (ret != 0) {
 		perror("VIDIOC_S_CROP");
 		return -1;
 	}
-	/* read back */
+
+	/* Read back actual crop settings*/
 	ret = ioctl(cfd, VIDIOC_G_CROP, &crop);
 	if (ret != 0) {
 		perror("VIDIOC_G_CROP");
 		return -1;
 	}
-	printf("New Video Crop (%d, %d) (%d, %d)\n\n", crop.c.left, crop.c.top,
-		crop.c.width, crop.c.height);
+	printf(" Negotiated Crop (%d, %d) (%d, %d)\n\n",
+			crop.c.left, crop.c.top,
+			crop.c.width, crop.c.height);
 
 	return 0;
 }
@@ -433,15 +442,11 @@ int main(int argc, char *argv[])
 		if (zoomUp == 1) {
 			/* Zoom in for next frame */
 			printf("\nZoomIn\n");
-			ret = crop(cfd,
-				   (cformat.fmt.pix.width -
-				    (cformat.fmt.pix.width * 10) /
-				    zoomFactor) / 2,
-				   (cformat.fmt.pix.height -
-				    (cformat.fmt.pix.height * 10) /
-				    zoomFactor) / 2,
-				   (cformat.fmt.pix.width * 10) / zoomFactor,
-				   (cformat.fmt.pix.height * 10) / zoomFactor);
+			ret = crop(cfd, zoomFactor);
+			if (ret < 0) {
+				perror("cam CROP ERROR\n");
+				return -1;
+			}
 
 			if (zoomFactor < 40)
 				zoomFactor = zoomFactor + 1;
@@ -452,17 +457,7 @@ int main(int argc, char *argv[])
 			if (zoomUp == 0) {
 				/* Zoom in for next frame */
 				printf("\nZoomOut\n");
-				ret = crop(cfd,
-					   (cformat.fmt.pix.width -
-					    (cformat.fmt.pix.width * 10) /
-					    zoomFactor) / 2,
-					   (cformat.fmt.pix.height -
-					    (cformat.fmt.pix.height * 10) /
-					    zoomFactor) / 2,
-					   (cformat.fmt.pix.width * 10) /
-					    zoomFactor,
-					   (cformat.fmt.pix.height * 10) /
-					    zoomFactor);
+				ret = crop(cfd, zoomFactor);
 				if (ret < 0) {
 					perror("cam CROP ERROR\n");
 					return -1;
@@ -514,6 +509,12 @@ int main(int argc, char *argv[])
 				munmap(cbuffers[i].start, cbuffers[i].length);
 		}
 	}
+
+	printf("\nReset zoom factor to 1...\n");
+	zoomFactor = 10;
+	ret = crop(cfd, zoomFactor);
+	if (ret < 0)
+		printf("CROP FAILURE\n");
 
 	free(cbuffers);
 
