@@ -1,0 +1,16 @@
+# #############################################################################
+# Scenario    : L_DD_FB_0039
+# Author      : Mayuresh Janorkar
+# Date        : Mon Feb 1, 2010
+# Description : Framebuffer (FB) wait for vsync ioctl
+# #############################################################################
+
+# Begin L_DD_FB_0039
+
+COMMENT comment.sh "Test that the Framebuffer supports WAIT_FOR_VSYNC ioctl "
+
+0001 set -x; lcdovl0.sh && exit 0 || exit 1
+0002 set -x; lcd2ovl1.sh && exit 0 || exit 1
+0003 set -x; waitvsync.sh && exit 0 || exit 1
+
+# End L_DD_FB_0039

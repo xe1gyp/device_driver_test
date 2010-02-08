@@ -1,0 +1,14 @@
+# #############################################################################
+# Scenario    : L_DD_FB_0038
+# Author      : Mayuresh Janorkar
+# Date        : Mon Feb 1, 2010
+# Description : Framebuffer (FB) allows flipping of buffers
+# #############################################################################
+
+# Begin L_DD_FB_0028
+
+COMMENT comment.sh "Verify that the FB allows flipping of buffers"
+
+0001 set -x; fbflipfb.sh && exit 0 || exit 1
+
+# End L_DD_FB_0028

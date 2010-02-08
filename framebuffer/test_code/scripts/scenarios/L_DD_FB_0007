@@ -1,14 +1,14 @@
 # #############################################################################
 # Scenario    : L_DD_FB_0007
-# Author      : Jose Luis Diaz
-# Date        : Wed Dec 20, 2006
-# Description : Framebuffer (FB) allows access to all buffers avaiable test
+# Author      : Mayuresh Janorkar
+# Date        : Mon Feb 1, 2010
+# Description : Framebuffer (FB) bits per pixel tests
 # #############################################################################
 
 # Begin L_DD_FB_0007
 
-COMMENT comment.sh "Verify that the FB allows accessing all the buffers available as per design."
+COMMENT comment.sh "Test that the Framebuffer fb0 and allows changing the angle of rotation"
 
-0001 set -x; fbflipfb.sh && exit 0 || exit 1
+0001 set -x; mirrortiler.sh && exit 0 || exit 1
 
 # End L_DD_FB_0007

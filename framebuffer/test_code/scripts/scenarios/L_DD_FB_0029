@@ -1,0 +1,14 @@
+# #############################################################################
+# Scenario    : L_DD_FB_0029
+# Author      : Mayuresh Janorkar
+# Date        : Mon Feb 1, 2010
+# Description : Framebuffer (FB) move display to LCD2
+# #############################################################################
+
+# Begin L_DD_FB_0029
+
+COMMENT comment.sh "Test that the Penguin logo is displayed on LCD2"
+
+0001 set -x; lcd2.sh  && exit 0 || exit 1
+
+# End L_DD_FB_0029

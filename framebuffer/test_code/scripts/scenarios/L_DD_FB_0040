@@ -1,0 +1,16 @@
+# #############################################################################
+# Scenario    : L_DD_FB_0003
+# Author      : Jose Luis Diaz
+# Date        : Wed Dec 20, 2006
+# Description : Framebuffer (FB) tests
+# #############################################################################
+
+# Begin L_DD_FB_0003
+
+COMMENT comment.sh "Verify that data written to the FB using the file write operation are displayed correctly in 16 bits-per-pixel mode and that data written to the FB using the mmap operation are displayed correctly"
+
+0001 set -x; dataw.sh 16 && exit 0 || exit 1
+0002 set -x; dataw.sh 8 && exit 0 || exit 1
+0003 fbmode 16
+
+# End L_DD_FB_0003

@@ -1,14 +1,17 @@
-# ############################################################################
+# #############################################################################
 # Scenario    : L_DD_FB_0005
-# Author      : Jose Luis Diaz
-# Date        : Wed Dec 20, 2006
-# Description : Framebuffer (FB) changing display size test
+# Author      : Mayuresh Janorkar
+# Date        : Mon Feb 1, 2010
+# Description : Verify that the framebuffer performs all basic functions
+#               properly in 24 (un packed) bits-per-pixel
 # #############################################################################
 
 # Begin L_DD_FB_0005
 
-COMMENT comment.sh "Verify on LCD, that the FB allows changingthe display size within the limits of the output device."
+COMMENT comment.sh "Verify that the framebuffer performs all basic functions properly in 24 (un packed) bits-per-pixel. These tests include  drawing some patterns, displaying grayscale bands and the color space, and displaying small images"
 
-0001 set -x; sizechg.sh && exit 0 || exit 1
+0001 set -x; confbpp.sh 24 && exit 0 || exit 1
+0002 set -x; lcdovl1.sh && exit 0 || exit 1
+0003 set -x; confbpp.sh 24 /dev/fb1 && exit 0 || exit 1
 
 # End L_DD_FB_0005

@@ -1,0 +1,23 @@
+# #############################################################################
+# Scenario    : L_DD_FB_0001
+# Author      : Mayuresh Janorkar
+# Date        : Mon Feb 1, 2010
+# Description : Framebuffer (FB) bits per pixel tests
+# #############################################################################
+
+# Begin L_DD_FB_0001
+
+COMMENT comment.sh "Test that the Framebuffer fb0 allows changing the bits-per-pixel mode."
+
+0001 set -x; confbpp.sh && exit 0 || exit 1
+0003 set -x; confbpp.sh 16 && exit 0 || exit 1
+0004 set -x; confbpp.sh 24 && exit 0 || exit 1
+0004 set -x; confbpp.sh 32 && exit 0 || exit 1
+
+COMMENT comment.sh "Test that the Framebuffer fb1 allows changing the bits-per-pixel mode."
+0005 set -x; lcd2ovl1.sh && exit 0 || exit 1
+0006 set -x; confbpp.sh 16 /dev/fb1 && exit 0 || exit 1
+0007 set -x; confbpp.sh 24 /dev/fb1 && exit 0 || exit 1
+0008 set -x; confbpp.sh 32 /dev/fb1 && exit 0 || exit 1
+
+# End L_DD_FB_0001

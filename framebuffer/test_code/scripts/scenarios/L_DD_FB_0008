@@ -1,14 +1,14 @@
 # #############################################################################
-# Scenario    : L_DD_FB_0008
-# Author      : Jose Luis Diaz
-# Date        : Wed Dec 20, 2006
-# Description : Framebuffer (FB) TV output support test
+# Scenario    : L_DD_FB_0007
+# Author      : Mayuresh Janorkar
+# Date        : Mon Feb 1, 2010
+# Description : Framebuffer (FB) bits per pixel tests
 # #############################################################################
 
-# End L_DD_FB_0008
+# Begin L_DD_FB_0007
 
-COMMENT comment.sh "Test if driver supports different TV standards, PAL-,D,G,H,I,N , M , N , Nc, 60."
+COMMENT comment.sh "Test that the Framebuffer fb0 and allows changing the angle of rotation"
 
-0001 set -x; tvtest.sh && exit 0 || exit 1
+0001 set -x; rottiler.sh && exit 0 || exit 1
 
-# End L_DD_FB_0008
+# End L_DD_FB_0007
