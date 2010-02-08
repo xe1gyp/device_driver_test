@@ -1,0 +1,21 @@
+#####################
+# FILENAME: L_DD_VIDEO_0028
+# Author  : mythri p k
+# Date    : Fri Jan 29, 2010
+
+# Begin "L_DD_VIDEO_0028"
+
+COMMENT comment.sh "run a video on primary LCD and then switch to seconday and play same video pipeline"
+
+
+0001_VD1_SAN set -x; imgstream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+
+0001 echo "2lcd" > /sys/devices/platform/omapdss/overlay1/manager
+0004 echo 1 > /sys/devices/platform/omapdss/display1/enabled
+
+0001_VD1_SAN set -x; imgstream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+
+0005 echo "lcd" > /sys/devices/platform/omapdss/overlay1/manager
+
+
+# End "L_DD_VIDEO_0028"

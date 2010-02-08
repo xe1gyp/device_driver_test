@@ -1,11 +1,16 @@
 #####################
-# FILENAME: L_DD_VIDEO_0001
-# Author  : Benjamin Mejia
-# Date    : Fri Jan 5, 2007
+# FILENAME: L_DD_VIDEO_0026
+# Author  : mythri p k
+# Date    : Fri Jan 29, 2010
 
-# Begin "L_DD_VIDEO_0001"
+# Begin "L_DD_VIDEO_0026"
 
-COMMENT comment.sh "Verify different format video are rendered on video 1 2 and 3 pipelines successively on primary"
+COMMENT comment.sh "Verify different format video are rendered on video 1 2 and 3 pipelines successively on secondary display"
+
+0001 echo "2lcd" > /sys/devices/platform/omapdss/overlay1/manager
+0002 echo "2lcd" > /sys/devices/platform/omapdss/overlay2/manager
+0003 echo "2lcd" > /sys/devices/platform/omapdss/overlay3/manager
+0004 echo 1 > /sys/devices/platform/omapdss/display1/enabled
 
 0001_VD1_SAN set -x; imgstream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
 0001_VD2_SAN set -x; imgstream.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
@@ -35,4 +40,8 @@ COMMENT comment.sh "Verify different format video are rendered on video 1 2 and 
 0009_VD2_SAN set -x; imgstream.sh 2 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv			&& exit 0 || exit 1
 0009_VD3_SAN set -x; imgstream.sh 3 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv			&& exit 0 || exit 1
 
-# End "L_DD_VIDEO_0001"
+0005 echo "lcd" > /sys/devices/platform/omapdss/overlay1/manager
+0006 echo "lcd" > /sys/devices/platform/omapdss/overlay2/manager
+0007 echo "lcd" > /sys/devices/platform/omapdss/overlay3/manager
+
+# End "L_DD_VIDEO_0026"

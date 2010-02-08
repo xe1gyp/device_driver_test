@@ -79,7 +79,7 @@ stream()
 	RESULT=`command_tracking.sh $RESULT $?`
 
 	#Usage: streaming <vid> <inputfile> [<n>]
-	$TESTBIN/streaming $VIDEO_PIPELINE $STREAMING_PARAMETERS
+	$TESTBIN/streaming_tiler $VIDEO_PIPELINE $STREAMING_PARAMETERS 0
 	RESULT=`command_tracking.sh $RESULT $?`
 }
 

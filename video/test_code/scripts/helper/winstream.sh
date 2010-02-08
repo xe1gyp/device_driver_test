@@ -3,7 +3,7 @@
 VIDEO_PIPELINE=$1
 SETIMG_PARAMETERS=$2
 SETCROP_PARAMETERS=$3
-STREAMING_PARAMETERS=$4
+STREAMING_PARAMETERS=$3
 ACTUAL_SIZE=30
 INCREMENT=20
 EXIT_WHILE=0
@@ -21,15 +21,15 @@ HEIGTH=$4
 while [ $EXIT_WHILE != 1 ];
 do
 	# Usage: setcrop <vid> <left> <top> <width> <height>
-	$TESTBIN/setcrop $VIDEO_PIPELINE $SETCROP_PARAMETERS
-	RESULT=`command_tracking.sh $RESULT $?`
+	#$TESTBIN/setcrop $VIDEO_PIPELINE $SETCROP_PARAMETERS
+	#RESULT=`command_tracking.sh $RESULT $?`
 
 	# Usage: setwin <vid> <left> <top> <width> <height>
 	$TESTBIN/setwin $VIDEO_PIPELINE 0 0 $ACTUAL_SIZE $ACTUAL_SIZE
 	RESULT=`command_tracking.sh $RESULT $?`
 
 	# Usage: streaming <vid> <inputfile> [<n>]
-	$TESTBIN/streaming $VIDEO_PIPELINE $STREAMING_PARAMETERS
+	$TESTBIN/streaming_tiler $VIDEO_PIPELINE $STREAMING_PARAMETERS 0
 	RESULT=`command_tracking.sh $RESULT $?`
 
 	if [ -z "$STRESS" ]; then

@@ -10,6 +10,34 @@
 
 #include "lib.h"
 
+static int getBpp(unsigned long pixelformat)
+{
+	int bpp = 0;
+	switch (pixelformat) {
+	case V4L2_PIX_FMT_YUYV:
+	case V4L2_PIX_FMT_UYVY:
+		bpp = 2;
+		break;
+	case V4L2_PIX_FMT_RGB565:
+	case V4L2_PIX_FMT_RGB565X:
+		bpp = 2;
+		break;
+	case V4L2_PIX_FMT_RGB24:
+		bpp = 3;
+		break;
+	case V4L2_PIX_FMT_RGB32:
+	case V4L2_PIX_FMT_BGR32:
+		bpp = 4;
+		break;
+	case V4L2_PIX_FMT_NV12:
+		bpp = 1;
+		break;
+	default:
+		bpp = -1;
+	}
+	return bpp;
+}
+
 static int streaming_video(int output_device, int file_descriptor,
 	int sleep_time)
 {
@@ -22,7 +50,8 @@ static int streaming_video(int output_device, int file_descriptor,
 	struct v4l2_format format;
 	struct v4l2_buffer filledbuffer;
 	struct v4l2_requestbuffers reqbuf;
-	int i = 0, count, result;
+	int i, count, result;
+	int j , k, bpp, page_width;
 
 	result = ioctl(output_device, VIDIOC_QUERYCAP, &capability);
 	if (result != 0) {
@@ -68,10 +97,8 @@ static int streaming_video(int output_device, int file_descriptor,
 			perror("VIDIOC_QUERYBUF");
 			return 1;
 		}
-#if 0
 		printf("%d: buffer.length=%d, buffer.m.offset=%d\n",
 				i, buffer.length, buffer.m.offset);
-#endif
 		buffers[i].length = buffer.length;
 		buffers[i].start = mmap(NULL, buffer.length, PROT_READ|
 						PROT_WRITE, MAP_SHARED,
@@ -93,21 +120,55 @@ static int streaming_video(int output_device, int file_descriptor,
 			format.fmt.pix.width, format.fmt.pix.height,
 			format.fmt.pix.sizeimage, format.fmt.pix.pixelformat);
 	filledbuffer.flags = 0;
-	for (i = 0; i <= 1; i++) {
 
+	for (i = 0; i <= 1; i++) {
 		filledbuffer.index = i;
-		if (read(file_descriptor, buffers[i].start,
-			format.fmt.pix.sizeimage) != format.fmt.pix.sizeimage) {
-			perror("read");
+		bpp = getBpp(format.fmt.pix.pixelformat);
+
+		if (-1 == bpp) {
+			perror("format not supported");
 			return 1;
+		}
+
+		page_width = (format.fmt.pix.width * bpp +
+				4096 - 1) & ~(4096 - 1);
+		printf("\nfirst bpp = %0x, page_width = %0x\n", bpp, page_width);
+		/* page_width calculation is to account for 4k / 8k based on input size */
+		/* for NV12, bpp is set to 1 for the Y-buffer*/
+		for (j = 0; j < format.fmt.pix.height; j++) {
+			if (read(file_descriptor, buffers[i].start + (j*page_width),
+				(format.fmt.pix.width * bpp)) != (format.fmt.pix.width * bpp)) {
+				printf("current address = 0x%0x\n", buffers[i].start + (j*page_width));
+				perror("first read");
+				return 1;
+			}
+		}
+
+		/* handle UV buffer filling also now */
+		if (V4L2_PIX_FMT_NV12 == format.fmt.pix.pixelformat) {
+			/* bpp for UV buffer is 2 */
+			page_width = (format.fmt.pix.width * 2 +
+				4096 - 1) & ~(4096 - 1);
+			for (j = format.fmt.pix.height; j < (format.fmt.pix.height * 3 / 2); j++) {
+				if (read(file_descriptor, buffers[i].start +
+					(j*page_width),
+					(format.fmt.pix.width)) /* * 2 */
+					!= (format.fmt.pix.width)) { /* * 2 */
+		/*			printf("current address = 0x%0x\n", buffers[0].start + (j*page_width)); */
+					perror("first UV read");
+					return 1;
+				}
+			}
 		}
 
 		result = ioctl(output_device, VIDIOC_QBUF, &filledbuffer);
 		if (result != 0) {
 			perror("VIDIOC_QBUF");
 			return 1;
-			}
+		}
 	}
+
+
 
 	result = ioctl(output_device, VIDIOC_STREAMON, &reqbuf.type);
 	if (result != 0) {
@@ -116,12 +177,12 @@ static int streaming_video(int output_device, int file_descriptor,
 	}
 
 	count = 2;
-	while (count < 2000) {
+	while (count < 20) {
 		/* delay some for frame rate control */
 		if (sleep_time)
-			sleep(sleep_time);
+			sleep(sleep_time/20);
 		else {
-			for (i = 0; i < 2000000; i++)
+			for (i = 0; i < 20; i++)
 				;
 		}
 
@@ -131,15 +192,44 @@ static int streaming_video(int output_device, int file_descriptor,
 			return 1;
 		}
 
-		i = read(file_descriptor, buffers[count%reqbuf.count].start,
-			format.fmt.pix.sizeimage);
+		page_width = (format.fmt.pix.width * bpp +
+				4096 - 1) & ~(4096 - 1);
 
-		if (i < 0) {
-			perror("read");
-			return 1;
+		printf("\ninside while: bpp = %0x, page_width = %0x\n", bpp, page_width);
+
+		for (j = 0; j < format.fmt.pix.height; j++) {
+
+			i = read(file_descriptor, buffers[count%reqbuf.count].start + (j*page_width),
+						format.fmt.pix.width * bpp);
+			if (i < 0) {
+				printf("current address = 0x%0x\n",
+					buffers[count%reqbuf.count].start + (j*page_width));
+				perror(" second read");
+				return 1;
+			}
+			if (i != format.fmt.pix.width * bpp)
+				goto exit; /* we are done */
 		}
-		if (i != format.fmt.pix.sizeimage)
-			goto exit; /* we are done */
+		/* handle UV buffer filling also now */
+		if (V4L2_PIX_FMT_NV12 == format.fmt.pix.pixelformat) {
+			/* bpp for UV buffer is 2 */
+			page_width = (format.fmt.pix.width * 2 +
+				4096 - 1) & ~(4096 - 1);
+
+			for (j = format.fmt.pix.height; j < (format.fmt.pix.height * 3 / 2); j++) {
+				i = read(file_descriptor, buffers[count%reqbuf.count].start + (j*page_width),
+							format.fmt.pix.width); //*2
+				if (i < 0) {
+					printf("current address = 0x%0x\n",
+						buffers[count%reqbuf.count].start + (j*page_width));
+					perror("second UV read");
+					return 1;
+				}
+//				if (i != format.fmt.pix.width * 2)
+				if (i != format.fmt.pix.width)
+					goto exit; // we are done
+			}
+		}
 
 		filledbuffer.index = count % reqbuf.count;
 		if (ioctl(output_device, VIDIOC_QBUF, &filledbuffer) != 0) {

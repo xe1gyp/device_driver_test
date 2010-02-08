@@ -13,8 +13,7 @@
 #include <errno.h>
 #include <linux/fs.h>
 #include <linux/kernel.h>
-#include <linux/videodev.h>
-
+#include <linux/videodev2.h>
 
 int show_info(int file_descriptor)
 {
@@ -33,6 +32,9 @@ int show_info(int file_descriptor)
 	printf("new picture colorspace = %x\n", format.fmt.pix.colorspace);
 	printf("new picture pixelformat = ");
 	switch (format.fmt.pix.pixelformat) {
+	case V4L2_PIX_FMT_NV12:
+		printf("NV12\n");
+		break;
 	case V4L2_PIX_FMT_YUYV:
 		printf("YUYV\n");
 		break;

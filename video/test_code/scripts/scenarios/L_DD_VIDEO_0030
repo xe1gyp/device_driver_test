@@ -1,0 +1,25 @@
+#####################
+# FILENAME: L_DD_VIDEO_0029
+# Author  : mythri p k
+# Date    : Fri Jan 29, 2010
+
+# Begin "L_DD_VIDEO_0029"
+
+COMMENT comment.sh "Will test overlay play same video content in primary secondary and hdtv"
+
+0001 echo "2lcd" > /sys/devices/platform/omapdss/overlay2/manager
+0002 echo "tv" > /sys/devices/platform/omapdss/overlay3/manager
+0003 echo 1 > /sys/devices/platform/omapdss/display1/enabled
+0004 echo 1 > /sys/devices/platform/omapdss/display2/enabled
+
+0001_VD1 set -x; imgstream.sh 1 "YUYV 640 480"   $VIDEOFILES/test.yuv "" "0 0 864 480"	&& exit 0 || exit 1
+0002_VD2 set -x; imgstream.sh 2 "YUYV 1280 720"  $VIDEOFILES/720p.yuv "" "0 0 640 480"	&& exit 0 || exit 1
+0003_VD3 set -x; imgstream.sh 3 "YUYV 1280 720"  $VIDEOFILES/720p.yuv "" "0 0 640 480"	&& exit 0 || exit 1
+
+
+0005 echo "lcd" > /sys/devices/platform/omapdss/overlay1/manager
+0005 echo "lcd" > /sys/devices/platform/omapdss/overlay2/manager
+0005 echo "lcd" > /sys/devices/platform/omapdss/overlay3/manager
+
+# End "L_DD_VIDEO_0029"
+

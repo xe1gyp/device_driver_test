@@ -100,8 +100,8 @@ if [ "$ALPHA_MODE" = "GLOBAL" ];then
 	$TESTBIN/setwin 2 0 50 176 144
 	RESULT=`command_tracking.sh $RESULT $?`
 
-	$TESTBIN/streaming 1 $VIDEOFILES/video_qcif_yuv_75 &
-	$TESTBIN/streaming 2 $VIDEOFILES/video_qcif_yuv_75
+	$TESTBIN/streaming_tiler 1 $VIDEOFILES/video_qcif_yuv_75 0 &
+	$TESTBIN/streaming_tiler 2 $VIDEOFILES/video_qcif_yuv_75 0
 	RESULT=`command_tracking.sh $RESULT $?`
 	
 	# Reseting to the previous values.

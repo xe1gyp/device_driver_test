@@ -1,6 +1,5 @@
-CC := $(CROSS_COMPILE)gcc
-OBJS := showinfo setimg setwin setcrop streaming setlink setrotation setmirror setbgcolor \
-	settransck enablecolkey setcolorconv setdefcolcon streaming_process tv_detect_app
+CC := arm-none-linux-gnueabi-gcc
+OBJS := showinfo setimg setwin setcrop streaming streaming_tiler setlink setrotation setmirror \ 	setbgcolor settransck enablecolkey setcolorconv setdefcolcon streaming_process \ 	tv_detect_app
 
 all: $(OBJS)
 
@@ -18,6 +17,9 @@ setcrop: setcrop.c
 
 streaming: streaming.c
 	$(CC) -g streaming.c lib.c -o streaming
+
+streaming_tiler: streaming_tiler.c
+	$(CC) -g streaming_tiler.c lib.c -o streaming_tiler
 
 setlink: setlink.c
 	$(CC) -g setlink.c lib.c -o setlink

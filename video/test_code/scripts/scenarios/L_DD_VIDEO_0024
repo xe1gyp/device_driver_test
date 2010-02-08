@@ -1,0 +1,66 @@
+#####################
+# FILENAME: L_DD_VIDEO_0024
+# Author  : mythri p k
+# Date    : Fri Jan 29, 2010
+
+# Begin "L_DD_VIDEO_0024"
+
+COMMENT comment.sh "Verify different format are rendered, with rotation of 90/180/270"
+
+0001_VD1_SAN set -x; rotation.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+0001_VD2_SAN set -x; rotation.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+0001_VD3_SAN set -x; rotation.sh 3 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+0002_VD1_SAN set -x; rotation.sh 1 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75			&& exit 0 || exit 1
+0002_VD2_SAN set -x; rotation.sh 2 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75			&& exit 0 || exit 1
+0002_VD3_SAN set -x; rotation.sh 3 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75			&& exit 0 || exit 1
+0003_VD1_SAN set -x; rotation.sh 1 "RGB32 160 120"  $VIDEOFILES/my.rgb32				&& exit 0 || exit 1
+0003_VD2_SAN set -x; rotation.sh 2 "RGB32 160 120"  $VIDEOFILES/my.rgb32				&& exit 0 || exit 1
+0003_VD3_SAN set -x; rotation.sh 3 "RGB32 160 120"  $VIDEOFILES/my.rgb32				&& exit 0 || exit 1
+0004_VD1_SAN set -x; rotation.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12			&& exit 0 || exit 1
+0004_VD2_SAN set -x; rotation.sh 2 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12			&& exit 0 || exit 1
+0004_VD3_SAN set -x; rotation.sh 3 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12			&& exit 0 || exit 1
+
+0001 echo "2lcd" > /sys/devices/platform/omapdss/overlay1/manager
+0002 echo "2lcd" > /sys/devices/platform/omapdss/overlay3/manager
+0003 echo "2lcd" > /sys/devices/platform/omapdss/overlay2/manager
+0004 echo 1 > /sys/devices/platform/omapdss/display1/enabled
+
+0005_VD1_SAN set -x; rotation.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+0005_VD2_SAN set -x; rotation.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+0005_VD3_SAN set -x; rotation.sh 3 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+0006_VD1_SAN set -x; rotation.sh 1 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75			&& exit 0 || exit 1
+0006_VD2_SAN set -x; rotation.sh 2 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75			&& exit 0 || exit 1
+0006_VD3_SAN set -x; rotation.sh 3 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75			&& exit 0 || exit 1
+0007_VD1_SAN set -x; rotation.sh 1 "RGB32 160 120"  $VIDEOFILES/my.rgb32				&& exit 0 || exit 1
+0007_VD2_SAN set -x; rotation.sh 2 "RGB32 160 120"  $VIDEOFILES/my.rgb32				&& exit 0 || exit 1
+0007_VD3_SAN set -x; rotation.sh 3 "RGB32 160 120"  $VIDEOFILES/my.rgb32				&& exit 0 || exit 1
+0008_VD1_SAN set -x; rotation.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12			&& exit 0 || exit 1
+0008_VD2_SAN set -x; rotation.sh 2 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12			&& exit 0 || exit 1
+0008_VD3_SAN set -x; rotation.sh 3 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12			&& exit 0 || exit 1
+
+
+0005 echo "tv" > /sys/devices/platform/omapdss/overlay1/manager
+0006 echo "tv" > /sys/devices/platform/omapdss/overlay3/manager
+0007 echo "tv" > /sys/devices/platform/omapdss/overlay2/manager
+0008 echo 1 > /sys/devices/platform/omapdss/display2/enabled
+
+0009_VD1_SAN set -x; rotation.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+0009_VD2_SAN set -x; rotation.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+0009_VD3_SAN set -x; rotation.sh 3 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+0010_VD1_SAN set -x; rotation.sh 1 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75			&& exit 0 || exit 1
+0010_VD2_SAN set -x; rotation.sh 2 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75			&& exit 0 || exit 1
+0010_VD3_SAN set -x; rotation.sh 3 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75			&& exit 0 || exit 1
+0011_VD1_SAN set -x; rotation.sh 1 "RGB32 160 120"  $VIDEOFILES/my.rgb32				&& exit 0 || exit 1
+0011_VD2_SAN set -x; rotation.sh 2 "RGB32 160 120"  $VIDEOFILES/my.rgb32				&& exit 0 || exit 1
+0011_VD3_SAN set -x; rotation.sh 3 "RGB32 160 120"  $VIDEOFILES/my.rgb32				&& exit 0 || exit 1
+0012_VD1_SAN set -x; rotation.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12			&& exit 0 || exit 1
+0012_VD2_SAN set -x; rotation.sh 2 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12			&& exit 0 || exit 1
+0012_VD3_SAN set -x; rotation.sh 3 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12			&& exit 0 || exit 1
+
+
+0009 echo "lcd" > /sys/devices/platform/omapdss/overlay1/manager
+0010 echo "lcd" > /sys/devices/platform/omapdss/overlay2/manager
+0011 echo "lcd" > /sys/devices/platform/omapdss/overlay3/manager
+
+
+# End "L_DD_VIDEO_0024"

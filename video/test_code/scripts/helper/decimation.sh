@@ -21,7 +21,7 @@ $TESTBIN/setwin $VIDEO_PIPELINE $SETWIN_PARAMETERS
 RESULT=`command_tracking.sh $RESULT $?`
 
 # Usage: streaming <vid> <inputfile> [<n>]
-$TESTBIN/streaming $VIDEO_PIPELINE $VIDEO_FILE
+$TESTBIN/streaming_tiler $VIDEO_PIPELINE $VIDEO_FILE 0
 RESULT=`command_tracking.sh $RESULT $?`
 
 if [ -z "$STRESS" ]; then

@@ -1,0 +1,31 @@
+#####################
+# FILENAME: L_DD_VIDEO_0029
+# Author  : mythri p k
+# Date    : Fri Jan 29, 2010
+
+# Begin "L_DD_VIDEO_0029"
+
+COMMENT comment.sh "verify stream on primary upscaled and then a different clip being cropped later on it wil switch to secondary and will test cropping and of different format video and then downscaling of 720p content "
+
+0001_VD1 set -x; imgstream.sh 1 "YUYV 640 480"   $VIDEOFILES/test.yuv "" "0 0 864 480"		&& exit 0 || exit 1
+
+
+0002_VD1 set -x; cropstream.sh 1 "150 0 110 0" $VIDEOFILES/ice_352x288_10frames.nv12 "NV12 352 288" && exit 0 || exit 1
+
+0001 echo "2lcd" > /sys/devices/platform/omapdss/overlay1/manager
+0004 echo 1 > /sys/devices/platform/omapdss/display1/enabled
+
+0003_VD1 set -x; cropstream.sh 1 "0 200 0 100" $VIDEOFILES/ice_352x288_10frames.nv12 "NV12 352 288" && exit 0 || exit 1
+
+0004_VD1_SAN set -x; cropstream.sh 1 "40 30 80 60" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+
+0005_VD1 set -x; imgstream.sh 1 "YUYV 1280 720"  $VIDEOFILES/720p.yuv "" "0 0 640 480"	&& exit 0 || exit 1
+
+0006_VD1 set -x; imgstream.sh 1 "YUYV 1280 720"  $VIDEOFILES/720p.yuv "" "0 0 864 480"	&& exit 0 || exit 1
+
+
+0005 echo "lcd" > /sys/devices/platform/omapdss/overlay1/manager
+
+
+# End "L_DD_VIDEO_0029"
+
