@@ -13,7 +13,7 @@
 #include <errno.h>
 #include <linux/fs.h>
 #include <linux/kernel.h>
-#include <linux/videodev.h>
+#include <linux/videodev2.h>
 
 
 #include "lib.h"
