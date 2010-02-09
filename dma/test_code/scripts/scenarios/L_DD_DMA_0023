@@ -1,0 +1,17 @@
+################################################################################
+# Scenario:    L_DD_DMA_0023
+# Author  :    Adria Lizeth Caldeon Almodovar
+# Date    :    January 29th, 2010
+# Description: DMA Stopping a on going transfer twice
+################################################################################
+
+# Begin L_DD_DMA_0023
+
+0001	set -x; insmod $TESTMODS/dma_single_channel.ko
+0002	set -x; insmod $TESTMODS/dma_stop_transfer.ko
+0003  set -x; cat /proc/driver/dma_stop_transfer | grep PASS
+0004	set -x; rmmod dma_stop_transfer
+0005	set -x; rmmod dma_stop_transfer && exit 1 || exit 0;
+0006	set -x; rmmod dma_single_channel
+
+# End L_DD_DMA_0023

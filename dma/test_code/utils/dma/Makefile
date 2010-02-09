@@ -10,6 +10,7 @@ CC := $(CROSS_COMPILE)gcc
 
 MODULES = dma_single_channel.o \
   dma_chain_transfer.o \
+  dma_chain_static_invalid.o \
   dma_priority_high.o \
   dma_priority_low.o \
   dma_stop_transfer.o \
@@ -23,6 +24,7 @@ MODULES = dma_single_channel.o \
   dma_burst_mode16.o \
   dma_chain_static.o \
   dma_chain_dynamic.o \
+  dma_chain_dynamic_invalid.o \
 
 obj-m:=$(MODULES)
 

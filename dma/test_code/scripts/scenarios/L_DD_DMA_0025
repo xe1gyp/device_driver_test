@@ -1,0 +1,16 @@
+################################################################################
+# Scenario:    L_DD_DMA_0025
+# Author  :    Adria Lizeth Calderon Almodovar
+# Date    :    February 8th, 2010
+# Description: Creating a set of chained transfers, each a supported configuration, but together exceed max available channels
+################################################################################
+
+# Begin L_DD_DMA_0025
+
+0001    set -x; insmod $TESTMODS/dma_chain_transfer.ko
+0002   set -x; insmod $TESTMODS/dma_chain_static_invalid.ko
+0003  set -x; cat /proc/driver/dma_chain_static | grep PASS && exit 1 || exit 0;
+0004    set -x; rmmod dma_chain_static_invalid
+0005    set -x; rmmod dma_chain_transfer
+
+# End L_DD_DMA_0025
