@@ -1,5 +1,7 @@
 CC := arm-none-linux-gnueabi-gcc
-OBJS := showinfo setimg setwin setcrop streaming streaming_tiler setlink setrotation setmirror \ 	setbgcolor settransck enablecolkey setcolorconv setdefcolcon streaming_process \ 	tv_detect_app
+OBJS := showinfo setimg setwin setcrop streaming streaming_tiler setlink setrotation setmirror \
+setbgcolor settransck enablecolkey setcolorconv setdefcolcon streaming_process \
+tv_detect_app
 
 all: $(OBJS)
 
