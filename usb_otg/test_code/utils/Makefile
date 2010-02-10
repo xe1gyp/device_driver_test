@@ -6,25 +6,15 @@
 #  in the license agreement under which this software has been supplied.
 # ================================================================================ */
 
-SUBDIRS = testusb_app evtest_app microcom_app
+SUBDIRS = testusb evtest microcom gadgetfs
 
 all: $(SUBDIRS)
 
+$(SUBDIRS):
+	$(MAKE) -C $@
+
 install:
-	make -C testusb install
-	make -C evtest install
-	make -C microcom install
-
-testusb_app:
-	make -C testusb
-
-evtest_app:
-	make -C evtest
-
-microcom_app:
-	make -C microcom
+	$(foreach folder,$(SUBDIRS),$(MAKE) -C $(folder) install)
 
 clean:
-	make -C testusb clean
-	make -C evtest clean
-	make -C microcom clean
+	$(foreach folder,$(SUBDIRS),$(MAKE) -C $(folder) clean)
