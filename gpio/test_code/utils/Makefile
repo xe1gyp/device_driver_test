@@ -11,13 +11,13 @@ SUBDIRS = gpio_mods_dir
 all: $(SUBDIRS)
 
 install:
-	make -C gpio_mods install
+	$(MAKE) -C gpio_mods install
 
 gpio_apps_dir:
-	make -C gpio_apps
+	$(MAKE) -C gpio_apps
 
 gpio_mods_dir:
-	make -C gpio_mods
+	$(MAKE) -C gpio_mods
 
 clean:
-	make -C gpio_mods clean
+	$(MAKE) -C gpio_mods clean

@@ -23,16 +23,17 @@ OBJS := modules install
 all:$(OBJS)
 
 modules:
-	make -C utils
+	$(MAKE) -C utils
 
 install:
 	mkdir -p modules/
 	mkdir -p scripts/test
 	mkdir -p scripts/tmp
-	make -C utils install
+	$(MAKE) -C utils install
 clean:
-	make -C utils clean
+	$(MAKE) -C utils clean
+	rm -rf scripts/log*
 	rm -rf scripts/tmp
 	rm -rf scripts/test
-	rm -rf modules
+	rm -rf modules/
 
