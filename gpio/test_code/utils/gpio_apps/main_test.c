@@ -20,7 +20,7 @@ int main(void)
 	int i = 0;
 	for (i = 0; i < MAX_APP; i++) {
 
-		appPidList[i] = fork()
+		appPidList[i] = fork();
 		if (appPidList[i] < 0) {
 			printf("fork failed for %s", appList[i]);
 			fflush(stdout);

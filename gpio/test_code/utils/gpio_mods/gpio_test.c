@@ -5,26 +5,47 @@
 #include <asm/irq.h>
 #include <linux/version.h>
 #include <linux/gpio.h>
-#include <mach/irqs.h>
+#include <linux/io.h>
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,27) && LINUX_VERSION_CODE <= KERNEL_VERSION(2,6,31))
+ #include <mach/hardware.h>
+ #include <mach/control.h>
+ #include <mach/irqs.h>
+#elif LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,32)
+ #include <plat/hardware.h>
+ #include <plat/control.h>
+ #include <plat/irqs.h>
+#else
+ #include <asm/arch/hardware.h>
+ #include <asm/arch/control.h>
+ #include <asm/arch/irqs.h>
+#endif
+
 #include <linux/proc_fs.h>
-#include <linux/sched.h>
-#include <linux/kthread.h>
+
+#ifdef CONFIG_ARCH_OMAP4
+ #include <linux/sched.h>
+ #include <linux/kthread.h>
+#endif
+
 #define PROC_FILE "driver/gpio_test_result"
 
 static uint test;
 static uint gpio;
 static uint value;
-static uint iterations = 1;
-static uint request_flag;
-static uint input_direction_flag;
-static uint output_direction_flag;
+static uint request_flag = 0;
+static uint input_direction_flag = 0;
+static uint output_direction_flag = 0;
 static uint test_passed = 1;
 static uint error_flag_1 = 1, error_flag_2 = 1, error_flag_3 = 1;
+#ifdef CONFIG_ARCH_OMAP4
+static uint iterations = 1;
 
+module_param(iterations, int, S_IRUGO|S_IWUSR);
+#endif
 module_param(test, int, S_IRUGO|S_IWUSR);
 module_param(gpio, int, S_IRUGO|S_IWUSR);
 module_param(value, int, S_IRUGO|S_IWUSR);
-module_param(iterations, int, S_IRUGO|S_IWUSR);
 
 static void gpio_test_request(void)
 {
@@ -119,6 +140,7 @@ static void gpio_test_irq(void)
 	}
 }
 
+#ifdef CONFIG_ARCH_OMAP4
 void gpio_keep_reading(void *no_of_iterations)
 {
 	int loop;
@@ -131,14 +153,67 @@ void gpio_keep_reading(void *no_of_iterations)
 			if (input_direction_flag)
 				gpio_test_read();
 			gpio_test_free();
+                }
+        }
+}
+#elif !defined CONFIG_ANDROID
+static void gpio_test7(void)
+{
+	int ret, request_status[32], i, j;
+	u32 *bank_base_addr[6], mod_status, bank_status;
+
+	if (!(cpu_is_omap24xx() || cpu_is_omap34xx() || cpu_is_omap44xx())) {
+		printk(KERN_ERR "Test case not applicable");
+		return;
+	}
+
+	/* Initialise base addresses for each bank */
+	bank_base_addr[0] = OMAP2_L4_IO_ADDRESS(0x48310000);
+	bank_base_addr[1] = OMAP2_L4_IO_ADDRESS(0x49050000);
+	bank_base_addr[2] = OMAP2_L4_IO_ADDRESS(0x49052000);
+	bank_base_addr[3] = OMAP2_L4_IO_ADDRESS(0x49054000);
+	bank_base_addr[4] = OMAP2_L4_IO_ADDRESS(0x49056000);
+	bank_base_addr[5] = OMAP2_L4_IO_ADDRESS(0x49058000);
+
+	for (i = 0; i < 6; i++) {
+		bank_status = 0;
+		for (j = 0; j < 32; j++) {
+			ret = gpio_request(j+i*32, "titan_test");
+			if (!ret)
+				request_status[j] = 1;
+			else {
+				request_status[j] = 0;
+				printk(KERN_INFO "GPIO %d Busy\n", j+i*32);
+				bank_status = 1;
+			}
 		}
+		for (j = 0; j < 32; j++) {
+			if (request_status[j])
+				gpio_free(j+i*32);
+		}
+		/* Read OMAP24XX_GPIO_CTRL to verify the module status */
+		mod_status = __raw_readl(bank_base_addr[i] + 0xc) & 0x1;
+		if (mod_status)
+			printk(KERN_INFO "GPIO Module %d disable Success"
+				"\n\n", i);
+		else if (!bank_status) {
+			test_passed = 0;
+			printk(KERN_INFO "GPIO Module %d disable Failed"
+				"\n\n", i);
+		}
+		else
+			printk(KERN_INFO "GPIO Module %d not free\n\n", i);
 	}
 }
+#endif
+
 static void gpio_test(void)
 {
+#ifdef CONFIG_ARCH_OMAP4
 		int loop;
 		struct task_struct *p1, *p2;
 		int x;
+#endif
 
 		switch (test) {
 
@@ -186,6 +261,7 @@ static void gpio_test(void)
 			}
 			break;
 
+#ifdef CONFIG_ARCH_OMAP4
 		case 6: /* GPIO read */
 			for (loop = 0; loop < iterations; loop++) {
 				gpio_test_request();
@@ -211,6 +287,7 @@ static void gpio_test(void)
 				}
 			}
 			break;
+
 		case 8: /* thread */
 			p1 = kthread_create(gpio_keep_reading, NULL , "gpiotest/0");
 			p2 = kthread_create(gpio_keep_reading, NULL , "gpiotest/1");
@@ -219,7 +296,25 @@ static void gpio_test(void)
 			x = wake_up_process(p1);
 			x = wake_up_process(p2);
 			break;
+#elif !defined CONFIG_ANDROID
 
+		case 7:/* Verify if GPIO module disable happens if all \
+				GPIOs in the module are inactive */
+			gpio_test7();
+			break;
+
+		case 8:/* Request for same GPIO twice and free \
+				the GPIO */
+			gpio_test_request();
+			if (request_flag) {
+				request_flag = 0;
+				gpio_test_request();
+				if (request_flag)
+					test_passed = 0;
+				gpio_test_free();
+			}
+			break;
+#endif
 		default:
 			printk(KERN_INFO "Test option not available.\n");
 	}
