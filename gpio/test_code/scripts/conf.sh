@@ -24,6 +24,7 @@ export COUNT=0
 # Utilities
 export UTILBIN=${TESTROOT}/../../utils/bin
 export WAITKEY=$UTILBIN/akey
+export UTILSCRIPTS=${TESTROOT}/../../utils/scripts
 export UTILS_DIR_HANDLERS=${TESTROOT}/../../utils/handlers
 
 # Driver specific
