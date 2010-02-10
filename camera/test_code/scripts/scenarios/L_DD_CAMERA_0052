@@ -1,0 +1,16 @@
+#####################
+# FILENAME: L_DD_CAMERA_0052
+# Author  : Omar Esli Jimenez Villarreal
+# Date    : Wednesday, August 06, 2008
+# Copyright (C) 2008 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test contrast control using OV3640 Sensor.
+
+# Begin "L_DD_CAMERA_0052"
+
+COMMENT comment.sh "Capture VGA YUYV image and change the contrast level at the same time using OV3640 Sensor."
+
+0001_SAN set -x; effect.sh "contrast" "VGA" "YUYV" "2"&& exit 0 || exit 1
+
+# End "L_DD_CAMERA_0052"

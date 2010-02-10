@@ -1,0 +1,28 @@
+#####################
+# FILENAME: L_DD_CAMERA_0056
+# Author  : Omar Esli Jimenez Villarreal
+# Date    : September 10, 2008
+# Copyright (C) 2008 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test the capture of a cropped image and video using OV3640 sensor
+
+# Begin "L_DD_CAMERA_0056"
+
+COMMENT comment.sh "Observe that the captured frames are cropped for video and image capture"
+
+COMMENT comment.sh "Verify the capture frame is saved with the desired zoom factor"
+
+0001_A set -x; burstest.sh "VGA" "YUYV" "2" "1" "30" "10"&& exit 0 || exit 1
+0001_B set -x; burstest.sh "VGA" "YUYV" "2" "1" "30" "20"&& exit 0 || exit 1
+0001_C_SAN set -x; burstest.sh "VGA" "YUYV" "2" "1" "30" "40"&& exit 0 || exit 1
+
+COMMENT comment.sh "Verify the zoom demo is displayed cleanly on the LCD"
+
+0002_A set -x; capv.sh "30" "QVGA" "YUYV"  "2" "ZOOM"&& exit 0 || exit 1
+0002_B set -x; capv.sh "30" "CIF" "YUYV"  "2" "ZOOM"&& exit 0 || exit 1
+0002_C_SAN set -x; capv.sh "30" "VGA" "YUYV"  "2" "ZOOM"&& exit 0 || exit 1
+0002_D_SAN set -x; capv.sh "30" "D1NTSC" "YUYV"  "2" "ZOOM"&& exit 0 || exit 1
+0002_E set -x; capv.sh "30" "854 480" "YUYV"  "2" "ZOOM"&& exit 0 || exit 1
+
+# End "L_DD_CAMERA_0056"

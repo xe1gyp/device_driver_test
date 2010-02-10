@@ -1,0 +1,58 @@
+#####################
+# FILENAME: L_DD_CAMERA_0022
+# Author  : Omar Esli Jimenez Villarreal
+# Date    : Tuesday July 08, 2008
+# Copyright (C) 2008 Texas Instruments
+#
+# Description:
+# Abstraction Layer Test Scenario for CCDC, PREVIEW & TABLES
+
+# Begin "L_DD_CAMERA_0022"
+
+COMMENT comment.sh "Test if the Abstraction Layer functionality works for CCDC, PREVIEW & TABLES"
+
+# CCDC Functionality Test
+0001_A set -x; abslayer.sh "1" "CCDC" "alc" && exit 0 || exit 1
+0001_B set -x; abslayer.sh "1" "CCDC" "lpf" && exit 0 || exit 1
+0001_C set -x; abslayer.sh "1" "CCDC" "bcl" && exit 0 || exit 1
+0001_D set -x; abslayer.sh "1" "CCDC" "bcomp" && exit 0 || exit 1
+0001_E set -x; abslayer.sh "1" "CCDC" "fpc" && exit 0 || exit 1
+0001_F set -x; abslayer.sh "1" "CCDC" "cull" && exit 0 || exit 1
+0001_G set -x; abslayer.sh "1" "CCDC" "col" && exit 0 || exit 1
+0001_H set -x; abslayer.sh "1" "CCDC" "lc" && exit 0 || exit 1
+
+# PREVIEW Functionality Test
+0002_A set -x; abslayer.sh "1" "PREVIEW" "le" && exit 0 || exit 1
+0002_B set -x; abslayer.sh "1" "PREVIEW" "ialaw" && exit 0 || exit 1
+0002_C set -x; abslayer.sh "1" "PREVIEW" "hm" && exit 0 || exit 1
+0002_D set -x; abslayer.sh "1" "PREVIEW" "cfa" && exit 0 || exit 1
+0002_E set -x; abslayer.sh "1" "PREVIEW" "cs" && exit 0 || exit 1
+0002_F set -x; abslayer.sh "1" "PREVIEW" "wb" && exit 0 || exit 1
+0002_G set -x; abslayer.sh "1" "PREVIEW" "ba" && exit 0 || exit 1
+0002_H set -x; abslayer.sh "1" "PREVIEW" "r" && exit 0 || exit 1
+0002_I set -x; abslayer.sh "1" "PREVIEW" "cc" && exit 0 || exit 1
+0002_J set -x; abslayer.sh "1" "PREVIEW" "yc" && exit 0 || exit 1
+0002_K set -x; abslayer.sh "1" "PREVIEW" "dc" && exit 0 || exit 1
+#0002_L set -x; abslayer.sh "1" "PREVIEW" "nf" && exit 0 || exit 1
+#0002_M set -x; abslayer.sh "1" "PREVIEW" "rg" && exit 0 || exit 1
+#0002_N set -x; abslayer.sh "1" "PREVIEW" "gg" && exit 0 || exit 1
+#0002_O set -x; abslayer.sh "1" "PREVIEW" "bg" && exit 0 || exit 1
+
+# TABLES  Functionality Test
+0003_A set -x; abslayer.sh "1" "PREVIEW" "nf" && exit 0 || exit 1
+0003_B set -x; abslayer.sh "1" "PREVIEW" "rg" && exit 0 || exit 1
+0003_C set -x; abslayer.sh "1" "PREVIEW" "gg" && exit 0 || exit 1
+0003_D set -x; abslayer.sh "1" "PREVIEW" "bg" && exit 0 || exit 1
+
+# TABLES and PREVIEW Updates after streamon
+0004_A set -x; abslayer.sh "1" "PREVIEW" "rg" "2"&& exit 0 || exit 1
+0004_B set -x; abslayer.sh "1" "PREVIEW" "gg" "2"&& exit 0 || exit 1
+0004_C set -x; abslayer.sh "1" "PREVIEW" "bg" "2"&& exit 0 || exit 1
+0004_D set -x; abslayer.sh "1" "PREVIEW" "nf" "2"&& exit 0 || exit 1
+0004_E set -x; abslayer.sh "1" "PREVIEW" "cc" "2"&& exit 0 || exit 1
+
+# BLACK CLAMP UPDATE AFTER STREAMON FLAG = 1
+0005 set -x; abslayer.sh "1" "CCDC" "bcl" "2"&& exit 0 || exit 1
+
+# End "L_DD_CAMERA_0022"
+

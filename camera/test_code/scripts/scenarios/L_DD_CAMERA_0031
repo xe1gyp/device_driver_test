@@ -1,0 +1,16 @@
+#####################
+# FILENAME: L_DD_CAMERA_0031
+# Author  : Margarita Olaya Cabrera
+# Date    : March 6, 2009
+# Copyright (C) 2009 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Flash driver test
+# Begin "L_DD_CAMERA_0031"
+
+COMMENT comment.sh "Flash driver should be supported for primary camera"
+
+0001 set -x; flash.sh && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0031"
+

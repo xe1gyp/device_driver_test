@@ -1,0 +1,18 @@
+#####################
+# FILENAME: L_DD_CAMERA_0024
+# Author  : Jorge Eduardo Candelaria Villarreal
+# Date    : 21 October 08, 2008
+# Copyright (C) 2008 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test generation and collection of Auto Focus statistics, and lens/focus position configuration.
+
+# Begin "L_DD_CAMERA_0024"
+
+COMMENT comment.sh "The video should be displayed cleanly on the LCD depending on the lens position."
+
+0001_A set -x; af.sh "1" "30" "1" "1"&& exit 0 || exit 1
+0001_B set -x; af.sh "1" "30" "2" "1"&& exit 0 || exit 1
+0001_C set -x; af.sh "1" "30" "3" "1"&& exit 0 || exit 1
+
+# End "L_DD_CAMERA_0024"

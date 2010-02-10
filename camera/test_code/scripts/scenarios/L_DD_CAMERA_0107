@@ -1,0 +1,16 @@
+#####################
+# FILENAME: L_DD_CAMERA_0107
+# Author  : Jose Luis Diaz / Dominic Curran
+# Date    : Fri Aug 28, 2009
+# Copyright (C) 2009 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test brightness control.
+
+# Begin "L_DD_CAMERA_0107"
+
+COMMENT comment.sh "Capture QVGA YUYV image and change the brightness level at the same time."
+
+0001_SAN set -x; effect.sh "brightness" "QVGA" "YUYV"  "3"&& exit 0 || exit 1
+
+# End "L_DD_CAMERA_0107"

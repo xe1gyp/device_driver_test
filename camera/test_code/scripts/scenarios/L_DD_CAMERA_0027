@@ -1,0 +1,15 @@
+#####################
+# FILENAME: L_DD_CAMERA_0027
+# Author  : Jorge Eduardo Candelaria Villarreal
+# Date    : 22 October 08, 2008
+# Copyright (C) 2008 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Resolution and frame rate shall be supported: QVGA at 120fps using MT9P012
+# Begin "L_DD_CAMERA_0027"
+
+COMMENT comment.sh "120 Frames shall be saved into a file at 120 fps"
+
+0001 set -x; burstest.sh "QVGA" "YUYV" "1" "120" "120" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0027"

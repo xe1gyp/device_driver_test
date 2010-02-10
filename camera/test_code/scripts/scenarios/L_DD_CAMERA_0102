@@ -1,0 +1,27 @@
+#####################
+# FILENAME: L_DD_CAMERA_0102
+# Author  : Jose Luis Diaz / Dominic Curran
+# Date    : Fri Aug 28, 2009
+# Copyright (C) 2009 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Capture a single image test if it can save into a file.
+# For sensor Sony IMX046
+
+# Begin "L_DD_CAMERA_0102"
+
+COMMENT comment.sh "Test capture of a single image of the supported sizes or if can be save into a file"
+
+0001_SAN set -x; burstest.sh "VGA" "YUYV" "3" "1" "10"&& exit 0 || exit 1
+0002_SAN set -x; burstest.sh "D1NTSC" "YUYV" "3" "1" "10"&& exit 0 || exit 1
+0003 set -x; burstest.sh "D1PAL" "YUYV" "3" "1" "10"&& exit 0 || exit 1
+0004 set -x; burstest.sh "SVGA" "YUYV" "3" "1" "10"&& exit 0 || exit 1
+0005 set -x; burstest.sh "XGA" "YUYV" "3" "1" "10"&& exit 0 || exit 1
+0006 set -x; burstest.sh "SXGA" "YUYV" "3" "1" "10"&& exit 0 || exit 1
+0007_SAN set -x; burstest.sh "UXGA" "YUYV" "3" "1" "10"&& exit 0 || exit 1
+0008_SAN set -x; burstest.sh "QXGA" "YUYV" "3" "1" "10"&& exit 0 || exit 1
+0009_SAN set -x; burstest.sh "2592 1944" "YUYV" "3" "1" "10"&& exit 0 || exit 1
+0010_SAN set -x; burstest.sh "3280 2464" "YUYV" "3" "1" "10"&& exit 0 || exit 1
+0011_SAN set -x; burstest.sh "1280 720" "YUYV" "3" "1" "30"&& exit 0 || exit 1
+
+# End "L_DD_CAMERA_0102"

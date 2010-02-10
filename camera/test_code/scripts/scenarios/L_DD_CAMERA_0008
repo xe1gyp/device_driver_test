@@ -1,0 +1,16 @@
+#####################
+# FILENAME: L_DD_CAMERA_0008
+# Author  : Jose Luis Diaz
+# Date    : Wed Dec 20, 2006
+# Copyright (C) 2008 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test camera drivers shall support pass through of input data without image processing.
+
+# Begin "L_DD_CAMERA_0008"
+
+COMMENT comment.sh "Camera drivers shall support pass through of input data without image processing."
+
+0001_SAN set -x; rawcap.sh  "1" "2592 1944"&& exit 0 || exit 1
+
+# End "L_DD_CAMERA_0008"

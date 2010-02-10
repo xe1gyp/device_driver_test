@@ -1,0 +1,15 @@
+#####################
+# FILENAME: L_DD_CAMERA_0025
+# Author  : Jorge Eduardo Candelaria Villarreal
+# Date    : 22 October 08, 2008
+# Copyright (C) 2008 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Camera driver shall support switching between the two cameras.
+# Begin "L_DD_CAMERA_0025"
+
+COMMENT comment.sh "The video should be displayed cleanly on the LCD using both camera sensors. There should be no error message displayed while capturing the video."
+
+0001 set -x; switch.sh "30" "VGA" "YUYV" "100" "4" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0025"

@@ -1,0 +1,19 @@
+#####################
+# FILENAME: L_DD_CAMERA_0011
+# Author  : Jose Luis Diaz
+# Date    : Wed Dec 20, 2006
+# Copyright (C) 2008 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test preview of video in YUYV format for the supported sizes.
+
+# Begin "L_DD_CAMERA_0011"
+
+COMMENT comment.sh "Observe the rotated video on LCD. The image is cropped to LCD width."
+
+0001 set -x; prev.sh "0" "QVGA" "YUYV" && exit 0 || exit 1
+0002 set -x; prev.sh "90" "QVGA" "YUYV" && exit 0 || exit 1
+0003 set -x; prev.sh "180" "QVGA" "YUYV" && exit 0 || exit 1
+0004 set -x; prev.sh "270" "QVGA" "YUYV" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0011"
