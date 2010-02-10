@@ -1,7 +1,6 @@
 CC := $(CROSS_COMPILE)gcc
 
-export UTILS_DIR = $(PWD)
-export UTILS_BINARIES = $(PWD)/bin
+export UTILS_BINARIES = $(UTILSDIR)/bin
 
 #all: pan_app akey_app priority_app install
 all: akey_app pan_app priority_app schedutils_app install
