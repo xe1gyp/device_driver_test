@@ -6,33 +6,20 @@
 
 # Begin L_DD_ETHERNET_0001_0004
 
-# Initial Setup
-01  set -x; ifconfig eth0 -promisc; ifconfig | grep eth0 && ifconfig | grep MTU: | sed -e 's@MTU:@@' | sed q | awk '{print $5}' > $ETHERNET_DIR_TMP/MTU1 && exit 0 || exit 1
+# Valid values
+01  set -x; handlerIfconfig.sh "set" "mtu" 500  && exit 0 || exit 1
+02  set -x; handlerIfconfig.sh "set" "mtu" 1000 && exit 0 || exit 1
+03  set -x; handlerIfconfig.sh "set" "mtu" 1500 && exit 0 || exit 1
 
-# Setting to 500 MTU, valid
-02  set -x; ifconfig eth0 mtu 500 && exit 0 || exit 1
-03  set -x; ifconfig eth0 -promisc; ifconfig | grep eth0 && ifconfig | grep MTU: | sed -e 's@MTU:@@' | sed q | awk '{print $5}' > $ETHERNET_DIR_TMP/MTU2 && exit 0 || exit 1
-04  set -x; cat $ETHERNET_DIR_TMP/MTU2 | grep 500 && exit 0 || exit 1
+# Invalid values
+04  set -x; handlerIfconfig.sh "set" "mtu" 1501 && exit 1 || exit 0
+05  set -x; handlerIfconfig.sh "set" "mtu" 2000 && exit 1 || exit 0
+06  set -x; handlerIfconfig.sh "set" "mtu" 2500 && exit 1 || exit 0
 
-# Setting to 1000 MTU, valid
-05  set -x; ifconfig eth0 mtu 1000 && exit 0 || exit 1
-06  set -x; ifconfig eth0 -promisc; ifconfig | grep eth0 && ifconfig | grep MTU: | sed -e 's@MTU:@@' | sed q | awk '{print $5}' > $ETHERNET_DIR_TMP/MTU2 && exit 0 || exit 1
-07  set -x; cat $ETHERNET_DIR_TMP/MTU2 | grep 1000 && exit 0 || exit 1
+# Range of valid values
+07  set -x; for i in `seq 500 1500`; do handlerIfconfig.sh "set" "mtu" $i; done && exit 0 || exit 1
 
-# Setting to 1500 MTU, valid
-08  set -x; ifconfig eth0 mtu 1500 && exit 0 || exit 1
-09  set -x; ifconfig eth0 -promisc; ifconfig | grep eth0 && ifconfig | grep MTU: | sed -e 's@MTU:@@' | sed q | awk '{print $5}' > $ETHERNET_DIR_TMP/MTU2 && exit 0 || exit 1
-10  set -x; cat $ETHERNET_DIR_TMP/MTU2 | grep 1500 && exit 0 || exit 1
-
-# Setting to 2500 MTU, invalid
-11  set -x; ifconfig eth0 mtu 2500 && exit 1 || exit 0
-12  set -x; ifconfig eth0 -promisc; ifconfig | grep eth0 && ifconfig | grep MTU: | sed -e 's@MTU:@@' | sed q | awk '{print $5}' > $ETHERNET_DIR_TMP/MTU2 && exit 0 || exit 1
-13  set -x; cat $ETHERNET_DIR_TMP/MTU2 | grep 2500 && exit 1 || exit 0
-
-# Setting from 500 to 1500 MTU, valid range
-14  set -x; for i in `seq 500 1500`; do ifconfig eth0 mtu $i; done && exit 0 || exit 1
-
-# Final Setup, MTU set to 1500
-15  set -x; ifconfig eth0 mtu 1500 && exit 0 || exit 1
+# Default Value
+08  set -x; handlerIfconfig.sh "set" "mtu" 1500 && exit 0 || exit 1
 
 # End L_DD_ETHERNET_0001_0004

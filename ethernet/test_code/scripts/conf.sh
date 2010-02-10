@@ -20,8 +20,9 @@ export ETHERNET_PRETTY_PRT=""
 export ETHERNET_VERBOSE=""
 export ETHERNET_SCENARIO_NAMES=""
 export ETHERNET_STRESS=""
+export ETHERNET_PANIC=$ETHERNET_DIR_TMP/ethernet.panic
 
-export PATH="${ETHERNET_ROOT}:${ETHERNET_DIR_HELPER}:${PATH}"
+export PATH="${ETHERNET_ROOT}:${ETHERNET_DIR_HELPER}:$ETHERNET_DIR_BINARIES:${PATH}"
 
 # Utils General Variables
 . ${ETHERNET_ROOT}/../../utils/configuration/general.configuration
@@ -30,9 +31,18 @@ export UTILS_DIR_HANDLERS=${ETHERNET_ROOT}/../../utils/handlers
 
 # Specific Ethernet Variables
 export ETHERNET_PACKET_SIZE=32768
+export ETHERNET_INTERFACE=eth0
+export ETHERNET_IFCONFIG_IPADDR=$ETHERNET_DIR_TMP/ifconfig.ipaddr
+export ETHERNET_IFCONFIG_HWADDR=$ETHERNET_DIR_TMP/ifconfig.hwaddr
+
+export ETHERNET_EXTERNAL_HOST_IPADDR=$ETHERNET_DIR_TMP/external.ipaddr
+export ETHERNET_EXTERNAL_HOST_HWADDR=
+export ETHERNET_NUTTCP_SERVER_IPADDR=$ETHERNET_DIR_TMP/nuttcp.server.ipaddr
+export ETHERNET_KERNEL_MESSAGES=$ETHERNET_DIR_TMP/dmesg
 
 if [ ! `echo 1+1 | bc` ]; then
-	echo "FATAL: BC unavailable, cannot continue"
+	echo "FATAL: bc application unavailable, cannot continue"
+	exit 1
 fi
 
 # End of file
