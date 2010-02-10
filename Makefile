@@ -25,7 +25,7 @@ check:
 
 TESTROOT 	:= build/testsuites
 CODE_DIR	:= test_code
-UTILSDIR 	:= utils
+UTILSDIR 	:= $(PWD)/utils
 SCENARIOS	:= scripts/scenarios
 
 OLD_KDIR:=$(shell cat .config | grep KDIR | cut -d'=' -f2)
@@ -114,6 +114,7 @@ export HOST
 export TARGET_PLATFORM
 export TARGET_FILESYSTEM
 export TESTSUITES
+export UTILSDIR
 
 .PHONY: all check cleanup maketest clean distclean utilities $(TESTSUITES)
 
