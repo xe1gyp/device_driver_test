@@ -9,9 +9,16 @@ SIZE=$4
 # Run streaming in background
 if [ "$SIZE" = "VGA" ]; then
 time $TESTBIN/streaming_frame $DEVICE $FPS $FORMAT $SIZE &
+TEST="streaming_frame"
 else
 time $TESTBIN/fps $DEVICE $FORMAT $SIZE 250 $FPS &
+TEST="fps"
 fi
+
+sleep 1
+
+# Find pid for the background test.
+pid=`ps | grep $TEST | grep -v "grep" | awk '{print $1}'`
 
 
 # Changing the governor to userspace.
@@ -41,6 +48,13 @@ do
 	fi
 done
 sleep 5
+
+# Wait for background process to finish.
+while [ "$pid" != "" ]
+do
+	pid=`ps | grep $TEST | grep -v "grep" | awk '{print $1}'`
+	sleep 1
+done
 
 
 # Switch back to original governor.
