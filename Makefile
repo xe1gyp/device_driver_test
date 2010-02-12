@@ -179,7 +179,7 @@ utilities:
 	@$(MAKE) -C $(UTILSDIR)
 
 $(TESTROOT)/$(UTILSDIR): $(UTILSDIR)
-	@find $(UTILSDIR) -not -name \*.[aoch] -not -name Makefile \
+	@find $(UTILSDIR) ! -name \*.[aoch] ! -name Makefile ! -type d \
 	-exec cp --parents '{}' $(TESTROOT) \;
 	@echo
 	@echo "=========Installed utils directory in \"$(TESTROOT)\"=========";
