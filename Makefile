@@ -179,8 +179,9 @@ utilities:
 	@$(MAKE) -C $(UTILSDIR)
 
 $(TESTROOT)/$(UTILSDIR): $(UTILSDIR)
-	@find $(UTILSDIR) ! -name \*.[aoch] ! -name Makefile ! -type d \
-	-exec cp --parents '{}' $(TESTROOT) \;
+	@find $(notdir $(UTILSDIR)) ! -name \*.[ao] ! -type d | \
+	xargs file | grep -vi ascii | cut -d: -f1 | \
+	xargs -I '{}' cp --parents '{}' $(TESTROOT)
 	@echo
 	@echo "=========Installed utils directory in \"$(TESTROOT)\"=========";
 	@echo
