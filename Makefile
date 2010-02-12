@@ -187,7 +187,9 @@ $(TESTROOT)/$(UTILSDIR): $(UTILSDIR)
 
 clean:
 	@for dir in $(shell ls -d */); do \
-	$(MAKE) -C $${dir}/$(CODE_DIR) clean; \
+	if [ -f $${dir}$(CODE_DIR)/Makefile ]; then \
+		$(MAKE) -C $${dir}$(CODE_DIR) clean; \
+	fi; \
 	done
 	@$(MAKE) -C $(UTILSDIR) clean
 	-rm -rf build
