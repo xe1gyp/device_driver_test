@@ -4,7 +4,6 @@
 export POSTFIX=`date "+%Y%m%d-%H%M%S"`
 export TESTROOT=${PWD}
 export TESTBIN=${PWD}/../bin
-export UTILBIN=${PWD}/../../utils/bin
 export TESTMODS=${PWD}/../mods
 export TESTSCRIPT=${PWD}/helper
 export TMPBASE=${TESTROOT}/tmp
@@ -19,6 +18,10 @@ export DURATION=""
 export PATH="${PATH}:${TESTROOT}:${TESTBIN}:${TESTSCRIPT}"
 export TC_SCENARIO="${TESTROOT}/scenarios"
 export SCENARIO_NAMES=""
+
+# Utilities
+export UTILBIN=${PWD}/../../utils/bin
+export UTILSCRIPTS=${TESTROOT}/../../utils/scripts
 
 # Audio files path
 export DEFAULT_INPUT_SOURCE="Mic_Headset"
@@ -46,5 +49,10 @@ export GENERIC_STEREO_SAMPLE_RATE=44100
 
 export TEST_RECORD_MONO_FILE="$TMPBASE/record_mono_file.wav"
 export TEST_RECORD_STEREO_FILE="$TMPBASE/record_stereo_file.wav"
+export RECORD_FILE="$TMPBASE/filename_rec.wav"
+
+export AMIXER=alsa_amixer
+export APLAY=alsa_aplay
+export ARECORD=arecord
 
 # End of file
