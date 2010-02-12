@@ -1,0 +1,18 @@
+##############################################################################
+# Scenario: L_DD_AUDIO-ALSA_0207_0001
+# Author  : Cristopherson Torres
+# Date    : 03 January 2010
+# Description: Audio driver shall support configuration of the audio codec to
+# 44.1 KHz for playback.
+##############################################################################
+
+# Begin L_DD_AUDIO-ALSA_0207_0001
+
+01 set -x; $AMIXER cset numid=34 1 && exit 0 || exit 1
+02 set -x; $AMIXER cset numid=36 1 && exit 0 || exit 1
+03 set -x; $AMIXER cset numid=35 2 && exit 0 || exit 1
+04 set -x; $AMIXER cset numid=37 2 && exit 0 || exit 1
+05 set -x; $AMIXER cset numid=7 18 && exit 0 || exit 1
+06 set -x; $APLAY $STEREO_AUDIO_FILE"44100.wav" && exit 0 || exit 1
+
+# End L_DD_AUDIO-ALSA_0207_0001

@@ -1,0 +1,18 @@
+##############################################################################
+# Scenario: L_DD_AUDIO-ALSA_0204_0001
+# Author  : Cristopherson Torres
+# Date    : 29 October 2009
+# Description: Audio config driver shall support configuring
+# the hardware digital and analog gains for input
+##############################################################################
+
+# Begin L_DD_AUDIO-ALSA_0204_0001
+
+01 set -x; $AMIXER cset numid=24 1 && exit 0 || exit 1
+02 set -x; $AMIXER cset numid=17 31 && exit 0 || exit 1
+03 set -x; $AMIXER cset numid=18 31 && exit 0 || exit 1
+04 set -x; $AMIXER cset numid=19 5 && exit 0 || exit 1
+05 set -x; $ARECORD -f S16_LE -c 2 -r 48000 -d 5 $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+06 set -x; $APLAY $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+
+# End L_DD_AUDIO-ALSA_0204_0001

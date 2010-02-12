@@ -1,0 +1,35 @@
+##############################################################################
+# Scenario: L_DD_AUDIO-ALSA_0208_0001
+# Author  : Cristopherson Torres
+# Date    : 03 January 2010
+# Description: Audio driver shall support configuration of the audio codec for
+# the following sampling frequencies - 8,11.025,12,16,22.05,24,32,44.1,48 KHz
+# for recording.
+##############################################################################
+
+# Begin L_DD_AUDIO-ALSA_0208_0001
+
+01 set -x; $AMIXER cset numid=24 1 && exit 0 || exit 1
+02 set -x; $AMIXER cset numid=17 31 && exit 0 || exit 1
+03 set -x; $AMIXER cset numid=18 31 && exit 0 || exit 1
+04 set -x; $AMIXER cset numid=19 5 && exit 0 || exit 1
+06 set -x; $ARECORD -f S16_LE -c 2 -r 8000 -d 5 $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+07 set -x; $APLAY $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+08 set -x; $ARECORD -f S16_LE -c 2 -r 11025 -d 5 $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+09 set -x; $APLAY $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+10 set -x; $ARECORD -f S16_LE -c 2 -r 12000 -d 5 $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+11 set -x; $APLAY $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+12 set -x; $ARECORD -f S16_LE -c 2 -r 16000 -d 5 $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+13 set -x; $APLAY $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+14 set -x; $ARECORD -f S16_LE -c 2 -r 22050 -d 5 $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+15 set -x; $APLAY $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+16 set -x; $ARECORD -f S16_LE -c 2 -r 24000 -d 5 $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+17 set -x; $APLAY $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+18 set -x; $ARECORD -f S16_LE -c 2 -r 32000 -d 5 $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+19 set -x; $APLAY $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+20 set -x; $ARECORD -f S16_LE -c 2 -r 44100 -d 5 $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+21 set -x; $APLAY $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+22 set -x; $ARECORD -f S16_LE -c 2 -r 48000 -d 5 $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+23 set -x; $APLAY $TEST_RECORD_STEREO_FILE && exit 0 || exit 1
+
+# End L_DD_AUDIO-ALSA_0208_0001

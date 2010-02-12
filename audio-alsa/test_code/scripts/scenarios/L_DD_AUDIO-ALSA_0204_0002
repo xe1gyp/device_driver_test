@@ -1,0 +1,19 @@
+##############################################################################
+# Scenario: L_DD_AUDIO-ALSA_0204_0002
+# Author  : Cristopherson Torres
+# Date    : 29 October 2009
+# Description: Audio config driver shall support configuring
+#	the hardware digital and analog gains for output.
+##############################################################################
+
+# Begin L_DD_AUDIO-ALSA_0204_0002
+
+01 set -x; $AMIXER cset numid=34 1 && exit 0 || exit 1
+02 set -x; $AMIXER cset numid=36 1 && exit 0 || exit 1
+03 set -x; $AMIXER cset numid=35 2 && exit 0 || exit 1
+04 set -x; $AMIXER cset numid=37 2 && exit 0 || exit 1
+05 set -x; $AMIXER cset numid=7 18 && exit 0 || exit 1
+06 set -x; $TESTSCRIPT/decrease_gain_test.sh && exit 0 || exit 1
+07 set -x; $TESTSCRIPT/increase_gain_test.sh && exit 0 || exit 1
+
+# End L_DD_AUDIO-ALSA_0204_0002
