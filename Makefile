@@ -153,7 +153,7 @@ $(TESTSUITES):
 	@echo
 	@sleep 1
 	@mkdir -p $(TESTROOT)
-	@$(MAKE) -C $@/$(CODE_DIR)
+	@$(MAKE) -C $@/$(CODE_DIR) SUITE_DIR=$(PWD)/$@/$(CODE_DIR)
 	$(call scenario_list)
 -include dependencies
 
@@ -189,7 +189,8 @@ $(TESTROOT)/$(UTILSDIR): $(UTILSDIR)
 clean:
 	@for dir in $(shell ls -d */); do \
 	if [ -f $${dir}$(CODE_DIR)/Makefile ]; then \
-		$(MAKE) -C $${dir}$(CODE_DIR) clean; \
+		$(MAKE) -C $${dir}$(CODE_DIR) \
+		SUITE_DIR=$(PWD)/$${dir}$(CODE_DIR) clean; \
 	fi; \
 	done
 	@$(MAKE) -C $(UTILSDIR) clean
