@@ -6,6 +6,10 @@
 #  in the license agreement under which this software has been supplied.
 # ================================================================================ */
 
+ifeq ($(SUITE_DIR),)
+SUITE_DIR=$(PWD)
+endif
+
 CC := $(CROSS_COMPILE)gcc
 
 USRDIR := ../../
@@ -17,8 +21,8 @@ TARGETS=test_mute test_gain
 all: $(TARGETS)
 
 install:
-	cp -v $(TARGETS) ../../bin
-	cp -v aplay-pr ../../bin
+	cp -v $(TARGETS) $(SUITE_DIR)/bin
+	cp -v aplay-pr $(SUITE_DIR)/bin
 
 test_mute: test_mute.c
 

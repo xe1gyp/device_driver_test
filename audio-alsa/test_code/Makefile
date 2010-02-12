@@ -18,23 +18,27 @@
 # Change Log:
 ############################################################################
 
-DESTDIR := ${PWD}/bin
+ifeq ($(SUITE_DIR),)
+SUITE_DIR:=$(PWD)
+endif
+
+DESTDIR := $(SUITE_DIR)/bin
 OBJS := utilities install
 
 all: $(OBJS)
 
 utilities:
-	make -C utils
+	$(MAKE) -C utils
 
 install:
 	mkdir -p $(DESTDIR)
-	make -C utils install
+	$(MAKE) -C utils install
 	mkdir -p scripts/test
 	mkdir -p scripts/tmp
 
 clean:
 	rm -rvf $(DESTDIR)
-	make -C utils clean
+	$(MAKE) -C utils clean
 	rm -rf scripts/log*
 	rm -rf scripts/tmp
 	rm -rf scripts/test
