@@ -1,0 +1,19 @@
+################################################################################
+# Scenario:    L_DD_DMA_0004_OPP1
+# Author  :    Shilpa Maddi
+# Date    :    February 8th, 2010
+# Description: DMA Single indexing addressing mode
+################################################################################
+
+# Begin L_DD_DMA_0004_OPP1
+0001	set -x; cd /sys/devices/system/cpu/cpu0/cpufreq/
+0002	set -x; pwd
+0003	set -x; opp1.sh
+0004	set -x; echo Running on OPP1
+0005	set -x; insmod $TESTMODS/dma_single_channel.ko
+0006	set -x; insmod $TESTMODS/dma_addrmode_singleidx.ko
+0007	set -x; cat /proc/driver/dma_addrmode_singleidx | grep PASS
+0008	set -x; rmmod dma_addrmode_singleidx
+0009	set -x; rmmod dma_single_channel
+
+# End L_DD_DMA_0004_OPP1

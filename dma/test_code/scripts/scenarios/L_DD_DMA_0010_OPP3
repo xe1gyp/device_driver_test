@@ -1,0 +1,19 @@
+################################################################################
+# Scenario:    L_DD_DMA_0010_OPP3
+# Author  :    Shilpa Maddi
+# Date    :    February 8th, 2010
+# Description: DMA High priority transfers
+################################################################################
+
+# Begin L_DD_DMA_0010_OPP3
+0001	set -x; cd /sys/devices/system/cpu/cpu0/cpufreq/
+0002	set -x; pwd
+0003	set -x; opp3.sh
+0004	set -x; echo Running on OPP3
+0001	set -x; insmod $TESTMODS/dma_single_channel.ko
+0002	set -x; insmod $TESTMODS/dma_priority_high.ko
+0003	set -x; cat /proc/driver/dma_priority_high | grep PASS
+0004	set -x; rmmod dma_priority_high
+0005	set -x; rmmod dma_single_channel
+
+# End L_DD_DMA_0010_OPP3

@@ -1,0 +1,19 @@
+################################################################################
+# Scenario:    L_DD_DMA_0008_OPP2
+# Author  :    Shilpa Maddi
+# Date    :    February 8th, 2010
+# Description: DMA Burst mode of 16 bytes
+################################################################################
+
+# Begin L_DD_DMA_0008_OPP2
+0001	set -x; cd /sys/devices/system/cpu/cpu0/cpufreq/
+0002	set -x; pwd
+0003	set -x; opp2.sh
+0004	set -x; echo Running on OPP2
+0005	set -x; insmod $TESTMODS/dma_single_channel.ko
+0006	set -x; insmod $TESTMODS/dma_burst_mode16.ko
+0007	set -x; cat /proc/driver/dma_burst_mode16 | grep PASS
+0008	set -x; rmmod dma_burst_mode16
+0009	set -x; rmmod dma_single_channel
+
+# End L_DD_DMA_0008_OPP2

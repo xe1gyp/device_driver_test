@@ -1,0 +1,19 @@
+################################################################################
+# Scenario:    L_DD_DMA_0012_OPP5
+# Author  :    Shilpa Maddi
+# Date    :    February 8th, 2010
+# Description: DMA Stopping a on going transfer
+################################################################################
+
+# Begin L_DD_DMA_0012_OPP5
+0001	set -x; cd /sys/devices/system/cpu/cpu0/cpufreq/
+0002	set -x; pwd
+0003	set -x; opp5.sh
+0004	set -x; echo Running on OPP5
+0005	set -x; insmod $TESTMODS/dma_single_channel.ko
+0006	set -x; insmod $TESTMODS/dma_stop_transfer.ko
+0007	set -x; cat /proc/driver/dma_stop_transfer | grep PASS
+0008	set -x; rmmod dma_stop_transfer
+0009	set -x; rmmod dma_single_channel
+
+# End L_DD_DMA_0012_OPP5

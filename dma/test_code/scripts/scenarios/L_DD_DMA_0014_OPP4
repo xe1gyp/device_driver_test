@@ -1,0 +1,19 @@
+################################################################################
+# Scenario:    L_DD_DMA_0014_OPP4
+# Author  :    Shilpa Maddi
+# Date    :    February 8th, 2010
+# Description: DMA Dynamic chaining
+################################################################################
+
+# Begin L_DD_DMA_0014_OPP4
+0001	set -x; cd /sys/devices/system/cpu/cpu0/cpufreq/
+0002	set -x; pwd
+0003	set -x; opp4.sh
+0004	set -x; echo Running on OPP4
+0005	set -x; insmod $TESTMODS/dma_chain_transfer.ko
+0006	set -x; insmod $TESTMODS/dma_chain_dynamic.ko
+0007	set -x; cat /proc/driver/dma_chain_dynamic | grep PASS
+0008	set -x; rmmod dma_chain_dynamic
+0009	set -x; rmmod dma_chain_transfer
+
+# End L_DD_DMA_0014_OPP4

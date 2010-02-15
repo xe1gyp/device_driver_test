@@ -1,0 +1,25 @@
+#!/bin/sh
+
+
+echo userspace > shilpa3
+orig_freq=`cat shilpa1`
+echo The original freq is $orig_freq
+echo 1250000 > shilpa2
+curr_freq=`cat shilpa2`
+echo The curr freq is $curr_freq
+#exit $curr_freq
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

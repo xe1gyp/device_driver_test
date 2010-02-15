@@ -1,0 +1,19 @@
+################################################################################
+# Scenario:    L_DD_DMA_0001_OPP3
+# Author  :    Shilpa Maddi
+# Date    :    February 8th, 2010
+# Description: DMA Constant addressing mode
+################################################################################
+
+# Begin L_DD_DMA_0001_OPP3
+0001	set -x; cd /sys/devices/system/cpu/cpu0/cpufreq/
+0002	set -x; pwd
+0003	set -x; opp3.sh
+0004	set -x; echo Running on OPP3
+0005	set -x; insmod $TESTMODS/dma_single_channel.ko
+0006	set -x; insmod $TESTMODS/dma_addrmode_constant.ko
+0007	set -x; cat /proc/driver/dma_addrmode_constant | grep PASS
+0008	set -x; rmmod dma_addrmode_constant
+0009	set -x; rmmod dma_single_channel
+
+# End L_DD_DMA_0001_OPP3
