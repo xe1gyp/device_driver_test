@@ -1,0 +1,15 @@
+# #############################################################################
+# Scenario    : L_DD_FB_00011
+# Author      : Mayuresh Janorkar
+# Date        : Mon Feb 1, 2010
+# Description : Framebuffer (FB) LCD, 2LCD, TV switching
+# #############################################################################
+
+# End L_DD_FB_0011
+
+COMMENT comment.sh "Test if driver supports simultaneous streaming of fb0 and fb1"
+
+0001 set -x; fb1test.sh && exit 0 || exit 1
+
+# End L_DD_FB_0011
+

@@ -7,7 +7,7 @@
 
 # Begin L_DD_FB_0007
 
-COMMENT comment.sh "Test that the Framebuffer fb0 and allows changing the angle of rotation"
+COMMENT comment.sh "Test that the Framebuffer supportss horizontal mirroing"
 
 0001 set -x; mirrortiler.sh && exit 0 || exit 1
 
