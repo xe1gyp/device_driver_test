@@ -80,36 +80,38 @@ int verify_buffers(struct dma_buffers_info *buffers) {
 /*
  * Callback function that dma framework will invoke after transfer is done
  */
-void dma_callback(int transfer_id, u16 transfer_status, void *data) {
-       struct dma_transfer *transfer = (struct dma_transfer *) data;
-       int error = 1;
-       transfer->data_correct = 0;
-       transfer->finished = 1;
-       printk("\nTransfer complete for id %d, checking destination buffer\n",
-           transfer->transfer_id);
-       /* Check if the transfer numbers are equal */
-       if(transfer->transfer_id != transfer_id){
-           printk(" WARNING: Transfer id %d differs from the one"
-                " received in callback (%d)\n", transfer->transfer_id,
-                transfer_id);
-       }
+void dma_callback(int transfer_id, u16 transfer_status, void *data)
+{
+	struct dma_transfer *transfer = (struct dma_transfer *) data;
+	int error = 1;
+	transfer->data_correct = 0;
+	transfer->finished = 1;
+	printk(KERN_INFO "Transfer complete for id %d, checking destination buffer\n",
+	   transfer->transfer_id);
+	/* Check if the transfer numbers are equal */
+	if (transfer->transfer_id != transfer_id) {
+		printk(KERN_WARNING "Transfer id %d differs from the one"
+		" received in callback (%d)\n", transfer->transfer_id,
+		transfer_id);
+	}
+	unmap_phys_buffers(&transfer->buffers);
        /* Check the transfer status is acceptable */
-       if((transfer_status & OMAP_DMA_BLOCK_IRQ) || (transfer_status == 0)){
+	if ((transfer_status & OMAP_DMA_BLOCK_IRQ) || (transfer_status == 0)) {
            /* Verify the contents of the buffer are equal */
            error = verify_buffers(&(transfer->buffers));
-       }else{
-           printk(" Verification failed, transfer id %d status is not "
-                "acceptable\n", transfer->transfer_id);
+       } else {
+		printk(KERN_ERR "Error:transfer id %d has status %x\n",
+			transfer->transfer_id, transfer_status);
            return;
        }
 
-       if(error){
-           printk(" Verification failed, transfer id %d source and destination"
-                " buffers differ\n", transfer->transfer_id);
-       }else{
-           printk(" Verification succeeded for transfer id %d\n",
-                transfer->transfer_id);
-           transfer->data_correct = 1;
+       if (error) {
+		printk(KERN_ERR "Src/dest buffer mismatch for transfer id %d\n",
+			transfer->transfer_id);
+       } else {
+		printk(KERN_INFO "Verification succeeded for transfer id %d\n",
+			transfer->transfer_id);
+		transfer->data_correct = 1;
        }
 }
 

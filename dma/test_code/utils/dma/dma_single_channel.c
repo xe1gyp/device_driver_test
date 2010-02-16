@@ -144,6 +144,8 @@ void dma_callback(int transfer_id, u16 transfer_status, void *data)
 		" received in callback (%d)\n", transfer->transfer_id,
 		transfer_id);
 	}
+	unmap_phys_buffers(&transfer->buffers);
+
        /* Check the transfer status is acceptable */
 	if ((transfer_status & OMAP_DMA_BLOCK_IRQ) || (transfer_status == 0)) {
 		/* Verify the contents of the buffer are equal */
@@ -171,23 +173,15 @@ EXPORT_SYMBOL(dma_callback);
  */
 int create_transfer_buffers(struct dma_buffers_info *buffers)
 {
-       printk("Allocating non-cacheable source and destination buffers\n");
+	printk(KERN_INFO "Allocating non-cacheable source and destination buffers\n");
 
-       /* Allocate source buffer */
-       buffers->src_buf = 0;
-       buffers->src_buf = (unsigned int) dma_alloc_coherent(
-                NULL,
-                buffers->buf_size,
-                &(buffers->src_buf_phys),
-                0);
+	/* Allocate source buffer */
+	buffers->src_buf = 0;
+	buffers->src_buf = (unsigned int)kmalloc(buffers->buf_size, GFP_DMA);
 
-       /* Allocate destination buffer */
-       buffers->dest_buf = 0;
-       buffers->dest_buf = (unsigned int) dma_alloc_coherent(
-                NULL,
-                buffers->buf_size,
-                &(buffers->dest_buf_phys),
-                0);
+	/* Allocate destination buffer */
+	buffers->dest_buf = 0;
+	buffers->dest_buf = (unsigned int)kmalloc(buffers->buf_size, GFP_DMA);
 
        /* Check the buffers have been allocated correctly */
        if (!buffers->src_buf) {
@@ -254,6 +248,29 @@ int request_dma(struct dma_transfer *transfer)
 }
 EXPORT_SYMBOL(request_dma);
 
+void map_to_phys_buffers(struct dma_buffers_info *buffers)
+{
+	buffers->src_buf_phys =
+		dma_map_single(NULL, buffers->src_buf,
+			buffers->buf_size, DMA_BIDIRECTIONAL);
+	buffers->dest_buf_phys =
+		dma_map_single(NULL, buffers->dest_buf,
+			buffers->buf_size, DMA_BIDIRECTIONAL);
+
+	if (buffers->src_buf_phys == 0 ||
+		buffers->dest_buf_phys == 0)
+		printk(KERN_ERR "DMA Mapping failed\n");
+
+}
+
+void unmap_phys_buffers(struct dma_buffers_info *buffers)
+{
+	dma_unmap_single(NULL, buffers->src_buf_phys,
+		buffers->buf_size, DMA_BIDIRECTIONAL);
+	dma_unmap_single(NULL, buffers->dest_buf_phys,
+		buffers->buf_size, DMA_BIDIRECTIONAL);
+
+}
 /*
  * Setup the source, destination and global transfer parameters
  */
@@ -275,6 +292,8 @@ void setup_dma_transfer(struct dma_transfer *transfer)
 	default:
 		printk(KERN_ERR "Invalid transfer data type\n");
 	}
+
+	map_to_phys_buffers(&transfer->buffers);
 	/* Set dma transfer parameters */
 	omap_set_dma_transfer_params(
 		transfer->transfer_id,
@@ -352,21 +371,9 @@ void stop_dma_transfer(struct dma_transfer *transfer)
 		omap_stop_dma(transfer->transfer_id);
 		omap_free_dma(transfer->transfer_id);
 	}
-	/* Free the source and destination buffers*/
-	if (transfer->buffers.src_buf) {
-		dma_free_coherent(
-			NULL,
-			transfer->buffers.buf_size,
-			(void *) transfer->buffers.src_buf,
-			transfer->buffers.src_buf_phys);
-	}
-	if (transfer->buffers.dest_buf) {
-		dma_free_coherent(
-			NULL,
-			transfer->buffers.buf_size,
-			(void *) transfer->buffers.dest_buf,
-			transfer->buffers.dest_buf_phys);
-	}
+
+		kfree(transfer->buffers.src_buf);
+		kfree(transfer->buffers.dest_buf);
 }
 EXPORT_SYMBOL(stop_dma_transfer);
 

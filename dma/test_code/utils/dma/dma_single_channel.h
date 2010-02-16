@@ -122,6 +122,15 @@ void fill_source_buffer(struct dma_buffers_info *buffers);
 int request_dma(struct dma_transfer *transfer);
 
 /*
+ * Map the transfer buffers to DMAable buffers
+ */
+void map_to_phys_buffers(struct dma_buffers_info *buffers);
+/*
+ * Undo do the physical mapping of src & dest buffers
+ */
+void unmap_phys_buffers(struct dma_buffers_info *buffers);
+
+/*
  * Setup the source, destination and global transfer parameters
  */
 void setup_dma_transfer(struct dma_transfer *transfer);

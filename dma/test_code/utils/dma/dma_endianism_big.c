@@ -101,6 +101,8 @@ void dma_callback(int transfer_id, u16 transfer_status, void *data) {
                 " received in callback (%d)\n", transfer->transfer_id,
                 transfer_id);
        }
+	unmap_phys_buffers(&transfer->buffers);
+
        /* Check the transfer status is acceptable */
        if((transfer_status & OMAP_DMA_BLOCK_IRQ) || (transfer_status == 0)){
            /* Verify the contents of the buffer are equal */
