@@ -262,6 +262,7 @@ void map_to_phys_buffers(struct dma_buffers_info *buffers)
 		printk(KERN_ERR "DMA Mapping failed\n");
 
 }
+EXPORT_SYMBOL(map_to_phys_buffers);
 
 void unmap_phys_buffers(struct dma_buffers_info *buffers)
 {
@@ -271,6 +272,7 @@ void unmap_phys_buffers(struct dma_buffers_info *buffers)
 		buffers->buf_size, DMA_BIDIRECTIONAL);
 
 }
+EXPORT_SYMBOL(unmap_phys_buffers);
 /*
  * Setup the source, destination and global transfer parameters
  */
