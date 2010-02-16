@@ -291,8 +291,7 @@ void setup_dma_transfer(struct dma_transfer *transfer)
 		0,
 		transfer->addressing_mode,
 		transfer->buffers.src_buf_phys,
-		0x0,
-		0x0);
+		transfer->src_ei, transfer->src_fi);
 
 	omap_set_dma_src_burst_mode(
 		transfer->transfer_id,
@@ -301,11 +300,9 @@ void setup_dma_transfer(struct dma_transfer *transfer)
 	/* Configure the destination parameters */
 	omap_set_dma_dest_params(
 		transfer->transfer_id,
-		0,
-		transfer->addressing_mode,
+		0, transfer->dst_addressing_mode,
 		transfer->buffers.dest_buf_phys,
-		0x0,
-		0x0);
+		transfer->dest_ei, transfer->dest_fi);
 
 	omap_set_dma_dest_burst_mode(
 		transfer->transfer_id,

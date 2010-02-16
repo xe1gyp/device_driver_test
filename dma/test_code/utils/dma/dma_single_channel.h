@@ -75,7 +75,12 @@ struct dma_transfer{
        int transfer_id; /* channel number or chain id */
        int priority;
        int endian_type;
-       int addressing_mode;
+       int addressing_mode; /* Source addressing mode */
+	   int dst_addressing_mode;
+	   int dest_ei;
+	   int dest_fi;
+	   int src_ei;
+	   int src_fi;
        struct dma_buffers_info buffers;
 };
 

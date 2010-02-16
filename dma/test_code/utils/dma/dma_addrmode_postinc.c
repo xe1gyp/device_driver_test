@@ -66,23 +66,28 @@ static int get_transfers_finished(void){
 /*
  * Function called when the module is initialized
  */
-static int __init dma_module_init(void) {
-       int error;
-       int i = 0;
-       /* Create the proc entry */
-       create_dma_proc(PROC_FILE);
+static int __init dma_module_init(void)
+{
+	int error;
+	int i = 0;
+	/* Create the proc entry */
+	create_dma_proc(PROC_FILE);
 
-       for(i = 0; i < TRANSFER_COUNT; i++){
-
-           /* Create the transfer for the test */
-           transfers[i].device_id = OMAP_DMA_NO_DEVICE;
-           transfers[i].sync_mode = OMAP_DMA_SYNC_ELEMENT;
-           transfers[i].data_burst = OMAP_DMA_DATA_BURST_DIS;
-           transfers[i].data_type = OMAP_DMA_DATA_TYPE_S8;
-           transfers[i].endian_type = DMA_TEST_LITTLE_ENDIAN;
-           transfers[i].addressing_mode = OMAP_DMA_AMODE_POST_INC;
-           transfers[i].priority = DMA_CH_PRIO_HIGH;
-           transfers[i].buffers.buf_size = (512 * (i+1)*(i+1)) + i % 2;
+	for (i = 0; i < TRANSFER_COUNT; i++) {
+			/* Create the transfer for the test */
+			transfers[i].device_id = OMAP_DMA_NO_DEVICE;
+			transfers[i].sync_mode = OMAP_DMA_SYNC_ELEMENT;
+			transfers[i].data_burst = OMAP_DMA_DATA_BURST_DIS;
+			transfers[i].data_type = OMAP_DMA_DATA_TYPE_S8;
+			transfers[i].endian_type = DMA_TEST_LITTLE_ENDIAN;
+			transfers[i].addressing_mode = OMAP_DMA_AMODE_POST_INC;
+			transfers[i].dst_addressing_mode =
+				OMAP_DMA_AMODE_POST_INC;
+			transfers[i].priority = DMA_CH_PRIO_HIGH;
+			transfers[i].buffers.buf_size =
+				(512 * (i+1)*(i+1)) + i % 2;
+			transfers[i].src_ei = transfers[i].dest_ei = 0;
+			transfers[i].src_fi = transfers[i].dest_fi = 0;
 
            /* Request a dma transfer */
            error = request_dma(&transfers[i]);
