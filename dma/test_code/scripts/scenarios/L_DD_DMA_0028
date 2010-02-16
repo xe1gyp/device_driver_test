@@ -1,0 +1,15 @@
+################################################################################
+# Scenario:    L_DD_DMA_0028
+# Author  :    David Miramontes
+# Date    :    February 16th, 2010
+# Description: DMA Releasing a non-existing channel
+################################################################################
+
+# Begin L_DD_DMA_0028
+
+0001	set -x; insmod $TESTMODS/dma_single_channel.ko
+0002	set -x; insmod $TESTMODS/dma_stop_transfer_invalid.ko
+0004	set -x; rmmod dma_stop_transfer_invalid
+0006	set -x; rmmod dma_single_channel
+
+# End L_DD_DMA_0028

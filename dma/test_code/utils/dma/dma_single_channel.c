@@ -340,6 +340,18 @@ void stop_dma_transfer(struct dma_transfer *transfer){
 }
 EXPORT_SYMBOL(stop_dma_transfer);
 
+/*
+ * Stops an invalid dma transfer and free used resources
+ */
+void stop_dma_transfer_invalid(struct dma_transfer *transfer){
+       /* Stop the dma transfer */
+       if(transfer->request_success){
+           omap_free_dma(transfer->transfer_id);
+       }
+}
+EXPORT_SYMBOL(stop_dma_transfer_invalid);
+
+
 
 MODULE_AUTHOR("Texas Instruments");
 MODULE_LICENSE("GPL");

@@ -132,6 +132,11 @@ void start_dma_transfer(struct dma_transfer *transfer);
 void stop_dma_transfer(struct dma_transfer *transfer);
 
 /*
+ * Stops an invalid dma transfer and free used resources
+ */
+void stop_dma_transfer_invalid(struct dma_transfer *transfer);
+
+/*
  * Set if the test passed or not
  */
 void set_test_passed(int passed);
