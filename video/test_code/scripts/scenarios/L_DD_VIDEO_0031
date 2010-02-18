@@ -1,0 +1,26 @@
+#####################
+# FILENAME: L_DD_VIDEO_0031
+# Author  : mythri p k 
+# Date    : Fri Jan 29, 2010
+
+# Begin "L_DD_VIDEO_0031"
+
+COMMENT comment.sh "Resize video content in HDTV "
+
+0001 echo "tv" > /sys/devices/platform/omapdss/overlay1/manager
+0004 echo 1 > /sys/devices/platform/omapdss/display2/enabled 
+
+0001_VD1 set -x; imgstream.sh 1 "YUYV 640 480"   $VIDEOFILES/test.yuv "" "0 0 1280 720" && exit 0 || exit 1
+
+0002_VD1 set -x; imgstream.sh 1 "YUYV 640 480"   $VIDEOFILES/test.yuv "" "0 0 1920 1080" && exit 0 || exit 1
+
+0003_VD1 set -x; imgstream.sh 1 "YUYV 1280 720"  $VIDEOFILES/720p.yuv "" "0 0 1920 10800" && exit 0 || exit 1
+
+
+
+0005 echo "lcd" > /sys/devices/platform/omapdss/overlay1/manager
+
+
+# End "L_DD_VIDEO_0031"
+
+
