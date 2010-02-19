@@ -1,5 +1,9 @@
 CC := $(CROSS_COMPILE)gcc
 
+ifeq ($(UTILSDIR),)
+UTILSDIR=$(PWD)
+endif
+
 export UTILS_BINARIES = $(UTILSDIR)/bin
 
 #all: pan_app akey_app priority_app install
