@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <time.h>
 #include <sys/mman.h>
 #include <sys/time.h>
 #include <string.h>
@@ -72,6 +73,146 @@ void calc_fps(int wrap_count)
 	}
 }
 
+enum {
+	TIMER_ENUM_START,
+	TIMER_OPEN,
+	TIMER_CLOSE,
+	TIMER_QUERYCAP,
+	TIMER_G_FMT,
+	TIMER_S_FMT,
+	TIMER_REQBUFS,
+	TIMER_QUERYBUF,
+	TIMER_QBUF,
+	TIMER_DQBUF,
+	TIMER_STREAMON,
+	TIMER_STREAMOFF,
+	TIMER_ENUM_END,
+};
+
+/**
+ * struct instrument_timer - Structure for storing timing measurements
+ * @start: System time when the last time sample started.
+ * @min: Shortest time measurement (in us) of all samples.
+ * @max: Longest time measurement (in us) of all samples.
+ * @total: Average time measurement (in us) of all samples.
+ * @count: Number of time samples recollected so far.
+ * @name: 32 byte string describing instrument name.
+ **/
+struct instrument_timer {
+	struct timeval start;
+	unsigned long min;
+	unsigned long max;
+	unsigned long long total;
+	unsigned long count;
+	char name[32];
+} timer[] = {
+	{	/* TIMER_ENUM_START */
+		.name  = "UNUSED",
+	},
+	{	/* TIMER_OPEN */
+		.name  = "open",
+	},
+	{	/* TIMER_CLOSE */
+		.name  = "close",
+	},
+	{	/* TIMER_QUERYCAP */
+		.name  = "VIDIOC_QUERYCAP",
+	},
+	{	/* TIMER_G_FMT */
+		.name  = "VIDIOC_G_FMT",
+	},
+	{	/* TIMER_S_FMT */
+		.name  = "VIDIOC_S_FMT",
+	},
+	{	/* TIMER_REQBUFS */
+		.name  = "VIDIOC_REQBUFS",
+	},
+	{	/* TIMER_QUERYBUF */
+		.name  = "VIDIOC_QUERYBUF",
+	},
+	{	/* TIMER_QBUF */
+		.name  = "VIDIOC_QBUF",
+	},
+	{	/* TIMER_DQBUF */
+		.name  = "VIDIOC_DQBUF",
+	},
+	{	/* TIMER_STREAMON */
+		.name  = "VIDIOC_STREAMON",
+	},
+	{	/* TIMER_STREAMOFF */
+		.name  = "VIDIOC_STREAMOFF",
+	},
+	{	/* TIMER_SENSOR_INFO */
+		.name  = "VIDIOC_SENSOR_INFO",
+	},
+	{	/* TIMER_ENUM_END */
+		.name  = "UNUSED",
+	},
+};
+
+/**
+ * INSTRUMENT_INIT - Initialize the timer
+ * @it: pointer to instrument_timer structure.
+ * Must be called before and call to INSTRUMENT_START().
+ **/
+void INSTRUMENT_INIT(struct instrument_timer *it)
+{
+	it->min   = 0xffffffff;
+	it->max   = 0;
+	it->total = 0;
+	it->count = 0;
+}
+
+/**
+ * INSTRUMENT_START - Start the timer
+ * @it: pointer to instrument_timer structure.
+ * Must be called in a pair with INSTRUMENT_STOP().
+ **/
+inline void INSTRUMENT_START(struct instrument_timer *it)
+{
+	gettimeofday(&it->start, NULL);
+}
+
+/**
+ * INSTRUMENT_STOP - Stop the timer
+ * @it: pointer to instrument_timer structure.
+ * Must be called in a pair with INSTRUMENT_STOP().
+ * Adds the current timer value to a running total.
+ * The avg must be calculated seperately using:
+ *   avg in usec = it->total / it->count
+ * or just call INSTRUMENT_DISPLAY().
+ **/
+inline void INSTRUMENT_STOP(struct instrument_timer *it)
+{
+	unsigned long diff;
+	struct timeval end;
+
+	gettimeofday(&end, NULL);
+
+	/* Calculate time difference */
+	diff = (end.tv_sec * 1000000 + end.tv_usec) -
+		   (it->start.tv_sec * 1000000 + it->start.tv_usec);
+
+	/* Check for min and max */
+	if (diff < it->min)
+		it->min = diff;
+
+	if (diff > it->max)
+		it->max = diff;
+
+	it->total += diff;
+	it->count++;
+}
+
+inline void INSTRUMENT_DISPLAY(struct instrument_timer *it)
+{
+	printf("[%s] avg=%lld us  (count=%lu  min=%lu  max=%lu)\n",
+		it->name,
+		it->total / it->count,
+		it->count,
+		it->min,
+		it->max);
+}
 
 struct {
 	void *start;
@@ -108,14 +249,22 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
-	/**********************************************************************/
+	/*****************************************************************/
+	/* Initialize instrumentation */
+
+	for (i = TIMER_ENUM_START; i < TIMER_ENUM_END; i++)
+		INSTRUMENT_INIT(&timer[i]);
+
+	/*****************************************************************/
 
 	if (argc > index) {
 		device = atoi(argv[index]);
 		index++;
 	}
 
+	INSTRUMENT_START(&timer[TIMER_OPEN]);
 	fd = open_cam_device(O_RDWR, device);
+	INSTRUMENT_STOP(&timer[TIMER_OPEN]);
 	if (fd <= 0) {
 		printf("Could not open the cam device\n");
 		return -1;
@@ -127,7 +276,9 @@ int main(int argc, char *argv[])
 		if (argc > index) {
 			ret = validateSize(argv[index]);
 			if (ret == 0) {
+				INSTRUMENT_START(&timer[TIMER_S_FMT]);
 				ret = cam_ioctl(fd, pixelFmt, argv[index]);
+				INSTRUMENT_STOP(&timer[TIMER_S_FMT]);
 				if (ret < 0) {
 					usage();
 					return -1;
@@ -135,8 +286,10 @@ int main(int argc, char *argv[])
 			} else {
 				index++;
 				if (argc > index) {
+					INSTRUMENT_START(&timer[TIMER_S_FMT]);
 					ret = cam_ioctl(fd, pixelFmt,
 						argv[index-1], argv[index]);
+					INSTRUMENT_STOP(&timer[TIMER_S_FMT]);
 					if (ret < 0) {
 						usage();
 						return -1;
@@ -150,7 +303,9 @@ int main(int argc, char *argv[])
 			index++;
 		} else {
 			printf("Setting QCIF as video size, default value\n");
+			INSTRUMENT_START(&timer[TIMER_S_FMT]);
 			ret = cam_ioctl(fd, pixelFmt, DEFAULT_VIDEO_SIZE);
+			INSTRUMENT_STOP(&timer[TIMER_S_FMT]);
 			if (ret < 0)
 				return -1;
 		}
@@ -203,8 +358,10 @@ int main(int argc, char *argv[])
 
 	/**********************************************************************/
 
-
-	if (ioctl(fd, VIDIOC_QUERYCAP, &capability) < 0) {
+	INSTRUMENT_START(&timer[TIMER_QUERYCAP]);
+	ret = ioctl(fd, VIDIOC_QUERYCAP, &capability);
+	INSTRUMENT_STOP(&timer[TIMER_QUERYCAP]);
+	if (ret < 0) {
 		perror("VIDIOC_QUERYCAP");
 		return -1;
 	}
@@ -214,8 +371,11 @@ int main(int argc, char *argv[])
 		printf("The driver is not capable of Streaming!\n");
 		return -1;
 	}
+
 	cformat.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+	INSTRUMENT_START(&timer[TIMER_G_FMT]);
 	ret = ioctl(fd, VIDIOC_G_FMT, &cformat);
+	INSTRUMENT_STOP(&timer[TIMER_G_FMT]);
 	if (ret < 0) {
 		perror("VIDIOC_G_FMT");
 		return -1;
@@ -232,7 +392,11 @@ int main(int argc, char *argv[])
 		 (memtype ==
 		  V4L2_MEMORY_USERPTR) ? "V4L2_MEMORY_USERPTR" :
 		 "V4L2_MEMORY_MMAP");
-	if (ioctl(fd, VIDIOC_REQBUFS, &creqbuf) < 0) {
+
+	INSTRUMENT_START(&timer[TIMER_REQBUFS]);
+	ret = ioctl(fd, VIDIOC_REQBUFS, &creqbuf);
+	INSTRUMENT_STOP(&timer[TIMER_REQBUFS]);
+	if (ret < 0) {
 		perror("VIDEO_REQBUFS");
 		return -1;
 	}
@@ -247,7 +411,10 @@ int main(int argc, char *argv[])
 		buffer.type = creqbuf.type;
 		buffer.memory = creqbuf.memory;
 		buffer.index = i;
-		if (ioctl(fd, VIDIOC_QUERYBUF, &buffer) < 0) {
+		INSTRUMENT_START(&timer[TIMER_QUERYBUF]);
+		ret = ioctl(fd, VIDIOC_QUERYBUF, &buffer);
+		INSTRUMENT_STOP(&timer[TIMER_QUERYBUF]);
+		if (ret < 0) {
 			perror("VIDIOC_QUERYBUF");
 			return -1;
 		}
@@ -274,14 +441,20 @@ int main(int argc, char *argv[])
 			buffer.length = cbuffers[i].length;
 		}
 
-		if (ioctl(fd, VIDIOC_QBUF, &buffer) < 0) {
+		INSTRUMENT_START(&timer[TIMER_QBUF]);
+		ret = ioctl(fd, VIDIOC_QBUF, &buffer);
+		INSTRUMENT_STOP(&timer[TIMER_QBUF]);
+		if (ret < 0) {
 			perror("CAMERA VIDIOC_QBUF");
 			return -1;
 		}
 	}
 
 	/* turn on streaming */
-	if (ioctl(fd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
+	INSTRUMENT_START(&timer[TIMER_STREAMON]);
+	ret = ioctl(fd, VIDIOC_STREAMON, &creqbuf.type);
+	INSTRUMENT_STOP(&timer[TIMER_STREAMON]);
+	if (ret < 0) {
 		perror("VIDIOC_STREAMON");
 		return -1;
 	}
@@ -294,9 +467,12 @@ int main(int argc, char *argv[])
 
 	while (1) {
 		/* De-queue the next avaliable buffer */
-		while (ioctl(fd, VIDIOC_DQBUF, &cfilledbuffer) < 0) {
+		INSTRUMENT_START(&timer[TIMER_DQBUF]);
+		ret = ioctl(fd, VIDIOC_DQBUF, &cfilledbuffer);
+		INSTRUMENT_STOP(&timer[TIMER_DQBUF]);
+		if (ret < 0) {
 			perror("VIDIOC_DQBUF");
-			printf(" ERROR HAS OCCURED\n");
+			return -1;
 		}
 
 		printf("."); fflush(stdout);
@@ -306,7 +482,10 @@ int main(int argc, char *argv[])
 		if (i == count) {
 			printf("Cancelling the streaming capture...\n");
 			creqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-			if (ioctl(fd, VIDIOC_STREAMOFF, &creqbuf.type) < 0) {
+			INSTRUMENT_START(&timer[TIMER_STREAMOFF]);
+			ret = ioctl(fd, VIDIOC_STREAMOFF, &creqbuf.type);
+			INSTRUMENT_STOP(&timer[TIMER_STREAMOFF]);
+			if (ret < 0) {
 				perror("VIDIOC_STREAMOFF");
 				return -1;
 			}
@@ -314,14 +493,22 @@ int main(int argc, char *argv[])
 			break;
 		}
 
-		while (ioctl(fd, VIDIOC_QBUF, &cfilledbuffer) < 0)
+		INSTRUMENT_START(&timer[TIMER_QBUF]);
+		ret = ioctl(fd, VIDIOC_QBUF, &cfilledbuffer);
+		INSTRUMENT_STOP(&timer[TIMER_QBUF]);
+		if (ret < 0) {
 			perror("CAM VIDIOC_QBUF");
+			return -1;
+		}
 	}
 
 	/* we didn't turn off streaming yet */
 	if (count == -1) {
 		creqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-		if (ioctl(fd, VIDIOC_STREAMOFF, &creqbuf.type) == -1) {
+		INSTRUMENT_START(&timer[TIMER_STREAMOFF]);
+		ret = ioctl(fd, VIDIOC_STREAMOFF, &creqbuf.type);
+		INSTRUMENT_STOP(&timer[TIMER_STREAMOFF]);
+		if (ret == -1) {
 			perror("VIDIOC_STREAMOFF");
 			return -1;
 		}
@@ -342,5 +529,22 @@ int main(int argc, char *argv[])
 	}
 
 	free(cbuffers);
+	INSTRUMENT_START(&timer[TIMER_CLOSE]);
 	close(fd);
+	INSTRUMENT_STOP(&timer[TIMER_CLOSE]);
+
+	/* Display Instrumentation info */
+	printf("\n********* Instrumentation Stats *********\n");
+	INSTRUMENT_DISPLAY(&timer[TIMER_OPEN]);
+	INSTRUMENT_DISPLAY(&timer[TIMER_CLOSE]);
+	INSTRUMENT_DISPLAY(&timer[TIMER_QUERYCAP]);
+	INSTRUMENT_DISPLAY(&timer[TIMER_G_FMT]);
+	INSTRUMENT_DISPLAY(&timer[TIMER_S_FMT]);
+	INSTRUMENT_DISPLAY(&timer[TIMER_REQBUFS]);
+	INSTRUMENT_DISPLAY(&timer[TIMER_QUERYBUF]);
+	INSTRUMENT_DISPLAY(&timer[TIMER_QBUF]);
+	INSTRUMENT_DISPLAY(&timer[TIMER_DQBUF]);
+	INSTRUMENT_DISPLAY(&timer[TIMER_STREAMON]);
+	INSTRUMENT_DISPLAY(&timer[TIMER_STREAMOFF]);
+	printf("*****************************************\n");
 }
