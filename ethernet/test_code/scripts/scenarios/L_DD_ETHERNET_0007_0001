@@ -6,20 +6,17 @@
 ###############################################################################
 
 # Begin L_DD_ETHERNET_0007_0001
-
 01  set -x; ifconfig | grep eth0 && ifconfig | grep addr: | sed -e 's@inet addr:@@' | sed q | awk '{print $1}' > $TMPBASE/ipaddr && exit 0 || exit 1;
-
-02  set -x; ping -c 15 -s $PACKET_SIZE `cat $TMPBASE/ipaddr` &
-03  set -x; PING_PID=`echo $!`
-04  set -x; $UTILBIN/taskset -p 1 $PING_PID
-
-05  set -x; ping -c 15 -s $PACKET_SIZE `cat $TMPBASE/ipaddr` &
-06  set -x; PING_PID=`echo $!`
-07  set -x; $UTILBIN/taskset -p 2 $PING_PID
-
-08  set -x; $UTILSCRIPTS/handlerProcessPriority.sh "add" "1" "ping -c 15 -s $PACKET_SIZE `cat $TMPBASE/ipaddr`" "-20"
-09  set -x; $UTILSCRIPTS/handlerProcessPriority.sh "add" "2" "ping -c 15 -s $PACKET_SIZE `cat $TMPBASE/ipaddr`" "+20"
-10  set -x; $UTILSCRIPTS/handlerProcessPriority.sh "execute" "1"
-11  set -x; $UTILSCRIPTS/handlerProcessPriority.sh "verify"
+02  set -x; export | grep IPADDR && exit 0 || echo "FATAL: IPADDR variable is not set"; exit 1
+03  set -x; export | grep HOST_MOUNT_POINT && exit 0 || echo "FATAL: HOST_MOUNT_POINT variable is not set"; exit 1
+04  set -x; test -d /mnt/nfsmount || mkdir -p /mnt/nfsmount/
+05  set -x; mount -o nolock -t nfs $IPADDR:$HOST_MOUNT_POINT $MOUNT_POINT && exit 0 || exit 1
+06  set -x; dd if=/dev/zero of=$TMPBASE/bigfile bs=1k count=25000
+07  set -x; chmod 777 $TMPBASE/bigfile
+10  set -x; $UTILSCRIPTS/handlerProcessPriority.sh "add" "1" "cp $TMPBASE/bigfile $MOUNT_POINT/host_file1" "+20"
+11  set -x; $UTILSCRIPTS/handlerProcessPriority.sh "add" "2" "cp $TMPBASE/bigfile $MOUNT_POINT/host_file2" "-20"
+12  set -x; $UTILSCRIPTS/handlerProcessPriority.sh "execute" "1"
+13  set -x; $UTILSCRIPTS/handlerProcessPriority.sh "verify"
+14  set -x; umount $MOUNT_POINT
 
 # End L_DD_ETHERNET_0007_0001

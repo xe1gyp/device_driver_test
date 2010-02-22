@@ -40,13 +40,15 @@ elif [ "$LOCAL_OPERATION" = "verify" ]; then
 	val1=`cat $HPP_PROCFS_PID_SCHED_START.1 | awk '{print $3}'`
 	val2=`cat $HPP_PROCFS_PID_SCHED_CURRENT.1  | awk '{print $3}'`
 	fvalue1=`echo "$val2-$val1" | bc`
-	fvalue1=`echo $fvalue1 | awk '{printf "%.0f\n", $1}'`
+	echo "Shilpa The value 1 is  $fvalue1"
+	#fvalue1=`echo $fvalue1 | awk '{printf "%.0f\n", $1}'`
 	echo "Info: Program 1 | The final computed value for process 1 is $fvalue1"
 
 	val1=`cat $HPP_PROCFS_PID_SCHED_START.2 | awk '{print $3}'`
 	val2=`cat $HPP_PROCFS_PID_SCHED_CURRENT.2  | awk '{print $3}'`
 	fvalue2=`echo "$val2-$val1" | bc`
-	fvalue2=`echo $fvalue2 | awk '{printf "%.0f\n", $1}'`
+	echo "Shilpa The value 2 is $fvalue2"
+	#fvalue2=`echo $fvalue2 | awk '{printf "%.0f\n", $1}'`
 	echo "Info: Program 2 | The final computed value for process 2 is $fvalue2"
 
 	LOCAL_PROCESS_TO_FINISH_FIRST=`cat $HPP_COMMAND_PRIORITY_HIGHER`
@@ -57,14 +59,16 @@ elif [ "$LOCAL_OPERATION" = "verify" ]; then
   else
     echo -e "\nInfo: Process with higher priority is $LOCAL_PROCESS_TO_FINISH_FIRST"
 	  if [ "$LOCAL_PROCESS_TO_FINISH_FIRST" = "1" ]; then
-		  if [ "$fvalue1" -lt "$fvalue2" ]; then
-			echo -e "Info: Passed\n"
+		return_=`expr $fvalue1 \> $fvalue2`
+		 if [ $return_ -eq 0 ]; then
+		        echo -e "Info: Passed\n"
 		else
 			echo -e "Info: Failed!\n"
 			return 1
 		fi
 	  elif [ "$LOCAL_PROCESS_TO_FINISH_FIRST" = "2" ]; then
-		if [ "$fvalue2" -lt "$fvalue1" ]; then
+                  return_=`expr $fvalue2 \> $fvalue1`
+		if [ $return_ -eq 0 ]; then
 			echo -e "Info: Passed!\n"
 		else
 			echo -e "Info: Failed!\n"
