@@ -36,7 +36,7 @@ setup()
     if [ -f "./conf.sh" ]; then
         . ./conf.sh
     else
-		  echo "test.cf file was not found! Using defaults..."
+		  echo "conf.sh file was not found! Using defaults..."
 			# Load defaults..
 			# if we have a working rtc, this is good.. else use next line
 	    export POSTFIX=`date "+%Y%m%d-%H%M%S"`
