@@ -39,7 +39,11 @@ BINARIES := utils/i2c-tools-3.0.2/tools/i2cdump \
 		utils/i2c-tools-3.0.2/tools/i2cget \
 		utils/i2c-tools-3.0.2/tools/i2cdetect \
 
-DESTDIR := ${PWD}/bin
+ifeq ($(SUITE_DIR),)
+SUITE_DIR:=$(PWD)
+endif
+
+DESTDIR := $(SUITE_DIR)/bin
 OBJS := utilities install
 
 all: $(OBJS)
@@ -51,7 +55,7 @@ install:
 	mkdir -p $(DESTDIR)
 	mkdir -p scripts/test
 	mkdir -p scripts/tmp
-	cp -v $(BINARIES) bin/
+	cp -v $(BINARIES) $(DESTDIR)
 
 clean:
 	make -C utils/i2c-tools-3.0.2 clean
