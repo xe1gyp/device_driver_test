@@ -23,7 +23,7 @@ check:
 -include .config
 -include $(KDIR)/.config
 
-TESTROOT 	:= build/testsuites
+TESTROOT 	:= build
 CODE_DIR	:= test_code
 UTILSDIR 	:= $(PWD)/utils
 SCENARIOS	:= scripts/scenarios
