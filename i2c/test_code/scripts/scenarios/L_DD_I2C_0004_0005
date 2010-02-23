@@ -7,7 +7,7 @@
 
 # Begin L_DD_I2C_0004_0005
 
-01 set -x; $TESTSCRIPT/filesystemtype.sh; runtestcase.sh $INTERRUPT_MODE
+01 set -x; $UTILSCRIPTS/filesystemtype.sh; runtestcase.sh $INTERRUPT_MODE
 02 set -x; rm -f $TMPBASE/result.tmp; ls $TMPBASE/ | grep result.tmp | exit 0 || exit 1;
 
 # End L_DD_I2C_0004_0005

@@ -28,6 +28,7 @@ export PATH="${ETHERNET_ROOT}:${ETHERNET_DIR_HELPER}:$ETHERNET_DIR_BINARIES:${PA
 . ${ETHERNET_ROOT}/../../utils/configuration/general.configuration
 export UTILS_DIR_BIN=${ETHERNET_ROOT}/../../utils/bin
 export UTILS_DIR_HANDLERS=${ETHERNET_ROOT}/../../utils/handlers
+export UTILSCRIPTS=${ETHERNET_ROOT}/../../utils/scripts
 
 # Specific Ethernet Variables
 export ETHERNET_PACKET_SIZE=32768
