@@ -107,6 +107,9 @@ ifeq ($(TESTSUITES),all)
  endif
 endif
 
+CFLAGS+= -D $(TARGET_PLATFORM) -D $(TARGET_FILESYSTEM)
+
+export CFLAGS
 export KDIR
 export ARCH
 export CROSS_COMPILE
