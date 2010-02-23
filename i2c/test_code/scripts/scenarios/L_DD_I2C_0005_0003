@@ -1,13 +1,13 @@
 ###############################################################################
-# Scenario: L_DD_I2C_0004_0002
+# Scenario: L_DD_I2C_0005_0003
 # Author  : Nishanth Menon
 # Modificaitons : Abraham Arce
 # Date    : Tue Jun 13 12:23:42 CDT 2006
 ###############################################################################
 
-# Begin L_DD_I2C_0004_0002
+# Begin L_DD_I2C_0005_0003
 
-01 set -x; $UTILSCRIPTS/filesystemtype.sh; runtestcase.sh $MULTIPLE_DEVICES $STANDARD_MODE
+01 set -x; $UTILSCRIPTS/filesystemtype.sh; runtestcase.sh $NON_EXISTING_DEVICES $FAST_MODE
 02 set -x; rm -f $TMPBASE/result.tmp; ls $TMPBASE/ | grep result.tmp | exit 0 || exit 1;
 
-# End L_DD_I2C_0004_0002
+# End L_DD_I2C_0005_0003
