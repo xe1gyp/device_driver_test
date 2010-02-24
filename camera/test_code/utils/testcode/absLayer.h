@@ -180,7 +180,7 @@ int resetCcdc(int fd, char *ccdcOption)
 	bclamp_t.obstpixel = 0;
 	bclamp_t.oblines = 0;
 	bclamp_t.oblen = 0;
-	bclamp_t.dcsubval = 0;
+	bclamp_t.dcsubval = 64;
 
 	/* ok - reset default */
 	blcomp_t.b_mg = 0;
@@ -274,6 +274,7 @@ int resetCcdc(int fd, char *ccdcOption)
 	 */
 	if ((!strcasecmp(ccdcOption, "bcl"))) {
 		arg_ccdc_t.update = ISP_ABS_CCDC_BLCLAMP;
+		arg_ccdc_t.flag = 0;
 	} else {
 		return 1;
 	}
