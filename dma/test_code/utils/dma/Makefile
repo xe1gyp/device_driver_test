@@ -28,7 +28,8 @@ MODULES = dma_single_channel.o \
   dma_burst_mode16.o \
   dma_chain_static.o \
   dma_chain_dynamic.o \
-  dma_dload.o \
+  dma_thread_access.o \
+  dma_chain_thread_access.o \
 
 obj-m:=$(MODULES)
 

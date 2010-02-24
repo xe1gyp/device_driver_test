@@ -76,6 +76,26 @@ void remove_dma_proc(char *proc_name){
 }
 EXPORT_SYMBOL(remove_dma_proc);
 
+/*
+ * Checks that the destination buffers were written correctly
+ */
+int check_dma_transfer_complete(struct dma_transfer *transfers,
+				int num_transfer)
+{
+	int i;
+	/* Check that all the transfers finished */
+	for (i = 0; i < num_transfer; i++) {
+		if (!transfers[i].data_correct) {
+			printk(KERN_INFO "Transfer id %d failed\n",
+					transfers[i].transfer_id);
+			return -(i);
+		}
+	}
+
+	return 0;
+}
+EXPORT_SYMBOL(check_dma_transfer_complete);
+
 
 /*
  * Function used to verify the source an destination buffers of a dma transfer

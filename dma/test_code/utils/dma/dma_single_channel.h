@@ -105,6 +105,12 @@ void dma_callback(int transfer_id, u16 transfer_status, void *data);
 int create_transfer_buffers( struct dma_buffers_info *buffers);
 
 /*
+ * Checks that the destination buffers were written correctly
+ */
+int check_dma_transfer_complete(struct dma_transfer *transfers,
+				int num_transfer);
+
+/*
  * Fill the source buffer with bytes using a pseudo-random value generator
  */
 void fill_source_buffer(struct dma_buffers_info *buffers);
