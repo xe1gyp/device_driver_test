@@ -2,14 +2,13 @@
  * DMA Test module - Chained transfers
  *
  * The following testcode checks that the static chain DMA mode
- * works correctly. A new static chain transfer is created and 3
- * transfers are chained at the beginning. The chain should not stop
- * until the rounds number is reached.
+ * works correctly. Creating a set of chained transfers, each a 
+ * supported configuration, but together exceed max available channels
  *
  * History:
- * 28-01-2009	Gustavo Diaz	Initial version of the testcode
+ * 12-02-2010	Adria Calderon		Initial version of the testcode
  *
- * Copyright (C) 2007-2009 Texas Instruments, Inc
+ * Copyright (C) 2007-2010 Texas Instruments, Inc
  *
  * This package is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as

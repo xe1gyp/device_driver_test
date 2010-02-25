@@ -22,7 +22,13 @@ MODULES = dma_single_channel.o \
   dma_burst_mode8.o \
   dma_burst_mode16.o \
   dma_chain_static.o \
+  dma_chain_static_invalid.o \
+  dma_chain_static_break.o \
+  dma_chain_static_removed.o \
   dma_chain_dynamic.o \
+  dma_chain_dynamic_invalid.o \
+  dma_chain_dynamic_break.o \
+  dma_chain_dynamic_removed.o \
   dma_dload.o \
   dma_dload_bad_descriptor.o \
   dma_stop_transfer_invalid.o \

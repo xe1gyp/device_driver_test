@@ -7,7 +7,7 @@
  * the transfer count is reached.
  *
  * History:
- * 28-01-2009	Gustavo Diaz	Initial version of the testcode
+ * 12-02-2010	Adria Calderon 	Initial version of the testcode
  *
  * Copyright (C) 2007-2009 Texas Instruments, Inc
  *
