@@ -6,7 +6,7 @@ HOSTCC = gcc
 IFLAGS = -I$(TOPDIR)/include
 #DFLAGS = -g
 OFLAGS = -O3 -fomit-frame-pointer
-CFLAGS = -Wall $(IFLAGS) $(DFLAGS) $(OFLAGS)
+CFLAGS += -Wall $(IFLAGS) $(DFLAGS) $(OFLAGS)
 
 SRCS += $(wildcard *.c)
 OBJS += $(subst .c,.o,$(SRCS))
@@ -25,7 +25,7 @@ ifdef SUBDIRS
 endif
 
 $(TARGET):	$(OBJS)
-		$(CC) -o $(TARGET) $(filter $(OBJS), $^) $(LIBS)
+		$(CC) $(CFLAGS) -o $(TARGET) $(filter $(OBJS), $^) $(LIBS)
 
 $(O_TARGET):	$(OBJS)
 		$(LD) -r -o $(O_TARGET) $(filter $(OBJS), $^)

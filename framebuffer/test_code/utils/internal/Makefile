@@ -15,62 +15,62 @@ install:
 
 
 fb_user_test_o: fb_user_tests.c
-	$(CC) -c fb_user_tests.c -o fb_user_tests.o
+	$(CC) $(CFLAGS) -c fb_user_tests.c -o fb_user_tests.o
 
 liblog:
 	make -C ./libs/log
 
 fb_user_tests: fb_user_tests.o libs/log/libtestlog.a
-	$(CC) fb_user_tests.o libs/log/libtestlog.a -o fb_user_tests
+	$(CC) $(CFLAGS) fb_user_tests.o libs/log/libtestlog.a -o fb_user_tests
 
 fbcmap: fb_general.c
 	echo "#define FUNCTION_CMAP" > fb_general_config.h
-	$(CC) fb_general.c -o fbcmap
+	$(CC) $(CFLAGS) fb_general.c -o fbcmap
 
 fbblank: fb_general.c
 	echo "#define FUNCTION_BLANK" > fb_general_config.h
-	$(CC) fb_general.c -o fbblank
+	$(CC) $(CFLAGS) fb_general.c -o fbblank
 
 fbmode: fb_general.c
 	echo "#define FUNCTION_BPP" > fb_general_config.h
-	$(CC) fb_general.c -o fbmode
+	$(CC) $(CFLAGS) fb_general.c -o fbmode
 
 fbrotate: fb_general.c
 	echo "#define FUNCTION_ROTATE" > fb_general_config.h
-	$(CC) fb_general.c -o fbrotate
+	$(CC) $(CFLAGS) fb_general.c -o fbrotate
 
 fbmmap: fb_general.c
 	echo "#define FUNCTION_MMAP" > fb_general_config.h
-	$(CC) fb_general.c -o fbmmap
+	$(CC) $(CFLAGS) fb_general.c -o fbmmap
 
 fbsize: fb_general.c
 	echo "#define FUNCTION_SIZE" > fb_general_config.h
-	$(CC) fb_general.c -o fbsize
+	$(CC) $(CFLAGS) fb_general.c -o fbsize
 
 fbshift: fb_general.c
 	echo "#define FUNCTION_SHIFT" > fb_general_config.h
-	$(CC) fb_general.c -o fbshift
+	$(CC) $(CFLAGS) fb_general.c -o fbshift
 
 fbmirror: fb_general.c
 	echo "#define FUNCTION_MIRROR" > fb_general_config.h
-	$(CC) fb_general.c -o fbmirror
+	$(CC) $(CFLAGS) fb_general.c -o fbmirror
 
 fbout: fb_general.c
 	echo "#define FUNCTION_OUTPUTDEV" > fb_general_config.h
-	$(CC) fb_general.c -o fbout
+	$(CC) $(CFLAGS) fb_general.c -o fbout
 
 fbflipbut: fb_general.c
 	echo "#define FUNCTION_FLIPBUF" > fb_general_config.h
-	$(CC) fb_general.c -o fbflipbut
+	$(CC) $(CFLAGS) fb_general.c -o fbflipbut
 
 fbtest: fbtest.c
-	$(CC) fbtest.c -o fbtest
+	$(CC) $(CFLAGS) fbtest.c -o fbtest
 
 wait_for_vsync: wait_for_vsync.c
-	$(CC) wait_for_vsync.c -o wait_for_vsync
+	$(CC) $(CFLAGS) wait_for_vsync.c -o wait_for_vsync
 
 fb_mirror: fb_mirror.c
-	$(CC) fb_mirror.c -o fb_mirror
+	$(CC) $(CFLAGS) fb_mirror.c -o fb_mirror
 
 clean:
 	rm -fr $(objects)
