@@ -540,11 +540,12 @@ int resetPreview(int fd, char *previewOption)
 	/* Structure for White Balance */
 	struct ispprev_wbal wbal_p;
 
+	/* These are the default wb coef used by ES1 */
 	wbal_p.dgain = 0x100;
-	wbal_p.coef3 = 0x23;
+	wbal_p.coef3 = 0x39;
 	wbal_p.coef2 = 0x20;
 	wbal_p.coef1 = 0x20;
-	wbal_p.coef0 = 0x39;
+	wbal_p.coef0 = 0x23;
 
 	struct ispprev_blkadj blkadj_p;
 
