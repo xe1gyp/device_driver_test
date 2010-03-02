@@ -843,6 +843,10 @@ restart_streaming:
 
 		if (i >= DSS_STREAM_START_FRAME) {
 			cfilledbuffer.index = vfilledbuffer.index;
+			if (memtype == V4L2_MEMORY_USERPTR)
+				cfilledbuffer.m.userptr =
+					(unsigned int)vbuffers[cfilledbuffer.index].start;
+
 			while (ioctl(cfd, VIDIOC_QBUF, &cfilledbuffer) < 0)
 				perror("cam VIDIOC_QBUF");
 		}
