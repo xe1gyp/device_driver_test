@@ -10,6 +10,8 @@ WARNING_MESSAGE="Current frequency is different from the set one"
 ITERATIONS=$1
 COMMAND=$2
 STATUS=0
+PREVIOUS_GOVERNOR=`cat $GOVERNOR_ENTRY`
+echo $PREVIOUS_GOVERNOR
 
 function set_frequencies
 {
@@ -61,6 +63,10 @@ else
                 set_frequencies
                 let COUNTER=$COUNTER+1
         done
+
+        # Setting the previous governor, this is needed in order to
+        # keep testing with the default governor for current release
+        echo $PREVIOUS_GOVERNOR > $GOVERNOR_ENTRY
 
         exit $STATUS
 fi
