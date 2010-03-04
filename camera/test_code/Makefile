@@ -3,9 +3,9 @@ export CC:=$(CROSS_COMPILE)gcc
 all: applications install
 
 install:
-	mkdir bin
-	mkdir scripts/tmp
-	mkdir scripts/test
+	mkdir -p bin
+	mkdir -p scripts/tmp
+	mkdir -p scripts/test
 	make -C utils install
 
 applications:
