@@ -1,7 +1,7 @@
 CC := $(CROSS_COMPILE)gcc
 CFLAGS += -g -O -Wall -I$(KDIR)
 
-TARGETS = evtest testkeypad dev_name
+TARGETS = evtest testkeypad dev_name openclose
 
 all: $(TARGETS)
 
