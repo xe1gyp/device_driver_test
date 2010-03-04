@@ -7,4 +7,4 @@ elif [ -f /var/log/dmesg ]; then
         alias dmesg='cat /var/log/dmesg'
 fi
 
-dmesg > $TMPBASE/result.tmp
+dmesg > /tmp/result.tmp

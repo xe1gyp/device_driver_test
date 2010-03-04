@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ADAPTER_INFO=`cat $TMPBASE/result.tmp | grep i2c | grep "bus 1"`
+ADAPTER_INFO=`cat /tmp/result.tmp | grep i2c | grep "bus 1"`
 SPEED_ACTUAL=`echo $ADAPTER_INFO | sed -e "s/ */ /g" | cut -d ' ' -f8`
 
 echo
