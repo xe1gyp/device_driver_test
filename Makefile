@@ -23,7 +23,7 @@ check:
 -include .config
 -include $(KDIR)/.config
 
-TESTROOT 	:= build
+TESTROOT 	:= $(PWD)/build
 CODE_DIR	:= test_code
 UTILSDIR 	:= $(PWD)/utils
 SCENARIOS	:= scripts/scenarios
@@ -166,7 +166,7 @@ $(addprefix $(TESTROOT)/,$(TESTSUITES)): $$(notdir $$@)/$(CODE_DIR)
 	@cd $(subst $(TESTROOT)/,,$@)/$(CODE_DIR) && \
 	find . -not -name \*.[ao] -not -type d | xargs file | \
 	grep -vi ascii | grep -vi shell | cut -d: -f1 | \
-	xargs -I '{}' cp --parents '{}' $(PWD)/$@
+	xargs -I '{}' cp --parents '{}' $@
 	@echo
 	@echo "====Installed \"$(notdir $@)\" testsuite in \"$(TESTROOT)\"====";
 	@echo
