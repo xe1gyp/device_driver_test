@@ -165,7 +165,7 @@ $(addprefix $(TESTROOT)/,$(TESTSUITES)): $$(notdir $$@)/$(CODE_DIR)
 	@mkdir -p $@
 	@cd $(subst $(TESTROOT)/,,$@)/$(CODE_DIR) && \
 	find . -not -name \*.[ao] -not -type d | xargs file | \
-	grep -vi ascii | grep -vi shell | cut -d: -f1 | \
+	grep -vi ascii | cut -d: -f1 | \
 	xargs -I '{}' cp --parents '{}' $@
 	@echo
 	@echo "====Installed \"$(notdir $@)\" testsuite in \"$(TESTROOT)\"====";
