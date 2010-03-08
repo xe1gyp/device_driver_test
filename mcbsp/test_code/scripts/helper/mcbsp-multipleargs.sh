@@ -61,7 +61,7 @@ do
 			TX=`cat /proc/driver/mcbsp_test/status | grep "No. of words transmitted" | sed -e "s/ */ /g" | cut -d ' ' -f7`
 			RX=`cat /proc/driver/mcbsp_test/status | grep "No. of words received" | sed -e "s/ */ /g" | cut -d ' ' -f7`
 			print "$TEMP $j $TX $RX $TRANSFER"
-			if [ "$TEMP" != "$j" ] || [ "$TX" != "$TRANSFER" ] || [ "$RX" != "$TRANSFER" ]
+			if [ "$TEMP" != "$j" ] || [ "$TX" != "$TRANSFER" ] || [ "$RX" != "$TRANSFER" ] || !(cat /proc/driver/mcbsp_test/transmission | grep "0" > /dev/null)
 			then
 				print "Tx Value = $TX | $RX = Rx Value"
 				print "Failed Tranmission on McBSP Interface $i using $COMMAND$j"
