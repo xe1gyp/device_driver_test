@@ -1,4 +1,11 @@
 log/*.log
 tmp/**/*
 patches/*
-richotest/*
+
+build/*
+
+.config
+.oldconfig
+dependencies
+
+*.o
