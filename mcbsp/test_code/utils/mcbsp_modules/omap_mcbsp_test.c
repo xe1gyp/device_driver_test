@@ -186,18 +186,6 @@ struct omap_mcbsp_srg_fsg_cfg {
 };
 #endif
 
-#if 0
-struct omap_mcbsp_dma_transfer_parameters {
-	/* Skip the alternate element use fro stereo mode */
-	u8 skip_alt;
-	/* Automagically handle Transfer [XR]RST? */
-	u8   auto_reset;
-	/* word length of data */
-	u32 word_length1;
-
-} omap_mcbsp_dma_transfer_params;
-#endif
-
 static struct mcbsp_info_struct mcbsptest_info[2];
 
 struct omap_mcbsp_cfg_param tp1;
@@ -414,13 +402,6 @@ static void configure_mcbsp_interface(void)
 
 static void configure_mcbsp_tx(void)
 {
-#if 0
-	struct omap_mcbsp_dma_transfer_parameters tp;
-	/* Configure transfer params */
-	tp.skip_alt = OMAP_MCBSP_SKIP_NONE;
-	tp.auto_reset = OMAP_MCBSP_AUTO_RST_NONE;
-	tp.word_length1 = word_length1;
-#endif
 	clkx_polarity = clkr_polarity;
 	fsx_polarity = fsr_polarity;
 
@@ -440,16 +421,6 @@ static void configure_mcbsp_tx(void)
 
 static void configure_mcbsp_rx(void)
 {
-#if 0
-	struct omap_mcbsp_dma_transfer_parameters rp;
-
-	/* Configure receiver params */
-	printk(KERN_INFO "\n configuring mcbsp rx \n");
-	rp.skip_alt = OMAP_MCBSP_SKIP_NONE;
-	rp.auto_reset = OMAP_MCBSP_AUTO_RST_NONE;
-	rp.word_length1 = word_length1;
-#endif
-
 	rp1.fsync_src = OMAP_MCBSP_RXFSYNC_INTERNAL;
 	rp1.fs_polarity = fsr_polarity;
 	rp1.clk_polarity = clkr_polarity;
@@ -713,43 +684,6 @@ static int start_mcbsp_transmission(int id)
 
 	return 0;
 }
-#if 0
-	mcbsptest_info.tx_buf_dma_virt = (void *) dma_alloc_coherent(NULL,
-				buffer_size, &mcbsptest_info.tx_buf_dma_phys,
-							GFP_KERNEL | GFP_DMA);
-
-	mcbsptest_info.rx_buf_dma_virt = (void *) dma_alloc_coherent(NULL,
-				buffer_size, &mcbsptest_info.rx_buf_dma_phys,
-							GFP_KERNEL | GFP_DMA);
-
-	ptr = mcbsptest_info.tx_buf_dma_virt;
-	for (k = 0; k < buffer_size; k++) {
-		ptr[k] = 0xAA;
-		k = k + 1;
-	}
-
-	ret = omap_mcbsp_xmit_buffer(mcbsptest_info.mcbsp_id,
-				mcbsptest_info.tx_buf_dma_phys, buffer_size);
-	if (ret) {
-		printk(KERN_ERR "McBSP Test Driver: Slave Send data failedn");
-		return -1;
-	}
-
-	ptr = mcbsptest_info.tx_buf_dma_virt;
-	printk(KERN_INFO " ptr = 0x%x \n", *ptr);
-
-	ret = omap_mcbsp_recv_buffer(mcbsptest_info.mcbsp_id,
-				mcbsptest_info.rx_buf_dma_phys, buffer_size);
-	if (ret) {
-		printk(KERN_ERR "McBSP Test Driver: Slave Send data failedn");
-		return -1;
-	}
-
-	printk(KERN_INFO "\n i am in %s at %d\n", __func__, __LINE__);
-
-	ptr = mcbsptest_info.rx_buf_dma_virt;
-	printk(KERN_INFO " ptr = 0x%x \n", *ptr);
-#endif
 
 static void fill_global_structure(int i)
 {
