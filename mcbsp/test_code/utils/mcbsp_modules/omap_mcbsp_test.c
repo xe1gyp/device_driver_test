@@ -128,6 +128,8 @@
 
 #define OMAP_MCBSP_FRAMELEN_N(NUM_WORDS)	((NUM_WORDS - 1) & 0x7F)
 
+static int transmission_status;
+
 static int start_mcbsp_transmission(int);
 struct mcbsp_info_struct {
 	int mcbsp_id;
@@ -294,6 +296,14 @@ readproc_status_end:
 	return min(count, len - (int)off);
 }
 
+static int
+read_transmission_status(char *page, char **start, off_t off, int count,
+						int *eof, void *data)
+{
+	int len;
+	len = sprintf(page, "%i\n", transmission_status);
+	return len;
+}
 
 static int
 write_proc_entry(struct file *file, const char *buffer,
@@ -350,6 +360,7 @@ static int create_proc_file_entries(void)
 
 	status_file->read_proc = read_proc_status;
 	transmission_file->write_proc = write_proc_entry;
+	transmission_file->read_proc = read_transmission_status;
 
 	return 0;
 
@@ -587,6 +598,8 @@ static int start_mcbsp_transmission(int id)
 	int j, k, data1, data2, ret, tx_err = 0, rx_err = 0;
 	u32 temp;
 
+	transmission_status = 0;
+
 	if (word_length1 == OMAP_MCBSP_WORD_8)
 		data1 = 0x80;
 	else if (word_length1 == OMAP_MCBSP_WORD_16)
@@ -679,6 +692,9 @@ static int start_mcbsp_transmission(int id)
 		printk(KERN_ERR "\nFailed! Data Mismatch Error\n");
 	else
 		printk(KERN_ERR "\nData-Rx Success\n");
+
+	if (tx_err || rx_err)
+		transmission_status = 1;
 
 	return 0;
 }
