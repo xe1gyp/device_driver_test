@@ -10,21 +10,12 @@
 
 #include <linux/videodev2.h>
 
-#define VIDEO_DEVICE_0 "/dev/video0"
-#define VIDEO_DEVICE_4 "/dev/video4"
-#define VIDEO_DEVICE_5 "/dev/video5"
-
 int open_cam_device(int flag, int device)
 {
-	if (device == 1)
-		return open(VIDEO_DEVICE_0, flag);
-	else if (device == 2)
-		return open(VIDEO_DEVICE_4, flag);
-	else if (device == 3)
-		return open(VIDEO_DEVICE_5, flag);
+	char devnode[20];
 
-	printf("Wrong Cam device, specify a correct device (1, 2 or 3)\n");
-	return -1;
+	sprintf(devnode, "/dev/video%d", device);
+	return open(devnode, flag);
 }
 
 void print_image_size_format(struct v4l2_format *format)
