@@ -575,7 +575,7 @@ void omap2_mcbsp_set_srg_cfg_param(unsigned int id, int interface_mode,
 		mcbsp_cfg->xccr = mcbsp_cfg->xccr | (DILB);
 }
 
-int omap2_mcbsp_params_cfg(unsigned int id, int interface_mode,
+void omap2_mcbsp_params_cfg(unsigned int id, int interface_mode,
 				struct omap_mcbsp_cfg_param *tp,
 				struct omap_mcbsp_cfg_param *rp,
 				struct omap_mcbsp_srg_fsg_cfg *param)
@@ -594,7 +594,6 @@ int omap2_mcbsp_params_cfg(unsigned int id, int interface_mode,
 				interface_mode, &mcbsp_cfg, param);
 	omap_mcbsp_config(id, &mcbsp_cfg);
 	omap_mcbsp_start(id, tx, rx);
-	return 0;
 }
 
 /* transmit mode = receive (0) or transmit (1) */
