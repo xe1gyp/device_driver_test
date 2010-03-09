@@ -45,20 +45,17 @@ do
     print "Cancelling Transmission..."
 #    sleep $MESSAGE_DELAY
     echo 'stop' > /proc/driver/mcbsp_test/transmission
-    print "Waiting $MESSAGE_DELAY seconds and verifying if Transmission was really cancelled..."
-    sleep $MESSAGE_DELAY
     TX=`cat /proc/driver/mcbsp_test/status | grep "No. of words transmitted" | sed -e "s/ */ /g" | cut -d ' ' -f7`
     RX=`cat /proc/driver/mcbsp_test/status | grep "No. of words received" | sed -e "s/ */ /g" | cut -d ' ' -f7`
     if [ $TX != $RX  ] || !(cat /proc/driver/mcbsp_test/transmission | grep "0" > /dev/null)
     then
       print "Tx Value = $TX | $RX = Rx Value"
-      print "Succesful Suspend on Transmission McBSP Interface $i using $COMMAND$j"
+      print "Succesful cancellation of data transfer on McBSP Interface $i using $COMMAND$j"
       print "PASS"
-      sleep $DELAY
       rmmod $McBSP_MODULE
     else
       print "Tx Value = $TX | $RX = Rx Value"
-      print "Failed Suspend on Transmission McBSP Interface $i using $COMMAND$j"
+      print "Failed cancellation of data transfer on McBSP Interface $i using $COMMAND$j"
       print "FAIL"
       rmmod $McBSP_MODULE
       exit 1
