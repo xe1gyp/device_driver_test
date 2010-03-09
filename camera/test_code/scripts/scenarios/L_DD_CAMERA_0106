@@ -11,6 +11,6 @@
 
 COMMENT comment.sh "Capture QVGA YUYV image and change the contrast level at the same time."
 
-0001_SAN set -x; effect.sh "contrast" "QVGA" "YUYV" "3"&& exit 0 || exit 1
+0001_SAN set -x; effect.sh "contrast" "QVGA" "YUYV" "5"&& exit 0 || exit 1
 
 # End "L_DD_CAMERA_0106"

@@ -10,7 +10,7 @@
 
 COMMENT comment.sh "The video displayed on the LCD should be rendered cleanly, and the script to change OPP's should finish without any problem."
 
-0001 set -x; dvfs-vdd1.sh "3" "10" "YUYV" "3280 2464"&& exit 0 || exit 1
-0002 set -x; dvfs-vdd1.sh "3" "30" "YUYV" "VGA"&& exit 0 || exit 1
+0001 set -x; dvfs-vdd1.sh "5" "10" "YUYV" "3280 2464"&& exit 0 || exit 1
+0002 set -x; dvfs-vdd1.sh "5" "30" "YUYV" "VGA"&& exit 0 || exit 1
 
 # End "L_DD_CAMERA_0126"

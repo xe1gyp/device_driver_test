@@ -11,6 +11,6 @@
 
 COMMENT comment.sh "The video should be displayed cleanly on the LCD depending on the lens position."
 
-0001_A set -x; af.sh "1" "30" "0" "3" "RELATIVE"&& exit 0 || exit 1
+0001_A set -x; af.sh "1" "30" "0" "5" "RELATIVE"&& exit 0 || exit 1
 
 # End "L_DD_CAMERA_0124"
