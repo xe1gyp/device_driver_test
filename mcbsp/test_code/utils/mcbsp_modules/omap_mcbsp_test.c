@@ -30,8 +30,17 @@
 #include <linux/irq.h>
 #include <linux/io.h>
 #include <linux/serial.h>
-#include <mach/dma.h>
-#include <mach/mcbsp.h>
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 27) && LINUX_VERSION_CODE <= KERNEL_VERSION(2, 6, 31))
+ #include <mach/dma.h>
+ #include <mach/mcbsp.h>
+#elif LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 32)
+ #include <plat/dma.h>
+ #include <plat/mcbsp.h>
+#else
+ #include <asm/arch/dma.h>
+ #include <asm/arch/mcbsp.h>
+#endif
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 00))
 #include <linux/dma-mapping.h>
@@ -149,6 +158,7 @@ struct mcbsp_info_struct {
 
 };
 
+#ifdef CONFIG_ARCH_OMAP3
 struct omap_mcbsp_cfg_param {
 	u8 fsync_src;
 	u8 fs_polarity;
@@ -174,6 +184,7 @@ struct omap_mcbsp_srg_fsg_cfg {
 	u8 polarity;
 	u8 dlb;         /* digital loopback mode */
 };
+#endif
 
 #if 0
 struct omap_mcbsp_dma_transfer_parameters {
@@ -209,7 +220,7 @@ static int fsx_polarity  = OMAP_MCBSP_FS_ACTIVE_LOW;
 static int justification = OMAP_MCBSP_RJUST_ZEROMSB;
 static int word_length1   = OMAP_MCBSP_WORD_8;
 static int word_length2   = OMAP_MCBSP_WORD_8;
-static int test_mcbsp_id = OMAP_MCBSP2;
+static int test_mcbsp_id = OMAP_MCBSP1;
 static int words_per_frame = 1;
 static int test_mcbsp_smp = 0;
 long int tx_sec;
@@ -769,9 +780,10 @@ int  omap2_mcbsp_request_interface(u8 id)
 	}
 	omap2_mcbsp_params_cfg(mcbsptest_info[id].mcbsp_id, OMAP_MCBSP_MASTER,
 						&tp1, &rp1, &cfg);
-
+	return 0;
 }
 
+#ifdef CONFIG_ARCH_OMAP4
 static
 int  omap2_mcbsp_test1(void)
 {
@@ -785,12 +797,18 @@ int  omap2_mcbsp_test2(void)
 	omap2_mcbsp_request_interface(1);
 	start_mcbsp_transmission(1);
 }
+#endif
 
 static int __init omap2_mcbsp_init(void)
 {
 	struct task_struct *p1, *p2;
         int x;
-
+#ifndef CONFIG_ARCH_OMAP4
+	if (test_mcbsp_smp) {
+		printk(KERN_ERR "\nThis processor does not support SMP! \n");
+		return -ENOSYS;
+	}
+#endif
         create_proc_file_entries();
         configure_mcbsp_interface();
 
@@ -800,6 +818,7 @@ static int __init omap2_mcbsp_init(void)
 	if (!test_mcbsp_smp)
 		omap2_mcbsp_request_interface(0);
 
+#ifdef CONFIG_ARCH_OMAP4
 	if( test_mcbsp_smp ) {
 
 		p1 = kthread_create(omap2_mcbsp_test1, NULL, "mcbsptest/0");
@@ -811,6 +830,7 @@ static int __init omap2_mcbsp_init(void)
 		x = wake_up_process(p1);
 		x = wake_up_process(p2);
 	}
+#endif
 
 	printk("\n OMAP McBSP TEST driver installed successfully \n");
 	return 0;
