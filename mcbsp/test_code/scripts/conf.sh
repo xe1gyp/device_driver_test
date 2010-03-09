@@ -21,7 +21,16 @@ export SCENARIO_NAMES=""
 export INTERACTIVE=""
 export STRESS=""
 export UTILBIN=${TESTROOT}/../../utils/bin
+export DEBUG_DIR=/debug/
 export POWERSYSFS=/sys/power
+if [ -f "/sys/power/wakeup_timer_seconds" ] #is this power entry in sysfs?
+then #if yes, we can look in /sys/power for all entries
+       export POWER_ENTRIES=$POWERSYSFS
+else #if not, they must be in debugfs and it should be mounted
+       if [ ! -d $DEBUG_DIR ]; then mkdir $DEBUG_DIR; fi;
+       if [ ! `mount | grep debugfs` ]; then mount -t debugfs debugfs /debug; fi;
+       export POWER_ENTRIES=$DEBUG_DIR/pm_debug/
+fi
 
 # Modules
 export MODNAME="omap_mcbsp_test"
