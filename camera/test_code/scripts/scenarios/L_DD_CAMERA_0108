@@ -11,6 +11,6 @@
 
 COMMENT comment.sh "Camera drivers shall support pass through of input data without image processing."
 
-0001_SAN set -x; rawcap.sh "3" "3280 2464"&& exit 0 || exit 1
+0001_SAN set -x; rawcap.sh "5" "3280 2464"&& exit 0 || exit 1
 
 # End "L_DD_CAMERA_0108"

@@ -13,20 +13,20 @@ COMMENT comment.sh "Observe that the captured frames are cropped for video and i
 
 COMMENT comment.sh "Verify the capture frame is saved with the desired zoom factor"
 
-0001_A set -x; burstest.sh "VGA" "YUYV" "3" "1" "30" "10"&& exit 0 || exit 1
-0001_B set -x; burstest.sh "VGA" "YUYV" "3" "1" "30" "20"&& exit 0 || exit 1
-0001_C_SAN set -x; burstest.sh "VGA" "YUYV" "3" "1" "30" "40"&& exit 0 || exit 1
+0001_A set -x; burstest.sh "VGA" "YUYV" "5" "1" "30" "10"&& exit 0 || exit 1
+0001_B set -x; burstest.sh "VGA" "YUYV" "5" "1" "30" "20"&& exit 0 || exit 1
+0001_C_SAN set -x; burstest.sh "VGA" "YUYV" "5" "1" "30" "40"&& exit 0 || exit 1
 
 0002 comment.sh "Test case 0002 is passed by inspection"
 
 COMMENT comment.sh "Verify the zoom demo is displayed cleanly on the LCD"
 
-0003_A set -x; capv.sh "30" "SQCIF" "YUYV"  "3" "ZOOM"&& exit 0 || exit 1
-0003_B_SAN set -x; capv.sh "30" "QCIF" "YUYV"  "3" "ZOOM"&& exit 0 || exit 1
-0003_C set -x; capv.sh "30" "QVGA" "YUYV"  "3" "ZOOM"&& exit 0 || exit 1
-0003_D set -x; capv.sh "30" "CIF" "YUYV"  "3" "ZOOM"&& exit 0 || exit 1
-0003_E_SAN set -x; capv.sh "30" "VGA" "YUYV"  "3" "ZOOM"&& exit 0 || exit 1
-0003_F_SAN set -x; capv.sh "30" "D1NTSC" "YUYV"  "3" "ZOOM"&& exit 0 || exit 1
-0003_G set -x; capv.sh "30" "854 480" "YUYV"  "3" "ZOOM"&& exit 0 || exit 1
+0003_A set -x; capv.sh "30" "SQCIF" "YUYV"  "5" "ZOOM"&& exit 0 || exit 1
+0003_B_SAN set -x; capv.sh "30" "QCIF" "YUYV"  "5" "ZOOM"&& exit 0 || exit 1
+0003_C set -x; capv.sh "30" "QVGA" "YUYV"  "5" "ZOOM"&& exit 0 || exit 1
+0003_D set -x; capv.sh "30" "CIF" "YUYV"  "5" "ZOOM"&& exit 0 || exit 1
+0003_E_SAN set -x; capv.sh "30" "VGA" "YUYV"  "5" "ZOOM"&& exit 0 || exit 1
+0003_F_SAN set -x; capv.sh "30" "D1NTSC" "YUYV"  "5" "ZOOM"&& exit 0 || exit 1
+0003_G set -x; capv.sh "30" "854 480" "YUYV"  "5" "ZOOM"&& exit 0 || exit 1
 
 # End "L_DD_CAMERA_0110"

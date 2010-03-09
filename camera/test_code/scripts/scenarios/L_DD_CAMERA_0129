@@ -10,7 +10,7 @@ i# FILENAME: L_DD_CAMERA_0129
 
 COMMENT comment.sh "Device driver shall ensure thread safety against scheduler preemption"
 
-0001 set -x; preemption.sh "3"&& exit 0 || exit 1
+0001 set -x; preemption.sh "5"&& exit 0 || exit 1
 
 # End "L_DD_CAMERA_0129"
 
