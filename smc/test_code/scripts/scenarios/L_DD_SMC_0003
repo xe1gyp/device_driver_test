@@ -1,0 +1,10 @@
+###############################################################################
+# Scenario: L_DD_SMC_0003
+# Author  : Praneeth Kumar Bajjuri
+# Date    : March 4, 2010
+###############################################################################
+# Begin L_DD_SMC_0003
+# This test is for initializing SMC {Security Middleware Component} daemon
+01  set -x;${TESTMODS}/smoduled -c ${TESTMODS}/smc_android_cfg.ini && exit 0 || exit 1
+
+# End L_DD_SMC_0003

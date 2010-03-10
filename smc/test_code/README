@@ -1,0 +1,57 @@
+Compile Instructions
+--------------------
+
+1. Clean the environment.
+   Perform 'make clean' in the normal world driver source "build" folder. This will erase all files and directories created during previous compilation.
+2. Install.
+   Perform 'make CROSS_COMPILE=compiler location' and find the kernel module in release/smc_driver.ko
+Note: For Building the module with PM Disabled .Ensure that Power Management Flag is disabled in src/build/Makefile and then rebuild the kernel module
+
+   For 25.x Program
+	* CROSS_COMPILE=arm-none-linux-gnueabi-
+	* HOST=arm-none-linux-gnueabi
+	* LINUX_KERNEL_DIR=Local path to kernel dir
+	* BUILD_VARIANT=release;for debug purpose use build variant as "debug"
+
+Testsuite execution
+-------------------
+1. Go to 'scripts' subdirectory inside the testsuite directory.
+2. Execute the main script 'test_runner.sh -p 'scenario_id'.
+   * The scenarios IDs can be found under script/scenarios/
+3. Results will be reported showing Scenario-TestCase IDs and the result of each test.
+   * 0 - Successful
+   * Any other value different of 0 - Failure
+
+Requirements
+------------
+From the SMC 2.5 integration package copy all the below files in filesystem
+
+copy at /smc25 in the filesystem:
+
+* smc_driver.ko {Compiled from the above steps}
+* smc_pa_ctrl
+* smc_android_cfg.ini
+* smoduled
+* smc_pa.ift
+* example_sst
+* example_crypto
+* smctrl
+* encrypted_content_1
+* encrypted_content_2
+* license_1
+* license_2
+
+copy at /system/lib in the filesystem
+
+* libsmapi.so
+* libsst.so
+* libcryptoki.so
+* libmtc.so
+
+Note: You can edit the smc_android_cfg.ini to change the location for static libraries and temp key storage as per own preference.
+
+The file system on which the testsuite is going to be executed needs to have the following utilities:
+* busybox
+* telnet
+
+Note: In the bootargs 2MB memory should be reserved for SMC secure operations.

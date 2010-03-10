@@ -1,0 +1,10 @@
+###############################################################################
+# Scenario: L_DD_SMC_0002
+# Author  : Praneeth Kumar Bajjuri
+# Date    : March 4, 2010
+###############################################################################
+# This test is to initialize SMC PA to secure environment dynamically
+# load address and other configuration details are specifief here
+# Begin L_DD_SMC_0002
+01  set -x;${TESTMODS}/smc_pa_ctrl -c ${TESTMODS}/smc_android_cfg.ini start ${TESTMODS}/smc_pa.ift && exit 0 || exit 1
+# End L_DD_SMC_0002

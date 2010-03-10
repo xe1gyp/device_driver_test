@@ -1,0 +1,11 @@
+###############################################################################
+# Scenario: L_DD_SMC_0005
+# Author  : Praneeth Kumar Bajjuri
+# Date    : March 4, 2010
+###############################################################################
+
+# Begin L_DD_SMC_0005
+# This test is to use the Crypto API Example Application and decrypt the message using the license file specified
+01  set -x;${TESTMODS}/example_crypto -init
+02  set -x;${TESTMODS}/example_crypto ${TESTMODS}/license_1 ${TESTMODS}/encrypted_content_1 && exit 0 || exit 1
+# End L_DD_SMC_0005

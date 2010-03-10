@@ -1,0 +1,11 @@
+###############################################################################
+# Scenario: L_DD_SMC_0006
+# Author  : Praneeth Kumar Bajjuri
+# Date    : March 4, 2010
+###############################################################################
+# Begin L_DD_SMC_0006
+# Load the SMC Normal World Driver No Power Management
+# Compile the SMC Normal World Driver with PM flag disabled from Makefile
+01  set -x; insmod $TESTMODS/smc_driver_nopm.ko
+02  set -x; cat $PROCFS_DEVICES | grep 'smodule' && exit 0 || exit 1
+# End L_DD_SMC_0006

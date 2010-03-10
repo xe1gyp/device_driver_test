@@ -1,0 +1,10 @@
+###############################################################################
+# Scenario: L_DD_SMC_0001
+# Author  : Praneeth Kumar Bajjuri
+# Date    : March 4, 2010
+###############################################################################
+# Begin L_DD_SMC_0001
+# Load the SMC Normal World Driver
+01  set -x; insmod $TESTMODS/smc_driver.ko
+02  set -x; cat $PROCFS_DEVICES | grep 'smodule' && exit 0 || exit 1
+# End L_DD_SMC_0001
