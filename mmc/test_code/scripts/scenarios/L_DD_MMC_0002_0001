@@ -16,9 +16,9 @@
 05  set -x; echo -e "p\n w\n" | fdisk $MMC_ROOT_ENTRY && exit 0 || exit 1
 
 # Removing partition
-04  set -x; echo -e "d\n w\n" | fdisk $MMC_ROOT_ENTRY && exit 0 || exit 1
+06  set -x; echo -e "d\n w\n" | fdisk $MMC_ROOT_ENTRY && exit 0 || exit 1
 
 # Verifying partition
-05  set -x; cat $PROCFS_PARTITIONS | grep $MMC_PARTITION_NAME1 && exit 1 || exit 0
+07  set -x; cat $PROCFS_PARTITIONS | grep $MMC_PARTITION_NAME1 && exit 1 || exit 0
 
 # End L_DD_MMC_0002_0001
