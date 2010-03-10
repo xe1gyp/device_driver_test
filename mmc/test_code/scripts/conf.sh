@@ -23,6 +23,7 @@ export DURATION=""
 export PATH="${PATH}:${TESTROOT}:${TESTBIN}:${TESTSCRIPT}"
 export TC_SCENARIO="${TESTROOT}/scenarios"
 export SCENARIO_NAMES=""
+export DEFAULT_MOUNT_POINT=/sdcard
 export BLOCK_FOLDER=/dev/block
 
 if [ ! -d "$BLOCK_FOLDER" ]
