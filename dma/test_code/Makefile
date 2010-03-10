@@ -5,8 +5,11 @@
 #  Use of this software is controlled by the terms and conditions found
 #  in the license agreement under which this software has been supplied.
 #===============================================================================
+ifeq ($(SUITE_DIR),)
+SUITE_DIR:=$(PWD)
+endif
 
-DESTDIR := ${PWD}/mods
+DESTDIR := $(SUITE_DIR)/mods
 OBJS := utilities install
 
 all: $(OBJS)

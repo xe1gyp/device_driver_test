@@ -8,6 +8,10 @@
 
 CC := $(CROSS_COMPILE)gcc
 
+ifeq ($(SUITE_DIR),)
+SUITE_DIR:=$(PWD)
+endif
+
 MODULES = dma_single_channel.o \
   dma_chain_transfer.o \
   dma_priority_high.o \
@@ -34,10 +38,10 @@ MODULES = dma_single_channel.o \
 obj-m:=$(MODULES)
 
 all: $(TARGETS)
-	make -C $(KDIR) SUBDIRS=$(PWD)/utils/dma KERN=26 modules
+	make -C $(KDIR) SUBDIRS=$(SUITE_DIR)/utils/dma KERN=26 modules
 
 install:
-	cp -v $(MODULES:.o=.ko) ../../mods
+	cp -v $(MODULES:.o=.ko) $(SUITE_DIR)/mods
 
 $(TARGETS):
 	$(CC) $@.c -o $@
