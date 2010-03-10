@@ -122,12 +122,13 @@ export UTILSDIR
 .PHONY: all check cleanup maketest clean distclean utilities $(TESTSUITES)
 
 cleanup: check
-	@if [ $(KDIR) = $(OLD_KDIR) ]; then \
-		echo "Removing unwanted testsuites \
-		\"$(filter-out $(TESTSUITES), $(OLD_SUITES))\"..."; \
-		cd $(TESTROOT); \
-		rm -rf $(filter-out $(TESTSUITES), $(OLD_SUITES)); \
-	else 	if [ -d $(TESTROOT) ]; then \
+	@if [ -d $(TESTROOT) ]; then\
+		if [ $(KDIR) = $(OLD_KDIR) ]; then \
+			echo "Removing unwanted testsuites \
+			\"$(filter-out $(TESTSUITES), $(OLD_SUITES))\"..."; \
+			cd $(TESTROOT); \
+			rm -rf $(filter-out $(TESTSUITES), $(OLD_SUITES)); \
+		else \
 			echo "KDIR has changed. Cleaning output directory..."; \
 			sleep 2; \
 			$(MAKE) clean; \
