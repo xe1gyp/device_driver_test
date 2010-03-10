@@ -11,40 +11,44 @@
 02  set -x; mkdir -p $MMC_MOUNT_POINT_1 && mkdir -p $MMC_MOUNT_POINT_2; exit 0
 
 # Creating, verifying and printing partition
-03  set -x; echo -e "n\n p\n 1\n $MMC_DEVICE_SECTOR_START\n $MMC_DEVICE_SECTOR_END\n w\n" | fdisk $MMC_ROOT_ENTRY && exit 0 || exit 1
-04  set -x; cat $PROCFS_PARTITIONS | grep $MMC_PARTITION_NAME1 && exit 0 || exit 1
-05  set -x; echo -e "p\n w\n" | fdisk $MMC_ROOT_ENTRY && exit 0 || exit 1
+03  set -x; $TESTSCRIPT/umount_partitions.sh $DEFAULT_MOUNT_POINT && exit 0 || exit 1
+04  set -x; echo -e "n\n p\n 1\n $MMC_DEVICE_SECTOR_START\n $MMC_DEVICE_SECTOR_END\n w\n" | fdisk $MMC_ROOT_ENTRY && exit 0 || exit 1
+05  set -x; cat $PROCFS_PARTITIONS | grep $MMC_PARTITION_NAME1 && exit 0 || exit 1
+06  set -x; $TESTSCRIPT/umount_partitions.sh $DEFAULT_MOUNT_POINT && exit 0 || exit 1
+07  set -x; echo -e "p\n w\n" | fdisk $MMC_ROOT_ENTRY && exit 0 || exit 1
 
 # Formatting partition
-06  set -x; sleep 1 && $TESTBIN/mke2fs $MMC_PARTITION_ENTRY1 && exit 0 || exit 1
+08  set -x; $TESTSCRIPT/umount_partitions.sh $DEFAULT_MOUNT_POINT && exit 0 || exit 1
+09  set -x; sleep 1 && $TESTBIN/mke2fs $MMC_PARTITION_ENTRY1 && exit 0 || exit 1
 
 # Mounting and verifying partition
-07  set -x; mount -t ext2 $MMC_PARTITION_ENTRY1 $MMC_MOUNT_POINT_1 && exit 0 || exit 1
-08  set -x; mount | grep $MMC_PARTITION_ENTRY1 | grep "ext2" && exit 0 || exit 1
+10  set -x; mount -t ext2 $MMC_PARTITION_ENTRY1 $MMC_MOUNT_POINT_1 && exit 0 || exit 1
+11  set -x; mount | grep $MMC_PARTITION_ENTRY1 | grep "ext2" && exit 0 || exit 1
 
 # Copying and verifying content
-09  set -x; cp $TESTROOT/$FILE_SIZE_BIG $MMC_MOUNT_POINT_1 && sync && exit 0 || exit 1
-10  set -x; test -e $MMC_MOUNT_POINT_1/$FILE_SIZE_BIG && exit 0 || exit 1
+12  set -x; cp $TESTROOT/$FILE_SIZE_BIG $MMC_MOUNT_POINT_1 && sync && exit 0 || exit 1
+13  set -x; test -e $MMC_MOUNT_POINT_1/$FILE_SIZE_BIG && exit 0 || exit 1
 
 # Unmounting partition
-11  set -x; umount $MMC_MOUNT_POINT_1 && sync && exit 0 || exit 1
-12  set -x; test -e $MMC_MOUNT_POINT_1/$FILE_SIZE_BIG && exit 1 || exit 0
+14  set -x; umount $MMC_MOUNT_POINT_1 && sync && exit 0 || exit 1
+15  set -x; test -e $MMC_MOUNT_POINT_1/$FILE_SIZE_BIG && exit 1 || exit 0
 
 # Mounting and verifying partition
-13  set -x; mount -t ext2 $MMC_PARTITION_ENTRY1 $MMC_MOUNT_POINT_1 && exit 0 || exit 1
-14  set -x; mount | grep $MMC_PARTITION_ENTRY1 | grep "ext2" && exit 0 || exit 1
+16  set -x; mount -t ext2 $MMC_PARTITION_ENTRY1 $MMC_MOUNT_POINT_1 && exit 0 || exit 1
+17  set -x; mount | grep $MMC_PARTITION_ENTRY1 | grep "ext2" && exit 0 || exit 1
 
 # Verifying content
-15  set -x; test -e $MMC_MOUNT_POINT_1/$FILE_SIZE_BIG && exit 0 || exit 1
+18  set -x; test -e $MMC_MOUNT_POINT_1/$FILE_SIZE_BIG && exit 0 || exit 1
 
 # Unmounting partition
-16  set -x; umount $MMC_MOUNT_POINT_1 && sync && exit 0 || exit 1
-17  set -x; test -e $MMC_MOUNT_POINT_1/$FILE_SIZE_BIG && exit 1 || exit 0
+19  set -x; umount $MMC_MOUNT_POINT_1 && sync && exit 0 || exit 1
+20  set -x; test -e $MMC_MOUNT_POINT_1/$FILE_SIZE_BIG && exit 1 || exit 0
 
 # Removing partitions
-18  set -x; echo -e "d\n w\n" | fdisk $MMC_ROOT_ENTRY && exit 0 || exit 1
+21  set -x; $TESTSCRIPT/umount_partitions.sh $DEFAULT_MOUNT_POINT && exit 0 || exit 1
+22  set -x; echo -e "d\n w\n" | fdisk $MMC_ROOT_ENTRY && exit 0 || exit 1
 
 # Verifying partitions
-19  set -x; cat $PROCFS_PARTITIONS | grep $MMC_PARTITION_NAME1 && exit 1 || exit 0
+23  set -x; cat $PROCFS_PARTITIONS | grep $MMC_PARTITION_NAME1 && exit 1 || exit 0
 
 # End L_DD_MMC_0004_0002
