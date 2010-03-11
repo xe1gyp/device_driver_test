@@ -3,7 +3,7 @@ CC=$(CROSS_COMPILE)gcc
 UTILS=boxmuler.o
 EXECS=cr ra radc 
 SCRIPTS=modaltr.sh test.sh test2.sh
-CFLAGS=-O3 
+CFLAGS+=-O3
 all: ${EXECS}
 	@echo done
 

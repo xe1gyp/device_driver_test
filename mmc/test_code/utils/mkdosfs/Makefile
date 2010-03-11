@@ -12,7 +12,7 @@
 
 CC := $(CROSS_COMPILE)gcc
 O := -O2 -fomit-frame-pointer
-CFLAGS := $(O) -Wall
+CFLAGS += $(O) -Wall
 LDFLAGS := -s
 
 all: mkdosfs
