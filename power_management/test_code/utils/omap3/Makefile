@@ -14,6 +14,7 @@ obj-m := clock_test.o resource_test.o clockdomain_test.o powerdomain_test.o
 all:
 	make -C $(KDIR) SUBDIRS=$(PWD)/utils/omap3 KERN=26 modules
 	$(CC) system_time.c -o system_time
+	$(CC) cpuIdle.c -o cpuIdle
 
 install:
 	cp -vf clock_test.ko ../../mods

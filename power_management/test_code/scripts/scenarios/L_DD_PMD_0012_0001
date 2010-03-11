@@ -1,0 +1,15 @@
+###############################################################################
+# Scenario: L_DD_POWER_0012_0001
+# Author  : Miramontes, David
+# Date    : March 09, 2010
+# Testing : Change C state to invalid state and check for the system stability
+###############################################################################
+
+# Begin L_DD_POWER_0012_0001
+
+01  set -x; cpuIdle.sh  set_all
+02  set -x; cpuIdle.sh  set_all_invalid
+03  set -x; cpuIdle.sh  set_optimal
+03  set -x; cpuIdle.sh  set_invalid
+
+# End L_DD_POWER_0012_0001

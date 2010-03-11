@@ -18,6 +18,7 @@ export DURATION=""
 export PATH="${PATH}:${TESTROOT}:${TESTBIN}:${TESTSCRIPT}"
 export TC_SCENARIO="${TESTROOT}/scenarios"
 export SCENARIO_NAMES=""
+export UTILOMAP3=${TESTROOT}/../utils/omap3
 
 # General Variables
 export TESTING_DRIVER=""
