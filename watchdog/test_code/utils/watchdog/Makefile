@@ -24,7 +24,7 @@ install:
 	cp -v $(TARGETS) ../../binaries
 #lpthread is needed for smp files only
 $(TARGETS):
-	$(CC) -D_GNU_SOURCE -lpthread $@.c -o $@
+	$(CC) $(CFLAGS) -D_GNU_SOURCE -lpthread $@.c -o $@
 
 clean:
 	rm -vf *.o $(TARGETS)

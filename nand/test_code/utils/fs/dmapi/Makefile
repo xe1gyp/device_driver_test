@@ -46,7 +46,7 @@ extra_cflags = -DINTERIOR_HOLES -DMULTIPLE_REGIONS
 
 CC=$(CROSS_COMPILE)gcc
 
-cflags = $(std_cflags) $(extra_cflags)
+cflags = $(std_cflags) $(extra_cflags) $(CFLAGS)
 
 lflags = $(dmapi_lib)
 lflags_thd = $(dmapi_lib) -lpthread

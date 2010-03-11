@@ -15,16 +15,16 @@ install: log
 	cp -vf $(TARGETS) ../../bin
 
 log: list.c testlog.c testtestlog5.c
-	$(CC) -o log list.c testlog.c testtestlog5.c
+	$(CC) $(CFLAGS) -o log list.c testlog.c testtestlog5.c
 
 differ: differ.c
-	$(CC) -o differ differ.c
+	$(CC) $(CFLAGS) -o differ differ.c
 
 genfile: genfile.c
-	$(CC) -o genfile genfile.c
+	$(CC) $(CFLAGS) -o genfile genfile.c
 
 fileio: fileio.c
-	$(CC) -o fileio fileio.c
+	$(CC) $(CFLAGS) -o fileio fileio.c
 
 clean:
 	rm -vf $(TARGETS)

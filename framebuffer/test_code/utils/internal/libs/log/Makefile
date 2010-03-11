@@ -19,19 +19,19 @@ libtestlog.a : $(TESTLOGOBJ)
 	$(AR) r libtestlog.a $(TESTLOGOBJ)
 
 list.o : list.h list.c
-	${CC} ${WARN} -c list.c
+	${CC} ${CFLAGS} ${WARN} -c list.c
 
 testlog.o : testlog.h testlog.c
-	${CC} ${WARN} -c testlog.c
+	${CC} ${CFLAGS} ${WARN} -c testlog.c
 	
 testtestlog : testtestlog.c
-	${CC} testtestlog.c $(LDFLAGS) $(LIBS) -o testtestlog
+	${CC} ${CFLAGS} testtestlog.c $(LDFLAGS) $(LIBS) -o testtestlog
 	
 testtestlog2 : testtestlog2.c
-	${CC} testtestlog2.c $(LDFLAGS) $(LIBS) -o testtestlog2
+	${CC} ${CFLAGS} testtestlog2.c $(LDFLAGS) $(LIBS) -o testtestlog2
 	
 testtestlog3 : testtestlog3.c
-	${CC} testtestlog3.c $(LDFLAGS) $(LIBS) -o testtestlog3
+	${CC} ${CFLAGS} testtestlog3.c $(LDFLAGS) $(LIBS) -o testtestlog3
 	
 testtestlog4 : testtestlog4.c
-	${CC} testtestlog4.c $(LDFLAGS) $(LIBS) -o testtestlog4
+	${CC} ${CFLAGS} testtestlog4.c $(LDFLAGS) $(LIBS) -o testtestlog4

@@ -10,9 +10,9 @@ ifeq ($(call check_header,sys/xattr.h),yes)
 all: acl_file_test acl_link_test
 
 acl_file_test:
-	$(CC) -o acl_file_test acl_file_test.c
+	$(CC) $(CFLAGS) -o acl_file_test acl_file_test.c
 acl_link_test:
-	$(CC) -o acl_link_test acl_link_test.c
+	$(CC) $(CFLAGS) -o acl_link_test acl_link_test.c
 
 install:
 	ln -f acl_file_test ../../../bin/

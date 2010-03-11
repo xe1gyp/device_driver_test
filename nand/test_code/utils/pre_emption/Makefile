@@ -17,7 +17,7 @@ install:
 	cp -fv $(TARGETS) ../../bin
 
 $(TARGETS):
-	$(CC) $@.c -o $@
+	$(CC) $(CFLAGS) $@.c -o $@
 
 clean:
 	rm -vf pre_emption

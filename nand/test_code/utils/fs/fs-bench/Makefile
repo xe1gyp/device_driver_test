@@ -8,13 +8,13 @@ all: ${EXECS}
 	@echo done
 
 cr: create-files.o ${UTILS}
-	$(CC) ${UTILS} create-files.o -lm -o cr
+	$(CC) $(CFLAGS) ${UTILS} create-files.o -lm -o cr
 
 ra: random-access.o
-	$(CC) random-access.o -o ra
+	$(CC) $(CFLAGS) random-access.o -o ra
 
 radc: random-del-create.o ${UTILS}
-	$(CC)  ${UTILS} random-del-create.o -lm -o radc
+	$(CC) $(CFLAGS)  ${UTILS} random-del-create.o -lm -o radc
 
 install:
 	 @set -e; for i in $(EXECS) $(SCRIPTS); do ln -f $$i ../../../bin/$$i ; done
