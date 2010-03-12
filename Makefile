@@ -176,11 +176,21 @@ $(addprefix $(TESTROOT)/,$(TESTSUITES)): $$(notdir $$@)/$(CODE_DIR)
 	@echo
 
 $(addsuffix /$(SCENARIOS),$(addprefix $(TESTROOT)/,$(TESTSUITES))):
-	@mkdir --parents $@
-	@cp $? $@
-	@echo
-	@echo "====Installed scenario files in $@====";
-	@echo
+	@if [ '$?' != '' ]; then \
+		mkdir --parents $@; \
+		cp $? $@; \
+		echo; \
+		echo "====Installed scenario files in $@===="; \
+		echo; \
+	else \
+		echo "======================================="\
+		"======================================="; \
+		echo "WARNING: No scenario files are being copied"\
+		"to the output directory!"; \
+		echo "======================================="\
+		"======================================="; \
+		sleep 3; \
+	fi;
 
 utilities:
 	@$(MAKE) -C $(UTILSDIR)
