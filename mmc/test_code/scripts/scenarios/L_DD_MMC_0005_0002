@@ -6,13 +6,13 @@
 
 # Begin L_DD_MMC_0005_0002
 
-01  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "create" "1" "ext2"
-02  set -x; $UTILS_DIR_HANDLERS/handlerTmpfs.sh "create" "250" $MMCSD_TMPFS_MOUNTPOINT
+01  set -x; handlerMmcsdBlock.sh "create" "1" "ext2"
+02  set -x; handlerTmpfs.sh "create" "250" $MMCSD_TMPFS_MOUNTPOINT
 
-03  set -x; dd if=/dev/urandom of=$MMCSD_TMPFS_MOUNTPOINT/$MMCSD_FILE_SIZE_BIG bs=1M count=100
+03  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=$MMCSD_TMPFS_MOUNTPOINT/$MMCSD_FILE_SIZE_BIG bs=1M count=100"
 
-04  set -x; $UTILS_DIR_HANDLERS/handlerTmpfs.sh "remove" $MMCSD_TMPFS_MOUNTPOINT
-05  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "remove" "1"
+04  set -x; handlerTmpfs.sh "remove" $MMCSD_TMPFS_MOUNTPOINT
+05  set -x; handlerMmcsdBlock.sh "remove" "1"
 
 #0001  set -x; mmc_test_dev0 1 testing1 && mmc_test_dev0 1 testing2 && exit 0 || exit 1
 #02  set -x; mmc_test_dev0 2 testing1 10 && mmc_test_dev0 2 testing2 10 && exit 0 || exit 1

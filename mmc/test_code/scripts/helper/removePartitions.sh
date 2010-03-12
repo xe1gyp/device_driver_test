@@ -1,8 +1,16 @@
 #!/bin/sh
 
+# =============================================================================
+# Variables
+# =============================================================================
+
 RP_MMCSD_DEVFS_ENTRY=$1
 RP_MMCSD_DEVFS_PARTITION_1=${RP_MMCSD_DEVFS_ENTRY}p1
 RP_MMCSD_DEVFS_PARTITION_2=${RP_MMCSD_DEVFS_ENTRY}p2
+
+# =============================================================================
+# Functions
+# =============================================================================
 
 DeletePartitions()
 {
@@ -26,9 +34,16 @@ DeletePartitions()
 	fi
 }
 
-echo "Checking for mmc/sd partitions, if exist then remove them"
+# =============================================================================
+# Main
+# =============================================================================
+
+echo "Flush pending buffers, check for mmc/sd partitions, if exist then remove them"
+sync
+
 mount | grep  $RP_MMCSD_DEVFS_PARTITION_1 && umount `mount | grep $RP_MMCSD_DEVFS_PARTITION_1 | awk '{print $3}'`
 mount | grep  $RP_MMCSD_DEVFS_PARTITION_2 && umount `mount | grep $RP_MMCSD_DEVFS_PARTITION_2 | awk '{print $3}'`
+
 DeletePartitions $RP_MMCSD_DEVFS_ENTRY
 
 # End of file

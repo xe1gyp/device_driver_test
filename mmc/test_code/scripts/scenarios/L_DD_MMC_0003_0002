@@ -6,7 +6,7 @@
 
 # Begin L_DD_MMC_0003_0002
 
-01  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "create" "1" "ext2"
-02  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "remove" "1"
+01  set -x; handlerMmcsdBlock.sh "create" "1" "ext2"
+02  set -x; handlerMmcsdBlock.sh "remove" "1"
 
 # End L_DD_MMC_0003_0002

@@ -6,59 +6,59 @@
 
 # Begin L_DD_MMC_0018_0001
 
-01_01  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "create" "1" "ext2" "/mnt/mmc/"
+01_01  set -x; handlerMmcsdBlock.sh "create" "1" "ext2" "/mnt/mmc/"
 
-01_02  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "clean"
-01_03  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.01 bs=1M count=10"
-01_04  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.02 bs=1M count=10"
-01_05  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.03 bs=1M count=10"
-01_06  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.04 bs=1M count=10"
-01_07  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.05 bs=1M count=10"
-01_08  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.06 bs=1M count=10"
-01_09  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.07 bs=1M count=10"
-01_10  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.08 bs=1M count=10"
-01_11  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.09 bs=1M count=10"
-01_12  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.10 bs=1M count=10"
-01_13  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "execute"
+01_02  set -x; handlerProcessParallelism.sh "clean"
+01_03  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.01 bs=1M count=10"
+01_04  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.02 bs=1M count=10"
+01_05  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.03 bs=1M count=10"
+01_06  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.04 bs=1M count=10"
+01_07  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.05 bs=1M count=10"
+01_08  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.06 bs=1M count=10"
+01_09  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.07 bs=1M count=10"
+01_10  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.08 bs=1M count=10"
+01_11  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.09 bs=1M count=10"
+01_12  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.10 bs=1M count=10"
+01_13  set -x; handlerProcessParallelism.sh "execute"
 
-01_14  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "remove" "1" "/mnt/mmc/"
-
-# ---
-
-02_01  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "create" "1" "dos" "/mnt/mmc/"
-
-02_02  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "clean"
-02_03  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.01 bs=1M count=10"
-02_04  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.02 bs=1M count=10"
-02_05  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.03 bs=1M count=10"
-02_06  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.04 bs=1M count=10"
-02_07  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.05 bs=1M count=10"
-02_08  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.06 bs=1M count=10"
-02_09  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.07 bs=1M count=10"
-02_10  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.08 bs=1M count=10"
-02_11  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.09 bs=1M count=10"
-02_12  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.10 bs=1M count=10"
-02_13  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "execute"
-
-02_14  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "remove" "1" "/mnt/mmc/"
+01_14  set -x; handlerMmcsdBlock.sh "remove" "1" "/mnt/mmc/"
 
 # ---
 
-03_01  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "create" "2" "mixed" "/mnt/mmc1/" "/mnt/mmc2/"
+02_01  set -x; handlerMmcsdBlock.sh "create" "1" "dos" "/mnt/mmc/"
 
-03_02  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "clean"
-03_03  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc1/tmp.01 bs=1M count=100"
-03_04  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc2/tmp.02 bs=1M count=100"
-03_05  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc1/tmp.03 bs=1M count=100"
-03_06  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc2/tmp.04 bs=1M count=100"
-03_07  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc1/tmp.05 bs=1M count=100"
-03_08  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc2/tmp.06 bs=1M count=100"
-03_09  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc1/tmp.07 bs=1M count=100"
-03_10  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc2/tmp.08 bs=1M count=100"
-03_11  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc1/tmp.09 bs=1M count=100"
-03_12  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc2/tmp.10 bs=1M count=100"
-03_13  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "execute"
+02_02  set -x; handlerProcessParallelism.sh "clean"
+02_03  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.01 bs=1M count=10"
+02_04  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.02 bs=1M count=10"
+02_05  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.03 bs=1M count=10"
+02_06  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.04 bs=1M count=10"
+02_07  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.05 bs=1M count=10"
+02_08  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.06 bs=1M count=10"
+02_09  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.07 bs=1M count=10"
+02_10  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.08 bs=1M count=10"
+02_11  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.09 bs=1M count=10"
+02_12  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc/tmp.10 bs=1M count=10"
+02_13  set -x; handlerProcessParallelism.sh "execute"
 
-03_14  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "remove" "2" "/mnt/mmc1/" "/mnt/mmc2/"
+02_14  set -x; handlerMmcsdBlock.sh "remove" "1" "/mnt/mmc/"
+
+# ---
+
+03_01  set -x; handlerMmcsdBlock.sh "create" "2" "mixed" "/mnt/mmc1/" "/mnt/mmc2/"
+
+03_02  set -x; handlerProcessParallelism.sh "clean"
+03_03  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc1/tmp.01 bs=1M count=100"
+03_04  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc2/tmp.02 bs=1M count=100"
+03_05  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc1/tmp.03 bs=1M count=100"
+03_06  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc2/tmp.04 bs=1M count=100"
+03_07  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc1/tmp.05 bs=1M count=100"
+03_08  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc2/tmp.06 bs=1M count=100"
+03_09  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc1/tmp.07 bs=1M count=100"
+03_10  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc2/tmp.08 bs=1M count=100"
+03_11  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc1/tmp.09 bs=1M count=100"
+03_12  set -x; handlerProcessParallelism.sh "add" "dd if=/dev/urandom of=/mnt/mmc2/tmp.10 bs=1M count=100"
+03_13  set -x; handlerProcessParallelism.sh "execute"
+
+03_14  set -x; handlerMmcsdBlock.sh "remove" "2" "/mnt/mmc1/" "/mnt/mmc2/"
 
 # End L_DD_MMC_0018_0001

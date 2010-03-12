@@ -6,28 +6,28 @@
 
 # Begin L_DD_MMC_0004_0003
 
-01  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "create" "2" "dos"
-02  set -x; $UTILS_DIR_HANDLERS/handlerTmpfs.sh "create" "250" $MMCSD_TMPFS_MOUNTPOINT
+01  set -x; handlerMmcsdBlock.sh "create" "2" "dos"
+02  set -x; handlerTmpfs.sh "create" "250" $MMCSD_TMPFS_MOUNTPOINT
 
-03  set -x; dd if=/dev/urandom of=$MMCSD_TMPFS_MOUNTPOINT/$MMCSD_FILE_SIZE_BIG bs=1M count=100
-04  set -x; cp $MMCSD_TMPFS_MOUNTPOINT/$MMCSD_FILE_SIZE_BIG $MMCSD_MOUNTPOINT_1 && sync
-05  set -x; cp $MMCSD_TMPFS_MOUNTPOINT/$MMCSD_FILE_SIZE_BIG $MMCSD_MOUNTPOINT_2 && sync
-06  set -x; diff $MMCSD_MOUNTPOINT_1/$MMCSD_FILE_SIZE_BIG $MMCSD_MOUNTPOINT_2/$MMCSD_FILE_SIZE_BIG && exit 0 || exit 1
+03  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=$MMCSD_TMPFS_MOUNTPOINT/$MMCSD_FILE_SIZE_BIG bs=1M count=100"
+04  set -x; handlerCmd.sh "run" "cp $MMCSD_TMPFS_MOUNTPOINT/$MMCSD_FILE_SIZE_BIG $MMCSD_MOUNTPOINT_1 && sync"
+05  set -x; handlerCmd.sh "run" "cp $MMCSD_TMPFS_MOUNTPOINT/$MMCSD_FILE_SIZE_BIG $MMCSD_MOUNTPOINT_2 && sync"
+06  set -x; handlerCmd.sh "run" "diff $MMCSD_MOUNTPOINT_1/$MMCSD_FILE_SIZE_BIG $MMCSD_MOUNTPOINT_2/$MMCSD_FILE_SIZE_BIG"
 
-07  set -x; $UTILS_DIR_HANDLERS/handlerTmpfs.sh "remove" $MMCSD_TMPFS_MOUNTPOINT
-08  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "remove" "2"
+07  set -x; handlerTmpfs.sh "remove" $MMCSD_TMPFS_MOUNTPOINT
+08  set -x; handlerMmcsdBlock.sh "remove" "2"
 
 # ---
 
-09  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "create" "2" "ext2"
-10  set -x; $UTILS_DIR_HANDLERS/handlerTmpfs.sh "create" "250" $MMCSD_TMPFS_MOUNTPOINT
+09  set -x; handlerMmcsdBlock.sh "create" "2" "ext2"
+10  set -x; handlerTmpfs.sh "create" "250" $MMCSD_TMPFS_MOUNTPOINT
 
-11  set -x; dd if=/dev/urandom of=$MMCSD_TMPFS_MOUNTPOINT/$MMCSD_FILE_SIZE_BIG bs=1M count=100
-12  set -x; cp $MMCSD_TMPFS_MOUNTPOINT/$MMCSD_FILE_SIZE_BIG $MMCSD_MOUNTPOINT_1 && sync
-13  set -x; cp $MMCSD_TMPFS_MOUNTPOINT/$MMCSD_FILE_SIZE_BIG $MMCSD_MOUNTPOINT_2 && sync
-14  set -x; diff $MMCSD_MOUNTPOINT_1/$MMCSD_FILE_SIZE_BIG $MMCSD_MOUNTPOINT_2/$MMCSD_FILE_SIZE_BIG && exit 0 || exit 1
+11  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=$MMCSD_TMPFS_MOUNTPOINT/$MMCSD_FILE_SIZE_BIG bs=1M count=100"
+12  set -x; handlerCmd.sh "run" "cp $MMCSD_TMPFS_MOUNTPOINT/$MMCSD_FILE_SIZE_BIG $MMCSD_MOUNTPOINT_1 && sync"
+13  set -x; handlerCmd.sh "run" "cp $MMCSD_TMPFS_MOUNTPOINT/$MMCSD_FILE_SIZE_BIG $MMCSD_MOUNTPOINT_2 && sync"
+14  set -x; handlerCmd.sh "run" "diff $MMCSD_MOUNTPOINT_1/$MMCSD_FILE_SIZE_BIG $MMCSD_MOUNTPOINT_2/$MMCSD_FILE_SIZE_BIG"
 
-15  set -x; $UTILS_DIR_HANDLERS/handlerTmpfs.sh "remove" $MMCSD_TMPFS_MOUNTPOINT
-16  set -x; $MMCSD_DIR_HELPER/handlerMmcsdBlock.sh "remove" "2"
+15  set -x; handlerTmpfs.sh "remove" $MMCSD_TMPFS_MOUNTPOINT
+16  set -x; handlerMmcsdBlock.sh "remove" "2"
 
 # End L_DD_MMC_0004_0003
