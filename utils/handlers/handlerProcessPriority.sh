@@ -2,7 +2,20 @@
 
 LOCAL_OPERATION=$1
 
-if [ "$LOCAL_OPERATION" = "add" ]; then
+test -f /proc/1/sched
+if [ $? -eq 1 ]
+then
+	echo "Fatal: missing /proc/<process>/sched, cannot continue, directory looks like"
+	ls /proc/1/
+	return 1
+fi
+
+if [ "$LOCAL_OPERATION" = "run" ]; then
+
+	LOCAL_COMMAND_LINE=$2
+	$LOCAL_COMMAND_LINE
+
+elif [ "$LOCAL_OPERATION" = "add" ]; then
 	LOCAL_COMMAND_NUMBER=$2
 	LOCAL_COMMAND_LINE=$3
 	LOCAL_COMMAND_PRIORITY=$4
