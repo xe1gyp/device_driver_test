@@ -49,7 +49,7 @@ export MMCSD_TMPFS_MOUNTPOINT=/media/tmpfs
 export MMCSD_FILE_SIZE_BIG=file.size.big
 export MMCSD_FILE_SIZE_SMALL=file.size.small
 
-$MMCSD_DIR_HELPER/removePartitions.sh
+$MMCSD_DIR_HELPER/removePartitions.sh $MMCSD_DEVFS_ENTRY
 
 mount | grep $MMCSD_DEVFS_ENTRY
 if [ "$?" -eq "0" ]; then
