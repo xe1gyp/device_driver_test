@@ -1,85 +1,92 @@
 # !/bin/sh
 
-TV_STATUS=$1
-OUTPUT=$2
-SETIMG_PARAMETERS=$3
-STREAMING_PARAMETERS=$4
-SETWIN_PARAMETERS=$5
+TV_DETECT=$1
+SETIMG_PARAMETERS=$2
+STREAMING_PARAMETERS=$3
+SETWIN_PARAMETERS=$4
 
-PREVIOUS_GFX=`cat /sys/class/display_control/omap_disp_control/graphics`
-PREVIOUS_VD1=`cat /sys/class/display_control/omap_disp_control/video1`
-PREVIOUS_VD2=`cat /sys/class/display_control/omap_disp_control/video2`
-RESULT=0
+check_device_status()
+{
+	COUNT=6
+	EXPECTED_STATUS=$1
+	MESSAGE=$2
 
-if [ "$OUTPUT" = "LCD" ];then
-	echo lcd > /sys/class/display_control/omap_disp_control/video2
-	echo lcd > /sys/class/display_control/omap_disp_control/video1
-	echo SENT GFX, VIDEO1 AND VIDEO 2 TO LCD
-	sleep 3
-fi
-
-if [ "$OUTPUT" = "TV" ];then
-	echo tv > /sys/class/display_control/omap_disp_control/video2
-	echo tv > /sys/class/display_control/omap_disp_control/video1
-	echo SENT GFX, VIDEO1 AND VIDEO 2 TO TV
-	sleep 3
-fi
-
-# Usage: setimg <vid> <fmt> <width> <height>
-$TESTBIN/setimg 1 $SETIMG_PARAMETERS
-RESULT=`command_tracking.sh $RESULT $?`
-
-$TESTBIN/setimg 2 $SETIMG_PARAMETERS
-RESULT=`command_tracking.sh $RESULT $?`
-
-if [ "$TV_STATUS" = "CONNECTED" ];then
-	echo CONNECT THE TV TO S-VIDEO OUTPUT OF THE BOARD
+	echo -e "\n"$MESSAGE COMPOSITE OUTPUT OF THE BOARD
 	echo PRESS ANY KEY WHEN DONE
+
 	if [ -z "$STRESS" ]; then
 		$WAIT_KEY
 	else
 		sleep 2
 	fi
-	$TESTBIN/tv_detect_app &
-	sleep 5
-	# Usage: streaming <vid> <inputfile> [<n>]
-	$TESTBIN/streaming 1 $STREAMING_PARAMETERS&
-	sleep 10
-	echo DISCONNECT THE TV FROM S-VIDEO OUTPUT OF THE BOARD
-	sleep 15
-fi
 
-if [ "$TV_STATUS" = "DISCONNECTED" ];then
-	echo DISCONNECT THE TV TO S-VIDEO OUTPUT OF THE BOARD
-	echo PRESS ANY KEY WHEN DONE
-        if [ -z "$STRESS" ]; then
-                $WAIT_KEY
-        else
-		sleep 2
+	while [ $COUNT -gt 0 ]; do
+		DEVICE_STATUS=`cat $TV/device_connected`
+
+		if [ "$DEVICE_STATUS" = "$EXPECTED_STATUS" ]; then
+			return 0
+		fi
+		sleep 3
+		echo $MESSAGE COMPOSITE OUTPUT OF THE BOARD
+		let COUNT=COUNT-1
+	done
+
+	return 1
+}
+
+RESULT=0
+
+if [ "$TV_DETECT" = "ENABLED" ];then
+
+	# Usage: setimg <vid> <fmt> <width> <height>
+	$TESTBIN/setimg 1 $SETIMG_PARAMETERS
+	RESULT=`command_tracking.sh $RESULT $?`
+
+	echo 1 > $TV/device_detect_enabled
+
+	check_device_status 0 "DISCONNECT TV FROM "
+	if [ "$?" -eq "1" ]; then
+		echo "TV was not disconnected"
+		exit 1
 	fi
-        $TESTBIN/tv_detect_app &
+
+	check_device_status 1 "CONNECT TV TO "
+	if [ "$?" -eq "1" ]; then
+		echo "TV was not connected"
+		exit 1
+	fi
+
+	echo "0" > $OVL1/enabled
+	echo "tv" > $OVL1/manager
+	echo "1" > $TV/enabled
+	$TESTBIN/streaming 1 $STREAMING_PARAMETERS
+
 	sleep 3
-        echo CONNECT THE TV TO S-VIDEO OUTPUT OF THE BOARD
-	echo PRESS ANY KEY WHEN DONE
-        if [ -z "$STRESS" ]; then
-                $WAIT_KEY
+
+	check_device_status 0 "DISCONNECT TV FROM "
+
+	if [ "$?" -eq "1" ]; then
+		echo "TV was not disconnected"
+		exit 1
+	fi
+
+	if [ -z "$STRESS" ]; then
+		stress_message.sh
+	fi
+
+else
+	echo 0 > $TV/device_detect_enabled
+	DEVICE_STATUS=`cat $TV/device_connected`
+
+	if [ -z $DEVICE_STATUS ]; then
+		RESULT=0
 	else
-		sleep 2
-        fi
-        # Usage: streaming <vid> <inputfile> [<n>]
-        $TESTBIN/streaming 1 $STREAMING_PARAMETERS&
-	sleep 15
-        echo DISCONNECT THE TV FROM S-VIDEO OUTPUT OF THE BOARD
-	sleep 10
+		RESULT=1
+	fi
+
 fi
 
-echo "$PREVIOUS_GFX" > /sys/class/display_control/omap_disp_control/graphics
-echo "$PREVIOUS_VD2" > /sys/class/display_control/omap_disp_control/video2
-echo "$PREVIOUS_VD1" > /sys/class/display_control/omap_disp_control/video1
 sleep 3
 
-if [ -z "$STRESS" ]; then
-	stress_message.sh
-fi
 
 exit $RESULT

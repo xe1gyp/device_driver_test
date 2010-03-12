@@ -49,3 +49,16 @@ export WAIT_ANSWER=${UTILBIN}/akey
 export WAIT_KEY=${UTILBIN}/waitkey
 export HELP=""
 export TESTCASE=""
+
+export OVL0=/sys/devices/platform/omapdss/overlay0
+export OVL1=/sys/devices/platform/omapdss/overlay1
+export OVL2=/sys/devices/platform/omapdss/overlay2
+
+export MGR0=/sys/devices/platform/omapdss/manager0
+export MGR1=/sys/devices/platform/omapdss/manager1
+
+export LCD=/sys/devices/platform/omapdss/display0
+export TV=/sys/devices/platform/omapdss/display1
+
+export FB0=/sys/class/graphics/fb0
+export FB1=/sys/class/graphics/fb1
