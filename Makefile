@@ -166,7 +166,7 @@ $(TESTSUITES):
 $(addprefix $(TESTROOT)/,$(TESTSUITES)): $$(notdir $$@)/$(CODE_DIR)
 	@mkdir -p $@
 	@cd $(subst $(TESTROOT)/,,$@)/$(CODE_DIR) && \
-	find . -not -name \*.[ao] -not -type d | xargs file | \
+	find . ! -name \*.[ao] ! -type d ! -type l | xargs file | \
 	grep -vi ascii | cut -d: -f1 | \
 	xargs -I '{}' cp --parents '{}' $@
 	@mkdir -p $@/scripts/tmp
