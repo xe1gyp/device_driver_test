@@ -2,13 +2,32 @@
 
 set -x
 
+# =============================================================================
+# Variables
+# =============================================================================
+
 LOCAL_COMMAND=$1
 
-if [ "$LOCAL_COMMAND" = "start" ]; then
+# =============================================================================
+# Functions
+# =============================================================================
 
-	dd if=/dev/urandom of=/dev/null &
+# None
 
-elif [ "$LOCAL_COMMAND" = "stop" ]; then
+# =============================================================================
+# Main
+# =============================================================================
+
+handlerError.sh "test"
+if [ $? -eq 1 ]; then
+  return 1
+fi
+
+if [ "$LOCAL_OPERATION" = "start" ]; then
+
+	nohup dd if=/dev/urandom of=/dev/null &
+
+elif [ "$LOCAL_OPERATION" = "stop" ]; then
 
 	pid=`ps -x | grep dd | grep /dev/null | awk '{print $1}'`
 	kill $pid

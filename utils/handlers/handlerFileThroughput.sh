@@ -16,6 +16,11 @@ LOCAL_COMMAND=$1
 # Main
 # =============================================================================
 
+handlerError.sh "test"
+if [ $? -eq 1 ]; then
+  return 1
+fi
+
 if [ "$LOCAL_COMMAND" = "testusb" ]; then
   
   LOCAL_FIELD=$2

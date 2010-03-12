@@ -1,10 +1,24 @@
 #!/bin/sh
 
+# =============================================================================
+# Variables
+# =============================================================================
+
 LOCAL_OPERATION=$1
 LOCAL_COMMAND_LINE=$2
 LOCAL_EXECUTION_TIMES=$3
 LOCAL_TIME_TO_WAIT=$4
 LOCAL_IRQ_NUMBER=$5
+
+# =============================================================================
+# Functions
+# =============================================================================
+
+# None
+
+# =============================================================================
+# Main
+# =============================================================================
 
 echo -e "\nInfo: Command > $LOCAL_COMMAND_LINE\n"
 
@@ -13,7 +27,12 @@ test -f /proc/irq/$LOCAL_IRQ_NUMBER/smp_affinity
 if [ $? -eq 1 ]
 then
 	echo "Error: Cannot set affinity for irq $LOCAL_IRQ_NUMBER!"
-	#return 1
+	return 1
+fi
+
+handlerError.sh "test"
+if [ $? -eq 1 ]; then
+  return 1
 fi
 
 if [ "$LOCAL_OPERATION" = "switch" ]; then

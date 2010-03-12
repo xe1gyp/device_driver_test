@@ -47,4 +47,8 @@ export HFT_THROUGHPUT_Mbps=$UTILS_DIR_TMP/hft.throughput.mbps
 # handlerStatistics.sh
 export HS_STATISTICS_GENERAL_FILE=$UTILS_DIR_TMP/hs.statistics.general.file
 
+# handlerError.sh
+export HE_ERROR_FILE_HALT=$UTILS_DIR_TMP/he.error.file.halt
+export HE_ERROR_FILE_CONTINUE=$UTILS_DIR_TMP/he.error.file.continue
+
 # End of file

@@ -21,12 +21,12 @@ if [ $? -eq 1 ]; then
   return 1
 fi
 
-if [ "$LOCAL_OPERATION" = "clean" ]
-then
-  echo > $HS_STATISTICS_GENERAL_FILE
-elif [ "$LOCAL_OPERATION" = "display" ]
-then
-  cat $HS_STATISTICS_GENERAL_FILE
+if [ "$LOCAL_OPERATION" = "run" ]; then
+
+  LOCAL_COMMAND=$3
+
+  $LOCAL_COMMAND
+
 fi
 
 # End of file
