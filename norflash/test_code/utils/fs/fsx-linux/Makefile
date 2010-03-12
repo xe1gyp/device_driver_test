@@ -8,9 +8,9 @@ TARGETS=$(patsubst %.c,%,$(SRCS))
 all: $(TARGETS)
 
 install:
-	ln -f fsxtest02 ../../../bin
-	ln -f fsxtest ../../../bin
-	ln -f fsx-linux ../../../bin
+	ln -f fsxtest02 $(SUITE_DIR)/bin
+	ln -f fsxtest $(SUITE_DIR)/bin
+	ln -f fsx-linux $(SUITE_DIR)/bin
 
 clean:
 	rm -f $(TARGETS)

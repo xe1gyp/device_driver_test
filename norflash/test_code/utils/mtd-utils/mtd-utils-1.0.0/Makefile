@@ -71,6 +71,6 @@ checkfsdir:
 	$(MAKE) -C $(SUBDIRS)
  
 install:
-	cp $(TARGETS) ../../../bin; \
-	cp $(SUBDIRS)/makefiles ../../../bin; \
-	cp $(SUBDIRS)/checkfs ../../../bin;   
+	cp $(TARGETS) $(SUITE_DIR)/bin; \
+	cp $(SUBDIRS)/makefiles $(SUITE_DIR)/bin; \
+	cp $(SUBDIRS)/checkfs $(SUITE_DIR)/bin;

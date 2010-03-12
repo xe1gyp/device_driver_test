@@ -14,7 +14,7 @@ SysV:
 	make preemption 'SYSFLAGS=-DSysV'
 
 install:
-	cp -fv $(TARGETS) ../../bin
+	cp -fv $(TARGETS) $(SUITE_DIR)/bin
 
 $(TARGETS):
 	$(CC) $@.c -o $@

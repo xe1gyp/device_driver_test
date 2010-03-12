@@ -14,7 +14,7 @@ SysV:
 	make Bonnie 'SYSFLAGS=-DSysV'
 
 install:
-	cp Bonnie ../../bin
+	cp Bonnie $(SUITE_DIR)/bin
 
 $(TARGETS): $(TARGETS)*.c
 

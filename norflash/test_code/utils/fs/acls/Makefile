@@ -15,9 +15,9 @@ acl_link_test:
 	$(CC) -o acl_link_test acl_link_test.c
 
 install:
-	ln -f acl_file_test ../../../bin/
-	ln -f acl_link_test ../../../bin/
-	ln -f acl_test01 ../../../bin/
+	ln -f acl_file_test $(SUITE_DIR)/bin/
+	ln -f acl_link_test $(SUITE_DIR)/bin/
+	ln -f acl_test01 $(SUITE_DIR)/bin/
 
 else
 

@@ -55,7 +55,7 @@ tv_detect_app: tv_detect_app.c lib.h
 
 install:
 	
-	cp $(OBJS) ../../bin/
+	cp $(OBJS) $(SUITE_DIR)/bin/
 
 clean:
 	rm -f $(OBJS) *~ *.o

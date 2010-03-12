@@ -17,7 +17,7 @@ radc: random-del-create.o ${UTILS}
 	$(CC)  ${UTILS} random-del-create.o -lm -o radc
 
 install:
-	 @set -e; for i in $(EXECS) $(SCRIPTS); do ln -f $$i ../../../bin/$$i ; done
+	 @set -e; for i in $(EXECS) $(SCRIPTS); do ln -f $$i $(SUITE_DIR)/bin/$$i ; done
 
 dist:
 	(make clean ; cd .. ; tar zcvf fs-bench.tar.gz  fs-bench) 

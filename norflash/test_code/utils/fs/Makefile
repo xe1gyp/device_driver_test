@@ -5,7 +5,7 @@ all:
 	@set -e; for i in $(SUBDIRS); do $(MAKE) -C $$i ; done
 
 install:
-	@set -e; for i in $(SUBDIRS); do $(MAKE) -C $$i install PREFIX=../../bin ; done
+	@set -e; for i in $(SUBDIRS); do $(MAKE) -C $$i install PREFIX=$(SUITE_DIR)/bin ; done
 
 clean:
 	@set -e; for i in $(SUBDIRS); do $(MAKE) -C $$i clean ; done

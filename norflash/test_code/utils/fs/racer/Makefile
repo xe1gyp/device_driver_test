@@ -3,6 +3,6 @@ TARGETS=dir_create.sh dir_test.sh file_concat.sh file_create.sh file_link.sh fil
 all:
  
 install:
-	@set -e; for i in $(TARGETS) ; do ln -f $$i ../../../bin/$$i ; done
+	@set -e; for i in $(TARGETS) ; do ln -f $$i $(SUITE_DIR)/bin/$$i ; done
 
 clean:
