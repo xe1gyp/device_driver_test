@@ -18,10 +18,14 @@
 # Change Log:
 #############################################################################
 
-DESTDIR := bin
+ifeq ($(SUITE_DIR),)
+SUITE_DIR=$(PWD)
+endif
+
+DESTDIR := $(SUITE_DIR)/bin
 OBJS := utilities install
 
-HTOP_PWD=${PWD}
+HTOP_PWD=$(SUITE_DIR)
 CPPFLAGS := "-I$(HTOP_PWD)/utils/ncurses-5.7/include/"
 LDFLAGS := "-L$(HTOP_PWD)/utils/ncurses-5.7/lib/"
 CONFIG_HOST := --host=arm-none-linux-gnueabi
