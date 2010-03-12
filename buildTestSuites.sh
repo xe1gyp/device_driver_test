@@ -140,7 +140,6 @@ do
 	make -C $TESTSUITES_ROOT/$DRIVER/test_code/
 	mkdir $OUTPUT_DIRECTORY/$DRIVER
 	cp -r $TESTSUITES_ROOT/$DRIVER/test_code/* $OUTPUT_DIRECTORY/$DRIVER/
-	rm -rf $OUTPUT_DIRECTORY/$DRIVER/utils
 	make -C $TESTSUITES_ROOT/$DRIVER/test_code/ clean
 done
 
