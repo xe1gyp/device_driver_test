@@ -3,7 +3,14 @@
 #include <linux/irq.h>
 #include <linux/init.h>
 #include <linux/interrupt.h>
-#include <mach/dmtimer.h>
+#include <linux/version.h>
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 27) && LINUX_VERSION_CODE <= KERNEL_VERSION(2, 6, 31))
+ #include <mach/dmtimer.h>
+#elif LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 32)
+ #include <plat/dmtimer.h>
+#else
+ #include <asm/arch/dmtimer.h>
+#endif
 #include <linux/clk.h>
 #include <linux/types.h>
 #include <linux/io.h>
