@@ -12,8 +12,8 @@
 02  usbhost   setup
 
 # Create 2 files, 1 MB, one under mmcsd, the other one under nand
-03  file      create      10        mmcsd
-04  file      create      10        nand
+03  file      create      75       mmcsd
+04  file      create      75        nand
 
 # Copy from mmcsd to nand
 05  file      copy        mmcsd     nand
@@ -34,3 +34,4 @@
 13  mmcsd     cleanup
 
 # End L_DD_COMBO_0001_0001
+

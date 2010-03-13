@@ -20,12 +20,40 @@ export COMBO_VERBOSE=""
 export COMBO_SCENARIO_NAMES=""
 export COMBO_STRESS=""
 
-export PATH="${COMBO_ROOT}:${COMBO_DIR_HELPER}:${PATH}"
+export PATH="$PATH:$COMBO_ROOT:$COMBO_DIR_HELPER"
 
 # Utils General Variables
 . ${COMBO_ROOT}/../../utils/configuration/general.configuration
 export UTILS_DIR_BIN=${COMBO_ROOT}/../../utils/bin
 export UTILS_DIR_HANDLERS=${COMBO_ROOT}/../../utils/handlers
+export UTILS_DIR_SCRIPTS=${COMBO_ROOT}/../../utils/scripts
+
+export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
+
+# Extra Applications
+$UTILS_DIR_BIN/top2 -h
+if [ $? -ne 0 ]; then
+  echo -e "FATAL: top2 application is not found, cannot continue!"
+  exit 1
+fi
+
+$UTILS_DIR_BIN/time --version
+if [ $? -ne 0 ]; then
+  echo -e "FATAL: GNU time is not found, cannot continue!"
+  exit 1
+fi
+
+arecord --version
+if [ $? -ne 0 ]; then
+  echo -e "FATAL: arecord application is not found, cannot continue!"
+  exit 1
+fi
+
+aplay --version
+if [ $? -ne 0 ]; then
+  echo -e "FATAL: aplay application is not found, cannot continue!"
+  exit 1
+fi
 
 # MMC/SD General Testsuite
 export MMCSD_TESTSUITE=$COMBO_ROOT/../../mmc/scripts/
@@ -50,19 +78,5 @@ fi
 #  . $MTD_TESTSUITE/conf.sh
 #  cd $COMBO_ROOT
 #fi
-
-# Combo Specific Variables
-export COMBO_MOUNTPOINT_NAND=/mnt/nand/
-export COMBO_MOUNTPOINT_MMCSD=/mnt/mmcsd/
-export COMBO_MOUNTPOINT_TMPFS=/mnt/tmpfs/
-
-export COMBO_FILE_NAND=file.nand
-export COMBO_FILE_MMCSD=file.mmcsd
-export COMBO_FILE_TMPFS=file.tmpfs
-
-export COMBO_NAND_TIME_CREATION=$COMBO_DIR_TMP/nand.time.creation
-export COMBO_NAND_TIME_REMOVAL=$COMBO_DIR_TMP/nand.time.removal
-export COMBO_MMCSD_TIME_CREATION=$COMBO_DIR_TMP/mmcsd.time.creation
-export COMBO_MMCSD_TIME_REMOVAL=$COMBO_DIR_TMP/mmcsd.time.removal
 
 # End of file

@@ -1,0 +1,20 @@
+###############################################################################
+# Scenario: L_DD_COMBO_0001_0003
+# Author  : Abraham Arce
+# Date    : Fri Mar 12 20:50:56 CST 2010
+###############################################################################
+
+# Begin L_DD_COMBO_0001_0003
+
+# Setup the devices
+01  mmcsd     setup
+
+# Record some audio to a file under mmcsd and then play it
+02  audio     record      mmcsd
+03  audio     play        mmcsd
+
+# Cleanup the devices
+04  mmcsd     cleanup
+
+# End L_DD_COMBO_0001_0003
+

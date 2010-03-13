@@ -2,14 +2,30 @@
 
 set -x
 
+echo -e "\nAll mixer configuration\n"
+amixer cset numid=3 15
+amixer cset numid=4 23
+amixer cset numid=5 1
+amixer cset numid=6 1
+amixer cset numid=7 1
+amixer cset numid=8 1
+amixer cset numid=9 1
+amixer cset numid=10 1
+amixer cset numid=11 1
+amixer cset numid=12 1
+amixer cset numid=1 1
+amixer cset numid=2 4
+amixer cset numid=13 1
+amixer cset numid=14 1
+
 operation=$1
 
 if [ "$operation" = "record" ]; then
-  to=$1
-  time dd if=/dev/urandom of=/mnt/$to/file.$to.audio bs=1M count=1
+  to=$2
+  arecord -d 60 -r 8000 -f S32_LE -c2 /mnt/$to/file.$to.audio
 elif [ "$operation" = "play" ]; then
-  from=$1
-  time dd if=/dev/urandom of=/mnt/$to/file.$to.audio bs=1M count=1
+  from=$2
+  aplay /mnt/$from/file.$from.audio
 fi
 
 # End of file

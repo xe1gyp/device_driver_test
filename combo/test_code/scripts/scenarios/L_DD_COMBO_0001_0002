@@ -10,27 +10,26 @@
 01  logger    clean
 
 # device setup
-02  onenand   setup
-03  mmcsd     setup
-04  tmpfs     setup
+02  mmcsd     setup
+03  tmpfs     setup
 
 # file creation
-05  file      create     25        tmpfs
-06  file      create     25        mmcsd
+04  file      create     75        tmpfs
+05  file      create     75        mmcsd
 
 # copy files
-07  file      copy       tmpfs     onenand
-08  file      copy       tmpfs     mmcsd
+06  file      copy       tmpfs     mmcsd
+07  file      copy       mmcsd     tmpfs
 
 # read/write parallel operations
-09  file      readwrite  tmpfs     mmcsd
+08  file      readwrite  tmpfs     mmcsd
 
 # device cleanup
-10  tmpfs     cleanup
-11  mmcsd     cleanup
-12  onenand   cleanup
+09  tmpfs     cleanup
+10  mmcsd     cleanup
 
 # logger display
-13  logger    display
+11  logger    display
 
 # End L_DD_COMBO_0001_0002
+
