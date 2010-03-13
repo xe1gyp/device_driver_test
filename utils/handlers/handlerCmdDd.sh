@@ -27,8 +27,8 @@ logIt() {
 echo > $HCDD_LOG_FILE.$LOCAL_INSTANCE
 
 $UTILS_DIR_HANDLERS/handlerAppTop2.sh $LOCAL_INSTANCE "start"
-$TIME_APPLICATION/time -p -o $HCDD_EXECUTION_TIME_DD.$LOCAL_INSTANCE dd if=${LOCAL_IF} of=${LOCAL_OF} bs=${LOCAL_BS} count=${LOCAL_SIZE}
-$TIME_APPLICATION/time -p -o $HCDD_EXECUTION_TIME_SYNC.$LOCAL_INSTANCE sync
+$UTILS_DIR_BIN/time -p -o $HCDD_EXECUTION_TIME_DD.$LOCAL_INSTANCE dd if=${LOCAL_IF} of=${LOCAL_OF} bs=${LOCAL_BS} count=${LOCAL_SIZE}
+$UTILS_DIR_BIN/time -p -o $HCDD_EXECUTION_TIME_SYNC.$LOCAL_INSTANCE sync
 $UTILS_DIR_HANDLERS/handlerAppTop2.sh $LOCAL_INSTANCE "stop"
 $UTILS_DIR_HANDLERS/handlerAppTop2.sh $LOCAL_INSTANCE "parse" "User"
 $UTILS_DIR_HANDLERS/handlerAppTop2.sh $LOCAL_INSTANCE "parse" "System"
@@ -50,7 +50,7 @@ THROUGHPUT_Mbps=`cat $HFT_THROUGHPUT_Mbps.$LOCAL_INSTANCE`
 
 logIt "\nInfo: dd if=${LOCAL_IF} of=${LOCAL_OF} bs=${LOCAL_BS} count=${LOCAL_SIZE}\n"
 logIt "Info: Real File Size (MB) : $LOCAL_FILE_SIZE"
-logIt "Info: Exec Time cp   (s)  : $TEMP_HCDD_EXEC_TIME_DD"
+logIt "Info: Exec Time dd   (s)  : $TEMP_HCDD_EXEC_TIME_DD"
 logIt "Info: Exec Time sync (s)  : $TEMP_HCDD_EXEC_TIME_SYNC"
 logIt "Info: Throughput (MB/s)   : $THROUGHPUT_MBps"
 logIt "Info: Throughput (Mbps)   : $THROUGHPUT_Mbps"

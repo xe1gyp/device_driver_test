@@ -8,7 +8,6 @@ export GENERAL_LOG_FILE=$UTILS_DIR_TMP/general.log.file
 export GENERAL_ERROR=$UTILS_DIR_TMP/general.error
 export SLEEP_TIME=5
 export DEBUG=n
-export TIME_APPLICATION=/testsuites/power_and_performance/utils/binaries/
 
 # handlerProcessPriority.sh || handlerProcessPriorityExecutor.sh
 export HPP_PROCFS_PID_SCHED_START=$UTILS_DIR_TMP/hpp.procfs.pid.sched.start

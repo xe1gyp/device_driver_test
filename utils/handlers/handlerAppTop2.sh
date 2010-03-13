@@ -89,8 +89,8 @@ if [ "$LOCAL_COMMAND" = "start" ]; then
   echo > $HAT_LOG_FILE.$LOCAL_INSTANCE
 
   # Start top2 data logging
-  cp /bin/top2 /bin.$LOCAL_INSTANCE
-  top2.$LOCAL_INSTANCE -d 1 -b | grep Cpu > $HAT_TOP2_DATA_RAW.$LOCAL_INSTANCE &
+  cp $UTILS_DIR_BIN/top2 $UTILS_DIR_BIN/top2.$LOCAL_INSTANCE
+  $UTILS_DIR_BIN/top2.$LOCAL_INSTANCE -d 1 -b | grep Cpu > $HAT_TOP2_DATA_RAW.$LOCAL_INSTANCE &
   # Give sometime to stabilize power measurements
   echo -e "\nSleep time : ${SLEEP_TIME} second(s)" && sleep $SLEEP_TIME
   echo "-> PPC Tag <-"
@@ -128,7 +128,7 @@ elif [ "$LOCAL_COMMAND" = "parse" ]; then
   getMaximum
   getMinimum
 
-  logIt "Info: $LOCAL_CPU_FIELD CPU Usage [ Average: $average | Max: $max | Min: $min ]"
+  logIt "Info: CPU Usage $LOCAL_CPU_FIELD [ Average: $average | Max: $max | Min: $min ]"
 
   # Clean Up
   rm $HAT_TOP2_DATA_TEMPORAL.$LOCAL_INSTANCE
