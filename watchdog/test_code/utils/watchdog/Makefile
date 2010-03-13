@@ -7,7 +7,7 @@
 # ================================================================================ */
 
 CC := $(CROSS_COMPILE)gcc
-CFLAGS += -I$(KDIR)/include -Wall
+CFLAGS += -Wall
 
 TARGETS = watchdog_keepalive \
 	watchdog_status_boot \
