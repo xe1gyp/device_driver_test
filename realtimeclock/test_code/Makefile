@@ -18,7 +18,11 @@
 # Change Log:
 ############################################################################
 
-DESTDIR := binaries
+ifeq ($(SUITE_DIR),)
+SUITE_DIR:=$(PWD)
+endif
+
+DESTDIR := $(SUITE_DIR)/binaries
 OBJS := utilities install
 
 all: $(OBJS)

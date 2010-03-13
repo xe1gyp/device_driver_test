@@ -13,7 +13,7 @@ MODULES = gptimer_request.o gptimer_request_specific.o timer32value-smp.o timer3
 obj-m:=$(MODULES)
 
 all: $(TARGETS)
-	make -C $(KDIR) -I$(KDIR)/include SUBDIRS=$(PWD)/utils/timer KERN=26 modules
+	make -C $(KDIR) -I$(KDIR)/include SUBDIRS=$(SUITE_DIR)/utils/timer KERN=26 modules
 
 install:
 	cp -v $(MODULES:.o=.ko) ../../mods

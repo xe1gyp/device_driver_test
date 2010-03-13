@@ -21,7 +21,7 @@ TARGETS = watchdog_keepalive \
 all: $(TARGETS)
 
 install:
-	cp -v $(TARGETS) ../../binaries
+	cp -v $(TARGETS) $(SUITE_DIR)/binaries
 #lpthread is needed for smp files only
 $(TARGETS):
 	$(CC) $(CFLAGS) -D_GNU_SOURCE -lpthread $@.c -o $@

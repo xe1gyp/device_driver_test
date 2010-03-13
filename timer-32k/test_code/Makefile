@@ -6,7 +6,11 @@
 #  in the license agreement under which this software has been supplied.
 #===============================================================================
 
-DESTDIR := ${PWD}/mods
+ifeq ($(SUITE_DIR),)
+SUITE_DIR=$(PWD)
+endif
+
+DESTDIR := $(SUITE_DIR)/mods
 OBJS := utilities install
 
 all: $(OBJS)
