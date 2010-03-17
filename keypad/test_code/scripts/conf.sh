@@ -21,12 +21,15 @@ export KEYPAD_VERBOSE=""
 export KEYPAD_SCENARIO_NAMES=""
 export KEYPAD_STRESS=""
 
-export PATH="${KEYPAD_ROOT}:${KEYPAD_DIR_HELPER}:${PATH}"
+export PATH="${KEYPAD_ROOT}:${KEYPAD_DIR_BINARIES}:${KEYPAD_DIR_HELPER}:${PATH}"
 
 # Utils General Variables
 . ${KEYPAD_ROOT}/../../utils/configuration/general.configuration
 export UTILS_DIR_BIN=${KEYPAD_ROOT}/../../utils/bin
 export UTILS_DIR_HANDLERS=${KEYPAD_ROOT}/../../utils/handlers
+export UTILS_DIR_SCRIPTS=${KEYPAD_ROOT}/../../utils/scripts
+
+export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
 # General variables
 export DMESG_FILE=/var/log/dmesg
@@ -34,11 +37,14 @@ export CHIP_NAME=twl
 
 # Keypad devfs node
 TEMP_EVENT=`ls /dev/input/ | grep event`
+echo "Found 2 nodes available:"
+echo  $TEMP_EVENT
+
 set $TEMP_EVENT
 
 for i in $TEMP_EVENT
 do
-	${KEYPAD_DIR_BINARIES}/dev_name /dev/input/$i | grep -i "twl" | grep -i "keypad"
+	${KEYPAD_DIR_BINARIES}/dev_name /dev/input/$i | grep -i "keypad"
 	IS_THIS_OUR_DRIVER=`echo $?`
 	if [ "$IS_THIS_OUR_DRIVER" -eq "0" ]
 	then

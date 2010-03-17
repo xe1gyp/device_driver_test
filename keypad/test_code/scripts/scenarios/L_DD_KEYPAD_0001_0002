@@ -7,6 +7,6 @@
 
 # Begin L_DD_KEYPAD_0001_0002
 
-01  set -x; echo -e "\n\n\nThe application will wait for 500 keypresses.\nkeep one key depressed to verify\nthat 'value' (last column)\nis reported as 2.\n\n\n"; $KEYPAD_DIR_BINARIES/testkeypad $DEVFS_KEYPAD | grep value=2
+01  set -x; echo -e "\n\n\nThe application will wait for 500 keypresses.\nkeep one key depressed to verify\nthat 'value' (last column)\nis reported as 2.\n\n\n"; testkeypad $DEVFS_KEYPAD | grep value=2
 
 # End L_DD_KEYPAD_0001_0002
