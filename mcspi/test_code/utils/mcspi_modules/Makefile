@@ -21,7 +21,7 @@ default:
 endif
 
 install:
-	mv *.ko ../../modules/
+	cp *.ko ../../modules/
 
 clean:
 	$(RM) -r *.o *.ko *.mod.c .o.* .*.cmd .tmp_versions
