@@ -186,7 +186,7 @@ $(addsuffix /$(SCENARIOS),$(addprefix $(TESTROOT)/,$(TESTSUITES))):
 		echo "======================================="\
 		"======================================="; \
 		echo "WARNING: No scenario files are being copied"\
-		"to the output directory!"; \
+		"to $@!"; \
 		echo "======================================="\
 		"======================================="; \
 		sleep 3; \
