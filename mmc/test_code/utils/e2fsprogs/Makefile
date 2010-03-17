@@ -9,7 +9,7 @@
 CC := $(CROSS_COMPILE)gcc
 
 all:
-	mkdir build
+	mkdir -p build
 	cd build; ../configure --host=$(HOST) CC=$(CC)
 	make -C build
 
