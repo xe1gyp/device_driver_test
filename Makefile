@@ -150,7 +150,7 @@ maketest: cleanup
 	@$(MAKE) $(addprefix $(TESTROOT)/,$(TESTSUITES))
 	@$(MAKE) $(addsuffix /$(SCENARIOS),$(addprefix $(TESTROOT)/,$(TESTSUITES)))
 	@$(MAKE) utilities
-	@$(MAKE) $(TESTROOT)/$(UTILSDIR)
+	@$(MAKE) $(TESTROOT)/$(notdir $(UTILSDIR))
 
 $(TESTSUITES):
 	@echo
@@ -195,7 +195,7 @@ $(addsuffix /$(SCENARIOS),$(addprefix $(TESTROOT)/,$(TESTSUITES))):
 utilities:
 	@$(MAKE) -C $(UTILSDIR)
 
-$(TESTROOT)/$(UTILSDIR): $(UTILSDIR)
+$(TESTROOT)/$(notdir $(UTILSDIR)): $(UTILSDIR)
 	@find $(notdir $(UTILSDIR)) ! -name \*.[ao] ! -type d | \
 	xargs file | grep -vi ascii | cut -d: -f1 | \
 	xargs -I '{}' cp --parents '{}' $(TESTROOT)
