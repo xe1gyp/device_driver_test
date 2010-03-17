@@ -14,7 +14,7 @@ SysV:
 	make pre_emption 'SYSFLAGS=-DSysV'
 
 install:
-	cp -fv $(TARGETS) ../../binaries
+	cp -fv $(TARGETS) ../../bin
 
 $(TARGETS):
 	$(CC) $@.c -o $@

@@ -4,7 +4,7 @@
 export MMCSD_POSTFIX=`date "+%Y%m%d-%H%M%S"`
 export MMCSD_ROOT=`pwd`
 
-export MMCSD_DIR_BINARIES=${MMCSD_ROOT}/../binaries
+export MMCSD_DIR_BINARIES=${MMCSD_ROOT}/../bin
 export MMCSD_DIR_HELPER=${MMCSD_ROOT}/helper
 export MMCSD_DIR_TMP=${MMCSD_ROOT}/tmp
 export MMCSD_DIR_TEST=${MMCSD_ROOT}/test

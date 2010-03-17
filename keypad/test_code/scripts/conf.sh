@@ -4,7 +4,7 @@
 export KEYPAD_POSTFIX=`date "+%Y%m%d-%H%M%S"`
 export KEYPAD_ROOT=`pwd`
 
-export KEYPAD_DIR_BINARIES=${KEYPAD_ROOT}/../binaries
+export KEYPAD_DIR_BINARIES=${KEYPAD_ROOT}/../bin
 export KEYPAD_DIR_HELPER=${KEYPAD_ROOT}/helper
 export KEYPAD_DIR_TMP=${KEYPAD_ROOT}/tmp
 export KEYPAD_DIR_TEST=${KEYPAD_ROOT}/test

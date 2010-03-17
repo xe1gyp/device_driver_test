@@ -7,7 +7,7 @@ all: common.c ts_uart.c
 	$(CC)  ts_uart.o common.o -o ts_uart
 
 install:
-	cp ts_uart ../../binaries
+	cp ts_uart ../../bin
 
 clean:
 	rm -rf *.o ts_uart

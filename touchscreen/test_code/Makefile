@@ -15,7 +15,7 @@ utilities:
 install:
 	mkdir -p scripts/test
 	mkdir -p scripts/tmp
-	mkdir -p binaries/
+	mkdir -p bin/
 	make -C utils install
 
 clean:
@@ -23,4 +23,4 @@ clean:
 	rm -rf scripts/log*
 	rm -rf scripts/tmp
 	rm -rf scripts/test
-	rm -rf binaries/
+	rm -rf bin/

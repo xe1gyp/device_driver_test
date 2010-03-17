@@ -22,7 +22,7 @@ modules:
 	make -C utils
 
 install:
-	mkdir -p binaries
+	mkdir -p bin
 	mkdir -p modules
 	mkdir -p scripts/test
 	mkdir -p scripts/tmp
@@ -32,4 +32,4 @@ clean:
 	rm -rf scripts/tmp
 	rm -rf scripts/test
 	rm -rf modules
-	rm -rf binaries
+	rm -rf bin

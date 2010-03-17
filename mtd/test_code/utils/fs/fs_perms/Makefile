@@ -8,7 +8,7 @@ fs_perms: fs_perms.o
 testx.file: testx.o
 	$(CC) testx.o -o testx.file $(CFLAGS) $(LDFLAGS)
 install:
-	@set -e; for i in $(TARGETS) ; do ln -f $$i ../../../binaries/$$i ; done
+	@set -e; for i in $(TARGETS) ; do ln -f $$i ../../../bin/$$i ; done
 fs_perms.o: fs_perms.c
 	$(CC) -c fs_perms.c $(CFLAGS)
 testx.o: testx.c

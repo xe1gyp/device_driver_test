@@ -67,7 +67,7 @@ getaddrinfo.o: missing/getaddrinfo.c missing/config.h
 	$(CC) $(CFLAGS.MISSING) -o $@ -c $<
 
 install:
-	cp $(APP) ../../binaries/
+	cp $(APP) ../../bin/
 
 clean:
 	rm  -f $(APP)$(EXTRAVERSION)$(APPEXT) $(APP)$(EXTRAVERSION).o $(OBJS.GETADD) $(OBJS.INETFUN)

@@ -14,7 +14,7 @@ TARGETS = hello.world
 all: $(TARGETS)
 
 install:
-	cp -v $(TARGETS) ../../binaries
+	cp -v $(TARGETS) ../../bin
 
 clean:
 	rm -vf *.o $(TARGETS)

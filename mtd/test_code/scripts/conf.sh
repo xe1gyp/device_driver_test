@@ -8,7 +8,7 @@ export MTD_DIR_HELPER=${MTD_ROOT}/helper
 export MTD_DIR_TMP=${MTD_ROOT}/tmp
 export MTD_DIR_TEST=${MTD_ROOT}/test
 export MTD_DIR_SCENARIOS="${MTD_ROOT}/scenarios"
-export MTD_DIR_BINARIES=${MTD_ROOT}/../binaries
+export MTD_DIR_BINARIES=${MTD_ROOT}/../bin
 
 export MTD_FILE_OUTPUT=${MTD_ROOT}/output.$MTD_POSTFIX
 export MTD_FILE_LOG=${MTD_ROOT}/log.$MTD_POSTFIX

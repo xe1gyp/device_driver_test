@@ -6,7 +6,7 @@ TARGETS = evtest testtouchscreen
 all: $(TARGETS)
 
 install:
-	cp -vf $(TARGETS) ../../binaries
+	cp -vf $(TARGETS) ../../bin
 
 $(TARGETS):
 	$(CC) $(CFLAGS) $@.c -o $@

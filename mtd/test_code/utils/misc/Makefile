@@ -12,7 +12,7 @@ TARGETS := log differ genfile fileio
 all: $(TARGETS)
 
 install: log
-	cp -vf $(TARGETS) ../../binaries
+	cp -vf $(TARGETS) ../../bin
 
 log: list.c testlog.c testtestlog5.c
 	$(CC) -o log list.c testlog.c testtestlog5.c

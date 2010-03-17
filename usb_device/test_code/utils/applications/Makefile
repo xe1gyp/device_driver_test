@@ -14,7 +14,7 @@ TARGETS = evtest
 all: $(TARGETS)
 
 install:
-	cp -v $(TARGETS) ../../binaries/
+	cp -v $(TARGETS) ../../bin/
 
 $(TARGETS):
 	$(CC) $@.c -o $@

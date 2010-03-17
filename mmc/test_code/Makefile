@@ -13,7 +13,7 @@
 #
 ############################################################################
 
-DESTDIR := binaries
+DESTDIR := bin
 OBJS := utilities install
 
 all: $(OBJS)

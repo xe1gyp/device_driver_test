@@ -18,7 +18,7 @@ LDFLAGS := -s
 all: mkdosfs
 
 install:
-	cp -rf mkdosfs ../../binaries
+	cp -rf mkdosfs ../../bin
 
 mkdosfs: mkdosfs.o
 	$(CC) $(LDFLAGS) mkdosfs.o -o mkdosfs

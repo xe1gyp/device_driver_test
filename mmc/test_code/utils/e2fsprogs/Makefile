@@ -14,14 +14,14 @@ all:
 	make -C build
 
 install:
-	cp build/misc/badblocks ../../binaries
-	cp build/misc/dumpe2fs ../../binaries
-	cp build/misc/e2image ../../binaries
-	cp build/misc/filefrag ../../binaries
-	cp build/misc/mke2fs ../../binaries
-	cp build/misc/tune2fs ../../binaries
-	cp build/e2fsck/e2fsck ../../binaries
-	cp build/e2fsck/gen_crc32table ../../binaries
+	cp build/misc/badblocks ../../bin
+	cp build/misc/dumpe2fs ../../bin
+	cp build/misc/e2image ../../bin
+	cp build/misc/filefrag ../../bin
+	cp build/misc/mke2fs ../../bin
+	cp build/misc/tune2fs ../../bin
+	cp build/e2fsck/e2fsck ../../bin
+	cp build/e2fsck/gen_crc32table ../../bin
 
 clean:
 	#make -C build distclean

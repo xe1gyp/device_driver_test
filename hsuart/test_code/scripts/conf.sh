@@ -4,7 +4,7 @@
 export HSUART_POSTFIX=`date "+%Y%m%d-%H%M%S"`
 export HSUART_ROOT=`pwd`
 
-export HSUART_DIR_BINARIES=${HSUART_ROOT}/../binaries
+export HSUART_DIR_BINARIES=${HSUART_ROOT}/../bin
 export HSUART_DIR_MODULES=${HSUART_ROOT}/../modules
 export HSUART_DIR_HELPER=${HSUART_ROOT}/helper
 export HSUART_DIR_TMP=${HSUART_ROOT}/tmp

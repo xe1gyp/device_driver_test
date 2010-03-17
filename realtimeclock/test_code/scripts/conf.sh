@@ -3,7 +3,7 @@
 # Testsuites variables
 export POSTFIX=`date "+%Y%m%d-%H%M%S"`
 export TESTROOT=${PWD}
-export TESTBIN=${PWD}/../binaries
+export TESTBIN=${PWD}/../bin
 export UTILBIN=${PWD}/../../utils/bin
 export UTILSCRIPTS=${PWD}/../../utils/scripts
 export TESTMODS=${PWD}/../modules

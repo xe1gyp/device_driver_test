@@ -63,4 +63,4 @@ sumtool: sumtool.o crc32.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
 install:
-	cp $(TARGETS) ../../../binaries
+	cp $(TARGETS) ../../../bin

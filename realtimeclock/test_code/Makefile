@@ -22,7 +22,7 @@ ifeq ($(SUITE_DIR),)
 SUITE_DIR:=$(PWD)
 endif
 
-DESTDIR := $(SUITE_DIR)/binaries
+DESTDIR := $(SUITE_DIR)/bin
 OBJS := utilities install
 
 all: $(OBJS)
