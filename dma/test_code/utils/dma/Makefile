@@ -41,7 +41,7 @@ all: $(TARGETS)
 	make -C $(KDIR) SUBDIRS=$(SUITE_DIR)/utils/dma KERN=26 modules
 
 install:
-	cp -v $(MODULES:.o=.ko) $(SUITE_DIR)/mods
+	cp -v $(MODULES:.o=.ko) $(SUITE_DIR)/modules
 
 $(TARGETS):
 	$(CC) $@.c -o $@

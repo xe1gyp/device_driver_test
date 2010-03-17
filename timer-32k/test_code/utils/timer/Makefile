@@ -16,7 +16,7 @@ all: $(TARGETS)
 	make -C $(KDIR) -I$(KDIR)/include SUBDIRS=$(SUITE_DIR)/utils/timer KERN=26 modules
 
 install:
-	cp -v $(MODULES:.o=.ko) ../../mods
+	cp -v $(MODULES:.o=.ko) ../../modules
 
 $(TARGETS):
 	$(CC) $@.c -o $@

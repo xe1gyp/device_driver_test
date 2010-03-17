@@ -9,7 +9,7 @@ ifeq ($(SUITE_DIR),)
 SUITE_DIR:=$(PWD)
 endif
 
-DESTDIR := $(SUITE_DIR)/mods
+DESTDIR := $(SUITE_DIR)/modules
 OBJS := utilities install
 
 all: $(OBJS)

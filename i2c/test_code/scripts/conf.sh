@@ -11,7 +11,7 @@
 export POSTFIX=`date "+%Y%m%d-%H%M%S"`
 export TESTROOT=${PWD}
 export TESTBIN=${PWD}/../bin
-export MODDIR=${PWD}/../mods
+export MODDIR=${PWD}/../modules
 export TESTSCRIPT=${PWD}/helper
 export TMPBASE=${TESTROOT}/tmp
 export TMPFILE=${TMPBASE}/tmp.$POSTFIX
