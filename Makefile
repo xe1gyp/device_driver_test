@@ -165,12 +165,12 @@ $(TESTSUITES):
 .SECONDEXPANSION:
 $(addprefix $(TESTROOT)/,$(TESTSUITES)): $$(notdir $$@)/$(CODE_DIR)
 	@mkdir -p $@
-	@cd $(subst $(TESTROOT)/,,$@)/$(CODE_DIR) && \
-	find . ! -name \*.[ao] ! -type d ! -type l | xargs file | \
-	grep -vi ascii | cut -d: -f1 | \
-	xargs -I '{}' cp --parents '{}' $@
+	@-cp -r $</bin $@
+	@-cp -r $</scripts $@
+	@-cp -r $</modules $@
 	@mkdir -p $@/scripts/tmp
 	@mkdir -p $@/scripts/test
+	@rm -rf $@/$(SCENARIOS)
 	@echo
 	@echo "====Installed \"$(notdir $@)\" testsuite in \"$(TESTROOT)\"====";
 	@echo
@@ -196,9 +196,11 @@ utilities:
 	@$(MAKE) -C $(UTILSDIR)
 
 $(TESTROOT)/$(notdir $(UTILSDIR)): $(UTILSDIR)
-	@find $(notdir $(UTILSDIR)) ! -name \*.[ao] ! -type d | \
-	xargs file | grep -vi ascii | cut -d: -f1 | \
-	xargs -I '{}' cp --parents '{}' $(TESTROOT)
+	@mkdir -p $@
+	@cp -r $</scripts $@
+	@cp -r $</configuration $@
+	@cp -r $</bin $@
+	@cp -r $</handlers $@
 	@echo
 	@echo "=========Installed utils directory in \"$(TESTROOT)\"=========";
 	@echo
