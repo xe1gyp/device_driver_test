@@ -7,6 +7,6 @@
 # Begin L_DD_ETHERNET_0000_0001
 
 01  set -x; $UTILSCRIPTS/filesystemtype.sh
-02  set -x; cat $ETHERNET_KERNEL_MESSAGES | grep eth0 && exit 0 || exit 1;
+02  set -x; cat /tmp/result.tmp | grep eth0 && exit 0 || exit 1;
 
 # End L_DD_ETHERNET_0000_0001
