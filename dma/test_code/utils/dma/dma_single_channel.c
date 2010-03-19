@@ -168,6 +168,18 @@ void dma_callback(int transfer_id, u16 transfer_status, void *data)
 EXPORT_SYMBOL(dma_callback);
 
 /*
+ * Self Linking the DMA Channels
+ */
+void dma_link_lch(struct dma_transfer *transfer)
+{
+	int linkid = transfer->transfer_id;
+	printk(KERN_ERR "\n Linking the DMA channel ID %d with itself \n", 
+			transfer->transfer_id);
+	omap_dma_link_lch(linkid, linkid);
+}
+EXPORT_SYMBOL(dma_link_lch);
+
+/*
  * This function allocates 2 dma buffers with the same size for the source
  * and destination.
  */
@@ -378,6 +390,18 @@ void stop_dma_transfer(struct dma_transfer *transfer)
 		kfree(transfer->buffers.dest_buf);
 }
 EXPORT_SYMBOL(stop_dma_transfer);
+
+/*
+ * Stops a Self Linked dma transfer and
+ * free used resources
+ */
+void stop_dma_selflink_transfer(int channel_id) {
+       /* Stop the dma transfer */
+	omap_stop_dma(channel_id);
+	omap_dma_unlink_lch(channel_id, channel_id);
+	omap_free_dma(channel_id);
+     }
+EXPORT_SYMBOL(stop_dma_selflink_transfer);
 
 /*
  * Queries for information about an on going dma transfer

@@ -146,6 +146,17 @@ void start_dma_transfer(struct dma_transfer *transfer);
 void stop_dma_transfer(struct dma_transfer *transfer);
 
 /*
+ * Self Linking the DMA Channels
+ */
+void dma_link_lch(struct dma_transfer *transfer);
+
+/*
+ * Stops a self linked dma transfer
+ * and free used resources
+ */
+void stop_dma_selflink_transfer(int channel_id);
+
+/*
  * Set if the test passed or not
  */
 void set_test_passed(int passed);

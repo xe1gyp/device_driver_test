@@ -29,11 +29,11 @@ MODULES = dma_single_channel.o \
   dma_endianism_big.o \
   dma_chain_static.o \
   dma_chain_dynamic.o \
-  dma_dload.o \
   dma_thread_access.o \
   dma_chain_thread_access.o \
+  dma_static_self_link.o \
   dma_dload_thread_access.o \
-
+  dma_dload.o \
 
 obj-m:=$(MODULES)
 
