@@ -22,7 +22,6 @@ export SCENARIO_NAMES=""
 export TEMP_SIZE=""
 export TEMP_ERASESIZE=""
 
-
 if [ "$TYPE" == "" ]
 then
 	echo "FATAL: Please specify NAND type by exporting it through TYPE variable"
@@ -45,6 +44,18 @@ export TEMP_FILE=$TMPBASE/tmp.file
 export SUMTOOL_FILE=$TESTBIN/sumtool
 export DEVFS_URANDOM=/dev/urandom
 export DEVFS_ZERO=/dev/zero
+export MTD_FOLDER=/dev/mtd
+export BLOCK_FOLDER=/dev/block
+
+if [ -f "$MTD_FOLDER" ]
+then
+        export MTD_FOLDER=/dev
+fi
+
+if [ -f "$BLOCK_FOLDER" ]
+then
+        export BLOCK_FOLDER=/dev
+fi
 
 if [ -f  "$DEFAULT_MOUNT_POINT" ]
 then
@@ -57,18 +68,18 @@ if [ "$TYPE" == "OneNAND" ]; then
 	# Filesystem partition
 	export MTD_PROC_ENTRY=`cat /proc/mtd | grep OneNAND | grep "File"`
 	MTD_FILE=`echo $MTD_PROC_ENTRY | cut -d ':' -f0`
-	export MTD_CHAR_DEV1=/dev/$MTD_FILE
+	export MTD_CHAR_DEV1=$MTD_FOLDER/$MTD_FILE
 	MTD_NUMBER=`echo $MTD_FILE | cut -c4-`
-	export MTD_BLK_DEV1=/dev/mtdblock${MTD_NUMBER}
+	export MTD_BLK_DEV1=$BLOCK_FOLDER/mtdblock${MTD_NUMBER}
   export MTD_DEV1_SIZE=`${TESTSCRIPT}/GetDeviceSize.sh "$TEMP_DEVICE"`
   export MTD_DEV1_ERASESIZE=`${TESTSCRIPT}/GetDeviceEraseSize.sh "$TEMP_DEVICE"`
 	
 	# Kernel partition
 	export MTD_PROC_ENTRY=`cat /proc/mtd | grep OneNAND | grep "Kernel"`
 	MTD_FILE=`echo $MTD_PROC_ENTRY | cut -d ':' -f0`
-	export MTD_CHAR_DEV2=/dev/$MTD_FILE
+	export MTD_CHAR_DEV2=$MTD_FOLDER/$MTD_FILE
 	MTD_NUMBER=`echo $MTD_FILE | cut -c4-`
-	export MTD_BLK_DEV2=/dev/mtdblock${MTD_NUMBER}
+	export MTD_BLK_DEV2=$BLOCK_FOLDER/mtdblock${MTD_NUMBER}
 	export MTD_DEV2_SIZE=`${TESTSCRIPT}/GetDeviceSize.sh "$TEMP_DEVICE"`
 	export MTD_DEV2_ERASESIZE=`${TESTSCRIPT}/GetDeviceEraseSize.sh "$TEMP_DEVICE"`
 
@@ -84,18 +95,18 @@ elif [ "$TYPE" == "NAND" ]; then
   # Filesystem partition
 	export MTD_PROC_ENTRY=`cat /proc/mtd | grep "File System - NAND"`
 	MTD_FILE=`echo $MTD_PROC_ENTRY | cut -d ':' -f0`
-	export MTD_CHAR_DEV1=/dev/$MTD_FILE
+	export MTD_CHAR_DEV1=$MTD_FOLDER/$MTD_FILE
 	MTD_NUMBER=`echo $MTD_FILE | cut -c4-`
-	export MTD_BLK_DEV1=/dev/mtdblock${MTD_NUMBER}
+	export MTD_BLK_DEV1=$BLOCK_FOLDER/mtdblock${MTD_NUMBER}
 	export MTD_DEV1_SIZE=`${TESTSCRIPT}/GetDeviceSize.sh "$TEMP_DEVICE"`
 	export MTD_DEV1_ERASESIZE=`${TESTSCRIPT}/GetDeviceEraseSize.sh "$TEMP_DEVICE"`
 	
 	# Kernel partition
 	export MTD_PROC_ENTRY=`cat /proc/mtd | grep "Kernel-NAND"`
 	MTD_FILE=`echo $MTD_PROC_ENTRY | cut -d ':' -f0`
-	export MTD_CHAR_DEV2=/dev/$MTD_FILE
+	export MTD_CHAR_DEV2=$MTD_FOLDER/$MTD_FILE
 	MTD_NUMBER=`echo $MTD_FILE | cut -c4-`
-	export MTD_BLK_DEV2=/dev/mtdblock${MTD_NUMBER}
+	export MTD_BLK_DEV2=$BLOCK_FOLDER/mtdblock${MTD_NUMBER}
 	export MTD_DEV2_SIZE=`${TESTSCRIPT}/GetDeviceSize.sh "$TEMP_DEVICE"`
 	export MTD_DEV2_ERASESIZE=`${TESTSCRIPT}/GetDeviceEraseSize.sh "$TEMP_DEVICE"`
 	
