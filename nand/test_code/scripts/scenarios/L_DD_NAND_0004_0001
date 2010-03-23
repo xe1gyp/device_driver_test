@@ -11,7 +11,7 @@
 02  set -x; $TESTBIN/flash_eraseall $JFFS_OPTIONS $MTD_CHAR_DEV1 && exit 0 || exit 1
 03  set -x; mount -t jffs2 $MTD_BLK_DEV1 $DEFAULT_MOUNT_POINT && exit 0 || exit 1
 04  set -x; mount | grep "$DEFAULT_MOUNT_POINT" && exit 0 || exit 1
-05  set -x; dd if=$DEVFS_URANDOM of=$DEFAULT_MOUNT_POINT/tmp.file bs=200000 && exit 0 || exit 1
+05  set -x; dd if=$DEVFS_URANDOM of=$DEFAULT_MOUNT_POINT/tmp.file bs=1M count=5 && exit 0 || exit 1
 06  set -x; sync && umount $DEFAULT_MOUNT_POINT && exit 0 || exit 1
 
 # Device 2
@@ -19,7 +19,7 @@
 08  set -x; $TESTBIN/flash_eraseall $JFFS_OPTIONS $MTD_CHAR_DEV2 && exit 0 || exit 1
 09  set -x; mount -t jffs2 $MTD_BLK_DEV2 $DEFAULT_MOUNT_POINT && exit 0 || exit 1
 10  set -x; mount | grep "$DEFAULT_MOUNT_POINT" && exit 0 || exit 1
-11  set -x; dd if=$DEVFS_URANDOM of=$DEFAULT_MOUNT_POINT/tmp.file bs=4000 && exit 0 || exit 1
+11  set -x; dd if=$DEVFS_URANDOM of=$DEFAULT_MOUNT_POINT/tmp.file bs=1M count=5 && exit 0 || exit 1
 12  set -x; sync && umount $DEFAULT_MOUNT_POINT && exit 0 || exit 1
 
 # End L_DD_NAND_0004_0001
