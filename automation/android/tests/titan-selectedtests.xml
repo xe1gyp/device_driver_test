@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<titan>
+    <configuration name="dma">
+		<scenario>L_DD_DMA_0001</scenario>
+		<scenario>L_DD_DMA_0002</scenario>
+		<scenario>L_DD_DMA_0003</scenario>
+		<scenario>L_DD_DMA_0004</scenario>
+		<scenario>L_DD_DMA_0005</scenario>
+		<scenario>L_DD_DMA_0006</scenario>
+		<scenario>L_DD_DMA_0007</scenario>
+		<scenario>L_DD_DMA_0008</scenario>
+		<scenario>L_DD_DMA_0009</scenario>
+		<scenario>L_DD_DMA_0010</scenario>
+		<scenario>L_DD_DMA_0011</scenario>
+		<scenario>L_DD_DMA_0012</scenario>
+		<scenario>L_DD_DMA_0013</scenario>
+		<scenario>L_DD_DMA_0014</scenario>
+		<scenario>L_DD_DMA_0015</scenario>
+        </configuration>
+</titan>
