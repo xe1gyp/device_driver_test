@@ -1,0 +1,14 @@
+###############################################################################
+# Scenario: L_DD_CONTACTS_0005
+# Author  : Cristopherson Torres
+# Date    : March 4, 2010
+###############################################################################
+
+# Begin L_DD_CONTACTS_0005
+
+01  set -x; $TESTSCRIPT/android_runner.sh "set" "com.android.contacts"
+02  set -x; $TESTSCRIPT/android_runner.sh "start" "DialtactsFavoritesEntryActivity"
+03  set -x; $TESTSCRIPT/android_runner.sh "stop" "10"
+04  set -x; $TESTSCRIPT/android_runner.sh "remove"
+
+# End L_DD_CONTACTS_0005

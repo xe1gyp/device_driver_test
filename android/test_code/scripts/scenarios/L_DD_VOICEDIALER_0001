@@ -1,0 +1,14 @@
+###############################################################################
+# Scenario: L_DD_VOICEDIALER_0001
+# Author  : Cristopherson Torres
+# Date    : March 4, 2010
+###############################################################################
+
+# Begin L_DD_VOICEDIALER_0001
+
+01  set -x; $TESTSCRIPT/android_runner.sh "set" "com.android.voicedialer"
+02  set -x; $TESTSCRIPT/android_runner.sh "start" "VoiceDialerActivity"
+03  set -x; $TESTSCRIPT/android_runner.sh "stop" "10"
+04  set -x; $TESTSCRIPT/android_runner.sh "remove"
+
+# End L_DD_VOICEDIALER_0001
