@@ -117,6 +117,24 @@ elif [ "$TYPE" == "NAND" ]; then
 
 elif [ "$TYPE" = "8Bit-NAND" ]; then
 
+  # Filesystem partition
+	export MTD_PROC_ENTRY=`cat /proc/mtd | grep -i "system"`
+	MTD_FILE=`echo $MTD_PROC_ENTRY | cut -d ':' -f0`
+	export MTD_CHAR_DEV1=/dev/$MTD_FILE
+	MTD_NUMBER=`echo $MTD_FILE | cut -c4-`
+	export MTD_BLK_DEV1=/dev/mtdblock${MTD_NUMBER}
+	export MTD_DEV1_SIZE=`${TESTSCRIPT}/GetDeviceSize.sh "$TEMP_DEVICE"`
+	export MTD_DEV1_ERASESIZE=`${TESTSCRIPT}/GetDeviceEraseSize.sh "$TEMP_DEVICE"`
+
+	# Kernel partition
+	export MTD_PROC_ENTRY=`cat /proc/mtd | grep "Kernel-NAND"`
+	MTD_FILE=`echo $MTD_PROC_ENTRY | cut -d ':' -f0`
+	export MTD_CHAR_DEV2=/dev/$MTD_FILE
+	MTD_NUMBER=`echo $MTD_FILE | cut -c4-`
+	export MTD_BLK_DEV2=/dev/mtdblock${MTD_NUMBER}
+	export MTD_DEV2_SIZE=`${TESTSCRIPT}/GetDeviceSize.sh "$TEMP_DEVICE"`
+	export MTD_DEV2_ERASESIZE=`${TESTSCRIPT}/GetDeviceEraseSize.sh "$TEMP_DEVICE"`
+
         export JFFS_OPTIONS="-j"
         export PAGE_SIZE=2048
         export BLOCK_SIZE=131072
