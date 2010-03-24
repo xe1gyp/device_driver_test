@@ -403,39 +403,5 @@ void stop_dma_selflink_transfer(int channel_id) {
      }
 EXPORT_SYMBOL(stop_dma_selflink_transfer);
 
-/*
- * Queries for information about an on going dma transfer
- */
-int dma_channel_query(struct dma_transfer *transfer,
-     struct dma_query *query)
-{
-      int error = 0;
-      /* Get element and frame index */
-      /*error = omap_get_dma_index(transfer->transfer_id,
-              &(query->element_index),
-              &(query->frame_index));*/
-      /* Get source and destination addresses positions */
-      query->src_addr_counter = omap_get_dma_src_pos(transfer->transfer_id);
-      query->dest_addr_counter = omap_get_dma_dst_pos(transfer->transfer_id);
-
-	if (error) {
-		printk(KERN_INFO "Unable to query index data from transfer id %d\n",
-                transfer->transfer_id);
-           return 1;
-      }
-
-      printk("Transfer id %d query\n source counter 0x%x\n"
-             " destination counter 0x%x\n element index %d\n"
-             " frame index %d\n",
-             transfer->transfer_id,
-             query->src_addr_counter,
-             query->dest_addr_counter,
-             query->element_index,
-             query->frame_index);
-
-      return 0;
-}
-EXPORT_SYMBOL(dma_channel_query);
-
 MODULE_AUTHOR("Texas Instruments");
 MODULE_LICENSE("GPL");

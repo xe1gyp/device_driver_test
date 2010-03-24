@@ -93,13 +93,6 @@ static int __init dma_module_init(void) {
        printk("Waiting %dms before stopping transfer id %d\n",
                TIME_BEFORE_STOP, transfers[0].transfer_id);
        mdelay(TIME_BEFORE_STOP);
-       /* Query the transfer state before stopping it*/
-       error = dma_channel_query(&transfers[0], &queries[0]);
-       if( error ){
-           set_test_passed(0);
-           return 1;
-       }
-
        printk("Stopping transfer id %d before completion\n",
                transfers[0].transfer_id);
        stop_dma_transfer(&transfers[0]);

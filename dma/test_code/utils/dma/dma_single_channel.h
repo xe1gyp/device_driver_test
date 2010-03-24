@@ -173,10 +173,4 @@ void create_dma_proc(char *proc_name);
  */
 void remove_dma_proc(char *proc_name);
 
-/*
- * Queries for information about an on going dma transfer
- */
-int dma_channel_query(struct dma_transfer *transfer,
-     struct dma_query *query);
-
 #endif
