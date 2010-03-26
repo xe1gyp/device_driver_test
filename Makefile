@@ -76,8 +76,8 @@ $(warning ARCH was not specified. Defaulting to "arm")
 ARCH:=arm
 endif
 ifeq ($(HOST),)
-$(warning HOST was not specified. Defaulting to "...")
-HOST:=...
+$(warning HOST was not specified. Defaulting to "x86")
+HOST:=x86
 endif
 ifeq ($(CROSS_COMPILE),)
 $(warning CROSS_COMPILE was not specified. \
