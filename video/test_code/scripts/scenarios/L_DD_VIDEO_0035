@@ -1,0 +1,25 @@
+#####################
+# FILENAME: L_DD_VIDEO_0035
+# Author  : mythripk
+# Date    : Fri Mar 25, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Video (Vid) tests
+
+# Begin "L_DD_VIDEO_0035"
+
+COMMENT comment.sh "Same video on two different pipeline in primary and secondary"
+echo 1 > /sys/devices/platform/omapdss/display1/enabled
+echo 0 > /sys/devices/platform/omapdss/overlay2/enabled
+echo "2lcd" > /sys/devices/platform/omapdss/overlay2/manager
+echo 1 > /sys/devices/platform/omapdss/overlay2/enabled
+0001_VD1_SAN set -x; run_parallel.sh 1  "RGB565 640 480" $VIDEOFILES/video_vga_rgb565 2  "RGB565 640 480" $VIDEOFILES/video_vga_rgb565		&& exit 0 || exit 1
+
+0001_VD1_SAN set -x; run_parallel.sh 1  "NV12 640 480" $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv  2  "NV12 640 480" $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv		&& exit 0 || exit 1
+
+echo 0 > /sys/devices/platform/omapdss/overlay/enabled
+echo "lcd" > /sys/devices/platform/omapdss/overlay2/manager
+echo 1 > /sys/devices/platform/omapdss/overlay2/enabled
+
+# End "L_DD_VIDEO_0035"

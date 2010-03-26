@@ -1,0 +1,28 @@
+#####################
+# FILENAME: L_DD_VIDEO_0041
+# Author  : Mythri p k
+# Date    : Fri Mar 26, 2010
+
+# Begin "L_DD_VIDEO_0041"
+
+COMMENT comment.sh "1080p video is downscaled to VGA and WVGA secondary"
+
+echo 1 > /sys/devices/platform/omapdss/display2/enabled
+echo 0 > /sys/devices/platform/omapdss/overlay1/enabled
+echo "tv" > /sys/devices/platform/omapdss/overlay1/manager
+echo 1 > /sys/devices/platform/omapdss/overlay1/enabled
+
+0005_VD1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/sriverbed_p1920x1080_30fps_420nv12_30fr.yuv "" "0 0 640 480"	&& exit 0 || exit 1
+
+0005_VD1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/sriverbed_p1920x1080_30fps_420nv12_30fr.yuv "" "0 0 864 480"	&& exit 0 || exit 1
+
+
+0005_VD1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/crowdrun_p1280x720_25fps_420nv12_250fr.yuv "" "0 0 640 480"	&& exit 0 || exit 1
+
+0005_VD1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/crowdrun_p1280x720_25fps_420nv12_250fr.yuv "" "0 0 864 480"	&& exit 0 || exit 1
+
+echo 0 > /sys/devices/platform/omapdss/overlay1/enabled
+echo "lcd" > /sys/devices/platform/omapdss/overlay1/manager
+echo 1 > /sys/devices/platform/omapdss/overlay1/enabled
+
+# End "L_DD_VIDEO_0041"

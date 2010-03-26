@@ -1,0 +1,24 @@
+#####################
+# FILENAME: L_DD_VIDEO_0032
+# Author  : mythripk
+# Date    : Thu Mar 25, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Video (Vid) tests
+
+# Begin "L_DD_VIDEO_0033"
+
+COMMENT comment.sh "Verify the background color of the canvas can be configured on secondary"
+echo 1 > /sys/devices/platform/omapdss/display1/enabled
+echo 0 > /sys/devices/platform/omapdss/overlay1/enabled
+echo "2lcd" > /sys/devices/platform/omapdss/overlay1/manager
+echo 1 > /sys/devices/platform/omapdss/overlay1/enabled
+0001 set -x; background.sh "1" "123456"&& exit 0 || exit 1
+0001_VD1_SAN set -x; imgstream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+0002 set -x; background.sh "1" "765432"&& exit 0 || exit 1
+0001 set -x; background.sh "1" "0"&& exit 0 || exit 1
+
+
+
+# End "L_DD_VIDEO_0033"
