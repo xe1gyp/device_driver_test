@@ -22,10 +22,9 @@ if [ $? -eq 1 ]; then
 fi
 
 if [ "$LOCAL_OPERATION" = "run" ]; then
+  LOCAL_COMMAND=$2
 
-  LOCAL_COMMAND=$3
-
-  $LOCAL_COMMAND
+  eval $LOCAL_COMMAND
 
 fi
 

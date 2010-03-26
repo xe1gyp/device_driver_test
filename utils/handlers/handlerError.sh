@@ -27,8 +27,6 @@ elif [ "$LOCAL_OPERATION" = "log" ]; then
 	LOCAL_FLAG=$3
   LOCAL_HANDLER=$4
 
-  ls $UTILS_DIR_TMP
-
   if [ "$LOCAL_ERROR" -eq 1 ]; then
     if [ "$LOCAL_FLAG" == "halt" ]; then
       echo $LOCAL_HANDLER > $HE_ERROR_FILE_HALT

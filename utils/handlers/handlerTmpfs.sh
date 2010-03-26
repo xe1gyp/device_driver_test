@@ -34,8 +34,8 @@ if [ "$LOCAL_OPERATION" = "create" ]; then
 elif [ "$LOCAL_OPERATION" = "remove" ]; then
 
   LOCAL_TMPFS_MOUNTPOINT=$2
-
-  sync && umount $LOCAL_TMPFS_MOUNTPOINT
+  sync && wait
+  umount $LOCAL_TMPFS_MOUNTPOINT
   rm -rf $LOCAL_TMPFS_MOUNTPOINT
   mount
 

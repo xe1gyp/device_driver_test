@@ -20,6 +20,8 @@ test -f /proc/1/sched
 if [ $? -eq 1 ]
 then
 	echo "Fatal: missing /proc/<process>/sched, cannot continue, directory looks like"
+	echo "Info : please enable in kernel menuconfig the macro CONFIG_SCHED_DEBUG"
+	echo "Info : Kernel Hacking -> Kernel Debugging -> Collect scheduler debugging info"
 	ls /proc/1/
 	return 1
 fi
@@ -32,7 +34,7 @@ fi
 if [ "$LOCAL_OPERATION" = "run" ]; then
 
 	LOCAL_COMMAND_LINE=$2
-	$LOCAL_COMMAND_LINE
+	eval $LOCAL_COMMAND_LINE
 
 elif [ "$LOCAL_OPERATION" = "add" ]; then
 	LOCAL_COMMAND_NUMBER=$2
@@ -51,15 +53,17 @@ elif [ "$LOCAL_OPERATION" = "execute" ]; then
 
 	if [ $tempPriorityValue1 -lt $tempPriorityValue2 ]; then
     echo 1 > $HPP_COMMAND_PRIORITY_HIGHER
+    $UTILS_DIR_HANDLERS/handlerProcessPriorityExecutor.sh "1" "`cat $HPP_COMMAND_LINE.1`" "$LOCAL_TIMES" "`cat $HPP_COMMAND_PRIORITY_VALUE.1`" &
+    $UTILS_DIR_HANDLERS/handlerProcessPriorityExecutor.sh "2" "`cat $HPP_COMMAND_LINE.2`" "$LOCAL_TIMES" "`cat $HPP_COMMAND_PRIORITY_VALUE.2`" &
 	elif [ $tempPriorityValue1 -gt $tempPriorityValue2 ]; then
     echo 2 > $HPP_COMMAND_PRIORITY_HIGHER
+    $UTILS_DIR_HANDLERS/handlerProcessPriorityExecutor.sh "2" "`cat $HPP_COMMAND_LINE.2`" "$LOCAL_TIMES" "`cat $HPP_COMMAND_PRIORITY_VALUE.2`" &
+    $UTILS_DIR_HANDLERS/handlerProcessPriorityExecutor.sh "1" "`cat $HPP_COMMAND_LINE.1`" "$LOCAL_TIMES" "`cat $HPP_COMMAND_PRIORITY_VALUE.1`" &
   elif [ $tempPriorityValue1 -eq $tempPriorityValue2 ]; then
     echo equal > $HPP_COMMAND_PRIORITY_HIGHER
+    $UTILS_DIR_HANDLERS/handlerProcessPriorityExecutor.sh "1" "`cat $HPP_COMMAND_LINE.1`" "$LOCAL_TIMES" "`cat $HPP_COMMAND_PRIORITY_VALUE.1`" &
+    $UTILS_DIR_HANDLERS/handlerProcessPriorityExecutor.sh "2" "`cat $HPP_COMMAND_LINE.2`" "$LOCAL_TIMES" "`cat $HPP_COMMAND_PRIORITY_VALUE.2`" &
 	fi
-
-  $UTILS_DIR_HANDLERS/handlerProcessPriorityExecutor.sh "1" "`cat $HPP_COMMAND_LINE.1`" "$LOCAL_TIMES" "`cat $HPP_COMMAND_PRIORITY_VALUE.1`" &
-  $UTILS_DIR_HANDLERS/handlerProcessPriorityExecutor.sh "2" "`cat $HPP_COMMAND_LINE.2`" "$LOCAL_TIMES" "`cat $HPP_COMMAND_PRIORITY_VALUE.2`" &
-
   wait
 
 elif [ "$LOCAL_OPERATION" = "verify" ]; then
@@ -70,16 +74,18 @@ elif [ "$LOCAL_OPERATION" = "verify" ]; then
 	echo -e "`cat $HPP_PROCFS_PID_SCHED_START.2`\n`cat $HPP_PROCFS_PID_SCHED_CURRENT.2`\n"
 
 	val1=`cat $HPP_PROCFS_PID_SCHED_START.1 | awk '{print $3}'`
+	val1=0
 	val2=`cat $HPP_PROCFS_PID_SCHED_CURRENT.1  | awk '{print $3}'`
-	fvalue1=`echo "$val2-$val1" | bc`
-	fvalue1=`echo $fvalue1 | awk '{printf "%.0f\n", $1}'`
-	echo "Info: Program 1 | The final computed value for process 1 is $fvalue1"
+	fvalue1=`echo "scale=6; $val2-$val1" | bc`
+	#fvalue1=`echo $fvalue1 | awk '{printf "%.0f\n", $1}'`
+	echo "Info: Program 1 | Final value for process 1 is $fvalue1"
 
 	val1=`cat $HPP_PROCFS_PID_SCHED_START.2 | awk '{print $3}'`
+	val1=0
 	val2=`cat $HPP_PROCFS_PID_SCHED_CURRENT.2  | awk '{print $3}'`
-	fvalue2=`echo "$val2-$val1" | bc`
-	fvalue2=`echo $fvalue2 | awk '{printf "%.0f\n", $1}'`
-	echo "Info: Program 2 | The final computed value for process 2 is $fvalue2"
+	fvalue2=`echo "scale=6; $val2-$val1" | bc`
+	#fvalue2=`echo $fvalue2 | awk '{printf "%.0f\n", $1}'`
+	echo "Info: Program 2 | Final value for process 2 is $fvalue2"
 
 	LOCAL_PROCESS_TO_FINISH_FIRST=`cat $HPP_COMMAND_PRIORITY_HIGHER`
 
@@ -89,20 +95,24 @@ elif [ "$LOCAL_OPERATION" = "verify" ]; then
   else
     echo -e "\nInfo: Process with higher priority is $LOCAL_PROCESS_TO_FINISH_FIRST"
 	  if [ "$LOCAL_PROCESS_TO_FINISH_FIRST" = "1" ]; then
-		  if [ "$fvalue1" -lt "$fvalue2" ]; then
-			echo -e "Info: Passed\n"
-		else
-			echo -e "Info: Failed!\n"
-			return 1
-		fi
+      LOCAL_RESULT=`echo "scale=6; $fvalue1 > $fvalue2" | bc`
+	    if [ "$LOCAL_RESULT" == "0" ]; then
+          echo -e "Info: Failed!\n"
+		      return 1
+	      else
+          echo -e "Info: Passed\n"
+          return 0
+      fi
 	  elif [ "$LOCAL_PROCESS_TO_FINISH_FIRST" = "2" ]; then
-		if [ "$fvalue2" -lt "$fvalue1" ]; then
-			echo -e "Info: Passed!\n"
-		else
-			echo -e "Info: Failed!\n"
-			return 1
-		fi
-	fi
+      LOCAL_RESULT=`echo "scale=6; $fvalue2 > $fvalue1" | bc`
+	    if [ "$LOCAL_RESULT" == "0" ]; then
+          echo -e "Info: Failed!\n"
+		      return 1
+	      else
+          echo -e "Info: Passed\n"
+          return 0
+      fi
+    fi
 	fi
 
 fi
