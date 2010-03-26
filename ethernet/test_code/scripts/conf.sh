@@ -30,6 +30,8 @@ export UTILS_DIR_BIN=${ETHERNET_ROOT}/../../utils/bin
 export UTILS_DIR_HANDLERS=${ETHERNET_ROOT}/../../utils/handlers
 export UTILSCRIPTS=${ETHERNET_ROOT}/../../utils/scripts
 
+export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
+
 # Specific Ethernet Variables
 export ETHERNET_PACKET_SIZE=32768
 export ETHERNET_INTERFACE=eth0
