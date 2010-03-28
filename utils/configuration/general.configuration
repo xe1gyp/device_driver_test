@@ -50,4 +50,13 @@ export HS_STATISTICS_GENERAL_FILE=$UTILS_DIR_TMP/hs.statistics.general.file
 export HE_ERROR_FILE_HALT=$UTILS_DIR_TMP/he.error.file.halt
 export HE_ERROR_FILE_CONTINUE=$UTILS_DIR_TMP/he.error.file.continue
 
+# handlerFile.sh
+export HF_TEXT_PATTERN=$UTILS_DIR_SCRIPTS/text.pattern
+
+# handlerCpuAffinity.sh
+export HCA_LIST_OF_COMMANDS=$UTILS_DIR_TMP/hca.list.of.commands
+export HCA_LIST_OF_COMMANDS_PASSED=$UTILS_DIR_TMP/hca.list.of.commands.passed
+export HCA_LIST_OF_PIDS_RUNNING=$UTILS_DIR_TMP/hca.list.of.pids.running
+export HCA_LIST_OF_PIDS_FAILED=$UTILS_DIR_TMP/hca.list.of.pids.failed
+
 # End of file
