@@ -8,8 +8,8 @@
 # Begin L_DD_UART_SERIAL_0010_0003_01
 
 01  set -x; rm -f $HSUART_DIR_TMP/receivedfile
-02  set -x; $UTILS_DIR_HANDLERS/handlerIrqAffinity.sh "switch" "$HSUART_DIR_BINARIES/ts_uart r $UART_TEST_PORT1 $HSUART_DIR_TMP/receivedfile 115200 0" "2" "300" "104"
-03  set -x; $UTILS_DIR_HANDLERS/handlerIrqAffinity.sh "switch" "$HSUART_DIR_BINARIES/ts_uart s $UART_TEST_PORT1 s /bin/sh 115200 0" "2" "300" "104"
+02  set -x; handlerIrqAffinity.sh "switch" "ts_uart r $UART_TEST_PORT1 $HSUART_DIR_TMP/receivedfile 115200 0" "2" "300" "104"
+03  set -x; handlerIrqAffinity.sh "switch" "ts_uart s $UART_TEST_PORT1 s /bin/sh 115200 0" "2" "300" "104"
 04  set -x; diff /bin/sh $HSUART_DIR_TMP/receivedfile && exit 0 || exit 1
 
 # End L_DD_UART_SERIAL_0010_0003_01

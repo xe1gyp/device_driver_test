@@ -2,13 +2,13 @@
 # Scenario    : L_DD_UART_SERIAL_0010_0001_02
 # Author      : Abraham Arce
 # Date        : Wed Jan 13 22:28:15 CST 2010
-# Description : Test UART TX and RX CPU Affinity test, cat text files
+# Description : Test UART TX and RX CPU affinity test, cat text files
 ##############################################################################
 
 # Begin L_DD_UART_SERIAL_0010_0001_02
 
-01  set -x; $HSUART_DIR_HELPER/text_file_generate.sh
+01  set -x; handlerFile.sh "create" "pattern" "$HSUART_DIR_TMP/text.file" "1000"
 
-02  set -x; $UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "cat $TEXT_FILE_SAMPLE" "10" "5"
+02  set -x; handlerCpuAffinity.sh "switch" "cat $HSUART_DIR_TMP/text.file" "10" "5"
 
 # End L_DD_UART_SERIAL_0010_0001_02

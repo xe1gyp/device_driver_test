@@ -12,12 +12,12 @@
 
 01  set -x; test -f $HSUART_DIR_TMP/receivedfile && rm -f $HSUART_DIR_TMP/receivedfile
 02  set -x; test -f $HSUART_DIR_TMP/receivedfile2 && rm -f $HSUART_DIR_TMP/receivedfile2
-03  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "clean"
-04  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "$UTILS_DIR_BIN/taskset -c 1 $HSUART_DIR_BINARIES/ts_uart r $UART_TEST_PORT1 $HSUART_DIR_TMP/receivedfile 115200 0"
-05  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "$UTILS_DIR_BIN/taskset -c 0 $HSUART_DIR_BINARIES/ts_uart s $UART_TEST_PORT1 /bin/sh 115200 0"
-06  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "$UTILS_DIR_BIN/taskset -c 0 $HSUART_DIR_BINARIES/ts_uart r $UART_TEST_PORT2 $HSUART_DIR_TMP/receivedfile2 115200 0"
-07  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "$UTILS_DIR_BIN/taskset -c 1 $HSUART_DIR_BINARIES/ts_uart s $UART_TEST_PORT2 /bin/sh 115200 0"
-08  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "execute"
+03  set -x; handlerProcessParallelism.sh "clean"
+04  set -x; handlerProcessParallelism.sh "add" "taskset -c 1 ts_uart r $UART_TEST_PORT1 $HSUART_DIR_TMP/receivedfile 115200 0"
+05  set -x; handlerProcessParallelism.sh "add" "taskset -c 0 ts_uart s $UART_TEST_PORT1 /bin/sh 115200 0"
+06  set -x; handlerProcessParallelism.sh "add" "taskset -c 0 ts_uart r $UART_TEST_PORT2 $HSUART_DIR_TMP/receivedfile2 115200 0"
+07  set -x; handlerProcessParallelism.sh "add" "taskset -c 1 ts_uart s $UART_TEST_PORT2 /bin/sh 115200 0"
+08  set -x; handlerProcessParallelism.sh "execute"
 09  set -x; diff /bin/sh $HSUART_DIR_TMP/receivedfile && exit 0 || exit 1
 10  set -x; diff /bin/sh $HSUART_DIR_TMP/receivedfile2 && exit 0 || exit 1
 

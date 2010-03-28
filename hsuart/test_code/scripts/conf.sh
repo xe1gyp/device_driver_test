@@ -22,14 +22,15 @@ export HSUART_VERBOSE=""
 export HSUART_SCENARIO_NAMES=""
 export HSUART_STRESS=""
 
-export PATH="${HSUART_ROOT}:${HSUART_DIR_HELPER}:${PATH}"
+export PATH="$PATH:$HSUART_ROOT:$HSUART_DIR_BINARIES:$HSUART_DIR_HELPER"
 
 # Utils General Variables
-. ${HSUART_ROOT}/../../utils/configuration/general.configuration
 export UTILS_DIR_BIN=${HSUART_ROOT}/../../utils/bin
 export UTILS_DIR_HANDLERS=${HSUART_ROOT}/../../utils/handlers
+export UTILS_DIR_SCRIPTS=${HSUART_ROOT}/../../utils/scripts
 
-export TEXT_FILE_PATTERN=${HSUART_DIR_HELPER}/text.file.pattern
-export TEXT_FILE_SAMPLE=${HSUART_DIR_TMP}/text.file.sample
+. ${HSUART_ROOT}/../../utils/configuration/general.configuration
+
+export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
 # End of file

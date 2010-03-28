@@ -7,8 +7,8 @@
 
 # Begin L_DD_UART_SERIAL_0010_0003_02
 
-01  set -x; $HSUART_DIR_HELPER/text_file_generate.sh
+01  set -x; handlerFile.sh "create" "pattern" "$HSUART_DIR_TMP/text.file" "1000"
 
-02  set -x; $UTILS_DIR_HANDLERS/handlerIrqAffinity.sh "switch" "cat $TEXT_FILE_SAMPLE" "10" "5" "44"
+02  set -x; handlerIrqAffinity.sh "switch" "cat $HSUART_DIR_TMP/text.file" "10" "5" "44"
 
 # End L_DD_UART_SERIAL_0010_0003_02
