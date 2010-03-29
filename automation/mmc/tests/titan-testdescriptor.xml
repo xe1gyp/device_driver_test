@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <titan>
 
-<test id="L_DD_MMC_0001_0001"> 
+<test id="L_DD_MMC_SD_0001_0001">
 
  <information> 
   <autor> Misael Lopez </autor> 
@@ -14,7 +14,7 @@
       <command>export SLOT=0</command>
   </action>
   <action> 
-      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_0001_0001</command>
+      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0001_0001</command>
   </action>
   <action> 
     <command>rm log.*</command> 
@@ -36,7 +36,7 @@
   
 </test> 
 
-<test id="L_DD_MMC_0002_0001"> 
+<test id="L_DD_MMC_SD_0002_0001">
 
  <information> 
   <autor> Misael Lopez </autor> 
@@ -49,7 +49,7 @@
       <command>export SLOT=0</command>
   </action>
   <action>
-      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_0002_0001</command> 
+      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0002_0001</command>
   </action>
   <action> 
     <command>rm log.*</command> 
@@ -71,7 +71,7 @@
   
 </test>
 
-<test id="L_DD_MMC_0002_0002"> 
+<test id="L_DD_MMC_SD_0002_0002">
 
  <information> 
   <autor> Misael Lopez </autor> 
@@ -84,7 +84,7 @@
       <command>export SLOT=0</command>
   </action>
   <action> 
-      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_0002_0002</command> 
+      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0002_0002</command>
   </action>
   <action> 
     <command>rm log.*</command> 
@@ -106,7 +106,7 @@
   
 </test>
 
-<test id="L_DD_MMC_0003_0001"> 
+<test id="L_DD_MMC_SD_0003_0001">
 
  <information> 
   <autor> Misael Lopez </autor> 
@@ -119,10 +119,10 @@
       <command>export SLOT=0</command>
   </action>
   <action> 
-      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_0003_0001</command> 
+      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0003_0001</command>
   </action>
   <action> 
-    <command>rm /testsuites/mmc/scripts/log.*</command>
+    <command>rm /build/mmc/scripts/log.*</command>
   </action>       
  </run> 
 
@@ -141,7 +141,7 @@
   
 </test>
 
-<test id="L_DD_MMC_0003_0002"> 
+<test id="L_DD_MMC_SD_0003_0002">
 
  <information> 
   <autor> Misael Lopez </autor> 
@@ -154,10 +154,10 @@
       <command>export SLOT=0</command>
   </action>
   <action> 
-      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_0003_0002</command> 
+      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0003_0002</command>
   </action>
   <action> 
-    <command>rm /testsuites/mmc/scripts/log.*</command>
+    <command>rm /build/mmc/scripts/log.*</command>
   </action>       
  </run> 
 
@@ -176,7 +176,7 @@
   
 </test>
 
-<test id="L_DD_MMC_0003_0003"> 
+<test id="L_DD_MMC_SD_0003_0003">
 
  <information> 
   <autor> Misael Lopez </autor> 
@@ -189,10 +189,10 @@
       <command>export SLOT=0</command>
   </action>
   <action> 
-      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_0003_0003</command> 
+      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0003_0003</command>
   </action>
   <action> 
-    <command>rm /testsuites/mmc/scripts/log.*</command>
+    <command>rm /build/mmc/scripts/log.*</command>
   </action>       
  </run> 
 
@@ -211,7 +211,7 @@
   
 </test>
 
-<test id="L_DD_MMC_0004_0001"> 
+<test id="L_DD_MMC_SD_0004_0001">
 
  <information> 
   <autor> Misael Lopez </autor> 
@@ -224,10 +224,10 @@
       <command>export SLOT=0</command>
   </action>
   <action>
-      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_0004_0001</command> 
+      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0004_0001</command>
   </action>
   <action> 
-    <command>rm /testsuites/mmc/scripts/log.*</command>
+    <command>rm /build/mmc/scripts/log.*</command>
   </action>       
  </run> 
 
@@ -246,7 +246,7 @@
   
 </test>
 
-<test id="L_DD_MMC_0004_0002"> 
+<test id="L_DD_MMC_SD_0004_0002">
 
  <information> 
   <autor> Misael Lopez </autor> 
@@ -259,10 +259,10 @@
       <command>export SLOT=0</command>
   </action>
   <action> 
-      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_0004_0002</command> 
+      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0004_0002</command>
   </action>
   <action> 
-    <command>rm /testsuites/mmc/scripts/log.*</command>
+    <command>rm /build/mmc/scripts/log.*</command>
   </action>       
  </run> 
 
@@ -281,7 +281,7 @@
   
 </test>
 
-<test id="L_DD_MMC_0004_0003"> 
+<test id="L_DD_MMC_SD_0004_0003">
 
  <information> 
   <autor> Misael Lopez </autor> 
@@ -294,10 +294,10 @@
       <command>export SLOT=0</command>
   </action>
   <action> 
-      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_0004_0003</command> 
+      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0004_0003</command>
   </action>
   <action> 
-    <command>rm /testsuites/mmc/scripts/log.*</command>
+    <command>rm /build/mmc/scripts/log.*</command>
   </action>       
  </run> 
 
@@ -316,7 +316,7 @@
   
 </test>
 
-<test id="L_DD_MMC_0005_0001"> 
+<test id="L_DD_MMC_SD_0005_0001">
 
  <information> 
   <autor> Misael Lopez </autor> 
@@ -329,10 +329,10 @@
       <command>export SLOT=0</command>
   </action>
   <action> 
-      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_0005_0001</command>
+      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0005_0001</command>
   </action>
   <action> 
-    <command>rm /testsuites/mmc/scripts/log.*</command>
+    <command>rm /build/mmc/scripts/log.*</command>
   </action>       
  </run> 
 
@@ -351,7 +351,7 @@
   
 </test>
 
-<test id="L_DD_MMC_0005_0002">
+<test id="L_DD_MMC_SD_0005_0002">
 
  <information> 
   <autor> Misael Lopez </autor> 
@@ -364,10 +364,10 @@
       <command>export SLOT=0</command>
   </action>
   <action> 
-      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_0005_0002</command>
+      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0005_0002</command>
   </action>
   <action> 
-    <command>rm /testsuites/mmc/scripts/log.*</command>
+    <command>rm /build/mmc/scripts/log.*</command>
   </action>       
  </run> 
 
@@ -384,6 +384,146 @@
   </output> 
  </fail> 
   
+</test>
+
+<test id="L_DD_MMC_SD_0018_0001">
+
+ <information>
+  <autor> Cristopherson Torres </autor>
+  <description> Run a MMC application and switch its CPU affinity from one CPU to another. </description>
+  <dateofcreation> 10/20/2006 </dateofcreation>
+ </information>
+
+ <run>
+  <action>
+      <command>export SLOT=0</command>
+  </action>
+  <action>
+      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0001</command>
+  </action>
+  <action>
+    <command>rm /build/mmc/scripts/log.*</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+  <timeout time="350"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="L_DD_MMC_SD_0018_0002">
+
+ <information>
+  <autor> Cristopherson Torres </autor>
+  <description> Simultaneous MMC accesses from 2 processes running on the two CPUs should not fail or lock up the system </description>
+  <dateofcreation> 03/29/2010 </dateofcreation>
+ </information>
+
+ <run>
+  <action>
+      <command>export SLOT=0</command>
+  </action>
+  <action>
+      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0002</command>
+  </action>
+  <action>
+    <command>rm /build/mmc/scripts/log.*</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+  <timeout time="350"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="L_DD_MMC_SD_0018_0003">
+
+ <information>
+  <autor> Cristopherson Torres </autor>
+  <description> Simultaneous MMC accesses from 2 kernel threads running on the two CPUs with IRQ affinities set to the different CPUs should not fail or lock up the system </description>
+  <dateofcreation> 03/29/2010 </dateofcreation>
+ </information>
+
+ <run>
+  <action>
+      <command>export SLOT=0</command>
+  </action>
+  <action>
+      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0003</command>
+  </action>
+  <action>
+    <command>rm /build/mmc/scripts/log.*</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+  <timeout time="350"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
+</test>
+
+<test id="L_DD_MMC_SD_0018_0004">
+
+ <information>
+  <autor> Cristopherson Torres </autor>
+  <description> TBD </description>
+  <dateofcreation> 03/29/2010 </dateofcreation>
+ </information>
+
+ <run>
+  <action>
+      <command>export SLOT=0</command>
+  </action>
+  <action>
+      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0004</command>
+  </action>
+  <action>
+    <command>rm /build/mmc/scripts/log.*</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+  <timeout time="350"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+
 </test>
 
 </titan>
