@@ -3,7 +3,7 @@ APP = nuttcp
 CC = $(CROSS_COMPILE)gcc -Wall
 #OPT = -g -O0
 OPT = -O3
-CFLAGS = $(OPT) $(NOIPV6)
+CFLAGS += $(OPT) $(NOIPV6)
 LIBS =
 ifneq ($(NOIPV6),)
 APPEXTV6=-noipv6
