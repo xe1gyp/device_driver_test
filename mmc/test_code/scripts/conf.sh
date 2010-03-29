@@ -27,19 +27,16 @@ then
 	export MMCSD_BLOCK_FOLDER=/dev
 fi
 
-
 export PATH="$PATH:$MMCSD_ROOT:$MMCSD_DIR_HELPER:MMCSD_DIR_BINARIES"
 
 # Utils General Variables
-. ${MMCSD_ROOT}/../../utils/configuration/general.configuration
 export UTILS_DIR_BIN=${MMCSD_ROOT}/../../utils/bin
 export UTILS_DIR_HANDLERS=${MMCSD_ROOT}/../../utils/handlers
 export UTILS_DIR_SCRIPTS=${MMCSD_ROOT}/../../utils/scripts
 
+. ${MMCSD_ROOT}/../../utils/configuration/general.configuration
+
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
-
-
-export PATH="$PATH:$UTILS_DIR_HANDLERS:$UTILS_DIR_BIN"
 
 # MMC/SD General Variables
 if [ "$SLOT" == "" ]

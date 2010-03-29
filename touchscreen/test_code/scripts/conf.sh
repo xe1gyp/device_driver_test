@@ -21,12 +21,16 @@ export TOUCHSCREEN_VERBOSE=""
 export TOUCHSCREEN_SCENARIO_NAMES=""
 export TOUCHSCREEN_STRESS=""
 
-export PATH="${TOUCHSCREEN_ROOT}:${TOUCHSCREEN_DIR_HELPER}:${PATH}"
+export PATH="${PATH}:${TOUCHSCREEN_ROOT}:${TOUCHSCREEN_DIR_BINARIES}:${TOUCHSCREEN_DIR_HELPER}"
 
 # Utils General Variables
-. ${TOUCHSCREEN_ROOT}/../../utils/configuration/general.configuration
 export UTILS_DIR_BIN=${TOUCHSCREEN_ROOT}/../../utils/bin
 export UTILS_DIR_HANDLERS=${TOUCHSCREEN_ROOT}/../../utils/handlers
+export UTILS_DIR_SCRIPTS=${TOUCHSCREEN_ROOT}/../../utils/scripts
+
+. ${TOUCHSCREEN_ROOT}/../../utils/configuration/general.configuration
+
+export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
 # General variables
 export DMESG_FILE=/var/log/dmesg

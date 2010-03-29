@@ -24,10 +24,11 @@ export KEYPAD_STRESS=""
 export PATH="${KEYPAD_ROOT}:${KEYPAD_DIR_BINARIES}:${KEYPAD_DIR_HELPER}:${PATH}"
 
 # Utils General Variables
-. ${KEYPAD_ROOT}/../../utils/configuration/general.configuration
 export UTILS_DIR_BIN=${KEYPAD_ROOT}/../../utils/bin
 export UTILS_DIR_HANDLERS=${KEYPAD_ROOT}/../../utils/handlers
 export UTILS_DIR_SCRIPTS=${KEYPAD_ROOT}/../../utils/scripts
+
+. ${KEYPAD_ROOT}/../../utils/configuration/general.configuration
 
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 

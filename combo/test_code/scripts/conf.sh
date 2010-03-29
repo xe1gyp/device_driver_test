@@ -23,10 +23,11 @@ export COMBO_STRESS=""
 export PATH="$PATH:$COMBO_ROOT:$COMBO_DIR_HELPER"
 
 # Utils General Variables
-. ${COMBO_ROOT}/../../utils/configuration/general.configuration
 export UTILS_DIR_BIN=${COMBO_ROOT}/../../utils/bin
 export UTILS_DIR_HANDLERS=${COMBO_ROOT}/../../utils/handlers
 export UTILS_DIR_SCRIPTS=${COMBO_ROOT}/../../utils/scripts
+
+. ${COMBO_ROOT}/../../utils/configuration/general.configuration
 
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 

@@ -25,10 +25,11 @@ export ETHERNET_PANIC=$ETHERNET_DIR_TMP/ethernet.panic
 export PATH="${ETHERNET_ROOT}:${ETHERNET_DIR_HELPER}:$ETHERNET_DIR_BINARIES:${PATH}"
 
 # Utils General Variables
-. ${ETHERNET_ROOT}/../../utils/configuration/general.configuration
 export UTILS_DIR_BIN=${ETHERNET_ROOT}/../../utils/bin
 export UTILS_DIR_HANDLERS=${ETHERNET_ROOT}/../../utils/handlers
 export UTILSCRIPTS=${ETHERNET_ROOT}/../../utils/scripts
+
+. ${ETHERNET_ROOT}/../../utils/configuration/general.configuration
 
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
