@@ -121,7 +121,7 @@ default_profile.c: $(srcdir)/mke2fs.conf $(srcdir)/profile-to-c.awk
 		>  default_profile.c
 profile.o:
 	$(E) "	CC $<"
-	$(Q) $(CC) -c $(ALL_CFLAGS) $(srcdir)/../e2fsck/profile.c -o $@
+	$(Q) $(CC) -c $(CFLAGS) $(ALL_CFLAGS) $(srcdir)/../e2fsck/profile.c -o $@
 @PROFILE_CMT@	$(Q) $(CC) $(ALL_CFLAGS) -g -pg -o profiled/profile.o -c \
 @PROFILE_CMT@	$(srcdir)/../e2fsck/profile.c
 
@@ -141,7 +141,7 @@ e2initrd_helper: e2initrd_helper.o $(DEPLIBS) $(DEPLIBBLKID) $(LIBEXT2FS)
 tune2fs: $(TUNE2FS_OBJS) $(DEPLIBS) $(DEPLIBS_E2P) $(DEPLIBBLKID) \
 		$(DEPLIBUUID) $(LIBEXT2FS)
 	$(E) "	LD $@"
-	$(Q) $(CC) $(ALL_LDFLAGS) -o tune2fs $(TUNE2FS_OBJS) $(LIBS) \
+	$(Q) $(CC) $(CFLAGS) $(ALL_LDFLAGS) -o tune2fs $(TUNE2FS_OBJS) $(LIBS) \
 		$(LIBBLKID) $(LIBUUID) $(LIBEXT2FS) $(LIBS_E2P) $(LIBINTL)
 
 tune2fs.static: $(TUNE2FS_OBJS) $(STATIC_DEPLIBS) $(STATIC_LIBE2P) $(DEPSTATIC_LIBBLKID)
@@ -176,7 +176,7 @@ blkid.profiled: $(PROFILED_BLKID_OBJS) $(DEPPROFILED_LIBBLKID) \
 
 e2image: $(E2IMAGE_OBJS) $(DEPLIBS)
 	$(E) "	LD $@"
-	$(Q) $(CC) $(ALL_LDFLAGS) -o e2image $(E2IMAGE_OBJS) $(LIBS) $(LIBINTL)
+	$(Q) $(CC) $(CFLAGS) $(ALL_LDFLAGS) -o e2image $(E2IMAGE_OBJS) $(LIBS) $(LIBINTL)
 
 e2image.profiled: $(PROFILED_E2IMAGE_OBJS) $(PROFILED_DEPLIBS)
 	$(E) "	LD $@"
@@ -217,7 +217,7 @@ mklost+found: $(MKLPF_OBJS)
 mke2fs: $(MKE2FS_OBJS) $(DEPLIBS) $(LIBE2P) $(DEPLIBBLKID) $(DEPLIBUUID) \
 		$(LIBEXT2FS)
 	$(E) "	LD $@"
-	$(Q) $(CC) $(ALL_LDFLAGS) -o mke2fs $(MKE2FS_OBJS) $(LIBS) $(LIBBLKID) \
+	$(Q) $(CC) $(CFLAGS) $(ALL_LDFLAGS) -o mke2fs $(MKE2FS_OBJS) $(LIBS) $(LIBBLKID) \
 		$(LIBUUID) $(LIBEXT2FS) $(LIBE2P) $(LIBINTL)
 
 mke2fs.static: $(MKE2FS_OBJS) $(STATIC_DEPLIBS) $(STATIC_LIBE2P) $(DEPSTATIC_LIBUUID) $(DEPSTATIC_LIBBLKID)
@@ -262,7 +262,7 @@ uuidd.profiled: $(PROFILED_UUIDD_OBJS) $(PROFILED_DEPLIBUUID)
 
 dumpe2fs: $(DUMPE2FS_OBJS) $(DEPLIBS) $(DEPLIBS_E2P) $(DEPLIBUUID)
 	$(E) "	LD $@"
-	$(Q) $(CC) $(ALL_LDFLAGS) -o dumpe2fs $(DUMPE2FS_OBJS) $(LIBS) \
+	$(Q) $(CC) $(CFLAGS) $(ALL_LDFLAGS) -o dumpe2fs $(DUMPE2FS_OBJS) $(LIBS) \
 		$(LIBS_E2P) $(LIBUUID) $(LIBINTL)
 
 dumpe2fs.profiled: $(PROFILED_DUMPE2FS_OBJS) $(PROFILED_DEPLIBS) \
@@ -283,7 +283,7 @@ fsck.profiled: $(PROFILED_FSCK_OBJS) $(PROFILED_DEPLIBBLKID)
 
 badblocks: $(BADBLOCKS_OBJS) $(DEPLIBS)
 	$(E) "	LD $@"
-	$(Q) $(CC) $(ALL_LDFLAGS) -o badblocks $(BADBLOCKS_OBJS) $(LIBS) $(LIBINTL)
+	$(Q) $(CC) $(CFLAGS) $(ALL_LDFLAGS) -o badblocks $(BADBLOCKS_OBJS) $(LIBS) $(LIBINTL)
 
 badblocks.profiled: $(PROFILED_BADBLOCKS_OBJS) $(PROFILED_DEPLIBS)
 	$(E) "	LD $@"
@@ -304,7 +304,7 @@ e2freefrag: $(E2FREEFRAG_OBJS)
 
 filefrag: $(FILEFRAG_OBJS)
 	$(E) "	LD $@"
-	$(Q) $(CC) $(ALL_LDFLAGS) -o filefrag $(FILEFRAG_OBJS)
+	$(Q) $(CC) $(CFLAGS) $(ALL_LDFLAGS) -o filefrag $(FILEFRAG_OBJS)
 
 filefrag.profiled: $(PROFILED_FILEFRAG_OBJS)
 	$(E) "	LD $@"

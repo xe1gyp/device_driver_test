@@ -11,9 +11,6 @@
 #
 
 CC := $(CROSS_COMPILE)gcc
-O := -O2 -fomit-frame-pointer
-CFLAGS += $(O) -Wall
-LDFLAGS := -s
 
 all: mkdosfs
 
@@ -21,10 +18,7 @@ install:
 	cp -rf mkdosfs ../../bin
 
 mkdosfs: mkdosfs.o
-	$(CC) $(LDFLAGS) mkdosfs.o -o mkdosfs
-
-mkdosfs.o: mkdosfs.c
-	$(CC) -c $(CLFAGS) mkdosfs.c
+	$(CC) $(CFLAGS) mkdosfs.c -o mkdosfs
 
 clean:
 	rm -f *.s *.o *.a *~ core mkdosfs
