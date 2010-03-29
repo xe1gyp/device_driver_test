@@ -235,6 +235,7 @@ void remove_proc_file_entries(void)
 {
 	remove_proc_entry("transmission", mcbsp_test_dir);
 	remove_proc_entry("status", mcbsp_test_dir);
+	remove_proc_entry("driver/mcbsp_test", NULL);
 }
 
 void omap_mcbsp_send_cb2(unsigned short int ch_status, void *arg)
@@ -528,6 +529,14 @@ int configure_mcbsp_rx(void)
 static
 int start_mcbsp_transmission(id)
 {
+	if (id == 0) {
+		no_of_tx = 0;
+		no_of_rx = 0;
+	} else {
+		no_of_tx2 = 0;
+		no_of_rx2 = 0;
+	}
+
 	/* Configure the Master, it should generate the FSX and CLKX */
 	configure_mcbsp_tx();
 	configure_mcbsp_rx();
@@ -679,6 +688,7 @@ void __exit omap_mcbsp_exit(void)
 				  mcbsptest_info[1].tx_buf_dma_phys);
 
 #endif
+		omap_mcbsp_free(mcbsptest_info[1].mcbsp_id);
 	}
 #if(LINUX_VERSION_CODE <= KERNEL_VERSION(2,6,00))
 	consistent_free((void *)mcbsptest_info[0].rx_buf_dma_virt, buffer_size,
