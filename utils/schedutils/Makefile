@@ -1,5 +1,5 @@
 # Generated automatically from Makefile.in by configure.
-CFLAGS		=	-O2 -Wall -W -Wstrict-prototypes
+CFLAGS		+=	-O2 -Wall -W -Wstrict-prototypes
 resched		=	resched
 getsched	=	getsched
 sched 		=	sched
