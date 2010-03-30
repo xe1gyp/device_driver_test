@@ -166,7 +166,7 @@ static int __init dma_module_init(void) {
            transfers[i].data_type = OMAP_DMA_DATA_TYPE_S8;
            transfers[i].endian_type = DMA_TEST_LITTLE_ENDIAN;
            transfers[i].addressing_mode = OMAP_DMA_AMODE_POST_INC;
-
+	   transfers[i].dst_addressing_mode = OMAP_DMA_AMODE_POST_INC;
            if( i == TRANSFER_COUNT - 1){
                /* Set the last transfer to high priority */
                transfers[i].priority = DMA_CH_PRIO_HIGH;

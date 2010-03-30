@@ -58,6 +58,7 @@ static int dma_test_entry(void *info)
 		transfers[i].data_type = OMAP_DMA_DATA_TYPE_S8;
 		transfers[i].endian_type = DMA_TEST_LITTLE_ENDIAN;
 		transfers[i].addressing_mode = OMAP_DMA_AMODE_POST_INC;
+		transfers[i].dst_addressing_mode = OMAP_DMA_AMODE_POST_INC;
 		transfers[i].priority = DMA_CH_PRIO_HIGH;
 		transfers[i].buffers.buf_size = (512 * (i+1)*(i+1)) + i % 2;
 

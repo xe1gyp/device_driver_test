@@ -83,6 +83,7 @@ static int __init dma_module_init(void) {
            transfers[i].data_burst = OMAP_DMA_DATA_BURST_DIS;
            transfers[i].endian_type = DMA_TEST_LITTLE_ENDIAN;
            transfers[i].addressing_mode = OMAP_DMA_AMODE_POST_INC;
+		transfers[i].dst_addressing_mode = OMAP_DMA_AMODE_POST_INC;
            transfers[i].priority = DMA_CH_PRIO_HIGH;
            transfers[i].buffers.buf_size = (1024 * 1024);
 
