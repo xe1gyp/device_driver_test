@@ -4,13 +4,12 @@
 # Variables
 # =============================================================================
 
-LOCAL_PID=`echo $$`
-echo $LOCAL_PID >> $HPP_LIST_OF_PIDS_RUNNING
+LOCAL_SCRIPT_PID=`echo $$`
 
-LOCAL_INSTANCE=$1
-LOCAL_COMMAND=$2
-LOCAL_PROCESSOR=$3
-
+LOCAL_COMMAND_INSTANCE=$1
+LOCAL_COMMAND_LINE=$2
+LOCAL_COMMAND_PROCESSOR=$3
+LOCAL_COMMAND_DELAY=$4
 # =============================================================================
 # Functions
 # =============================================================================
@@ -21,20 +20,24 @@ LOCAL_PROCESSOR=$3
 # Main
 # =============================================================================
 
-echo -e "Info: Instance $LOCAL_INSTANCE | PID: $LOCAL_PID | Command: $LOCAL_COMMAND | Processor: $LOCAL_PROCESSOR"
+sleep $LOCAL_COMMAND_DELAY
 
-taskset $LOCAL_PROCESSOR $LOCAL_COMMAND
+echo "Info: Started! > Instance $LOCAL_COMMAND_INSTANCE | PID $LOCAL_SCRIPT_PID | Mask Processor $LOCAL_COMMAND_PROCESSOR | Command $LOCAL_COMMAND_LINE"
+echo $LOCAL_SCRIPT_PID >> $HCA_LIST_PIDS_TOTALS
+
+taskset $LOCAL_COMMAND_PROCESSOR $LOCAL_COMMAND_LINE
 
 if [ $? -ne 0 ]
 then
-  echo "$LOCAL_INSTANCE | $LOCAL_PID | $LOCAL_COMMAND" >> $HCA_LIST_OF_PIDS_FAILED
-  exit 1
+	echo "$LOCAL_COMMAND_INSTANCE | $LOCAL_SCRIPT_PID | $LOCAL_COMMAND_LINE" >> $HCA_LIST_CMDS_FAILED
+	exit 1
 fi
 
 wait
 
-sed -i "/${LOCAL_PID}/d" $HCA_LIST_OF_PIDS_RUNNING
-echo -e "Info: Instance $LOCAL_INSTANCE | PID $LOCAL_PID | Finished!"
-echo "$LOCAL_INSTANCE | $LOCAL_PID | $LOCAL_COMMAND" >> $HCA_LIST_OF_COMMANDS_PASSED
+sed -i "/${LOCAL_SCRIPT_PID}/d" $HCA_LIST_PIDS_TOTALS
+
+echo "Info: Finished! > Instance $LOCAL_COMMAND_INSTANCE | PID $LOCAL_SCRIPT_PID | Command $LOCAL_COMMAND_LINE"
+echo "$LOCAL_COMMAND_INSTANCE | $LOCAL_SCRIPT_PID | $LOCAL_COMMAND_LINE" >> $HCA_LIST_CMDS_PASSED
 
 # End of file
