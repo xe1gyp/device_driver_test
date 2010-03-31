@@ -27,6 +27,10 @@ export WAITKEY=$UTILBIN/akey
 export UTILSCRIPTS=${TESTROOT}/../../utils/scripts
 export UTILS_DIR_HANDLERS=${TESTROOT}/../../utils/handlers
 
+. ${TESTROOT}/../../utils/configuration/general.configuration
+
+export PATH="$PATH:$UTILBIN:$UTILS_DIR_HANDLERS:$UTILSCRIPTS"
+
 # Driver specific
 export MAX_GPIO_LINES=209
 export FIRST_GPIO_LINE=0
@@ -49,5 +53,8 @@ export MAIN_TEST=$TESTBIN/main_test
 # then
 #	 mknod /dev/gpiotest c 241 0
 # fi
+
+# Remove any error file
+handlerError.sh "clean"
 
 # End of file
