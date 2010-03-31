@@ -14,14 +14,14 @@ LOCAL_DESTINATION=$3
 
 logIt() {
   echo -e "$1"
-  echo -e "$1" >> $HCCP_LOG_FILE.$LOCAL_INSTANCE
+  echo -e "$1" >> $HCCP_CP_LOG.$LOCAL_INSTANCE
 }
 
 # =============================================================================
 # Main
 # =============================================================================
 
-echo > $HCCP_LOG_FILE.$LOCAL_INSTANCE
+echo > $HCCP_CP_LOG.$LOCAL_INSTANCE
 
 $UTILS_DIR_HANDLERS/handlerAppTop2.sh $LOCAL_INSTANCE "start"
 $UTILS_DIR_BIN/time -p -o $HCCP_EXECUTION_TIME_CP.$LOCAL_INSTANCE cp $LOCAL_SOURCE $LOCAL_DESTINATION
@@ -51,6 +51,6 @@ logIt "Info: Exec Time sync (s)  : $TEMP_EXEC_TIME_SYNC"
 logIt "Info: Throughput (MB/s)   : $THROUGHPUT_MBps"
 logIt "Info: Throughput (Mbps)   : $THROUGHPUT_Mbps"
 
-cat $HCCP_LOG_FILE.$LOCAL_INSTANCE >> $HS_STATISTICS_GENERAL_FILE
+cat $HCCP_CP_LOG.$LOCAL_INSTANCE >> $HS_STATISTICS_GENERAL_FILE
 
 # End of file

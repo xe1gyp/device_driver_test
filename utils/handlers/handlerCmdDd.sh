@@ -17,14 +17,14 @@ LOCAL_IF=/dev/urandom
 
 logIt() {
   echo -e "$1"
-  echo -e "$1" >> $HCDD_LOG_FILE.$LOCAL_INSTANCE
+  echo -e "$1" >> $HCDD_DD_LOG.$LOCAL_INSTANCE
 }
 
 # =============================================================================
 # Main
 # =============================================================================
 
-echo > $HCDD_LOG_FILE.$LOCAL_INSTANCE
+echo > $HCDD_DD_LOG.$LOCAL_INSTANCE
 
 $UTILS_DIR_HANDLERS/handlerAppTop2.sh $LOCAL_INSTANCE "start"
 $UTILS_DIR_BIN/time -p -o $HCDD_EXECUTION_TIME_DD.$LOCAL_INSTANCE dd if=${LOCAL_IF} of=${LOCAL_OF} bs=${LOCAL_BS} count=${LOCAL_SIZE}
@@ -55,8 +55,8 @@ logIt "Info: Exec Time sync (s)  : $TEMP_HCDD_EXEC_TIME_SYNC"
 logIt "Info: Throughput (MB/s)   : $THROUGHPUT_MBps"
 logIt "Info: Throughput (Mbps)   : $THROUGHPUT_Mbps"
 
-cat $HCDD_LOG_FILE.$LOCAL_INSTANCE >> $HS_STATISTICS_GENERAL_FILE
-cat $HAT_LOG_FILE.$LOCAL_INSTANCE >> $HS_STATISTICS_GENERAL_FILE
+cat $HCDD_DD_LOG.$LOCAL_INSTANCE >> $HS_STATISTICS_GENERAL_FILE
+cat $HAT_TOP2_DATA_LOG.$LOCAL_INSTANCE >> $HS_STATISTICS_GENERAL_FILE
 
 echo -e "\n---------------------------------------------------------------------\n" >>  $HS_STATISTICS_GENERAL_FILE 
 

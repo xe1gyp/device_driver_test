@@ -15,7 +15,7 @@ Top2Scale=0
 logIt() {
 
   echo -e $1
-  echo -e $1 >> $HAT_LOG_FILE.$LOCAL_INSTANCE
+  echo -e $1 >> $HAT_TOP2_DATA_LOG.$LOCAL_INSTANCE
 
 }
 
@@ -86,19 +86,19 @@ getMinimum() {
 
 if [ "$LOCAL_COMMAND" = "start" ]; then
 
-  echo > $HAT_LOG_FILE.$LOCAL_INSTANCE
+  echo > $HAT_TOP2_DATA_LOG.$LOCAL_INSTANCE
 
   # Start top2 data logging
   cp $UTILS_DIR_BIN/top2 $UTILS_DIR_BIN/top2.$LOCAL_INSTANCE
   $UTILS_DIR_BIN/top2.$LOCAL_INSTANCE -d 1 -b | grep Cpu > $HAT_TOP2_DATA_RAW.$LOCAL_INSTANCE &
   # Give sometime to stabilize power measurements
-  echo -e "\nSleep time : ${SLEEP_TIME} second(s)" && sleep $SLEEP_TIME
+  echo -e "\nSleep time : ${HAT_TOP2_SLEEP_TIME} second(s)" && sleep $HAT_TOP2_SLEEP_TIME
   echo "-> PPC Tag <-"
 
 elif [ "$LOCAL_COMMAND" = "stop" ]; then
 
   # Give sometime to stabilize power measurements
-  echo -e "\nSleep time : ${SLEEP_TIME} second(s)" && sleep $SLEEP_TIME
+  echo -e "\nSleep time : ${HAT_TOP2_SLEEP_TIME} second(s)" && sleep $HAT_TOP2_SLEEP_TIME
   # Stop top2 data logging
   echo "-> PPC Tag <-"
   killall top2.$LOCAL_INSTANCE
