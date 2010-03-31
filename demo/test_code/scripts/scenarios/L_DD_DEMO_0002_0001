@@ -1,15 +1,15 @@
 #########################################################################################
-# Scenario    : L_DD_DEMO_0002
+# Scenario    : L_DD_DEMO_0002_0001
 # Author      : Name of Author
 # Date        : Thu Sep 17 11:25:35 CDT 2009
 # Description : Test Hello World Kernel Space
 #########################################################################################
 
-# Begin L_DD_DEMO_0002
+# Begin L_DD_DEMO_0002_0001
 
 01  set -x; $HELPER_KERNEL_MESSAGES "erase"
 02  set -x; insmod $MODULE_HELLO_WORLD
 03  set -x; $HELPER_KERNEL_MESSAGES "search" "Hello World!"
 04  set -x; $HELPER_KERNEL_MESSAGES "search" "Bye Hello World!"
 
-# End L_DD_DEMO_0002
+# End L_DD_DEMO_0002_0001

@@ -1,0 +1,15 @@
+###############################################################################
+# Scenario    : L_DD_DEMO_0004_0001
+# Author      : Name of Author
+# Date        : Thu Sep 17 11:25:35 CDT 2009
+# Description : Process Priority
+###############################################################################
+
+# Begin L_DD_DEMO_0004_0001
+
+01  set -x; handlerProcessPriority.sh "add" "1" "dd if=/dev/urandom of=/tmp/temp1 bs=1M count=5" "+15"
+02  set -x; handlerProcessPriority.sh "add" "2" "dd if=/dev/urandom of=/tmp/temp2 bs=1M count=5" "-15"
+03  set -x; handlerProcessPriority.sh "execute" "2"
+04  set -x; handlerProcessPriority.sh "verify"
+
+# End L_DD_DEMO_0004_0001

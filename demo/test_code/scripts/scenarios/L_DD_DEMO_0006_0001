@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario    : L_DD_DEMO_0006_0001
+# Author      : Name of Author
+# Date        : Thu Sep 17 11:25:35 CDT 2009
+# Description : IRQ Affinity
+###############################################################################
+
+# Begin L_DD_DEMO_0006_0001
+
+01  set -x; $UTILS_DIR_HANDLERS/handlerIrqAffinity.sh "switch" "dd if=/dev/urandom of=/dev/null bs=1M count=50" "10" "15" "83"
+
+# End L_DD_DEMO_0006_0001

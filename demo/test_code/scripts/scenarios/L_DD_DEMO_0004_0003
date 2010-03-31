@@ -1,0 +1,18 @@
+###############################################################################
+# Scenario    : L_DD_DEMO_0004_0003
+# Author      : Name of Author
+# Date        : Thu Sep 17 11:25:35 CDT 2009
+# Description : Process Priority
+###############################################################################
+
+# Begin L_DD_DEMO_0004_0003
+
+01  set -x; handlerProcessPriority.sh "clean"
+02  set -x; handlerProcessPriority.sh "assign" "dd if=/dev/urandom of=/tmp/temp1 bs=1M count=10" "-20"
+03  set -x; handlerProcessPriority.sh "assign" "dd if=/dev/urandom of=/tmp/temp2 bs=1M count=10" "-10"
+04  set -x; handlerProcessPriority.sh "assign" "dd if=/dev/urandom of=/tmp/temp3 bs=1M count=10" "0"
+05  set -x; handlerProcessPriority.sh "assign" "dd if=/dev/urandom of=/tmp/temp3 bs=1M count=10" "+10"
+06  set -x; handlerProcessPriority.sh "assign" "dd if=/dev/urandom of=/tmp/temp3 bs=1M count=10" "+20"
+07  set -x; handlerProcessPriority.sh "execute" "withrandomdelay"
+
+# End L_DD_DEMO_0004_0003

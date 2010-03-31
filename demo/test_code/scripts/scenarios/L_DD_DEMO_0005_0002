@@ -1,0 +1,18 @@
+###############################################################################
+# Scenario    : L_DD_DEMO_0005_0002
+# Author      : Name of Author
+# Date        : Thu Sep 17 11:25:35 CDT 2009
+# Description : CPU Affinity
+###############################################################################
+
+# Begin L_DD_DEMO_0005_0002
+
+01  set -x; handlerCpuAffinity.sh "clean"
+02  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=5" "1"
+03  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=5" "2"
+04  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=5" "3"
+05  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=5" "2"
+06  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=5" "1"
+07  set -x; handlerCpuAffinity.sh "execute"
+
+# End L_DD_DEMO_0005_0002

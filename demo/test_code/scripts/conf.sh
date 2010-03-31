@@ -21,8 +21,13 @@ export SCENARIO_NAMES=""
 export STRESS=""
 
 # External Utilities
-. ${TESTROOT}/../../utils/configuration/general.configuration
 export UTILBIN=${TESTROOT}/../../utils/bin
+export UTILS_DIR_HANDLERS=${TESTROOT}/../../utils/handlers
+export UTILS_DIR_SCRIPTS=${TESTROOT}/../../utils/scripts
+
+. ${TESTROOT}/../../utils/configuration/general.configuration
+
+export PATH="$PATH:$UTILBIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
 # Driver specific
 export HELLO_WORLD_APP=hello.world
