@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -x
-
 # =============================================================================
 # Variables
 # =============================================================================
@@ -25,39 +23,57 @@ fi
 
 if [ "$LOCAL_OPERATION" = "clean" ]; then
 
-  test -f $HPP_LIST_OF_COMMANDS && rm $HPP_LIST_OF_COMMANDS
-  touch $HPP_LIST_OF_COMMANDS
-  test -f $HPP_LIST_OF_PIDS_RUNNING && rm $HPP_LIST_OF_PIDS_RUNNING
-  touch $HPP_LIST_OF_PIDS_RUNNING
-  test -f $HPP_LIST_OF_PIDS_FAILED && rm $HPP_LIST_OF_PIDS_FAILED
+	test -f $HPPA_LIST_CMDS_TOTALS && rm $HPPA_LIST_CMDS_TOTALS
+	test -f $HPPA_LIST_CMDS_PASSED && rm $HPPA_LIST_CMDS_PASSED
+	test -f $HPPA_LIST_PIDS_TOTALS && rm $HPPA_LIST_PIDS_TOTALS
 
-  return 0
+	touch $HPPA_LIST_CMDS_TOTALS
+	touch $HPPA_LIST_CMDS_PASSED
+	touch $HPPA_LIST_PIDS_TOTALS
+
+	touch $HPPA_LIST_CMDS_FAILED
+	test -f $HPPA_LIST_CMDS_FAILED && rm $HPPA_LIST_CMDS_FAILED
 
 elif [ "$LOCAL_OPERATION" = "add" ]; then
 
-  LOCAL_COMMAND=$2
-  echo $LOCAL_COMMAND >> $HPP_LIST_OF_COMMANDS
+	LOCAL_COMMAND_LINE=$2
+	echo $LOCAL_COMMAND_LINE >> $HPPA_LIST_CMDS_TOTALS
 
 elif [ "$LOCAL_OPERATION" = "execute" ]; then
 
-  INSTANCE=0
-  while read COMMAND
+	LOCAL_WITH_RANDOM_DELAY=$2
+
+	LOCAL_COMMAND_INSTANCE=0
+	while read LOCAL_COMMAND_LINE
 	do
-	  INSTANCE=`expr $INSTANCE + 1`
-    $UTILS_DIR_HANDLERS/handlerProcessParallelismExecutor.sh "$INSTANCE" "$COMMAND" &
-  done < $HPP_LIST_OF_COMMANDS
+		LOCAL_COMMAND_INSTANCE=`expr $LOCAL_COMMAND_INSTANCE + 1`
+		LOCAL_COMMAND_DELAY="0"
 
-  wait
+		if [ "$LOCAL_WITH_RANDOM_DELAY" = "withrandomdelay" ]
+		then
 
-  if [ -f $HPP_LIST_OF_PIDS_FAILED ]
-  then
-    echo -e "\nError: The following Instance | PID | Command failed!"
-    cat $HPP_LIST_OF_PIDS_FAILED
-    echo
-    return 1
-  fi
+			LOCAL_COMMAND_DELAY_TEMP=`dd if=/dev/urandom count=1 2> /dev/null | cksum | cut -f1 -d" "`
+			LOCAL_COMMAND_DELAY=`echo "$LOCAL_COMMAND_DELAY_TEMP%5" | bc`
 
-  echo -e "\nInfo: $INSTANCE proccesses were executed without any failure\n"
+		fi
+
+		handlerProcessParallelismExecutor.sh "$LOCAL_COMMAND_INSTANCE" "$LOCAL_COMMAND_LINE" "$LOCAL_COMMAND_DELAY" &
+
+	done < $HPPA_LIST_CMDS_TOTALS
+
+	wait
+
+	echo -e "\nInfo: Passed! > Instance | PID | Command\n"
+	cat $HPPA_LIST_CMDS_PASSED
+	echo
+
+	if [ -f $HPPA_LIST_CMDS_FAILED ]
+	then
+		echo -e "\nInfo: Failed! > Instance | PID | Command\n"
+		cat $HPPA_LIST_CMDS_FAILED
+		echo
+		exit 1
+	fi
 
 fi
 
