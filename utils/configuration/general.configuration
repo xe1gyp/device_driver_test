@@ -1,41 +1,57 @@
 #!/bin/sh
 
+# Creation & clean up of temporal directory
 export UTILS_DIR_TMP=/tmp/
-test -d $HANDLERS_DIR_TMP || mkdir -p $UTILS_DIR_TMP
+test -d $UTILS_DIR_TMP || mkdir -p $UTILS_DIR_TMP
+rm -f $UTILS_DIR_TMP/*
 
 # General Variables
-export GENERAL_LOG_FILE=$UTILS_DIR_TMP/general.log.file
-export GENERAL_ERROR=$UTILS_DIR_TMP/general.error
-export SLEEP_TIME=5
 export DEBUG=n
 
-# handlerProcessPriority.sh || handlerProcessPriorityExecutor.sh
-export HPP_PROCFS_PID_SCHED_START=$UTILS_DIR_TMP/hpp.procfs.pid.sched.start
-export HPP_PROCFS_PID_SCHED_CURRENT=$UTILS_DIR_TMP/hpp.procfs.pid.sched.current
-export HPP_COMMAND_LINE=$UTILS_DIR_TMP/hpp.command.line
-export HPP_COMMAND_PRIORITY_VALUE=$UTILS_DIR_TMP/hpp.command.priority.value
-export HPP_COMMAND_PRIORITY_HIGHER=$UTILS_DIR_TMP/hpp.command.priority.higher
+# handlerCpuAffinity.sh && handlerCpuAffinityExecutor.sh
+export HCA_LIST_CMDS_TOTALS=$UTILS_DIR_TMP/hca.list.cmds.totals
+export HCA_LIST_CMDS_PASSED=$UTILS_DIR_TMP/hca.list.cmds.passed
+export HCA_LIST_CMDS_FAILED=$UTILS_DIR_TMP/hca.list.cmds.failed
+export HCA_LIST_PIDS_TOTALS=$UTILS_DIR_TMP/hca.list.pids.totals
 
 # handlerProcessParallelism.sh || handlerProcessParallelismExecutor.sh
-export HPP_LIST_OF_COMMANDS=$UTILS_DIR_TMP/hpp.list.of.commands
-export HPP_LIST_OF_PIDS_RUNNING=$UTILS_DIR_TMP/hpp.list.of.pids.running
-export HPP_LIST_OF_PIDS_FAILED=$UTILS_DIR_TMP/hpp.list.of.pids.failed
+export HPPA_LIST_CMDS_TOTALS=$UTILS_DIR_TMP/hppa.list.cmds.totals
+export HPPA_LIST_CMDS_PASSED=$UTILS_DIR_TMP/hppa.list.cmds.passed
+export HPPA_LIST_CMDS_FAILED=$UTILS_DIR_TMP/hppa.list.cmds.failed
+export HPPA_LIST_PIDS_TOTALS=$UTILS_DIR_TMP/hppa.list.pids.totals
+
+# handlerProcessPriority.sh || handlerProcessPriorityExecutor.sh
+export HPPR_LIST_CMDS_TOTALS=$UTILS_DIR_TMP/hppr.list.cmds.totals
+export HPPR_LIST_CMDS_PASSED=$UTILS_DIR_TMP/hppr.list.cmds.passed
+export HPPR_LIST_CMDS_FAILED=$UTILS_DIR_TMP/hppr.list.cmds.failed
+export HPPR_LIST_PIDS_TOTALS=$UTILS_DIR_TMP/hppr.list.pids.totals
+
+export HPPR_PROCFS_PID_SCHED_START=$UTILS_DIR_TMP/hppr.procfs.pid.sched.start
+export HPPR_PROCFS_PID_SCHED_CURRENT=$UTILS_DIR_TMP/hppr.procfs.pid.sched.current
+
+export HPPR_COMMAND_LINE=$UTILS_DIR_TMP/hppr.command.line
+export HPPR_COMMAND_PRIORITY=$UTILS_DIR_TMP/hppr.command.priority
+export HPPR_COMMAND_PRIORITY_HIGHER=$UTILS_DIR_TMP/hppr.command.priority.higher
+
+export HPPR_OPERATION_CURRENT=$UTILS_DIR_TMP/hppr.current.operation
 
 # handlerAppTop2.sh
-export HAT_LOG_FILE=$UTILS_DIR_TMP/cpu.log.file
-export HAT_TOP2_DATA_RAW=$UTILS_DIR_TMP/hat.top2.raw.data
-export HAT_TOP2_DATA_TEMPORAL=$UTILS_DIR_TMP/hat.top2.raw.temporal
+export HAT_TOP2_SLEEP_TIME=5
+export HAT_TOP2_DATA_LOG=$UTILS_DIR_TMP/hat.top2.data.log
+export HAT_TOP2_DATA_RAW=$UTILS_DIR_TMP/hat.top2.data.raw
+export HAT_TOP2_DATA_TEMPORAL=$UTILS_DIR_TMP/hat.top2.data.temporal
+
 export HAT_CPU_USAGE_VALUE_AVR=$UTILS_DIR_TMP/hat.cpu.usage.value.avr
 export HAT_CPU_USAGE_VALUE_MAX=$UTILS_DIR_TMP/hat.cpu.usage.value.max
 export HAT_CPU_USAGE_VALUE_MIN=$UTILS_DIR_TMP/hat.cpu.usage.value.min
 
 # handlerCmdDd.sh
-export HCDD_LOG_FILE=$UTILS_DIR_TMP/hcdd.log.file
+export HCDD_DD_LOG=$UTILS_DIR_TMP/hcdd.dd.log
 export HCDD_EXECUTION_TIME_DD=$UTILS_DIR_TMP/hcdd.execution.time.dd
 export HCDD_EXECUTION_TIME_SYNC=$UTILS_DIR_TMP/hcdd.execution.time.sync
 
 # handlerCmdCp.sh
-export HCCP_LOG_FILE=$UTILS_DIR_TMP/hccp.log.file
+export HCCP_CP_LOG=$UTILS_DIR_TMP/hccp.log.file
 export HCCP_EXECUTION_TIME_CP=$UTILS_DIR_TMP/hccp.execution.time.cp
 export HCCP_EXECUTION_TIME_SYNC=$UTILS_DIR_TMP/hccp.execution.time.sync
 
@@ -52,11 +68,5 @@ export HE_ERROR_FILE_CONTINUE=$UTILS_DIR_TMP/he.error.file.continue
 
 # handlerFile.sh
 export HF_TEXT_PATTERN=$UTILS_DIR_SCRIPTS/text.pattern
-
-# handlerCpuAffinity.sh
-export HCA_LIST_OF_COMMANDS=$UTILS_DIR_TMP/hca.list.of.commands
-export HCA_LIST_OF_COMMANDS_PASSED=$UTILS_DIR_TMP/hca.list.of.commands.passed
-export HCA_LIST_OF_PIDS_RUNNING=$UTILS_DIR_TMP/hca.list.of.pids.running
-export HCA_LIST_OF_PIDS_FAILED=$UTILS_DIR_TMP/hca.list.of.pids.failed
 
 # End of file
