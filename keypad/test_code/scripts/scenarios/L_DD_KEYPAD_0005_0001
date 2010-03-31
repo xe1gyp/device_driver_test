@@ -1,0 +1,17 @@
+###############################################################################
+# Scenario: L_DD_KEYPAD_0006_0003
+# Author  : Abraham Arce
+# Date    : Tue Sep 22 16:43:35 CDT 2009
+###############################################################################
+
+# Begin L_DD_KEYPAD_0006_0003
+
+01  set -x; handlerCpuAffinity.sh "clean"
+02  set -x; handlerCpuAffinity.sh "assign" "evtest $DEVFS_KEYPAD" "1"
+03  set -x; handlerCpuAffinity.sh "assign" "evtest $DEVFS_KEYPAD" "2"
+04  set -x; handlerCpuAffinity.sh "assign" "evtest $DEVFS_KEYPAD" "3"
+05  set -x; handlerCpuAffinity.sh "assign" "evtest $DEVFS_KEYPAD" "2"
+06  set -x; handlerCpuAffinity.sh "assign" "evtest $DEVFS_KEYPAD" "1"
+07  set -x; handlerCpuAffinity.sh "execute" "withrandomdelay"
+
+# End L_DD_KEYPAD_0006_0003

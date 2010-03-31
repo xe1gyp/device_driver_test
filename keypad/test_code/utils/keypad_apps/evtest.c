@@ -386,6 +386,7 @@ int main (int argc, char **argv)
 					names[ev[i].type] ? (names[ev[i].type][ev[i].code] ? names[ev[i].type][ev[i].code] : "?") : "?",
 					ev[i].value);
 			}
-    counter++;
+		counter++;
 	}
+	return 0;
 }
