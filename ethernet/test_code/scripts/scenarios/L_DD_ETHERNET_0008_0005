@@ -1,0 +1,19 @@
+###############################################################################
+# Scenario: L_DD_ETHERNET_0008_0005
+# Author  : Abraham Arce
+# Date    : Tue Oct 27 13:59:10 CDT 2009
+###############################################################################
+
+# Begin L_DD_ETHERNET_0008_0005
+
+01  set -x; handlerIfconfig.sh "get" "ipaddr" && exit 0 || exit 1
+
+01  set -x; handlerCpuAffinity.sh "clean"
+02  set -x; handlerCpuAffinity.sh "assign" "ping -c 25 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_EXTERNAL_HOST_IPADDR`" "1"
+03  set -x; handlerCpuAffinity.sh "assign" "ping -c 25 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_EXTERNAL_HOST_IPADDR`" "2"
+04  set -x; handlerCpuAffinity.sh "assign" "ping -c 25 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_EXTERNAL_HOST_IPADDR`" "3"
+05  set -x; handlerCpuAffinity.sh "assign" "ping -c 25 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_EXTERNAL_HOST_IPADDR`" "2"
+06  set -x; handlerCpuAffinity.sh "assign" "ping -c 25 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_EXTERNAL_HOST_IPADDR`" "1"
+07  set -x; handlerCpuAffinity.sh "execute"
+
+# End L_DD_ETHERNET_0008_0005
