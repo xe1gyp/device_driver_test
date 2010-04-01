@@ -32,6 +32,7 @@ MODULES = dma_single_channel.o \
   dma_static_self_link.o \
   dma_dynamic_self_link.o \
   dma_unlink_nonlinked_channels.o  \
+  dma_unlink_before_stop_channels.o \
   dma_dload_thread_access.o \
   dma_dload.o \
 

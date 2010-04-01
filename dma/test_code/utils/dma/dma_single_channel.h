@@ -151,10 +151,16 @@ void stop_dma_transfer(struct dma_transfer *transfer);
 void dma_link_lch(struct dma_transfer *transfer);
 
 /*
- * Stops a self linked dma transfer
+ * Stops a self linked dma transfer unlinks channels
  * and free used resources
  */
 void stop_dma_selflink_transfer(int channel_id);
+
+/*
+ * Trys to unlink channels and then stop a self linked dma transfer
+ * and free used resources
+ */
+void unlink_stop_dma_selflink_transfer(int channel_id);
 
 /*
  * Set if the test passed or not

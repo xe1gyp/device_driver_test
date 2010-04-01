@@ -403,5 +403,23 @@ void stop_dma_selflink_transfer(int channel_id) {
      }
 EXPORT_SYMBOL(stop_dma_selflink_transfer);
 
+/*
+ * Trys to unlink channels and then stop a self linked dma transfer
+ * and free used resources
+ */
+void unlink_stop_dma_selflink_transfer(int channel_id){
+		int error = 0;
+       
+          omap_dma_unlink_lch(channel_id, channel_id);	
+		if(error){
+		set_test_passed(0);
+		}
+	/* Stop the dma transfer */
+	   omap_stop_dma(channel_id);
+	
+	   omap_free_dma(channel_id);
+     }
+EXPORT_SYMBOL(unlink_stop_dma_selflink_transfer);
+
 MODULE_AUTHOR("Texas Instruments");
 MODULE_LICENSE("GPL");
