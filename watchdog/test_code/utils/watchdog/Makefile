@@ -7,7 +7,7 @@
 # ================================================================================ */
 
 CC := $(CROSS_COMPILE)gcc
-CFLAGS += -Wall
+CFLAGS += -g -O -Wall -D_GNU_SOURCE -I.. -pthread
 
 TARGETS = watchdog_keepalive \
 	watchdog_status_boot \
@@ -22,9 +22,9 @@ all: $(TARGETS)
 
 install:
 	cp -v $(TARGETS) $(SUITE_DIR)/bin
-#lpthread is needed for smp files only
+
 $(TARGETS):
-	$(CC) $(CFLAGS) -D_GNU_SOURCE -lpthread $@.c -o $@
+	$(CC) $(CFLAGS) -D_GNU_SOURCE $@.c -o $@
 
 clean:
 	rm -vf *.o $(TARGETS)

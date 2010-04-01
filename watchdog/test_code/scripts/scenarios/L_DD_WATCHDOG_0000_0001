@@ -6,6 +6,6 @@
 
 # Begin L_DD_WATCHDOG_0001_0001
 
-01 set -x; cat $DMESG_FILE | grep $WATCHDOG_MODALIAS
+01 set -x; cat $DMESG_FILE | grep -i $WATCHDOG_MODALIAS
 
 # End L_DD_WATCHDOG_0001_0001

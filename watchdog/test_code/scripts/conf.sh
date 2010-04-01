@@ -27,7 +27,7 @@ $TESTSCRIPT/fileSystemType.sh
 
 # Driver specific
 export WATCHDOG_DEVFS=/dev/watchdog
-export WATCHDOG_MODALIAS=omap_wdt
+export WATCHDOG_MODALIAS=watchdog
 
 # Test Applications
 export WATCHDOG_KEEPALIVE=watchdog_keepalive
