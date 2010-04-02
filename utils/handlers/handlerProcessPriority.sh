@@ -24,7 +24,7 @@ fi
 test -f /proc/1/sched
 if [ $? -eq 1 ]
 then
-	handlerError.sh "log" "$?" "halt" "handlerProcessPriority.sh"
+	handlerError.sh "log" "1" "halt" "handlerProcessPriority.sh"
 	echo "Fatal: missing /proc/<process>/sched, cannot continue, directory looks like"
 	echo "Info : please enable in kernel menuconfig the macro CONFIG_SCHED_DEBUG"
 	echo "Info : Kernel Hacking -> Kernel Debugging -> Collect scheduler debugging info"
