@@ -14,7 +14,7 @@
       <command>export SLOT=0</command>
   </action>
   <action> 
-      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0001_0001</command>
+      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0001_0001</command>
   </action>
   <action> 
     <command>rm log.*</command> 
@@ -49,7 +49,7 @@
       <command>export SLOT=0</command>
   </action>
   <action>
-      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0002_0001</command>
+      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0002_0001</command>
   </action>
   <action> 
     <command>rm log.*</command> 
@@ -84,7 +84,7 @@
       <command>export SLOT=0</command>
   </action>
   <action> 
-      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0002_0002</command>
+      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0002_0002</command>
   </action>
   <action> 
     <command>rm log.*</command> 
@@ -119,10 +119,10 @@
       <command>export SLOT=0</command>
   </action>
   <action> 
-      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0003_0001</command>
+      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0003_0001</command>
   </action>
   <action> 
-    <command>rm /build/mmc/scripts/log.*</command>
+    <command>rm /testsuites/mmc/scripts/log.*</command>
   </action>       
  </run> 
 
@@ -154,10 +154,10 @@
       <command>export SLOT=0</command>
   </action>
   <action> 
-      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0003_0002</command>
+      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0003_0002</command>
   </action>
   <action> 
-    <command>rm /build/mmc/scripts/log.*</command>
+    <command>rm /testsuites/mmc/scripts/log.*</command>
   </action>       
  </run> 
 
@@ -189,10 +189,10 @@
       <command>export SLOT=0</command>
   </action>
   <action> 
-      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0003_0003</command>
+      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0003_0003</command>
   </action>
   <action> 
-    <command>rm /build/mmc/scripts/log.*</command>
+    <command>rm /testsuites/mmc/scripts/log.*</command>
   </action>       
  </run> 
 
@@ -224,10 +224,10 @@
       <command>export SLOT=0</command>
   </action>
   <action>
-      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0004_0001</command>
+      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0004_0001</command>
   </action>
   <action> 
-    <command>rm /build/mmc/scripts/log.*</command>
+    <command>rm /testsuites/mmc/scripts/log.*</command>
   </action>       
  </run> 
 
@@ -259,10 +259,10 @@
       <command>export SLOT=0</command>
   </action>
   <action> 
-      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0004_0002</command>
+      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0004_0002</command>
   </action>
   <action> 
-    <command>rm /build/mmc/scripts/log.*</command>
+    <command>rm /testsuites/mmc/scripts/log.*</command>
   </action>       
  </run> 
 
@@ -294,10 +294,10 @@
       <command>export SLOT=0</command>
   </action>
   <action> 
-      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0004_0003</command>
+      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0004_0003</command>
   </action>
   <action> 
-    <command>rm /build/mmc/scripts/log.*</command>
+    <command>rm /testsuites/mmc/scripts/log.*</command>
   </action>       
  </run> 
 
@@ -329,10 +329,10 @@
       <command>export SLOT=0</command>
   </action>
   <action> 
-      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0005_0001</command>
+      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0005_0001</command>
   </action>
   <action> 
-    <command>rm /build/mmc/scripts/log.*</command>
+    <command>rm /testsuites/mmc/scripts/log.*</command>
   </action>       
  </run> 
 
@@ -364,10 +364,10 @@
       <command>export SLOT=0</command>
   </action>
   <action> 
-      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0005_0002</command>
+      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0005_0002</command>
   </action>
   <action> 
-    <command>rm /build/mmc/scripts/log.*</command>
+    <command>rm /testsuites/mmc/scripts/log.*</command>
   </action>       
  </run> 
 
@@ -399,10 +399,10 @@
       <command>export SLOT=0</command>
   </action>
   <action>
-      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0001</command>
+      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0001</command>
   </action>
   <action>
-    <command>rm /build/mmc/scripts/log.*</command>
+    <command>rm /testsuites/mmc/scripts/log.*</command>
   </action>
  </run>
 
@@ -434,10 +434,10 @@
       <command>export SLOT=0</command>
   </action>
   <action>
-      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0002</command>
+      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0002</command>
   </action>
   <action>
-    <command>rm /build/mmc/scripts/log.*</command>
+    <command>rm /testsuites/mmc/scripts/log.*</command>
   </action>
  </run>
 
@@ -469,10 +469,10 @@
       <command>export SLOT=0</command>
   </action>
   <action>
-      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0003</command>
+      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0003</command>
   </action>
   <action>
-    <command>rm /build/mmc/scripts/log.*</command>
+    <command>rm /testsuites/mmc/scripts/log.*</command>
   </action>
  </run>
 
@@ -504,10 +504,10 @@
       <command>export SLOT=0</command>
   </action>
   <action>
-      <command>/build/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0004</command>
+      <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0004</command>
   </action>
   <action>
-    <command>rm /build/mmc/scripts/log.*</command>
+    <command>rm /testsuites/mmc/scripts/log.*</command>
   </action>
  </run>
 
