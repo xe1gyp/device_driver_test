@@ -1,0 +1,14 @@
+##############################
+# File Name   : L_DD_GPADC_0001_0001
+# Author      : Piyush Kumar Garg
+# Date        : June 24, 2010
+# Description : GPADC Test Suite
+###############################
+
+# Begin L_DD_GPADC_0001_0001
+
+#This test case verifies if the GPADC driver supports SW Conversion method
+0001 set -x; insmod $GPADC_MODULE channels=384 && exit 0 || exit 1
+0002 set -x; rmmod $GPADC_MODULE
+
+# End L_DD_GPADC_0001_0001
