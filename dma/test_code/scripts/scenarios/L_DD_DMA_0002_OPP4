@@ -1,0 +1,16 @@
+################################################################################
+# Scenario:    L_DD_DMA_0002_OPP4
+# Author  :    Shilpa Maddi
+# Date    :    February 8th, 2010
+# Description: DMA Double indexing addressing mode
+################################################################################
+
+# Begin L_DD_DMA_0002_OPP4
+0001	set -x; opp4.sh
+0002	set -x; echo Running on OPP4
+0003	set -x; insmod $TESTMODS/dma_single_channel.ko
+0004	set -x; insmod $TESTMODS/dma_addrmode_doubleidx.ko
+0005	set -x; cat /proc/driver/dma_addrmode_doubleidx | grep PASS
+0006	set -x; rmmod dma_addrmode_doubleidx
+0007	set -x; rmmod dma_single_channel
+# End L_DD_DMA_0002_OPP4
