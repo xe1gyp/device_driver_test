@@ -1,0 +1,116 @@
+#!/bin/sh
+
+# =============================================================================
+# Variables
+# =============================================================================
+
+LOCAL_OPERATION=$1
+
+# =============================================================================
+# Functions
+# =============================================================================
+
+setOneFrequency() {
+
+	LOCAL_FREQUENCY=$1
+	LOCAL_COMMAND_LINE=$2
+
+	if [ -n $LOCAL_COMMAND_LINE ]; then
+		eval $LOCAL_COMMAND_LINE &
+	fi
+
+	echo $LOCAL_FREQUENCY > /sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed
+	if [ $? != 0 ]; then
+		echo "Info: Error! Frequency $i cannot be set"
+	else
+		echo "Info: Frequency $LOCAL_FREQUENCY was correctly set"
+	fi
+
+	wait
+
+	sleep 5
+}
+
+setAllFrequencies() {
+
+	LOCAL_COMMAND_LINE=$1
+
+	error=0
+	echo > $HCFSF_FREQUENCIES_LIST_OK
+	echo > $HCFSF_FREQUENCIES_LIST_ERROR
+
+	LOCAL_FREQUENCIES_LIST_AVAILABLE=`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies`
+
+	if [ -n $LOCAL_COMMAND_LINE ]; then
+		$LOCAL_COMMAND_LINE &
+		LOCAL_COMMAND_PID=`echo $!`
+	fi
+
+
+	while [ 1 ]; then
+
+		for i in $LOCAL_FREQUENCIES_LIST_AVAILABLE
+
+		do
+			echo "Info: Setting Governor to" $i
+			echo $i > /sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed
+			if [ $? != 0 ]; then
+				echo "Info: Error! Frequency $i cannot be set"
+				echo $i >> $HCFSF_FREQUENCIES_LIST_ERROR
+				error=1
+			else
+				echo "Info: Governor $i was correctly set"
+				echo $i >> $HCFSF_FREQUENCIES_LIST_OK
+			fi
+			sleep 1
+		done
+
+		if [ -n $LOCAL_COMMAND_LINE ]; then
+			test -d /proc/$LOCAL_COMMAND_PID || break
+		else
+			break
+		fi
+	done
+
+	wait
+
+	echo "Info: The following frequencies were correctly set"
+	cat $HCFSF_FREQUENCIES_LIST_OK
+	echo "Info: The following frequencies were not correctly set"
+	cat $HCFSF_FREQUENCIES_LIST_ERROR
+
+	sleep 5
+
+	if [ $error -eq 1 ]; then
+		exit 1
+	fi
+}
+
+# =============================================================================
+# Main
+# =============================================================================
+
+if [ "$LOCAL_OPERATION" = "set" ]; then
+
+	LOCAL_FREQUENCY=$2
+
+	if [ "$LOCAL_FREQUENCY" = "all" ]; then
+		setAllFrequencies
+	else
+		setOneFrequency $LOCAL_FREQUENCY
+	fi
+
+elif [ "$LOCAL_OPERATION" = "run" ]; then
+
+	LOCAL_FREQUENCY=$2
+	LOCAL_COMMAND_LINE=$3
+
+	if [ "$LOCAL_FREQUENCY" = "all" ]; then
+		setAllFrequencies $LOCAL_COMMAND_LINE
+	else
+		setOneFrequency $LOCAL_FREQUENCY $LOCAL_COMMAND_LINE
+	fi
+
+fi
+
+# End of ile
