@@ -282,6 +282,7 @@ void remove_proc_file_entries(void)
 {
 	remove_proc_entry("transmission", mcspi_test_dir);
 	remove_proc_entry("status", mcspi_test_dir);
+	remove_proc_entry("driver/mcspi_test", NULL);
 }
 
 static int spitst_probe(struct spi_device *spi)
