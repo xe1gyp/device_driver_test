@@ -1,0 +1,17 @@
+################################################################################
+# Scenario:    L_DD_DMA_0016_OPP1
+# Author  :    Venkatraman S
+# Date    :    October 1st 2009
+# Description: DMA access from multiple processors on OPP1
+################################################################################
+
+# Begin L_DD_DMA_0016_OPP1
+0001	set -x; opp1.sh
+0002	set -x; echo Running on OPP1
+0003	set -x; insmod $TESTMODS/dma_single_channel.ko
+0004	set -x; insmod $TESTMODS/dma_thread_access.ko
+0005    set -x; cat /proc/driver/dma_thread_access | grep PASS
+0006	set -x; rmmod dma_thread_access
+0007	set -x; rmmod dma_single_channel
+# End L_DD_DMA_0016_OPP1
+
