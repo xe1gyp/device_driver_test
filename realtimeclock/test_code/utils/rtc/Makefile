@@ -6,6 +6,10 @@
 #  in the license agreement under which this software has been supplied.
 # ========================================================================== */
 
+ifeq ($(SUITE_DIR),)
+SUITE_DIR:=$(PWD)
+endif
+
 CC := $(CROSS_COMPILE)gcc
 CFLAGS += -g -O -Wall -D_GNU_SOURCE  -lpthread -I.. -pthread
 
