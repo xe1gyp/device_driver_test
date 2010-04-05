@@ -1,0 +1,168 @@
+<?xml version="1.0"?>
+<titan>
+
+<test id="L_DD_GPIO_0003_0001">
+ <information>
+  <autor> Cristopherson Torres </autor>
+  <description>Verify if GPIO driver supports reserve and free of GPIO lines</description>
+  <dateofcreation> 06/30/2009 </dateofcreation>
+ </information>
+
+ <run>
+  <action>
+   <deviceundertest>reboot</deviceundertest>
+  </action>
+  <action>
+   <command>/testsuites/gpio/scripts/test_runner.sh L_DD_GPIO_0003_0001</command>
+  </action>
+  <action>
+   <command>rm /testsuites/gpio/scripts/log.*</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+    <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="360"/>
+  <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+</test>
+
+<test id="L_DD_GPIO_0004_0001">
+ <information>
+  <autor> Cristopherson Torres </autor>
+  <description>Verify if GPIO driver supports reserve and free of GPIO lines</description>
+  <dateofcreation> 06/30/2009 </dateofcreation>
+ </information>
+
+ <run>
+  <action>
+   <deviceundertest>reboot</deviceundertest>
+  </action>
+  <action>
+   <command>/testsuites/gpio/scripts/test_runner.sh L_DD_GPIO_0004_0001</command>
+  </action>
+  <action>
+   <command>rm /testsuites/gpio/scripts/log.*</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+   <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+  <timeout time="360"/>
+  <output>
+   <regularexpression>stat=[^0]\d*</regularexpression>
+   </output>
+ </fail>
+</test>
+
+<test id="L_DD_GPIO_0005_0001">
+ <information>
+  <autor> Cristopherson Torres </autor>
+  <description>Verify if GPIO driver supports reserve and free of GPIO lines</description>
+  <dateofcreation> 06/30/2009 </dateofcreation>
+ </information>
+
+ <run>
+  <action>
+   <deviceundertest>reboot</deviceundertest>
+  </action>
+  <action>
+   <command>/testsuites/gpio/scripts/test_runner.sh L_DD_GPIO_0005_0001</command>
+  </action>
+  <action>
+   <command>rm /testsuites/gpio/scripts/log.*</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+   <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+   <timeout time="360"/>
+   <output>
+    <regularexpression>stat=[^0]\d*</regularexpression>
+   </output>
+ </fail>
+</test>
+
+<test id="L_DD_GPIO_0007_0001">
+ <information>
+  <autor> Cristopherson Torres </autor>
+  <description>Verify if GPIO driver supports reserve and free of GPIO lines</description>
+  <dateofcreation> 06/30/2009 </dateofcreation>
+ </information>
+
+ <run>
+  <action>
+   <deviceundertest>reboot</deviceundertest>
+  </action>
+  <action>
+   <command>/testsuites/gpio/scripts/test_runner.sh L_DD_GPIO_0007_0001</command>
+  </action>
+  <action>
+   <command>rm /testsuites/gpio/scripts/log.*</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+   <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+  <timeout time="360"/>
+  <output>
+   <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+</test>
+
+<test id="L_DD_GPIO_0008_0001">
+  <information>
+   <autor> Cristopherson Torres </autor>
+   <description>Verify if GPIO driver supports reserve and free of GPIO lines</description>
+   <dateofcreation> 06/30/2009 </dateofcreation>
+  </information>
+
+ <run>
+  <action>
+   <deviceundertest>reboot</deviceundertest>
+  </action>
+  <action>
+   <command>/testsuites/gpio/scripts/test_runner.sh L_DD_GPIO_0008_0001</command>
+  </action>
+  <action>
+   <command>rm /testsuites/gpio/scripts/log.*</command>
+  </action>
+ </run>
+
+ <pass>
+  <output>
+   <value>stat=0</value>
+  </output>
+ </pass>
+
+ <fail>
+  <timeout time="360"/>
+  <output>
+   <regularexpression>stat=[^0]\d*</regularexpression>
+  </output>
+ </fail>
+</test>
+</titan>
