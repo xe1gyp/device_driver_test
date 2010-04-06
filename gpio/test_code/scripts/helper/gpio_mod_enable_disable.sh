@@ -2,7 +2,7 @@
 set -x
 error=0
 
-insmod $TEST_MODULE test=7
+insmod $TEST_MODULE test=9
 cat /proc/driver/gpio_test_result | grep FAILED
 if [ $? -eq 0 ]
 then

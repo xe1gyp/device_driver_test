@@ -156,7 +156,9 @@ void gpio_keep_reading(void *no_of_iterations)
                 }
         }
 }
-#elif !defined CONFIG_ANDROID
+#endif
+
+#if !defined CONFIG_ANDROID
 static void gpio_test7(void)
 {
 	int ret, request_status[32], i, j;
@@ -168,13 +170,23 @@ static void gpio_test7(void)
 	}
 
 	/* Initialise base addresses for each bank */
+#ifdef CONFIG_ARCH_OMAP3
 	bank_base_addr[0] = OMAP2_L4_IO_ADDRESS(0x48310000);
 	bank_base_addr[1] = OMAP2_L4_IO_ADDRESS(0x49050000);
 	bank_base_addr[2] = OMAP2_L4_IO_ADDRESS(0x49052000);
 	bank_base_addr[3] = OMAP2_L4_IO_ADDRESS(0x49054000);
 	bank_base_addr[4] = OMAP2_L4_IO_ADDRESS(0x49056000);
 	bank_base_addr[5] = OMAP2_L4_IO_ADDRESS(0x49058000);
-
+#elif CONFIG_ARCH_OMAP4
+	bank_base_addr[0] = OMAP2_L4_IO_ADDRESS(0x4a310000);
+	bank_base_addr[1] = OMAP2_L4_IO_ADDRESS(0x48055000);
+	bank_base_addr[2] = OMAP2_L4_IO_ADDRESS(0x48057000);
+	bank_base_addr[3] = OMAP2_L4_IO_ADDRESS(0x48059000);
+	bank_base_addr[4] = OMAP2_L4_IO_ADDRESS(0x4805B000);
+	bank_base_addr[5] = OMAP2_L4_IO_ADDRESS(0x4805D000);
+#else
+#error OMAP architecture not supported
+#endif
 	for (i = 0; i < 6; i++) {
 		bank_status = 0;
 		for (j = 0; j < 32; j++) {
@@ -191,8 +203,12 @@ static void gpio_test7(void)
 			if (request_status[j])
 				gpio_free(j+i*32);
 		}
-		/* Read OMAP24XX_GPIO_CTRL to verify the module status */
+		/* Read GPIO_CTRL to verify the module status */
+#ifdef CONFIG_ARCH_OMAP3
 		mod_status = __raw_readl(bank_base_addr[i] + 0xc) & 0x1;
+#elif CONFIG_ARCH_OMAP4
+		mod_status = __raw_readl(bank_base_addr[i] + 0x4c) & 0x1;
+#endif
 		if (mod_status)
 			printk(KERN_INFO "GPIO Module %d disable Success"
 				"\n\n", i);
@@ -296,18 +312,20 @@ static void gpio_test(void)
 			x = wake_up_process(p1);
 			x = wake_up_process(p2);
 			break;
-#elif !defined CONFIG_ANDROID
+#endif
+#if !defined CONFIG_ANDROID
 
-		case 7:/* Verify if GPIO module disable happens if all \
+		case 9:/* Verify if GPIO module disable happens if all \
 				GPIOs in the module are inactive */
 			gpio_test7();
 			break;
 
-		case 8:/* Request for same GPIO twice and free \
+		case 10:/* Request for same GPIO twice and free \
 				the GPIO */
 			gpio_test_request();
 			if (request_flag) {
 				request_flag = 0;
+				printk(KERN_INFO "Requesting same GPIO again");
 				gpio_test_request();
 				if (request_flag)
 					test_passed = 0;
@@ -319,8 +337,6 @@ static void gpio_test(void)
 			printk(KERN_INFO "Test option not available.\n");
 	}
 
-	printk(KERN_INFO "Logical ANDing of three error flags is: %d\n", \
-			(error_flag_1 && error_flag_2 && error_flag_3));
 	/* On failure of a testcase, one of the three error flags set to 0
 	 * if a gpio line request fails it is not considered as a failure
 	 * set test_passed =0 for failure

@@ -8,7 +8,7 @@
 
 # Begin L_DD_GPIO_0015_0001
 
-00 set -x; $TESTSCRIPT/gpio_request_free.sh "8"
+00 set -x; $TESTSCRIPT/gpio_request_free.sh "10"
 
 # End L_DD_GPIO_0015_0001
 
