@@ -60,7 +60,7 @@ case "$TESTCASEID" in
 	;;
 	# Run a read and keep switching from one process to another
 	6)
-		verifyspeed.sh &&  for i in $I2C_ADDRESSES;do  $UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "smp_i2cdump  -y -f  1 $i 5 b " "5" "15" || exit 1; done
+		verifyspeed.sh &&  for i in 0x48 0x49 0x4A ;do  $UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "i2cdump  -y -f  1 $i  b  0 0x4E 25 " "5" "15" || exit 1; done
 	;;
 	# Run two reads in parallel
 	7)
