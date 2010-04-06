@@ -6,6 +6,9 @@
 #  in the license agreement under which this software has been supplied.
 #===============================================================================
 
+ifeq ($(SUITE_DIR),)
+SUITE_DIR:=$(PWD)
+endif
 CC := $(CROSS_COMPILE)gcc
 
 MODULES = gptimer_request.o gptimer_request_specific.o timer32value-smp.o timer32value.o
