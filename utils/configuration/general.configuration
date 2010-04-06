@@ -75,7 +75,7 @@ export PM_STATE=$PM_SYSFS_POWER_ENTRY/state
 export PM_SLEEP_WHILE_IDLE=$PM_SYSFS_POWER_ENTRY/sleep_while_idle
 export PM_ENABLED_OFF_MODE=$PM_SYSFS_POWER_ENTRY/enable_off_mode
 export PM_VOLTAGE_OFF_WHILE_IDLE=$PM_SYSFS_POWER_ENTRY/voltage_off_while_idle
-export PM_WAKEUP_TIMER_SECONDS=$PM_SYSFS_POWER_ENTRY/wakeup_timer_seconds`
+export PM_WAKEUP_TIMER_SECONDS=$PM_SYSFS_POWER_ENTRY/wakeup_timer_seconds
 
 # handlerDebugFileSsytem.sh
 export HDFS_DEBUG_FILESYSTEM_DIRECTORY=/debug/
@@ -89,3 +89,4 @@ export HCFSG_GOVERNORS_LIST_OK=$UTILS_DIR_TMP/hcfsg.governors.list.ok
 export HCFSG_GOVERNORS_LIST_ERROR=$UTILS_DIR_TMP/hcfsg.governors.list.error
 
 # End of file
+
