@@ -10,7 +10,7 @@
 #define FAIL 0
 #define SUCCESS 1
 
-int openlog[2]={0,0};
+int openstatus[2] = {0, 0};
 
 #define MAXNUM 0x100000
 
@@ -56,7 +56,7 @@ main(int ac, char **av)
     open_read_close(fname);
   }
   close(nullfd);
-  printf("Success:\t%d\nFail:\t%d\n",openlog[SUCCESS],openlog[FAIL]);
+  printf("Success:\t%d\nFail:\t%d\n", openstatus[SUCCESS], openstatus[FAIL]);
   exit(0);
 }
 
@@ -69,21 +69,23 @@ open_read_close(char *fname)
   extern errno;
 
   if ( (fd=open(fname, O_RDONLY)) < 0 ) {
-      openlog[FAIL]++;
+	openstatus[FAIL]++;
       close(fd);
       return;
   }
-  openlog[SUCCESS]++;
+  openstatus[SUCCESS]++;
   while ( (c=read(fd, buf, BUFS)) > 0 ) {
     if (write(nullfd,buf,c) < 0 ) {
       perror("/dev/null");
-      printf("Opened\t %d\nUnopend:\t%d\n",openlog[SUCCESS],openlog[FAIL]);
+      printf("Opened\t %d\nUnopend:\t%d\n", openstatus[SUCCESS],
+	openstatus[FAIL]);
       exit(1);
     }
   }
   if ( c < 0 ) {
     perror(fname);
-    printf("Opened\t %d\nUnopend:\t%d\n",openlog[SUCCESS],openlog[FAIL]);
+    printf("Opened\t %d\nUnopend:\t%d\n", openstatus[SUCCESS],
+	openstatus[FAIL]);
     exit(1);
   }
   close(fd);
