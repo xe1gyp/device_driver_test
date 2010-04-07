@@ -1,9 +1,9 @@
-
+<?xml version="1.0"?>
 <titan>
 
-<driverinformation>
-    <name>Camera-ISP</name>
-    <description>Camera Test Suite</description>
-</driverinformation>
+	<driverinformation>
+		<name>camera</name>
+		<description>Camera Test Suite</description>
+	</driverinformation>
 
 </titan>

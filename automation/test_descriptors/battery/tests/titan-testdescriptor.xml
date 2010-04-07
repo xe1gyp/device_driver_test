@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<titan>
+
+	<test id="L_DD_BATTERY_0009_0001">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/battery/scripts/test_runner.sh L_DD_BATTERY_0009_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/battery/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="240"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_BATTERY_0009_0002">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 03/26/2008 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/battery/scripts/test_runner.sh L_DD_BATTERY_0009_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/battery/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="240"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+</titan>

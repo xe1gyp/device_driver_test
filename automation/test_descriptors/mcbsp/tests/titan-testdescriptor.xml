@@ -1,292 +1,516 @@
 <?xml version="1.0"?>
 <titan>
 
-<test id="L_DD_MCBSP_0001">
+	<test id="L_DD_MCBSP_0001_0001">
 
- <information>
-  <autor> Abraham Arce </autor>
-  <description> TBD </description>
-  <dateofcreation> 02/13/2008 </dateofcreation>
- </information>
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
 
- <run>
-  <action>
-    <command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0001</command>
-  </action>
-  <action>
-    <command>rm /testsuites/mcbsp/scripts/log.*</command>
-  </action>
- </run>
+		<run>
+			<action>
+				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0001_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mcbsp/scripts/log.*</command>
+			</action>
+		</run>
 
- <pass>
-  <output>
-    <value>stat=0</value>
-  </output>
- </pass>
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
 
- <fail>
- <timeout time="600"/>
-  <output>
-    <regularexpression>stat=[^0]\d*</regularexpression>
-  </output>
- </fail>
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
 
-</test>
+	</test>
 
-<test id="L_DD_MCBSP_0002">
+	<test id="L_DD_MCBSP_0001_0002">
 
- <information>
-  <autor> Abraham Arce </autor>
-  <description> TBD </description>
-  <dateofcreation> 02/13/2008 </dateofcreation>
- </information>
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
 
- <run>
-  <action>
-    <command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0002</command>
-  </action>
-  <action>
-    <command>rm /testsuites/mcbsp/scripts/log.*</command>
-  </action>
- </run>
+		<run>
+			<action>
+				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0001_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mcbsp/scripts/log.*</command>
+			</action>
+		</run>
 
- <pass>
-  <output>
-    <value>stat=0</value>
-  </output>
- </pass>
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
 
- <fail>
- <timeout time="600"/>
-  <output>
-    <regularexpression>stat=[^0]\d*</regularexpression>
-  </output>
- </fail>
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
 
-</test>
+	</test>
 
-<test id="L_DD_MCBSP_0003">
+	<test id="L_DD_MCBSP_0002_0001">
 
- <information>
-  <autor> Abraham Arce </autor>
-  <description> TBD </description>
-  <dateofcreation> 02/13/2008 </dateofcreation>
- </information>
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
 
- <run>
-  <action>
-    <command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0003</command>
-  </action>
-  <action>
-    <command>rm /testsuites/mcbsp/scripts/log.*</command>
-  </action>
- </run>
+		<run>
+			<action>
+				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0002_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mcbsp/scripts/log.*</command>
+			</action>
+		</run>
 
- <pass>
-  <output>
-    <value>stat=0</value>
-  </output>
- </pass>
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
 
- <fail>
- <timeout time="600"/>
-  <output>
-    <regularexpression>stat=[^0]\d*</regularexpression>
-  </output>
- </fail>
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
 
-</test>
+	</test>
 
-<test id="L_DD_MCBSP_0004">
+	<test id="L_DD_MCBSP_0002_0002">
 
- <information>
-  <autor> Abraham Arce </autor>
-  <description> TBD </description>
-  <dateofcreation> 02/13/2008 </dateofcreation>
- </information>
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
 
- <run>
-  <action>
-    <command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0004</command>
-  </action>
-  <action>
-    <command>rm /testsuites/mcbsp/scripts/log.*</command>
-  </action>
- </run>
+		<run>
+			<action>
+				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0002_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mcbsp/scripts/log.*</command>
+			</action>
+		</run>
 
- <pass>
-  <output>
-    <value>stat=0</value>
-  </output>
- </pass>
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
 
- <fail>
- <timeout time="600"/>
-  <output>
-    <regularexpression>stat=[^0]\d*</regularexpression>
-  </output>
- </fail>
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
 
-</test>
+	</test>
 
-<test id="L_DD_MCBSP_0005">
+	<test id="L_DD_MCBSP_0002_0003">
 
- <information>
-  <autor> Abraham Arce </autor>
-  <description> TBD </description>
-  <dateofcreation> 02/13/2008 </dateofcreation>
- </information>
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
 
- <run>
-  <action>
-    <command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0005</command>
-  </action>
-  <action>
-    <command>rm /testsuites/mcbsp/scripts/log.*</command>
-  </action>
- </run>
+		<run>
+			<action>
+				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0002_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mcbsp/scripts/log.*</command>
+			</action>
+		</run>
 
- <pass>
-  <output>
-    <value>stat=0</value>
-  </output>
- </pass>
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
 
- <fail>
- <timeout time="600"/>
-  <output>
-    <regularexpression>stat=[^0]\d*</regularexpression>
-  </output>
- </fail>
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
 
-</test>
+	</test>
 
-<test id="L_DD_MCBSP_0006">
+	<test id="L_DD_MCBSP_0003_0001">
 
- <information>
-  <autor> Abraham Arce </autor>
-  <description> TBD </description>
-  <dateofcreation> 02/13/2008 </dateofcreation>
- </information>
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
 
- <run>
-  <action>
-    <command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0006</command>
-  </action>
-  <action>
-    <command>rm /testsuites/mcbsp/scripts/log.*</command>
-  </action>
- </run>
+		<run>
+			<action>
+				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0003_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mcbsp/scripts/log.*</command>
+			</action>
+		</run>
 
- <pass>
-  <output>
-    <value>stat=0</value>
-  </output>
- </pass>
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
 
- <fail>
- <timeout time="700"/>
-  <output>
-    <regularexpression>stat=[^0]\d*</regularexpression>
-  </output>
- </fail>
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
 
-</test>
+	</test>
 
-<test id="L_DD_MCBSP_0007">
+	<test id="L_DD_MCBSP_0004_0001">
 
- <information>
-  <autor> Abraham Arce </autor>
-  <description> TBD </description>
-  <dateofcreation> 02/13/2008 </dateofcreation>
- </information>
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
 
- <run>
-  <action>
-    <command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0007</command>
-  </action>
-  <action>
-    <command>rm /testsuites/mcbsp/scripts/log.*</command>
-  </action>
- </run>
+		<run>
+			<action>
+				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0004_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mcbsp/scripts/log.*</command>
+			</action>
+		</run>
 
- <pass>
-  <output>
-    <value>stat=0</value>
-  </output>
- </pass>
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
 
- <fail>
- <timeout time="600"/>
-  <output>
-    <regularexpression>stat=[^0]\d*</regularexpression>
-  </output>
- </fail>
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
 
-</test>
+	</test>
 
-<test id="L_DD_MCBSP_0008">
+	<test id="L_DD_MCBSP_0004_0002">
 
- <information>
-  <autor> Abraham Arce </autor>
-  <description> TBD </description>
-  <dateofcreation> 02/13/2008 </dateofcreation>
- </information>
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
 
- <run>
-  <action>
-    <command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0008</command>
-  </action>
-  <action>
-    <command>rm /testsuites/mcbsp/scripts/log.*</command>
-  </action>
- </run>
+		<run>
+			<action>
+				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0004_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mcbsp/scripts/log.*</command>
+			</action>
+		</run>
 
- <pass>
-  <output>
-    <value>stat=0</value>
-  </output>
- </pass>
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
 
- <fail>
- <timeout time="600"/>
-  <output>
-    <regularexpression>stat=[^0]\d*</regularexpression>
-  </output>
- </fail>
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
 
-</test>
+	</test>
 
-<test id="L_DD_MCBSP_0009">
+	<test id="L_DD_MCBSP_0005_0001">
 
- <information>
-  <autor> Abraham Arce </autor>
-  <description> TBD </description>
-  <dateofcreation> 02/13/2008 </dateofcreation>
- </information>
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
 
- <run>
-  <action>
-    <command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0009</command>
-  </action>
-  <action>
-    <command>rm /testsuites/mcbsp/scripts/log.*</command>
-  </action>
- </run>
+		<run>
+			<action>
+				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0005_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mcbsp/scripts/log.*</command>
+			</action>
+		</run>
 
- <pass>
-  <output>
-    <value>stat=0</value>
-  </output>
- </pass>
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
 
- <fail>
- <timeout time="600"/>
-  <output>
-    <regularexpression>stat=[^0]\d*</regularexpression>
-  </output>
- </fail>
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
 
-</test>
+	</test>
+
+	<test id="L_DD_MCBSP_0005_0002">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0005_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mcbsp/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_MCBSP_0006_0001">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0006_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mcbsp/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_MCBSP_0007_0001">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0007_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mcbsp/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_MCBSP_0008_0001">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0008_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mcbsp/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_MCBSP_0009_0001">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0009_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mcbsp/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_MCBSP_0010_0001">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0010_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mcbsp/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_MCBSP_0011_0001">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0011_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mcbsp/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
 
 </titan>

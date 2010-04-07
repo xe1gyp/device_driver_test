@@ -1,39 +1,164 @@
 <?xml version="1.0"?>
 <titan>
 
-<test id="L_DD_WDT_0001">
+	<test id="L_DD_WDT_0000_0001">
 
- <information>
-  <autor> Ricardo Perez  </autor>
-  <description> WDT Test Scenario 0001: Tests the various ioctls supported by watchdog timer driver. </description>
-  <dateofcreation> 03/26/2008 </dateofcreation>
- </information>
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
 
- <run>
-  <action>
-    <command>cd /testsuites/watchdog/scripts/</command>
-  </action>
-  <action>
-      <command>./test_runner.sh L_DD_WDT_0001</command>
-  </action>
-  <action>
-    <command>rm log.*</command>
-  </action>
- </run>
+		<run>
+			<action>
+				<command>/testsuites/watchdog/scripts/test_runner.sh L_DD_WDT_0000_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/watchdog/scripts/log.*</command>
+			</action>
+		</run>
 
- <pass>
-  <output>
-    <value>stat=0</value>
-  </output>
- </pass>
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
 
- <fail>
-   <timeout time="300"/>
-  <output>
-    <regularexpression>stat=[^0]\d*</regularexpression>
-  </output>
- </fail>
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
 
-</test>
+	</test>
+
+	<test id="L_DD_WDT_0002_0001">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/watchdog/scripts/test_runner.sh L_DD_WDT_0002_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/watchdog/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_WDT_0003_0001">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/watchdog/scripts/test_runner.sh L_DD_WDT_0003_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/watchdog/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_WDT_0006_0001">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/watchdog/scripts/test_runner.sh L_DD_WDT_0006_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/watchdog/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_WDT_0006_0002">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/watchdog/scripts/test_runner.sh L_DD_WDT_0006_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/watchdog/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
 
 </titan>

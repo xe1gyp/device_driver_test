@@ -1,197 +1,804 @@
 <?xml version="1.0"?>
 <titan>
 
-<test id="L_DD_I2C_0001_0001">
+	<test id="L_DD_I2C_0001_0001">
 
- <information>
-  <autor> Nishant Menon, Abraham Arce </autor>
-  <description> I2C driver shall support all the available I2C hardware modules </description>
-  <dateofcreation> 12/5/2008 </dateofcreation>
- </information>
+		<information>
+			<autor> Nishant Menon, Abraham Arce </autor>
+			<description> I2C driver shall support all the available I2C hardware modules </description>
+			<dateofcreation> 12/5/2008 </dateofcreation>
+		</information>
 
- <run>
-  <action>
-    <command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0001_0001</command>
-  </action>
-  <action>
-    <command>rm /testsuites/i2c/scripts/log.*</command>
-  </action>
- </run>
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0001_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
 
- <pass>
-  <output>
-    <value>stat=0</value>
-  </output>
- </pass>
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
 
- <fail>
-	<timeout time="300"/>
-  <output>
-    <regularexpression>stat=[^0]\d*</regularexpression>
-  </output>
- </fail>
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
 
-</test>
+	</test>
 
-<test id="L_DD_I2C_0004_0001">
+	<test id="L_DD_I2C_0004_0001">
 
- <information>
-  <autor> Nishant Menon, Abraham Arce </autor>
-  <description> I2C driver shall support standard mode (up to 100 Kbits/s), fast mode (up to 400 Kbits/s) and high speed mode (up to 3.4 Mbps) when attempting to write and read values to an invalid register
- </description>
-  <dateofcreation> 12/5/2008 </dateofcreation>
- </information>
+		<information>
+			<autor> Nishant Menon, Abraham Arce </autor>
+			<description> I2C driver shall support standard mode (up to 100 Kbits/s) when attempting to write and read values to an invalid register </description>
+			<dateofcreation> 12/5/2008 </dateofcreation>
+		</information>
 
- <run>
-  <action>
-    <command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0004_0001</command>
-  </action>
-  <action>
-    <command>rm /testsuites/i2c/scripts/log.*</command>
-  </action>
- </run>
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0004_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
 
- <pass>
-  <output>
-    <value>stat=0</value>
-  </output>
- </pass>
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
 
- <fail>
-	<timeout time="300"/>
-  <output>
-    <regularexpression>stat=[^0]\d*</regularexpression>
-  </output>
- </fail>
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
 
-</test>
+	</test>
 
-<test id="L_DD_I2C_0004_0002">
+	<test id="L_DD_I2C_0004_0002">
 
- <information>
-  <autor> Nishant Menon, Abraham Arce </autor>
-  <description> I2C driver shall support standard mode (up to 100 Kbits/s), fast mode (up to 400 Kbits/s) and high speed mode (up to 3.4 Mbps) when writing and reading values to several registers </description>
-  <dateofcreation> 12/5/2008 </dateofcreation>
- </information>
+		<information>
+			<autor> Nishant Menon, Abraham Arce </autor>
+			<description> I2C driver shall support standard mode (up to 100 Kbits/s) when writing and reading values to several registers </description>
+			<dateofcreation> 12/5/2008 </dateofcreation>
+		</information>
 
- <run>
-  <action>
-    <command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0004_0002</command>
-  </action>
-  <action>
-    <command>rm /testsuites/i2c/scripts/log.*</command>
-  </action>
- </run>
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0004_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
 
- <pass>
-  <output>
-    <value>stat=0</value>
-  </output>
- </pass>
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
 
- <fail>
-	<timeout time="300"/>
-  <output>
-    <regularexpression>stat=[^0]\d*</regularexpression>
-  </output>
- </fail>
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
 
-</test>
+	</test>
 
-<test id="L_DD_I2C_0004_0003">
+	<test id="L_DD_I2C_0004_0003">
 
- <information>
-  <autor> Nishant Menon, Abraham Arce </autor>
-  <description> I2C driver shall support standard mode (up to 100 Kbits/s), fast mode (up to 400 Kbits/s) and high speed mode (up to 3.4 Mbps) when attempting to write and read values to an invalid register </description>
-  <dateofcreation> 12/5/2008 </dateofcreation>
- </information>
+		<information>
+			<autor> Nishant Menon, Abraham Arce </autor>
+			<description> I2C driver shall support standard mode (up to 100 Kbits/s) when attempting to write and read values to an invalid register </description>
+			<dateofcreation> 12/5/2008 </dateofcreation>
+		</information>
 
- <run>
-  <action>
-    <command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0004_0003</command>
-  </action>
-  <action>
-    <command>rm /testsuites/i2c/scripts/log.*</command>
-  </action>
- </run>
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0004_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
 
- <pass>
-  <output>
-    <value>stat=0</value>
-  </output>
- </pass>
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
 
- <fail>
-	<timeout time="300"/>
-  <output>
-    <regularexpression>stat=[^0]\d*</regularexpression>
-  </output>
- </fail>
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
 
-</test>
+	</test>
 
-<test id="L_DD_I2C_0004_0004">
+	<test id="L_DD_I2C_0004_0004">
 
- <information>
-  <autor> Nishant Menon, Abraham Arce </autor>
-  <description> I2C driver shall support standard mode (up to 100 Kbits/s), fast mode (up to 400 Kbits/s) and high speed mode (up to 3.4 Mbps) when cancelling write an read operations to registers </description>
-  <dateofcreation> 12/5/2008 </dateofcreation>
- </information>
+		<information>
+			<autor> Nishant Menon, Abraham Arce </autor>
+			<description> I2C driver shall support standard mode (up to 100 Kbits/s) when cancelling write an read operations to registers </description>
+			<dateofcreation> 12/5/2008 </dateofcreation>
+		</information>
 
- <run>
-  <action>
-    <command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0004_0004</command>
-  </action>
-  <action>
-    <command>rm /testsuites/i2c/scripts/log.*</command>
-  </action>
- </run>
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0004_0004</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
 
- <pass>
-  <output>
-    <value>stat=0</value>
-  </output>
- </pass>
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
 
- <fail>
-	<timeout time="300"/>
-  <output>
-    <regularexpression>stat=[^0]\d*</regularexpression>
-  </output>
- </fail>
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
 
-</test>
+	</test>
 
-<test id="L_DD_I2C_0004_0005">
+	<test id="L_DD_I2C_0004_0005">
 
- <information>
-  <autor> Nishant Menon, Abraham Arce </autor>
-  <description> I2C driver shall support standard mode (up to 100 Kbits/s), fast mode (up to 400 Kbits/s) and high speed mode (up to 3.4 Mbps) when suspending and resuming the system while writing and reading values from a register </description>
-  <dateofcreation> 12/5/2008 </dateofcreation>
- </information>
+		<information>
+			<autor> Nishant Menon, Abraham Arce </autor>
+			<description> I2C driver shall support standard mode (up to 100 Kbits/s) when suspending and resuming the system while writing and reading values from a register </description>
+			<dateofcreation> 12/5/2008 </dateofcreation>
+		</information>
 
- <run>
-  <action>
-    <command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0004_0005</command>
-  </action>
-  <action>
-    <command>rm /testsuites/i2c/scripts/log.*</command>
-  </action>
- </run>
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0004_0005</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
 
- <pass>
-  <output>
-    <value>stat=0</value>
-  </output>
- </pass>
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
 
- <fail>
-	<timeout time="300"/>
-  <output>
-    <regularexpression>stat=[^0]\d*</regularexpression>
-  </output>
- </fail>
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
 
-</test>
+	</test>
+
+	<test id="L_DD_I2C_0005_0001">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> I2C driver shall support fast mode (up to 400 Kbits/s) when attempting to write and read values to an invalid register </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0005_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_I2C_0005_0002">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> I2C driver shall support fast mode (up to 400 Kbits/s) when writing and reading values to several registers </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0005_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_I2C_0005_0003">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> I2C driver shall support fast mode (up to 400 Kbits/s) when attempting to write and read values to an invalid register </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0005_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_I2C_0005_0004">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> I2C driver shall support fast mode (up to 400 Kbits/s) when cancelling write an read operations to registers </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0005_0004</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_I2C_0005_0005">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> I2C driver shall support fast mode (up to 400 Kbits/s) when suspending and resuming the system while writing and reading values from a register </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0005_0005</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_I2C_0006_0001">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> I2C driver shall support high speed mode (up to 3.4 Mbps) when attempting to write and read values to an invalid register </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0006_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_I2C_0006_0002">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> I2C driver shall support high speed mode (up to 3.4 Mbps) when writing and reading values to several registers </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0006_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_I2C_0006_0003">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> I2C driver shall support high speed mode (up to 3.4 Mbps) when attempting to write and read values to an invalid register </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0006_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_I2C_0006_0004">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> I2C driver shall support high speed mode (up to 3.4 Mbps) when cancelling write an read operations to registers </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0006_0004</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_I2C_0006_0005">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> I2C driver shall support high speed mode (up to 3.4 Mbps) when suspending and resuming the system while writing and reading values from a register </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0006_0005</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_I2C_0007_0001">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0007_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_I2C_0010_0001">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0010_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_I2C_0010_0002">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0010_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_I2C_0010_0003">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0010_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_I2C_0010_0004">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0010_0004</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_I2C_0010_0005">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0010_0005</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_I2C_0010_0006">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0010_0006</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_I2C_0010_0007">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0010_0007</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_I2C_0011_0001">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/i2c/scripts/test_runner.sh L_DD_I2C_0011_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/i2c/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
 
 </titan>

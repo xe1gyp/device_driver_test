@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <titan>
 
-<driverinformation>
-    <name>McBSP</name>
-    <description>Tests suites for McBSP</description>
-</driverinformation>
+	<driverinformation>
+		<name>mcbsp</name>
+		<description>Tests suites for McBSP</description>
+	</driverinformation>
 
 </titan>

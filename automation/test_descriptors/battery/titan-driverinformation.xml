@@ -2,8 +2,8 @@
 <titan>
 
 	<driverinformation>
-		<name>keypad</name>
-		<description>Tests suites for Keypad</description>
+		<name>baterry</name>
+		<description>Battery Driver Test</description>
 	</driverinformation>
 
 </titan>

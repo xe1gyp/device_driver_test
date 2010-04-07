@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <titan>
 
-<driverinformation>
-    <name>Ethernet</name>
-    <description>Tests suites for Ethernet:</description>
-</driverinformation>
+	<driverinformation>
+		<name>ethernet</name>
+		<description>Ethernet driver testsuites</description>
+	</driverinformation>
 
 </titan>

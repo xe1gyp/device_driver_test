@@ -2,8 +2,8 @@
 <titan>
 
 	<driverinformation>
-		<name>keypad</name>
-		<description>Tests suites for Keypad</description>
+		<name>hsuart</name>
+		<description>High Speed UART Driver Test</description>
 	</driverinformation>
 
 </titan>

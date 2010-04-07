@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <titan>
 
-<driverinformation>
-    <name>Real Time Clock</name>
-    <description>Tests suites for Realtimeclock</description>
-</driverinformation>
+	<driverinformation>
+		<name>realtimeclock</name>
+		<description>Tests suites for Real Time Clock</description>
+	</driverinformation>
 
 </titan>

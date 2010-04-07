@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <titan>
 
-<driverinformation>
-    <name>TouchScreen</name>
-    <description>Tests suites for TouchScreen</description>
-</driverinformation>
+	<driverinformation>
+		<name>touchscreen</name>
+		<description>Tests suites for Touch Screen</description>
+	</driverinformation>
 
 </titan>

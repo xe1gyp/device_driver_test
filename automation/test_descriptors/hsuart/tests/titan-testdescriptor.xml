@@ -1,0 +1,197 @@
+<?xml version="1.0"?>
+<titan>
+
+	<test id="L_DD_HSUART_0010_0001_01">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0001_01</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="240"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_HSUART_0010_0001_02">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0001_02</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="240"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_HSUART_0010_0002_01">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0002_01</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="240"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_HSUART_0010_0002_02">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0002_02</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="240"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_HSUART_0010_0003_01">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0003_01</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="240"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_HSUART_0010_0003_02">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0003_02</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="240"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+
+</titan>

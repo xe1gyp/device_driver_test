@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <titan>
 
-<driverinformation>
-    <name>I2C</name>
-    <description>Tests suites for I2C</description>
-</driverinformation>
+	<driverinformation>
+		<name>i2c</name>
+		<description>Tests suites for I2C</description>
+	</driverinformation>
 
 </titan>
