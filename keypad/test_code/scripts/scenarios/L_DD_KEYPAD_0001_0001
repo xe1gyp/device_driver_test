@@ -7,6 +7,6 @@
 
 # Begin L_DD_KEYPAD_0001_0001
 
-01  set -x; echo -e "\n\n\nThe application will wait for 500 keypresses.\nPlease verify that keycodes correspond to values\nshown in the UTR.\n\n\n"; testkeypad $DEVFS_KEYPAD
+01  set -x; echo -e "\n\n\nThe application will wait for 500 keypresses.\nPlease verify that keycodes are reported accordingly\n\n\n"; testkeypad $DEVFS_KEYPAD
 
 # End L_DD_KEYPAD_0001_0001

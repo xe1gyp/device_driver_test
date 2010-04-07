@@ -61,4 +61,8 @@ then
 	exit 1
 fi
 
+# Remove all existing references for handlerError.sh
+handlerError.sh "clean"
+
 # End of file
+

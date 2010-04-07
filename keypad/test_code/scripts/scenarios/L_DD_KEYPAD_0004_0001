@@ -1,12 +1,13 @@
 ###############################################################################
-# Scenario: L_DD_KEYPAD_0001_0001
+# Scenario: L_DD_KEYPAD_0004_0001
 # Author  : Abraham Arce
 # Modified by: Aharon Campos
 # Date    :  Oct 15, 2009
 ###############################################################################
 
-# Begin L_DD_KEYPAD_0001_0001
+# Begin L_DD_KEYPAD_0004_0001
 
-01  set -x; "\n\n\nThe system is going to sleep.\nPlease press a key to bring it back\n\n\n"; echo -n 0 > /sys/power/wakeup_timer_seconds ;echo -n mem > /sys/power/state;
+01  set -x; echo -e "\n\nThe system is going to sleep, you can use any key to bring it back\n\n"
+02  set -x; handlerSuspendResume.sh "run" "5" "evtest $DEVFS_KEYPAD"
 
-# End L_DD_KEYPAD_0001_0001
+# End L_DD_KEYPAD_0004_0001

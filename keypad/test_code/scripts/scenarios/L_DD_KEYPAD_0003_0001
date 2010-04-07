@@ -7,6 +7,12 @@
 
 # Begin L_DD_KEYPAD_0003_0001
 
-01  set -x; dvfs.opp.sh & echo -e "\n\n\nThe application will wait for 500 keypresses.\nPlease verify that keycodes correspond to values\nshown in the UTR.\n\n\n"; testkeypad $DEVFS_KEYPAD
+# Frequency
+01  set -x; echo -e "\n\nThe application will wait for 500 keypresses.\nPlease verify that keycodes are reported accordingly\n\n"
+02  set -x; handlerCpuFreqScalFrequencies.sh "run" "all" "evtest $DEVFS_KEYPAD"
+
+# Governors
+03  set -x; echo -e "\n\nThe application will wait for 500 keypresses.\nPlease verify that keycodes are reported accordingly\n\n"
+04  set -x; handlerCpuFreqScalGovernors.sh "run" "all" "evtest $DEVFS_KEYPAD"
 
 # End L_DD_KEYPAD_0003_0001
