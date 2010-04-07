@@ -196,7 +196,9 @@ int initport(int fd,long baudrate,int flow_ctrl)
         options.c_cflag &= ~CSIZE;  /* character size 8 */
         options.c_cflag |=  CS8 ;
 
+	/*
 	printf("\n  options.c_iflag = 0x%x \n", options.c_iflag);
+	*/
 
         /* Hardware Control Options - Set local mode and Enable receiver to receive characters */
         options.c_cflag     |= (CLOCAL | CREAD );
@@ -260,13 +262,13 @@ void close_port()
 void display_intro()
 {
 	printf("\nUse the following format to run the HS-UART TEST PROGRAM \n");
-	printf("\nFor sending data: \n./ts_uart s <file_name_for_tx> <baudrate> <flow_control(0/1/2)>\n");
+	printf("\nFor sending data: \n./ts_uart s <tty_interface> <file_name_for_tx/rx> <baudrate> <flow_control(0/1/2)>\n");
 	printf("\nFlow control bits: \n"
 			"0: Using No flow control. \n"
 			"1: Hardware FlowControl: To Enable RTS/CTS support.\n"
 			"2: Software FlowControl: To Enable XON/XOFF support.\n");
-	printf("\n Ex. ./ts_uart s sample 115200 1 \n");
+	printf("\n Ex. ./ts_uart s ttyO1 sample_send 115200 1 \n");
 	printf("\n For Receiving data:");
-	printf("\n Ex. ./ts_uart r sample 115200 1 \n");
+	printf("\n Ex. ./ts_uart r ttyO1 sample_recv 115200 1 \n");
 }
 
