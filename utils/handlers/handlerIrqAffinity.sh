@@ -32,12 +32,12 @@ fi
 
 handlerError.sh "test"
 if [ $? -eq 1 ]; then
-  return 1
+	return 1
 fi
 
 if [ "$LOCAL_OPERATION" = "switch" ]; then
 
-  $LOCAL_COMMAND_LINE &
+	$LOCAL_COMMAND_LINE &
 	LOCAL_COMMAND_PID=`echo $!`
 
 	count=1
@@ -68,7 +68,7 @@ if [ "$LOCAL_OPERATION" = "switch" ]; then
 				continue
 			else
 				echo "Error: Number of interrupts were not increased in Processor 1"
-				#return 1
+				exit 1
 			fi
 
 		else
@@ -85,7 +85,7 @@ if [ "$LOCAL_OPERATION" = "switch" ]; then
 				continue
 			else
 				echo "Error: Number of interrupts were not increased in Processor 2"
-				#return 1
+				exit 1
 			fi
 
 		fi
@@ -95,8 +95,8 @@ if [ "$LOCAL_OPERATION" = "switch" ]; then
 
 	done
 
-  echo -e "\nInfo: Command > $LOCAL_COMMAND_LINE"
-  echo -e "Info: Waiting for it to finish..."
+	echo -e "\nInfo: Command > $LOCAL_COMMAND_LINE"
+	echo -e "Info: Waiting for it to finish..."
 	wait
 	echo -e "Info: Done!\n"
 
