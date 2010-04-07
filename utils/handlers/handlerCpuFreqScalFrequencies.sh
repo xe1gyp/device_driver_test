@@ -47,7 +47,7 @@ setAllFrequencies() {
 	fi
 
 
-	while [ 1 ]; then
+	while [ 1 ]; do
 
 		for i in $LOCAL_FREQUENCIES_LIST_AVAILABLE
 
@@ -70,6 +70,7 @@ setAllFrequencies() {
 		else
 			break
 		fi
+
 	done
 
 	wait
@@ -89,6 +90,23 @@ setAllFrequencies() {
 # =============================================================================
 # Main
 # =============================================================================
+
+handlerError.sh "test"
+if [ $? -eq 1 ]; then
+	return 1
+fi
+
+if [ ! -f /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies ]; then
+	echo "FATAL: /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies cannot be found!"
+	handlerError.sh "log" "1" "halt" "handlerCpuFreqScalFrequencies.sh"
+	exit 1
+fi
+
+if [ ! -f /sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed ]; then
+	echo "FATAL: /sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed cannot be found!"
+	handlerError.sh "log" "1" "halt" "handlerCpuFreqScalFrequencies.sh"
+	exit 1
+fi
 
 if [ "$LOCAL_OPERATION" = "set" ]; then
 

@@ -46,7 +46,7 @@ setAllGovernor() {
 		LOCAL_COMMAND_PID=`echo $!`
 	fi
 
-	while [ 1 ]; then
+	while [ 1 ]; do
 
 		for i in $LOCAL_GOVERNORS_LIST_AVAILABLE
 
@@ -68,6 +68,7 @@ setAllGovernor() {
 		else
 			break
 		fi
+
 	done
 
 	wait
@@ -87,6 +88,24 @@ setAllGovernor() {
 # =============================================================================
 # Main
 # =============================================================================
+
+handlerError.sh "test"
+if [ $? -eq 1 ]; then
+	return 1
+fi
+
+
+if [ ! -f /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors ]; then
+	echo "FATAL: /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors cannot be found!"
+	handlerError.sh "log" "1" "halt" "handlerCpuFreqScalGovernors.sh"
+	exit 1
+fi
+
+if [ ! -f /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ]; then
+	echo "FATAL: /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor cannot be found!"
+	handlerError.sh "log" "1" "halt" "handlerCpuFreqScalGovernors.sh"
+	exit 1
+fi
 
 if [ "$LOCAL_OPERATION" = "set" ]; then
 

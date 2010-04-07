@@ -24,7 +24,7 @@ suspendResume() {
 
 	echo $LOCAL_WAKEUP_TIME > $PM_WAKEUP_TIMER_SECONDS
 
-	while [ 1 ]; then
+	while [ 1 ]; do
 
 		echo > /var/log/messages
 		echo mem > /sys/power/state
@@ -56,9 +56,21 @@ if [ $? -eq 1 ]; then
 	return 1
 fi
 
+if [ ! -f "$PM_WAKEUP_TIMER_SECONDS" ]; then
+	echo "FATAL: $PM_WAKEUP_TIMER_SECONDS cannot be found!"
+	handlerError.sh "log" "1" "halt" "handlerSuspendResume"
+	exit 1
+fi
+
+if [ ! -f /sys/power/state ]; then
+	echo "FATAL: /sys/power/state cannot be found!"
+	handlerError.sh "log" "1" "halt" "handlerSuspendResume"
+	exit 1
+fi
+
 if [ "$LOCAL_OPERATION" = "suspend" ]; then
 	suspendResume $LOCAL_WAKEUP_TIME
-if [ "$LOCAL_OPERATION" = "run" ]; then
+elif [ "$LOCAL_OPERATION" = "run" ]; then
 	LOCAL_COMMAND_LINE=$3
 	suspendResume $LOCAL_WAKEUP_TIME $LOCAL_COMMAND_LINE
 fi
