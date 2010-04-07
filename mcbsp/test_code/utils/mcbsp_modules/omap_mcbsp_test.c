@@ -31,17 +31,8 @@
 #include <asm/io.h>
 #include <asm/serial.h>
 #include <asm/dma.h>
-
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 27) && LINUX_VERSION_CODE <= KERNEL_VERSION(2, 6, 31))
- #include <mach/dma.h>
- #include <mach/mcbsp.h>
-#elif LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 32)
- #include <plat/dma.h>
- #include <plat/mcbsp.h>
-#else
- #include <asm/arch/dma.h>
- #include <asm/arch/mcbsp.h>
-#endif
+#include <mach/mcbsp.h>
+#include <mach/dma.h>
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,00))
 #include <linux/dma-mapping.h>
@@ -75,7 +66,7 @@ struct omap_mcbsp_srg_fsg_cfg cfg;
 
 /* Module parameters are initialized to default values */
 
-static int rx_ready = 0;
+static int rx_ready = 1;
 static int buffer_size = 1024;
 static int no_of_trans = 10;
 //static int no_of_trans   = 1;
@@ -201,7 +192,6 @@ write_proc_entry(struct file *file, const char *buffer,
 	} else if (strncmp(val, "stop", 4) == 0) {
 		//      omap2_mcbsp_stop_datatx(mcbsptest_info.mcbsp_id);
 		//      omap2_mcbsp_stop_datarx(mcbsptest_info.mcbsp_id);
-		      omap_mcbsp_stop(mcbsptest_info[0].mcbsp_id , 1 , 1);
 	} else if (strncmp(val, "suspend", 4) == 0) {
 		return 0;
 	} else if (strncmp(val, "resume", 4) == 0) {
@@ -257,11 +247,14 @@ void omap_mcbsp_send_cb2(unsigned short int ch_status, void *arg)
 		mcbsptest_info[1].tx_buf_dma_phys =
 		    mcbsptest_info[1].tx_buf_dma_phys;
 
-		   if(0 != omap2_mcbsp_send_data(mcbsptest_info[1].mcbsp_id, &mcbsptest_info[1],
-		   mcbsptest_info[1].tx_buf_dma_phys, buffer_size)){
+		/*
+		   while(rx_ready);
+		   if(0 != omap2_mcbsp_send_data(mcbsptest_info.mcbsp_id, &mcbsptest_info,
+		   mcbsptest_info.tx_buf_dma_phys, buffer_size)){
 		   printk(KERN_ERR "McBSP Test Driver: Master Send data failed \n");
 		   return;
 		   }
+		 */
 		no_of_tx2++;
 
 	} else {
@@ -279,11 +272,14 @@ void omap_mcbsp_send_cb(unsigned short int ch_status, void *arg)
 	if (no_of_tx < no_of_trans) {
 		mcbsptest_info[0].tx_buf_dma_phys =
 		    mcbsptest_info[0].tx_buf_dma_phys;
-		   if(0 != omap2_mcbsp_send_data(mcbsptest_info[0].mcbsp_id, &mcbsptest_info[0],
-		   mcbsptest_info[0].tx_buf_dma_phys, buffer_size)){
+		/*
+		   while(rx_ready);
+		   if(0 != omap2_mcbsp_send_data(mcbsptest_info.mcbsp_id, &mcbsptest_info,
+		   mcbsptest_info.tx_buf_dma_phys, buffer_size)){
 		   printk(KERN_ERR "McBSP Test Driver: Master Send data failed \n");
 		   return;
 		   }
+		 */
 		no_of_tx++;
 
 	} else {
@@ -294,9 +290,6 @@ void omap_mcbsp_send_cb(unsigned short int ch_status, void *arg)
 
 void omap_mcbsp_recv_cb(unsigned short int ch_status, void *arg)
 {
-        char *ptr1, *ptr2;
-        int k,flag = 0;
-        u16 w;
 	printk("\nMCBSP_TEST: in %s  %d\n", __func__,
 	       mcbsptest_info[0].recv_cnt++);
 	if (no_of_rx < no_of_trans) {
@@ -307,6 +300,15 @@ void omap_mcbsp_recv_cb(unsigned short int ch_status, void *arg)
 					     buffer_size)) {
 			printk(KERN_ERR
 			       "McBSP Test Driver: Slave Send data failedn");
+			return;
+		}
+		if (0 !=
+		    omap2_mcbsp_send_data(mcbsptest_info[0].mcbsp_id,
+					  &mcbsptest_info[0],
+					  mcbsptest_info[0].tx_buf_dma_phys,
+					  buffer_size)) {
+			printk(KERN_ERR
+			       "McBSP Test Driver: Master Send data failed \n");
 			return;
 		}
 
@@ -320,46 +322,11 @@ void omap_mcbsp_recv_cb(unsigned short int ch_status, void *arg)
 		}
 		printk
 		    ("McBSP Data Reception (using DMA) is completed successfully \n");
-	ptr1 = mcbsptest_info[0].tx_buf_dma_virt;
-	ptr2 =  mcbsptest_info[0].rx_buf_dma_virt;
-#if 0
-        printk("TxBuffer\n");
-        for(k = 0; k < buffer_size ; k++)
-        {
-        printk("%x ", ptr1[k]);
-        if(((k+1)%16) == 0)
-        printk("\n");
-        }
-        printk("RxBuffer\n");
-
-        for(k = 0; k < buffer_size ; k++)
-        {
-        printk("%x ", ptr2[k]);
-        if(((k+1)%8) == 0)
-        printk("\n");
-        }
-
-#endif
-        for(k = 0; k < buffer_size ; ){
-//	printk("rc2 : %x %x %x\n", k, ptr1[k],ptr2[k]);
-                if(ptr2[k] !=  ptr1[k]) {
-//                        printk(" Error!!! in data %d \n",no_of_rx);
-                        flag |= 1;
-                }
-                k=k+1;
-        }
-        if (flag == 0)
-                printk(" Data Matched \n");
-        else
-                printk(" Data MisMatched \n");
-
 	}
 }
 
 void omap_mcbsp_recv_cb2(unsigned short int ch_status, void *arg)
 {
-	char *ptr1, *ptr2;
-	int k,flag = 0;
 	printk("\nMCBSP_TEST: in %s  %d\n", __func__,
 	       mcbsptest_info[1].recv_cnt++);
 	if (no_of_rx2 < no_of_trans) {
@@ -370,6 +337,15 @@ void omap_mcbsp_recv_cb2(unsigned short int ch_status, void *arg)
 					     buffer_size)) {
 			printk(KERN_ERR
 			       "McBSP Test Driver: Slave Send data failedn");
+			return;
+		}
+		if (0 !=
+		    omap2_mcbsp_send_data(mcbsptest_info[1].mcbsp_id,
+					  &mcbsptest_info[1],
+					  mcbsptest_info[1].tx_buf_dma_phys,
+					  buffer_size)) {
+			printk(KERN_ERR
+			       "McBSP Test Driver: Master Send data failed \n");
 			return;
 		}
 		no_of_rx2++;
@@ -383,39 +359,6 @@ void omap_mcbsp_recv_cb2(unsigned short int ch_status, void *arg)
 		printk
 		    ("McBSP Data Reception (using DMA) is completed successfully \n");
 	}
-	ptr1 = mcbsptest_info[0].tx_buf_dma_virt;
-        ptr2 =  mcbsptest_info[0].rx_buf_dma_virt;
-#if 0
-        printk("TxBuffer\n");
-        for(k = 0; k < buffer_size ; k++)
-        {
-        printk("%x ", ptr1[k]);
-        if(((k+1)%16) == 0)
-        printk("\n");
-        }
-        printk("RxBuffer\n");
-
-        for(k = 0; k < buffer_size ; k++)
-        {
-        printk("%x ", ptr2[k]);
-        if(((k+1)%8) == 0)
-        printk("\n");
-        }
-
-#endif
-
-        for(k = 0; k < buffer_size ; ){
-//	printk("rc2 : %x %x %x\n", k, ptr1[k],ptr2[k]);
-                if(ptr2[k] !=  ptr1[k]) {
-//                        printk(" Error!!! in data %d \n",no_of_rx);
-                        flag |= 1;
-                }
-                k=k+1;
-        }
-        if (flag == 0)
-                printk(" Data Matched \n");
-        else
-                printk(" Data MisMatched \n");
 }
 static
 int configure_mcbsp_interface(void)
@@ -437,10 +380,6 @@ int configure_mcbsp_interface(void)
 	cfg.sync_mode = OMAP_MCBSP_SRG_FREERUNNING;
 	cfg.polarity = 0;
 	cfg.dlb = 1;
-	if (word_length1 < word_length2 )
-		word_length = word_length1;
-	else
-		word_length = word_length2;
 }
 
 static
@@ -477,7 +416,7 @@ int configure_mcbsp_tx(void)
 	tp1.clk_mode = OMAP_MCBSP_CLKTXSRC_INTERNAL;
 	tp1.frame_length1 = OMAP_MCBSP_FRAMELEN_N(words_per_frame);
 	tp1.frame_length2 = OMAP_MCBSP_FRAMELEN_N(words_per_frame);
-	tp1.word_length1 = word_length1;
+	tp1.word_length1 = word_length;
 	tp1.word_length2 = word_length2;
 	tp1.justification = justification;
 	tp1.reverse_compand = OMAP_MCBSP_MSBFIRST;
@@ -509,13 +448,13 @@ int configure_mcbsp_tx(void)
 
 	ptr = mcbsptest_info[0].tx_buf_dma_virt;
 	for (k = 0; k < 1024;) {
-		ptr[k] = k;
+		ptr[k] = 0xAA;
 		k = k + 1;
 	}
 
 	ptr = mcbsptest_info[1].tx_buf_dma_virt;
 	for (k = 0; k < 1024;) {
-		ptr[k] = k;
+		ptr[k] = 0xBB;
 		k = k + 1;
 	}
 
@@ -610,7 +549,6 @@ int start_mcbsp_transmission(id)
 	mcbsptest_info[id].tx_cnt = 0;
 	mcbsptest_info[id].send_cnt = 0;
 
-#if 0
 	printk("\n Start McBSP Receiver \n");
 	/* RRST */
 	if (0 !=
@@ -627,7 +565,6 @@ int start_mcbsp_transmission(id)
 				 OMAP_MCBSP_XRST_ENABLE)) {
 		printk("\n Unable to start transmitter \n");
 	}
-#endif
 
 	printk(" Start DMA Rx \n");
 	if (0 !=
@@ -649,7 +586,6 @@ int start_mcbsp_transmission(id)
 		       "McBSP Test Driver: Master Send data failed \n");
 		return -1;
 	}
-	omap_mcbsp_start(mcbsptest_info[id].mcbsp_id,1,1);
 	return 0;
 }
 
