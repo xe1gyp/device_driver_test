@@ -82,6 +82,8 @@ void dma_callback_chain(int transfer_id, u16 transfer_status, void *data) {
        }
        transfer->data_correct = 0;
        transfer->finished = 1;
+	unmap_phys_buffers(&transfer->buffers);
+
        /* Stop the chain */
        printk("\nTransfer complete in chain %d-%d, checking destination buffer\n",
            transfer->chain_id, transfer->chained_id);

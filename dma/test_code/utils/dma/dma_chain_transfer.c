@@ -118,6 +118,8 @@ void dma_callback_chain(int transfer_id, u16 transfer_status, void *data) {
        (transfer->rounds)++;
        transfer->data_correct = 0;
        transfer->finished = 1;
+	unmap_phys_buffers(&transfer->buffers);
+
        /* Stop the chain */
        printk("\nTransfer complete in chain %d-%d, checking destination buffer\n",
            transfer->chain_id, transfer->chained_id);
@@ -158,21 +160,11 @@ EXPORT_SYMBOL(dma_callback_chain);
 int create_transfer_buffers_chain( struct dma_buffers_info *buffers){
        printk("Allocating non-cacheable source and destination buffers\n");
 
-       /* Allocate source buffer */
-       buffers->src_buf = 0;
-       buffers->src_buf = (unsigned int) dma_alloc_coherent(
-                NULL,
-                buffers->buf_size,
-                &(buffers->src_buf_phys),
-                0);
+	/* Allocate source buffer */
+	buffers->src_buf = (unsigned int)kmalloc(buffers->buf_size, GFP_DMA);
 
        /* Allocate destination buffer */
-       buffers->dest_buf = 0;
-       buffers->dest_buf = (unsigned int) dma_alloc_coherent(
-                NULL,
-                buffers->buf_size,
-                &(buffers->dest_buf_phys),
-                0);
+	buffers->dest_buf = (unsigned int)kmalloc(buffers->buf_size, GFP_DMA);
 
        /* Check the buffers have been allocated correctly */
        if( !buffers->src_buf ){
@@ -282,6 +274,30 @@ int start_dma_chain(struct dma_chain *chain_params){
 }
 EXPORT_SYMBOL(start_dma_chain);
 
+void map_to_phys_buffers(struct dma_buffers_info *buffers)
+{
+	buffers->src_buf_phys =
+		dma_map_single(NULL, (void *)buffers->src_buf,
+			buffers->buf_size, DMA_BIDIRECTIONAL);
+	buffers->dest_buf_phys =
+		dma_map_single(NULL, (void *)buffers->dest_buf,
+			buffers->buf_size, DMA_BIDIRECTIONAL);
+
+	if (buffers->src_buf_phys == 0 || buffers->dest_buf_phys == 0)
+		printk(KERN_ERR "DMA Mapping failed\n");
+}
+EXPORT_SYMBOL(map_to_phys_buffers);
+
+void unmap_phys_buffers(struct dma_buffers_info *buffers)
+{
+	dma_unmap_single(NULL, buffers->src_buf_phys,
+		buffers->buf_size, DMA_BIDIRECTIONAL);
+	dma_unmap_single(NULL, buffers->dest_buf_phys, buffers->buf_size,
+		DMA_BIDIRECTIONAL);
+}
+EXPORT_SYMBOL(unmap_phys_buffers);
+
+
 int chain_transfer(struct dma_chain *chain_params,
        struct dma_transfer *transfer){
        int error;
@@ -304,6 +320,7 @@ int chain_transfer(struct dma_chain *chain_params,
                return 0;
        }
 
+	map_to_phys_buffers(&transfer->buffers);
        printk("Chaining a transfer to chain id %d\n", chain_params->chain_id);
        transfer->chained_id = chained_id++;
        transfer->chain_id = chain_params->chain_id;
@@ -331,21 +348,8 @@ void stop_dma_transfer_chain(struct dma_transfer *transfer){
        if(!transfer->request_success){
            return;
        }
-       /* Free the source and destination buffers*/
-       if(transfer->buffers.src_buf){
-           dma_free_coherent(
-               NULL,
-               transfer->buffers.buf_size,
-               (void *) transfer->buffers.src_buf,
-               transfer->buffers.src_buf_phys);
-       }
-       if(transfer->buffers.dest_buf){
-           dma_free_coherent(
-               NULL,
-               transfer->buffers.buf_size,
-               (void *) transfer->buffers.dest_buf,
-               transfer->buffers.dest_buf_phys);
-       }
+	kfree((void *)transfer->buffers.src_buf);
+	kfree((void *)transfer->buffers.dest_buf);
 }
 EXPORT_SYMBOL(stop_dma_transfer_chain);
 

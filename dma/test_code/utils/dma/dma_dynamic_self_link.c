@@ -58,7 +58,6 @@ static void check_test_passed(void){
  */
 int verify_buffers(struct dma_buffers_info *buffers) {
     int i;
-	printk("\n I am in Verify_Buffers in dma_self_link \n");
     u8 *src_address = (u8*) buffers->src_buf;
     u8 *dest_address = (u8*) buffers->dest_buf;
 

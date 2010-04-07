@@ -142,6 +142,10 @@ void setup_dma_chain(struct dma_chain *chain_param);
  */
 int start_dma_chain(struct dma_chain *chain_params);
 
+void map_to_phys_buffers(struct dma_buffers_info *buffers);
+
+void unmap_phys_buffers(struct dma_buffers_info *buffers);
+
 /*
  * Chains a transfer to a pre-created chain
  */

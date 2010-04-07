@@ -98,7 +98,7 @@ static int __init dma_module_init(void) {
        for(i = 0; i < chain.channel_count; i++){
 
            /* Create the buffers for each transfer */
-           transfers[i].buffers.buf_size = (1024 * 1024);
+		transfers[i].buffers.buf_size = (1024 * 16);
            error = create_transfer_buffers_chain(&(transfers[i].buffers));
            if( error ){
                set_test_passed_chain(0);

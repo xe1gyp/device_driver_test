@@ -263,10 +263,10 @@ EXPORT_SYMBOL(request_dma);
 void map_to_phys_buffers(struct dma_buffers_info *buffers)
 {
 	buffers->src_buf_phys =
-		dma_map_single(NULL, buffers->src_buf,
+		dma_map_single(NULL, (void *)buffers->src_buf,
 			buffers->buf_size, DMA_BIDIRECTIONAL);
 	buffers->dest_buf_phys =
-		dma_map_single(NULL, buffers->dest_buf,
+		dma_map_single(NULL, (void *)buffers->dest_buf,
 			buffers->buf_size, DMA_BIDIRECTIONAL);
 
 	if (buffers->src_buf_phys == 0 ||
@@ -386,8 +386,8 @@ void stop_dma_transfer(struct dma_transfer *transfer)
 		omap_free_dma(transfer->transfer_id);
 	}
 
-		kfree(transfer->buffers.src_buf);
-		kfree(transfer->buffers.dest_buf);
+		kfree((void *)transfer->buffers.src_buf);
+		kfree((void *)transfer->buffers.dest_buf);
 }
 EXPORT_SYMBOL(stop_dma_transfer);
 
