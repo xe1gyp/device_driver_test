@@ -39,12 +39,18 @@ if [ "$LOCAL_COMMAND" = "create" ]; then
 		if [ "$LOCAL_FILESYSTEM_TYPE" = "ext2" ]; then
 
 			$MMCSD_DIR_BINARIES/mke2fs $MMCSD_DEVFS_PARTITION_1
+			# Required for POKY as it AUTO MOUNTS ONCE
+			# PARTITON GETS CREATED
+			umount $MMCSD_DEVFS_PARTITION_1
 			mount -t ext2 $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
 			handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
 
 		elif [ "$LOCAL_FILESYSTEM_TYPE" = "dos" ]; then
 
 			$MMCSD_DIR_BINARIES/mkdosfs $MMCSD_DEVFS_PARTITION_1
+			# Required for POKY as it AUTO MOUNTS ONCE
+			# PARTITON GETS CREATED
+			umount $MMCSD_DEVFS_PARTITION_1
 			mount -t msdos $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
 			handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
 
@@ -59,9 +65,15 @@ if [ "$LOCAL_COMMAND" = "create" ]; then
 		if [ "$LOCAL_FILESYSTEM_TYPE" = "ext2" ]; then
 
 			$MMCSD_DIR_BINARIES/mke2fs $MMCSD_DEVFS_PARTITION_1
+			# Required for POKY as it AUTO MOUNTS ONCE
+			# PARTITON GETS CREATED
+			umount $MMCSD_DEVFS_PARTITION_1
 			mount -t ext2 $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
 			handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
 
+			# Required for POKY as it AUTO MOUNTS ONCE
+			# PARTITON GETS CREATED
+			umount $MMCSD_DEVFS_PARTITION_2
 			$MMCSD_DIR_BINARIES/mke2fs $MMCSD_DEVFS_PARTITION_2
 			mount -t ext2 $MMCSD_DEVFS_PARTITION_2 $MMCSD_MOUNTPOINT_2
 			handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
@@ -69,20 +81,32 @@ if [ "$LOCAL_COMMAND" = "create" ]; then
 		elif [ "$LOCAL_FILESYSTEM_TYPE" = "dos" ]; then
 
 			$MMCSD_DIR_BINARIES/mkdosfs $MMCSD_DEVFS_PARTITION_1
+			# Required for POKY as it AUTO MOUNTS ONCE
+			# PARTITON GETS CREATED
+			umount $MMCSD_DEVFS_PARTITION_1
 			mount -t msdos $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
 			handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
 
 			$MMCSD_DIR_BINARIES/mkdosfs $MMCSD_DEVFS_PARTITION_2
+			# Required for POKY as it AUTO MOUNTS ONCE
+			# PARTITON GETS CREATED
+			umount $MMCSD_DEVFS_PARTITION_2
 			mount -t msdos $MMCSD_DEVFS_PARTITION_2 $MMCSD_MOUNTPOINT_2
 			handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
 
 		elif [ "$LOCAL_FILESYSTEM_TYPE" = "mixed" ]; then
 
 			$MMCSD_DIR_BINARIES/mke2fs $MMCSD_DEVFS_PARTITION_1
+			# Required for POKY as it AUTO MOUNTS ONCE
+			# PARTITON GETS CREATED
+			umount $MMCSD_DEVFS_PARTITION_1
 			mount -t ext2 $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
 			handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
 
 			$MMCSD_DIR_BINARIES/mkdosfs $MMCSD_DEVFS_PARTITION_2
+			# Required for POKY as it AUTO MOUNTS ONCE
+			# PARTITON GETS CREATED
+			umount $MMCSD_DEVFS_PARTITION_2
 			mount -t msdos $MMCSD_DEVFS_PARTITION_2 $MMCSD_MOUNTPOINT_2
 			handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
 

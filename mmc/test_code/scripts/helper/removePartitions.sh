@@ -41,8 +41,9 @@ DeletePartitions()
 echo "Flush pending buffers, check for mmc/sd partitions, if exist then remove them"
 sync
 
-mount | grep  $RP_MMCSD_DEVFS_PARTITION_1 && umount `mount | grep $RP_MMCSD_DEVFS_PARTITION_1 | awk '{print $3}'`
-mount | grep  $RP_MMCSD_DEVFS_PARTITION_2 && umount `mount | grep $RP_MMCSD_DEVFS_PARTITION_2 | awk '{print $3}'`
+#mount | grep  $RP_MMCSD_DEVFS_PARTITION_1 && umount `mount | grep $RP_MMCSD_DEVFS_PARTITION_1 | awk '{print $3}'`
+#mount | grep  $RP_MMCSD_DEVFS_PARTITION_2 && umount `mount | grep $RP_MMCSD_DEVFS_PARTITION_2 | awk '{print $3}'`
+mount | grep $RP_MMCSD_DEVFS_ENTRY && umount $RP_MMCSD_DEVFS_ENTRY* | awk '{print $3}'
 
 DeletePartitions $RP_MMCSD_DEVFS_ENTRY
 
