@@ -31,8 +31,14 @@
 #include <asm/io.h>
 #include <asm/serial.h>
 #include <asm/dma.h>
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 32))
+#include <plat/mcbsp.h>
+#include <plat/dma.h>
+#elif
 #include <mach/mcbsp.h>
 #include <mach/dma.h>
+#endif
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,00))
 #include <linux/dma-mapping.h>
