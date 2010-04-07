@@ -23,7 +23,6 @@ export SCENARIO_NAMES=""
 
 # General variables
 export CHIP_NAME=twl
-export MODALIAS_NAME="platform:twl4030_rtc"
 export PROCFS_RTC=/proc/driver/rtc
 export UTILS_DIR_HANDLERS=${TESTROOT}/../../utils/handlers
 
@@ -33,8 +32,9 @@ set $TEMP_EVENT
 
 for i in $TEMP_EVENT
 do
-	TEMP_NAME=`cat /sys/class/rtc/$i/device/modalias`
-	if [ $TEMP_NAME == $MODALIAS_NAME ]
+	cat /sys/class/rtc/$i/device/modalias | grep -i "rtc"
+	IS_THIS_OUR_DRIVER=`echo $?`
+	if [ "$IS_THIS_OUR_DRIVER" -eq "0" ]
 	then
 		export DEVFS_RTC=/dev/$i
 		echo "Real Time Clock node is $DEVFS_RTC"
