@@ -5,6 +5,6 @@
 ###############################################################################
 
 # Begin L_DD_RTC_0006
-0001	   set -x; $UTILS_DIR_HANDLERS/handlerIrqAffinity.sh "switch" "$APP_TIME_KEEP_READING /dev/rtc0 " "5" "15" "369" && exit 0 || exit 1
+0001	   set -x; $UTILS_DIR_HANDLERS/handlerIrqAffinity.sh "switch" "$APP_TIME_KEEP_READING /dev/rtc0 " "5" "15" $IRQ_VALUE && exit 0 || exit 1
 
 # End L_DD_RTC_0005
