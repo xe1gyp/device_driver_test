@@ -96,6 +96,15 @@ export PER_INT_SEC='1'
 export ALARM_SEC='1'
 export ALARM_VALUE=5
 
+# IRQ value
+IRQ_FILE=$TMPBASE/irq_temp
+$UTILS_DIR_HANDLERS/handlerIrq.sh "get" "rtc" "$IRQ_FILE"
+export IRQ_VALUE=`cat $IRQ_FILE`
+
+if [ "$IRQ_VALUE" == "" ]; then
+	echo "Warning: Interrupt not found. Some test cases could be affected"
+fi
+
 if [ ! `echo 1+1 | bc` ]; then
 	echo "FATAL: BC is unavailable, cannot continue"
 	return 1
