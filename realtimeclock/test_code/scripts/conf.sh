@@ -26,6 +26,10 @@ export CHIP_NAME=twl
 export PROCFS_RTC=/proc/driver/rtc
 export UTILS_DIR_HANDLERS=${TESTROOT}/../../utils/handlers
 
+. ${TESTROOT}/../../utils/configuration/general.configuration
+
+export PATH="$PATH:$UTILS_DIR_HANDLERS:$UTILBIN"
+
 # rtc devfs node autodetection
 TEMP_EVENT=`ls /sys/class/rtc/ | grep rtc`
 set $TEMP_EVENT
