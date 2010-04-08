@@ -121,6 +121,7 @@
 		</pass>
 
 		<fail>
+			<timeout time="120"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
