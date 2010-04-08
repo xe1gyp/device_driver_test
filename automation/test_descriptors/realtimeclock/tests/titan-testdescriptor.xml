@@ -1,49 +1,17 @@
 <?xml version="1.0"?>
 <titan>
 
-	<test id="L_DD_RTC_0000">
+	<test id="L_DD_RTC_0000_0001">
 
 		<information>
-			<autor> Misael Lopez Cruz </autor>
-			<description> RTC driver shall support the RTC on Triton. Only one instance is allowed at a time to access RTC device </description>
-			<dateofcreation> 03/25/2008 </dateofcreation>
+			<autor> Abraham Arce </autor>
+			<description> RTC driver shall support the RTC on Triton/Phoenix </description>
+			<dateofcreation> 01/11/2009 </dateofcreation>
 		</information>
 
 		<run>
 			<action>
-				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0000</command>
-			</action>
-			<action>
-				<command>rm /testsuites/realtimeclock/scripts/log.*</command>
-			</action>
-		</run>
-
-		<pass>
-			<output>
-				<value>stat=0</value>
-			</output>
-		</pass>
-
-		<fail>
-			<timeout time="60"/>
-			<output>
-				<regularexpression>stat=[^0]\d*</regularexpression>
-			</output>
-		</fail>
-
-	</test>
-
-	<test id="L_DD_RTC_0001">
-
-		<information>
-			<autor> Misael Lopez Cruz </autor>
-			<description> Time Configuration: New Values, Default Values, Wrong Values, Leap Year, format (year/month/week/hour/minute/second) </description>
-			<dateofcreation> 03/25/2008 </dateofcreation>
-		</information>
-
-		<run>
-			<action>
-				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0001</command>
+				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0000_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/realtimeclock/scripts/log.*</command>
@@ -65,17 +33,177 @@
 
 	</test>
 
-	<test id="L_DD_RTC_0002">
+	<test id="L_DD_RTC_0000_0002">
+
+		<information>
+			<autor> Abraham Arce </autor>
+			<description> Only one instance is allowed at a time to access RTC device. Test if the driver allows multiple open's of a RTC device </description>
+			<dateofcreation> 01/11/2009 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0000_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/realtimeclock/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="30"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_RTC_0001_0001">
+
+		<information>
+			<autor> Misael Lopez Cruz </autor>
+			<description> RTC driver shall support configuration of the time in (year/month/week/hour/minute/second) format. Introduce new Date/Time </description>
+			<dateofcreation> 10/05/2006 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0001_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/realtimeclock/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="10"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_RTC_0001_0002">
+
+		<information>
+			<autor> Misael Lopez Cruz </autor>
+			<description> RTC driver shall support configuration of the time in (year/month/week/hour/minute/second) format.</description>
+			<dateofcreation> 10/05/2006 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0001_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/realtimeclock/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="30"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_RTC_0001_0003">
+
+		<information>
+			<autor> Misael Lopez Cruz </autor>
+			<description> RTC driver shall support configuration of the time in (year/month/week/hour/minute/second) format. This is a negative test case to test the RTC driver date and time configuration capabilities. Enter invalid date and time values to set date and time. </description>
+			<dateofcreation> 10/05/2006 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0001_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/realtimeclock/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="10"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_RTC_0001_0004">
+
+		<information>
+			<autor> Misael Lopez Cruz </autor>
+			<description> RTC driver shall support configuration of the time in (year/month/week/hour/minute/second) format. This is a negative test case to test the RTC driver date and time configuration capabilities. Enter invalid date and time values to set date and time. </description>
+			<dateofcreation> 10/05/2006 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0001_0004</command>
+			</action>
+			<action>
+				<command>rm /testsuites/realtimeclock/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="10"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_RTC_0002_0001">
 
 		<information>
 			<autor> Misael Lopez Cruz </autor>
 			<description> Time Retrieval, format (year/month/week/hour/minute/second) </description>
-			<dateofcreation> 03/25/2008 </dateofcreation>
+			<dateofcreation> 10/05/2006 </dateofcreation>
 		</information>
 
-		<run>
+			<run>
 			<action>
-				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0002</command>
+				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0002_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/realtimeclock/scripts/log.*</command>
@@ -97,17 +225,81 @@
 
 	</test>
 
-	<test id="L_DD_RTC_0003">
+	<test id="L_DD_RTC_0003_0000">
 
 		<information>
 			<autor> Misael Lopez Cruz </autor>
-			<description> Alarm Configuration, Alarm Retrieval, Alarm Reset, Alarm New Configuration </description>
+			<description> TBD  </description>
+			<dateofcreation> 10/05/2006 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0003_0000</command>
+			</action>
+			<action>
+				<command>rm /testsuites/realtimeclock/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="10"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_RTC_0003_0001">
+
+		<information>
+			<autor> Misael Lopez Cruz </autor>
+			<description> RTC driver shall support configuration of the alarm.  </description>
+			<dateofcreation> 10/05/2006 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0003_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/realtimeclock/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="10"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_RTC_0003_0002">
+
+		<information>
+			<autor> Misael Lopez Cruz </autor>
+			<description> RTC driver shall support resetting the alarm. </description>
 			<dateofcreation> 03/25/2008 </dateofcreation>
 		</information>
 
 		<run>
 			<action>
-				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0003</command>
+				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0003_0002</command>
 			</action>
 			<action>
 				<command>rm /testsuites/realtimeclock/scripts/log.*</command>
@@ -121,7 +313,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="60"/>
+			<timeout time="10"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -129,17 +321,17 @@
 
 	</test>
 
-	<test id="L_DD_RTC_0004">
+	<test id="L_DD_RTC_0003_0003">
 
 		<information>
 			<autor> Misael Lopez Cruz </autor>
-			<description> Periodic Interrupts: Enable, Reset </description>
+			<description> RTC driver shall support resetting the alarm </description>
 			<dateofcreation> 03/25/2008 </dateofcreation>
 		</information>
 
 		<run>
 			<action>
-				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0004</command>
+				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0003_0003</command>
 			</action>
 			<action>
 				<command>rm /testsuites/realtimeclock/scripts/log.*</command>
@@ -153,7 +345,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="60"/>
+			<timeout time="10"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -161,17 +353,17 @@
 
 	</test>
 
-	<test id="L_DD_RTC_0005">
+	<test id="L_DD_RTC_0003_0004">
 
 		<information>
-			<autor> tnd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/2010 </dateofcreation>
+			<autor> Misael Lopez Cruz </autor>
+			<description> RTC driver shall support resetting the alarm and configuring new alarm. </description>
+			<dateofcreation> 03/25/2008 </dateofcreation>
 		</information>
 
 		<run>
 			<action>
-				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0005</command>
+				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0003_0004</command>
 			</action>
 			<action>
 				<command>rm /testsuites/realtimeclock/scripts/log.*</command>
@@ -185,7 +377,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="60"/>
+			<timeout time="10"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -193,17 +385,17 @@
 
 	</test>
 
-	<test id="L_DD_RTC_0006">
+	<test id="L_DD_RTC_0003_0005">
 
 		<information>
-			<autor> tnd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/2010 </dateofcreation>
+			<autor> Aharon Campos </autor>
+			<description> Negative testcase which attemps to set the alarm with invalid values </description>
+			<dateofcreation> 11/10/2009 </dateofcreation>
 		</information>
 
 		<run>
 			<action>
-				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0006</command>
+				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0003_0005</command>
 			</action>
 			<action>
 				<command>rm /testsuites/realtimeclock/scripts/log.*</command>
@@ -217,7 +409,103 @@
 		</pass>
 
 		<fail>
-			<timeout time="60"/>
+			<timeout time="10"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_RTC_0004_0001">
+
+		<information>
+			<autor> Misael Lopez Cruz </autor>
+			<description> Periodic Interrupts: Enable </description>
+			<dateofcreation> 03/25/2008 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0004_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/realtimeclock/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="20"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_RTC_0004_0002">
+
+		<information>
+			<autor> Misael Lopez Cruz </autor>
+			<description> Periodic Interrupts: Reset </description>
+			<dateofcreation> 03/25/2008 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0004_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/realtimeclock/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="20"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_RTC_0005_0001">
+
+		<information>
+			<autor> Aharon Campos </autor>
+			<description> Scenario to validate DVFS for RTC </description>
+			<dateofcreation> 03/25/2008 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/realtimeclock/scripts/test_runner.sh L_DD_RTC_0005_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/realtimeclock/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="30"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -288,6 +576,5 @@
 		</fail>
 
 	</test>
-
 
 </titan>
