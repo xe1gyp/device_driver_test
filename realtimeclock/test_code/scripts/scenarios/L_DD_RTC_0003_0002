@@ -1,0 +1,11 @@
+###############################################################################
+# Scenario: L_DD_RTC_0003_0002
+# Author  : Misael Lopez Cruz
+# Date    : Octuber 5, 2006
+###############################################################################
+
+# Begin L_DD_RTC_0003_0002
+
+01	set -x; echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $APP_ALARM_SET $DEVFS_RTC && $APP_ALARM_GET_EVENT $DEVFS_RTC | grep "${MSG_OK_ALARM_RANG}" && exit 0 || exit 1
+
+# End L_DD_RTC_0003_0002
