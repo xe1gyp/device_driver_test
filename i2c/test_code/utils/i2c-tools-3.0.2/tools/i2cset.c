@@ -35,8 +35,8 @@ static void help(void) __attribute__ ((noreturn));
 static void help(void)
 {
 	fprintf(stderr,
-		"Usage: i2cset [-f] [-y] [-m MASK]\
-		I2CBUS CHIP-ADDRESS DATA-ADDRESS [VALUE [MODE]]\n"
+		"Usage: i2cset [-f] [-y] [-m MASK] "\
+		"I2CBUS CHIP-ADDRESS DATA-ADDRESS [VALUE [MODE]]\n"
 		"  I2CBUS is an integer or an I2C bus name\n"
 		"  ADDRESS is an integer (0x03 - 0x77)\n"
 		"  MODE is one of:\n"
@@ -136,9 +136,7 @@ int main(int argc, char *argv[])
 	int pec = 0;
 	int flags = 0;
 	int force = 0, yes = 0, version = 0, readback = 0;
-	#ifdef OMAP_4430
-	int index, loopcount = 10;
-	#endif
+	int index, loopcount = 1;
 
 	/* handle (optional) flags first */
 	while (1+flags < argc && argv[1+flags][0] == '-') {
@@ -217,14 +215,12 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "         Please switch to using -m.\n");
 		maskp = argv[flags+6];
 	}
-	#ifdef OMAP_4430
 	if (argc > flags + 7)
 		loopcount = strtol(argv[flags+7], &end, 0);
 	if (*end || loopcount < 1) {
 		fprintf(stderr, "Error: Loop Count invalid!\n");
 		help();
 	}
-	#endif
 
 	if (maskp) {
 		vmask = strtol(maskp, &end, 0);
@@ -295,9 +291,7 @@ int main(int argc, char *argv[])
 		close(file);
 		exit(1);
 	}
-	#ifdef OMAP_4430
 	for (index = 0; index < loopcount; index++) {
-	#endif
 	switch (size) {
 	case I2C_SMBUS_BYTE:
 		res = i2c_smbus_write_byte(file, daddress);
@@ -354,9 +348,7 @@ int main(int argc, char *argv[])
 		       size == I2C_SMBUS_WORD_DATA ? 4 : 2, value);
 	}
 
-#ifdef OMAP_4430
 }
 	close(file);
-#endif
 	exit(0);
 }
