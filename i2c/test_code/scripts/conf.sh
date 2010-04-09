@@ -35,27 +35,50 @@ export I2C_ADAPTERS="1 2 3"
 export I2C_ADAPTER_1=1
 export I2C_ADAPTER_2=2
 export I2C_ADAPTER_3=3
+export I2C_ADAPTER_4=4
 
 # Operating mode
 export STANDARD_MODE=100
 export FAST_MODE=400
+if [ `cat /proc/cpuinfo| grep -ic OMAP4` -ne 0 ];then
+export HIGH_SPEED_MODE=2100
+else
 export HIGH_SPEED_MODE=2600
+fi
 
 # Addresses
-export I2C_ADDRESSES="0x48 0x49 0x4A 0x4B"
+
+if [ `cat /proc/cpuinfo| grep -ic OMAP4` -ne 0 ];then
+	export I2C_ADDRESSES="0x48 0x49 0x4A"
+else
+	export I2C_ADDRESSES="0x48 0x49 0x4A 0x4B"
+fi
 
 # Registers
-export I2C_REG_1=0x49
-export I2C_REG_1_VALUE_INITIAL=0x01
-export I2C_REG_2=0x4A
-export I2C_REG_2_VALUE_INITIAL=0xD4
+if [ `cat /proc/cpuinfo| grep -ic OMAP4` -ne 0 ];then
+	export I2C_REG_1=0x48
+	export I2C_REG_1_VALUE_INITIAL=0x17
+	export I2C_REG_2=0x48
+	export I2C_REG_2_VALUE_INITIAL=0x17
+else
+	export I2C_REG_1=0x49
+	export I2C_REG_1_VALUE_INITIAL=0x01
+	export I2C_REG_2=0x4A
+	export I2C_REG_2_VALUE_INITIAL=0xD4
+fi
 export I2C_REG_INVALID=0x2D
 
 # Irqs
-export INT_24XX_I2C1_IRQ=56
-export INT_24XX_I2C2_IRQ=57
-export INT_34XX_I2C3_IRQ=61
-
+if [ `cat /proc/cpuinfo| grep -ic OMAP4` -ne 0 ];then
+	export INT_24XX_I2C1_IRQ=88
+	export INT_24XX_I2C2_IRQ=89
+	export INT_34XX_I2C3_IRQ=93
+	export INT_44XX_I2C4_IRQ=94
+else
+	export INT_24XX_I2C1_IRQ=56
+	export INT_24XX_I2C2_IRQ=57
+	export INT_34XX_I2C3_IRQ=61
+fi
 # Test case IDs for runtestcase.sh script
 export EXISTING_DEVICES=1
 export MULTIPLE_DEVICES=2
