@@ -121,7 +121,8 @@ export TARGET_FILESYSTEM
 export TESTSUITES
 export UTILSDIR
 
-.PHONY: all check cleanup maketest clean distclean utilities $(TESTSUITES)
+.PHONY: all check cleanup maketest clean distclean utilities $(TESTSUITES)\
+$(TESTROOT)/$(notdir $(UTILSDIR)) $(addprefix $(TESTROOT)/,$(TESTSUITES))
 
 cleanup: check
 	@if [ -d $(TESTROOT) ]; then\
