@@ -1,0 +1,653 @@
+<?xml version="1.0"?>
+<titan>
+	<test id="L_DD_FB_0001">
+		<information>
+			<autor> JyothiPK </autor>
+			<description> Framebuffer (FB) bits per pixel tests</description>
+			<dateofcreation> 04/09/2010 </dateofcreation>
+		</information>
+		<run>
+			<action>
+				<command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0001</command>
+		        </action>
+			<action>
+				<command>rm /testsuites/framebuffer/scripts/log.*</command>
+		        </action>
+		</run>
+		<pass>
+			<output>
+				<value>stat=0</value>
+		        </output>
+		</pass>
+		<fail>
+			<timeout time="900"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+		        </output>
+		</fail>
+	</test>
+	<test id="L_DD_FB_0002">
+		<information>
+			<autor> Cristopherson Torres </autor>
+			<description> Framebuffer Test Scenario L_DD_FB_0002</description>
+			<dateofcreation> 12/15/2009 </dateofcreation>
+		</information>
+		<run>
+			<action>
+				<command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0002</command>
+		        </action>
+			<action>
+				<command>rm /testsuites/framebuffer/scripts/log.*</command>
+		        </action>
+		</run>
+		<pass>
+			<output>
+				<value>stat=0</value>
+		        </output>
+		</pass>
+		<fail>
+			<timeout time="900"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+		        </output>
+		</fail>
+	</test>
+	<test id="L_DD_FB_0003">
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Framebuffer Test Scenario L_DD_FB_0003</description>
+                        <dateofcreation> 12/15/2009 </dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0003</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+       </test>
+	<test id="L_DD_FB_0004">
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Framebuffer Test Scenario L_DD_FB_0004</description>
+                        <dateofcreation> 12/15/2009 </dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0004</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+       </test>
+    <test id="L_DD_FB_0005">
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Framebuffer Test Scenario L_DD_FB_0005</description>
+                        <dateofcreation> 12/15/2009 </dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0005</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+	</test>
+     <test id="L_DD_FB_0006">
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Framebuffer Test Scenario L_DD_FB_0006</description>
+                        <dateofcreation> 12/15/2009 </dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0006</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+     </test>
+        <test id="L_DD_FB_0007">
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Framebuffer Test Scenario L_DD_FB_0007</description>
+                        <dateofcreation> 12/15/2009 </dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0007</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+      </test>
+        <test id="L_DD_FB_0008">
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Framebuffer Test Scenario L_DD_FB_0008</description>
+                        <dateofcreation> 12/15/2009 </dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0008</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+               </fail>
+       </test>
+        <test id="L_DD_FB_0009">
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Framebuffer Test Scenario L_DD_FB_0009</description>
+                        <dateofcreation> 12/15/2009 </dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0009</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+       </test>
+        <test id="L_DD_FB_0010">
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Framebuffer Test Scenario L_DD_FB_0010</description>
+                        <dateofcreation> 12/15/2009 </dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0010</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+       </test>
+	   <test id="L_DD_FB_0011">
+                <information>
+                        <autor> Jyothi PK</autor>
+                        <description> Framebuffer (FB) LCD, 2LCD, TV switching</description>
+                        <dateofcreation> 04/09/2010 </dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0011</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+       </test>
+        <test id="L_DD_FB_0012">
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Framebuffer Test Scenario L_DD_FB_0012</description>
+                        <dateofcreation> 12/15/2009 </dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0012</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+       </test>
+        <test id="L_DD_FB_0013">
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Framebuffer Test Scenario L_DD_FB_0013</description>
+                        <dateofcreation> 12/15/2009 </dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0013</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+       </test>
+        <test id="L_DD_FB_0014">
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Framebuffer Test Scenario L_DD_FB_0014</description>
+                        <dateofcreation> 12/15/2009 </dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0014</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+       </test>
+        <test id="L_DD_FB_0015">
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Framebuffer Test Scenario L_DD_FB_0015</description>
+                        <dateofcreation> 12/15/2009 </dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0015</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+       </test>
+	      <test id="L_DD_FB_0017">
+                <information>
+                        <autor> Jyothi PK </autor>
+                        <description> Framebuffer (FB) bits per pixel tests</description>
+                        <dateofcreation> 04/09/2010</dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0017</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+       </test>
+	   <test id="L_DD_FB_0021">
+                <information>
+                        <autor> Jyothi PK </autor>
+                        <description> Framebuffer (FB) bits per pixel tests</description>
+                        <dateofcreation> 04/09/2010</dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0021</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+       </test>
+	      <test id="L_DD_FB_0029">
+                <information>
+                        <autor> Jyothi PK </autor>
+                        <description> Framebuffer (FB) bits per pixel tests</description>
+                        <dateofcreation> 04/09/2010</dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0029</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+       </test>
+	   <test id="L_DD_FB_0038">
+                <information>
+                        <autor> Jyothi PK </autor>
+                        <description> Framebuffer (FB) bits per pixel tests</description>
+                        <dateofcreation> 04/09/2010</dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0038</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+       </test>
+	   <test id="L_DD_FB_0039">
+                <information>
+                        <autor> Jyothi PK </autor>
+                        <description> Framebuffer (FB) bits per pixel tests</description>
+                        <dateofcreation> 04/09/2010</dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0039</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+       </test>
+	   <test id="L_DD_FB_0040">
+                <information>
+                        <autor> Jyothi PK </autor>
+                        <description> Framebuffer (FB) bits per pixel tests</description>
+                        <dateofcreation> 04/09/2010</dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0040</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+       </test>
+	   <test id="L_DD_FB_0041">
+                <information>
+                        <autor> Jyothi PK </autor>
+                        <description> Framebuffer (FB) bits per pixel tests</description>
+                        <dateofcreation> 04/09/2010</dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_0041</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+       </test>
+        <test id="L_DD_FB_1002">
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Framebuffer Test Scenario L_DD_FB_1002</description>
+                        <dateofcreation> 12/15/2009 </dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_1002</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+       </test>
+        <test id="L_DD_FB_1003">
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Framebuffer Test Scenario L_DD_FB_1003</description>
+                        <dateofcreation> 12/15/2009 </dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_1003</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+       </test>
+        <test id="L_DD_FB_1004">
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Framebuffer Test Scenario L_DD_FB_1004</description>
+                        <dateofcreation> 12/15/2009 </dateofcreation>
+                </information>
+                <run>
+                        <action>
+                                <command>/testsuites/framebuffer/scripts/test_runner.sh -S L_DD_FB_1004</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/framebuffer/scripts/log.*</command>
+                        </action>
+                </run>
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+                <fail>
+                        <timeout time="900"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+        </test>
+</titan>

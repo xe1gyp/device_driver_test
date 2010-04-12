@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<titan>
+	<driverinformation>
+		<name>Framebuffer</name>
+		<description>Tests suites for Framebuffer</description>
+	</driverinformation>
+</titan>
