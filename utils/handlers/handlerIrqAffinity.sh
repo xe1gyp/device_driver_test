@@ -89,20 +89,20 @@ if [ "$LOCAL_OPERATION" = "switch" ]; then
 		if [ $rem -eq 0 ]
 		then
 
-			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
-			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $2}'`
+			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $3}'`
 
 			echo 1 > /proc/irq/$LOCAL_PROC_IRQ_NUMBER/smp_affinity
 			sleep $LOCAL_TIME_TO_WAIT
 
-			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
-			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $2}'`
+			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $3}'`
 
 			echo "Values IP1 FP1 IP2 FP2: $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2"
 
 			if [ "$initial_value_p1" -lt "$final_value_p1" ]
 			then
-				continue
+				echo "Number of interrupts were increased in Processor 1"
 			else
 				echo "Error: Number of interrupts were not increased in Processor 1"
 				exit 1
@@ -110,20 +110,20 @@ if [ "$LOCAL_OPERATION" = "switch" ]; then
 
 		else
 
-			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
-			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $2}'`
+			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $3}'`
 
 			echo 2 > /proc/irq/$LOCAL_PROC_IRQ_NUMBER/smp_affinity
 			sleep $LOCAL_TIME_TO_WAIT
 
-			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $2}'`
-			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER | awk '{print $3}'`
+			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $2}'`
+			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $3}'`
 
 			echo "Values IP1 FP1 IP2 FP2: $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2"
 
 			if [ "$initial_value_p2" -lt "$final_value_p2" ]
 			then
-				continue
+				echo "Number of interrupts increased in Processor 2"
 			else
 				echo "Error: Number of interrupts were not increased in Processor 2"
 				exit 1
