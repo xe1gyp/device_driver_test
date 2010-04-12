@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <titan>
 
-	<test id="L_DD_WDT_0000_0001">
+	<test id="L_DD_WATCHDOG_0000_0001">
 
 		<information>
 			<autor> tbd author </autor>
@@ -11,7 +11,7 @@
 
 		<run>
 			<action>
-				<command>/testsuites/watchdog/scripts/test_runner.sh L_DD_WDT_0000_0001</command>
+				<command>/testsuites/watchdog/scripts/test_runner.sh L_DD_WATCHDOG_0000_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/watchdog/scripts/log.*</command>
@@ -33,7 +33,7 @@
 
 	</test>
 
-	<test id="L_DD_WDT_0002_0001">
+	<test id="L_DD_WATCHDOG_0002_0001">
 
 		<information>
 			<autor> tbd author </autor>
@@ -43,7 +43,7 @@
 
 		<run>
 			<action>
-				<command>/testsuites/watchdog/scripts/test_runner.sh L_DD_WDT_0002_0001</command>
+				<command>/testsuites/watchdog/scripts/test_runner.sh L_DD_WATCHDOG_0002_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/watchdog/scripts/log.*</command>
@@ -65,7 +65,7 @@
 
 	</test>
 
-	<test id="L_DD_WDT_0003_0001">
+	<test id="L_DD_WATCHDOG_0003_0001">
 
 		<information>
 			<autor> tbd author </autor>
@@ -75,7 +75,7 @@
 
 		<run>
 			<action>
-				<command>/testsuites/watchdog/scripts/test_runner.sh L_DD_WDT_0003_0001</command>
+				<command>/testsuites/watchdog/scripts/test_runner.sh L_DD_WATCHDOG_0003_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/watchdog/scripts/log.*</command>
@@ -97,7 +97,7 @@
 
 	</test>
 
-	<test id="L_DD_WDT_0006_0001">
+	<test id="L_DD_WATCHDOG_0006_0001">
 
 		<information>
 			<autor> tbd author </autor>
@@ -107,7 +107,7 @@
 
 		<run>
 			<action>
-				<command>/testsuites/watchdog/scripts/test_runner.sh L_DD_WDT_0006_0001</command>
+				<command>/testsuites/watchdog/scripts/test_runner.sh L_DD_WATCHDOG_0006_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/watchdog/scripts/log.*</command>
@@ -129,7 +129,7 @@
 
 	</test>
 
-	<test id="L_DD_WDT_0006_0002">
+	<test id="L_DD_WATCHDOG_0006_0002">
 
 		<information>
 			<autor> tbd author </autor>
@@ -139,7 +139,7 @@
 
 		<run>
 			<action>
-				<command>/testsuites/watchdog/scripts/test_runner.sh L_DD_WDT_0006_0002</command>
+				<command>/testsuites/watchdog/scripts/test_runner.sh L_DD_WATCHDOG_0006_0002</command>
 			</action>
 			<action>
 				<command>rm /testsuites/watchdog/scripts/log.*</command>
