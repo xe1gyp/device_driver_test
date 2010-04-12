@@ -1,0 +1,32 @@
+/sys/devices/L3/omap-audio7
+/sys/devices/L3/omap2430-mmc12
+/sys/devices/L3/omap2430-mmc217
+/sys/devices/L3/omap24xxfb6
+/sys/devices/L3/omap24xxvout111
+/sys/devices/L3/omap24xxvout212
+/sys/devices/L3/sdp2430_lcd9
+/sys/devices/L3/sdp2430_tv10
+/sys/devices/L4CORE/OMAP24xx I2C 03
+/sys/devices/L4CORE/OMAP24xx I2C 13
+/sys/devices/L4CORE/omap-ostimer20
+/sys/devices/L4CORE/omap-twl4030rtc16
+/sys/devices/L4CORE/omap_tsc20468
+/sys/devices/L4CORE/omap_twl4030keypad1
+/sys/devices/platform/gpio-switch
+/sys/devices/platform/i2c-0
+/sys/devices/platform/i2c-0/0-002d
+/sys/devices/platform/i2c-1
+/sys/devices/platform/i2c-1/1-004b
+/sys/devices/platform/i2c-1/1-004a
+/sys/devices/platform/i2c-1/1-0049
+/sys/devices/platform/i2c-1/1-0048
+/sys/devices/platform/omap_hdq.0
+/sys/devices/platform/omap_udc
+/sys/devices/platform/omap_udc/gadget
+/sys/devices/platform/omap_wdt
+/sys/devices/platform/omapflash.0
+/sys/devices/platform/omapflash.1
+/sys/devices/platform/serial8250
+/sys/devices/platform/serial8250.0
+/sys/devices/platform/smc91x.0
+/sys/devices/platform/twl4030_led.0
