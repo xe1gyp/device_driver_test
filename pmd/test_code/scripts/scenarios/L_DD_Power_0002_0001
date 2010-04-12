@@ -1,0 +1,15 @@
+################################################################################
+# Scenario:    L_DD_Power_0002_0001
+# Author  :    Rajendra Nayak
+# Date    :    February 10th, 2010
+# Description: Clock Framework Test
+################################################################################
+
+# Begin L_DD_Power_0002_0001
+
+0001	set -x; insmod $TESTMODS/clock_test.ko test_id=0x1 > $TESTMODS/testlog
+0002	set -x; cat $TESTMODS/testlog | grep PASSED
+0003	set -x; rmmod clock_test
+0004	set -x; rm -rf $TESTMODS/testlog
+
+# End L_DD_Power_0002_0001
