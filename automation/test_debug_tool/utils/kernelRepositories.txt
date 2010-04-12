@@ -1,0 +1,34 @@
+[L25xINC2-ZOOM3]
+url_http  = http://git.omapzoom.org/kernel/omap.git
+url_git   = git://git.omapzoom.org/kernel/omap.git
+branch    = p-android-omap-2.6.29
+toolchain = 2008q3
+defconfig = zoom3_defconfig
+
+[L25xE-ZOOM2]
+url_http  = http://git.omapzoom.org/kernel/omap.git
+url_git   = git://git.omapzoom.org/kernel/omap.git
+branch    = p-android-omap-2.6.29
+toolchain = 2008q3
+defconfig = zoom2_defconfig
+
+[L25x14M-ZOOM2]
+url_http  = http://git.omapzoom.org/kernel/omap.git
+url_git   = git://git.omapzoom.org/kernel/omap.git
+branch    = m-android-omap-2.6.29
+toolchain = 2008q3
+defconfig = zoom2_defconfig
+
+[L27x-SDP4430]
+url_http  = http://git.omapzoom.org/kernel/omap.git
+url_git   = git://git.omapzoom.org/kernel/omap.git
+branch    = p-android-omap-2.6.32
+toolchain = 2009q1
+defconfig = android_4430sdp_defconfig 
+
+[L27x-BLAZE]
+url_http  = http://git.omapzoom.org/kernel/omap.git
+url_git   = git://git.omapzoom.org/kernel/omap.git
+branch    = p-android-omap-2.6.32
+toolchain = 2009q1
+defconfig = android_4430sdp_defconfig
