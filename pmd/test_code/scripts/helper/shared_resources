@@ -1,0 +1,67 @@
+Number of users for domain dss: 0
+Number of users for domain cam: 0
+Number of users for domain iva2: 0
+Number of users for domain sgx: 0
+Number of users for domain usb: 0
+Number of users for domain per: 6
+User: uart3_fck  Level: 3
+User: gpio6_fck  Level: 3
+User: gpio5_fck  Level: 3
+User: gpio4_fck  Level: 3
+User: gpio3_fck  Level: 3
+User: gpio2_fck  Level: 3
+Number of users for domain neon: 0
+Number of users for domain core: 5
+User: rng_ick  Level: 1
+User: hsotgusb_ick  Level: 1
+User: uart2_fck  Level: 1
+User: uart1_fck  Level: 1
+User: omapctrl_ick  Level: 1
+Number of users for domain latency: 0
+Number of users for domain arm_freq: 0
+Number of users for domain dsp_freq: 0
+Number of users for domain vdd1_opp: 2
+User: pm_fwk  Level: 1
+User: cpufreq-drv  Level: 1
+Number of users for domain vdd2_opp: 1
+User: pm_fwk  Level: 2
+Number of users for domain lat_dss: 0
+Number of users for domain lat_cam: 0
+Number of users for domain lat_iva2: 0
+Number of users for domain lat_3d: 0
+Number of users for domain lat_usbhost: 0
+Number of users for domain lat_per: 0
+Number of users for domain lat_neon: 0
+Number of users for domain lat_core1: 0
+Number of users for domain mpu_l2cacheon: 0
+Number of users for domain mpu_l2cacheret: 0
+Number of users for domain mpu_logicl1cacheret: 0
+Number of users for domain core_mem2on: 0
+Number of users for domain core_mem1on: 0
+Number of users for domain core_mem2ret: 1
+User: corememresret2  Level: 0
+Number of users for domain core_mem1ret: 1
+User: corememresret1  Level: 0
+Number of users for domain core_logicret: 1
+User: corelogicret  Level: 0
+Number of users for domain per_logicret: 0
+Number of users for domain per_autoidle_res: 0
+Number of users for domain mpu_autoidle_res: 0
+Number of users for domain core_autoidle_res: 0
+Number of users for domain iva2_autoidle_res: 0
+Number of users for domain per2_autoidle_res: 0
+Number of users for domain t2_vaux1: 0
+Number of users for domain t2_vaux2: 0
+Number of users for domain t2_vaux3: 0
+Number of users for domain t2_vaux4: 0
+Number of users for domain t2_vmmc1: 0
+Number of users for domain t2_vmmc2: 0
+Number of users for domain t2_vpll2: 0
+Number of users for domain t2_vsim: 0
+Number of users for domain t2_vdac: 0
+Number of users for domain t2_vintana2: 1
+User: bci  Level: 2
+Number of users for domain t2_vio: 0
+Number of users for domain t2_vusb1v5: 0
+Number of users for domain t2_vusb1v8: 0
+Number of users for domain t2_vusb3v1: 0

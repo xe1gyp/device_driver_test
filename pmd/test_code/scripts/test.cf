@@ -1,18 +1,15 @@
-#!/bin/sh
-###################################################################################################################
-# Configuration script
-# Author  : Misael Lopez Cruz
-# Date    : 04 Jul 07
-# Description: Configuration script with user specified value for some environment variables
-###################################################################################################################
-
-# These variables dont' need to be modified
+###############
+# Power Management Configuration Script
+###############
+# if we have a working rtc, this is good.. else use next line
 export POSTFIX=`date "+%Y%m%d-%H%M%S"`
+
+# Load up the defaults
 export TESTROOT=${PWD}
 export TESTBIN=${PWD}/../bin
-export UTILBIN=${PWD}/../../utils/bin
-export TESTMODS=${PWD}/../mods
+export TESTLIB=${PWD}/../lib
 export TESTSCRIPT=${PWD}/helper
+export TESTMODS=${PWD}/../mods
 export TMPBASE=${TESTROOT}/tmp
 export TMPFILE=${TMPBASE}/tmp.$POSTFIX
 export CMDFILE=cmd.$POSTFIX
@@ -21,10 +18,12 @@ export PRETTY_PRT=""
 export VERBOSE=""
 export OUTPUTFILE=${TESTROOT}/output.$POSTFIX
 export LOGFILE=${TESTROOT}/log.$POSTFIX
-export DURATION="1h"
-export PATH="${PATH}:${TESTROOT}:${TESTBIN}:${TESTSCRIPT}"
+export PATH="${TESTROOT}:${TESTBIN}:${TESTSCRIPT}:${PATH}"
 export TC_SCENARIO="${TESTROOT}/scenarios"
 export SCENARIO_NAMES=""
+export INTERACTIVE=""
+export STRESS=""
+export UTILBIN=${TESTROOT}/../../utils/bin
 
 # Utilities
 export WAIT_ANSWER=${UTILBIN}/akey
@@ -40,7 +39,9 @@ export DESCRIPTION=""
 export MIN_INT_PER_SECOND=0
 export MAX_INT_PER_SECOND=1500
 
+
 # Power Management
+
 #export DPM_SCRIPT=$TESTSCRIPT/dpm.bash
 export DPM_SCRIPT=$TESTSCRIPT/dpm_test_8x.bash
 export PARAMETERS=""
