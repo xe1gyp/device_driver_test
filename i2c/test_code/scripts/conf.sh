@@ -28,7 +28,12 @@ export SCENARIO_NAMES=""
 
 # Utilities
 export UTILBIN=${TESTROOT}/../../utils/bin
+export UTILS_DIR_HANDLERS=${TESTROOT}/../../utils/handlers
 export UTILSCRIPTS=${TESTROOT}/../../utils/scripts
+
+. ${TESTROOT}/../../utils/configuration/general.configuration
+
+export PATH="$PATH:$UTILBIN:$UTILS_DIR_HANDLERS:$UTILSCRIPTS"
 
 # Adapters
 export I2C_ADAPTERS="1 2 3"
@@ -96,7 +101,6 @@ export HEAD_OPTION="-n "
 export TAIL_OPTION="-n "
 export ADAPTER_INFO=None
 export MODE=None
-export UTILS_DIR_HANDLERS=${TESTROOT}/../../utils/handlers
 
 # Creating local mdev devices
 mdev -s
