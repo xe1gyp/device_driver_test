@@ -1,7 +1,7 @@
 
 TOPDIR = .
 
-TARGET = $(CROSS_COMPILE)fbtest
+TARGET = arm-none-linux-gnueabi-fbtest
 
 OBJS += drawops/drawops.o fonts/fonts.o images/images.o visops/visops.o \
 	tests/tests.o
