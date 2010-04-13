@@ -1,0 +1,21 @@
+#####################
+# FILENAME: L_DD_VIDEO_0029
+# Author  : Sudeep Basavaraj
+# Date    : Sun Feb 28, 2010
+
+# Begin "L_DD_VIDEO_0029"
+
+COMMENT comment.sh "Verify switching happens from LCD to HDMI for all pipelines"
+
+0001_VD1 set -x; echo "0" > /sys/devices/platform/omapdss/overlay0/enabled && exit 0 || exit 1
+0001_VD1 set -x; echo "0" > /sys/devices/platform/omapdss/display0/enabled && exit 0 || exit 1
+0001_VD1 set -x; echo "1" > /sys/devices/platform/omapdss/display2/enabled && exit 0 || exit 1
+0001_VD1 set -x; echo "hdmi" > /sys/devices/platform/omapdss/manager0/display && exit 0 || exit 1
+0001_VD1 set -x; echo "1" > /sys/devices/platform/omapdss/overlay0/enabled && exit 0 || exit 1
+
+0001_VD1 set -x; imgstream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0001_VD2 set -x; imgstream.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1
+0002_VD1 set -x; imgstream.sh 1 "YUYV 1280 720"  $VIDEOFILES/720p.yuv "0 0 1280 720"    && exit 0 || exit 1
+0002_VD2 set -x; imgstream.sh 2 "YUYV 1280 720"  $VIDEOFILES/720p.yuv "0 0 1280 720"    && exit 0 || exit 1
+
+# End "L_DD_VIDEO_0029"

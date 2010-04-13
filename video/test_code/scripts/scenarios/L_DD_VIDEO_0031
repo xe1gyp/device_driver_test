@@ -1,0 +1,16 @@
+#####################
+# FILENAME: L_DD_VIDEO_0031
+# Author  : Sudeep Basavaraj
+# Date    : Sun Feb 28, 2010
+
+# Begin "L_DD_VIDEO_0031"
+
+0001_COMMENT comment.sh "Verify Video Pipeline 1 and 2 can be displayed on HDMI TV"
+0001_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0029 && exit 0 || exit 1
+0001_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0001 && exit 0 || exit 1
+0001_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0002 && exit 0 || exit 1
+0001_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0003 && exit 0 || exit 1
+0001_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0004 && exit 0 || exit 1
+0001_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0005 && exit 0 || exit 1
+
+# End "L_DD_VIDEO_0031"
