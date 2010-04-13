@@ -1,0 +1,12 @@
+#####################
+# FILENAME: L_DD_VIDEO_0033
+# Author  : Sudeep Basavaraj
+# Date    : Fri Jan 5, 2007
+
+# Begin "L_DD_VIDEO_0033"
+
+COMMENT comment.sh "Verify alpha belnding happening on LCD when video is rendered  "
+
+0001_VD1_SAN set -x; pre_alpha.sh  && exit 0 || exit 1
+
+# End "L_DD_VIDEO_0033"
