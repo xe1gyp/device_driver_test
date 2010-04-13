@@ -16,6 +16,9 @@ COMMENT comment.sh "The board should be booted with 0 degrees rotation: videoout
 0001_ROT90_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0004 && exit 0 || exit 1
 0001_ROT90_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0005 && exit 0 || exit 1
 0001_ROT90 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0006 && exit 0 || exit 1
+0001_COMMENT_ROT90 comment.sh "disabling the transparency color key"
+0001_VD1 set -x; echo 0 >  /sys/devices/platform/omapdss/manager0/trans_key_enabled  && exit 0 || exit 1
+
 
 0002_COMMENT_ROT180 comment.sh "The images shall be rotated 180 degrees"
 0002_ROT180_SAN set -x; $TESTBIN/setrotation 1 180 && exit 0 || exit 1
@@ -26,6 +29,8 @@ COMMENT comment.sh "The board should be booted with 0 degrees rotation: videoout
 0002_ROT180_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0004 && exit 0 || exit 1
 0002_ROT180_SAN set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0005 && exit 0 || exit 1
 0002_ROT180 set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0006 && exit 0 || exit 1
+0001_COMMENT_ROT180 comment.sh "disabling transparency color key"
+0001_VD1 set -x; echo 0 >  /sys/devices/platform/omapdss/manager0/trans_key_enabled  && exit 0 || exit 1
 
 0003_COMMENT_ROT270 comment.sh "The images shall be rotated 270 degrees"
 0003_ROT270_SAN  set -x; $TESTBIN/setrotation 1 270 && exit 0 || exit 1
@@ -36,6 +41,8 @@ COMMENT comment.sh "The board should be booted with 0 degrees rotation: videoout
 0003_ROT270_SAN  set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0004 && exit 0 || exit 1
 0003_ROT270_SAN  set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0005 && exit 0 || exit 1
 0003_ROT270  set -x; $TESTROOT/test_runner.sh -p -I $STRESSARG $TESTCASEARG L_DD_VIDEO_0006 && exit 0 || exit 1
+0001_COMMENT_ROT270 comment.sh "disabling transparency color key"
+0001_VD1 set -x; echo 0 >  /sys/devices/platform/omapdss/manager0/trans_key_enabled  && exit 0 || exit 1
 
 INFO comment.sh "The images shall be reset to 0 degrees"
 END set -x; $TESTBIN/setrotation 1 0 && exit 0 || exit 1

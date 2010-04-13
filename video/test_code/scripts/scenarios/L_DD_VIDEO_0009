@@ -8,7 +8,14 @@
 COMMENT comment.sh "Verify the video is displayed cleanly in both video pipelines simultanuosly"
 
 0001 set -x;  linkvideo.sh "lcd" "lcd" && exit 0 || exit 1
+
+INFO comment.sh "Enabling TV "
+0002_VD1 set -x; echo 1 > /sys/devices/platform/omapdss/display1/enabled  && exit 0 || exit 1
+
 0002 set -x;  linkvideo.sh "lcd" "tv"  && exit 0 || exit 1
 0003 set -x;  linkvideo.sh "tv" "tv"   && exit 0 || exit 1
+
+INFO comment.sh "Disabling TV "
+0002_VD1 set -x; echo 0 > /sys/devices/platform/omapdss/display1/enabled  && exit 0 || exit 1
 
 # End "L_DD_VIDEO_0009"

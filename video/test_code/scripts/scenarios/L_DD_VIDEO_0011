@@ -1,5 +1,5 @@
 #####################
-# FILENAME: L_DD_VIDEO_0010
+# FILENAME: L_DD_VIDEO_0011
 # Author  : Carlos Pando
 # Date    : Fri Jan 5, 2007
 # Copyright (C) 2007 Texas Instruments
@@ -7,11 +7,10 @@
 # Description:
 # Video (Vid) tests
 
-# Begin "L_DD_VIDEO_0010"
+# Begin "L_DD_VIDEO_0011"
 
 COMMENT comment.sh "Verify the background color of the canvas can be configured"
+0001 set -x; background.sh "16711680"&& exit 0 || exit 1
 0001 set -x; background.sh "123456"&& exit 0 || exit 1
 0001 set -x; background.sh "765432"&& exit 0 || exit 1
-0001 cat /sys/devices/platform/omapdss/manager0/default_color && exit 0 || exit 1
-
-# End "L_DD_VIDEO_0010"
+# End "L_DD_VIDEO_0011"

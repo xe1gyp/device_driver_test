@@ -1,0 +1,29 @@
+#####################
+# FILENAME: L_DD_VIDEO_0013
+# Author  : Omar Esli Jimenez Villarreal
+# Date    : Thursday, October 9, 2008
+
+# Begin "L_DD_VIDEO_0013_01"
+
+COMMENT comment.sh "Verify that the alpha blending can be enabled/disabled and configured and video can be displayed correctly"
+
+COMMENT comment.sh "switch GFX/Video pipelines from lcd to tv"
+0001_GFX set -x; tv_lcd_switch.sh  1 0 "720,574" "720,574" "0,0" && exit 0 || exit 1
+0001_VD1 set -x; tv_lcd_switch.sh 1 1 && exit 0 || exit 1
+0001_VD2 set -x; tv_lcd_switch.sh 1 2 && exit 0 || exit 1
+
+0001 set -x; comment.sh "Parameters: ALPHA=enabled; OUTPUT=TV; GFX ALPHA=255; VD2 ALPHA=50"
+0001 set -x; alpha_blending.sh "GLOBAL" "TV" "255" "50" "ON" && exit 0 || exit 1
+
+0002 set -x; comment.sh "Parameters: ALPHA=enabled; OUTPUT=TV; GFX ALPHA=50; VD2 ALPHA=200"
+0002 set -x; alpha_blending.sh "GLOBAL" "TV" "50" "200" "ON" && exit 0 || exit 1
+
+0003 set -x; comment.sh "Parameters: ALPHA=disabled; OUTPUT=TV; GFX ALPHA=200; VD2 ALPHA=50"
+0003 set -x; alpha_blending.sh "GLOBAL" "TV" "200" "50" "OFF" && exit 0 || exit 1
+
+COMMENT comment.sh "switch GFX/Video pipelines from tv to lcd"
+0002_GFX set -x;tv_lcd_switch.sh  0 0 "800,480" "800,480" "0,0" && exit 0 || exit 1
+0004_VD1 set -x;tv_lcd_switch.sh 0 1 && exit 0 || exit 1
+0004_VD2 set -x;tv_lcd_switch.sh 0 2 && exit 0 || exit 1
+
+# End "L_DD_VIDEO_0013_01"

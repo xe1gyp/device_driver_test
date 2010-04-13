@@ -35,5 +35,37 @@ COMMENT comment.sh "Verify that the video rendered can be up/down scaled in hori
 0013_VD2_SAN set -x; decimation.sh 2 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 "0 0 240 60" && exit 0 || exit 1
 0014_VD1_SAN set -x; decimation.sh 1 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 "0 0 80 180" && exit 0 || exit 1
 0014_VD2_SAN set -x; decimation.sh 2 160 120 "RGB565" $VIDEOFILES/video_qqvga_rgb_30 "0 0 80 180" && exit 0 || exit 1
+0015_VD1 set -x; decimation.sh 1 864 480 "YUYV" $VIDEOFILES/wvga_video.yuv "0 0 432 480" && exit 0 || exit 1
+0015_VD2 set -x; decimation.sh 2 864 480 "YUYV" $VIDEOFILES/wvga_video.yuv "0 0 432 480" && exit 0 || exit 1
+0016_VD1 set -x; decimation.sh 1 864 480 "YUYV" $VIDEOFILES/wvga_video.yuv "0 0 216 480" && exit 0 || exit 1
+0016_VD2 set -x; decimation.sh 2 864 480 "YUYV" $VIDEOFILES/wvga_video.yuv "0 0 216 480" && exit 0 || exit 1
+0017_VD1 set -x; decimation.sh 1 864 480 "YUYV" $VIDEOFILES/wvga_video.yuv "0 0 800 240" && exit 0 || exit 1
+0017_VD2 set -x; decimation.sh 2 864 480 "YUYV" $VIDEOFILES/wvga_video.yuv "0 0 800 240" && exit 0 || exit 1
+0018_VD1 set -x; decimation.sh 1 864 480 "YUYV" $VIDEOFILES/wvga_video.yuv "0 0 800 120" && exit 0 || exit 1
+0018_VD2 set -x; decimation.sh 2 864 480 "YUYV" $VIDEOFILES/wvga_video.yuv "0 0 800 120" && exit 0 || exit 1
+0019_VD1 set -x; decimation.sh 1 864 480 "YUYV" $VIDEOFILES/wvga_video.yuv "0 0 432 240" && exit 0 || exit 1
+0019_VD2 set -x; decimation.sh 2 864 480 "YUYV" $VIDEOFILES/wvga_video.yuv "0 0 432 240" && exit 0 || exit 1
+0020_VD1 set -x; decimation.sh 1 864 480 "YUYV" $VIDEOFILES/wvga_video.yuv "0 0 216 120" && exit 0 || exit 1
+0020_VD2 set -x; decimation.sh 2 864 480 "YUYV" $VIDEOFILES/wvga_video.yuv "0 0 216 120" && exit 0 || exit 1
+COMMENT comment.sh "horizontal 1/2 scaling for 720p actual output size is 640 720 but values are adjusted to screen size "
+0021_VD1 set -x; decimation.sh 1 1280 720 "YUYV" $VIDEOFILES/720p.yuv "0 0 640 480" && exit 0 || exit 1
+COMMENT comment.sh "horizontal 1/2 scaling for 720p actual output size is 640 720 but values are adjusted to screen size "
+0021_VD1 set -x; decimation.sh 2 1280 720 "YUYV" $VIDEOFILES/720p.yuv "0 0 640 480" && exit 0 || exit 1
+COMMENT comment.sh "horizontal 1/4 scaling for 720p actual output size is 320 720 but values are adjusted to screen size "
+0022_VD1 set -x; decimation.sh 1 1280 720 "YUYV" $VIDEOFILES/720p.yuv "0 0 320 480" && exit 0 || exit 1
+COMMENT comment.sh "horizontal 1/4 scaling for 720p actual output size is 320 720 but values are adjusted to screen size "
+0022_VD1 set -x; decimation.sh 2 1280 720 "YUYV" $VIDEOFILES/720p.yuv "0 0 320 480" && exit 0 || exit 1
+COMMENT comment.sh "vertical 1/2 scaling for 720p actual output size is 1280 360 but values are adjusted to screen size "
+0023_VD1 set -x; decimation.sh 1 1280 720 "YUYV" $VIDEOFILES/720p.yuv "0 0 800 360" && exit 0 || exit 1
+COMMENT comment.sh "vertical 1/2 scaling for 720p actual output size is 1280 360 but values are adjusted to screen size "
+0023_VD1 set -x; decimation.sh 2 1280 720 "YUYV" $VIDEOFILES/720p.yuv "0 0 800 360" && exit 0 || exit 1
+COMMENT comment.sh "vertical 1/4 scaling for 720p actual output size is 1280 180 but values are adjusted to screen size "
+0024_VD1 set -x; decimation.sh 1 1280 720 "YUYV" $VIDEOFILES/720p.yuv "0 0 800 180" && exit 0 || exit 1
+COMMENT comment.sh "vertical 1/4 scaling for 720p actual output size is 1280 180 but values are adjusted to screen size "
+0024_VD1 set -x; decimation.sh 2 1280 720 "YUYV" $VIDEOFILES/720p.yuv "0 0 800 180" && exit 0 || exit 1
+0025_VD1 set -x; decimation.sh 1 1280 720 "YUYV" $VIDEOFILES/720p.yuv "0 0 640 360" && exit 0 || exit 1
+0025_VD1 set -x; decimation.sh 2 1280 720 "YUYV" $VIDEOFILES/720p.yuv "0 0 640 360" && exit 0 || exit 1
+0026_VD1 set -x; decimation.sh 1 1280 720 "YUYV" $VIDEOFILES/720p.yuv "0 0 320 180" && exit 0 || exit 1
+0026_VD1 set -x; decimation.sh 2 1280 720 "YUYV" $VIDEOFILES/720p.yuv "0 0 320 180" && exit 0 || exit 1
 
 # End "L_DD_VIDEO_0014"

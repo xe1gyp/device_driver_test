@@ -3,27 +3,38 @@
 # Author  : Benjamin Mejia
 # Date    : Fri Jan 5, 2007
 
-# Begin "L_DD_VIDEO_0006"
+# Begin "L_DD_VIDEO_0006_01"
 
 INFO comment.sh "If some of these tests fail, reboot your board"
 
-0001_VD1 set -x; echo 1 > /sys/devices/omapdss/display0/enabled  && exit 0 || exit 1
+INFO comment.sh "switch GFX/Video pipelines from lcd to tv"
+0001_GFX set -x; tv_lcd_switch.sh  1 0 "720,574" "720,574" "0,0" && exit 0 || exit 1
+0001_VD1 set -x; tv_lcd_switch.sh 1 1 && exit 0 || exit 1
+0001_VD2 set -x; tv_lcd_switch.sh 1 2 && exit 0 || exit 1
 
 0002_COMMENT_VD1 comment.sh "Verify the color key value for video source transparency can be configured in Video Pipeline 1"
-0002_VD1 set -x; $TESTBIN/settransck 1 0 63489 && exit 0 || exit 1; sleep 1;
+0002_VD1 set -x; $TESTBIN/settransck 2 0 63489 && exit 0 || exit 1; sleep 1;
 0002_VD1 set -x; cat $VIDEOFILES/f801.txt > /dev/fb0
 0006_VD1 set -x; $TESTBIN/setwin 1 10 10 160 120 && exit 0 || exit 1; sleep 1;
 0002_VD1 set -x; $TESTBIN/streaming 1 $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1; sleep 1;
 
 0003_COMMENT_VD2 comment.sh "Verify the color key value for video source transparency can be configured in Video Pipeline 2"
-0003_VD2 set -x; $TESTBIN/settransck 1 0 63489 && exit 0 || exit 1; sleep 1;
+0003_VD2 set -x; $TESTBIN/settransck 2 0 63489 && exit 0 || exit 1; sleep 1;
 0003_VD2 set -x; cat $VIDEOFILES/f801.txt > /dev/fb0
 0006_VD1 set -x; $TESTBIN/setwin 2 10 10 160 120 && exit 0 || exit 1; sleep 1;
 0003_VD2 set -x; $TESTBIN/streaming 2 $VIDEOFILES/video_qqvga_rgb_30 && exit 0 || exit 1; sleep 1;
 
+INFO comment.sh "switch GFX/Video pipelines from tv to lcd"
+0002_GFX set -x;tv_lcd_switch.sh  0 0 "800,480" "800,480" "0,0" && exit 0 || exit 1
+0004_VD1 set -x;tv_lcd_switch.sh 0 1 && exit 0 || exit 1
+0004_VD2 set -x;tv_lcd_switch.sh 0 2 && exit 0 || exit 1
+
 INFO comment.sh "disabling transparency color key"
-0001_VD1 set -x; echo 0 >  /sys/devices/platform/omapdss/manager0/trans_key_enabled  && exit 0 || exit 1
+0001_VD1 set -x; echo 0 >  /sys/devices/platform/omapdss/manager1/trans_key_enabled  && exit 0 || exit 1
+
+#To Clear buffered overlay data on pipeline2
+0005_VD2 set -x;echo 0 > /sys/devices/platform/omapdss/overlay2/enabled && exit 0 || exit 1
 
 INFO comment.sh "Reboot is needed to clean the display"
 
-# End "L_DD_VIDEO_0006"
+# End "L_DD_VIDEO_0006_01"
