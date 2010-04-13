@@ -7,14 +7,17 @@ if [ -z $PIPELINE ]; then
 	exit 1
 fi
 
-DISPOSITIVE=`echo /sys/class/display_control/omap_disp_control/video$PIPELINE`
+DISPOSITIVE=`echo /sys/devices/platform/omapdss/overlay$PIPELINE/manager`
+OVERLAY=`echo /sys/devices/platform/omapdss/overlay$PIPELINE/enabled`
 
 while true
 do
+	echo 0 > $OVERLAY
 	echo tv > $DISPOSITIVE
+	echo 1 > $OVERLAY
 	sleep 5
+	echo 0 > $OVERLAY
 	echo lcd > $DISPOSITIVE
+	echo 1 > $OVERLAY
 	sleep 3
 done
-
-
