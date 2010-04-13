@@ -1,6 +1,7 @@
 CC := $(CROSS_COMPILE)gcc
 OBJS := showinfo setimg setwin setcrop streaming setlink setrotation setmirror setbgcolor \
-	settransck enablecolkey setcolorconv setdefcolcon streaming_process tv_detect_app
+	settransck enablecolkey setcolorconv setdefcolcon streaming_process tv_detect_app \
+	pre_multialpha
 
 all: $(OBJS)
 
@@ -45,6 +46,9 @@ setdefcolcon: setdefcolcon.c
 
 streaming_process: streaming_process.c
 	$(CC) -g streaming_process.c -o streaming_process
+
+pre_multialpha: pre_multialpha.c
+	$(CC) -g pre_multialpha.c -o pre_multialpha
 
 tv_detect_app: tv_detect_app.c lib.h
 	$(CC) -g $< -o $@
