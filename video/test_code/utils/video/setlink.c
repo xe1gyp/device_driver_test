@@ -20,23 +20,28 @@
 
 static int usage(void)
 {
-	printf("Usage: setlink <video_device>\n");
+	printf("Usage: setlink <video_device> <0/1>\n");
 	return 1;
 }
 
 int main(int argc, char *argv[])
 {
 	int video_device, file_descriptor, result;
-	int link;
+	int link ;
 
-	if (argc < 2)
+	if (argc < 3)
 		return usage();
 
 	video_device = atoi(argv[1]);
+	link = atoi(argv[2]);
+
 	if ((video_device != 1) && (video_device != 2)) {
 		printf("video_device has to be 1 or 2!\n");
 		return usage();
 	}
+
+	if (video_device == 0)
+		return 0;
 
 	file_descriptor =
 		open((video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2,
@@ -50,43 +55,28 @@ int main(int argc, char *argv[])
 			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
 	}
 
-	result = ioctl(file_descriptor, VIDIOC_G_OMAP2_LINK, &link);
-	if (result != 0) {
+	result = ioctl(file_descriptor, VIDIOC_G_OMAP2_LINK);
+	if (result < 0) {
 		perror("VIDIOC_G_OMAP2_LINK");
 		return 1;
 	}
-	printf("link status: V%d is %s linked to another layer\n", video_device,
-		(link == 1) ? "" : "not");
+	printf("Current link status: V%d is %s linked to another layer\n",
+		video_device, (result == 1) ? "" : "not");
 
-	link = 1;
 	result = ioctl(file_descriptor, VIDIOC_S_OMAP2_LINK, &link);
 	if (result != 0) {
 		perror("VIDIOC_S_OMAP2_LINK");
 		return 1;
 	}
-	printf("linked!\n");
 
-	result = ioctl(file_descriptor, VIDIOC_STREAMON, &link);
-	if (result != 0) {
-		perror("VIDIOC_STREAMON");
+	result = ioctl(file_descriptor, VIDIOC_G_OMAP2_LINK);
+	if (result < 0) {
+		perror("VIDIOC_G_OMAP2_LINK");
 		return 1;
 	}
 
-	sleep(30);
-
-	result = ioctl(file_descriptor, VIDIOC_STREAMOFF, &link);
-	if (result != 0) {
-		perror("VIDIOC_STREAMOFF");
-		return 1;
-	}
-
-	link = 0;
-	result = ioctl(file_descriptor, VIDIOC_S_OMAP2_LINK, &link);
-	if (result != 0) {
-		perror("VIDIOC_S_OMAP2_LINK");
-		return 1;
-	}
-	printf("unlinked!\n");
+	printf("Updated link status: V%d is %s linked to another layer\n",
+		video_device, (result == 1) ? "" : "not");
 
 	close(file_descriptor);
 	return 0;
