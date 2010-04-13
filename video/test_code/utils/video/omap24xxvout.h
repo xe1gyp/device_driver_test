@@ -42,8 +42,6 @@ struct omap24xxvout_colconv{
 #define VIDIOC_G_OMAP2_MIRROR           _IOR ('V', 2,  int)
 #define VIDIOC_S_OMAP2_ROTATION         _IOW ('V', 3,  int)
 #define VIDIOC_G_OMAP2_ROTATION         _IOR ('V', 4,  int)
-#define VIDIOC_S_OMAP2_LINK             _IOW ('V', 5,  int)
-#define VIDIOC_G_OMAP2_LINK             _IOR ('V', 6,  int)
 #define VIDIOC_S_OMAP2_COLORKEY         _IOW ('V', 7,  struct omap24xxvout_colorkey)
 #define VIDIOC_G_OMAP2_COLORKEY         _IOR ('V', 8,  struct omap24xxvout_colorkey)
 #define VIDIOC_S_OMAP2_BGCOLOR          _IOW ('V', 9,  struct omap24xxvout_bgcolor)
