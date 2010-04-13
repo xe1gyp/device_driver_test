@@ -5,25 +5,25 @@
   echo ""; echo "Changing FB display size according to multiplication factors: 1/2"; echo ""
   sleep 3
   $TESTBIN/fbsize x 1 2
-  echo ""; echo "Display size changed to 120 x 159"; echo ""
+  echo ""; echo "Display size changed to 400 x 240"; echo ""
   sleep 2
   $FBTEST
   
   echo ""; echo "Changing FB display size according to multiplication factors: 4/3"; echo ""
   $TESTBIN/fbsize x 4 3
-  echo ""; echo "Display size changed to 160 x 213"; echo ""
+  echo ""; echo "Display size changed to 533 x 320"; echo ""
   sleep 2
   $FBTEST
 
   echo ""; echo "Changing FB display size according to multiplication factors: 3/4"; echo ""
   $TESTBIN/fbsize x 3 4
-  echo ""; echo "Display size changed to 120 x 159"; echo ""
+  echo ""; echo "Display size changed to 399 x 240"; echo ""
   sleep 2
   $FBTEST
 
   echo ""; echo "Changing FB display size according to multiplication factors: 2/1"; echo ""
   $TESTBIN/fbsize x 2 1
-  echo ""; echo "Display size changed to 240 x 318"; echo ""
+  echo ""; echo "Display size changed to 798 x 480"; echo ""
   sleep 2
   $FBTEST
 
