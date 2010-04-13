@@ -50,6 +50,7 @@ int main(int argc, char *argv[])
 		printf("openned %s\n",
 			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
 	}
+	format.type           = V4L2_BUF_TYPE_VIDEO_OUTPUT;
 
 	result = ioctl(file_descriptor, VIDIOC_G_FMT, &format);
 	if (result != 0) {
@@ -77,7 +78,6 @@ int main(int argc, char *argv[])
 
 	format.fmt.pix.width  = atoi(argv[3]);
 	format.fmt.pix.height = atoi(argv[4]);
-	format.type           = V4L2_BUF_TYPE_VIDEO_OUTPUT;
 	
 
 	/* set format of the picture captured */

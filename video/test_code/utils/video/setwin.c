@@ -50,6 +50,7 @@ int main(int argc, char *argv[])
 			(video_device == 1) ? VIDEO_DEVICE1 : VIDEO_DEVICE2);
 	}
 
+	format.type = V4L2_BUF_TYPE_VIDEO_OVERLAY;
 	result = ioctl(file_descriptor, VIDIOC_G_FMT, &format);
 	if (result != 0) {
 		perror("VIDIOC_G_FMT");
@@ -60,7 +61,6 @@ int main(int argc, char *argv[])
 	format.fmt.win.w.top = atoi(argv[3]);
 	format.fmt.win.w.width = atoi(argv[4]);
 	format.fmt.win.w.height = atoi(argv[5]);
-	format.type = V4L2_BUF_TYPE_VIDEO_OVERLAY;
 
 	result = ioctl(file_descriptor, VIDIOC_S_FMT, &format);
 	if (result != 0) {
