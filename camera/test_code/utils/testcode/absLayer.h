@@ -630,12 +630,15 @@ int resetPreview(int fd, char *previewOption)
 
 	if ((!strcasecmp(previewOption, "le"))) {
 		preview_struct.update = ISP_ABS_PREV_LUMAENH;
+		preview_struct.flag = ~ISP_ABS_PREV_LUMAENH;
 
 	} else if ((!strcasecmp(previewOption, "ialaw"))) {
 		preview_struct.update = ISP_ABS_PREV_INVALAW;
+                preview_struct.flag = ~ISP_ABS_PREV_INVALAW;
 
 	} else if ((!strcasecmp(previewOption, "hm"))) {
 		preview_struct.update = ISP_ABS_PREV_HRZ_MED;
+		preview_struct.flag = ~ISP_ABS_PREV_HRZ_MED;
 
 	} else if ((!strcasecmp(previewOption, "cfa"))) {
 		preview_struct.update = ISP_ABS_PREV_CFA;
