@@ -35,6 +35,7 @@ graphs graph:
 	@cd results; tar cf ${Result_Prefix}-cachebench-graphs.tar *.ps; echo ""
 clean:
 	-rm -f *.o *~ core */*~
+	-rm -f cachebench
 
 clobber: clean
 	-rm -f cachebench
