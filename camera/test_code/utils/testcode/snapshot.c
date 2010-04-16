@@ -739,9 +739,8 @@ restart_streaming:
 	printf("Streaming %d x %d...\n",
 			cfmt.fmt.pix.width,
 			cfmt.fmt.pix.height);
-
-	display_keys();
-
+	if (use_lsc == 0)
+		display_keys();
 	/********************************************************************/
 	/* Start streaming loop */
 
@@ -808,7 +807,7 @@ restart_streaming:
 			}
 		}
 
-		if (kbhit()) {
+		if ((use_lsc == 0) && kbhit()) {
 			int input = getch();
 			if (input == '2') {
 				control.id = V4L2_CID_FOCUS_RELATIVE;
