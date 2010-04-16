@@ -25,5 +25,5 @@ $(TARGETS):
 	$(CC) $@.c -o $@
 
 clean:
-	rm -vrf *.ko *.o *.mod.* *Module* .tmp_versions .gptimer* modules.order
+	rm -vrf *.ko *.o *.mod.* *Module* .tmp_versions .gptimer* modules.order .*.ko .*.o.* .*.ko.*
 	rm -vf $(TARGETS)
