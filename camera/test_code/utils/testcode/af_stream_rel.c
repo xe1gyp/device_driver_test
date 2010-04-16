@@ -522,7 +522,7 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		if (kbhit() && mode == MODE_MANUAL) {
+		if ((mode == MODE_MANUAL) && kbhit()) {
 			input = getch();
 			if (input == '1') {
 				ret = pselect(cfd + 1, NULL, NULL, &excfds,
