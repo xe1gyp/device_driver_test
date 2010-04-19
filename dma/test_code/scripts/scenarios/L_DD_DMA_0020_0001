@@ -1,11 +1,11 @@
 ################################################################################
-# Scenario:    L_DD_DMA_0018
+# Scenario:    L_DD_DMA_0020_0001
 # Author  :    Venkatraman S
 # Date    :    October 2nd, 2009
 # Description: DMA Descriptor autoloading feature
 ################################################################################
 
-# Begin L_DD_DMA_0018
+# Begin L_DD_DMA_0020_0001
 
 0001	set -x; insmod $TESTMODS/dma_single_channel.ko
 0002	set -x; insmod $TESTMODS/dma_dload.ko
@@ -13,4 +13,4 @@
 0004	set -x; rmmod dma_dload
 0005	set -x; rmmod dma_single_channel.ko
 
-# End L_DD_DMA_0018
+# End L_DD_DMA_0020_0001

@@ -69,9 +69,9 @@
 			</output>
 		</fail>
 
-</test>
+	</test>
 
-<test id="L_DD_DMA_0003">
+	<test id="L_DD_DMA_0003">
 
 		<information>
 			<autor> Gustavo Diaz </autor>
@@ -456,11 +456,11 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0016">
+	<test id="L_DD_DMA_0019_0001">
 
 		<information>
 			<autor> Gustavo Diaz </autor>
-			<description> tbd description </description>
+			<description> Thread SMP safety: Concurrent access of DMA API</description>
 			<dateofcreation> 02/8/2009 </dateofcreation>
 		</information>
 
@@ -469,7 +469,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0016</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0019_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -491,11 +491,11 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0017">
+	<test id="L_DD_DMA_0019_0002">
 
 		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
+			<autor> Venkatraman S</autor>
+			<description> Thread SMP safety: Concurrent access of DMA chaining API</description>
 			<dateofcreation> 04/06/10 </dateofcreation>
 		</information>
 
@@ -504,7 +504,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0017</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0019_0002</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -526,11 +526,11 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0018">
+	<test id="L_DD_DMA_0020_0001">
 
 		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
+			<autor> Venkatraman S</autor>
+			<description> DMA descriptor autoloading </description>
 			<dateofcreation> 04/06/10 </dateofcreation>
 		</information>
 
@@ -539,7 +539,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0018</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0020_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -561,11 +561,11 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0019">
+	<test id="L_DD_DMA_0020_0002">
 
 		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
+			<autor> Venkatraman S</autor>
+			<description> Thread SMP safety: Concurrent access of descriptor autoloading API</description>
 			<dateofcreation> 04/06/10 </dateofcreation>
 		</information>
 
@@ -574,7 +574,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0019</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0020_0002</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
