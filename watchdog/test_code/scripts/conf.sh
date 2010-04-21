@@ -5,6 +5,7 @@ export POSTFIX=`date "+%Y%m%d-%H%M%S"`
 export TESTROOT=${PWD}
 export TESTBIN=${PWD}/../bin
 export UTILBIN=${PWD}/../../utils/bin
+export UTILSCRIPTS=${PWD}/../../utils/scripts
 export TESTMODS=${PWD}/../modules
 export TESTSCRIPT=${PWD}/helper
 export TMPBASE=${TESTROOT}/tmp
@@ -22,7 +23,7 @@ export SCENARIO_NAMES=""
 export UTILS_DIR_HANDLERS=${TESTROOT}/../../utils/handlers
 
 # Platform
-export DMESG_FILE=$TMPBASE/dmesg.temp
+export DMESG_FILE=/tmp/result.tmp
 $TESTSCRIPT/fileSystemType.sh
 
 # Driver specific

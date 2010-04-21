@@ -6,6 +6,7 @@
 
 # Begin L_DD_WATCHDOG_0001_0001
 
+01 set -x; $UTILSCRIPTS/filesystemtype.sh;
 01 set -x; cat $DMESG_FILE | grep -i $WATCHDOG_MODALIAS
 
 # End L_DD_WATCHDOG_0001_0001
