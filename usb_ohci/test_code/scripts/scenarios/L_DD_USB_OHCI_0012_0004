@@ -1,5 +1,5 @@
 ###############################################################################
-# Scenario    : L_DD_USB_HOST_0013_0004
+# Scenario    : L_DD_USB_HOST_0012_0004
 # Description : USB Host OHCI | Mass Storage | IRQ Affinity
 ###############################################################################
 
@@ -17,4 +17,4 @@
 06	set -x; handlerUsbHost.sh  "remove"  "mass_storage" "sda1" "/mnt/ohci/"
 07	set -x; handlerUsbHostSetup.sh  "remove"  "ohci"
 
-# End L_DD_USB_HOST_0013_0004
+# End L_DD_USB_HOST_0012_0004
