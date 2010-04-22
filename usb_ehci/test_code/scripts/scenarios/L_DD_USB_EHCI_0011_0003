@@ -1,5 +1,5 @@
 ###############################################################################
-# Scenario    : L_DD_USB_EHCI_0012_0003
+# Scenario    : L_DD_USB_EHCI_0011_0003
 # Description : USB Host EHCI | Mass Storage | CPU Affinity
 ###############################################################################
 
@@ -17,4 +17,4 @@
 06	set -x; handlerUsbHost.sh  "remove"  "mass_storage" "sda1" "/mnt/ehci/"
 07	set -x; handlerUsbHostSetup.sh  "remove"  "ehci"
 
-# End L_DD_USB_EHCI_0012_0003
+# End L_DD_USB_EHCI_0011_0003

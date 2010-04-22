@@ -1,5 +1,5 @@
 ###############################################################################
-# Scenario    : L_DD_USB_EHCI_0012_0002
+# Scenario    : L_DD_USB_EHCI_0011_0002
 # Description : USB Host EHCI | Mass Storage | Process Priority
 ###############################################################################
 
@@ -20,4 +20,4 @@
 09	set -x; handlerUsbHost.sh  "remove"  "mass_storage" "sda1" "/mnt/ehci/"
 10	set -x; handlerUsbHostSetup.sh  "remove"  "ehci"
 
-# End L_DD_USB_EHCI_0012_0002
+# End L_DD_USB_EHCI_0011_0002
