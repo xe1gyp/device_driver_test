@@ -88,5 +88,8 @@ export HCFSF_FREQUENCIES_LIST_ERROR=$UTILS_DIR_TMP/hcfsg.frequencies.list.error
 export HCFSG_GOVERNORS_LIST_OK=$UTILS_DIR_TMP/hcfsg.governors.list.ok
 export HCFSG_GOVERNORS_LIST_ERROR=$UTILS_DIR_TMP/hcfsg.governors.list.error
 
+# handlerFstab.sh
+export HFST_FSTAB_ORIGINAL=$UTILS_DIR_TMP/hfst.original
+
 # End of file
 
