@@ -54,6 +54,7 @@ export MMCSD_DEVFS_PARTITION_2=${MMCSD_DEVFS_ENTRY}p2
 
 export MMCSD_MOUNTPOINT_1=/media/mmcsdp`echo "$SLOT+1" | bc`
 export MMCSD_MOUNTPOINT_2=/media/mmcsdp`echo "$SLOT+2" | bc`
+
 export MMCSD_TMPFS_MOUNTPOINT=/media/tmpfs
 
 export MMCSD_FILE_SIZE_BIG=file.size.big
