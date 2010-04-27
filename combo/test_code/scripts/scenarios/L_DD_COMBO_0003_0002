@@ -1,0 +1,51 @@
+###############################################################################
+# Scenario    : L_DD_COMBO_0003_0002
+# Author      : Abraham Arce
+# Date        : Wed Apr  7 15:38:19 CDT 2010
+# Description : Power and Performance
+###############################################################################
+
+# Begin L_DD_COMBO_0003_0002
+
+# Initialize statistics logger
+01  set -x; handlerStatistics.sh "clean"
+
+
+# ################# #
+# Synchronous Write #
+# ################# #
+
+# Setup partitions
+01  set -x; handlerTmpfs.sh "create" "128" "/mnt/tmpfs/"
+02  set -x; handlerMmcsdBlock.sh "create" "1" "dos" "/mnt/mmc/"
+
+# Start the creation of the 10 MB file under tmpfs partition and copy to mmc
+03  set -x; handlerCmdDd.sh "1" "/dev/urandom" "/mnt/tmpfs/my.file" "to" "10"
+04  set -x; handlerCmdCp.sh "1" "/mnt/tmpfs/my.file" "/mnt/mmc/my.file"
+
+# Remove partitions
+05  set -x; handlerMmcsdBlock.sh "remove" "1" "/mnt/mmc/"
+06  set -x; handlerTmpfs.sh "remove" "/mnt/tmpfs/"
+
+
+# ################## #
+# Asynchronous Write #
+# ################## #
+
+# Setup partitions
+01  set -x; handlerTmpfs.sh "create" "128" "/mnt/tmpfs/"
+02  set -x; handlerMmcsdBlock.sh "create" "1" "dos" "/mnt/mmc/"
+
+# Start the creation of the 10 MB file under tmpfs partition and copy to mmc
+03  set -x; handlerCmdDd.sh "1" "/dev/urandom" "/mnt/tmpfs/my.file" "to" "10"
+04  set -x; handlerCmdCp.sh "1" "/mnt/tmpfs/my.file" "/mnt/mmc/my.file" "nosync"
+
+# Remove partitions
+05  set -x; handlerMmcsdBlock.sh "remove" "1" "/mnt/mmc/"
+06  set -x; handlerTmpfs.sh "remove" "/mnt/tmpfs/"
+
+
+# Display summary of statistics
+15  set -x; handlerStatistics.sh "display"
+
+# End L_DD_COMBO_0003_0002

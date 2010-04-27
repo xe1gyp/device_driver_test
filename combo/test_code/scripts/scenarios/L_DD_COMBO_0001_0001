@@ -7,30 +7,30 @@
 # Begin L_DD_COMBO_0001_0001
 
 # Setup the devices
-01  mmcsd     setup
-#02  nand      setup
-#02  usbhost   setup
+01  mmcsd	setup
+# 02  nand	setup
+# 02  usbhost	setup
 
 # Create 2 files, 1 MB, one under mmcsd, the other one under nand
-03  file      create      75       mmcsd
-#04  file      create      75        nand
+03  file	create		75		mmcsd
+# 04  file	create		75		nand
 
 # Copy from mmcsd to nand
-#05  file      copy        mmcsd     nand
+# 05  file	copy		mmcsd		nand
 
 # Read/Write in mmcsd/nand in parallel
-#06  file      readwrite   nand      mmcsd
+# 06  file	readwrite	nand		mmcsd
 
 # Take a picture and save it to mmcsd and nand, To Be Implemented
-#07  camera    capture     mmcsd
-#08  camera    capture     nand
+# 07  camera	capture		mmcsd
+# 08  camera	capture		nand
 
 # Record some audio to a file under mmcsd and then play it, To Be Implemented
-#09  audio     record      mmcsd
-#11  audio     play        mmcsd
+# 09  audio	record		mmcsd
+# 11  audio	play		mmcsd
 
 # Cleanup the devices
-#12  nand      cleanup
-13  mmcsd     cleanup
+# 12  nand	cleanup
+13  mmcsd	cleanup
 
 # End L_DD_COMBO_0001_0001
