@@ -45,7 +45,12 @@ export HAT_CPU_USAGE_VALUE_AVR=$UTILS_DIR_TMP/hat.cpu.usage.value.avr
 export HAT_CPU_USAGE_VALUE_MAX=$UTILS_DIR_TMP/hat.cpu.usage.value.max
 export HAT_CPU_USAGE_VALUE_MIN=$UTILS_DIR_TMP/hat.cpu.usage.value.min
 
+# handlerAppTime.sh
+export HATI_TIME=$UTILS_DIR_TMP/hati.time
+export HATI_TIME_FINAL=$UTILS_DIR_TMP/hati.time.final
+
 # handlerCmdDd.sh
+export HCDD_DD_BS="1M"
 export HCDD_DD_LOG=$UTILS_DIR_TMP/hcdd.dd.log
 export HCDD_EXECUTION_TIME_DD=$UTILS_DIR_TMP/hcdd.execution.time.dd
 export HCDD_EXECUTION_TIME_SYNC=$UTILS_DIR_TMP/hcdd.execution.time.sync
@@ -56,6 +61,7 @@ export HCCP_EXECUTION_TIME_CP=$UTILS_DIR_TMP/hccp.execution.time.cp
 export HCCP_EXECUTION_TIME_SYNC=$UTILS_DIR_TMP/hccp.execution.time.sync
 
 # handlerFileThroughput.sh
+export HFT_THROUGHPUT_REAL_FILE_SIZE=$UTILS_DIR_TMP/hft.throughput.real.file.size
 export HFT_THROUGHPUT_MBps=$UTILS_DIR_TMP/hft.throughput.mbs
 export HFT_THROUGHPUT_Mbps=$UTILS_DIR_TMP/hft.throughput.mbps
 
