@@ -122,13 +122,6 @@ int cam_ioctl(int fd, char *pixFormat, char *size, char *sizeH)
 	}
 	printf("New video image: ");
 	print_image_size_format(&format);
-
-	format.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-	ret = ioctl(fd, VIDIOC_G_FMT, &format);
-	if (ret < 0) {
-		perror("VIDIOC_G_FMT");
-		return -1;
-	}
 	print_preview_window(&format);
 
 	return 0;
