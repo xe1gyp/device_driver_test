@@ -1,0 +1,15 @@
+# #############################################################################
+# Scenario    : L_DD_FB_0002
+# Author      : Jose Luis Diaz
+# Date        : Wed Dec 20, 2006
+# Description : Framebuffer (FB) bits per pixel tests
+# #############################################################################
+
+# Begin L_DD_FB_0002
+
+COMMENT comment.sh "Test that the Framebuffer allows changing the bits-per-pixel mode."
+
+0001 set -x; ovrswitch.sh 1 && exit 0 || exit 1
+0002 set -x; ovrswitch.sh 2 && exit 0 || exit 1
+
+# End L_DD_FB_0002
