@@ -1,0 +1,17 @@
+# #############################################################################
+# Scenario    : L_DD_FB_0002
+# Author      : Jose Luis Diaz
+# Date        : Wed Dec 20, 2006
+# Description : Framebuffer (FB) bits per pixel tests
+# #############################################################################
+
+# Begin L_DD_FB_0002
+
+COMMENT comment.sh "Test that the Framebuffer allows changing the bits-per-pixel mode."
+
+0001 set -x; fbrot.sh /dev/fb0 0 && exit 0 || exit 1
+0002 set -x; fbrot.sh /dev/fb0 90 && exit 0 || exit 1
+0003 set -x; fbrot.sh /dev/fb0 180 && exit 0 || exit 1
+0004 set -x; fbrot.sh /dev/fb0 270&& exit 0 || exit 1
+
+# End L_DD_FB_0002
