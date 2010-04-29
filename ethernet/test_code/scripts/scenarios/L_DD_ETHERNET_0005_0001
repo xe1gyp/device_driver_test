@@ -1,14 +1,11 @@
-################################################################################
-# Scenario: L_DD_ETHERNET_0005_0001
-# Author  : Abraham Arce
-# Modified by : Aharon Campos
-# Date    : October 23, 2009
-################################################################################
-
 # Begin L_DD_ETHERNET_0005_0001
 
-01  set -x; handlerIfconfig.sh "get" "ipaddr" && exit 0 || exit 1
-02  set -x; test -d /sys/power/sr_vdd1_autocomp && test -d /sys/power/sr_vdd2_autocomp && exit 0 || exit 1
-03  set -x; ($ETHERNET_ROOT/../../utils/scripts/dvfs.opp.sh &) && ping -c 50 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_EXTERNAL_HOST_IPADDR` && exit 0 || exit 1
+01  set -x; handlerIfconfig.sh "get" "ipaddr"
+
+02  set -x; ping -c 1  `cat $ETHERNET_EXTERNAL_HOST_IPADDR` && exit 0 || exit 1
+03  set -x; ping -c 5  `cat $ETHERNET_EXTERNAL_HOST_IPADDR` && exit 0 || exit 1
+04  set -x; ping -c 10 `cat $ETHERNET_EXTERNAL_HOST_IPADDR` && exit 0 || exit 1
+05  set -x; ping -c 25 `cat $ETHERNET_EXTERNAL_HOST_IPADDR` && exit 0 || exit 1
 
 # End L_DD_ETHERNET_0005_0001
+

@@ -27,26 +27,35 @@ export PATH="${ETHERNET_ROOT}:${ETHERNET_DIR_HELPER}:$ETHERNET_DIR_BINARIES:${PA
 # Utils General Variables
 export UTILS_DIR_BIN=${ETHERNET_ROOT}/../../utils/bin
 export UTILS_DIR_HANDLERS=${ETHERNET_ROOT}/../../utils/handlers
-export UTILSCRIPTS=${ETHERNET_ROOT}/../../utils/scripts
+export UTILS_DIR_SCRIPTS=${ETHERNET_ROOT}/../../utils/scripts
 
 . ${ETHERNET_ROOT}/../../utils/configuration/general.configuration
 
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
 # Specific Ethernet Variables
+export ETHERNET_DEV_URANDOM=/dev/urandom
 export ETHERNET_PACKET_SIZE=32768
 export ETHERNET_INTERFACE=eth0
-export ETHERNET_IFCONFIG_IPADDR=$ETHERNET_DIR_TMP/ifconfig.ipaddr
-export ETHERNET_IFCONFIG_HWADDR=$ETHERNET_DIR_TMP/ifconfig.hwaddr
+export ETHERNET_IFCONFIG_IPADDR=$ETHERNET_DIR_TMP/ethernet.ifconfig.ipaddr
+export ETHERNET_IFCONFIG_HWADDR=$ETHERNET_DIR_TMP/ethernet.ifconfig.hwaddr
 
-export ETHERNET_EXTERNAL_HOST_IPADDR=$ETHERNET_DIR_TMP/external.ipaddr
-export ETHERNET_EXTERNAL_HOST_HWADDR=
-export ETHERNET_NUTTCP_SERVER_IPADDR=$ETHERNET_DIR_TMP/nuttcp.server.ipaddr
-export ETHERNET_KERNEL_MESSAGES=$ETHERNET_DIR_TMP/dmesg
+export ETHERNET_EXTERNAL_HOST_IPADDR=$ETHERNET_DIR_TMP/ethernet.host.ipaddr
+export ETHERNET_EXTERNAL_HOST_HWADDR=$ETHERNET_DIR_TMP/ethernet.host.hwaddr
+export ETHERNET_NUTTCP_SERVER_IPADDR=$ETHERNET_DIR_TMP/ethernet.nuttcp.server.ipaddr
+export ETHERNET_KERNEL_MESSAGES=$ETHERNET_DIR_TMP/ethernet.kernel.messages
+
+export ETHERNET_NFS_DIR=$ETHERNET_DIR_TMP/ethernet.nfs.directory.path
+
+export ETHERNET_IRQ=$ETHERNET_DIR_TMP/ethernet.irq
+handlerIrq.sh "get" "eth0" "$ETHERNET_IRQ"
 
 if [ ! `echo 1+1 | bc` ]; then
 	echo "FATAL: bc application unavailable, cannot continue"
 	exit 1
 fi
+
+# Remove any error file
+handlerError.sh "clean"
 
 # End of file
