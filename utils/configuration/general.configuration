@@ -14,6 +14,16 @@ export HCA_LIST_CMDS_PASSED=$UTILS_DIR_TMP/hca.list.cmds.passed
 export HCA_LIST_CMDS_FAILED=$UTILS_DIR_TMP/hca.list.cmds.failed
 export HCA_LIST_PIDS_TOTALS=$UTILS_DIR_TMP/hca.list.pids.totals
 
+# handlerIrqAffinity.sh
+if [ `cat /proc/cpuinfo| grep -ic OMAP4` ]; then
+	export INT_GPIO_BANK1=61
+	export INT_GPIO_BANK2=62
+	export INT_GPIO_BANK3=63
+	export INT_GPIO_BANK4=64
+	export INT_GPIO_BANK5=65
+	export INT_GPIO_BANK6=66
+fi
+
 # handlerProcessParallelism.sh || handlerProcessParallelismExecutor.sh
 export HPPA_LIST_CMDS_TOTALS=$UTILS_DIR_TMP/hppa.list.cmds.totals
 export HPPA_LIST_CMDS_PASSED=$UTILS_DIR_TMP/hppa.list.cmds.passed
