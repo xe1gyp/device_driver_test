@@ -99,6 +99,7 @@ export HDFS_DEBUG_FILESYSTEM_DIRECTORY=/debug/
 # handlerCpuFreqScalFrequencies.sh
 export HCFSF_FREQUENCIES_LIST_OK=$UTILS_DIR_TMP/hcfsg.frequencies.list.ok
 export HCFSF_FREQUENCIES_LIST_ERROR=$UTILS_DIR_TMP/hcfsg.frequencies.list.error
+export HCFSF_FREQUENCIES_LIST_AVAILABILITY=$UTILS_DIR_TMP/hcfsg.frequencies.list.availability
 
 # handlerCpuFreqScalGovernors.sh
 export HCFSG_GOVERNORS_LIST_OK=$UTILS_DIR_TMP/hcfsg.governors.list.ok
