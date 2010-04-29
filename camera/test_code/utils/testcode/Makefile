@@ -47,7 +47,7 @@ burst_zoom: burst_zoom.c lib.c ioctl.c
 
 fps: fps.c lib.c ioctl.c framerateLib.c
 	@echo "  CC  fps"
-	@$(CC) $(CFLAGS) -g -static fps.c lib.c ioctl.c framerateLib.c -o fps
+	@$(CC) $(CFLAGS) -g fps.c lib.c ioctl.c framerateLib.c -o fps
 
 # this program is from V4L2 site with a bug fix for user ptr mode.
 capture: capture.c
