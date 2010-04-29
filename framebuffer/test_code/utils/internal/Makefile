@@ -2,7 +2,7 @@ export CC:=$(CROSS_COMPILE)gcc
 
 objects = fbcmap fbblank fbmode fbrotate \
 fbmmap fbsize fbshift fbmirror fbout fbflipbut fbtest wait_for_vsync \
-fb_mirror
+fb_mirror saFbdevRotation
 
 all: fb_user_test_o liblog fb_user_tests $(objects)
 
@@ -72,6 +72,8 @@ wait_for_vsync: wait_for_vsync.c
 fb_mirror: fb_mirror.c
 	$(CC) fb_mirror.c -o fb_mirror
 
+saFbdevRotation: saFbdevRotation.c
+	$(CC) saFbdevRotation.c -o saFbdevRotation
 clean:
 	rm -fr $(objects)
 	make -C libs/log clean
