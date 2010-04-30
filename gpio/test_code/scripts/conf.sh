@@ -33,6 +33,11 @@ export PATH="$PATH:$UTILBIN:$UTILS_DIR_HANDLERS:$UTILSCRIPTS"
 
 # Driver specific
 export MAX_GPIO_LINES=209
+# 
+if [ `cat /proc/cpuinfo| grep -ic OMAP4` ]; then
+	export MAX_GPIO_LINES=191
+fi
+#
 export FIRST_GPIO_LINE=0
 export INITIAL_INVALID_RANGE=-5
 export FINAL_INVALID_RANGE=-1
