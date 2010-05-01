@@ -53,6 +53,11 @@ if [ "$LOCAL_OPERATION" = "create" ]; then
 
 	LOCAL_FILESYSTEM_TYPE=$3
 
+	if [ "$LOCAL_FILESYSTEM_TYPE" == "" ]; then
+		handlerError.sh "log" "1" "halt" "handlerMmmcsdBlock"
+		exit 1
+	fi
+
 	if [ ! -z $4 ] ; then
 		MMCSD_MOUNTPOINT_1=$4
 		MMCSD_MOUNTPOINT_2=$5
@@ -151,13 +156,22 @@ elif [ "$LOCAL_OPERATION" = "remount" ]; then
 
 		sync && umount $MMCSD_DEVFS_PARTITION_1
 		mount $MMCSD_DEVFS_PARTITION_1
+		handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
 
 	elif [ "$LOCAL_PARTITIONS" = "2" ]; then
 
 		sync && umount $MMCSD_DEVFS_PARTITION_1
 		sync && umount $MMCSD_DEVFS_PARTITION_2
 		mount $MMCSD_DEVFS_PARTITION_1
+		handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
 		mount $MMCSD_DEVFS_PARTITION_2
+		handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
+
+	else
+
+		sync && umount $LOCAL_PARTITIONS
+		mount $LOCAL_PARTITIONS
+		handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
 
 	fi
 
