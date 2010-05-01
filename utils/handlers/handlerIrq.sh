@@ -24,10 +24,9 @@ if [ "$LOCAL_OPERATION" == "get" ]; then
 		exit 1
 	fi
 
-	echo > "$LOCAL_FILE"
 	for i in `cat /proc/interrupts | grep -i $LOCAL_DRIVER | awk '{print$1}' | cut -d: -f1`
 	do
-		 echo $i >> $LOCAL_FILE
+		 echo $i > $LOCAL_FILE
 	done
 else
 	echo "Fatal: Unsupported operation"
