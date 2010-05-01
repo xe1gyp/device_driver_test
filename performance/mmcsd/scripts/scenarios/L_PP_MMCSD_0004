@@ -1,0 +1,43 @@
+# Begin L_PP_MMCSD_0004
+
+# Initialize statistics logger
+0000  set -x; handlerStatistics.sh "clean"
+0000  set -x; handlerFstab.sh "save"
+
+
+
+# ################# #
+# Raw Write         #
+# ################# #
+
+# Write a 10 MB file under mmc character interface
+0001  set -x; handlerCmdDd.sh "1" "/dev/urandom" "$MMCSD_DEVFS_ENTRY" "none" "100"
+
+# ################# #
+# Raw Read          #
+# ################# #
+
+# Read a 10 MB file from mmc character interface
+0002  set -x; handlerCmdDd.sh "1" "$MMCSD_DEVFS_ENTRY" "/dev/urandom" "none" "100"
+
+# ################# #
+# Raw Write         #
+# ################# #
+
+# Write a 10 MB file under mmc character interface
+0003  set -x; handlerCmdDd.sh "1" "/dev/urandom" "$MMCSD_DEVFS_ENTRY" "none" "32"
+
+# ################# #
+# Raw Read          #
+# ################# #
+
+# Read a 10 MB file from mmc character interface
+0004  set -x; handlerCmdDd.sh "1" "$MMCSD_DEVFS_ENTRY" "/dev/urandom" "none" "32"
+
+
+
+# Display summary of statistics
+0000  set -x; handlerFstab.sh "restore"
+0000  set -x; handlerStatistics.sh "display"
+
+# End L_PP_MMCSD_0004

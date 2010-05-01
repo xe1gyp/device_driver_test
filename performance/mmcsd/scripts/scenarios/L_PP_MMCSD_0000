@@ -1,0 +1,195 @@
+# Begin L_PP_MMCSD_0001
+
+# Initialize statistics logger
+0000  set -x; handlerStatistics.sh "clean"
+0000  set -x; handlerFstab.sh "save"
+
+
+
+################################################################################
+# File 4 MB
+################################################################################
+
+
+# ################# #
+# Synchronous Write #
+# ################# #
+
+# Setup partition
+0004  set -x; if [ "$MMCSDP_AUTO_PARTITION" -eq 1 ]; then set -x; handlerMmcsdBlock.sh "create" "1" "$FORMAT" "/mnt/mmc/"; fi 
+
+# Start the creation of the file under mmc partition
+0004  set -x; handlerCmdDd.sh "1" "/dev/urandom" "/mnt/mmc/my.file" "to" "4"
+0004  set -x; handlerCmd.sh "rm -f /mnt/mmc/my.file"
+
+# Remove partition
+0004  set -x; if [ "$MMCSDP_AUTO_PARTITION"  -eq 1 ]; then set -x; handlerMmcsdBlock.sh "remove" "1" "/mnt/mmc/"; fi
+
+
+# ################## #
+# Asynchronous Write #
+# ################## #
+
+# Setup partition
+0005  set -x; if [ "$MMCSDP_AUTO_PARTITION"  -eq 1 ]; then set -x; handlerMmcsdBlock.sh "create" "1" "$FORMAT" "/mnt/mmc/"; fi 
+
+# Start the creation of the file under mmc partition
+0005  set -x; handlerCmdDd.sh "1" "/dev/urandom" "/mnt/mmc/my.file" "to" "4" "nosync"
+0005  set -x; handlerCmd.sh "rm -f /mnt/mmc/my.file"
+
+# Remove partition
+0005  set -x; if [ "$MMCSDP_AUTO_PARTITION"  -eq 1 ]; then set -x; handlerMmcsdBlock.sh "remove" "1" "/mnt/mmc/"; fi
+
+
+# ################# #
+# Read              #
+# ################# #
+
+# Setup partition
+0006  set -x; if [ "$MMCSDP_AUTO_PARTITION"  -eq 1 ]; then set -x; handlerMmcsdBlock.sh "create" "1" "$FORMAT" "/mnt/mmc/"; fi
+
+# Start the creation of the file under mmc partition
+0006  set -x; handlerCmdDd.sh "1" "/dev/urandom" "/mnt/mmc/my.file" "to" "4"
+0006  set -x; handlerMmcsdBlock.sh "remount" "/mnt/mmc/"
+0006  set -x; handlerCmdDd.sh "1" "/mnt/mmc/my.file" "/dev/null" "from" "4"
+0006  set -x; handlerCmd.sh "rm -f /mnt/mmc/my.file"
+
+# Remove partition
+0006  set -x; if [ "$MMCSDP_AUTO_PARTITION"  -eq 1 ]; then set -x; handlerMmcsdBlock.sh "remove" "1" "/mnt/mmc/"; fi
+
+
+################################################################################
+# File 32 MB
+################################################################################
+
+
+# ################# #
+# Synchronous Write #
+# ################# #
+
+# Setup partition
+0007  set -x; if [ "$MMCSDP_AUTO_PARTITION" -eq 1 ]; then set -x; handlerMmcsdBlock.sh "create" "1" "$FORMAT" "/mnt/mmc/"; fi 
+
+# Start the creation of the file under mmc partition
+0007  set -x; handlerCmdDd.sh "1" "/dev/urandom" "/mnt/mmc/my.file" "to" "32"
+0007  set -x; handlerCmd.sh "rm -f /mnt/mmc/my.file"
+
+# Remove partition
+0007  set -x; if [ "$MMCSDP_AUTO_PARTITION"  -eq 1 ]; then set -x; handlerMmcsdBlock.sh "remove" "1" "/mnt/mmc/"; fi
+
+
+# ################## #
+# Asynchronous Write #
+# ################## #
+
+# Setup partition
+0008  set -x; if [ "$MMCSDP_AUTO_PARTITION"  -eq 1 ]; then set -x; handlerMmcsdBlock.sh "create" "1" "$FORMAT" "/mnt/mmc/"; fi 
+
+# Start the creation of the file under mmc partition
+0008  set -x; handlerCmdDd.sh "1" "/dev/urandom" "/mnt/mmc/my.file" "to" "32" "nosync"
+0008  set -x; handlerCmd.sh "rm -f /mnt/mmc/my.file"
+
+# Remove partition
+0008  set -x; if [ "$MMCSDP_AUTO_PARTITION"  -eq 1 ]; then set -x; handlerMmcsdBlock.sh "remove" "1" "/mnt/mmc/"; fi
+
+
+# ################# #
+# Read              #
+# ################# #
+
+# Setup partition
+0009  set -x; if [ "$MMCSDP_AUTO_PARTITION"  -eq 1 ]; then set -x; handlerMmcsdBlock.sh "create" "1" "$FORMAT" "/mnt/mmc/"; fi
+
+# Start the creation of the file under mmc partition
+0009  set -x; handlerCmdDd.sh "1" "/dev/urandom" "/mnt/mmc/my.file" "to" "32"
+0009  set -x; handlerMmcsdBlock.sh "remount" "/mnt/mmc/"
+0009  set -x; handlerCmdDd.sh "1" "/mnt/mmc/my.file" "/dev/null" "from" "32"
+0009  set -x; handlerCmd.sh "rm -f /mnt/mmc/my.file"
+
+# Remove partition
+0009  set -x; if [ "$MMCSDP_AUTO_PARTITION"  -eq 1 ]; then set -x; handlerMmcsdBlock.sh "remove" "1" "/mnt/mmc/"; fi
+
+
+################################################################################
+# File 100 MB
+################################################################################
+
+
+# ################# #
+# Synchronous Write #
+# ################# #
+
+# Setup partition
+0010  set -x; if [ "$MMCSDP_AUTO_PARTITION" -eq 1 ]; then set -x; handlerMmcsdBlock.sh "create" "1" "$FORMAT" "/mnt/mmc/"; fi 
+
+# Start the creation of the file under mmc partition
+0010  set -x; handlerCmdDd.sh "1" "/dev/urandom" "/mnt/mmc/my.file" "to" "100"
+0010  set -x; handlerCmd.sh "rm -f /mnt/mmc/my.file"
+
+# Remove partition
+0010  set -x; if [ "$MMCSDP_AUTO_PARTITION"  -eq 1 ]; then set -x; handlerMmcsdBlock.sh "remove" "1" "/mnt/mmc/"; fi
+
+
+# ################## #
+# Asynchronous Write #
+# ################## #
+
+# Setup partition
+0011  set -x; if [ "$MMCSDP_AUTO_PARTITION"  -eq 1 ]; then set -x; handlerMmcsdBlock.sh "create" "1" "$FORMAT" "/mnt/mmc/"; fi 
+
+# Start the creation of the file under mmc partition
+0011  set -x; handlerCmdDd.sh "1" "/dev/urandom" "/mnt/mmc/my.file" "to" "100" "nosync"
+0011  set -x; handlerCmd.sh "rm -f /mnt/mmc/my.file"
+
+# Remove partition
+0011  set -x; if [ "$MMCSDP_AUTO_PARTITION"  -eq 1 ]; then set -x; handlerMmcsdBlock.sh "remove" "1" "/mnt/mmc/"; fi
+
+
+# ################# #
+# Read              #
+# ################# #
+
+# Setup partition
+0012  set -x; if [ "$MMCSDP_AUTO_PARTITION"  -eq 1 ]; then set -x; handlerMmcsdBlock.sh "create" "1" "$FORMAT" "/mnt/mmc/"; fi
+
+# Start the creation of the 4 MB file under mmc partition
+0012  set -x; handlerCmdDd.sh "1" "/dev/urandom" "/mnt/mmc/my.file" "to" "100"
+0012  set -x; handlerMmcsdBlock.sh "remount" "/mnt/mmc/"
+0012  set -x; handlerCmdDd.sh "1" "/mnt/mmc/my.file" "/dev/null" "from" "100"
+0012  set -x; handlerCmd.sh "rm -f /mnt/mmc/my.file"
+
+# Remove partition
+0012  set -x; if [ "$MMCSDP_AUTO_PARTITION"  -eq 1 ]; then set -x; handlerMmcsdBlock.sh "remove" "1" "/mnt/mmc/"; fi
+
+
+################################################################################
+# File 100 MB
+################################################################################
+
+
+# ################# #
+# Read / Comparison #
+# ################# #
+
+# Setup partitions
+0016  set -x; if [ "$MMCSDP_AUTO_PARTITION"  -eq 1 ]; then set -x; handlerMmcsdBlock.sh "create" "1" "$FORMAT" "/mnt/mmc/"; fi
+0016  set -x; handlerTmpfs.sh "create" "128" "/mnt/tmpfs/"
+
+# Start the creation of the 4 MB file under mmc partition
+0016  set -x; handlerCmdDd.sh "1" "/dev/urandom" "/mnt/mmc/my.file" "to" "100"
+0016  set -x; handlerMmcsdBlock.sh "remount" "/mnt/mmc/"
+0016  set -x; handlerCmdDd.sh "1" "/mnt/mmc/my.file" "/dev/tmpfs" "from" "100"
+0016  set -x; handlerMmcsdBlock.sh "remount" "/mnt/mmc/"
+0016  set -x; handlerCmd.sh "cmp /mnt/mmc/my.file /dev/tmpfs/my.file"
+
+# Remove partitions
+0016  set -x; handlerTmpfs.sh "remove" "128" "/mnt/tmpfs/"
+0016  set -x; if [ "$MMCSDP_AUTO_PARTITION"  -eq 1 ]; then set -x; handlerMmcsdBlock.sh "remove" "1" "/mnt/mmc/"; fi
+
+
+
+# Display summary of statistics
+0000  set -x; handlerFstab.sh "restore"
+0000  set -x; handlerStatistics.sh "display"
+
+# End L_PP_MMCSD_0000
