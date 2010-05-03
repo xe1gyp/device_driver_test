@@ -92,8 +92,9 @@ endif
 ifeq ($(TESTSUITES),all)
  ifeq ($(TARGET_PLATFORM),OMAP_4430)
   override TESTSUITES:= audio-alsa dma framebuffer gpio hsuart i2c \
-  mcbsp mcspi mmc nand norflash benchmarks \
-  realtimeclock timer-32k video watchdog
+  mcbsp mcspi mmc nand benchmarks ethernet \
+  realtimeclock timer-32k video watchdog \
+   touchscreen usb_device keypad
  else
   ifeq ($(TARGET_FILESYSTEM),ANDROID)
    override TESTSUITES:= audio-alsa camera dma ethernet framebuffer \
