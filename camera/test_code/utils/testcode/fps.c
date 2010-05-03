@@ -47,17 +47,17 @@ static void usage(void)
 			" is given \n\t      15 fps is default\n");
 }
 
-void calc_fps(int wrap_count)
+void calc_fps(struct v4l2_buffer *vb, int wrap_count)
 {
 	static unsigned int frame;
 	float fps = 0, sec, usec;
 	static struct timeval stv, etv;
 
 	if (frame == 0)
-		gettimeofday(&stv, NULL);
+		memcpy(&stv, &vb->timestamp, sizeof(struct timeval));
 
 	if (frame == wrap_count) {
-		gettimeofday(&etv, NULL);
+		memcpy(&etv, &vb->timestamp, sizeof(struct timeval));
 		sec = etv.tv_sec - stv.tv_sec;
 		if (etv.tv_usec > stv.tv_usec)
 			usec = etv.tv_usec - stv.tv_usec;
@@ -67,7 +67,7 @@ void calc_fps(int wrap_count)
 		fps = (frame / (sec+(usec/1000000)));
 		printf(" fps=%f\n", fps);
 		frame = 0;
-		gettimeofday(&stv, NULL);
+		memcpy(&stv, &vb->timestamp, sizeof(struct timeval));
 	} else {
 		frame++;
 	}
@@ -477,7 +477,7 @@ int main(int argc, char *argv[])
 
 		printf("."); fflush(stdout);
 		i++;
-		calc_fps(wrap_count);
+		calc_fps(&cfilledbuffer, wrap_count);
 
 		if (i == count) {
 			printf("Cancelling the streaming capture...\n");
