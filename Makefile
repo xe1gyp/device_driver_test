@@ -16,6 +16,7 @@
 #	Author: Aharon Campos <aharon.campos@ti.com>
 #
 ############################################################################
+.EXPORT_ALL_VARIABLES:
 
 all: maketest
 
@@ -111,16 +112,6 @@ ifeq ($(TESTSUITES),all)
 endif
 
 CFLAGS+= -D $(TARGET_PLATFORM) -D $(TARGET_FILESYSTEM)
-
-export CFLAGS
-export KDIR
-export ARCH
-export CROSS_COMPILE
-export HOST
-export TARGET_PLATFORM
-export TARGET_FILESYSTEM
-export TESTSUITES
-export UTILSDIR
 
 .PHONY: all check cleanup maketest clean distclean utilities $(TESTSUITES)\
 $(TESTROOT)/$(notdir $(UTILSDIR)) $(addprefix $(TESTROOT)/,$(TESTSUITES))
