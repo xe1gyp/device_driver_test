@@ -9,6 +9,10 @@
 CC := $(CROSS_COMPILE)gcc
 CFLAGS += -g -O -Wall -D_GNU_SOURCE -I.. -pthread
 
+ifeq ($(SUITE_DIR),)
+SUITE_DIR:=$(PWD)
+endif
+
 TARGETS = watchdog_keepalive \
 	watchdog_status_boot \
 	watchdog_status \
