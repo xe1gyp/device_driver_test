@@ -12,6 +12,7 @@
 #include <signal.h>
 #include <sys/ioctl.h>
 
+#define MB (1024 * 1024)
 #define ERROR -1
 #define SUCCESS 1
 
@@ -40,17 +41,10 @@ int read_flag;
 FILE *md5_fd;
 
 int writeport(int *fd, unsigned char *chars,int len);
-
 int readport(int *fd, unsigned char *result);
-
 int getbaud(int fd);
-
 long int getbaud_flag(long int baudrate);
-
 int initport(int fd,long int baudrate,int flow_ctrl);
-
 void close_port();
-
 void display_intro();
-
 void signalHandler();

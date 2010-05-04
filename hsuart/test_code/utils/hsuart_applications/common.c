@@ -1,7 +1,7 @@
 #include "common.h"
 
 int writeport(int *fd, unsigned char *chars, int len) {
-        int n = write(*fd, chars,len);
+	int n = write(*fd, chars, len);
         if (n < 0) {
                 fputs("write failed!\n", stderr);
                 return 0;
@@ -248,6 +248,23 @@ void signalHandler()
 	close_port();
 }
 
+int create_sample_send_file()
+{
+	int i;
+	int fds;
+	char known_pattern[] = {0xAA};
+
+	fds = open("uart_tx_file", O_RDWR|O_CREAT|O_TRUNC, 0666);
+	if (fds == ERROR)
+		return ERROR;
+
+	for (i = 0 ; i < MB; i++)
+		write(fds, known_pattern, sizeof(known_pattern));
+
+	lseek(fds, 0, SEEK_SET);
+	return fds;
+}
+
 void close_port()
 {
         tcsetattr(ut.fd, TCSANOW, &oldtio);
@@ -262,13 +279,13 @@ void close_port()
 void display_intro()
 {
 	printf("\nUse the following format to run the HS-UART TEST PROGRAM \n");
-	printf("\nFor sending data: \n./ts_uart s <tty_interface> <file_name_for_tx/rx> <baudrate> <flow_control(0/1/2)>\n");
+	printf("\nFor sending data: \n./ts_uart s <tty_interface> <baudrate> <flow_control(0/1/2)>\n");
 	printf("\nFlow control bits: \n"
 			"0: Using No flow control. \n"
 			"1: Hardware FlowControl: To Enable RTS/CTS support.\n"
 			"2: Software FlowControl: To Enable XON/XOFF support.\n");
-	printf("\n Ex. ./ts_uart s ttyO1 sample_send 115200 1 \n");
+	printf("\n Ex. ./ts_uart s ttyO1 115200 1 \n");
 	printf("\n For Receiving data:");
-	printf("\n Ex. ./ts_uart r ttyO1 sample_recv 115200 1 \n");
+	printf("\n Ex. ./ts_uart r ttyO1 115200 1 \n");
 }
 

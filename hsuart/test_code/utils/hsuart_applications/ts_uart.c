@@ -18,7 +18,6 @@
  * History:
  */
 
-
 #include "common.h"
 
 int main(int argc, char **argv)
@@ -40,16 +39,15 @@ int main(int argc, char **argv)
 		printf("ERROR : Failed to register signal handler\n");
 		exit(1);
 	}
-
-	if (argc != 6) {
+	if (argc != 5) {
 		display_intro();
 		exit(1);
 	}
 
-	chk_flag = sscanf(argv[4], "%li", &ut.baudrate);
+	chk_flag = sscanf(argv[3], "%li", &ut.baudrate);
 	if (chk_flag != 1)
 		error = 1;
-	chk_flag = sscanf(argv[5], "%i", &ut.flow_cntrl);
+	chk_flag = sscanf(argv[4], "%i", &ut.flow_cntrl);
 	if (chk_flag != 1)
 		error = 1;
 
@@ -57,13 +55,13 @@ int main(int argc, char **argv)
 		error = 1;
 	if (error) {
 		printf("\n [%s] or [%s] : Invalid command line argument \n",
-							argv[4], argv[5]);
+							argv[3], argv[4]);
 		display_intro();
 		exit(1);
 	}
 	sprintf(uartportname, "/dev/%s", argv[2]);
 	uartportname[strlen(argv[2]) + 5] = '\0';
-	printf("Opening %s", uartportname);
+	printf("\n Opening %s \n", uartportname);
 	ut.fd = open(uartportname, O_RDWR | O_NOCTTY | O_NDELAY | O_NONBLOCK);
 
 	if (ut.fd == -1) {
@@ -82,13 +80,12 @@ int main(int argc, char **argv)
 	sscanf(argv[1], "%c", &tx_rx);
 
 	switch (tx_rx) {
-
 	case 'r':
-	/* open(const char *pathname, int flags, mode_t mode); */
-		fd2 = open(argv[3], O_WRONLY | O_CREAT , S_IRWXU | S_IRWXO);
+		/* open(const char *pathname, int flags, mode_t mode); */
+		fd2 = open("uart_rx_file", O_WRONLY | O_CREAT, S_IRWXU | S_IRWXO);
+
 		if (fd2 == -1) {
-			printf("\n [%s]: Failure in opening the file.\n",
-								argv[3]);
+			printf("\n Failure in opening uart_rx_file \n");
 			close(ut.fd);
 			exit(1);
 		}
@@ -96,14 +93,15 @@ int main(int argc, char **argv)
 		while (1) {
 			FD_ZERO(&readFds);
 			FD_SET(ut.fd, &readFds);
-			respTime.tv_sec = 10;
+			respTime.tv_sec = 15;
 			respTime.tv_usec = 0;
 
-			/* Sleep for command timeout
-			 * and expect the response to be ready. */
-			retval =
-				select(FD_SETSIZE, &readFds,
-						NULL, NULL, &respTime);
+			/*
+			 * Sleep for command timeout
+			 * and expect the response to be ready.
+			 */
+			retval = select(FD_SETSIZE, &readFds,
+					NULL, NULL, &respTime);
 
 			if (retval == ERROR)
 				printf("\n select: error :: %d\n", retval);
@@ -123,11 +121,11 @@ int main(int argc, char **argv)
 				}
 			}
 			if (read_flag == 0) {
-				if (unlink(argv[3]) == -1)
+				if (unlink("uart_rx_file") == -1)
 					printf("\n Failed to delete the \
-						file %s \n", argv[3]);
-				printf("\n Waited for 10 seconds no data was \
-						available to read exiting \n");
+						file uart_rx_file \n");
+				printf("\n Waited for 15 seconds no data was \
+						available to read, exiting \n");
 				close_port();
 			}
 			if (rd == 0)
@@ -142,7 +140,7 @@ int main(int argc, char **argv)
 		gettimeofday(&ut.end_time, NULL);
 		printf("\n Read %d bytes from port \n", size);
 
-		sprintf(cmd_buf, "md5sum %s ", argv[3]);
+		sprintf(cmd_buf, "md5sum %s ", "uart_rx_file");
 		md5_fd = popen(cmd_buf, "r");
 		if (!ferror(md5_fd)) {
 			/* md5sum returns 32 bit checksum value */
@@ -150,20 +148,20 @@ int main(int argc, char **argv)
 			/* Append the read checksum value with null string */
 			md5_sum1[32] = '\0';
 		} else {
-			printf("\n Check sum generation for %s failed \n",
-								argv[2]);
+			printf("\n Check sum generation for uart_rx_file failed \n");
 			break;
 		}
-		printf("\n Checksum generated for [%s] = %s \n",
-						argv[3], md5_sum1);
+		printf("\n Checksum generated for uart_rx_file = \n\t %s \n",
+						md5_sum1);
 
 		FD_CLR(ut.fd, &readFds);
 		break;
-
 	case 's':
-		fd1 = open(argv[3], O_RDONLY);
-		if (fd1 == -1) {
-			printf("\n cannot open %s \n", argv[3]);
+		/* Create an sample 1MB file to send */
+		fd1 = create_sample_send_file();
+
+		if (fd1 == ERROR) {
+			printf("\n cannot create sample file for tx \n");
 			close(ut.fd);
 			exit(1);
 		}
@@ -193,7 +191,7 @@ int main(int argc, char **argv)
 			printf("\n Sending break sequence fialed use \
 				 ctrl + c to terminate read process\n");
 
-		sprintf(cmd_buf, "md5sum %s ", argv[3]);
+		sprintf(cmd_buf, "md5sum %s", "uart_tx_file");
 		md5_fd = popen(cmd_buf, "r");
 		if (!ferror(md5_fd)) {
 			/* md5sum returns 32 bit checksum value */
@@ -202,12 +200,12 @@ int main(int argc, char **argv)
 			 * with null string */
 			md5_sum1[32] = '\0';
 		} else {
-			printf("\n Check sum generation for %s \
-					failed \n", argv[3]);
+			printf("\n Check sum generation for uart_tx_file \
+					failed \n");
 			break;
 		}
-		printf("\n CheckSum generated for [%s] = %s \n",
-						argv[3], md5_sum1);
+		printf("\n CheckSum generated for uart_tx_file = \n\t %s \n",
+						md5_sum1);
 		break;
 	default:
 		printf("\n Unspecified operation %c:", tx_rx);
