@@ -73,11 +73,13 @@ if [ "$LOCAL_OPERATION" = "create" ]; then
 
 		if [ "$LOCAL_FILESYSTEM_TYPE" = "ext2" ]; then
 
+			umount  $MMCSD_DEVFS_PARTITION_1
 			$MMCSD_DIR_BINARIES/mke2fs $MMCSD_DEVFS_PARTITION_1
 			xMountFunction "1" "ext2" $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
 
 		elif [ "$LOCAL_FILESYSTEM_TYPE" = "dos" ]; then
 
+			umount  $MMCSD_DEVFS_PARTITION_1
 			$MMCSD_DIR_BINARIES/mkdosfs $MMCSD_DEVFS_PARTITION_1
 			xMountFunction "1" "msdos" $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
 
@@ -91,6 +93,7 @@ if [ "$LOCAL_OPERATION" = "create" ]; then
 
 		if [ "$LOCAL_FILESYSTEM_TYPE" = "ext2" ]; then
 
+			umount  $MMCSD_DEVFS_PARTITION_1  $MMCSD_DEVFS_PARTITION_2
 			$MMCSD_DIR_BINARIES/mke2fs $MMCSD_DEVFS_PARTITION_1
 			xMountFunction "1" "ext2" $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
 
@@ -99,6 +102,7 @@ if [ "$LOCAL_OPERATION" = "create" ]; then
 
 		elif [ "$LOCAL_FILESYSTEM_TYPE" = "dos" ]; then
 
+			umount  $MMCSD_DEVFS_PARTITION_1  $MMCSD_DEVFS_PARTITION_2
 			$MMCSD_DIR_BINARIES/mkdosfs $MMCSD_DEVFS_PARTITION_1
 			xMountFunction "1" "msdos" $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
 
@@ -107,6 +111,7 @@ if [ "$LOCAL_OPERATION" = "create" ]; then
 
 		elif [ "$LOCAL_FILESYSTEM_TYPE" = "mixed" ]; then
 
+			umount  $MMCSD_DEVFS_PARTITION_1  $MMCSD_DEVFS_PARTITION_2
 			$MMCSD_DIR_BINARIES/mke2fs $MMCSD_DEVFS_PARTITION_1
 			xMountFunction "1" "ext2" $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
 
