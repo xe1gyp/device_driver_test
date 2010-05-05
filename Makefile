@@ -90,25 +90,21 @@ $(warning TESTSUITES was not specified. Defaulting to "all")
 TESTSUITES:=all
 endif
 
+APPLICABLE_TESTS :=     benchmarks dma ethernet gpio hsuart i2c \
+                        keypad mcbsp mcspi mmc oskernel performance \
+                        realtimeclock timer-32k watchdog
+ifdef CONFIG_ARCH_OMAP3
+APPLICABLE_TESTS +=     camera, audio, framebuffer, video
+endif
+ifdef CONFIG_ANDROID
+APPLICABLE_TESTS +=     android
+endif
+ifneq ($(or $(CONFIG_MACH_OMAP_3630SDP), $(CONFIG_MACH_OMAP_3430SDP)),)
+APPLICABLE_TESTS +=     norflash
+endif
+
 ifeq ($(TESTSUITES),all)
- ifeq ($(TARGET_PLATFORM),OMAP_4430)
-  override TESTSUITES:= audio-alsa dma framebuffer gpio hsuart i2c \
-  mcbsp mcspi mmc nand benchmarks ethernet \
-  realtimeclock timer-32k video watchdog \
-   touchscreen usb_device keypad
- else
-  ifeq ($(TARGET_FILESYSTEM),ANDROID)
-   override TESTSUITES:= audio-alsa camera dma ethernet framebuffer \
-   gpio hsuart i2c keypad mcbsp mmc nand norflash \
-   power_management realtimeclock timer-32k \
-   touchscreen usb_device usb_ehci usb_host
-  else
-   override TESTSUITES:= camera ethernet framebuffer \
-   hdq mcspi nand neon \
-   realtimeclock security \
-   touchscreen
-  endif
- endif
+override TESTSUITES := $(APPLICABLE_TESTS)
 endif
 
 CFLAGS+= -D $(TARGET_PLATFORM) -D $(TARGET_FILESYSTEM)
