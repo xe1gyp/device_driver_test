@@ -32,17 +32,6 @@ SCENARIOS	:= scripts/scenarios
 OLD_KDIR:=$(shell cat .config | grep KDIR | cut -d'=' -f2)
 OLD_SUITES:=$(shell cat .config | grep TESTSUITES | cut -d'=' -f2)
 
-define scenario_list
-	@cat $@/$(CODE_DIR)/$(SCENARIOS)/applicability |\
-	grep $(TARGET_PLATFORM) | grep $(TARGET_FILESYSTEM) |\
-	cut -d' ' -f1 > /tmp/applicable.scenarios
-	@echo "$(TESTROOT)/$@/$(SCENARIOS): \
-	`cat /tmp/applicable.scenarios |\
-	sed -e "s/^/$@\/$(CODE_DIR)\/scripts\/scenarios\//g" |\
-	tr '\n' ' '`" >> dependencies
-	@rm /tmp/applicable.scenarios
-endef
-
 ifdef CONFIG_ARCH_OMAP4
 TARGET_PLATFORM:=OMAP_4430
 endif
@@ -138,7 +127,6 @@ maketest: cleanup
 	@sleep 2
 	@$(MAKE) $(TESTSUITES)
 	@$(MAKE) $(addprefix $(TESTROOT)/,$(TESTSUITES))
-	@$(MAKE) $(addsuffix /$(SCENARIOS),$(addprefix $(TESTROOT)/,$(TESTSUITES)))
 	@$(MAKE) utilities
 	@$(MAKE) $(TESTROOT)/$(notdir $(UTILSDIR))
 
@@ -150,7 +138,6 @@ $(TESTSUITES):
 	@mkdir -p $(TESTROOT)
 	@$(MAKE) -C $@/$(CODE_DIR) SUITE_DIR=$(PWD)/$@/$(CODE_DIR)
 	$(call scenario_list)
--include dependencies
 
 .SECONDEXPANSION:
 $(addprefix $(TESTROOT)/,$(TESTSUITES)): $$(notdir $$@)/$(CODE_DIR)
@@ -160,27 +147,16 @@ $(addprefix $(TESTROOT)/,$(TESTSUITES)): $$(notdir $$@)/$(CODE_DIR)
 	@-cp -r $</modules $@
 	@mkdir -p $@/scripts/tmp
 	@mkdir -p $@/scripts/test
-	@rm -rf $@/$(SCENARIOS)
-	@echo
-	@echo "====Installed \"$(notdir $@)\" testsuite in \"$(TESTROOT)\"====";
-	@echo
-
-$(addsuffix /$(SCENARIOS),$(addprefix $(TESTROOT)/,$(TESTSUITES))):
-	@if [ '$?' != '' ]; then \
-		mkdir --parents $@; \
-		cp $? $@; \
-		echo; \
-		echo "====Installed scenario files in $@===="; \
-		echo; \
-	else \
-		echo "======================================="\
-		"======================================="; \
-		echo "WARNING: No scenario files are being copied"\
-		"to $@!"; \
-		echo "======================================="\
-		"======================================="; \
-		sleep 3; \
+	@if [ '$(findstring $(notdir $@), $(APPLICABLE_TESTS))' == '' ]; then \
+		echo "WARNING: Testsuite $(notdir $@) is not applicable "\
+		"for specified kernel!"; \
+		echo "No scenario files will be placed in output folder.";\
+		rm -rf $@/$(SCENARIOS); \
 	fi;
+	@echo
+	@echo "====Installed \"$(notdir $@)\" testsuite in \"$(TESTROOT)\"===="
+	@echo
+	@sleep 3;
 
 utilities:
 	@$(MAKE) -C $(UTILSDIR)
@@ -204,7 +180,6 @@ clean:
 	done
 	@$(MAKE) -C $(UTILSDIR) clean
 	-rm -rf build
-	-rm dependencies
 
 distclean: clean
 	-rm .config .oldconfig

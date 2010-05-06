@@ -6,6 +6,5 @@ build/*
 
 .config
 .oldconfig
-dependencies
 
 *.o
