@@ -85,6 +85,22 @@ setAllGovernor() {
 	fi
 }
 
+getCurrentGovernor() {
+	LOCAL_FILE=$1
+
+	cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor > $LOCAL_FILE
+}
+
+restoreCurrentGovernor() {
+	LOCAL_FILE=$1
+
+	if [ -f $LOCAL_FILE ]; then
+		cat $LOCAL_FILE > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+	else
+		echo 'Error: $LOCAL_FILE parameter is empty'
+	fi
+}
+
 # =============================================================================
 # Main
 # =============================================================================
@@ -127,6 +143,14 @@ elif [ "$LOCAL_OPERATION" = "run" ]; then
 	else
 		setOneGovernor $LOCAL_GOVERNOR $LOCAL_COMMAND_LINE
 	fi
+
+elif  [ "$LOCAL_OPERATION" = "get" ]; then
+
+	getCurrentGovernor $HCFSG_CURRENT_GOVERNOR_FILE
+
+elif  [ "$LOCAL_OPERATION" = "restore" ]; then
+
+	restoreCurrentGovernor $HCFSG_CURRENT_GOVERNOR_FILE
 
 fi
 
