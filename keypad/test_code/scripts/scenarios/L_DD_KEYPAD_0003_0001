@@ -3,18 +3,22 @@
 # Author  : Abraham Arce
 # Modified by: Aharon Campos
 #              Cristopherson Torres
-# Date    :  May 07, 2010
+# Date    :  May 06, 2010
 ###############################################################################
 
 # Begin L_DD_KEYPAD_0003_0001
 
 # Frequency
 01  set -x; echo -e "\n\nThe application will wait for 500 keypresses.\nPlease verify that keycodes are reported accordingly\n\n"
-02  set -x; handlerCpuFreqScalGovernors.sh "set" "userspace"
-03  set -x; handlerCpuFreqScalFrequencies.sh "run" "all" "evtest $DEVFS_KEYPAD"
+02  set -x; handlerCpuFreqScalGovernors.sh "get"
+03  set -x; handlerCpuFreqScalGovernors.sh "set" "userspace"
+04  set -x; handlerCpuFreqScalFrequencies.sh "run" "all" "evtest $DEVFS_KEYPAD"
+05  set -x; handlerCpuFreqScalGovernors.sh "restore"
 
 # Governors
-04  set -x; echo -e "\n\nThe application will wait for 500 keypresses.\nPlease verify that keycodes are reported accordingly\n\n"
-05  set -x; handlerCpuFreqScalGovernors.sh "run" "all" "evtest $DEVFS_KEYPAD"
+06  set -x; echo -e "\n\nThe application will wait for 500 keypresses.\nPlease verify that keycodes are reported accordingly\n\n"
+07  set -x; handlerCpuFreqScalGovernors.sh "get"
+08  set -x; handlerCpuFreqScalGovernors.sh "run" "all" "evtest $DEVFS_KEYPAD"
+09  set -x; handlerCpuFreqScalGovernors.sh "restore"
 
 # End L_DD_KEYPAD_0003_0001
