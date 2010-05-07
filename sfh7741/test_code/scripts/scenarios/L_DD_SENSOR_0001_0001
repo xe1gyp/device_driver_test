@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_SENSOR_0006_0002
+# Author  : Abraham Arce,Shubhro
+# Date    : Tue Apr 27 16:43:35 CDT 2010
+###############################################################################
+
+# Begin L_DD_SENSOR_0006_0002
+
+# Checking at boot up if the driver is initialised
+01 dmesg | grep "sfh7741" || exit 1
+
+# End L_DD_SENSOR_0006_0002
