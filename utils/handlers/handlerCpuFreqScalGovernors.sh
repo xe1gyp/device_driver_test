@@ -112,7 +112,7 @@ if [ "$LOCAL_OPERATION" = "set" ]; then
 	LOCAL_GOVERNOR=$2
 
 	if [ "$LOCAL_GOVERNOR" = "all" ]; then
-		setAllGovernors
+		setAllGovernor
 	else
 		setOneGovernor $LOCAL_GOVERNOR
 	fi
@@ -123,7 +123,7 @@ elif [ "$LOCAL_OPERATION" = "run" ]; then
 	LOCAL_COMMAND_LINE=$3
 
 	if [ "$LOCAL_GOVERNOR" = "all" ]; then
-		setAllGovernors $LOCAL_COMMAND_LINE
+		setAllGovernor $LOCAL_COMMAND_LINE
 	else
 		setOneGovernor $LOCAL_GOVERNOR $LOCAL_COMMAND_LINE
 	fi
