@@ -13,7 +13,7 @@ objects := af_stream af_stream_rel burst_mode burst_mode_120 \
 	   burst_zoom capture flash_driver \
 	   h3a_stream hist_test multi_open prev_wrap process_cam rsz_vbuff \
 	   streaming_abs streaming_frame \
-	   streaming_to_video_file streaming_zoom fps snapshot
+	   streaming_to_video_file streaming_zoom fps snapshot sensor_modes
 
 all: $(objects)
 
@@ -81,6 +81,10 @@ process_cam: process_cam.c framerateLib.c lib.c ioctl.c
 rsz_vbuff: rsz_vbuff.c
 	@echo "  CC  rsz_vbuff"
 	@$(CC) $(CFLAGS) -g rsz_vbuff.c -o rsz_vbuff
+
+sensor_modes: sensor_modes.c
+	@echo "  CC  sensor_modes"
+	@$(CC) $(CFLAGS) -g sensor_modes.c -o sensor_modes
 
 streaming_abs: streaming_abs.c framerateLib.c lib.c ioctl.c
 	@echo "  CC  streaming_abs"
