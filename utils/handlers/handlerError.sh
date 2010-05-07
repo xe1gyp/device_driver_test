@@ -18,8 +18,12 @@ LOCAL_OPERATION=$1
 
 if [ "$LOCAL_OPERATION" = "clean" ]; then
 
-	test -f $HE_ERROR_FILE_HALT && rm -f $HE_ERROR_FILE_HALT
-	test -f $HE_ERROR_FILE_CONTINUE && rm -f $HE_ERROR_FILE_CONTINUE
+	if [ -f $HE_ERROR_FILE_HALT ]; then
+		rm -f $HE_ERROR_FILE_HALT
+	fi
+	if [ -f $HE_ERROR_FILE_CONTINUE ]; then
+		rm -f $HE_ERROR_FILE_CONTINUE
+	fi
 
 elif [ "$LOCAL_OPERATION" = "log" ]; then
 
