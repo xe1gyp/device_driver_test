@@ -1,4 +1,4 @@
-SUBDIRS:=akey pan priority schedutils
+SUBDIRS:=akey pan priority schedutils evtest
 
 ifeq ($(UTILSDIR),)
 UTILSDIR=$(PWD)
