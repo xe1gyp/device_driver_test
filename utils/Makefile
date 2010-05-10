@@ -1,4 +1,4 @@
-SUBDIRS:=akey pan priority schedutils evtest
+SUBDIRS:=akey pan priority schedutils evtest microcom
 
 ifeq ($(UTILSDIR),)
 UTILSDIR=$(PWD)
