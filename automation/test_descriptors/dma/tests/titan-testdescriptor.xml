@@ -596,4 +596,496 @@
 
 	</test>
 
+	<test id="L_DD_DMA_0021">
+
+		<information>
+			<autor> Maddi Shilpa</autor>
+			<description>Trying to reserve more than max available logical channels. </description>
+			<dateofcreation> 05/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0021</command>
+			</action>
+			<action>
+				<command>rm /testsuites/dma/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_DMA_0022">
+
+		<information>
+			<autor> Maddi Shilpa</autor>
+			<description>Creating a set of chained transfers, each a supported configuration, but together exceed max available channels.
+ </description>
+			<dateofcreation> 05/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0022</command>
+			</action>
+			<action>
+				<command>rm /testsuites/dma/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_DMA_0024">
+
+		<information>
+			<autor> Maddi Shilpa</autor>
+			<description>Relasing a non existing channel </description>
+			<dateofcreation> 05/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0024</command>
+			</action>
+			<action>
+				<command>rm /testsuites/dma/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_DMA_0025">
+
+		<information>
+			<autor> Maddi Shilpa</autor>
+			<description>Remove a link from a chain transfer when it is ongoing. </description>
+			<dateofcreation> 05/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0025</command>
+			</action>
+			<action>
+				<command>rm /testsuites/dma/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_DMA_0027">
+
+		<information>
+			<autor> Maddi Shilpa</autor>
+			<description>Remove a link from a chain transfer when it is ongoing. </description>
+			<dateofcreation> 05/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0027</command>
+			</action>
+			<action>
+				<command>rm /testsuites/dma/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_DMA_0031">
+
+		<information>
+			<autor> Maddi Shilpa</autor>
+			<description>DMA static self linking. </description>
+			<dateofcreation> 05/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0031</command>
+			</action>
+			<action>
+				<command>rm /testsuites/dma/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_DMA_0032">
+
+		<information>
+			<autor> Maddi Shilpa</autor>
+			<description>DMA dynamic self linking. </description>
+			<dateofcreation> 05/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0032</command>
+			</action>
+			<action>
+				<command>rm /testsuites/dma/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_DMA_0033">
+
+		<information>
+			<autor> Maddi Shilpa</autor>
+			<description>DMA trying to unlink the self linked chain before stopping the channel.</description>
+			<dateofcreation> 05/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0033</command>
+			</action>
+			<action>
+				<command>rm /testsuites/dma/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_DMA_0034">
+
+		<information>
+			<autor> Maddi Shilpa</autor>
+			<description>DMA trying to unlink the non-linked channnels.</description>
+			<dateofcreation> 05/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0034</command>
+			</action>
+			<action>
+				<command>rm /testsuites/dma/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_DMA_0035_OPP1">
+
+		<information>
+			<autor> Maddi Shilpa</autor>
+			<description> Running all DMA scenarios on OPP1. </description>
+			<dateofcreation> 05/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0035_OPP1 </command>
+			</action>
+			<action>
+				<command>rm /testsuites/dma/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_DMA_0035_OPP2">
+
+		<information>
+			<autor> Maddi Shilpa</autor>
+			<description> Running all DMA scenarios on OPP2. </description>
+			<dateofcreation> 05/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0035_OPP2 </command>
+			</action>
+			<action>
+				<command>rm /testsuites/dma/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_DMA_0035_OPP3">
+
+		<information>
+			<autor> Maddi Shilpa</autor>
+			<description> Running all DMA scenarios on OPP3. </description>
+			<dateofcreation> 05/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0035_OPP3 </command>
+			</action>
+			<action>
+				<command>rm /testsuites/dma/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_DMA_0035_OPP4">
+
+		<information>
+			<autor> Maddi Shilpa</autor>
+			<description> Running all DMA scenarios on OPP4. </description>
+			<dateofcreation> 05/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0035_OPP4 </command>
+			</action>
+			<action>
+				<command>rm /testsuites/dma/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_DMA_0035_OPP5">
+
+		<information>
+			<autor> Maddi Shilpa</autor>
+			<description> Running all DMA scenarios on OPP5. </description>
+			<dateofcreation> 05/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0035_OPP5 </command>
+			</action>
+			<action>
+				<command>rm /testsuites/dma/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+
 </titan>
