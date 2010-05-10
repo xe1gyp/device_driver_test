@@ -1,0 +1,13 @@
+################################################################################
+# Scenario:    L_DD_DMA_0021
+# Author  :    Adria Lizeth Calderon Almodovar
+# Date    :    February 2nd, 2010
+# Description: Trying to reserve more than max available logical channels
+################################################################################
+# Begin L_DD_DMA_0021
+0001	set -x; insmod $TESTMODS/dma_chain_transfer.ko
+0002	set -x; insmod $TESTMODS/dma_chain_dynamic_invalid.ko
+0003    set -x; cat /proc/driver/dma_chain_dynamic | grep PASS && exit 1 || exit 0;
+0004    set -x; rmmod dma_chain_dynamic_invalid
+0005    set -x; rmmod dma_chain_transfer
+# End L_DD_DMA_0021

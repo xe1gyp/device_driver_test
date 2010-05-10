@@ -29,12 +29,15 @@ MODULES = dma_single_channel.o \
   dma_chain_dynamic.o \
   dma_thread_access.o \
   dma_chain_thread_access.o \
+  dma_chain_static_invalid.o \
+  dma_chain_dynamic_invalid.o \
   dma_static_self_link.o \
   dma_dynamic_self_link.o \
   dma_unlink_nonlinked_channels.o  \
   dma_unlink_before_stop_channels.o \
   dma_dload_thread_access.o \
   dma_dload.o \
+
 
 obj-m:=$(MODULES)
 
