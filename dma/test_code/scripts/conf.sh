@@ -16,6 +16,11 @@ export VERBOSE=""
 export OUTPUTFILE=${TESTROOT}/output.$POSTFIX
 export LOGFILE=${TESTROOT}/log.$POSTFIX
 export DURATION=""
-export PATH="${PATH}:${TESTROOT}:${TESTBIN}:${TESTSCRIPT}"
+export UTILS_DIR_BIN=${TESTROOT}/../../utils/bin
+export UTILS_DIR_HANDLERS=${TESTROOT}/../../utils/handlers
+export UTILS_DIR_SCRIPTS=${TESTROOT}/../../utils/scripts
+. ${TESTROOT}/../../utils/configuration/general.configuration
+export PATH="${PATH}:${TESTROOT}:${TESTBIN}:${TESTSCRIPT}:${UTILS_DIR_BIN}:${UTILS_DIR_HANDLERS}:${UTILS_DIR_SCRIPTS}"
 export TC_SCENARIO="${TESTROOT}/scenarios"
 export SCENARIO_NAMES=""
+
