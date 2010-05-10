@@ -404,6 +404,18 @@ void stop_dma_selflink_transfer(int channel_id) {
 EXPORT_SYMBOL(stop_dma_selflink_transfer);
 
 /*
+ * Stops an invalid dma transfer and free used resources
+ */
+void stop_dma_transfer_invalid(struct dma_transfer *transfer){
+       /* Stop the dma transfer */
+       if(transfer->request_success){
+           omap_free_dma(transfer->transfer_id);
+       }
+}
+EXPORT_SYMBOL(stop_dma_transfer_invalid);
+
+
+/*
  * Trys to unlink channels and then stop a self linked dma transfer
  * and free used resources
  */

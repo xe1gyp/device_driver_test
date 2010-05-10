@@ -146,6 +146,12 @@ void start_dma_transfer(struct dma_transfer *transfer);
 void stop_dma_transfer(struct dma_transfer *transfer);
 
 /*
+ * Stops an invalid dma transfer and free used resources
+ */
+void stop_dma_transfer_invalid(struct dma_transfer *transfer);
+
+
+/*
  * Self Linking the DMA Channels
  */
 void dma_link_lch(struct dma_transfer *transfer);

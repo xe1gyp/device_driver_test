@@ -37,7 +37,8 @@ MODULES = dma_single_channel.o \
   dma_unlink_before_stop_channels.o \
   dma_dload_thread_access.o \
   dma_dload.o \
-
+  dma_dload_bad_descriptor.o \
+  dma_stop_transfer_invalid.o \
 
 obj-m:=$(MODULES)
 
