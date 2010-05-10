@@ -137,7 +137,6 @@ $(TESTSUITES):
 	@sleep 1
 	@mkdir -p $(TESTROOT)
 	@$(MAKE) -C $@/$(CODE_DIR) SUITE_DIR=$(PWD)/$@/$(CODE_DIR)
-	$(call scenario_list)
 
 .SECONDEXPANSION:
 $(addprefix $(TESTROOT)/,$(TESTSUITES)): $$(notdir $$@)/$(CODE_DIR)
