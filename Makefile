@@ -136,7 +136,11 @@ $(TESTSUITES):
 	@echo
 	@sleep 1
 	@mkdir -p $(TESTROOT)
-	@$(MAKE) -C $@/$(CODE_DIR) SUITE_DIR=$(PWD)/$@/$(CODE_DIR)
+	@if [ -f $@/$(CODE_DIR)/Makefile ]; then \
+		$(MAKE) -C $@/$(CODE_DIR) SUITE_DIR=$(PWD)/$@/$(CODE_DIR); \
+	else \
+		echo "##### WARNING: Folder $@ has no Makefile!! #####"; \
+	fi;
 
 .SECONDEXPANSION:
 $(addprefix $(TESTROOT)/,$(TESTSUITES)): $$(notdir $$@)/$(CODE_DIR)
