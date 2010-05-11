@@ -108,6 +108,11 @@ static void usage(void)
 			"\t\tNumber of frames to capture before exit:\n"
 			"\t\t -1 - for unlimited capture "
 			"(default: %d)\n", DEFAULT_FRAME_COUNT);
+
+	printf("\t-t [0,1]\n"
+			"\t\tEnable timestamp printout:\n"
+			"\t\t -1 - Yes "
+			"(default: 0)\n");
 }
 
 static void display_keys(void)
@@ -345,6 +350,7 @@ int main(int argc, char **argv)
 	int use_lsc = DEFAULT_LSC_TEST;
 	int lsc_toggle = 0, count_max = DEFAULT_FRAME_COUNT;
 	int aewb_curr_frame, af_curr_frame;
+	int tsdebug = 0;
 
 	opterr = 0;
 
@@ -362,6 +368,7 @@ int main(int argc, char **argv)
 			{"viddev",	required_argument,	0, 'v'},
 			{"lsc",		required_argument,	0, 'l'},
 			{"nbr",		required_argument,	0, 'n'},
+			{"tsdebug",	required_argument,	0, 't'},
 			{0, 0, 0, 0}
 		};
 		int option_index = 0;
@@ -411,6 +418,9 @@ int main(int argc, char **argv)
 		case 'n':
 			count_max = atoi(optarg);
 			break;
+		case 't':
+			tsdebug = atoi(optarg);
+			break;
 		case '?':
 			if ((optopt == 'c') ||
 			    (optopt == 'p') ||
@@ -423,7 +433,8 @@ int main(int argc, char **argv)
 			    (optopt == 'g') ||
 			    (optopt == 'v') ||
 				(optopt == 'n') ||
-				(optopt == 'l')) {
+				(optopt == 'l') ||
+				(optopt == 't')) {
 				fprintf(stderr,
 					"Option -%c requires an argument.\n",
 					optopt);
@@ -752,6 +763,12 @@ restart_streaming:
 		while (ioctl(cfd, VIDIOC_DQBUF, &cfilledbuffer) < 0)
 			perror("cam VIDIOC_DQBUF");
 
+		/* Print timestamps */
+		if (tsdebug) {
+			printf("ts: (%ld, %ld)\n",
+			       cfilledbuffer.timestamp.tv_sec,
+			       cfilledbuffer.timestamp.tv_usec);
+		}
 		vfilledbuffer.index = cfilledbuffer.index;
 		vfilledbuffer.type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
 		vfilledbuffer.memory = V4L2_MEMORY_MMAP;
