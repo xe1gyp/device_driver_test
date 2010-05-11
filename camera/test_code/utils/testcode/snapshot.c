@@ -21,6 +21,7 @@
 #include <mach/isp_user.h>
 #include "kbget.h"
 #include "snapshot_lsc.h"
+#include <unistd.h>
 
 /* For parameter parser */
 #include <getopt.h>
@@ -112,6 +113,11 @@ static void usage(void)
 	printf("\t-t [0,1]\n"
 			"\t\tEnable timestamp printout:\n"
 			"\t\t -1 - Yes "
+			"(default: 0)\n");
+
+	printf("\t-s <usec>\n"
+			"\t\tEnable buffer starvation simulation:\n"
+			"\t\t Specify microseconds as parameter "
 			"(default: 0)\n");
 }
 
@@ -351,6 +357,7 @@ int main(int argc, char **argv)
 	int lsc_toggle = 0, count_max = DEFAULT_FRAME_COUNT;
 	int aewb_curr_frame, af_curr_frame;
 	int tsdebug = 0;
+	int simstarv = 0;
 
 	opterr = 0;
 
@@ -369,6 +376,7 @@ int main(int argc, char **argv)
 			{"lsc",		required_argument,	0, 'l'},
 			{"nbr",		required_argument,	0, 'n'},
 			{"tsdebug",	required_argument,	0, 't'},
+			{"simstarv",	required_argument,	0, 's'},
 			{0, 0, 0, 0}
 		};
 		int option_index = 0;
@@ -421,6 +429,9 @@ int main(int argc, char **argv)
 		case 't':
 			tsdebug = atoi(optarg);
 			break;
+		case 's':
+			simstarv = atoi(optarg);
+			break;
 		case '?':
 			if ((optopt == 'c') ||
 			    (optopt == 'p') ||
@@ -434,7 +445,8 @@ int main(int argc, char **argv)
 			    (optopt == 'v') ||
 				(optopt == 'n') ||
 				(optopt == 'l') ||
-				(optopt == 't')) {
+				(optopt == 't') ||
+				(optopt == 's')) {
 				fprintf(stderr,
 					"Option -%c requires an argument.\n",
 					optopt);
@@ -762,6 +774,10 @@ restart_streaming:
 		/* De-queue the next avaliable buffer */
 		while (ioctl(cfd, VIDIOC_DQBUF, &cfilledbuffer) < 0)
 			perror("cam VIDIOC_DQBUF");
+
+		/* Simulate buff starvation (just add big delay before QBUF) */
+		if (simstarv)
+			usleep(simstarv);
 
 		/* Print timestamps */
 		if (tsdebug) {
