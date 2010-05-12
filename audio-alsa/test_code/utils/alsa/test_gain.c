@@ -1,7 +1,7 @@
  /* =======================================================================
  * test_gain.c
  *  Program to test individual PCM stream gain settings
- *   
+ *
  *             Texas Instruments OMAP(TM) Platform Software
  *  Copyright (C) 2007 Texas Instruments, Incorporated.  All Rights Reserved.
  *
@@ -12,7 +12,7 @@
  * THIS PACKAGE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
  * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *  
+ *
  * Based on amixer.c
  * Copyright (c) 1999-2000 by Jaroslav Kysela <perex@suse.cz>
  * ======================================================================== */
@@ -61,7 +61,7 @@ static const char *control_access(snd_ctl_elem_info_t *info)
 	return result;
 }
 
-/* 
+/*
  * This shows the control parameters
  */
 static int show_control(const char *space, snd_hctl_elem_t *elem)
@@ -88,13 +88,13 @@ static int show_control(const char *space, snd_hctl_elem_t *elem)
 		space, control_type(info), control_access(info), count);
 	switch (type) {
 	case SND_CTL_ELEM_TYPE_INTEGER:
-		printf(",min=%li,max=%li,step=%li\n", 
+		printf(",min=%li,max=%li,step=%li\n",
 		       snd_ctl_elem_info_get_min(info),
 		       snd_ctl_elem_info_get_max(info),
 		       snd_ctl_elem_info_get_step(info));
 		break;
 	case SND_CTL_ELEM_TYPE_INTEGER64:
-		printf(",min=%Li,max=%Li,step=%Li\n", 
+		printf(",min=%Li,max=%Li,step=%Li\n",
 		       snd_ctl_elem_info_get_min64(info),
 		       snd_ctl_elem_info_get_max64(info),
 		       snd_ctl_elem_info_get_step64(info));
@@ -133,7 +133,7 @@ static int show_control(const char *space, snd_hctl_elem_t *elem)
 		switch (type) {
 		case SND_CTL_ELEM_TYPE_BOOLEAN:
 			printf("%s",
-				snd_ctl_elem_value_get_boolean(control, idx) ? 
+				snd_ctl_elem_value_get_boolean(control, idx) ?
 				"on" : "off");
 			break;
 		case SND_CTL_ELEM_TYPE_INTEGER:
@@ -165,7 +165,7 @@ static int show_control(const char *space, snd_hctl_elem_t *elem)
 
 /*
  *  To get what type of interface the control(id) belongs to
- */ 
+ */
 static const char *control_iface(snd_ctl_elem_id_t *id)
 {
 	return snd_ctl_elem_iface_name(snd_ctl_elem_id_get_interface(id));
@@ -173,7 +173,7 @@ static const char *control_iface(snd_ctl_elem_id_t *id)
 
 /*
  * Shows the control information, but not its parameters
- */ 
+ */
 static void show_control_id(snd_ctl_elem_id_t *id)
 {
 	unsigned int index, device, subdevice;
@@ -194,7 +194,7 @@ static void show_control_id(snd_ctl_elem_id_t *id)
 
 /*
  * Store arguments from user
- */ 
+ */
 static int ProcessArgs(int argc, char **argv, int *stream_id,
 			int *gain, int *ctl_base)
 {
@@ -214,7 +214,7 @@ static int ProcessArgs(int argc, char **argv, int *stream_id,
 		*stream_id = atoi(argv[1]);
 		*gain = atoi(argv[2]);
 		*ctl_base = atoi(argv[3]);
-		status = 0;						
+		status = 0;
 	}
 	return status;
 }
@@ -233,7 +233,7 @@ int main (int argc, char **argv ){
 	snd_ctl_elem_id_t *id;
 	snd_ctl_elem_value_t *control;
 	unsigned int count, idx;
-	unsigned int ctl_num = GAIN_CTL_BASE;	
+	unsigned int ctl_num = GAIN_CTL_BASE;
 	/* This is the default base id of the control to modify.
 	 * Gain controls start at GAIN_CTL_BASE.
 	 * There are 16 controls registered for 16 different streams.
@@ -257,11 +257,11 @@ int main (int argc, char **argv ){
 	snd_ctl_elem_info_alloca(&info);
 	snd_ctl_elem_id_alloca(&id);
 	snd_ctl_elem_value_alloca(&control);
-	
+
 	snd_ctl_elem_id_set_numid(id, ctl_num);
-	
+
 	snd_ctl_elem_id_set_interface(id, SND_CTL_ELEM_IFACE_PCM);
-	
+
 	if (handle == NULL &&
 	    (err = snd_ctl_open(&handle, card, 0)) < 0) {
 		fprintf(stderr,
@@ -281,10 +281,10 @@ int main (int argc, char **argv ){
 
 	show_control_id(id);
 	printf("\n");
-	
+
 	/* These are the APIs that modify the specific control value,
 	   depending on the type of control: boolean, integer, enumerated
-	   idx is for controls that have more than one value to modify, 
+	   idx is for controls that have more than one value to modify,
 	   for example stereo controls (count = 2)
 	 */
 	for (idx = 0; idx < count; idx++) {
@@ -322,15 +322,15 @@ int main (int argc, char **argv ){
 			card, snd_strerror(err));
 		return err;
 	}
-	
+
 	snd_ctl_close(handle);
-	
+
 	/* This part displays the actual values of the controls */
 	if (!quiet) {
 		snd_hctl_t *hctl;
 		snd_hctl_elem_t *elem;
 		if ((err = snd_hctl_open(&hctl, card, 0)) < 0) {
-			fprintf(stderr, "Control %s open error: %s\n", 
+			fprintf(stderr, "Control %s open error: %s\n",
 				card, snd_strerror(err));
 			return err;
 		}
