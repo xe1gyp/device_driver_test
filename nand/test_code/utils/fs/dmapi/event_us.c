@@ -24,8 +24,8 @@
  * EVENTS TESTED: DM_EVENT_USER
  *
  * API'S TESTED	: dm_create_userevent
- * 		  dm_send_msg
- * 		  dm_find_eventmsg
+ *		  dm_send_msg
+ *		  dm_find_eventmsg
  */
 #include <string.h>
 #include <stdio.h>
@@ -45,7 +45,7 @@ void *fshanp;
 size_t fshlen;
 dm_size_t maxMsgDat;
 
-/* Variables for thread communications */ 
+/* Variables for thread communications */
 dm_eventtype_t eventExpected;
 dm_eventtype_t eventReceived;
 dm_response_t eventResponse;
@@ -73,7 +73,7 @@ int main(int argc, char **argv)
 
 	DMEV_ZERO(events);
 	DMEV_SET(DM_EVENT_MOUNT, events);
-	
+
 	/* CANNOT DO ANYTHING WITHOUT SUCCESSFUL INITIALIZATION!!! */
 	if ((rc = dm_init_service(&varstr)) != 0) {
 		DMLOG_PRINT(DMLVL_ERR, "dm_init_service failed! (rc = %d, errno = %d)\n", rc, errno);
@@ -106,7 +106,7 @@ int main(int argc, char **argv)
 	DMLOG_PRINT(DMLVL_DEBUG, "Starting DMAPI user event tests\n") ;
 
 	szFuncName = "dm_create_userevent";
-	
+
 	/*
 	 * TEST    : dm_create_uservent - invalid sid
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -118,13 +118,13 @@ int main(int argc, char **argv)
 		/* Variation set up */
 
 		/* Variation */
-		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid sid)\n", szFuncName); 
+		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid sid)\n", szFuncName);
 		rc = dm_create_userevent(INVALID_ADDR, MSG_DATALEN, buf, &token);
 		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_create_uservent - invalid msglen
 	 * EXPECTED: rc = -1, errno = E2BIG
@@ -136,13 +136,13 @@ int main(int argc, char **argv)
 		/* Variation set up */
 
 		/* Variation */
-		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid msglen)\n", szFuncName); 
+		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid msglen)\n", szFuncName);
 		rc = dm_create_userevent(sid, maxMsgDat+1, buf, &token);
 		DMVAR_ENDFAILEXP(szFuncName, -1, rc, E2BIG);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_create_uservent - invalid msgdatap
 	 * EXPECTED: rc = -1, errno = EFAULT
@@ -153,13 +153,13 @@ int main(int argc, char **argv)
 		/* Variation set up */
 
 		/* Variation */
-		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid msgdatap)\n", szFuncName); 
+		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid msgdatap)\n", szFuncName);
 		rc = dm_create_userevent(sid, MSG_DATALEN, (void *)INVALID_ADDR, &token);
 		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_create_uservent - invalid tokenp
 	 * EXPECTED: rc = -1, errno = EFAULT
@@ -172,13 +172,13 @@ int main(int argc, char **argv)
 		/* Variation set up */
 
 		/* Variation */
-		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid tokenp)\n", szFuncName); 
+		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid tokenp)\n", szFuncName);
 		rc = dm_create_userevent(sid, MSG_DATALEN, buf, (dm_token_t *)INVALID_ADDR);
 		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_create_uservent - valid
 	 * EXPECTED: rc = 0
@@ -191,7 +191,7 @@ int main(int argc, char **argv)
 		memcpy(buf, MSG_DATA, MSG_DATALEN);
 
 		/* Variation */
-		DMLOG_PRINT(DMLVL_DEBUG, "%s(valid)\n", szFuncName); 
+		DMLOG_PRINT(DMLVL_DEBUG, "%s(valid)\n", szFuncName);
 		rc = dm_create_userevent(sid, MSG_DATALEN, buf, &token);
 		DMVAR_ENDPASSEXP(szFuncName, 0, rc);
 
@@ -201,7 +201,7 @@ int main(int argc, char **argv)
 			DMLOG_PRINT(DMLVL_DEBUG, "Unable to clean up variation! (errno = %d)\n", errno);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_create_uservent - DM_NO_SESSION sid
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -213,15 +213,15 @@ int main(int argc, char **argv)
 		/* Variation set up */
 
 		/* Variation */
-		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_NO_SESSION sid)\n", szFuncName); 
+		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_NO_SESSION sid)\n", szFuncName);
 		rc = dm_create_userevent(DM_NO_SESSION, MSG_DATALEN, buf, &token);
 		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	szFuncName = "dm_send_msg";
-	
+
 	/*
 	 * TEST    : dm_send_msg - invalid targetsid
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -232,13 +232,13 @@ int main(int argc, char **argv)
 		/* Variation set up */
 
 		/* Variation */
-		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid targetsid)\n", szFuncName); 
+		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid targetsid)\n", szFuncName);
 		rc = dm_send_msg(INVALID_ADDR, DM_MSGTYPE_SYNC, MSG_DATALEN, buf);
 		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_send_msg - invalid msgtype
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -249,13 +249,13 @@ int main(int argc, char **argv)
 		/* Variation set up */
 
 		/* Variation */
-		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid msgtype)\n", szFuncName); 
+		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid msgtype)\n", szFuncName);
 		rc = dm_send_msg(sid, INVALID_ADDR, MSG_DATALEN, buf);
 		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_send_msg - invalid buflen
 	 * EXPECTED: rc = -1, errno = E2BIG
@@ -266,13 +266,13 @@ int main(int argc, char **argv)
 		/* Variation set up */
 
 		/* Variation */
-		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid buflen)\n", szFuncName); 
+		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid buflen)\n", szFuncName);
 		rc = dm_send_msg(sid, DM_MSGTYPE_SYNC, maxMsgDat+1, buf);
 		DMVAR_ENDFAILEXP(szFuncName, -1, rc, E2BIG);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_send_msg - invalid bufp
 	 * EXPECTED: rc = -1, errno = EFAULT
@@ -281,13 +281,13 @@ int main(int argc, char **argv)
 		/* Variation set up */
 
 		/* Variation */
-		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid bufp)\n", szFuncName); 
+		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid bufp)\n", szFuncName);
 		rc = dm_send_msg(sid, DM_MSGTYPE_SYNC, MSG_DATALEN, (void *)INVALID_ADDR);
 		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_send_msg - DM_RESP_CONTINUE
 	 * EXPECTED: rc = 0
@@ -302,7 +302,7 @@ int main(int argc, char **argv)
 		memcpy(buf, MSG_DATA, MSG_DATALEN);
 
 		/* Variation */
-		DMLOG_PRINT(DMLVL_DEBUG, "%s(continue response)\n", szFuncName); 
+		DMLOG_PRINT(DMLVL_DEBUG, "%s(continue response)\n", szFuncName);
 		rc = dm_send_msg(sid, DM_MSGTYPE_SYNC, MSG_DATALEN, buf);
 		if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 			if (tokenReceived == 0) {
@@ -321,12 +321,12 @@ int main(int argc, char **argv)
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_send_msg - DM_RESP_ABORT
 	 * EXPECTED: rc = -1, errno = ABORT_ERRNO
 	 *
-	 * This variation uncovered XFS BUG #39 (response reterror returned 
+	 * This variation uncovered XFS BUG #39 (response reterror returned
 	 * instead of -1 and errno set to reterror)
 	 */
 	if (DMVAR_EXEC(SEND_MSG_BASE + 6)) {
@@ -339,7 +339,7 @@ int main(int argc, char **argv)
 		memcpy(buf, MSG_DATA, MSG_DATALEN);
 
 		/* Variation */
-		DMLOG_PRINT(DMLVL_DEBUG, "%s(abort response)\n", szFuncName); 
+		DMLOG_PRINT(DMLVL_DEBUG, "%s(abort response)\n", szFuncName);
 		rc = dm_send_msg(sid, DM_MSGTYPE_SYNC, MSG_DATALEN, buf);
 		if ((varStatus = DMVAR_CHKFAILEXP(-1, rc, ABORT_ERRNO, eventExpected, eventReceived)) == DMSTAT_PASS) {
 			if (tokenReceived == 0) {
@@ -373,7 +373,7 @@ int main(int argc, char **argv)
 		memcpy(buf, MSG_DATA, MSG_DATALEN);
 
 		/* Variation */
-		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_MSGTYPE_ASYNC)\n", szFuncName); 
+		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_MSGTYPE_ASYNC)\n", szFuncName);
 		rc = dm_send_msg(sid, DM_MSGTYPE_ASYNC, MSG_DATALEN, buf);
 		EVENT_DELIVERY_DELAY;
 		if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
@@ -393,7 +393,7 @@ int main(int argc, char **argv)
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_send_msg - DM_NO_SESSION targetsid
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -404,15 +404,15 @@ int main(int argc, char **argv)
 		/* Variation set up */
 
 		/* Variation */
-		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_NO_SESSION targetsid)\n", szFuncName); 
+		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_NO_SESSION targetsid)\n", szFuncName);
 		rc = dm_send_msg(DM_NO_SESSION, DM_MSGTYPE_SYNC, MSG_DATALEN, buf);
 		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	szFuncName = "dm_find_eventmsg";
-	
+
 	/*
 	 * TEST    : dm_find_eventmsg - invalid sid
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -430,7 +430,7 @@ int main(int argc, char **argv)
 			DMVAR_SKIP();
 		} else {
 			/* Variation */
-			DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid sid)\n", szFuncName); 
+			DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid sid)\n", szFuncName);
 			rc = dm_find_eventmsg(INVALID_ADDR, token, MSG_DATALEN, buf, &rlen);
 			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
@@ -441,7 +441,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_find_eventmsg - invalid token
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -459,7 +459,7 @@ int main(int argc, char **argv)
 			DMVAR_SKIP();
 		} else {
 			/* Variation */
-			DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid token)\n", szFuncName); 
+			DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid token)\n", szFuncName);
 			rc = dm_find_eventmsg(sid, INVALID_ADDR, MSG_DATALEN, buf, &rlen);
 			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
@@ -470,7 +470,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_find_eventmsg - invalid buflen
 	 * EXPECTED: rc = -1, errno = E2BIG
@@ -488,7 +488,7 @@ int main(int argc, char **argv)
 			DMVAR_SKIP();
 		} else {
 			/* Variation */
-			DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid buflen)\n", szFuncName); 
+			DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid buflen)\n", szFuncName);
 			rc = dm_find_eventmsg(sid, token, MSG_DATALEN-1, buf, &rlen);
 			if (rc == -1) {
 				if (errno == E2BIG) {
@@ -505,7 +505,7 @@ int main(int argc, char **argv)
 					DMVAR_FAIL();
 				}
 			} else {
-	  			DMLOG_PRINT(DMLVL_ERR, "%s failed with unexpected rc = %d\n", szFuncName, rc);
+				DMLOG_PRINT(DMLVL_ERR, "%s failed with unexpected rc = %d\n", szFuncName, rc);
 				DMVAR_FAIL();
 			}
 
@@ -516,7 +516,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_find_eventmsg - invalid bufp
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -534,7 +534,7 @@ int main(int argc, char **argv)
 			DMVAR_SKIP();
 		} else {
 			/* Variation */
-			DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid bufp)\n", szFuncName); 
+			DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid bufp)\n", szFuncName);
 			rc = dm_find_eventmsg(sid, token, MSG_DATALEN, (void *)INVALID_ADDR, &rlen);
 			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT);
 
@@ -545,7 +545,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_find_eventmsg - invalid rlenp
 	 * EXPECTED: rc = -1, errno = EFAULT
@@ -562,7 +562,7 @@ int main(int argc, char **argv)
 			DMVAR_SKIP();
 		} else {
 			/* Variation */
-			DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid rlenp)\n", szFuncName); 
+			DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid rlenp)\n", szFuncName);
 			rc = dm_find_eventmsg(sid, token, MSG_DATALEN, buf, (size_t *)INVALID_ADDR);
 			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT);
 
@@ -591,20 +591,20 @@ int main(int argc, char **argv)
 			DMVAR_SKIP();
 		} else {
 			/* Variation */
-			DMLOG_PRINT(DMLVL_DEBUG, "%s(valid)\n", szFuncName); 
+			DMLOG_PRINT(DMLVL_DEBUG, "%s(valid)\n", szFuncName);
 			rc = dm_find_eventmsg(sid, token, sizeof(bufout), bufout, &rlen);
 			if (rc == 0) {
 				DMLOG_PRINT(DMLVL_DEBUG, "rlen = %d\n", rlen);
 				if (rlen == MSG_DATALEN+sizeof(dm_eventmsg_t)) {
 					if (memcmp(bufin, bufout+sizeof(dm_eventmsg_t), MSG_DATALEN) == 0) {
-				  		DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d, expected rlen %d, and expected buffer %s\n", szFuncName, rc, rlen, bufout+sizeof(dm_eventmsg_t));
+						DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d, expected rlen %d, and expected buffer %s\n", szFuncName, rc, rlen, bufout+sizeof(dm_eventmsg_t));
 						DMVAR_PASS();
 					} else {
-				  		DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d and expected rlen %d but expected buffer %s\n", szFuncName, rc, rlen, bufout);
+						DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d and expected rlen %d but expected buffer %s\n", szFuncName, rc, rlen, bufout);
 						DMVAR_FAIL();
 					}
 				} else {
-			  		DMLOG_PRINT(DMLVL_ERR, "%s passed with expected rc = %d but unexpected rlen %d\n", szFuncName, rc, rlen);
+					DMLOG_PRINT(DMLVL_ERR, "%s passed with expected rc = %d but unexpected rlen %d\n", szFuncName, rc, rlen);
 					DMVAR_FAIL();
 				}
 			} else {
@@ -619,7 +619,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_find_eventmsg - DM_NO_SESSION sid
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -637,7 +637,7 @@ int main(int argc, char **argv)
 			DMVAR_SKIP();
 		} else {
 			/* Variation */
-			DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_NO_SESSION sid)\n", szFuncName); 
+			DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_NO_SESSION sid)\n", szFuncName);
 			rc = dm_find_eventmsg(DM_NO_SESSION, token, MSG_DATALEN, buf, &rlen);
 			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
@@ -648,7 +648,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+
 	rc = umount(mountPt);
 	if (rc == -1) {
 		DMLOG_PRINT(DMLVL_ERR, "umount failed! (rc = %d, errno = %d)\n", rc, errno);
@@ -663,7 +663,7 @@ int main(int argc, char **argv)
 	}
 
 	DMLOG_STOP();
-			
+
 	return 0;
 }
 
@@ -716,10 +716,10 @@ void *Thread(void *parm)
 			DMLOG_PRINT(DMLVL_DEBUG, "  Media designator: %s\n", DM_GET_VALUE(me, me_name2, char *));
 			DMLOG_PRINT(DMLVL_DEBUG, "  Root handle: %p\n", DM_GET_VALUE(me, me_roothandle, void *));
 			DMLOG_PRINT(DMLVL_DEBUG, "  Root handle length: %d\n", DM_GET_LEN(me, me_roothandle));
-	    
-    			bMounted = dm_handle_is_valid(fshanp, fshlen);
 
-    			/*rc = dm_request_right(sid, fshanp, fshlen, token, DM_RR_WAIT, DM_RIGHT_EXCL);
+			bMounted = dm_handle_is_valid(fshanp, fshlen);
+
+			/*rc = dm_request_right(sid, fshanp, fshlen, token, DM_RR_WAIT, DM_RIGHT_EXCL);
 			if (rc == -1) {
 				DMLOG_PRINT(DMLVL_ERR, "dm_request_right failed! (rc = %d, errno = %d)\n", rc, errno);
 				dm_destroy_session(sid);
@@ -747,7 +747,7 @@ void *Thread(void *parm)
 				DM_EXIT();
 			}
 
-    			/*rc = dm_release_right(sid, fshanp, fshlen, token);
+			/*rc = dm_release_right(sid, fshanp, fshlen, token);
 			if (rc == -1) {
 				DMLOG_PRINT(DMLVL_ERR, "dm_request_right failed! (rc = %d, errno = %d)\n", rc, errno);
 				dm_destroy_session(sid);
@@ -770,7 +770,7 @@ void *Thread(void *parm)
 		} else if (type == DM_EVENT_UNMOUNT) {
 			/* SPECIAL CASE: need to set response and bMounted */
 			dm_namesp_event_t *nse = DM_GET_VALUE(dmMsg, ev_data, dm_namesp_event_t *);
-			
+
 			DMLOG_PRINT(DMLVL_DEBUG, "Message is DM_EVENT_UNMOUNT\n");
 			DMLOG_PRINT(DMLVL_DEBUG, "  Unmount mode: %x\n", nse->ne_mode);
 			DMLOG_PRINT(DMLVL_DEBUG, "  File system handle: %p\n", DM_GET_VALUE(nse, ne_handle1, void *));
@@ -804,7 +804,7 @@ void *Thread(void *parm)
 			response = eventResponse;
 
 			switch (type)
-		       	{
+			{
 			case DM_EVENT_USER:
 			{
 				memcpy(&tokenReceived, &token, sizeof(dm_token_t));
@@ -835,4 +835,4 @@ void *Thread(void *parm)
 	} while (bMounted);
 
 	pthread_exit(0);
-}	
+}

@@ -22,8 +22,8 @@
  * VARIATIONS	: 24
  *
  * API'S TESTED	: dm_obj_ref_hold
- * 		  dm_obj_ref_rele
- * 		  dm_obj_ref_query
+ *		  dm_obj_ref_rele
+ *		  dm_obj_ref_query
  */
 #include <string.h>
 #include <stdio.h>
@@ -59,7 +59,7 @@ int main(int argc, char **argv)
 
 	DMEV_ZERO(events);
 	DMEV_SET(DM_EVENT_MOUNT, events);
-	
+
 	/* CANNOT DO ANYTHING WITHOUT SUCCESSFUL INITIALIZATION!!! */
 	if ((rc = dm_init_service(&varstr)) != 0) {
 		DMLOG_PRINT(DMLVL_ERR, "dm_init_service failed! (rc = %d, errno = %d)\n", rc, errno);
@@ -111,7 +111,7 @@ int main(int argc, char **argv)
 	}
 
 	DMLOG_STOP();
-			
+
 	return 0;
 }
 
@@ -122,9 +122,9 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 	int   rc;
 
 	DMLOG_PRINT(DMLVL_DEBUG, "Starting DMAPI object reference tests\n") ;
-	
+
 	szFuncName = "dm_obj_ref_hold";
-	
+
 	/*
 	 * TEST    : dm_obj_ref_hold - invalid sid
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -136,11 +136,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid sid)\n", szFuncName);
 		rc = dm_obj_ref_hold(INVALID_ADDR, token, hanp, hlen);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_obj_ref_hold - invalid token
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -152,11 +152,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid token)\n", szFuncName);
 		rc = dm_obj_ref_hold(sid, INVALID_ADDR, hanp, hlen);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_obj_ref_hold - invalid hanp
 	 * EXPECTED: rc = -1, errno = EFAULT
@@ -168,11 +168,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid hanp)\n", szFuncName);
 		rc = dm_obj_ref_hold(sid, token, (void *)INVALID_ADDR, hlen);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_obj_ref_hold - invalid hlen
 	 * EXPECTED: rc = -1, errno = EBADF
@@ -184,7 +184,7 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid hlen)\n", szFuncName);
 		rc = dm_obj_ref_hold(sid, token, hanp, INVALID_ADDR);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EBADF); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EBADF);
 
 		/* Variation clean up */
 	}
@@ -204,7 +204,7 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			/* Variation */
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(multiple holds)\n", szFuncName);
 			rc = dm_obj_ref_hold(sid, token, hanp, hlen);
-			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EBUSY); 
+			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EBUSY);
 
 			/* Variation clean up */
 			rc = dm_obj_ref_rele(sid, token, hanp, hlen);
@@ -228,10 +228,10 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		rc = dm_obj_ref_hold(sid, token, hanp, hlen);
 		if (rc == 0) {
 			if ((rc2 = dm_obj_ref_query(sid, token, hanp, hlen)) == 1) {
-			  	DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
+				DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
 				DMVAR_PASS();
 			} else {
-			  	DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but unexpected dm_obj_ref_query rc = %d\n", szFuncName, 0, rc2);
+				DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but unexpected dm_obj_ref_query rc = %d\n", szFuncName, 0, rc2);
 				DMVAR_FAIL();
 			}
 		} else {
@@ -254,11 +254,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_NO_SESSION sid)\n", szFuncName);
 		rc = dm_obj_ref_hold(DM_NO_SESSION, token, hanp, hlen);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_obj_ref_hold - global handle
 	 * EXPECTED: rc = -1, errno = EBADF
@@ -274,9 +274,9 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 
 		/* Variation clean up */
 	}
-	
+
 	szFuncName = "dm_obj_ref_rele";
-	
+
 	/*
 	 * TEST    : dm_obj_ref_rele - invalid sid
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -288,11 +288,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid sid)\n", szFuncName);
 		rc = dm_obj_ref_rele(INVALID_ADDR, token, hanp, hlen);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_obj_ref_rele - invalid token
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -304,11 +304,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid token)\n", szFuncName);
 		rc = dm_obj_ref_rele(sid, INVALID_ADDR, hanp, hlen);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_obj_ref_rele - invalid hanp
 	 * EXPECTED: rc = -1, errno = EFAULT
@@ -320,11 +320,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid hanp)\n", szFuncName);
 		rc = dm_obj_ref_rele(sid, token, (void *)INVALID_ADDR, hlen);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_obj_ref_rele - invalid hlen
 	 * EXPECTED: rc = -1, errno = EBADF
@@ -336,11 +336,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid hlen)\n", szFuncName);
 		rc = dm_obj_ref_rele(sid, token, hanp, INVALID_ADDR);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EBADF); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EBADF);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_obj_ref_rele - no hold
 	 * EXPECTED: rc = -1, errno = EACCES
@@ -375,10 +375,10 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			rc = dm_obj_ref_rele(sid, token, hanp, hlen);
 			if (rc == 0) {
 				if ((rc2 = dm_obj_ref_query(sid, token, hanp, hlen)) == 0) {
-				  	DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
+					DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
 					DMVAR_PASS();
 				} else {
-				  	DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but unexpected dm_obj_ref_query rc = %d\n", szFuncName, 0, rc2);
+					DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but unexpected dm_obj_ref_query rc = %d\n", szFuncName, 0, rc2);
 					DMVAR_FAIL();
 				}
 			} else {
@@ -399,11 +399,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_NO_SESSION sid)\n", szFuncName);
 		rc = dm_obj_ref_rele(DM_NO_SESSION, token, hanp, hlen);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_obj_ref_rele - global handle
 	 * EXPECTED: rc = -1, errno = EBADF
@@ -419,9 +419,9 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 
 		/* Variation clean up */
 	}
-	
+
 	szFuncName = "dm_obj_ref_query";
-	
+
 	/*
 	 * TEST    : dm_obj_ref_query - invalid sid
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -433,11 +433,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid sid)\n", szFuncName);
 		rc = dm_obj_ref_query(INVALID_ADDR, token, hanp, hlen);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_obj_ref_query - invalid token
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -449,11 +449,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid token)\n", szFuncName);
 		rc = dm_obj_ref_query(sid, INVALID_ADDR, hanp, hlen);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_obj_ref_query - invalid hanp
 	 * EXPECTED: rc = -1, errno = EFAULT
@@ -465,11 +465,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid hanp)\n", szFuncName);
 		rc = dm_obj_ref_query(sid, token, (void *)INVALID_ADDR, hlen);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_obj_ref_query - invalid hlen
 	 * EXPECTED: rc = -1, errno = EBADF
@@ -481,7 +481,7 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid hlen)\n", szFuncName);
 		rc = dm_obj_ref_query(sid, token, hanp, INVALID_ADDR);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EBADF); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EBADF);
 
 		/* Variation clean up */
 	}
@@ -497,7 +497,7 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(not held)\n", szFuncName);
 		rc = dm_obj_ref_query(sid, token, hanp, hlen);
-		DMVAR_ENDPASSEXP(szFuncName, 0, rc); 
+		DMVAR_ENDPASSEXP(szFuncName, 0, rc);
 
 		/* Variation clean up */
 	}
@@ -517,7 +517,7 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			/* Variation */
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(held)\n", szFuncName);
 			rc = dm_obj_ref_query(sid, token, hanp, hlen);
-			DMVAR_ENDPASSEXP(szFuncName, 1, rc); 
+			DMVAR_ENDPASSEXP(szFuncName, 1, rc);
 
 			/* Variation clean up */
 		}
@@ -534,11 +534,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_NO_SESSION sid)\n", szFuncName);
 		rc = dm_obj_ref_query(DM_NO_SESSION, token, hanp, hlen);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_obj_ref_query - global handle
 	 * EXPECTED: rc = -1, errno = EBADF
@@ -554,7 +554,7 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 
 		/* Variation clean up */
 	}
-	
+
 }
 
 void *Thread(void *parm)
@@ -606,10 +606,10 @@ void *Thread(void *parm)
 			DMLOG_PRINT(DMLVL_DEBUG, "  Media designator: %s\n", DM_GET_VALUE(me, me_name2, char *));
 			DMLOG_PRINT(DMLVL_DEBUG, "  Root handle: %p\n", DM_GET_VALUE(me, me_roothandle, void *));
 			DMLOG_PRINT(DMLVL_DEBUG, "  Root handle length: %d\n", DM_GET_LEN(me, me_roothandle));
-	    
-    			bMounted = dm_handle_is_valid(lhanp, lhlen);
 
-    			rc = dm_request_right(sid, lhanp, lhlen, token, DM_RR_WAIT, DM_RIGHT_EXCL);
+			bMounted = dm_handle_is_valid(lhanp, lhlen);
+
+			rc = dm_request_right(sid, lhanp, lhlen, token, DM_RR_WAIT, DM_RIGHT_EXCL);
 			if (rc == -1) {
 				DMLOG_PRINT(DMLVL_ERR, "dm_request_right failed! (rc = %d, errno = %d)\n", rc, errno);
 				dm_destroy_session(sid);
@@ -634,7 +634,7 @@ void *Thread(void *parm)
 				DM_EXIT();
 			}
 
-    			rc = dm_release_right(sid, lhanp, lhlen, token);
+			rc = dm_release_right(sid, lhanp, lhlen, token);
 			if (rc == -1) {
 				DMLOG_PRINT(DMLVL_ERR, "dm_request_right failed! (rc = %d, errno = %d)\n", rc, errno);
 				dm_destroy_session(sid);
@@ -664,7 +664,7 @@ void *Thread(void *parm)
 			case DM_EVENT_PREUNMOUNT:
 				response = DM_RESP_CONTINUE;
 				break;
-				
+
 			default:
 			{
 				DMLOG_PRINT(DMLVL_ERR, "Message is unexpected!\n");
@@ -681,4 +681,4 @@ void *Thread(void *parm)
 	} while (bMounted);
 
 	pthread_exit(0);
-}	
+}

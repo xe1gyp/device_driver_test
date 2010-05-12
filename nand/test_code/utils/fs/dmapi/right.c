@@ -22,10 +22,10 @@
  * VARIATIONS	: 63
  *
  * API'S TESTED	: dm_request_right
- * 		  dm_release_right
- * 		  dm_query_right
- * 		  dm_upgrade_right
- * 		  dm_downgrade_right
+ *		  dm_release_right
+ *		  dm_query_right
+ *		  dm_upgrade_right
+ *		  dm_downgrade_right
  */
 #include <string.h>
 #include <stdio.h>
@@ -63,7 +63,7 @@ int main(int argc, char **argv)
 
 	DMEV_ZERO(events);
 	DMEV_SET(DM_EVENT_MOUNT, events);
-	
+
 	/* CANNOT DO ANYTHING WITHOUT SUCCESSFUL INITIALIZATION!!! */
 	if ((rc = dm_init_service(&varstr)) != 0) {
 		DMLOG_PRINT(DMLVL_ERR, "dm_init_service failed! (rc = %d, errno = %d)\n", rc, errno);
@@ -132,7 +132,7 @@ int main(int argc, char **argv)
 	}
 
 	DMLOG_STOP();
-			
+
 	return 0;
 }
 
@@ -143,9 +143,9 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 	int   rc;
 
 	DMLOG_PRINT(DMLVL_DEBUG, "Starting DMAPI rights tests\n") ;
-	
+
 	szFuncName = "dm_request_right";
-	
+
 	/*
 	 * TEST    : dm_request_right - invalid sid
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -157,11 +157,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid sid)\n", szFuncName);
 		rc = dm_request_right(INVALID_ADDR, hanp, hlen, token, 0, DM_RIGHT_SHARED);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_request_right - invalid hanp
 	 * EXPECTED: rc = -1, errno = EFAULT
@@ -173,11 +173,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid hanp)\n", szFuncName);
 		rc = dm_request_right(sid, (void *)INVALID_ADDR, hlen, token, 0, DM_RIGHT_SHARED);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_request_right - invalid hlen
 	 * EXPECTED: rc = -1, errno = EBADF
@@ -189,11 +189,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid hlen)\n", szFuncName);
 		rc = dm_request_right(sid, hanp, INVALID_ADDR, token, 0, DM_RIGHT_SHARED);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EBADF); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EBADF);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_request_right - invalid token
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -205,11 +205,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid token)\n", szFuncName);
 		rc = dm_request_right(sid, hanp, hlen, INVALID_ADDR, 0, DM_RIGHT_SHARED);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_request_right - invalid right
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -224,11 +224,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid right)\n", szFuncName);
 		rc = dm_request_right(sid, hanp, hlen, token, 0, INVALID_ADDR);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_request_right - DM_NO_TOKEN
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -240,11 +240,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_NO_TOKEN)\n", szFuncName);
 		rc = dm_request_right(sid, hanp, hlen, DM_NO_TOKEN, 0, DM_RIGHT_SHARED);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_request_right - DM_RIGHT_SHARED from DM_RIGHT_NULL
 	 * EXPECTED: rc = 0
@@ -256,7 +256,7 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_RIGHT_NULL -> DM_RIGHT_SHARED)\n", szFuncName);
 		rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_SHARED);
-		DMVAR_ENDPASSEXP(szFuncName, 0, rc); 
+		DMVAR_ENDPASSEXP(szFuncName, 0, rc);
 
 		/* Variation clean up */
 		rc = dm_release_right(sid, hanp, hlen, token);
@@ -264,7 +264,7 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			DMLOG_PRINT(DMLVL_DEBUG, "Unable to clean up variation! (errno = %d)\n", errno);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_request_right - DM_RIGHT_EXCL from DM_RIGHT_NULL
 	 * EXPECTED: rc = 0
@@ -276,7 +276,7 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_RIGHT_NULL -> DM_RIGHT_EXCL)\n", szFuncName);
 		rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_EXCL);
-		DMVAR_ENDPASSEXP(szFuncName, 0, rc); 
+		DMVAR_ENDPASSEXP(szFuncName, 0, rc);
 
 		/* Variation clean up */
 		rc = dm_release_right(sid, hanp, hlen, token);
@@ -284,7 +284,7 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			DMLOG_PRINT(DMLVL_DEBUG, "Unable to clean up variation! (errno = %d)\n", errno);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_request_right - DM_RIGHT_SHARED from DM_RIGHT_SHARED
 	 * EXPECTED: rc = 0
@@ -300,8 +300,8 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			/* Variation */
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_RIGHT_SHARED -> DM_RIGHT_SHARED)\n", szFuncName);
 			rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_SHARED);
-			DMVAR_ENDPASSEXP(szFuncName, 0, rc); 
-	
+			DMVAR_ENDPASSEXP(szFuncName, 0, rc);
+
 			/* Variation clean up */
 			rc = dm_release_right(sid, hanp, hlen, token);
 			if (rc == -1) {
@@ -309,10 +309,10 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_request_right - DM_RIGHT_EXCL from DM_RIGHT_SHARED,
-	 * 		DM_RR_WAIT clear
+	 *		DM_RR_WAIT clear
 	 * EXPECTED: rc = 0
 	 */
 	if (DMVAR_EXEC(REQUEST_RIGHT_BASE + 10)) {
@@ -326,8 +326,8 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			/* Variation */
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_RIGHT_SHARED -> DM_RIGHT_EXCL, DM_RR_WAIT clear)\n", szFuncName);
 			rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_EXCL);
-			DMVAR_ENDPASSEXP(szFuncName, 0, rc); 
-	
+			DMVAR_ENDPASSEXP(szFuncName, 0, rc);
+
 			/* Variation clean up */
 			rc = dm_release_right(sid, hanp, hlen, token);
 			if (rc == -1) {
@@ -335,10 +335,10 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_request_right - DM_RIGHT_EXCL from DM_RIGHT_SHARED,
-	 * 		DM_RR_WAIT set
+	 *		DM_RR_WAIT set
 	 * EXPECTED: rc = -1, errno = EACCES
 	 *
 	 * This variation uncovered XFS BUG #30 (0 returned instead of -1 and
@@ -355,8 +355,8 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			/* Variation */
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_RIGHT_SHARED -> DM_RIGHT_EXCL, DM_RR_WAIT set)\n", szFuncName);
 			rc = dm_request_right(sid, hanp, hlen, token, DM_RR_WAIT, DM_RIGHT_EXCL);
-			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EACCES); 
-	
+			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EACCES);
+
 			/* Variation clean up */
 			rc = dm_release_right(sid, hanp, hlen, token);
 			if (rc == -1) {
@@ -364,7 +364,7 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_request_right - DM_RIGHT_EXCL from DM_RIGHT_EXCL
 	 * EXPECTED: rc = 0
@@ -380,8 +380,8 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			/* Variation */
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_RIGHT_EXCL -> DM_RIGHT_EXCL)\n", szFuncName);
 			rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_SHARED);
-			DMVAR_ENDPASSEXP(szFuncName, 0, rc); 
-	
+			DMVAR_ENDPASSEXP(szFuncName, 0, rc);
+
 			/* Variation clean up */
 			rc = dm_release_right(sid, hanp, hlen, token);
 			if (rc == -1) {
@@ -389,7 +389,7 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_request_right - DM_RIGHT_SHARED from DM_RIGHT_EXCL
 	 * EXPECTED: rc = 0
@@ -405,8 +405,8 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			/* Variation */
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_RIGHT_EXCL -> DM_RIGHT_SHARED)\n", szFuncName);
 			rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_SHARED);
-			DMVAR_ENDPASSEXP(szFuncName, 0, rc); 
-	
+			DMVAR_ENDPASSEXP(szFuncName, 0, rc);
+
 			/* Variation clean up */
 			rc = dm_release_right(sid, hanp, hlen, token);
 			if (rc == -1) {
@@ -414,7 +414,7 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_request_right - DM_NO_SESSION sid
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -426,11 +426,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_NO_SESSION sid)\n", szFuncName);
 		rc = dm_request_right(DM_NO_SESSION, hanp, hlen, token, 0, DM_RIGHT_SHARED);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_request_right - global handle
 	 * EXPECTED: rc = -1, errno = EBADF
@@ -442,11 +442,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(global handle)\n", szFuncName);
 		rc = dm_request_right(sid, DM_GLOBAL_HANP, DM_GLOBAL_HLEN, token, 0, DM_RIGHT_SHARED);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EBADF); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EBADF);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_request_right - file handle
 	 * EXPECTED: rc = 0
@@ -464,8 +464,8 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			/* Variation */
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(file handle)\n", szFuncName);
 			rc = dm_request_right(sid, fhanp, fhlen, token, 0, DM_RIGHT_SHARED);
-			DMVAR_ENDPASSEXP(szFuncName, 0, rc); 
-	
+			DMVAR_ENDPASSEXP(szFuncName, 0, rc);
+
 			/* Variation clean up */
 			rc = dm_release_right(sid, fhanp, fhlen, token);
 			if (rc == -1) {
@@ -474,7 +474,7 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			dm_handle_free(fhanp, fhlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_request_right - fs handle
 	 * EXPECTED: rc = 0
@@ -492,8 +492,8 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			/* Variation */
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(fs handle)\n", szFuncName);
 			rc = dm_request_right(sid, fshanp, fshlen, token, 0, DM_RIGHT_SHARED);
-			DMVAR_ENDPASSEXP(szFuncName, 0, rc); 
-	
+			DMVAR_ENDPASSEXP(szFuncName, 0, rc);
+
 			/* Variation clean up */
 			rc = dm_release_right(sid, fshanp, fshlen, token);
 			if (rc == -1) {
@@ -502,9 +502,9 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			dm_handle_free(fshanp, fshlen);
 		}
 	}
-	
+
 	szFuncName = "dm_release_right";
-	
+
 	/*
 	 * TEST    : dm_release_right - invalid sid
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -516,11 +516,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid sid)\n", szFuncName);
 		rc = dm_release_right(INVALID_ADDR, hanp, hlen, token);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_release_right - invalid hanp
 	 * EXPECTED: rc = -1, errno = EFAULT
@@ -532,11 +532,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid hanp)\n", szFuncName);
 		rc = dm_release_right(sid, (void *)INVALID_ADDR, hlen, token);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_release_right - invalid hlen
 	 * EXPECTED: rc = -1, errno = EBADF
@@ -548,11 +548,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid hlen)\n", szFuncName);
 		rc = dm_release_right(sid, hanp, INVALID_ADDR, token);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EBADF); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EBADF);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_release_right - invalid token
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -564,11 +564,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid token)\n", szFuncName);
 		rc = dm_release_right(sid, hanp, hlen, INVALID_ADDR);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_release_right - DM_NO_TOKEN
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -580,11 +580,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_NO_TOKEN)\n", szFuncName);
 		rc = dm_release_right(sid, hanp, hlen, DM_NO_TOKEN);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_release_right - DM_RIGHT_NULL
 	 * EXPECTED: rc = -1, errno = EACCES
@@ -596,11 +596,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_RIGHT_NULL)\n", szFuncName);
 		rc = dm_release_right(sid, hanp, hlen, token);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EACCES); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EACCES);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_release_right - DM_RIGHT_SHARED
 	 * EXPECTED: rc = 0
@@ -616,12 +616,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			/* Variation */
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_RIGHT_SHARED)\n", szFuncName);
 			rc = dm_release_right(sid, hanp, hlen, token);
-			DMVAR_ENDPASSEXP(szFuncName, 0, rc); 
+			DMVAR_ENDPASSEXP(szFuncName, 0, rc);
 
 			/* Variation clean up */
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_release_right - DM_RIGHT_EXCL
 	 * EXPECTED: rc = 0
@@ -637,12 +637,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			/* Variation */
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_RIGHT_EXCL)\n", szFuncName);
 			rc = dm_release_right(sid, hanp, hlen, token);
-			DMVAR_ENDPASSEXP(szFuncName, 0, rc); 
+			DMVAR_ENDPASSEXP(szFuncName, 0, rc);
 
 			/* Variation clean up */
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_release_right - DM_NO_SESSION sid
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -654,11 +654,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_NO_SESSION sid)\n", szFuncName);
 		rc = dm_release_right(DM_NO_SESSION, hanp, hlen, token);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_release_right - global handle
 	 * EXPECTED: rc = -1, errno = EBADF
@@ -674,7 +674,7 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_release_right - file handle
 	 * EXPECTED: rc = 0
@@ -696,13 +696,13 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			/* Variation */
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(file handle)\n", szFuncName);
 			rc = dm_release_right(sid, fhanp, fhlen, token);
-			DMVAR_ENDPASSEXP(szFuncName, 0, rc); 
+			DMVAR_ENDPASSEXP(szFuncName, 0, rc);
 
 			/* Variation clean up */
 			dm_handle_free(fhanp, fhlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_release_right - fs handle
 	 * EXPECTED: rc = 0
@@ -724,15 +724,15 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			/* Variation */
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(fs handle)\n", szFuncName);
 			rc = dm_release_right(sid, fshanp, fshlen, token);
-			DMVAR_ENDPASSEXP(szFuncName, 0, rc); 
+			DMVAR_ENDPASSEXP(szFuncName, 0, rc);
 
 			/* Variation clean up */
 			dm_handle_free(fshanp, fshlen);
 		}
 	}
-	
+
 	szFuncName = "dm_query_right";
-	
+
 	/*
 	 * TEST    : dm_query_right - invalid sid
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -745,11 +745,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid sid)\n", szFuncName);
 		rc = dm_query_right(INVALID_ADDR, hanp, hlen, token, &right);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_query_right - invalid hanp
 	 * EXPECTED: rc = -1, errno = EFAULT
@@ -762,11 +762,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid hanp)\n", szFuncName);
 		rc = dm_query_right(sid, (void *)INVALID_ADDR, hlen, token, &right);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_query_right - invalid hlen
 	 * EXPECTED: rc = -1, errno = EBADF
@@ -779,11 +779,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid hlen)\n", szFuncName);
 		rc = dm_query_right(sid, hanp, INVALID_ADDR, token, &right);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EBADF); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EBADF);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_query_right - invalid token
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -796,11 +796,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid token)\n", szFuncName);
 		rc = dm_query_right(sid, hanp, hlen, INVALID_ADDR, &right);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_query_right - invalid rightp
 	 * EXPECTED: rc = -1, errno = EFAULT
@@ -816,12 +816,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_query_right - DM_NO_TOKEN
 	 * EXPECTED: rc = -1, errno = EINVAL
 	 */
-	if (DMVAR_EXEC(QUERY_RIGHT_BASE + 6)) { 
+	if (DMVAR_EXEC(QUERY_RIGHT_BASE + 6)) {
 		dm_right_t right;
 
 		/* Variation set up */
@@ -829,16 +829,16 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_NO_TOKEN)\n", szFuncName);
 		rc = dm_query_right(sid, hanp, hlen, DM_NO_TOKEN, &right);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_query_right - DM_RIGHT_SHARED
 	 * EXPECTED: rc = 0
 	 */
-	if (DMVAR_EXEC(QUERY_RIGHT_BASE + 7)) { 
+	if (DMVAR_EXEC(QUERY_RIGHT_BASE + 7)) {
 		dm_right_t right;
 
 		/* Variation set up */
@@ -852,10 +852,10 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			rc = dm_query_right(sid, hanp, hlen, token, &right);
 			if (rc == 0) {
 				if (right == DM_RIGHT_SHARED) {
-				  	DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
+					DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
 					DMVAR_PASS();
 				} else {
-				  	DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but unexpected right (%d vs %d)\n", szFuncName, 0, right, DM_RIGHT_SHARED);
+					DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but unexpected right (%d vs %d)\n", szFuncName, 0, right, DM_RIGHT_SHARED);
 					DMVAR_FAIL();
 				}
 			} else {
@@ -870,12 +870,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_query_right - DM_RIGHT_EXCL
 	 * EXPECTED: rc = 0
 	 */
-	if (DMVAR_EXEC(QUERY_RIGHT_BASE + 8)) { 
+	if (DMVAR_EXEC(QUERY_RIGHT_BASE + 8)) {
 		dm_right_t right;
 
 		/* Variation set up */
@@ -889,10 +889,10 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			rc = dm_query_right(sid, hanp, hlen, token, &right);
 			if (rc == 0) {
 				if (right == DM_RIGHT_EXCL) {
-				  	DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
+					DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
 					DMVAR_PASS();
 				} else {
-				  	DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but unexpected right (%d vs %d)\n", szFuncName, 0, right, DM_RIGHT_EXCL);
+					DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but unexpected right (%d vs %d)\n", szFuncName, 0, right, DM_RIGHT_EXCL);
 					DMVAR_FAIL();
 				}
 			} else {
@@ -920,11 +920,11 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_NO_SESSION sid)\n", szFuncName);
 		rc = dm_query_right(DM_NO_SESSION, hanp, hlen, token, &right);
-		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+		DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_query_right - global handle
 	 * EXPECTED: rc = -1, errno = EBADF
@@ -941,12 +941,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_query_right - file handle
 	 * EXPECTED: rc = 0
 	 */
-	if (DMVAR_EXEC(QUERY_RIGHT_BASE + 11)) { 
+	if (DMVAR_EXEC(QUERY_RIGHT_BASE + 11)) {
 		void *fhanp;
 		size_t fhlen;
 		dm_right_t right;
@@ -966,10 +966,10 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			rc = dm_query_right(sid, fhanp, fhlen, token, &right);
 			if (rc == 0) {
 				if (right == DM_RIGHT_SHARED) {
-				  	DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
+					DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
 					DMVAR_PASS();
 				} else {
-				  	DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but unexpected right (%d vs %d)\n", szFuncName, 0, right, DM_RIGHT_SHARED);
+					DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but unexpected right (%d vs %d)\n", szFuncName, 0, right, DM_RIGHT_SHARED);
 					DMVAR_FAIL();
 				}
 			} else {
@@ -985,12 +985,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			dm_handle_free(fhanp, fhlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_query_right - fs handle
 	 * EXPECTED: rc = 0
 	 */
-	if (DMVAR_EXEC(QUERY_RIGHT_BASE + 12)) { 
+	if (DMVAR_EXEC(QUERY_RIGHT_BASE + 12)) {
 		void *fshanp;
 		size_t fshlen;
 		dm_right_t right;
@@ -1010,10 +1010,10 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			rc = dm_query_right(sid, fshanp, fshlen, token, &right);
 			if (rc == 0) {
 				if (right == DM_RIGHT_SHARED) {
-				  	DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
+					DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
 					DMVAR_PASS();
 				} else {
-				  	DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but unexpected right (%d vs %d)\n", szFuncName, 0, right, DM_RIGHT_SHARED);
+					DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but unexpected right (%d vs %d)\n", szFuncName, 0, right, DM_RIGHT_SHARED);
 					DMVAR_FAIL();
 				}
 			} else {
@@ -1029,14 +1029,14 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			dm_handle_free(fshanp, fshlen);
 		}
 	}
-	
+
 	szFuncName = "dm_upgrade_right";
 
 	/*
 	 * TEST    : dm_upgrade_right - invalid sid
 	 * EXPECTED: rc = -1, errno = EINVAL
 	 */
-	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 1)) { 
+	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 1)) {
 
 		/* Variation set up */
 		rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_SHARED);
@@ -1056,12 +1056,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_upgrade_right - invalid hanp
 	 * EXPECTED: rc = -1, errno = EFAULT
 	 */
-	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 2)) { 
+	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 2)) {
 
 		/* Variation set up */
 		rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_SHARED);
@@ -1081,12 +1081,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_upgrade_right - invalid hlen
 	 * EXPECTED: rc = -1, errno = EBADF
 	 */
-	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 3)) { 
+	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 3)) {
 
 		/* Variation set up */
 		rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_SHARED);
@@ -1111,7 +1111,7 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 	 * TEST    : dm_upgrade_right - invalid token
 	 * EXPECTED: rc = -1, errno = EINVAL
 	 */
-	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 4)) { 
+	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 4)) {
 
 		/* Variation set up */
 		rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_SHARED);
@@ -1131,18 +1131,18 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_upgrade_right - DM_RIGHT_NULL
 	 * EXPECTED: rc = -1, errno = EPERM
 	 *
-	 * This variation uncovered XFS BUG #31 (EACCES returned instead of 
+	 * This variation uncovered XFS BUG #31 (EACCES returned instead of
 	 * EPERM)
 	 */
-	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 5)) { 
+	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 5)) {
 
 		/* Variation set up */
-		
+
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_RIGHT_NULL)\n", szFuncName);
 		rc = dm_upgrade_right(sid, hanp, hlen, token);
@@ -1150,12 +1150,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_upgrade_right - DM_RIGHT_SHARED
 	 * EXPECTED: rc = 0
 	 */
-	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 6)) { 
+	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 6)) {
 
 		/* Variation set up */
 		rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_SHARED);
@@ -1175,12 +1175,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_upgrade_right - DM_RIGHT_EXCL
 	 * EXPECTED: rc = 0
 	 */
-	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 7)) { 
+	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 7)) {
 
 		/* Variation set up */
 		rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_EXCL);
@@ -1200,12 +1200,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_upgrade_right - DM_NO_SESSION sid
 	 * EXPECTED: rc = -1, errno = EINVAL
 	 */
-	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 8)) { 
+	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 8)) {
 
 		/* Variation set up */
 		rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_SHARED);
@@ -1225,12 +1225,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_upgrade_right - global handle
 	 * EXPECTED: rc = -1, errno = EBADF
 	 */
-	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 9)) { 
+	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 9)) {
 
 		/* Variation set up */
 		rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_SHARED);
@@ -1250,12 +1250,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_upgrade_right - file handle
 	 * EXPECTED: rc = 0
 	 */
-	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 10)) { 
+	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 10)) {
 		void *fhanp;
 		size_t fhlen;
 
@@ -1282,12 +1282,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			dm_handle_free(fhanp, fhlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_upgrade_right - fs handle
 	 * EXPECTED: rc = 0
 	 */
-	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 11)) { 
+	if (DMVAR_EXEC(UPGRADE_RIGHT_BASE + 11)) {
 		void *fshanp;
 		size_t fshlen;
 
@@ -1314,14 +1314,14 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			dm_handle_free(fshanp, fshlen);
 		}
 	}
-	
+
 	szFuncName = "dm_downgrade_right";
 
 	/*
 	 * TEST    : dm_downgrade_right - invalid sid
 	 * EXPECTED: rc = -1, errno = EINVAL
 	 */
-	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 1)) { 
+	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 1)) {
 
 		/* Variation set up */
 		rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_SHARED);
@@ -1341,12 +1341,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_downgrade_right - invalid hanp
 	 * EXPECTED: rc = -1, errno = EFAULT
 	 */
-	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 2)) { 
+	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 2)) {
 
 		/* Variation set up */
 		rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_SHARED);
@@ -1366,12 +1366,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_downgrade_right - invalid hlen
 	 * EXPECTED: rc = -1, errno = EBADF
 	 */
-	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 3)) { 
+	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 3)) {
 
 		/* Variation set up */
 		rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_SHARED);
@@ -1396,7 +1396,7 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 	 * TEST    : dm_downgrade_right - invalid token
 	 * EXPECTED: rc = -1, errno = EINVAL
 	 */
-	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 4)) { 
+	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 4)) {
 
 		/* Variation set up */
 		rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_SHARED);
@@ -1416,18 +1416,18 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_downgrade_right - DM_RIGHT_NULL
 	 * EXPECTED: rc = -1, errno = EPERM
 	 *
-	 * This variation uncovered XFS BUG #32 (EACCES returned instead of 
+	 * This variation uncovered XFS BUG #32 (EACCES returned instead of
 	 * EPERM)
 	 */
-	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 5)) { 
+	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 5)) {
 
 		/* Variation set up */
-		
+
 		/* Variation */
 		DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_RIGHT_NULL)\n", szFuncName);
 		rc = dm_downgrade_right(sid, hanp, hlen, token);
@@ -1435,12 +1435,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_downgrade_right - DM_RIGHT_SHARED
 	 * EXPECTED: rc = -1, errno = EPERM
 	 */
-	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 6)) { 
+	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 6)) {
 
 		/* Variation set up */
 		rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_SHARED);
@@ -1460,12 +1460,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_downgrade_right - DM_RIGHT_EXCL
 	 * EXPECTED: rc = 0
 	 */
-	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 7)) { 
+	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 7)) {
 
 		/* Variation set up */
 		rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_EXCL);
@@ -1485,12 +1485,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_downgrade_right - DM_NO_SESSION sid
 	 * EXPECTED: rc = -1, errno = EINVAL
 	 */
-	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 8)) { 
+	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 8)) {
 
 		/* Variation set up */
 		rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_SHARED);
@@ -1510,12 +1510,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_downgrade_right - global handle
 	 * EXPECTED: rc = -1, errno = EBADF
 	 */
-	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 9)) { 
+	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 9)) {
 
 		/* Variation set up */
 		rc = dm_request_right(sid, hanp, hlen, token, 0, DM_RIGHT_SHARED);
@@ -1535,12 +1535,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_downgrade_right - file handle
 	 * EXPECTED: rc = 0
 	 */
-	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 10)) { 
+	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 10)) {
 		void *fhanp;
 		size_t fhlen;
 
@@ -1567,12 +1567,12 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			dm_handle_free(fhanp, fhlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_downgrade_right - fs handle
 	 * EXPECTED: rc = 0
 	 */
-	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 11)) { 
+	if (DMVAR_EXEC(DOWNGRADE_RIGHT_BASE + 11)) {
 		void *fshanp;
 		size_t fshlen;
 
@@ -1599,7 +1599,7 @@ void DoTest(dm_token_t token, void *hanp, size_t hlen)
 			dm_handle_free(fshanp, fshlen);
 		}
 	}
-	
+
 }
 
 void *Thread(void *parm)
@@ -1651,10 +1651,10 @@ void *Thread(void *parm)
 			DMLOG_PRINT(DMLVL_DEBUG, "  Media designator: %s\n", DM_GET_VALUE(me, me_name2, char *));
 			DMLOG_PRINT(DMLVL_DEBUG, "  Root handle: %p\n", DM_GET_VALUE(me, me_roothandle, void *));
 			DMLOG_PRINT(DMLVL_DEBUG, "  Root handle length: %d\n", DM_GET_LEN(me, me_roothandle));
-	    
-    			bMounted = dm_handle_is_valid(lhanp, lhlen);
 
-    			rc = dm_request_right(sid, lhanp, lhlen, token, DM_RR_WAIT, DM_RIGHT_EXCL);
+			bMounted = dm_handle_is_valid(lhanp, lhlen);
+
+			rc = dm_request_right(sid, lhanp, lhlen, token, DM_RR_WAIT, DM_RIGHT_EXCL);
 			if (rc == -1) {
 				DMLOG_PRINT(DMLVL_ERR, "dm_request_right failed! (rc = %d, errno = %d)\n", rc, errno);
 				dm_destroy_session(sid);
@@ -1679,7 +1679,7 @@ void *Thread(void *parm)
 				DM_EXIT();
 			}
 
-    			rc = dm_release_right(sid, lhanp, lhlen, token);
+			rc = dm_release_right(sid, lhanp, lhlen, token);
 			if (rc == -1) {
 				DMLOG_PRINT(DMLVL_ERR, "dm_request_right failed! (rc = %d, errno = %d)\n", rc, errno);
 				dm_destroy_session(sid);
@@ -1709,7 +1709,7 @@ void *Thread(void *parm)
 			case DM_EVENT_PREUNMOUNT:
 				response = DM_RESP_CONTINUE;
 				break;
-				
+
 			default:
 			{
 				DMLOG_PRINT(DMLVL_ERR, "Message is unexpected!\n");
@@ -1726,4 +1726,4 @@ void *Thread(void *parm)
 	} while (bMounted);
 
 	pthread_exit(0);
-}	
+}
