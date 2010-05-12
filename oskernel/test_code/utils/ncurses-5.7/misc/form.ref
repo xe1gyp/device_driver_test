@@ -91,7 +91,7 @@ EXPORTS
 	"set_field_term"	@122	;NONAME
 	"post_form"		@123	;NONAME
 	"unpost_form"		@124	;NONAME
-	"pos_form_cursor" 	@125	;NONAME
+	"pos_form_cursor"	@125	;NONAME
 	"form_driver"		@126	;NONAME
 	"set_form_userptr"	@127	;NONAME
 	"set_form_opts"		@128	;NONAME

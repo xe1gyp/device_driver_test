@@ -40,7 +40,7 @@ EXPORTS
 	"menu_opts_off"		@30	;NONAME
 	"menu_opts_on"		@31	;NONAME
 	"menu_pad"		@32	;NONAME
-	"pos_menu_cursor" 	@33	;NONAME
+	"pos_menu_cursor"	@33	;NONAME
 	"post_menu"		@34	;NONAME
 	"scale_menu"		@35	;NONAME
 	"set_current_item"	@36	;NONAME
@@ -51,7 +51,7 @@ EXPORTS
 	"set_item_value"	@42	;NONAME
 	"set_menu_back"		@43	;NONAME
 	"set_menu_fore"		@44	;NONAME
-	"set_menu_format" 	@45	;NONAME
+	"set_menu_format"	@45	;NONAME
 	"set_menu_grey"		@46	;NONAME
 	"set_menu_init"		@47	;NONAME
 	"set_menu_items"	@48	;NONAME
@@ -64,7 +64,7 @@ EXPORTS
 	"set_menu_userptr"	@55	;NONAME
 	"set_menu_win"		@56	;NONAME
 	"set_top_row"		@57	;NONAME
-	"top_row" 		@58	;NONAME
+	"top_row"		@58	;NONAME
 	"unpost_menu"		@59	;NONAME
 
 	"item_value"		@60	;NONAME
