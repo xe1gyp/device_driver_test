@@ -21,7 +21,7 @@
 
 MODULE_LICENSE("GPL");
 int resource_test(void);
-void msleep ( unsigned int   msecs); 
+void msleep ( unsigned int   msecs);
 int clock_test_init(void );
 const char *clk_thread_name[5]={"Clk_Thread_1","Clk_Thread_2","Clk_Thread_3","Clk_thread_4","Clk_Thread_5"};
 struct task_struct *Clk_Threads[5];
@@ -165,13 +165,13 @@ int create_thread(void){
 	int i;
 	if (preempt ==1) {
 		for (i=0; i <5; i++){
-        	        Clk_Threads[i]=kthread_create((void *)clock_test_init,NULL,clk_thread_name[i]);
+		        Clk_Threads[i]=kthread_create((void *)clock_test_init,NULL,clk_thread_name[i]);
 			set_user_nice(Clk_Threads[i],19-i);
 			wake_up_process(Clk_Threads[i]);
 			msleep(50);
-        	}
-	} else { 
-		clock_test_init();	
+		}
+	} else {
+		clock_test_init();
 	}
         return(0);
 
@@ -182,7 +182,7 @@ int clock_test_init(void)
 {
         u32 ret=0, usecount;
 	int i;
-	
+
 
         unsigned long rate, valid_rate;
         struct clk *tclk, *temp_clock, *mpu_ck, *iva2_ck, *l3_ck;
@@ -193,7 +193,7 @@ int clock_test_init(void)
         mm_segment_t orig_fs;
         int pos;
         char buffer[100];
-	
+
         /* Obtain a file object pointer */
         f = filp_open("/clock_test.msg", O_WRONLY | O_CREAT, 0600);
         if (!f || !f->f_op || !f->f_op->write) {
@@ -203,21 +203,21 @@ int clock_test_init(void)
         pos = 0;
         orig_fs = get_fs();
         set_fs(KERNEL_DS);
-	
+
 	printk(KERN_ALERT "Starting clock test\n");
 	for (i = 0; i < ARRAY_SIZE(clk_names); i++) {
 		printk(KERN_INFO "\nclock: %s",clk_names[i]);
-	
+
 		tclk = clk_get(dev, clk_names[i]);
 		if(tclk == NULL) {
 			printk(KERN_ERR "clk_get returned null value for clk %s \n",clk_names[i]);
 			ret = 1;
 			continue;
 		}
-	
+
 		printk("\nClk name: %s\n", tclk->name);
 		if (preempt ==1)
-			msleep(50);    
+			msleep(50);
 
 		usecount = clk_get_usecount(tclk);
                 if (usecount)

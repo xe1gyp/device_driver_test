@@ -16,64 +16,64 @@ Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
 --- L24.0.13-new.orig/arch/arm/mach-omap2/clockdomain.c
 +++ L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
 @@ -221,6 +221,7 @@ void clkdm_init(struct clockdomain **clk
- 				_autodep_lookup(autodep);
- 	}
+				_autodep_lookup(autodep);
+	}
  }
 +EXPORT_SYMBOL(clkdm_init);
- 
+
  /**
   * clkdm_register - register a clockdomain
 @@ -268,6 +269,7 @@ cr_unlock:
- 
- 	return ret;
+
+	return ret;
  }
 +EXPORT_SYMBOL(clkdm_register);
- 
+
  /**
   * clkdm_unregister - unregister a clockdomain
-@@ -291,6 +293,7 @@ int clkdm_unregister(struct clockdomain 
- 
- 	return 0;
+@@ -291,6 +293,7 @@ int clkdm_unregister(struct clockdomain
+
+	return 0;
  }
 +EXPORT_SYMBOL(clkdm_unregister);
- 
+
  /**
   * clkdm_lookup - look up a clockdomain by name, return a pointer
 @@ -319,6 +322,7 @@ struct clockdomain *clkdm_lookup(const c
- 
- 	return clkdm;
+
+	return clkdm;
  }
 +EXPORT_SYMBOL(clkdm_lookup);
- 
+
  /**
   * clkdm_for_each - call function on each registered clockdomain
 @@ -353,6 +357,7 @@ int clkdm_for_each(int (*fn)(struct cloc
- 
- 	return ret;
+
+	return ret;
  }
 +EXPORT_SYMBOL(clkdm_for_each);
- 
- 
+
+
  /**
 @@ -369,6 +374,7 @@ struct powerdomain *clkdm_get_pwrdm(stru
- 
- 	return clkdm->pwrdm.ptr;
+
+	return clkdm->pwrdm.ptr;
  }
 +EXPORT_SYMBOL(clkdm_get_pwrdm);
- 
- 
+
+
  /* Hardware clockdomain control */
 @@ -438,6 +444,7 @@ int omap2_clkdm_sleep(struct clockdomain
- 
- 	return 0;
+
+	return 0;
  }
 +EXPORT_SYMBOL(omap2_clkdm_sleep);
- 
+
  /**
   * omap2_clkdm_wakeup - force clockdomain wakeup transition
 @@ -482,7 +489,7 @@ int omap2_clkdm_wakeup(struct clockdomai
- 
- 	return 0;
+
+	return 0;
  }
 -
 +EXPORT_SYMBOL(omap2_clkdm_wakeup);
@@ -81,43 +81,43 @@ Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
   * omap2_clkdm_allow_idle - enable hwsup idle transitions for clkdm
   * @clkdm: struct clockdomain *
 @@ -515,6 +522,7 @@ void omap2_clkdm_allow_idle(struct clock
- 
- 	pwrdm_clkdm_state_switch(clkdm);
+
+	pwrdm_clkdm_state_switch(clkdm);
  }
 +EXPORT_SYMBOL(omap2_clkdm_allow_idle);
- 
+
  /**
   * omap2_clkdm_deny_idle - disable hwsup idle transitions for clkdm
 @@ -545,6 +553,7 @@ void omap2_clkdm_deny_idle(struct clockd
- 		if (atomic_read(&clkdm->usecount) > 0)
- 			_clkdm_del_autodeps(clkdm);
+		if (atomic_read(&clkdm->usecount) > 0)
+			_clkdm_del_autodeps(clkdm);
  }
 +EXPORT_SYMBOL(omap2_clkdm_deny_idle);
- 
- 
+
+
  /* Clockdomain-to-clock framework interface code */
 @@ -603,6 +612,7 @@ int omap2_clkdm_clk_enable(struct clockd
- 
- 	return 0;
+
+	return 0;
  }
 +EXPORT_SYMBOL(omap2_clkdm_clk_enable);
- 
+
  /**
   * omap2_clkdm_clk_disable - remove an enabled downstream clock from this clkdm
 @@ -663,4 +673,5 @@ int omap2_clkdm_clk_disable(struct clock
- 
- 	return 0;
+
+	return 0;
  }
 +EXPORT_SYMBOL(omap2_clkdm_clk_disable);
- 
+
 Index: L24.0.13-new/arch/arm/plat-omap/include/plat/clockdomain.h
 ===================================================================
 --- L24.0.13-new.orig/arch/arm/plat-omap/include/plat/clockdomain.h
 +++ L24.0.13-new/arch/arm/plat-omap/include/plat/clockdomain.h
 @@ -93,22 +93,22 @@ struct clockdomain {
- 
+
  };
- 
+
 -void clkdm_init(struct clockdomain **clkdms, struct clkdm_pwrdm_autodep *autodeps);
 -int clkdm_register(struct clockdomain *clkdm);
 -int clkdm_unregister(struct clockdomain *clkdm);
@@ -126,26 +126,26 @@ Index: L24.0.13-new/arch/arm/plat-omap/include/plat/clockdomain.h
 +extern int clkdm_register(struct clockdomain *clkdm);
 +extern int clkdm_unregister(struct clockdomain *clkdm);
 +extern struct clockdomain *clkdm_lookup(const char *name);
- 
+
 -int clkdm_for_each(int (*fn)(struct clockdomain *clkdm, void *user),
 +extern int clkdm_for_each(int (*fn)(struct clockdomain *clkdm, void *user),
- 			void *user);
+			void *user);
 -struct powerdomain *clkdm_get_pwrdm(struct clockdomain *clkdm);
 +extern struct powerdomain *clkdm_get_pwrdm(struct clockdomain *clkdm);
- 
+
 -void omap2_clkdm_allow_idle(struct clockdomain *clkdm);
 -void omap2_clkdm_deny_idle(struct clockdomain *clkdm);
 +extern void omap2_clkdm_allow_idle(struct clockdomain *clkdm);
 +extern void omap2_clkdm_deny_idle(struct clockdomain *clkdm);
- 
+
 -int omap2_clkdm_wakeup(struct clockdomain *clkdm);
 -int omap2_clkdm_sleep(struct clockdomain *clkdm);
 +extern int omap2_clkdm_wakeup(struct clockdomain *clkdm);
 +extern int omap2_clkdm_sleep(struct clockdomain *clkdm);
- 
+
 -int omap2_clkdm_clk_enable(struct clockdomain *clkdm, struct clk *clk);
 -int omap2_clkdm_clk_disable(struct clockdomain *clkdm, struct clk *clk);
 +extern int omap2_clkdm_clk_enable(struct clockdomain *clkdm, struct clk *clk);
 +extern int omap2_clkdm_clk_disable(struct clockdomain *clkdm, struct clk *clk);
- 
+
  #endif

@@ -551,7 +551,7 @@ void power_domain_test()
 		 */
 		break;
 	default :
-		printk (" INVALID PARAMETERS- 			       \n");
+		printk (" INVALID PARAMETERS-			       \n");
 		printk (" Please use below HELP MENU for testcase usage\n");
 		printk (" ***************** HELP MENU **************** \n");
 		printk (" ::::Use hex value - test function mapping::::\n");

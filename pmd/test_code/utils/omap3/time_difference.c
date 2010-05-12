@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
 
 		t0_absolute = 60*60*t0_hour+60*t0_minute+t0_second;
 		t1_absolute = 60*60*t1_hour+60*t1_minute+t1_second;
-		
+
 		current_diff = t1_absolute-t0_absolute;
 		if (current_diff == expected_diff) {
 			printf("Difference of expected and current times: PASS\n");
@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
 		}
 		else {
 			printf("Difference of expected and current times: FAIL\n");
-			ret = 1;	
+			ret = 1;
 		}
 	}
 	else {

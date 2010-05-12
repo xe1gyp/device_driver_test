@@ -76,7 +76,7 @@ static int prcm_test_init(void)
 	printk ("0x10\t- frequency_scaling_test\n");
 	printk ("0x20\t- voltage_scaling_set_of_test\n");
 	printk ("\nFor multiple tests OR the hex values\n"
-		"for e.g. 0x3 will do both CLK and DPLL\n" 
+		"for e.g. 0x3 will do both CLK and DPLL\n"
 		"API tests in sequence\n");
 	printk ("\n0x3F\t- All tests\n");
 	printk ("\nUsage: insmod prcm_test.ko opt=<option>\n\n");
@@ -96,7 +96,7 @@ static int prcm_test_init(void)
 		if (clkapi_test()) {
 			printk ("CLOCK TEST FAILED\n");
 			fail++;
-		} else 
+		} else
 			printk ("CLOCK TEST PASSED\n");
 	}
 
@@ -104,7 +104,7 @@ static int prcm_test_init(void)
 		if (dpllapi_test ()) {
 			printk ("DPLL TEST FAILED\n");
 			fail++;
-		} else 
+		} else
 			printk ("DPLL TEST PASSED\n");
 	}
 
@@ -113,7 +113,7 @@ static int prcm_test_init(void)
 		if (powerapi_test ()) {
 			printk ("POWER TEST FAILED\n");
 			fail++;
-		} else 
+		} else
 			printk ("POWER TEST PASSED\n");
 	}
 
@@ -121,7 +121,7 @@ static int prcm_test_init(void)
 		if (power_configuration_test ()) {
 			printk ("POWER CONFIGURATION TEST FAILED\n");
 			fail++;
-		} else 
+		} else
 			printk ("POWER CONFIGURATION TEST PASSED\n");
 	}
 
@@ -130,7 +130,7 @@ static int prcm_test_init(void)
 		if (frequency_scaling_test ()) {
 			printk ("FREQUENCY SCALING TEST FAILED\n");
 			fail++;
-		} else 
+		} else
 			printk ("FREQUENCY SCALING TEST PASSED\n");
 	}
 
@@ -138,7 +138,7 @@ static int prcm_test_init(void)
 		if (voltage_scaling_set_of_test ()) {
 			printk ("VOLTAGE SCALING TEST FAILED\n");
 			fail++;
-		} else 
+		} else
 			printk ("VOLTAGE SCALING TEST PASSED\n");
 	}
 
@@ -156,7 +156,7 @@ static int prcm_test_init(void)
 		if (interrupt_latency_init(load, itr))
 		{
 			printk ("Interrupt latency test failed to start\n");
-			return -1;	
+			return -1;
 		} else {
 			printk ("Interrupt latency test started ... \n");
 			goto last;
@@ -166,7 +166,7 @@ static int prcm_test_init(void)
 	if (fail > 0) {
 		printk("Error: %d tests failed\n",fail);
 		sprintf(buffer, "Error: %d tests failed\n",fail);
-		pos = write_to_file(f, buffer, pos);		
+		pos = write_to_file(f, buffer, pos);
 	}
 	else {
 		printk("All tests passed\n");

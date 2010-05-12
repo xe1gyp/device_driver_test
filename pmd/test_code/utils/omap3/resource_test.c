@@ -51,4 +51,3 @@ void resource_test_exit(void)
 
 module_init(resource_test_init);
 module_exit(resource_test_exit);
-

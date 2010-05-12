@@ -3,21 +3,21 @@
 #
 # Name of the file: Makefile
 #
-# Location of the file:  
+# Location of the file:
 #
 # Brief description of the contents of the file:
-#       Makefile for Power Management tests 
+#       Makefile for Power Management tests
 #
 # Detailed description of the contents of the file:
-# This Makefile is used to compile Power Management test programs.  
+# This Makefile is used to compile Power Management test programs.
 #
-# Author: 
+# Author:
 #
-# Created on: 
+# Created on:
 #
 # Change Log:
 ############################################################################
-OBJS := utils_app install 
+OBJS := utils_app install
 
 all:$(OBJS)
 
