@@ -22,7 +22,7 @@
  * VARIATIONS	: 18
  *
  * EVENTS TESTED: DM_EVENT_READ
- * 		  DM_EVENT_WRITE
+ *		  DM_EVENT_WRITE
  */
 #include <string.h>
 #include <stdio.h>
@@ -47,7 +47,7 @@ char *deviceNm;
 char DummyFile[FILENAME_MAX];
 char DummyTmp[FILENAME_MAX];
 
-/* Variables for thread communications */ 
+/* Variables for thread communications */
 dm_eventtype_t eventExpected;
 dm_eventtype_t eventReceived;
 dm_response_t eventResponse;
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
 
 	DMEV_ZERO(events);
 	DMEV_SET(DM_EVENT_MOUNT, events);
-	
+
 	/* CANNOT DO ANYTHING WITHOUT SUCCESSFUL INITIALIZATION!!! */
 	if ((rc = dm_init_service(&varstr)) != 0) {
 		DMLOG_PRINT(DMLVL_ERR, "dm_init_service failed! (rc = %d, errno = %d)\n", rc, errno);
@@ -107,7 +107,7 @@ int main(int argc, char **argv)
 				if (write(fd, DUMMY_STRING, DUMMY_STRLEN) != DUMMY_STRLEN) {
 					rc = -1;
 					break;
-				}					
+				}
 			}
 		} else {
 			rc = -1;
@@ -126,7 +126,7 @@ int main(int argc, char **argv)
 	}
 
 	DMLOG_PRINT(DMLVL_DEBUG, "Starting DMAPI memory mapped file synchronous event data tests\n") ;
-	
+
 	/*
 	 * TEST    : mmap - no regions
 	 * EXPECTED: no event
@@ -174,7 +174,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : mmap - one region, DM_REGION_WRITE
 	 * EXPECTED: no event
@@ -230,7 +230,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : mmap - one region, DM_REGION_TRUNCATE
 	 * EXPECTED: no event
@@ -286,12 +286,12 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : mmap - one region, DM_EVENT_READ, DM_RESP_CONTINUE
 	 * EXPECTED: DM_EVENT_READ
 	 *
-	 * This variation uncovered XFS BUG #33 (entire file returned instead 
+	 * This variation uncovered XFS BUG #33 (entire file returned instead
 	 * of mapped region only)
 	 */
 	if (DMVAR_EXEC(MMAP_READ_BASE + 4)) {
@@ -355,7 +355,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : mmap - one region, DM_EVENT_READ, DM_RESP_ABORT
 	 * EXPECTED: DM_EVENT_READ
@@ -421,7 +421,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : mmap - one region, DM_EVENT_READ
 	 * EXPECTED: no event
@@ -477,7 +477,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : mmap - one region, DM_EVENT_READ
 	 * EXPECTED: no event
@@ -533,7 +533,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : mmap - one region, DM_EVENT_READ
 	 * EXPECTED: DM_EVENT_READ
@@ -599,7 +599,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : mmap - one region, DM_EVENT_READ
 	 * EXPECTED: no event
@@ -655,7 +655,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : mmap - no regions
 	 * EXPECTED: no event
@@ -703,7 +703,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : mmap - one region, DM_REGION_READ
 	 * EXPECTED: no event
@@ -759,7 +759,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : mmap - one region, DM_REGION_TRUNCATE
 	 * EXPECTED: no event
@@ -815,7 +815,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : mmap - one region, DM_EVENT_WRITE, DM_RESP_CONTINUE
 	 * EXPECTED: DM_EVENT_WRITE
@@ -881,7 +881,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : mmap - one region, DM_EVENT_WRITE, DM_RESP_ABORT
 	 * EXPECTED: DM_EVENT_WRITE
@@ -947,7 +947,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : mmap - one region, DM_EVENT_WRITE
 	 * EXPECTED: no event
@@ -1003,7 +1003,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : mmap - one region, DM_EVENT_WRITE
 	 * EXPECTED: no event
@@ -1059,7 +1059,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : mmap - one region, DM_EVENT_WRITE
 	 * EXPECTED: DM_EVENT_WRITE
@@ -1125,7 +1125,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : mmap - one region, DM_EVENT_WRITE
 	 * EXPECTED: no event
@@ -1181,10 +1181,10 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	remove(DummyFile);
 	remove(DummyTmp);
-		
+
 	rc = umount(mountPt);
 	if (rc == -1) {
 		DMLOG_PRINT(DMLVL_ERR, "umount failed! (rc = %d, errno = %d)\n", rc, errno);
@@ -1198,7 +1198,7 @@ int main(int argc, char **argv)
 	}
 
 	DMLOG_STOP();
-			
+
 	return 0;
 }
 
@@ -1251,10 +1251,10 @@ void *Thread(void *parm)
 			DMLOG_PRINT(DMLVL_DEBUG, "  Media designator: %s\n", DM_GET_VALUE(me, me_name2, char *));
 			DMLOG_PRINT(DMLVL_DEBUG, "  Root handle: %p\n", DM_GET_VALUE(me, me_roothandle, void *));
 			DMLOG_PRINT(DMLVL_DEBUG, "  Root handle length: %d\n", DM_GET_LEN(me, me_roothandle));
-	    
-    			bMounted = dm_handle_is_valid(lhanp, lhlen);
 
-    			rc = dm_request_right(sid, lhanp, lhlen, token, DM_RR_WAIT, DM_RIGHT_EXCL);
+			bMounted = dm_handle_is_valid(lhanp, lhlen);
+
+			rc = dm_request_right(sid, lhanp, lhlen, token, DM_RR_WAIT, DM_RIGHT_EXCL);
 			if (rc == -1) {
 				DMLOG_PRINT(DMLVL_ERR, "dm_request_right failed! (rc = %d, errno = %d)\n", rc, errno);
 				dm_destroy_session(sid);
@@ -1283,7 +1283,7 @@ void *Thread(void *parm)
 				DM_EXIT();
 			}
 
-    			rc = dm_release_right(sid, lhanp, lhlen, token);
+			rc = dm_release_right(sid, lhanp, lhlen, token);
 			if (rc == -1) {
 				DMLOG_PRINT(DMLVL_ERR, "dm_request_right failed! (rc = %d, errno = %d)\n", rc, errno);
 				dm_destroy_session(sid);
@@ -1305,7 +1305,7 @@ void *Thread(void *parm)
 			case DM_EVENT_PREUNMOUNT:
 				response = DM_RESP_CONTINUE;
 				break;
-				
+
 			case DM_EVENT_READ:
 			{
 				dm_data_event_t *de = DM_GET_VALUE(dmMsg, ev_data, dm_data_event_t *);
@@ -1358,4 +1358,4 @@ void *Thread(void *parm)
 	} while (bMounted);
 
 	pthread_exit(0);
-}	
+}

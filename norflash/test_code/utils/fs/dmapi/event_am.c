@@ -22,8 +22,8 @@
  * VARIATIONS	: 31
  *
  * EVENTS TESTED: DM_EVENT_ATTRIBUTE
- * 		  DM_EVENT_CLOSE
- * 		  DM_EVENT_DESTROY
+ *		  DM_EVENT_CLOSE
+ *		  DM_EVENT_DESTROY
  *
  * API'S TESTED	: dm_set_return_on_destroy
  */
@@ -46,7 +46,7 @@ char *deviceNm;
 char DummyFile[FILENAME_MAX];
 char DummySubdir[FILENAME_MAX];
 
-/* Variables for thread communications */ 
+/* Variables for thread communications */
 dm_eventtype_t eventExpected;
 dm_eventtype_t eventReceived;
 dm_response_t eventResponse;
@@ -75,7 +75,7 @@ int main(int argc, char **argv)
 
 	DMEV_ZERO(events);
 	DMEV_SET(DM_EVENT_MOUNT, events);
-	
+
 	/* CANNOT DO ANYTHING WITHOUT SUCCESSFUL INITIALIZATION!!! */
 	if ((rc = dm_init_service(&varstr)) != 0) {
 		DMLOG_PRINT(DMLVL_ERR, "dm_init_service failed! (rc = %d, errno = %d)\n", rc, errno);
@@ -104,9 +104,9 @@ int main(int argc, char **argv)
 	}
 
 	DMLOG_PRINT(DMLVL_DEBUG, "Starting DMAPI asynchronous metadata event tests\n") ;
-	
+
 	/*
-	 *  First batch of tests will be with events enabled on file system, 
+	 *  First batch of tests will be with events enabled on file system,
 	 *  so set up events on fs accordingly
 	 */
 	rc = dm_path_to_fshandle(mountPt, &fshanp, &fshlen);
@@ -115,7 +115,7 @@ int main(int argc, char **argv)
 		dm_destroy_session(sid);
 		DM_EXIT();
 	}
-	
+
 	DMEV_ZERO(events);
 	DMEV_SET(DM_EVENT_PREUNMOUNT, events);
 	DMEV_SET(DM_EVENT_UNMOUNT, events);
@@ -147,16 +147,16 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s)\n", DummySubdir); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s)\n", DummySubdir);
 			rc = chmod(DummySubdir, O_RDWR);
-			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s) returned %d\n", DummySubdir, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s) returned %d\n", DummySubdir, rc);
 			EVENT_DELIVERY_DELAY;
 			if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 				struct stat statfs;
-			
+
 				rc = dm_handle_to_ino(ahanp1, ahlen1, &ino);
 				rc |= stat(DummySubdir, &statfs);
-		        	if (rc == -1) {
+				if (rc == -1) {
 					DMLOG_PRINT(DMLVL_ERR, "Unable to obtain inode!\n");
 					varStatus = DMSTAT_FAIL;
 				} else if (dm_handle_cmp(hanp2, hlen2, ahanp1, ahlen1) != 0) {
@@ -183,7 +183,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : chown - enabled on fs
 	 * EXPECTED: DM_EVENT_ATTRIBUTE
@@ -202,16 +202,16 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s)\n", DummySubdir); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s)\n", DummySubdir);
 			rc = chown(DummySubdir, DUMMY_UID, DUMMY_GID);
-			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s) returned %d\n", DummySubdir, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s) returned %d\n", DummySubdir, rc);
 			EVENT_DELIVERY_DELAY;
 			if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 				struct stat statfs;
-			
+
 				rc = dm_handle_to_ino(ahanp1, ahlen1, &ino);
 				rc |= stat(DummySubdir, &statfs);
-		        	if (rc == -1) {
+				if (rc == -1) {
 					DMLOG_PRINT(DMLVL_ERR, "Unable to obtain inode!\n");
 					varStatus = DMSTAT_FAIL;
 				} else if (dm_handle_cmp(hanp2, hlen2, ahanp1, ahlen1) != 0) {
@@ -241,7 +241,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : close - enabled on fs
 	 * EXPECTED: DM_EVENT_CLOSE
@@ -269,16 +269,16 @@ int main(int argc, char **argv)
 			eventExpected = DM_EVENT_INVALID;
 			eventReceived = DM_EVENT_INVALID;
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1\n", fd1); 
+			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1\n", fd1);
 			rc = close(fd1);
-			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1 returned %d\n", fd1, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1 returned %d\n", fd1, rc);
 			EVENT_DELIVERY_DELAY;
 			if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 				eventExpected = DM_EVENT_CLOSE;
 				EVENT_DELIVERY_DELAY;
-				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2\n", fd2); 
+				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2\n", fd2);
 				rc = close(fd2);
-				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2 returned %d\n", fd2, rc); 
+				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2 returned %d\n", fd2, rc);
 				EVENT_DELIVERY_DELAY;
 				varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived);
 			}
@@ -316,16 +316,16 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s)\n", DummyFile); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s)\n", DummyFile);
 			rc = chmod(DummyFile, O_RDWR);
-			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s) returned %d\n", DummyFile, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s) returned %d\n", DummyFile, rc);
 			EVENT_DELIVERY_DELAY;
 			if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 				struct stat statfs;
-			
+
 				rc = dm_handle_to_ino(ahanp1, ahlen1, &ino);
 				rc |= stat(DummyFile, &statfs);
-		        	if (rc == -1) {
+				if (rc == -1) {
 					DMLOG_PRINT(DMLVL_ERR, "Unable to obtain inode!\n");
 					varStatus = DMSTAT_FAIL;
 				} else if (dm_handle_cmp(hanp2, hlen2, ahanp1, ahlen1) != 0) {
@@ -376,16 +376,16 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s)\n", DummyFile); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s)\n", DummyFile);
 			rc = chown(DummyFile, DUMMY_UID, DUMMY_GID);
-			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s) returned %d\n", DummyFile, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s) returned %d\n", DummyFile, rc);
 			EVENT_DELIVERY_DELAY;
 			if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 				struct stat statfs;
-			
+
 				rc = dm_handle_to_ino(ahanp1, ahlen1, &ino);
 				rc |= stat(DummyFile, &statfs);
-		        	if (rc == -1) {
+				if (rc == -1) {
 					DMLOG_PRINT(DMLVL_ERR, "Unable to obtain inode!\n");
 					varStatus = DMSTAT_FAIL;
 				} else if (dm_handle_cmp(hanp2, hlen2, ahanp1, ahlen1) != 0) {
@@ -415,7 +415,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-		
+
 	/*
 	 * TEST    : close - enabled on fs
 	 * EXPECTED: DM_EVENT_CLOSE
@@ -441,16 +441,16 @@ int main(int argc, char **argv)
 			eventExpected = DM_EVENT_INVALID;
 			eventReceived = DM_EVENT_INVALID;
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1\n", fd1); 
+			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1\n", fd1);
 			rc = close(fd1);
-			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1 returned %d\n", fd1, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1 returned %d\n", fd1, rc);
 			EVENT_DELIVERY_DELAY;
 			if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 				eventExpected = DM_EVENT_CLOSE;
 				EVENT_DELIVERY_DELAY;
-				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2\n", fd2); 
+				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2\n", fd2);
 				rc = close(fd2);
-				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2 returned %d\n", fd2, rc); 
+				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2 returned %d\n", fd2, rc);
 				EVENT_DELIVERY_DELAY;
 				varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived);
 			}
@@ -478,7 +478,7 @@ int main(int argc, char **argv)
 		dm_destroy_session(sid);
 		DM_EXIT();
 	}
-	
+
 	DMEV_ZERO(events);
 	DMEV_SET(DM_EVENT_PREUNMOUNT, events);
 	DMEV_SET(DM_EVENT_UNMOUNT, events);
@@ -521,16 +521,16 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s)\n", DummySubdir); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s)\n", DummySubdir);
 			rc = chmod(DummySubdir, O_RDWR);
-			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s) returned %d\n", DummySubdir, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s) returned %d\n", DummySubdir, rc);
 			EVENT_DELIVERY_DELAY;
 			if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 				struct stat statfs;
-			
+
 				rc = dm_handle_to_ino(ahanp1, ahlen1, &ino);
 				rc |= stat(DummySubdir, &statfs);
-		        	if (rc == -1) {
+				if (rc == -1) {
 					DMLOG_PRINT(DMLVL_ERR, "Unable to obtain inode!\n");
 					varStatus = DMSTAT_FAIL;
 				} else if (dm_handle_cmp(hanp2, hlen2, ahanp1, ahlen1) != 0) {
@@ -558,7 +558,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : chown - enabled on directory
 	 * EXPECTED: DM_EVENT_ATTRIBUTE
@@ -586,16 +586,16 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s)\n", DummySubdir); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s)\n", DummySubdir);
 			rc = chown(DummySubdir, DUMMY_UID, DUMMY_GID);
-			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s) returned %d\n", DummySubdir, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s) returned %d\n", DummySubdir, rc);
 			EVENT_DELIVERY_DELAY;
 			if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 				struct stat statfs;
-			
+
 				rc = dm_handle_to_ino(ahanp1, ahlen1, &ino);
 				rc |= stat(DummySubdir, &statfs);
-		        	if (rc == -1) {
+				if (rc == -1) {
 					DMLOG_PRINT(DMLVL_ERR, "Unable to obtain inode!\n");
 					varStatus = DMSTAT_FAIL;
 				} else if (dm_handle_cmp(hanp2, hlen2, ahanp1, ahlen1) != 0) {
@@ -626,7 +626,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : close - enabled on directory
 	 * EXPECTED: DM_EVENT_CLOSE
@@ -665,16 +665,16 @@ int main(int argc, char **argv)
 			eventExpected = DM_EVENT_INVALID;
 			eventReceived = DM_EVENT_INVALID;
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1\n", fd1); 
+			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1\n", fd1);
 			rc = close(fd1);
-			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1 returned %d\n", fd1, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1 returned %d\n", fd1, rc);
 			EVENT_DELIVERY_DELAY;
 			if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 				eventExpected = DM_EVENT_CLOSE;
 				EVENT_DELIVERY_DELAY;
-				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2\n", fd2); 
+				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2\n", fd2);
 				rc = close(fd2);
-				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2 returned %d\n", fd2, rc); 
+				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2 returned %d\n", fd2, rc);
 				EVENT_DELIVERY_DELAY;
 				varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived);
 			}
@@ -720,16 +720,16 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s)\n", DummyFile); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s)\n", DummyFile);
 			rc = chmod(DummyFile, O_RDWR);
-			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s) returned %d\n", DummyFile, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s) returned %d\n", DummyFile, rc);
 			EVENT_DELIVERY_DELAY;
 			if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 				struct stat statfs;
-			
+
 				rc = dm_handle_to_ino(ahanp1, ahlen1, &ino);
 				rc |= stat(DummyFile, &statfs);
-		        	if (rc == -1) {
+				if (rc == -1) {
 					DMLOG_PRINT(DMLVL_ERR, "Unable to obtain inode!\n");
 					varStatus = DMSTAT_FAIL;
 				} else if (dm_handle_cmp(hanp2, hlen2, ahanp1, ahlen1) != 0) {
@@ -787,16 +787,16 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s)\n", DummyFile); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s)\n", DummyFile);
 			rc = chown(DummyFile, DUMMY_UID, DUMMY_GID);
-			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s) returned %d\n", DummyFile, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s) returned %d\n", DummyFile, rc);
 			EVENT_DELIVERY_DELAY;
 			if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 				struct stat statfs;
-			
+
 				rc = dm_handle_to_ino(ahanp1, ahlen1, &ino);
 				rc |= stat(DummyFile, &statfs);
-		        	if (rc == -1) {
+				if (rc == -1) {
 					DMLOG_PRINT(DMLVL_ERR, "Unable to obtain inode!\n");
 					varStatus = DMSTAT_FAIL;
 				} else if (dm_handle_cmp(hanp2, hlen2, ahanp1, ahlen1) != 0) {
@@ -826,7 +826,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-		
+
 	/*
 	 * TEST    : close - enabled on file
 	 * EXPECTED: DM_EVENT_CLOSE
@@ -863,16 +863,16 @@ int main(int argc, char **argv)
 			eventExpected = DM_EVENT_INVALID;
 			eventReceived = DM_EVENT_INVALID;
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1\n", fd1); 
+			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1\n", fd1);
 			rc = close(fd1);
-			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1 returned %d\n", fd1, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1 returned %d\n", fd1, rc);
 			EVENT_DELIVERY_DELAY;
 			if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 				eventExpected = DM_EVENT_CLOSE;
 				EVENT_DELIVERY_DELAY;
-				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2\n", fd2); 
+				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2\n", fd2);
 				rc = close(fd2);
-				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2 returned %d\n", fd2, rc); 
+				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2 returned %d\n", fd2, rc);
 				EVENT_DELIVERY_DELAY;
 				varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived);
 			}
@@ -892,7 +892,7 @@ int main(int argc, char **argv)
 	EVENT_DELIVERY_DELAY_LOOP;
 
 	/*
-	 *  Last batch of tests will be with events disabled 
+	 *  Last batch of tests will be with events disabled
 	 */
 
 	/*
@@ -914,9 +914,9 @@ int main(int argc, char **argv)
 			EVENT_DELIVERY_DELAY;
 			eventExpected = DM_EVENT_INVALID;
 			eventReceived = DM_EVENT_INVALID;
-			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s)\n", DummySubdir); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s)\n", DummySubdir);
 			rc = chmod(DummySubdir, O_RDWR);
-			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s) returned %d\n", DummySubdir, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s) returned %d\n", DummySubdir, rc);
 			EVENT_DELIVERY_DELAY;
 			DMVAR_END(DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived));
 
@@ -928,7 +928,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : chown - disabled
 	 * EXPECTED: DM_EVENT_ATTRIBUTE
@@ -948,9 +948,9 @@ int main(int argc, char **argv)
 			EVENT_DELIVERY_DELAY;
 			eventExpected = DM_EVENT_INVALID;
 			eventReceived = DM_EVENT_INVALID;
-			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s)\n", DummySubdir); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s)\n", DummySubdir);
 			rc = chown(DummySubdir, DUMMY_UID, DUMMY_GID);
-			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s) returned %d\n", DummySubdir, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s) returned %d\n", DummySubdir, rc);
 			EVENT_DELIVERY_DELAY;
 			DMVAR_END(DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived));
 
@@ -962,7 +962,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : close - disabled
 	 * EXPECTED: DM_EVENT_CLOSE
@@ -990,17 +990,17 @@ int main(int argc, char **argv)
 			eventExpected = DM_EVENT_INVALID;
 			eventReceived = DM_EVENT_INVALID;
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1\n", fd1); 
+			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1\n", fd1);
 			rc = close(fd1);
-			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1 returned %d\n", fd1, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1 returned %d\n", fd1, rc);
 			EVENT_DELIVERY_DELAY;
 			if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 				eventExpected = DM_EVENT_INVALID;
 				eventReceived = DM_EVENT_INVALID;
 				EVENT_DELIVERY_DELAY;
-				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2\n", fd2); 
+				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2\n", fd2);
 				rc = close(fd2);
-				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2 returned %d\n", fd2, rc); 
+				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2 returned %d\n", fd2, rc);
 				EVENT_DELIVERY_DELAY;
 				varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived);
 			}
@@ -1039,9 +1039,9 @@ int main(int argc, char **argv)
 			EVENT_DELIVERY_DELAY;
 			eventExpected = DM_EVENT_INVALID;
 			eventReceived = DM_EVENT_INVALID;
-			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s)\n", DummyFile); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s)\n", DummyFile);
 			rc = chmod(DummyFile, O_RDWR);
-			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s) returned %d\n", DummyFile, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chmod(%s) returned %d\n", DummyFile, rc);
 			EVENT_DELIVERY_DELAY;
 			DMVAR_END(DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived));
 
@@ -1078,9 +1078,9 @@ int main(int argc, char **argv)
 			EVENT_DELIVERY_DELAY;
 			eventExpected = DM_EVENT_INVALID;
 			eventReceived = DM_EVENT_INVALID;
-			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s)\n", DummyFile); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s)\n", DummyFile);
 			rc = chown(DummyFile, DUMMY_UID, DUMMY_GID);
-			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s) returned %d\n", DummyFile, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "chown(%s) returned %d\n", DummyFile, rc);
 			EVENT_DELIVERY_DELAY;
 			DMVAR_END(DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived));
 
@@ -1092,7 +1092,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-		
+
 	/*
 	 * TEST    : close - disabled
 	 * EXPECTED: DM_EVENT_CLOSE
@@ -1118,17 +1118,17 @@ int main(int argc, char **argv)
 			eventExpected = DM_EVENT_INVALID;
 			eventReceived = DM_EVENT_INVALID;
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1\n", fd1); 
+			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1\n", fd1);
 			rc = close(fd1);
-			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1 returned %d\n", fd1, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #1 returned %d\n", fd1, rc);
 			EVENT_DELIVERY_DELAY;
 			if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 				eventExpected = DM_EVENT_INVALID;
 				eventReceived = DM_EVENT_INVALID;
 				EVENT_DELIVERY_DELAY;
-				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2\n", fd2); 
+				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2\n", fd2);
 				rc = close(fd2);
-				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2 returned %d\n", fd2, rc); 
+				DMLOG_PRINT(DMLVL_DEBUG, "close(%d) #2 returned %d\n", fd2, rc);
 				EVENT_DELIVERY_DELAY;
 				varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived);
 			}
@@ -1154,7 +1154,7 @@ int main(int argc, char **argv)
 		dm_destroy_session(sid);
 		DM_EXIT();
 	}
-	
+
 	rc = dm_get_config(fshanp, fshlen, DM_CONFIG_MAX_ATTR_ON_DESTROY, &maxAttrSize);
 	if (rc == -1) {
 		DMLOG_PRINT(DMLVL_ERR, "dm_get_config failed! (rc = %d, errno = %d)\n", rc, errno);
@@ -1163,7 +1163,7 @@ int main(int argc, char **argv)
 	} else {
 		DMLOG_PRINT(DMLVL_DEBUG, "DM_CONFIG_MAX_ATTR_ON_DESTROY %d\n", maxAttrSize);
 	}
-	 
+
 	szFuncName = "dm_set_return_on_destroy";
 
 	/*
@@ -1200,7 +1200,7 @@ int main(int argc, char **argv)
 			EVENT_DELIVERY_DELAY;
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid sid)\n", szFuncName);
 			rc = dm_set_return_on_destroy(INVALID_ADDR, fshanp, fshlen, DM_NO_TOKEN, &attrname, DM_TRUE);
-			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 			/* Variation clean up */
 			rc = close(fd);
@@ -1212,7 +1212,7 @@ int main(int argc, char **argv)
 			dm_handle_free(fshanp, fshlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_set_return_on_destroy - invalid hanp
 	 * EXPECTED: rc = -1, errno = EFAULT
@@ -1247,7 +1247,7 @@ int main(int argc, char **argv)
 			EVENT_DELIVERY_DELAY;
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid hanp)\n", szFuncName);
 			rc = dm_set_return_on_destroy(sid, (void *)INVALID_ADDR, fshlen, DM_NO_TOKEN, &attrname, DM_TRUE);
-			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT); 
+			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT);
 
 			/* Variation clean up */
 			rc = close(fd);
@@ -1259,7 +1259,7 @@ int main(int argc, char **argv)
 			dm_handle_free(fshanp, fshlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_set_return_on_destroy - invalid hlen
 	 * EXPECTED: rc = -1, errno = EBADF
@@ -1294,7 +1294,7 @@ int main(int argc, char **argv)
 			EVENT_DELIVERY_DELAY;
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid hlen)\n", szFuncName);
 			rc = dm_set_return_on_destroy(sid, fshanp, INVALID_ADDR, DM_NO_TOKEN, &attrname, DM_TRUE);
-			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EBADF); 
+			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EBADF);
 
 			/* Variation clean up */
 			rc = close(fd);
@@ -1306,7 +1306,7 @@ int main(int argc, char **argv)
 			dm_handle_free(fshanp, fshlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_set_return_on_destroy - invalid token
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -1341,7 +1341,7 @@ int main(int argc, char **argv)
 			EVENT_DELIVERY_DELAY;
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid token)\n", szFuncName);
 			rc = dm_set_return_on_destroy(sid, fshanp, fshlen, INVALID_ADDR, &attrname, DM_TRUE);
-			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 			/* Variation clean up */
 			rc = close(fd);
@@ -1358,7 +1358,7 @@ int main(int argc, char **argv)
 	 * TEST    : dm_set_return_on_destroy - invalid attrnamep
 	 * EXPECTED: rc = -1, errno = EFAULT
 	 *
-	 * This variation uncovered XFS BUG #14 (non-0 return code from 
+	 * This variation uncovered XFS BUG #14 (non-0 return code from
 	 * copy_from_user returned)
 	 */
 	if (DMVAR_EXEC(SET_RETURN_ON_DESTROY_BASE + 5)) {
@@ -1391,7 +1391,7 @@ int main(int argc, char **argv)
 			EVENT_DELIVERY_DELAY;
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid attrnamep)\n", szFuncName);
 			rc = dm_set_return_on_destroy(sid, fshanp, fshlen, DM_NO_TOKEN, (dm_attrname_t *)INVALID_ADDR, DM_TRUE);
-			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT); 
+			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT);
 
 			/* Variation clean up */
 			rc = close(fd);
@@ -1403,7 +1403,7 @@ int main(int argc, char **argv)
 			dm_handle_free(fshanp, fshlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_set_return_on_destroy - DM_NO_SESSION sid
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -1438,7 +1438,7 @@ int main(int argc, char **argv)
 			EVENT_DELIVERY_DELAY;
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_NO_SESSION sid)\n", szFuncName);
 			rc = dm_set_return_on_destroy(DM_NO_SESSION, fshanp, fshlen, DM_NO_TOKEN, &attrname, DM_TRUE);
-			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 			/* Variation clean up */
 			rc = close(fd);
@@ -1450,7 +1450,7 @@ int main(int argc, char **argv)
 			dm_handle_free(fshanp, fshlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_set_return_on_destroy - different sid
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -1491,7 +1491,7 @@ int main(int argc, char **argv)
 			EVENT_DELIVERY_DELAY;
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(different sid)\n", szFuncName);
 			rc = dm_set_return_on_destroy(newsid, fshanp, fshlen, DM_NO_TOKEN, &attrname, DM_FALSE);
-			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 			/* Variation clean up */
 			rc = close(fd);
@@ -1504,7 +1504,7 @@ int main(int argc, char **argv)
 			dm_handle_free(fshanp, fshlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_set_return_on_destroy - file handle
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -1538,7 +1538,7 @@ int main(int argc, char **argv)
 			EVENT_DELIVERY_DELAY;
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(file handle)\n", szFuncName);
 			rc = dm_set_return_on_destroy(sid, hanp, hlen, DM_NO_TOKEN, &attrname, DM_TRUE);
-			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 			/* Variation clean up */
 			rc = close(fd);
@@ -1549,7 +1549,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_set_return_on_destroy - directory handle
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -1580,7 +1580,7 @@ int main(int argc, char **argv)
 			EVENT_DELIVERY_DELAY;
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(dir handle)\n", szFuncName);
 			rc = dm_set_return_on_destroy(sid, hanp, hlen, DM_NO_TOKEN, &attrname, DM_TRUE);
-			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 			/* Variation clean up */
 			rc = rmdir(DummySubdir);
@@ -1590,7 +1590,7 @@ int main(int argc, char **argv)
 			dm_handle_free(hanp, hlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_set_return_on_destroy - global handle
 	 * EXPECTED: rc = -1, errno = EBADF
@@ -1610,7 +1610,7 @@ int main(int argc, char **argv)
 
 		/* Variation clean up */
 	}
-	
+
 	/*
 	 * TEST    : dm_set_return_on_destroy - valid
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -1645,7 +1645,7 @@ int main(int argc, char **argv)
 			EVENT_DELIVERY_DELAY;
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(valid)\n", szFuncName);
 			rc = dm_set_return_on_destroy(sid, fshanp, fshlen, DM_NO_TOKEN, &attrname, DM_TRUE);
-			DMVAR_ENDPASSEXP(szFuncName, 0, rc); 
+			DMVAR_ENDPASSEXP(szFuncName, 0, rc);
 
 			/* Variation clean up */
 			rc = close(fd);
@@ -1657,7 +1657,7 @@ int main(int argc, char **argv)
 			dm_handle_free(fshanp, fshlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_set_return_on_destroy - zero length attribute
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -1690,7 +1690,7 @@ int main(int argc, char **argv)
 			EVENT_DELIVERY_DELAY;
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(zero len attr)\n", szFuncName);
 			rc = dm_set_return_on_destroy(sid, fshanp, fshlen, DM_NO_TOKEN, &attrname, DM_TRUE);
-			DMVAR_ENDPASSEXP(szFuncName, 0, rc); 
+			DMVAR_ENDPASSEXP(szFuncName, 0, rc);
 
 			/* Variation clean up */
 			rc = close(fd);
@@ -1702,7 +1702,7 @@ int main(int argc, char **argv)
 			dm_handle_free(fshanp, fshlen);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_set_return_on_destroy - attribute too big
 	 * EXPECTED: rc = 0
@@ -1742,7 +1742,7 @@ int main(int argc, char **argv)
 			EVENT_DELIVERY_DELAY;
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(attr too big)\n", szFuncName);
 			rc = dm_set_return_on_destroy(sid, fshanp, fshlen, DM_NO_TOKEN, &attrname, DM_TRUE);
-			DMVAR_ENDPASSEXP(szFuncName, 0, rc); 
+			DMVAR_ENDPASSEXP(szFuncName, 0, rc);
 
 			/* Variation clean up */
 			rc = close(fd);
@@ -1757,7 +1757,7 @@ int main(int argc, char **argv)
 	}
 
 	dm_handle_free(fshanp, fshlen);
-	
+
 	/* Wait for all pending messages to be handled */
 	EVENT_DELIVERY_DELAY_LOOP;
 
@@ -1774,7 +1774,7 @@ int main(int argc, char **argv)
 	}
 
 	DMLOG_STOP();
-			
+
 	return 0;
 }
 
@@ -1827,10 +1827,10 @@ void *Thread(void *parm)
 			DMLOG_PRINT(DMLVL_DEBUG, "  Media designator: %s\n", DM_GET_VALUE(me, me_name2, char *));
 			DMLOG_PRINT(DMLVL_DEBUG, "  Root handle: %p\n", DM_GET_VALUE(me, me_roothandle, void *));
 			DMLOG_PRINT(DMLVL_DEBUG, "  Root handle length: %d\n", DM_GET_LEN(me, me_roothandle));
-	    
-    			bMounted = dm_handle_is_valid(lhanp, lhlen);
 
-    			/*rc = dm_request_right(sid, lhanp, lhlen, token, DM_RR_WAIT, DM_RIGHT_EXCL);
+			bMounted = dm_handle_is_valid(lhanp, lhlen);
+
+			/*rc = dm_request_right(sid, lhanp, lhlen, token, DM_RR_WAIT, DM_RIGHT_EXCL);
 			if (rc == -1) {
 				DMLOG_PRINT(DMLVL_ERR, "dm_request_right failed! (rc = %d, errno = %d)\n", rc, errno);
 				dm_destroy_session(sid);
@@ -1851,7 +1851,7 @@ void *Thread(void *parm)
 				DM_EXIT();
 			}
 
-    			/*rc = dm_release_right(sid, lhanp, lhlen, token);
+			/*rc = dm_release_right(sid, lhanp, lhlen, token);
 			if (rc == -1) {
 				DMLOG_PRINT(DMLVL_ERR, "dm_request_right failed! (rc = %d, errno = %d)\n", rc, errno);
 				dm_destroy_session(sid);
@@ -1874,7 +1874,7 @@ void *Thread(void *parm)
 		} else if (type == DM_EVENT_UNMOUNT) {
 			/* SPECIAL CASE: need to set response and bMounted */
 			dm_namesp_event_t *nse = DM_GET_VALUE(dmMsg, ev_data, dm_namesp_event_t *);
-			
+
 			DMLOG_PRINT(DMLVL_DEBUG, "Message is DM_EVENT_UNMOUNT\n");
 			DMLOG_PRINT(DMLVL_DEBUG, "  Unmount mode: %x\n", nse->ne_mode);
 			DMLOG_PRINT(DMLVL_DEBUG, "  File system handle: %p\n", DM_GET_VALUE(nse, ne_handle1, void *));
@@ -1908,7 +1908,7 @@ void *Thread(void *parm)
 			response = eventResponse;
 
 			switch (type)
-		       	{
+			{
 			case DM_EVENT_ATTRIBUTE:
 			{
 				dm_namesp_event_t *nse = DM_GET_VALUE(dmMsg, ev_data, dm_namesp_event_t *);
@@ -1976,4 +1976,4 @@ void *Thread(void *parm)
 	} while (bMounted);
 
 	pthread_exit(0);
-}	
+}

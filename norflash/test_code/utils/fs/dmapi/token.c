@@ -62,7 +62,7 @@ int main(int argc, char **argv)
 
 	DMEV_ZERO(events);
 	DMEV_SET(DM_EVENT_MOUNT, events);
-	
+
 	/* CANNOT DO ANYTHING WITHOUT SUCCESSFUL INITIALIZATION!!! */
 	if ((rc = dm_init_service(&varstr)) != 0) {
 		DMLOG_PRINT(DMLVL_ERR, "dm_init_service failed! (rc = %d, errno = %d)\n", rc, errno);
@@ -89,9 +89,9 @@ int main(int argc, char **argv)
 	}
 
 	DMLOG_PRINT(DMLVL_DEBUG, "Starting DMAPI tokens tests\n") ;
-	
+
 	szFuncName = "dm_getall_tokens";
-	
+
 	/*
 	 * TEST    : dm_getall_tokens - invalid sid
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -112,7 +112,7 @@ int main(int argc, char **argv)
 			/* Variation */
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid sid)\n", szFuncName);
 			rc = dm_getall_tokens(INVALID_ADDR, TOKBUF_NUM, buf, &nelem);
-			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 			/* Variation clean up */
 			rc = dm_respond_event(sid, token, DM_RESP_CONTINUE, 0, 0, NULL);
@@ -121,7 +121,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_getall_tokens - invalid nelem
 	 * EXPECTED: rc = -1, errno = E2BIG
@@ -157,7 +157,7 @@ int main(int argc, char **argv)
 					DMVAR_FAIL();
 				}
 			} else {
-	  			DMLOG_PRINT(DMLVL_ERR, "%s failed with unexpected rc = %d\n", szFuncName, rc);
+				DMLOG_PRINT(DMLVL_ERR, "%s failed with unexpected rc = %d\n", szFuncName, rc);
 				DMVAR_FAIL();
 			}
 
@@ -168,7 +168,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_getall_tokens - invalid tokenbufp
 	 * EXPECTED: rc = -1, errno = EFAULT
@@ -188,8 +188,8 @@ int main(int argc, char **argv)
 			/* Variation */
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid tokenbufp)\n", szFuncName);
 			rc = dm_getall_tokens(sid, TOKBUF_NUM, (dm_token_t *)INVALID_ADDR, &nelem);
-			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT); 
-	
+			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT);
+
 			/* Variation clean up */
 			rc = dm_respond_event(sid, token, DM_RESP_CONTINUE, 0, 0, NULL);
 			if (rc == -1) {
@@ -197,7 +197,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_getall_tokens - invalid nelemp
 	 * EXPECTED: rc = -1, errno = EFAULT
@@ -217,7 +217,7 @@ int main(int argc, char **argv)
 			/* Variation */
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(invalid nelemp)\n", szFuncName);
 			rc = dm_getall_tokens(sid, TOKBUF_NUM, buf, (u_int *)INVALID_ADDR);
-			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT); 
+			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EFAULT);
 
 			/* Variation clean up */
 			rc = dm_respond_event(sid, token, DM_RESP_CONTINUE, 0, 0, NULL);
@@ -226,7 +226,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_getall_tokens - one userevent token
 	 * EXPECTED: rc = 0
@@ -252,10 +252,10 @@ int main(int argc, char **argv)
 				if (nelem == 1) {
 					DMLOG_PRINT(DMLVL_DEBUG, "token 0: %d\n", buf[0]);
 					if (token == buf[0]) {
-					  	DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
+						DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
 						DMVAR_PASS();
 					} else {
-					  	DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but unexpected token (%d vs %d)\n", szFuncName, 0, token, buf[0]);
+						DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but unexpected token (%d vs %d)\n", szFuncName, 0, token, buf[0]);
 						DMVAR_FAIL();
 					}
 				} else {
@@ -274,7 +274,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_getall_tokens - two userevent tokens
 	 * EXPECTED: rc = 0
@@ -306,14 +306,14 @@ int main(int argc, char **argv)
 					DMLOG_PRINT(DMLVL_DEBUG, "token 1: %d\n", buf[1]);
 					if (token1 == buf[0] || token1 == buf[1]) {
 						if (token2 == buf[0] || token2 == buf[1]) {
-						  	DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
+							DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
 							DMVAR_PASS();
 						} else {
-						  	DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but token = %d not in buf\n", szFuncName, 0, token2);
+							DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but token = %d not in buf\n", szFuncName, 0, token2);
 							DMVAR_FAIL();
 						}
 					} else {
-					  	DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but token = %d not in buf\n", szFuncName, 0, token1);
+						DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but token = %d not in buf\n", szFuncName, 0, token1);
 						DMVAR_FAIL();
 					}
 				} else {
@@ -333,7 +333,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_getall_tokens - one event token
 	 * EXPECTED: rc = 0
@@ -362,10 +362,10 @@ int main(int argc, char **argv)
 				if (nelem == 1) {
 					DMLOG_PRINT(DMLVL_DEBUG, "token 0: %d\n", buf[0]);
 					if (buf[0] == createToken) {
-					  	DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
+						DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
 						DMVAR_PASS();
 					} else {
-					  	DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but unexpected token (%d vs %d)\n", szFuncName, 0, buf[0], createToken);
+						DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but unexpected token (%d vs %d)\n", szFuncName, 0, buf[0], createToken);
 						DMVAR_FAIL();
 					}
 				} else {
@@ -381,7 +381,7 @@ int main(int argc, char **argv)
 			pthread_join(tidToken, NULL);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_getall_tokens - one event token, one userevent token
 	 * EXPECTED: rc = 0
@@ -419,14 +419,14 @@ int main(int argc, char **argv)
 					DMLOG_PRINT(DMLVL_DEBUG, "token 1: %d\n", buf[1]);
 					if (token == buf[0] || token == buf[1]) {
 						if (createToken == buf[0] || createToken == buf[1]) {
-						  	DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
+							DMLOG_PRINT(DMLVL_DEBUG, "%s passed with expected rc = %d\n", szFuncName, 0);
 							DMVAR_PASS();
 						} else {
-						  	DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but token = %d not in buf\n", szFuncName, 0, createToken);
+							DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but token = %d not in buf\n", szFuncName, 0, createToken);
 							DMVAR_FAIL();
 						}
 					} else {
-					  	DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but token = %d not in buf\n", szFuncName, 0, token);
+						DMLOG_PRINT(DMLVL_ERR, "%s failed with expected rc = %d but token = %d not in buf\n", szFuncName, 0, token);
 						DMVAR_FAIL();
 					}
 				} else {
@@ -446,7 +446,7 @@ int main(int argc, char **argv)
 			pthread_join(tidToken, NULL);
 		}
 	}
-	
+
 	/*
 	 * TEST    : dm_getall_tokens - DM_NO_SESSION sid
 	 * EXPECTED: rc = -1, errno = EINVAL
@@ -467,7 +467,7 @@ int main(int argc, char **argv)
 			/* Variation */
 			DMLOG_PRINT(DMLVL_DEBUG, "%s(DM_NO_SESSION, sid)\n", szFuncName);
 			rc = dm_getall_tokens(DM_NO_SESSION, TOKBUF_NUM, buf, &nelem);
-			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL); 
+			DMVAR_ENDFAILEXP(szFuncName, -1, rc, EINVAL);
 
 			/* Variation clean up */
 			rc = dm_respond_event(sid, token, DM_RESP_CONTINUE, 0, 0, NULL);
@@ -476,7 +476,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+
 	rc = umount(mountPt);
 	if (rc == -1) {
 		DMLOG_PRINT(DMLVL_ERR, "umount failed! (rc = %d, errno = %d)\n", rc, errno);
@@ -490,7 +490,7 @@ int main(int argc, char **argv)
 	}
 
 	DMLOG_STOP();
-			
+
 	return 0;
 }
 
@@ -543,10 +543,10 @@ void *Thread(void *parm)
 			DMLOG_PRINT(DMLVL_DEBUG, "  Media designator: %s\n", DM_GET_VALUE(me, me_name2, char *));
 			DMLOG_PRINT(DMLVL_DEBUG, "  Root handle: %p\n", DM_GET_VALUE(me, me_roothandle, void *));
 			DMLOG_PRINT(DMLVL_DEBUG, "  Root handle length: %d\n", DM_GET_LEN(me, me_roothandle));
-	    
-    			bMounted = dm_handle_is_valid(hanp, hlen);
 
-    			rc = dm_request_right(sid, hanp, hlen, token, DM_RR_WAIT, DM_RIGHT_EXCL);
+			bMounted = dm_handle_is_valid(hanp, hlen);
+
+			rc = dm_request_right(sid, hanp, hlen, token, DM_RR_WAIT, DM_RIGHT_EXCL);
 			if (rc == -1) {
 				DMLOG_PRINT(DMLVL_ERR, "dm_request_right failed! (rc = %d, errno = %d)\n", rc, errno);
 				dm_destroy_session(sid);
@@ -571,7 +571,7 @@ void *Thread(void *parm)
 				DM_EXIT();
 			}
 
-    			rc = dm_release_right(sid, hanp, hlen, token);
+			rc = dm_release_right(sid, hanp, hlen, token);
 			if (rc == -1) {
 				DMLOG_PRINT(DMLVL_ERR, "dm_request_right failed! (rc = %d, errno = %d)\n", rc, errno);
 				dm_destroy_session(sid);
@@ -591,7 +591,7 @@ void *Thread(void *parm)
 			case DM_EVENT_PREUNMOUNT:
 				response = DM_RESP_CONTINUE;
 				break;
-				
+
 			case DM_EVENT_CREATE:
 			{
 				dm_namesp_event_t *nse = DM_GET_VALUE(dmMsg, ev_data, dm_namesp_event_t *);
@@ -604,10 +604,10 @@ void *Thread(void *parm)
 
 				createToken = token;
 				DMLOG_PRINT(DMLVL_DEBUG, "  Token: %d\n", createToken);
-				
+
 				/* Wait for main thread to call dm_getall_tokens */
 				sleep(3);
-				
+
 				response = DM_RESP_CONTINUE;
 				break;
 			}
@@ -628,7 +628,7 @@ void *Thread(void *parm)
 	} while (bMounted);
 
 	pthread_exit(0);
-}	
+}
 
 void *TokenThread(void *parm)
 {

@@ -22,10 +22,10 @@
  * VARIATIONS	: 34
  *
  * EVENTS TESTED: DM_EVENT_POSTCREATE
- * 		  DM_EVENT_POSTREMOVE
- * 		  DM_EVENT_POSTRENAME
- * 		  DM_EVENT_POSTSYMLINK
- * 		  DM_EVENT_POSTLINK
+ *		  DM_EVENT_POSTREMOVE
+ *		  DM_EVENT_POSTRENAME
+ *		  DM_EVENT_POSTSYMLINK
+ *		  DM_EVENT_POSTLINK
  */
 #include <string.h>
 #include <stdio.h>
@@ -52,7 +52,7 @@ char DummyLink[FILENAME_MAX];
 char DummySubdir2File[FILENAME_MAX];
 char DummySubdir2Subdir[FILENAME_MAX];
 
-/* Variables for thread communications */ 
+/* Variables for thread communications */
 dm_eventtype_t eventExpected;
 dm_eventtype_t eventReceived;
 dm_response_t eventResponse;
@@ -80,7 +80,7 @@ int main(int argc, char **argv)
 
 	DMEV_ZERO(events);
 	DMEV_SET(DM_EVENT_MOUNT, events);
-	
+
 	/* CANNOT DO ANYTHING WITHOUT SUCCESSFUL INITIALIZATION!!! */
 	if ((rc = dm_init_service(&varstr)) != 0) {
 		DMLOG_PRINT(DMLVL_ERR, "dm_init_service failed! (rc = %d, errno = %d)\n", rc, errno);
@@ -119,9 +119,9 @@ int main(int argc, char **argv)
 	}
 
 	DMLOG_PRINT(DMLVL_DEBUG, "Starting DMAPI asynchronous namespace event tests\n") ;
-	
+
 	/*
-	 *  First batch of tests will be with events enabled on file system, 
+	 *  First batch of tests will be with events enabled on file system,
 	 *  so set up events on fs accordingly
 	 */
 	rc = dm_path_to_fshandle(mountPt, &fshanp, &fshlen);
@@ -130,7 +130,7 @@ int main(int argc, char **argv)
 		dm_destroy_session(sid);
 		DM_EXIT();
 	}
-	
+
 	DMEV_ZERO(events);
 	DMEV_SET(DM_EVENT_PREUNMOUNT, events);
 	DMEV_SET(DM_EVENT_UNMOUNT, events);
@@ -165,13 +165,13 @@ int main(int argc, char **argv)
 
 		/* Variation */
 		EVENT_DELIVERY_DELAY;
-		DMLOG_PRINT(DMLVL_DEBUG, "mkdir(%s)\n", DummySubdir); 
+		DMLOG_PRINT(DMLVL_DEBUG, "mkdir(%s)\n", DummySubdir);
 		rc = mkdir(DummySubdir, O_RDWR | O_CREAT);
-		DMLOG_PRINT(DMLVL_DEBUG, "mkdir(%s) returned %d\n", DummySubdir, rc); 
+		DMLOG_PRINT(DMLVL_DEBUG, "mkdir(%s) returned %d\n", DummySubdir, rc);
 		EVENT_DELIVERY_DELAY;
 		if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 			struct stat statfs;
-			
+
 			rc = dm_handle_to_ino(ahanp1, ahlen1, &ino1);
 			rc |= dm_handle_to_ino(ahanp2, ahlen2, &ino2);
 			rc |= stat(DummySubdir, &statfs);
@@ -211,7 +211,7 @@ int main(int argc, char **argv)
 			DMLOG_PRINT(DMLVL_DEBUG, "Unable to clean up variation! (errno = %d)\n", errno);
 		}
 	}
-	
+
 	/*
 	 * TEST    : rmdir - enabled on fs
 	 * EXPECTED: DM_EVENT_POSTREMOVE
@@ -236,13 +236,13 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "rmdir(%s)\n", DummySubdir); 
+			DMLOG_PRINT(DMLVL_DEBUG, "rmdir(%s)\n", DummySubdir);
 			rc = rmdir(DummySubdir);
-			DMLOG_PRINT(DMLVL_DEBUG, "rmdir(%s) returned %d\n", DummySubdir, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "rmdir(%s) returned %d\n", DummySubdir, rc);
 			EVENT_DELIVERY_DELAY;
 			if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 				rc = dm_handle_to_ino(ahanp1, ahlen1, &ino);
-		        	if (rc == -1) {
+				if (rc == -1) {
 					DMLOG_PRINT(DMLVL_ERR, "Unable to obtain inode!\n");
 					varStatus = DMSTAT_FAIL;
 				} else if (ino != ROOT_INODE) {
@@ -254,7 +254,7 @@ int main(int argc, char **argv)
 				} else if (dm_handle_cmp(hanp1, hlen1, ahanp1, ahlen1) != 0) {
 					DMLOG_PRINT(DMLVL_ERR, "Parent handles NOT same!\n");
 					varStatus = DMSTAT_FAIL;
-  				} else if (strcmp(name1, aname1) != 0) {
+				} else if (strcmp(name1, aname1) != 0) {
 					DMLOG_PRINT(DMLVL_ERR, "Entry names NOT same! (%s vs %s)\n", name1, aname1);
 					varStatus = DMSTAT_FAIL;
 				} else if (amode != statfs.st_mode) {
@@ -282,7 +282,7 @@ int main(int argc, char **argv)
 		eventExpected = DM_EVENT_POSTRENAME;
 		eventReceived = DM_EVENT_INVALID;
 		eventResponse = DM_RESP_CONTINUE;
-		sprintf(command, "mv %s %s", DummySubdir, DummySubdir2); 
+		sprintf(command, "mv %s %s", DummySubdir, DummySubdir2);
 		EVENT_DELIVERY_DELAY;
 		rc = mkdir(DummySubdir, O_RDWR | O_CREAT);
 		if (rc == -1) {
@@ -291,7 +291,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummySubdir, DummySubdir2); 
+			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummySubdir, DummySubdir2);
 			rc = system(command);
 			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s) returned %d\n", DummySubdir, DummySubdir2, rc);
 			EVENT_DELIVERY_DELAY;
@@ -364,7 +364,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "symlink(%s, %s)\n", DummySubdir, DummySubdir2); 
+			DMLOG_PRINT(DMLVL_DEBUG, "symlink(%s, %s)\n", DummySubdir, DummySubdir2);
 			rc = symlink(DummySubdir, DummySubdir2);
 			DMLOG_PRINT(DMLVL_DEBUG, "symlink(%s, %s) returned %d\n", DummySubdir, DummySubdir2, rc);
 			EVENT_DELIVERY_DELAY;
@@ -380,7 +380,7 @@ int main(int argc, char **argv)
 				} else if (ino1 != ROOT_INODE) {
 					DMLOG_PRINT(DMLVL_ERR, "Parent handle NOT root! (%lld vs %d)\n", ino1, ROOT_INODE);
 					varStatus = DMSTAT_FAIL;
-			 	} else if (ino2 != statfs.st_ino) {
+				} else if (ino2 != statfs.st_ino) {
 					DMLOG_PRINT(DMLVL_ERR, "Entry handle NOT correct! (%lld vs %d)\n", ino2, statfs.st_ino);
 					varStatus = DMSTAT_FAIL;
 				} else if (dm_handle_cmp(hanp1, hlen1, ahanp1, ahlen1) != 0) {
@@ -421,7 +421,7 @@ int main(int argc, char **argv)
 	 * EXPECTED: DM_EVENT_POSTLINK
 	 */
 	if (DMVAR_EXEC(DIR_ASYNC_NAMESP_EVENT_BASE + 5)) {
-#ifdef DIRECTORY_LINKS		
+#ifdef DIRECTORY_LINKS
 		dm_ino_t ino, ino1, ino2;
 		void *hanp;
 		size_t hlen;
@@ -438,7 +438,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "link(%s, %s)\n", DummySubdir, DummyLink); 
+			DMLOG_PRINT(DMLVL_DEBUG, "link(%s, %s)\n", DummySubdir, DummyLink);
 			rc = link(DummySubdir, DummyLink);
 			DMLOG_PRINT(DMLVL_DEBUG, "link(%s, %s) returned %d\n", DummySubdir, DummyLink, rc);
 			EVENT_DELIVERY_DELAY;
@@ -473,7 +473,7 @@ int main(int argc, char **argv)
 		}
 #else
 		DMLOG_PRINT(DMLVL_WARN, "Test case not built with DIRECTORY_LINKS defined\n");
-		DMVAR_SKIP();		
+		DMVAR_SKIP();
 #endif
 	}
 
@@ -492,14 +492,14 @@ int main(int argc, char **argv)
 
 		/* Variation */
 		EVENT_DELIVERY_DELAY;
-		DMLOG_PRINT(DMLVL_DEBUG, "open(%s)\n", DummyFile); 
+		DMLOG_PRINT(DMLVL_DEBUG, "open(%s)\n", DummyFile);
 		fd = open(DummyFile, O_RDWR | O_CREAT);
-		DMLOG_PRINT(DMLVL_DEBUG, "open(%s) returned %d\n", DummyFile, rc); 
+		DMLOG_PRINT(DMLVL_DEBUG, "open(%s) returned %d\n", DummyFile, rc);
 		rc = (fd == -1) ? -1 : 0;
 		EVENT_DELIVERY_DELAY;
 		if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 			struct stat statfs;
-			
+
 			rc = dm_handle_to_ino(ahanp1, ahlen1, &ino1);
 			rc |= dm_handle_to_ino(ahanp2, ahlen2, &ino2);
 			rc |= stat(DummyFile, &statfs);
@@ -540,7 +540,7 @@ int main(int argc, char **argv)
 			DMLOG_PRINT(DMLVL_DEBUG, "Unable to clean up variation! (errno = %d)\n", errno);
 		}
 	}
-	
+
 	/*
 	 * TEST    : remove - enabled on fs
 	 * EXPECTED: DM_EVENT_POSTREMOVE
@@ -567,13 +567,13 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "remove(%s)\n", DummyFile); 
+			DMLOG_PRINT(DMLVL_DEBUG, "remove(%s)\n", DummyFile);
 			rc = remove(DummyFile);
-			DMLOG_PRINT(DMLVL_DEBUG, "remove(%s) returned %d\n", DummyFile, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "remove(%s) returned %d\n", DummyFile, rc);
 			EVENT_DELIVERY_DELAY;
 			if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 				rc = dm_handle_to_ino(ahanp1, ahlen1, &ino);
-		        	if (rc == -1) {
+				if (rc == -1) {
 					DMLOG_PRINT(DMLVL_ERR, "Unable to obtain inode!\n");
 					varStatus = DMSTAT_FAIL;
 				} else if (ino != ROOT_INODE) {
@@ -585,7 +585,7 @@ int main(int argc, char **argv)
 				} else if (dm_handle_cmp(hanp1, hlen1, ahanp1, ahlen1) != 0) {
 					DMLOG_PRINT(DMLVL_ERR, "Parent handles NOT same!\n");
 					varStatus = DMSTAT_FAIL;
-  				} else if (strcmp(name1, aname1) != 0) {
+				} else if (strcmp(name1, aname1) != 0) {
 					DMLOG_PRINT(DMLVL_ERR, "Entry names NOT same! (%s vs %s)\n", name1, aname1);
 					varStatus = DMSTAT_FAIL;
 				} else if (amode != statfs.st_mode) {
@@ -614,7 +614,7 @@ int main(int argc, char **argv)
 		eventExpected = DM_EVENT_POSTRENAME;
 		eventReceived = DM_EVENT_INVALID;
 		eventResponse = DM_RESP_CONTINUE;
-		sprintf(command, "mv %s %s", DummyFile, DummyFile2); 
+		sprintf(command, "mv %s %s", DummyFile, DummyFile2);
 		EVENT_DELIVERY_DELAY;
 		if ((fd = open(DummyFile, O_RDWR | O_CREAT)) == -1) {
 			/* No clean up */
@@ -627,7 +627,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummyFile, DummyFile2); 
+			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummyFile, DummyFile2);
 			rc = system(command);
 			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s) returned %d\n", DummyFile, DummyFile2, rc);
 			EVENT_DELIVERY_DELAY;
@@ -705,7 +705,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "symlink(%s, %s)\n", DummyFile, DummyLink); 
+			DMLOG_PRINT(DMLVL_DEBUG, "symlink(%s, %s)\n", DummyFile, DummyLink);
 			rc = symlink(DummyFile, DummyLink);
 			DMLOG_PRINT(DMLVL_DEBUG, "symlink(%s, %s) returned %d\n", DummyFile, DummyLink, rc);
 			EVENT_DELIVERY_DELAY;
@@ -721,7 +721,7 @@ int main(int argc, char **argv)
 				} else if (ino1 != ROOT_INODE) {
 					DMLOG_PRINT(DMLVL_ERR, "Parent handle NOT root! (%lld vs %d)\n", ino1, ROOT_INODE);
 					varStatus = DMSTAT_FAIL;
-			 	} else if (ino2 != statfs.st_ino) {
+				} else if (ino2 != statfs.st_ino) {
 					DMLOG_PRINT(DMLVL_ERR, "Entry handle NOT correct! (%lld vs %d)\n", ino2, statfs.st_ino);
 					varStatus = DMSTAT_FAIL;
 				} else if (dm_handle_cmp(hanp1, hlen1, ahanp1, ahlen1) != 0) {
@@ -784,7 +784,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "link(%s, %s)\n", DummyFile, DummyLink); 
+			DMLOG_PRINT(DMLVL_DEBUG, "link(%s, %s)\n", DummyFile, DummyLink);
 			rc = link(DummyFile, DummyLink);
 			DMLOG_PRINT(DMLVL_DEBUG, "link(%s, %s) returned %d\n", DummyFile, DummyLink, rc);
 			EVENT_DELIVERY_DELAY;
@@ -833,7 +833,7 @@ int main(int argc, char **argv)
 		dm_destroy_session(sid);
 		DM_EXIT();
 	}
-	
+
 	DMEV_ZERO(events);
 	DMEV_SET(DM_EVENT_PREUNMOUNT, events);
 	DMEV_SET(DM_EVENT_UNMOUNT, events);
@@ -883,13 +883,13 @@ int main(int argc, char **argv)
 
 		/* Variation */
 		EVENT_DELIVERY_DELAY;
-		DMLOG_PRINT(DMLVL_DEBUG, "mkdir(%s)\n", DummySubdir); 
+		DMLOG_PRINT(DMLVL_DEBUG, "mkdir(%s)\n", DummySubdir);
 		rc = mkdir(DummySubdir, O_RDWR | O_CREAT);
-		DMLOG_PRINT(DMLVL_DEBUG, "mkdir(%s) returned %d\n", DummySubdir, rc); 
+		DMLOG_PRINT(DMLVL_DEBUG, "mkdir(%s) returned %d\n", DummySubdir, rc);
 		EVENT_DELIVERY_DELAY;
 		if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 			struct stat statfs;
-			
+
 			rc = dm_handle_to_ino(ahanp1, ahlen1, &ino1);
 			rc |= dm_handle_to_ino(ahanp2, ahlen2, &ino2);
 			rc |= stat(DummySubdir, &statfs);
@@ -929,7 +929,7 @@ int main(int argc, char **argv)
 			DMLOG_PRINT(DMLVL_DEBUG, "Unable to clean up variation! (errno = %d)\n", errno);
 		}
 	}
-	
+
 	/*
 	 * TEST    : rmdir - enabled on directory
 	 * EXPECTED: DM_EVENT_POSTREMOVE
@@ -954,13 +954,13 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "rmdir(%s)\n", DummySubdir); 
+			DMLOG_PRINT(DMLVL_DEBUG, "rmdir(%s)\n", DummySubdir);
 			rc = rmdir(DummySubdir);
-			DMLOG_PRINT(DMLVL_DEBUG, "rmdir(%s) returned %d\n", DummySubdir, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "rmdir(%s) returned %d\n", DummySubdir, rc);
 			EVENT_DELIVERY_DELAY;
 			if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 				rc = dm_handle_to_ino(ahanp1, ahlen1, &ino);
-		        	if (rc == -1) {
+				if (rc == -1) {
 					DMLOG_PRINT(DMLVL_ERR, "Unable to obtain inode!\n");
 					varStatus = DMSTAT_FAIL;
 				} else if (ino != ROOT_INODE) {
@@ -972,7 +972,7 @@ int main(int argc, char **argv)
 				} else if (dm_handle_cmp(hanp1, hlen1, ahanp1, ahlen1) != 0) {
 					DMLOG_PRINT(DMLVL_ERR, "Parent handles NOT same!\n");
 					varStatus = DMSTAT_FAIL;
-  				} else if (strcmp(name1, aname1) != 0) {
+				} else if (strcmp(name1, aname1) != 0) {
 					DMLOG_PRINT(DMLVL_ERR, "Entry names NOT same! (%s vs %s)\n", name1, aname1);
 					varStatus = DMSTAT_FAIL;
 				} else if (amode != statfs.st_mode) {
@@ -1000,7 +1000,7 @@ int main(int argc, char **argv)
 		eventExpected = DM_EVENT_POSTRENAME;
 		eventReceived = DM_EVENT_INVALID;
 		eventResponse = DM_RESP_CONTINUE;
-		sprintf(command, "mv %s %s", DummySubdir, DummySubdir2); 
+		sprintf(command, "mv %s %s", DummySubdir, DummySubdir2);
 		EVENT_DELIVERY_DELAY;
 		rc = mkdir(DummySubdir, O_RDWR | O_CREAT);
 		if (rc == -1) {
@@ -1009,7 +1009,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummySubdir, DummySubdir2); 
+			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummySubdir, DummySubdir2);
 			rc = system(command);
 			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s) returned %d\n", DummySubdir, DummySubdir2, rc);
 			EVENT_DELIVERY_DELAY;
@@ -1076,7 +1076,7 @@ int main(int argc, char **argv)
 		eventExpected = DM_EVENT_POSTRENAME;
 		eventReceived = DM_EVENT_INVALID;
 		eventResponse = DM_RESP_CONTINUE;
-		sprintf(command, "mv %s %s", DummySubdir, DummySubdir2Subdir); 
+		sprintf(command, "mv %s %s", DummySubdir, DummySubdir2Subdir);
 		EVENT_DELIVERY_DELAY;
 		if ((rc = mkdir(DummySubdir, O_RDWR | O_CREAT)) == -1) {
 			/* No clean up */
@@ -1096,7 +1096,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummySubdir, DummySubdir2Subdir); 
+			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummySubdir, DummySubdir2Subdir);
 			rc = system(command);
 			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s) returned %d\n", DummySubdir, DummySubdir2Subdir, rc);
 			EVENT_DELIVERY_DELAY;
@@ -1162,7 +1162,7 @@ int main(int argc, char **argv)
 		eventExpected = DM_EVENT_POSTRENAME;
 		eventReceived = DM_EVENT_INVALID;
 		eventResponse = DM_RESP_CONTINUE;
-		sprintf(command, "mv %s %s", DummySubdir2Subdir, DummySubdir); 
+		sprintf(command, "mv %s %s", DummySubdir2Subdir, DummySubdir);
 		EVENT_DELIVERY_DELAY;
 		if ((rc = mkdir(DummySubdir2, O_RDWR | O_CREAT)) == -1) {
 			/* No clean up */
@@ -1182,7 +1182,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummySubdir2Subdir, DummySubdir); 
+			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummySubdir2Subdir, DummySubdir);
 			rc = system(command);
 			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s) returned %d\n", DummySubdir2Subdir, DummySubdir, rc);
 			EVENT_DELIVERY_DELAY;
@@ -1254,7 +1254,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "symlink(%s, %s)\n", DummySubdir, DummySubdir2); 
+			DMLOG_PRINT(DMLVL_DEBUG, "symlink(%s, %s)\n", DummySubdir, DummySubdir2);
 			rc = symlink(DummySubdir, DummySubdir2);
 			DMLOG_PRINT(DMLVL_DEBUG, "symlink(%s, %s) returned %d\n", DummySubdir, DummySubdir2, rc);
 			EVENT_DELIVERY_DELAY;
@@ -1270,7 +1270,7 @@ int main(int argc, char **argv)
 				} else if (ino1 != ROOT_INODE) {
 					DMLOG_PRINT(DMLVL_ERR, "Parent handle NOT root! (%lld vs %d)\n", ino1, ROOT_INODE);
 					varStatus = DMSTAT_FAIL;
-			 	} else if (ino2 != statfs.st_ino) {
+				} else if (ino2 != statfs.st_ino) {
 					DMLOG_PRINT(DMLVL_ERR, "Entry handle NOT correct! (%lld vs %d)\n", ino2, statfs.st_ino);
 					varStatus = DMSTAT_FAIL;
 				} else if (dm_handle_cmp(hanp1, hlen1, ahanp1, ahlen1) != 0) {
@@ -1311,7 +1311,7 @@ int main(int argc, char **argv)
 	 * EXPECTED: DM_EVENT_POSTLINK
 	 */
 	if (DMVAR_EXEC(DIR_ASYNC_NAMESP_EVENT_BASE + 12)) {
-#ifdef DIRECTORY_LINKS		
+#ifdef DIRECTORY_LINKS
 		dm_ino_t ino, ino1, ino2;
 		void *hanp;
 		size_t hlen;
@@ -1328,7 +1328,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "link(%s, %s)\n", DummySubdir, DummyLink); 
+			DMLOG_PRINT(DMLVL_DEBUG, "link(%s, %s)\n", DummySubdir, DummyLink);
 			rc = link(DummySubdir, DummyLink);
 			DMLOG_PRINT(DMLVL_DEBUG, "link(%s, %s) returned %d\n", DummySubdir, DummyLink, rc);
 			EVENT_DELIVERY_DELAY;
@@ -1363,7 +1363,7 @@ int main(int argc, char **argv)
 		}
 #else
 		DMLOG_PRINT(DMLVL_WARN, "Test case not built with DIRECTORY_LINKS defined\n");
-		DMVAR_SKIP();		
+		DMVAR_SKIP();
 #endif
 	}
 
@@ -1382,14 +1382,14 @@ int main(int argc, char **argv)
 
 		/* Variation */
 		EVENT_DELIVERY_DELAY;
-		DMLOG_PRINT(DMLVL_DEBUG, "open(%s)\n", DummyFile); 
+		DMLOG_PRINT(DMLVL_DEBUG, "open(%s)\n", DummyFile);
 		fd = open(DummyFile, O_RDWR | O_CREAT);
-		DMLOG_PRINT(DMLVL_DEBUG, "open(%s) returned %d\n", DummyFile, rc); 
+		DMLOG_PRINT(DMLVL_DEBUG, "open(%s) returned %d\n", DummyFile, rc);
 		rc = (fd == -1) ? -1 : 0;
 		EVENT_DELIVERY_DELAY;
 		if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 			struct stat statfs;
-			
+
 			rc = dm_handle_to_ino(ahanp1, ahlen1, &ino1);
 			rc |= dm_handle_to_ino(ahanp2, ahlen2, &ino2);
 			rc |= stat(DummyFile, &statfs);
@@ -1430,7 +1430,7 @@ int main(int argc, char **argv)
 			DMLOG_PRINT(DMLVL_DEBUG, "Unable to clean up variation! (errno = %d)\n", errno);
 		}
 	}
-	
+
 	/*
 	 * TEST    : remove - enabled on directory
 	 * EXPECTED: DM_EVENT_POSTREMOVE
@@ -1457,13 +1457,13 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "remove(%s)\n", DummyFile); 
+			DMLOG_PRINT(DMLVL_DEBUG, "remove(%s)\n", DummyFile);
 			rc = remove(DummyFile);
-			DMLOG_PRINT(DMLVL_DEBUG, "remove(%s) returned %d\n", DummyFile, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "remove(%s) returned %d\n", DummyFile, rc);
 			EVENT_DELIVERY_DELAY;
 			if ((varStatus = DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived)) == DMSTAT_PASS) {
 				rc = dm_handle_to_ino(ahanp1, ahlen1, &ino);
-		        	if (rc == -1) {
+				if (rc == -1) {
 					DMLOG_PRINT(DMLVL_ERR, "Unable to obtain inode!\n");
 					varStatus = DMSTAT_FAIL;
 				} else if (ino != ROOT_INODE) {
@@ -1475,7 +1475,7 @@ int main(int argc, char **argv)
 				} else if (dm_handle_cmp(hanp1, hlen1, ahanp1, ahlen1) != 0) {
 					DMLOG_PRINT(DMLVL_ERR, "Parent handles NOT same!\n");
 					varStatus = DMSTAT_FAIL;
-  				} else if (strcmp(name1, aname1) != 0) {
+				} else if (strcmp(name1, aname1) != 0) {
 					DMLOG_PRINT(DMLVL_ERR, "Entry names NOT same! (%s vs %s)\n", name1, aname1);
 					varStatus = DMSTAT_FAIL;
 				} else if (amode != statfs.st_mode) {
@@ -1504,7 +1504,7 @@ int main(int argc, char **argv)
 		eventExpected = DM_EVENT_POSTRENAME;
 		eventReceived = DM_EVENT_INVALID;
 		eventResponse = DM_RESP_CONTINUE;
-		sprintf(command, "mv %s %s", DummyFile, DummyFile2); 
+		sprintf(command, "mv %s %s", DummyFile, DummyFile2);
 		EVENT_DELIVERY_DELAY;
 		if ((fd = open(DummyFile, O_RDWR | O_CREAT)) == -1) {
 			/* No clean up */
@@ -1517,7 +1517,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummyFile, DummyFile2); 
+			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummyFile, DummyFile2);
 			rc = system(command);
 			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s) returned %d\n", DummyFile, DummyFile2, rc);
 			EVENT_DELIVERY_DELAY;
@@ -1585,7 +1585,7 @@ int main(int argc, char **argv)
 		eventExpected = DM_EVENT_POSTRENAME;
 		eventReceived = DM_EVENT_INVALID;
 		eventResponse = DM_RESP_CONTINUE;
-		sprintf(command, "mv %s %s", DummyFile, DummySubdir2File); 
+		sprintf(command, "mv %s %s", DummyFile, DummySubdir2File);
 		EVENT_DELIVERY_DELAY;
 		if ((fd = open(DummyFile, O_RDWR | O_CREAT)) == -1) {
 			/* No clean up */
@@ -1606,7 +1606,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummyFile, DummySubdir2File); 
+			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummyFile, DummySubdir2File);
 			rc = system(command);
 			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s) returned %d\n", DummyFile, DummySubdir2File, rc);
 			EVENT_DELIVERY_DELAY;
@@ -1672,7 +1672,7 @@ int main(int argc, char **argv)
 		eventExpected = DM_EVENT_POSTRENAME;
 		eventReceived = DM_EVENT_INVALID;
 		eventResponse = DM_RESP_CONTINUE;
-		sprintf(command, "mv %s %s", DummySubdir2File, DummyFile); 
+		sprintf(command, "mv %s %s", DummySubdir2File, DummyFile);
 		EVENT_DELIVERY_DELAY;
 		if ((rc = mkdir(DummySubdir2, O_RDWR | O_CREAT)) == -1) {
 			/* No clean up */
@@ -1695,7 +1695,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummySubdir2File, DummyFile); 
+			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummySubdir2File, DummyFile);
 			rc = system(command);
 			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s) returned %d\n", DummySubdir2File, DummyFile, rc);
 			EVENT_DELIVERY_DELAY;
@@ -1771,7 +1771,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "symlink(%s, %s)\n", DummyFile, DummyLink); 
+			DMLOG_PRINT(DMLVL_DEBUG, "symlink(%s, %s)\n", DummyFile, DummyLink);
 			rc = symlink(DummyFile, DummyLink);
 			DMLOG_PRINT(DMLVL_DEBUG, "symlink(%s, %s) returned %d\n", DummyFile, DummyLink, rc);
 			EVENT_DELIVERY_DELAY;
@@ -1787,7 +1787,7 @@ int main(int argc, char **argv)
 				} else if (ino1 != ROOT_INODE) {
 					DMLOG_PRINT(DMLVL_ERR, "Parent handle NOT root! (%lld vs %d)\n", ino1, ROOT_INODE);
 					varStatus = DMSTAT_FAIL;
-			 	} else if (ino2 != statfs.st_ino) {
+				} else if (ino2 != statfs.st_ino) {
 					DMLOG_PRINT(DMLVL_ERR, "Entry handle NOT correct! (%lld vs %d)\n", ino2, statfs.st_ino);
 					varStatus = DMSTAT_FAIL;
 				} else if (dm_handle_cmp(hanp1, hlen1, ahanp1, ahlen1) != 0) {
@@ -1850,7 +1850,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "link(%s, %s)\n", DummyFile, DummyLink); 
+			DMLOG_PRINT(DMLVL_DEBUG, "link(%s, %s)\n", DummyFile, DummyLink);
 			rc = link(DummyFile, DummyLink);
 			DMLOG_PRINT(DMLVL_DEBUG, "link(%s, %s) returned %d\n", DummyFile, DummyLink, rc);
 			EVENT_DELIVERY_DELAY;
@@ -1890,7 +1890,7 @@ int main(int argc, char **argv)
 	EVENT_DELIVERY_DELAY_LOOP;
 
 	/*
-	 *  Last batch of tests will be with events disabled, so clear events 
+	 *  Last batch of tests will be with events disabled, so clear events
 	 *  on dir
 	 */
 	DMEV_ZERO(events);
@@ -1914,9 +1914,9 @@ int main(int argc, char **argv)
 
 		/* Variation */
 		EVENT_DELIVERY_DELAY;
-		DMLOG_PRINT(DMLVL_DEBUG, "mkdir(%s)\n", DummySubdir); 
+		DMLOG_PRINT(DMLVL_DEBUG, "mkdir(%s)\n", DummySubdir);
 		rc = mkdir(DummySubdir, O_RDWR | O_CREAT);
-		DMLOG_PRINT(DMLVL_DEBUG, "mkdir(%s) returned %d\n", DummySubdir, rc); 
+		DMLOG_PRINT(DMLVL_DEBUG, "mkdir(%s) returned %d\n", DummySubdir, rc);
 		EVENT_DELIVERY_DELAY;
 		DMVAR_END(DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived));
 
@@ -1928,7 +1928,7 @@ int main(int argc, char **argv)
 			DMLOG_PRINT(DMLVL_DEBUG, "Unable to clean up variation! (errno = %d)\n", errno);
 		}
 	}
-	
+
 	/*
 	 * TEST    : rmdir - disabled
 	 * EXPECTED: no event
@@ -1947,9 +1947,9 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "rmdir(%s)\n", DummySubdir); 
+			DMLOG_PRINT(DMLVL_DEBUG, "rmdir(%s)\n", DummySubdir);
 			rc = rmdir(DummySubdir);
-			DMLOG_PRINT(DMLVL_DEBUG, "rmdir(%s) returned %d\n", DummySubdir, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "rmdir(%s) returned %d\n", DummySubdir, rc);
 			EVENT_DELIVERY_DELAY;
 			DMVAR_END(DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived));
 
@@ -1967,7 +1967,7 @@ int main(int argc, char **argv)
 		eventExpected = DM_EVENT_INVALID;
 		eventReceived = DM_EVENT_INVALID;
 		eventResponse = DM_RESP_CONTINUE;
-		sprintf(command, "mv %s %s", DummySubdir, DummySubdir2); 
+		sprintf(command, "mv %s %s", DummySubdir, DummySubdir2);
 		EVENT_DELIVERY_DELAY;
 		rc = mkdir(DummySubdir, O_RDWR | O_CREAT);
 		if (rc == -1) {
@@ -1976,7 +1976,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummySubdir, DummySubdir2); 
+			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummySubdir, DummySubdir2);
 			rc = system(command);
 			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s) returned %d\n", DummySubdir, DummySubdir2, rc);
 			EVENT_DELIVERY_DELAY;
@@ -2010,7 +2010,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "symlink(%s, %s)\n", DummySubdir, DummySubdir2); 
+			DMLOG_PRINT(DMLVL_DEBUG, "symlink(%s, %s)\n", DummySubdir, DummySubdir2);
 			rc = symlink(DummySubdir, DummySubdir2);
 			DMLOG_PRINT(DMLVL_DEBUG, "symlink(%s, %s) returned %d\n", DummySubdir, DummySubdir2, rc);
 			EVENT_DELIVERY_DELAY;
@@ -2032,7 +2032,7 @@ int main(int argc, char **argv)
 	 * EXPECTED: no event
 	 */
 	if (DMVAR_EXEC(DIR_ASYNC_NAMESP_EVENT_BASE + 17)) {
-#ifdef DIRECTORY_LINKS		
+#ifdef DIRECTORY_LINKS
 		void *hanp;
 		size_t hlen;
 
@@ -2048,7 +2048,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "link(%s, %s)\n", DummySubdir, DummyLink); 
+			DMLOG_PRINT(DMLVL_DEBUG, "link(%s, %s)\n", DummySubdir, DummyLink);
 			rc = link(DummySubdir, DummyLink);
 			DMLOG_PRINT(DMLVL_DEBUG, "link(%s, %s) returned %d\n", DummySubdir, DummyLink, rc);
 			EVENT_DELIVERY_DELAY;
@@ -2065,7 +2065,7 @@ int main(int argc, char **argv)
 		}
 #else
 		DMLOG_PRINT(DMLVL_WARN, "Test case not built with DIRECTORY_LINKS defined\n");
-		DMVAR_SKIP();		
+		DMVAR_SKIP();
 #endif
 	}
 
@@ -2083,9 +2083,9 @@ int main(int argc, char **argv)
 
 		/* Variation */
 		EVENT_DELIVERY_DELAY;
-		DMLOG_PRINT(DMLVL_DEBUG, "open(%s)\n", DummyFile); 
+		DMLOG_PRINT(DMLVL_DEBUG, "open(%s)\n", DummyFile);
 		fd = open(DummyFile, O_RDWR | O_CREAT);
-		DMLOG_PRINT(DMLVL_DEBUG, "open(%s) returned %d\n", DummyFile, rc); 
+		DMLOG_PRINT(DMLVL_DEBUG, "open(%s) returned %d\n", DummyFile, rc);
 		rc = (fd == -1) ? -1 : 0;
 		EVENT_DELIVERY_DELAY;
 		DMVAR_END(DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived));
@@ -2099,7 +2099,7 @@ int main(int argc, char **argv)
 			DMLOG_PRINT(DMLVL_DEBUG, "Unable to clean up variation! (errno = %d)\n", errno);
 		}
 	}
-	
+
 	/*
 	 * TEST    : remove - disabled
 	 * EXPECTED: no event
@@ -2123,9 +2123,9 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "remove(%s)\n", DummyFile); 
+			DMLOG_PRINT(DMLVL_DEBUG, "remove(%s)\n", DummyFile);
 			rc = remove(DummyFile);
-			DMLOG_PRINT(DMLVL_DEBUG, "remove(%s) returned %d\n", DummyFile, rc); 
+			DMLOG_PRINT(DMLVL_DEBUG, "remove(%s) returned %d\n", DummyFile, rc);
 			EVENT_DELIVERY_DELAY;
 			DMVAR_END(DMVAR_CHKPASSEXP(0, rc, eventExpected, eventReceived));
 
@@ -2144,7 +2144,7 @@ int main(int argc, char **argv)
 		eventExpected = DM_EVENT_INVALID;
 		eventReceived = DM_EVENT_INVALID;
 		eventResponse = DM_RESP_CONTINUE;
-		sprintf(command, "mv %s %s", DummyFile, DummyFile2); 
+		sprintf(command, "mv %s %s", DummyFile, DummyFile2);
 		EVENT_DELIVERY_DELAY;
 		if ((fd = open(DummyFile, O_RDWR | O_CREAT)) == -1) {
 			/* No clean up */
@@ -2157,7 +2157,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummyFile, DummyFile2); 
+			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s)\n", DummyFile, DummyFile2);
 			rc = system(command);
 			DMLOG_PRINT(DMLVL_DEBUG, "system(mv %s %s) returned %d\n", DummyFile, DummyFile2, rc);
 			EVENT_DELIVERY_DELAY;
@@ -2196,7 +2196,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "symlink(%s, %s)\n", DummyFile, DummyLink); 
+			DMLOG_PRINT(DMLVL_DEBUG, "symlink(%s, %s)\n", DummyFile, DummyLink);
 			rc = symlink(DummyFile, DummyLink);
 			DMLOG_PRINT(DMLVL_DEBUG, "symlink(%s, %s) returned %d\n", DummyFile, DummyLink, rc);
 			EVENT_DELIVERY_DELAY;
@@ -2239,7 +2239,7 @@ int main(int argc, char **argv)
 		} else {
 			/* Variation */
 			EVENT_DELIVERY_DELAY;
-			DMLOG_PRINT(DMLVL_DEBUG, "link(%s, %s)\n", DummyFile, DummyLink); 
+			DMLOG_PRINT(DMLVL_DEBUG, "link(%s, %s)\n", DummyFile, DummyLink);
 			rc = link(DummyFile, DummyLink);
 			DMLOG_PRINT(DMLVL_DEBUG, "link(%s, %s) returned %d\n", DummyFile, DummyLink, rc);
 			EVENT_DELIVERY_DELAY;
@@ -2270,7 +2270,7 @@ int main(int argc, char **argv)
 	}
 
 	DMLOG_STOP();
-			
+
 	return 0;
 }
 
@@ -2323,10 +2323,10 @@ void *Thread(void *parm)
 			DMLOG_PRINT(DMLVL_DEBUG, "  Media designator: %s\n", DM_GET_VALUE(me, me_name2, char *));
 			DMLOG_PRINT(DMLVL_DEBUG, "  Root handle: %p\n", DM_GET_VALUE(me, me_roothandle, void *));
 			DMLOG_PRINT(DMLVL_DEBUG, "  Root handle length: %d\n", DM_GET_LEN(me, me_roothandle));
-	    
-    			bMounted = dm_handle_is_valid(lhanp, lhlen);
 
-    			rc = dm_request_right(sid, lhanp, lhlen, token, DM_RR_WAIT, DM_RIGHT_EXCL);
+			bMounted = dm_handle_is_valid(lhanp, lhlen);
+
+			rc = dm_request_right(sid, lhanp, lhlen, token, DM_RR_WAIT, DM_RIGHT_EXCL);
 			if (rc == -1) {
 				DMLOG_PRINT(DMLVL_ERR, "dm_request_right failed! (rc = %d, errno = %d)\n", rc, errno);
 				dm_destroy_session(sid);
@@ -2353,7 +2353,7 @@ void *Thread(void *parm)
 				DM_EXIT();
 			}
 
-    			rc = dm_release_right(sid, lhanp, lhlen, token);
+			rc = dm_release_right(sid, lhanp, lhlen, token);
 			if (rc == -1) {
 				DMLOG_PRINT(DMLVL_ERR, "dm_request_right failed! (rc = %d, errno = %d)\n", rc, errno);
 				dm_destroy_session(sid);
@@ -2376,7 +2376,7 @@ void *Thread(void *parm)
 		} else if (type == DM_EVENT_UNMOUNT) {
 			/* SPECIAL CASE: need to set response and bMounted */
 			dm_namesp_event_t *nse = DM_GET_VALUE(dmMsg, ev_data, dm_namesp_event_t *);
-			
+
 			DMLOG_PRINT(DMLVL_DEBUG, "Message is DM_EVENT_UNMOUNT\n");
 			DMLOG_PRINT(DMLVL_DEBUG, "  Unmount mode: %x\n", nse->ne_mode);
 			DMLOG_PRINT(DMLVL_DEBUG, "  File system handle: %p\n", DM_GET_VALUE(nse, ne_handle1, void *));
@@ -2613,4 +2613,4 @@ void *Thread(void *parm)
 	} while (bMounted);
 
 	pthread_exit(0);
-}	
+}
