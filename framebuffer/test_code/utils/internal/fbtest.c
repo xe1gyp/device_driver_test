@@ -20,9 +20,9 @@
  *
  * 100103: Prathibha: Updated writing logic to write the word, test was only valid for 8bpp
  * 92503: Prathibha: Modified usage() function to actually display the usage
- * 	Changed the variable names to shorter names c style from c++ style - easier typing.
+ *	Changed the variable names to shorter names c style from c++ style - easier typing.
  * 92203: Prathibha: Added functions to display additional data in fixed and variable screen info structures
- * 	Added unblank option
+ *	Added unblank option
  * 122303: Changed /dev/fb0 to /dev/fb/0 for devfs
  *
  *
@@ -61,7 +61,7 @@
  * Revision 1.1  2000/08/23 15:25:33  tim
  * Test utilities for Vrlinux frame buffer and flash driver.
  *
- * 
+ *
  *
  ******************************************************************************/
 
@@ -159,7 +159,7 @@ BOOL DoArgumentParsing(int argc, char *argv[])
 
 				case 'w':	// write
 					fWriteFlag = TRUE;
-					break; 
+					break;
 
 				default:
 					printf("unknown option - %s\n", sThisArg);
@@ -200,24 +200,24 @@ int main(int argc, char *argv[])
 
 	fbfd = open("/dev/fb0", O_RDWR);
 	if (fbfd == -1) {
-		fprintf(stderr, "Couldn't open frame buffer - %s\n", 
+		fprintf(stderr, "Couldn't open frame buffer - %s\n",
 			strerror(errno));
 		exit(1);
 	}
 
-	nRet = ioctl( fbfd, FBIOGET_FSCREENINFO, 
+	nRet = ioctl( fbfd, FBIOGET_FSCREENINFO,
 		&finfo );
 	if (nRet != 0) {
-		fprintf(stderr, "Couldn't get Fixed info - %s\n", 
+		fprintf(stderr, "Couldn't get Fixed info - %s\n",
 			strerror(errno));
 		close(fbfd);
 		exit(1);
 	}
 
-	nRet = ioctl( fbfd, FBIOGET_VSCREENINFO, 
+	nRet = ioctl( fbfd, FBIOGET_VSCREENINFO,
 		&vinfo );
 	if (nRet != 0) {
-		fprintf(stderr, "Couldn't get Var info - %s\n", 
+		fprintf(stderr, "Couldn't get Var info - %s\n",
 			strerror(errno));
 		close(fbfd);
 		exit(1);
@@ -234,8 +234,8 @@ int main(int argc, char *argv[])
 
 		printf(
 				"   Geometry - %u x %u, %u bpp%s\n",
-			vinfo.xres, 
-			vinfo.yres, 
+			vinfo.xres,
+			vinfo.yres,
 			vinfo.bits_per_pixel,
 			vinfo.grayscale ? ", greyscale" : "");
 
@@ -256,11 +256,11 @@ int main(int argc, char *argv[])
 		}
 
 
-		if ( (vinfo.height != -1) || 
+		if ( (vinfo.height != -1) ||
 				(vinfo.width != -1)) {
 			printf(
-				"   %d mm high x %d mm wide\n", 
-				vinfo.height, 
+				"   %d mm high x %d mm wide\n",
+				vinfo.height,
 				vinfo.width);
 		}
 	}
@@ -274,10 +274,10 @@ int main(int argc, char *argv[])
 	}
 
 	if (fUnblankFlag) {
-		nRet = ioctl( fbfd, FBIOBLANK, 
+		nRet = ioctl( fbfd, FBIOBLANK,
 			0 );
 		if (nRet != 0) {
-			fprintf(stderr, "Couldn't unblank - %s\n", 
+			fprintf(stderr, "Couldn't unblank - %s\n",
 				strerror(errno));
 			close(fbfd);
 			exit(1);
@@ -285,11 +285,11 @@ int main(int argc, char *argv[])
 	}
 
 	if (fBlankFlag) {
-		nRet = ioctl( fbfd, FBIOBLANK, 
+		nRet = ioctl( fbfd, FBIOBLANK,
 			4 );
 		printf("Return val of FBIOBLANK = %d\n", nRet);
 		if (nRet != 0) {
-			fprintf(stderr, "Couldn't blank - %s\n", 
+			fprintf(stderr, "Couldn't blank - %s\n",
 				strerror(errno));
 			close(fbfd);
 			exit(1);
@@ -302,7 +302,7 @@ int main(int argc, char *argv[])
 		}
 
 		if ((pBuffer = malloc( dwLength )) == NULL) {
-			fprintf(stderr, "Couldn't get buffer info - %s\n", 
+			fprintf(stderr, "Couldn't get buffer info - %s\n",
 				strerror(errno));
 			close(fbfd);
 			exit(1);
@@ -317,14 +317,14 @@ int main(int argc, char *argv[])
 			*p++ = (unsigned char)(dwFillChar & 0xff);
 			*p++ = (unsigned char) (dwFillChar >> 8);
 		}
-		//memset will only work if we are writing a byte. 16bpp needs a word	
+		//memset will only work if we are writing a byte. 16bpp needs a word
 		//To verify if correct bits are being written, cp /dev/fb/0 to a tmp file
 		//and run hexdump on it.
 		//memset( pBuffer, dwFillChar, dwLength );
 		p = pBuffer;
 		nRet = write( fbfd, pBuffer, dwLength );
 		if (nRet != dwLength) {
-			fprintf(stderr, "Couldn't write - %s\n", 
+			fprintf(stderr, "Couldn't write - %s\n",
 				strerror(nRet = errno));
 		}
 		else

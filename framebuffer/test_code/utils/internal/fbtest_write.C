@@ -42,7 +42,7 @@ void line(int x1,int y1,int x2,int y2,int color) {
 			int t;
 			t = x1; x1 = x2; x2 = t;
 			t = y1; y1 = y2; y2 = t;
-		}	
+		}
 		halfd = dx>>1;
 		x = x1; y = y1;
 		pos = framebuffer + x + width*y;
@@ -63,7 +63,7 @@ void line(int x1,int y1,int x2,int y2,int color) {
 			int t;
 			t = x1; x1 = x2; x2 = t;
 			t = y1; y1 = y2; y2 = t;
-		}	
+		}
 		halfd = dy>>1;
 		x = x1; y = y1;
 		pos = framebuffer + x + width*y;
@@ -98,7 +98,7 @@ void circle(int x,int y,int xrad,int yrad,int color) {
 	int x1,y1,x2,y2;
 	float angle=0;
 	int step;
-	
+
 	x1=x;y1=y-yrad;
 
 	do {
@@ -124,14 +124,14 @@ int main(void) {
 	/* open the framebuffer device */
 	if((fbfd = open("/dev/fb0",O_RDWR)) == -1) myperror("while opening /dev/fb0");
 	/* map it to memory. */
-	/* note for non-kernel hackers: you might thing that mapping a 
+	/* note for non-kernel hackers: you might thing that mapping a
 	   memory-mapped block device to memory would actually just cause an extra
 	   layer of frust to be added.  This is not true; linux allows this to be
 	   optimised, and the framebuffer device does so.
 	*/
 	if((framebuffer = (unsigned int *)mmap(0,1024*768*4,PROT_READ|PROT_WRITE,MAP_SHARED,fbfd,0)) == MAP_FAILED)
 		myperror("while mmapping framebuffer");
-		
+
 	srand(time(NULL));
 
 	/* set up the tail and deltas and such. */

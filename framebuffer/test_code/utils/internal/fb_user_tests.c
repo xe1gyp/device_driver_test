@@ -44,7 +44,7 @@ testlog *logfile;
 
 
 /*
- * call_test_ioctl: The function that tests the various arguments to ioctl 
+ * call_test_ioctl: The function that tests the various arguments to ioctl
  *
  * Arguments:
  * framebuffer device file descriptor
@@ -52,7 +52,7 @@ testlog *logfile;
  *
  * Return Value:
  * zero if success, number of failures if not
- * 
+ *
  *
  *
  */
@@ -180,7 +180,7 @@ int call_test_write(int fd, int flag)
 			r = r << 12;
 			g = g << 8;
 			b = b << 4;
-			test_info_f(logfile, "colormap for write test	r:0x%x 	g:0x%x	b:0x%x\n", r, g, b);
+			test_info_f(logfile, "colormap for write test	r:0x%x	g:0x%x	b:0x%x\n", r, g, b);
 			cmap.red[0] = r;
 			cmap.green[0] = g;
 			cmap.blue[0] = b;
@@ -262,7 +262,7 @@ int call_test_write(int fd, int flag)
 				break;
 			} else {
 				// Write color bars of different colors to the screen
-				// change color for every 20 rows. 
+				// change color for every 20 rows.
 				// color array has the color bytes to use
 				// Note that since we do not have the logic included
 				// to write words, we are using only bytes for color
@@ -325,8 +325,8 @@ int call_test_open(int flag)
 			errors++;
 			test_fail(logfile, "Switch statement in call_test_open: Should never have reached here. \n");
 			return errors;
-	
-	
+
+
 	}
 
         /*
@@ -362,19 +362,19 @@ int call_test_open(int flag)
  *
  * Arguments:
  * None.
- * Return value: 
+ * Return value:
  * Zero upon pass and a positive integer (incremented for each failure) upon
  * failure.
  *
  */
-int main(int argc, char **argv) 
+int main(int argc, char **argv)
 {
 	int ret = 0;
 	int errors = 0;
 	int fd;
 
-	/* 
-	 * Make sure that it is root that is invoking this 
+	/*
+	 * Make sure that it is root that is invoking this
 	 */
 	if (geteuid() != 0) {
 		test_error_exit_f(logfile, "You have to be root, in order to be able to open the device file: %s \n", DEV_FILE );
@@ -386,7 +386,7 @@ int main(int argc, char **argv)
 	addfilebyname(logfile, "fb_user_tests.dat", VERBOSE);
 #endif
 	test_init(logfile, "Starting User Space tests for Framebuffer");
-	
+
 
 	case_start(logfile, "open device file O_RDONLY");
 	errors += call_test_open(O_RDONLY);
@@ -427,7 +427,7 @@ int main(int argc, char **argv)
 
 	case_start(logfile, "write test  for framebuffer");
 	errors += call_test_write(fd, TST_DATA);
-	
+
 	if ((ret = close(fd)) != 0) {
 		test_fail_f(logfile, "Problem closing %s: %d.\n", DEV_FILE, ret);
 		errors++;

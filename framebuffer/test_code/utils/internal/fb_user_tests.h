@@ -17,8 +17,8 @@ Author - Prathibha Tammana - prathibha@ti.com
 #define FBIOBADIOCTL	-30
 #define TST_BAD_IOCTL_CMD		1
 #define TST_SCREENINFO			2
-#define TST_CMAP 			3
-#define TST_DATA 			4
+#define TST_CMAP			3
+#define TST_DATA			4
 #define BUF_LEN		50
 
 /*
