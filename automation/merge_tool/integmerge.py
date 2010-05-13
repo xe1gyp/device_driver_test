@@ -121,7 +121,7 @@ def merge_and_build(config):
 	stop_on_error = config.get('MERGEMANAGER', 'stop_on_error')
 	for pullres in execute_mergeconf(wrepo, config):
 		if pullres[0] == 0:
-			logging.write('***merge succeeded\n')
+			logging.write('***Merge succeeded\n')
 			logging.write(pullres[1] + '\n')
 			for bld in compobjs:
 				printBuildBanner("build: " + bld.getConfigurationName())
@@ -132,10 +132,11 @@ def merge_and_build(config):
 			logging.write(pullres[1] + '\n')
 			logging.write(pullres[2] + '\n')
 			if stop_on_error == '1':
+				logging.write('>>Aborting due to Merge errors<<\n')
 				break
 			else:
-				clean_working_copy()
-				continue
+				logging.write('***Undo failed Merge\n')
+				clean_working_copy(wrepo)
 			
 
 if __name__ == '__main__':
