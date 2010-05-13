@@ -8,3 +8,4 @@ build/*
 .oldconfig
 
 *.o
+*.pyc
