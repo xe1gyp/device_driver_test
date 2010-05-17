@@ -9,6 +9,6 @@ video_app:
 
 install:
 	make -C video install
-
+	cp -r videofiles $(SUITE_DIR)/scripts/helper
 clean:
 	make -C video clean
