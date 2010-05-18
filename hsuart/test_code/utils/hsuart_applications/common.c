@@ -248,13 +248,14 @@ void signalHandler()
 	close_port();
 }
 
-int create_sample_send_file()
+int create_sample_send_file(char *argv)
 {
 	int i;
 	int fds;
 	char known_pattern[] = {0xAA};
 
-	fds = open("uart_tx_file", O_RDWR|O_CREAT|O_TRUNC, 0666);
+	sprintf(tx_rx_filename, "uart_tx_file_%s", argv);
+	fds = open(tx_rx_filename, O_RDWR|O_CREAT|O_TRUNC, 0666);
 	if (fds == ERROR)
 		return ERROR;
 

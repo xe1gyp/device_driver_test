@@ -39,6 +39,7 @@ struct uart_test ut;
 char tx_rx;
 int read_flag;
 FILE *md5_fd;
+char tx_rx_filename[20];
 
 int writeport(int *fd, unsigned char *chars,int len);
 int readport(int *fd, unsigned char *result);

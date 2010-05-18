@@ -82,10 +82,11 @@ int main(int argc, char **argv)
 	switch (tx_rx) {
 	case 'r':
 		/* open(const char *pathname, int flags, mode_t mode); */
-		fd2 = open("uart_rx_file", O_WRONLY | O_CREAT, S_IRWXU | S_IRWXO);
+		sprintf(tx_rx_filename, "uart_rx_file_%s", argv[2]);
+		fd2 = open(tx_rx_filename, O_WRONLY | O_CREAT, S_IRWXU | S_IRWXO);
 
 		if (fd2 == -1) {
-			printf("\n Failure in opening uart_rx_file \n");
+			printf("\n Failure in opening %s \n", tx_rx_filename);
 			close(ut.fd);
 			exit(1);
 		}
@@ -121,9 +122,9 @@ int main(int argc, char **argv)
 				}
 			}
 			if (read_flag == 0) {
-				if (unlink("uart_rx_file") == -1)
+				if (unlink(tx_rx_filename) == -1)
 					printf("\n Failed to delete the \
-						file uart_rx_file \n");
+						file %s \n", tx_rx_filename);
 				printf("\n Waited for 15 seconds no data was \
 						available to read, exiting \n");
 				close_port();
@@ -140,7 +141,7 @@ int main(int argc, char **argv)
 		gettimeofday(&ut.end_time, NULL);
 		printf("\n Read %d bytes from port \n", size);
 
-		sprintf(cmd_buf, "md5sum %s ", "uart_rx_file");
+		sprintf(cmd_buf, "md5sum %s ", tx_rx_filename);
 		md5_fd = popen(cmd_buf, "r");
 		if (!ferror(md5_fd)) {
 			/* md5sum returns 32 bit checksum value */
@@ -148,20 +149,20 @@ int main(int argc, char **argv)
 			/* Append the read checksum value with null string */
 			md5_sum1[32] = '\0';
 		} else {
-			printf("\n Check sum generation for uart_rx_file failed \n");
+			printf("\n Check sum generation for %s failed \n", tx_rx_filename);
 			break;
 		}
-		printf("\n Checksum generated for uart_rx_file = \n\t %s \n",
-						md5_sum1);
+		printf("\n Checksum generated for %s = \n\t %s \n",
+					tx_rx_filename, md5_sum1);
 
 		FD_CLR(ut.fd, &readFds);
 		break;
 	case 's':
 		/* Create an sample 1MB file to send */
-		fd1 = create_sample_send_file();
+		fd1 = create_sample_send_file(argv[2]);
 
 		if (fd1 == ERROR) {
-			printf("\n cannot create sample file for tx \n");
+			printf("\n cannot create %s sample file for tx \n", tx_rx_filename);
 			close(ut.fd);
 			exit(1);
 		}
@@ -191,7 +192,7 @@ int main(int argc, char **argv)
 			printf("\n Sending break sequence fialed use \
 				 ctrl + c to terminate read process\n");
 
-		sprintf(cmd_buf, "md5sum %s", "uart_tx_file");
+		sprintf(cmd_buf, "md5sum %s", tx_rx_filename);
 		md5_fd = popen(cmd_buf, "r");
 		if (!ferror(md5_fd)) {
 			/* md5sum returns 32 bit checksum value */
@@ -200,12 +201,12 @@ int main(int argc, char **argv)
 			 * with null string */
 			md5_sum1[32] = '\0';
 		} else {
-			printf("\n Check sum generation for uart_tx_file \
-					failed \n");
+			printf("\n Check sum generation for %s \
+					failed \n", tx_rx_filename);
 			break;
 		}
-		printf("\n CheckSum generated for uart_tx_file = \n\t %s \n",
-						md5_sum1);
+		printf("\n CheckSum generated for %s = \n\t %s \n",
+					tx_rx_filename, md5_sum1);
 		break;
 	default:
 		printf("\n Unspecified operation %c:", tx_rx);
