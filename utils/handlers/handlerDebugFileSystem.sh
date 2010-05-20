@@ -1,6 +1,6 @@
 #!/bin/sh
 
-LOCAL_OPERATION=$1
+LOCAL_COMMAND=$1
 
 if [ "$LOCAL_COMMAND" = "mount" ]; then
 
