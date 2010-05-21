@@ -86,7 +86,7 @@ case "$TESTCASEID" in
 	;;
 	*)
 		echo "No Test Case ID Found!";
-		return 1
+		exit 1
 	;;
 esac
 

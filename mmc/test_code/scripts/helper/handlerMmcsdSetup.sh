@@ -60,7 +60,7 @@ elif [ "$LOCAL_COMMAND" = "remove" ]; then
 	fi
 else
 	echo -e "\nError: Cannot recognized command ${LOCAL_COMMAND} under handlerMmcsdSetup.sh\n"
-	return 1
+	exit 1
 fi
 
 # End of file

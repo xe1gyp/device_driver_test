@@ -20,7 +20,7 @@ LOCAL_DATA=$3
 
 handlerError.sh "test"
 if [ $? -eq 1 ]; then
-	return 1
+	exit 1
 fi
 
 if [ "$LOCAL_COMMAND" = "get" ]; then

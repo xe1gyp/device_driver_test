@@ -23,7 +23,7 @@ LOCAL_DROPPED_FILE=$ETHERNET_DIR_TMP/handlerNuttcp.local.dropped
 
 handlerError.sh "test"
 if [ $? -eq 1 ]; then
-	return 1
+	exit 1
 fi
 
 if [ "$LOCAL_MODE" = "server" ]; then

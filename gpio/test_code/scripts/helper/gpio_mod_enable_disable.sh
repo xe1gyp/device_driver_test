@@ -13,7 +13,7 @@ rmmod $TEST_MODULE
 if [ $error -gt 0 ]
 then
 	echo " Error, please refer the log for more details "
-	return 1
+	exit 1
 else
-	return 0
+	exit 0
 fi
