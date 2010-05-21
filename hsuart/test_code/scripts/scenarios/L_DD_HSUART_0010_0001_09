@@ -10,7 +10,7 @@
 # The test passes if both files match
 
 01  set -x; handlerCpuAffinity.sh "switch" "handlerHsuart.sh $UART_TEST_PORT1 115200 2" "10" "300"
-02  set -x; diff uart_tx_file uart_rx_file && exit 0 || exit 1
+02  set -x; diff uart_tx_file_$UART_TEST_PORT1 uart_rx_file_$UART_TEST_PORT1 && exit 0 || exit 1
 
 # End L_DD_UART_SERIAL_0010_0001_03
 
