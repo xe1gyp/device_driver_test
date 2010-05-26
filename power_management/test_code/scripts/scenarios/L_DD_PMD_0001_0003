@@ -4,7 +4,9 @@
 ###############################################################################
 
 # Begin L_DD_POWER_0001_0003
+01  set -x; debugFileSystem.sh "mount"
 
-01  set -x; count=0; while [ "$count" -le 30 ]; do suspendResume.sh  "suspend"  1; count=`expr $count + 1`; done
+02  set -x; count=0; while [ "$count" -le 30 ]; do suspendResume.sh  "suspend"  1; count=`expr $count + 1`; done
 
+03  set -x; debugFileSystem.sh "umount"
 # End L_DD_POWER_0001_0003

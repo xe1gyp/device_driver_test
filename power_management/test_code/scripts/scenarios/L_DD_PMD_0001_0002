@@ -7,5 +7,6 @@
 
 00  set -x; debugFileSystem.sh "mount"
 01  set -x; suspendResume.sh  "suspend"  "30"
+02  set -x; debugFileSystem.sh "umount"
 
 # End L_DD_POWER_0001_0002

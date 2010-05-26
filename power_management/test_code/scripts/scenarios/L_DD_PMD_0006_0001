@@ -4,11 +4,13 @@
 ###############################################################################
 
 # Begin L_DD_POWER_0006_0001
+01  set -x; debugFileSystem.sh "mount"
 
-01  set -x; smartReflexAutoComp.sh  enable  VDD1
-02  set -x; smartReflexAutoComp.sh  enable  VDD2
+02  set -x; smartReflexAutoComp.sh  enable  VDD1
+03  set -x; smartReflexAutoComp.sh  enable  VDD2
 
-03  set -x; smartReflexAutoComp.sh  disable  VDD1
-04  set -x; smartReflexAutoComp.sh  disable  VDD2
+04  set -x; smartReflexAutoComp.sh  disable  VDD1
+05  set -x; smartReflexAutoComp.sh  disable  VDD2
 
+06  set -x; debugFileSystem.sh "umount"
 # End L_DD_POWER_0006_0001
