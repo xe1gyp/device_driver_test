@@ -45,8 +45,9 @@ export VOLTAGE_OFF_WHILE_IDLE=$DEBUGFS_POWER_ENTRY/voltage_off_while_idle
 export WAKEUP_TIMER_SECONDS=$DEBUGFS_POWER_ENTRY/wakeup_timer_seconds
 
 # SmartReflex
-export SR_VDD1_AUTOCOMP=$SYSFS_POWER_ENTRY/sr_vdd1_autocomp
-export SR_VDD2_AUTOCOMP=$SYSFS_POWER_ENTRY/sr_vdd2_autocomp
+export SR_VDD1_AUTOCOMP=$DEBUGFS_POWER_ENTRY/sr1_autocomp
+export SR_VDD2_AUTOCOMP=$DEBUGFS_POWER_ENTRY/sr2_autocomp
+
 
 # OPP
 export VDD1_OPP=$SYSFS_POWER_ENTRY/vdd1_opp

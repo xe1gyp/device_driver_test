@@ -2,6 +2,7 @@
 set -x
 
 LOCAL_COMMAND=$1
+LOCAL_CMD=$2
 
 # Checking if userspace governor is available
 cat $SCALING_AVAILABLE_GOVERNORS | grep $GOVERNOR_USERSPACE
@@ -42,6 +43,12 @@ elif [ "$LOCAL_COMMAND" = "set" ]; then
   			echo "Fatal: Current frequency is different from the set one"
   			exit 1
   		fi
+		if [ "$LOCAL_CMD" = "suspend" ]; then
+			echo 5 > $WAKEUP_TIMER_SECONDS
+			echo $MEM > $STATE
+			echo $DISABLE > $WAKEUP_TIMER_SECONDS
+			sleep 1
+		fi
   done
 
 elif [ "$LOCAL_COMMAND" = "set_fail" ]; then

@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_POWER_0007_0004
+# Testing : CPUFreq: changing among frequencies
+###############################################################################
+
+# Begin L_DD_POWER_0007_0004
+00  set -x; debugFileSystem.sh "mount"
+01  set -x; cpuFreqScalFrequencies.sh  list
+02  set -x; cpuFreqScalFrequencies.sh  set suspend
+03  set -x; debugFileSystem.sh "umount"
+
+# End L_DD_POWER_0007_0004
