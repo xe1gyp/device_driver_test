@@ -55,8 +55,8 @@ index 0000000..1710452
 + */
 +
 +#include <linux/module.h>
-+#include <mach/resource.h>
-+#include <mach/omap34xx.h>
++#include <plat/resource.h>
++#include <plat/omap34xx.h>
 +
 +#define TEST_PASS	0
 +#define TEST_FAIL	-1

@@ -17,7 +17,7 @@ Index: kernel-omap3/arch/arm/mach-omap2/pwr_dm_test.c
 @@ -20,8 +20,8 @@
  
  #include <linux/module.h>
- #include <mach/clockdomain.h>
+ #include <plat/clockdomain.h>
 -#include "powerdomains.h"
  
 +extern struct powerdomain *powerdomains_omap[];

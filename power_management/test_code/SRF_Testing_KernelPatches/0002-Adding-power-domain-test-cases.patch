@@ -53,7 +53,7 @@ index 0000000..e2a7c11
 + */
 +
 +#include <linux/module.h>
-+#include <mach/clockdomain.h>
++#include <plat/clockdomain.h>
 +#include "powerdomains.h"
 +
 +void power_domain_test(void);
