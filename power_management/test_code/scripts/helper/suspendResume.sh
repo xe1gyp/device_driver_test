@@ -6,12 +6,16 @@ LOCAL_WAKEUP_TIME=$2
 
 if [ "$LOCAL_COMMAND" = "suspend" ]; then
 
-  echo > $KERNEL_MESSAGES
+# clearing the kernel messages
+# echo > $KERNEL_MESSAGES
+  $KERNEL_MESSAGES -c > /dev/null
+
   echo $LOCAL_WAKEUP_TIME > $WAKEUP_TIMER_SECONDS
   echo $MEM > $STATE
   echo $DISABLE > $WAKEUP_TIMER_SECONDS
   sleep 25
-  cat $KERNEL_MESSAGES | grep "Successfully"
+# cat $KERNEL_MESSAGES | grep "Successfully"
+  $KERNEL_MESSAGES | grep "Successfully"
   
   if [ $? != 0 ]; then
     echo "Error: All powerdomains did not enter target state"

@@ -23,7 +23,9 @@ export UTILOMAP3=${TESTROOT}/../utils/omap3
 # General Variables
 export TESTING_DRIVER=""
 
-export KERNEL_MESSAGES=/var/log/messages
+#export KERNEL_MESSAGES=/var/log/messages
+export KERNEL_MESSAGES=dmesg
+
 
 # Power Specific Variables
 export ENABLE=1
