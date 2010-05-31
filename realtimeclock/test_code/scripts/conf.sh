@@ -66,6 +66,7 @@ export APP_PER_INT_ON=per_int_on
 export APP_TIME_GET=time_get
 export APP_TIME_SET=time_set
 export APP_TIME_KEEP_READING=rtc_read
+export APP_ALARM_KEEP_READING=alarm_read
 
 # Return Messages
 export MSG_OK_ALARM_RANG="Alarm Rang"
@@ -91,6 +92,8 @@ export DEF_RTC_VALID_TIME_PROCFS='23:59'
 export DEF_RTC_VALID_DATE='31-12-2004'
 export DEF_PROC_VALID_TIME='23:59:45'
 export DEF_PROC_VALID_DATE='2004-12-31'
+
+export APP_ALARM_REPEAT_VAL='100'
 
 export PER_INT_SEC='1'
 export ALARM_SEC='1'
