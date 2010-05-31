@@ -8,8 +8,16 @@
 #define OMAP2_V2	2
 #define OMAP2_V3        3
 
-#define V4L2_CID_ROTATE (V4L2_CID_BASE+34)
-#define V4L2_CID_BG_COLOR (V4L2_CID_BASE+35)
+#ifdef CONFIG_ARCH_OMAP4
+#define ROTATE_OFFSET 34
+#define BG_COLOR_OFFSET 35
+#else
+#define ROTATE_OFFSET 32
+#define BG_COLOR_OFFSET 33
+#endif
+
+#define V4L2_CID_ROTATE (V4L2_CID_BASE+ROTATE_OFFSET)
+#define V4L2_CID_BG_COLOR (V4L2_CID_BASE+BG_COLOR_OFFSET)
 
 int show_info(int fd);
 
