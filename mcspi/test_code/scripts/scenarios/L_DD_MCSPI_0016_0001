@@ -1,0 +1,21 @@
+#########################################################################################
+# Scenario:    L_DD_MCSPI_0016_0001
+# Author  :    David Miramontes Caton
+# Date    :    May 27th, 2010
+# Description: Data transmission in full duplex mode should fail when slave
+#               device is not connected
+#########################################################################################
+
+# Begin L_DD_MCSPI_0016_0001
+
+00  set -x; insmod $MODDIR/omap_mcspi_datatest.ko word_length=8
+01  set -x; cat /proc/driver/mcspi_test/status | grep "Word Length" | sed -e ': @@' | sed q | awk '{print $7}' > /tmp/LENGTH && exit 0 || exit 1
+02  set -x; if [ `cat /tmp/LENGTH` -eq 8 ]; then exit 0; else exit 1; fi;
+02  set -x; echo "You have 10 seconds to disconnect the slave device"; sleep 10
+03  set -x; echo rx > /proc/driver/mcspi_test/transmission
+04  set -x; echo tx > /proc/driver/mcspi_test/transmission
+05  set -x; echo txrx > /proc/driver/mcspi_test/transmission
+06  set -x; dmesg | grep "FAIL"
+07  set -x; rmmod omap_mcspi_datatest; dmesg -c
+
+# End L_DD_MCSPI_0016_0001
