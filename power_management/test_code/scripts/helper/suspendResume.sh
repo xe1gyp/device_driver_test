@@ -19,7 +19,7 @@ if [ "$LOCAL_COMMAND" = "suspend" ]; then
   
   if [ $? != 0 ]; then
     echo "Error: All powerdomains did not enter target state"
-    cat $KERNEL_MESSAGES
+    $KERNEL_MESSAGES
     exit 1
   fi
   

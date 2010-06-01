@@ -54,15 +54,17 @@ int main()
 		_exit(errno);
 	}
 	t_diff = rtc_tm2.tm_min - rtc_tm1.tm_min;
-	if (t_diff != 3)
-		printf("Test FAIL\n");
+	printf("T1 value min= %d sec =%d \n", rtc_tm1.tm_min, rtc_tm1.tm_sec);
+	printf("T2 value min= %d sec =%d \n", rtc_tm2.tm_min, rtc_tm2.tm_sec);
+	if (t_diff != 10)
+		printf("Test min FAIL\n");
 	else {
 
 		t_diff = rtc_tm2.tm_sec - rtc_tm1.tm_sec;
 		if (t_diff == 0)
 			printf("Test PASS\n");
 		else
-			printf("Test FAIL\n");
+			printf("Test sec FAIL\n");
 	}
 }
 
