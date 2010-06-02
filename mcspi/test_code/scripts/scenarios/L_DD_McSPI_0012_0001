@@ -1,0 +1,18 @@
+################################################################################
+# Scenario:    L_DD_McSPI_0012_0001
+# Author  :    Adria Calderon
+# Date    :    May 26th, 2010
+# Description: To test if the McSPI driver supports wrong values of phase and polarity of the device serial clock
+################################################################################
+# Begin L_DD_McSPI_0012_0001
+01	set -x; insmod $MODDIR/omap_mcspi_datatest.ko clk_phase=3 clk_polarity=5
+02	set -x; cat /proc/driver/mcspi_test/status | grep "Clk_Polarity" | sed -e ': @@' | sed q | awk '{print $5}' > /tmp/Clk_Polarity && exit 0 || exit 1
+03	set -x; if [ `cat /tmp/Clk_Polarity` -gt 1 ]; then exit 1; else exit 0; fi;
+04	set -x; cat /proc/driver/mcspi_test/status | grep "Clk Phase" | sed -e ': @@' | sed q | awk '{print $6}' > /tmp/Clk_Phase && exit 0 || exit 1
+05	set -x; if [ `cat /tmp/Clk_Phase` -gt 1 ]; then exit 1; else exit 0; fi;
+06	set -x; cat /proc/driver/mcspi_test/status
+07	set -x; echo txrx > /proc/driver/mcspi_test/transmission
+08	set -x; dmesg | grep SUCCESS
+09	set -x; rmmod omap_mcspi_datatest
+10	set -x; dmesg -c
+# End L_DD_McSPI_0012_0001

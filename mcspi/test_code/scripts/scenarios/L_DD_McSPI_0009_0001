@@ -1,0 +1,15 @@
+################################################################################
+# Scenario:    L_DD_McSPI_0009_0001
+# Author  :    Adria Calderon
+# Date    :    May 26th, 2010
+# Description: To test if the McSPI driver supports Power management APIs
+################################################################################
+# Begin L_DD_McSPI_0009_0001
+01	set -x; "\n\n\nThe system is going to sleep.\nPlease press a key to bring it back\n\n\n"; echo mem > /sys/power/state
+02	set -x; insmod $MODDIR/omap_mcspi_datatest.ko slave_mode=1
+03	set -x; echo rx > /proc/driver/mcspi_test/transmission
+04	set -x; echo tx > /proc/driver/mcspi_test/transmission
+05	set -x; echo txrx > /proc/driver/mcspi_test/transmission
+06	set -x; dmesg | grep SUCCESS
+07	set -x; rmmod omap_mcspi_datatest;dmesg -c
+# End L_DD_McSPI_0009_0001

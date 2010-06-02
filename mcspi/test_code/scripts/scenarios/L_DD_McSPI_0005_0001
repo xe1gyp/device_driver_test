@@ -1,0 +1,15 @@
+################################################################################
+# Scenario:    L_DD_McSPI_0005_0001
+# Author  :    Adria Calderon
+# Date    :    May 26th, 2010
+# Description: To test if the McSPI driver supports configuration of bitrate (11.7 Kbps to 24 Mbps)
+################################################################################
+# Begin L_DD_McSPI_0005_0001
+01	set -x; insmod $MODDIR/omap_mcspi_datatest.ko clk_freq=1500000
+02	set -x; cat /proc/driver/mcspi_test/status | grep "Bit Rate" | sed -e ': @@' | sed q | awk '{print $6}' > /tmp/Bit_Rate && exit 0 || exit 1
+03	set -x; if [ `cat /tmp/Bit_Rate` -eq 1500000 ]; then exit 0; else exit 1; fi;
+04	set -x; echo txrx > /proc/driver/mcspi_test/transmission
+05	set -x; dmesg | grep SUCCESS
+06	set -x; rmmod omap_mcspi_datatest
+07	set -x; dmesg -c
+# End L_DD_McSPI_0005_0001

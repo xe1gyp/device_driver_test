@@ -1,0 +1,13 @@
+################################################################################
+# Scenario:    L_DD_McSPI_0006_0001
+# Author  :    Adria Calderon
+# Date    :    May 26th, 2010
+# Description: To test if the McSPI driver supports wakeup capability.
+################################################################################
+# Begin L_DD_McSPI_0006_0001
+01	set -x; insmod $MODDIR/omap_mcspi_datatest.ko
+02	set -x; echo txrx > /proc/driver/mcspi_test/transmission
+03	set -x; dmesg | grep SUCCESS
+04	set -x; rmmod omap_mcspi_datatest
+05	set -x; dmesg -c
+# End L_DD_McSPI_0006_0001
