@@ -1,0 +1,19 @@
+#########################################################################################
+# Scenario:    L_DD_MCSPI_0003_0001
+# Author  :    David Miramontes Caton
+# Date    :    May 26th, 2010
+# Description: McSPI driver supports configuration of SPI word length
+#########################################################################################
+
+# Begin L_DD_MCSPI_0003_0001
+
+00  set -x; insmod $MODDIR/omap_mcspi_datatest.ko word_length=8
+01  set -x; cat $MCSPI_PROC_DIR/status | grep "Word Length" | sed -e ': @@' | sed q | awk '{print $7}' > /tmp/LENGTH && exit 0 || exit 1
+02  set -x; if [ `cat /tmp/LENGTH` -eq 8 ]; then exit 0; else exit 1; fi;
+03  set -x; echo rx > $MCSPI_PROC_DIR/transmission
+04  set -x; echo tx > $MCSPI_PROC_DIR/transmission
+05  set -x; echo txrx > $MCSPI_PROC_DIR/transmission
+06  set -x; dmesg | grep "SUCCESS"
+07  set -x; rmmod omap_mcspi_datatest; dmesg -c
+
+# End L_DD_MCSPI_0003_0001

@@ -1,0 +1,19 @@
+#########################################################################################
+# Scenario:    L_DD_MCSPI_0009_0001
+# Author  :    David Miramontes Caton
+# Date    :    May 26th, 2010
+# Description: Driver shall allow DVFS during data transfer
+#########################################################################################
+
+# Begin L_DD_MCSPI_0009_0001
+
+00  set -x; insmod $MODDIR/omap_mcspi_datatest.ko cs_polarity=1
+01  set -x; cat $MCSPI_PROC_DIR/status | grep "CS Polarity" | sed -e ':        @@' | sed q | awk '{print $6}'  > /tmp/POLARITY && exit 0 || exit 1
+02  set -x; if [ `cat /tmp/POLARITY` -eq 1 ]; then exit 0; else exit 1; fi;
+03  set -x; echo rx > $MCSPI_PROC_DIR/transmission
+04  set -x; echo 5 > $POWER_ENTRIES/wakeup_timer_seconds; echo mem > $POWERSYSFS/state & echo tx > $MCSPI_PROC_DIR/transmission
+05  set -x; echo txrx > $MCSPI_PROC_DIR/transmission
+06  set -x; dmesg | grep "SUCCESS"
+07  set -x; rmmod omap_mcspi_datatest; dmesg -c
+
+# End L_DD_MCSPI_0009_0001
