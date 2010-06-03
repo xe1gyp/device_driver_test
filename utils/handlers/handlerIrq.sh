@@ -18,8 +18,8 @@ LOCAL_FILE=$3
 # Main
 # =============================================================================
 
-if [ "$LOCAL_OPERATION" == "get" ]; then
-	if [ "$LOCAL_DRIVER" == "" ]; then
+if [ "$LOCAL_OPERATION" = "get" ]; then
+	if [ "$LOCAL_DRIVER" = "" ]; then
 		echo "Error: driver value was not provided"
 		exit 1
 	fi

@@ -161,7 +161,7 @@ elif [ "$LOCAL_OPERATION" = "verify" ]; then
 		echo -e "\nInfo: Process with higher priority is $LOCAL_PROCESS_TO_FINISH_FIRST"
 		if [ "$LOCAL_PROCESS_TO_FINISH_FIRST" = "1" ]; then
 			LOCAL_RESULT=`echo "scale=6; $fvalue1 > $fvalue2" | bc`
-			if [ "$LOCAL_RESULT" == "0" ]; then
+			if [ "$LOCAL_RESULT" = "0" ]; then
 				echo -e "Info: Failed!\n"
 				return 1
 			else
@@ -171,7 +171,7 @@ elif [ "$LOCAL_OPERATION" = "verify" ]; then
 
 		elif [ "$LOCAL_PROCESS_TO_FINISH_FIRST" = "2" ]; then
 			LOCAL_RESULT=`echo "scale=6; $fvalue2 > $fvalue1" | bc`
-			if [ "$LOCAL_RESULT" == "0" ]; then
+			if [ "$LOCAL_RESULT" = "0" ]; then
 				echo -e "Info: Failed!\n"
 				return 1
 			else

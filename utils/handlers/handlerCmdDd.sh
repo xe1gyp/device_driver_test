@@ -51,11 +51,11 @@ if [ "$LOCAL_DD_SYNC" != "nosync" ]; then
 	TEMP_EXEC_TIME_SYNC=`cat $HATI_TIME_FINAL.$LOCAL_DD_INSTANCE.sync`
 fi
 
-if [ "$LOCAL_DD_SIZE_CALC" == "to" ]; then
+if [ "$LOCAL_DD_SIZE_CALC" = "to" ]; then
 	LOCAL_FILE_PATH=$LOCAL_DD_OF
-elif [ "$LOCAL_DD_SIZE_CALC" == "from" ]; then
+elif [ "$LOCAL_DD_SIZE_CALC" = "from" ]; then
 	LOCAL_FILE_PATH=$LOCAL_DD_IF
-elif [ "$LOCAL_DD_SIZE_CALC" == "none" ]; then
+elif [ "$LOCAL_DD_SIZE_CALC" = "none" ]; then
 	LOCAL_FILE_PATH=$LOCAL_DD_SIZE
 fi
 

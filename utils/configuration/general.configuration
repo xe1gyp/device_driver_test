@@ -1,7 +1,10 @@
 #!/bin/sh
 
+# Check if procfs is mounted, if not set it up 
+test -d /proc/1/ || mount -t proc proc /proc
+
 # Creation & clean up of temporal directory
-export UTILS_DIR_TMP=/tmp/
+export UTILS_DIR_TMP=/tmp/testsuites/
 test -d $UTILS_DIR_TMP || mkdir -p $UTILS_DIR_TMP
 rm -f $UTILS_DIR_TMP/*
 
@@ -15,7 +18,7 @@ export HCA_LIST_CMDS_FAILED=$UTILS_DIR_TMP/hca.list.cmds.failed
 export HCA_LIST_PIDS_TOTALS=$UTILS_DIR_TMP/hca.list.pids.totals
 
 # handlerIrqAffinity.sh
-if [ `cat /proc/cpuinfo| grep -ic OMAP4` ]; then
+if [ `cat /proc/cpuinfo | grep -ic OMAP4` ]; then
 	export INT_GPIO_BANK1=61
 	export INT_GPIO_BANK2=62
 	export INT_GPIO_BANK3=63

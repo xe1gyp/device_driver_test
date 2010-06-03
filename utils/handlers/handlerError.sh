@@ -32,9 +32,9 @@ elif [ "$LOCAL_OPERATION" = "log" ]; then
 	LOCAL_HANDLER=$4
 
 	if [ "$LOCAL_ERROR" -eq 1 ]; then
-		if [ "$LOCAL_FLAG" == "halt" ]; then
+		if [ "$LOCAL_FLAG" = "halt" ]; then
 			echo $LOCAL_HANDLER > $HE_ERROR_FILE_HALT
-		elif [ "$LOCAL_FLAG" == "continue" ]; then
+		elif [ "$LOCAL_FLAG" = "continue" ]; then
 			echo $LOCAL_HANDLER > $HE_ERROR_FILE_CONTINUE
 		fi
 	fi
