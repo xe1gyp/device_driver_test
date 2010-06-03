@@ -10,6 +10,6 @@
 # Begin L_DD_GPIO_0000_0001
 
 0001 set -x; $UTILSCRIPTS/filesystemtype.sh && exit 0 || exit 1
-0002 set -x; cat /tmp/result.tmp | grep -i "twl4030: gpio" && exit 0 || exit 1
+0002 set -x; cat /tmp/result.tmp | grep -i "gpio" && exit 0 || exit 1
 
 # End L_DD_GPIO_0000_0001
