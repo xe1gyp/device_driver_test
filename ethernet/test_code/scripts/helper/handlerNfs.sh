@@ -18,7 +18,7 @@ LOCAL_OPERATION=$1
 
 if [ "$LOCAL_OPERATION" = "verify" ]; then
 
-	mount | grep nfs
+	cat /proc/mounts | grep /dev/root | awk '{print $3}' | grep nfs
 	handlerError.sh "log" "$?" "halt" "handlerNfs.sh"
 
 	LOCAL_ETHERNET_NFS_DIRECTORY=`mount | grep nfs | awk '{print $3}'`

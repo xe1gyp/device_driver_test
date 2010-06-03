@@ -64,7 +64,7 @@ elif [ "$LOCAL_OPERATION" = "throughput" ]; then
 	echo "Throughput Final: $LOCAL_THROUGHPUT"
 	LOCAL_RESULT=`echo "$LOCAL_THROUGHPUT > $LOCAL_DATA" | bc`
 
-	if [ "$LOCAL_RESULT" == "1" ]; then
+	if [ "$LOCAL_RESULT" = "1" ]; then
 		echo "Good Throughput!"
 		exit 0
 	else
@@ -79,7 +79,7 @@ elif [ "$LOCAL_OPERATION" = "dropped" ]; then
 	echo "Dropped Packets Final: $LOCAL_DROPPED"
 	LOCAL_RESULT=`echo "$LOCAL_DROPPED > 0" | bc`
 
-	if [ "$LOCAL_RESULT" == "1" ]; then
+	if [ "$LOCAL_RESULT" = "1" ]; then
 		echo "Some Packets Dropped!"
 		exit 1
 	else
