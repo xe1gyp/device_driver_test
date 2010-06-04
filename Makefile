@@ -81,7 +81,7 @@ endif
 
 APPLICABLE_TESTS :=     benchmarks dma ethernet gpio hsuart i2c \
                         keypad mcbsp mcspi mmc oskernel \
-                        realtimeclock timer-32k watchdog
+                        realtimeclock timer-32k touchscreen watchdog
 ifdef CONFIG_ARCH_OMAP3
 APPLICABLE_TESTS +=     camera audio-alsa framebuffer video
 endif
