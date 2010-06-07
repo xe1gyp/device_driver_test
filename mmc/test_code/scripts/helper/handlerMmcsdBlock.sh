@@ -53,7 +53,7 @@ if [ "$LOCAL_OPERATION" = "create" ]; then
 
 	LOCAL_FILESYSTEM_TYPE=$3
 
-	if [ "$LOCAL_FILESYSTEM_TYPE" == "" ]; then
+	if [ "$LOCAL_FILESYSTEM_TYPE" = "" ]; then
 		handlerError.sh "log" "1" "halt" "handlerMmmcsdBlock"
 		exit 1
 	fi

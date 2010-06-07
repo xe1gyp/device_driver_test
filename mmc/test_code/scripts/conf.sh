@@ -39,7 +39,7 @@ export UTILS_DIR_SCRIPTS=${MMCSD_ROOT}/../../utils/scripts
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
 # MMC/SD General Variables
-if [ "$SLOT" == "" ]
+if [ "$SLOT" = "" ]
 then
 	echo "FATAL: Please specify the slot number by exporting it through SLOT variable"
 	echo "Available Values: Depend on Development Board, beginning by 0"
