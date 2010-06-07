@@ -8,7 +8,7 @@
 # Begin L_DD_DMA_0034
 0001	set -x; insmod $TESTMODS/dma_single_channel.ko
 0002	set -x; insmod $TESTMODS/dma_unlink_nonlinked_channels.ko
-0003	set -x; cat /proc/driver/unlink_nonlinked | grep PASS
+0003	set -x; cat /proc/driver/unlink_nonlinked | grep FAIL
 0004	set -x; rmmod dma_unlink_nonlinked_channels
 0005	set -x; rmmod dma_single_channel
 # End L_DD_DMA_0034

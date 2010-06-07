@@ -132,75 +132,7 @@ static int get_transfers_finished(void){
 /*
  * Setup the source, destination and global transfer parameters
  */
-void setup_dma_transfer(struct dma_transfer *transfer){
 
-       /* Determine the elements present in a frame */
-       printk("Setting up transfer id %d\n", transfer->transfer_id);
-       transfer->frame_count = 1;
-       switch(transfer->data_type){
-          case OMAP_DMA_DATA_TYPE_S8:
-               transfer->elements_in_frame = transfer->buffers.buf_size;
-               break;
-          case OMAP_DMA_DATA_TYPE_S16:
-               transfer->elements_in_frame = transfer->buffers.buf_size / 2;
-               break;
-          case OMAP_DMA_DATA_TYPE_S32:
-               transfer->elements_in_frame = transfer->buffers.buf_size / 4;
-               break;
-          default:
-               printk(" Invalid transfer data type\n");
-       }
-
-       /* Set dma transfer parameters */
-       omap_set_dma_transfer_params(
-                transfer->transfer_id,
-                transfer->data_type,
-                transfer->elements_in_frame,
-                transfer->frame_count,
-                transfer->sync_mode,
-                transfer->device_id,
-                0x0);
-
-        /* Configure the source parameters */
-        omap_set_dma_src_params(
-                transfer->transfer_id,
-                0,
-                transfer->addressing_mode,
-                transfer->buffers.src_buf_phys,
-                0x0,
-                0x0);
-
-	omap_set_dma_src_burst_mode(
-                transfer->transfer_id,
-                transfer->data_burst);
-
-        /* Configure the destination parameters */
-        omap_set_dma_dest_params(
-                transfer->transfer_id,
-                0,
-                OMAP_DMA_AMODE_POST_INC, /* To check the buffer sequentially */
-                transfer->buffers.dest_buf_phys,
-                0x0,
-                0x0);
-
-        omap_set_dma_dest_burst_mode(
-                transfer->transfer_id,
-                transfer->data_burst);
-
-        /* Global dma configuration parameters */
-        omap_dma_set_global_params(
-                0x3,
-                DMA_DEFAULT_FIFO_DEPTH,
-                0);
-
-        /* Transfer priority */
-        omap_dma_set_prio_lch(
-                transfer->transfer_id,
-                transfer->priority,
-                transfer->priority);
-
-        printk(" Transfer with id %d is ready\n", transfer->transfer_id);
-}
 
 /*
  * Requests a dma transfer
@@ -245,8 +177,14 @@ static int __init dma_module_init(void) {
            transfers[i].data_type = OMAP_DMA_DATA_TYPE_S8;
            transfers[i].endian_type = DMA_TEST_LITTLE_ENDIAN;
            transfers[i].addressing_mode = OMAP_DMA_AMODE_CONSTANT;
+	   transfers[i].dst_addressing_mode = OMAP_DMA_AMODE_POST_INC;	
            transfers[i].priority = DMA_CH_PRIO_HIGH;
            transfers[i].buffers.buf_size = (10240 * (i+1)*(i+1)) + i % 2;
+	   transfers[i].dest_ei = 0;
+	   transfers[i].dest_fi = 0;
+	   transfers[i].src_ei = 1;
+	   transfers[i].src_fi = 1;
+
 	   /* Request a dma transfer */
            error = request_dma(&transfers[i]);
            if( error ){
