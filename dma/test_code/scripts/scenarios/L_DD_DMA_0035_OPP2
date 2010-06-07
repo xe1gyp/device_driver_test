@@ -7,7 +7,7 @@
 
 
 SETUP_0001 set -x; echo Running on OPP2
-SETUP_0002 set -x; /testsuites/utils/handlers/handlerCpuFreqScalFrequencies.sh "set" "OPP2"
+SETUP_0002 set -x; handlerCpuFreqScalFrequencies.sh "set" "OPP2"
 
 # Begin L_DD_DMA_0035_OPP2_0001
 0001_01	set -x; echo Testing Constant Addressing Mode
