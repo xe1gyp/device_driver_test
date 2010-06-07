@@ -49,3 +49,4 @@ export WAIT_ANSWER=${UTILBIN}/akey
 export WAIT_KEY=${UTILBIN}/waitkey
 export HELP=""
 export TESTCASE=""
+export IS_OMAP4=`cat /proc/cpuinfo| grep -ic OMAP4`

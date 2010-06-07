@@ -20,9 +20,9 @@ get_video_res()
 img_size()
 {
 	WIDTH="$WIDTH_MAX"
-	WIDTH=$(($WIDTH / 3))
+	WIDTH=$(($WIDTH / $SCALE_FACTOR))
 	HEIGHT="$HEIGHT_MAX"
-	HEIGHT=$(($HEIGHT / 3))
+	HEIGHT=$(($HEIGHT / $SCALE_FACTOR))
 }
 
 left_top_corn()
@@ -79,7 +79,12 @@ stream()
 	RESULT=`command_tracking.sh $RESULT $?`
 
 	#Usage: streaming <vid> <inputfile> [<n>]
-	$TESTBIN/streaming_tiler $VIDEO_PIPELINE $STREAMING_PARAMETERS 0
+	if [ $IS_OMAP4 eq 1 ]
+	then
+		$TESTBIN/streaming_tiler $VIDEO_PIPELINE $STREAMING_PARAMETERS 0
+	else
+		$TESTBIN/streaming $VIDEO_PIPELINE $STREAMING_PARAMETERS 0
+	fi
 	RESULT=`command_tracking.sh $RESULT $?`
 }
 
@@ -144,6 +149,15 @@ main()
 	STREAMING_PARAMETERS=$4
 	SETCROP_PARAMETERS=$5
 	RESULT=0
+	SCALE_FACTOR=3
+
+	cat /sys/devices/platform/omapdss/manager0/display | grep hdmi
+
+	if [ $? -eq 0 ]
+	then
+		echo "HDMI is enabled, maximum supported downscaling is 0.5x"
+		SCALE_FACTOR=2
+	fi
 
 	#if [ -z $1 ]
 	#then
