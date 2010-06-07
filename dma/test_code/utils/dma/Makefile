@@ -27,6 +27,8 @@ MODULES = dma_single_channel.o \
   dma_burst_mode16.o \
   dma_chain_static.o \
   dma_chain_dynamic.o \
+  dma_chain_dynamic_removed.o \
+  dma_chain_static_removed.o \
   dma_thread_access.o \
   dma_chain_thread_access.o \
   dma_chain_static_invalid.o \
@@ -35,10 +37,13 @@ MODULES = dma_single_channel.o \
   dma_dynamic_self_link.o \
   dma_unlink_nonlinked_channels.o  \
   dma_unlink_before_stop_channels.o \
-  #dma_dload_thread_access.o \
-  dma_dload.o \
- #dma_dload_bad_descriptor.o \
   dma_stop_transfer_invalid.o \
+  dma_chain_dynamic_break.o \
+  dma_chain_static_break.o \
+  #dma_dload.o \
+  #dma_dload_thread_access.o \
+  #dma_dload_bad_descriptor.o \
+  
 
 obj-m:=$(MODULES)
 
