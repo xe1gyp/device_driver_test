@@ -20,12 +20,7 @@ export MMCSD_PRETTY_PRT=""
 export MMCSD_VERBOSE=""
 export MMCSD_SCENARIO_NAMES=""
 export MMCSD_STRESS=""
-export MMCSD_BLOCK_FOLDER=/dev/block
-
-if [ ! -d "$MMCSD_BLOCK_FOLDER" ]
-then
-	export MMCSD_BLOCK_FOLDER=/dev
-fi
+export MMCSD_BLOCK_FOLDER=/dev
 
 export PATH="$PATH:$MMCSD_ROOT:$MMCSD_DIR_HELPER:MMCSD_DIR_BINARIES"
 
@@ -45,6 +40,13 @@ then
 	echo "Available Values: Depend on Development Board, beginning by 0"
 	echo "e.g. export SLOT=0"
 	exit 1
+fi
+
+handlerFilesystem.sh getType
+FS_TYPE=`cat $HFS_FS_TYPE`
+
+if [ "$FS_TYPE" = "android" ]; then
+	export MMCSD_BLOCK_FOLDER=/dev/block
 fi
 
 export MMCSD_DEVFS_NAME=mmcblk$SLOT
