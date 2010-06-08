@@ -112,5 +112,8 @@ export HCFSG_CURRENT_GOVERNOR_FILE=$UTILS_DIR_TMP/hcfsg.governors.file.current
 # handlerFstab.sh
 export HFST_FSTAB_ORIGINAL=$UTILS_DIR_TMP/hfst.original
 
+# handlerFilesystem.sh
+export HFS_FS_TYPE=$UTILS_DIR_TMP/hfs.fs.type
+
 # End of file
 
