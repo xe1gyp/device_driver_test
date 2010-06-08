@@ -76,7 +76,7 @@ export PROCFS_PARTITIONS=/proc/partitions
 # Check if bc is available, otherwise abort
 if [ ! `echo 1+1 | bc` ]; then
 	echo "FATAL: BC is unavailable, cannot continue"
-	return 1
+	exit 1
 fi
 
 # Remove any error file
