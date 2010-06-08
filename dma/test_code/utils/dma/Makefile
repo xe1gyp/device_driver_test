@@ -41,8 +41,8 @@ MODULES = dma_single_channel.o \
   dma_chain_dynamic_break.o \
   dma_chain_static_break.o \
   dma_stop_transfer_twice.o \
-  #dma_dload.o \
-  #dma_dload_thread_access.o \
+  dma_dload.o \
+  dma_dload_thread_access.o \
   #dma_dload_bad_descriptor.o \
   
 
