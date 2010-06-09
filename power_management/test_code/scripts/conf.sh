@@ -59,7 +59,9 @@ export VDD2_LOCK=$SYSFS_POWER_ENTRY/vdd2_lock
 
 # All sysfs entries for cpufreq
 export CPU=cpu0
-export SYSFS_CPUFREQ=/sys/devices/system/cpu/$CPU/cpufreq/
+export SYSFS_CPUFREQ=/sys/devices/system/cpu/$CPU/cpufreq
+export DSP_FREQ_TMP=$DEBUGFS_DIRECTORY/clock/virt_26m_ck/osc_sys_ck/sys_ck
+export DSP_FREQ=$DSP_FREQ_TMP/dpll2_ck/dpll2_m2_ck/iva2_ck/rate
 
 export SCALING_AVAILABLE_GOVERNORS=$SYSFS_CPUFREQ/scaling_available_governors
 export SCALING_GOVERNOR=$SYSFS_CPUFREQ/scaling_governor
@@ -80,6 +82,11 @@ export GOVERNOR_ONDEMAND=ondemand
 export GOVERNOR_POWERSAVE=powersave
 export GOVERNOR_USERSPACE=userspace
 export GOVERNOR_PERFORMANCE=performance
+
+export VDD1_OPP1_FREQ=300000
+export VDD1_OPP2_FREQ=600000
+export VDD1_OPP3_FREQ=800000
+export VDD1_OPP4_FREQ=1000000
 
 export AUDIO_SAMPLE=/testsuites/audio-alsa/scripts/helper/audio-samples
 
