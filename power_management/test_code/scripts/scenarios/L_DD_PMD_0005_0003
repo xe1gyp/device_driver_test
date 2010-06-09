@@ -8,9 +8,11 @@
 01  set -x; smartReflexAutoComp.sh  enable  VDD1
 02  set -x; smartReflexAutoComp.sh  enable  VDD2
 
-03  set -x; oppControl.sh  stress
+03  set -x; echo "userspace" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 
-04  set -x; smartReflexAutoComp.sh  disable  VDD1
-05  set -x; smartReflexAutoComp.sh  disable  VDD2
+04  set -x; oppControl.sh  stress
+
+05  set -x; smartReflexAutoComp.sh  disable  VDD1
+06  set -x; smartReflexAutoComp.sh  disable  VDD2
 
 # End L_DD_POWER_0005_0003

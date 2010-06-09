@@ -45,6 +45,40 @@ elif [ "$LOCAL_COMMAND" = "request" ]; then
     exit 1
   fi
 
+ elif [ "$LOCAL_COMMAND" = "stress" ]; then
+   maxcount=40
+   count=1
+
+   while [ "$count" -le $maxcount ]
+   do
+       vdd1_opp_no=`expr $count % 4`
+       vdd1_opp_no=`expr $vdd1_opp_no + 1`
+       if [ "$vdd1_opp_no" = "1" ]; then
+               LOCAL_OPP=300000
+               echo $LOCAL_OPP > $SCALING_SET_SPEED
+       elif [ "$vdd1_opp_no"  = "2" ]; then
+               LOCAL_OPP=600000
+               echo $LOCAL_OPP > $SCALING_SET_SPEED
+       elif [ "$vdd1_opp_no" = "3" ]; then
+               LOCAL_OPP=800000
+               echo $LOCAL_OPP > $SCALING_SET_SPEED
+       elif [ "$vdd1_opp_no" = "4" ]; then
+               LOCAL_OPP=1000000
+               echo $LOCAL_OPP > $SCALING_SET_SPEED
+       fi
+
+       temp_value=`cat $SCALING_CUR_FREQ`
+
+       if [ "$LOCAL_OPP" = "$temp_value" ]; then
+               echo "OPP value was correctly set in $LOCAL_VDD"
+       else
+               echo "Error: OPP value $LOCAL_OPP was not set properly"
+	       echo "value found is $temp_value"
+       fi
+
+       count=`expr $count + 1`
+   done
+
 else
   echo "Command in oppControl is not supported"
   exit 1
