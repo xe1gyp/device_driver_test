@@ -307,7 +307,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="360"/>
+			<timeout time="1800"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -412,7 +412,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="360"/>
+			<timeout time="1800"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
