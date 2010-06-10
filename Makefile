@@ -83,7 +83,7 @@ APPLICABLE_TESTS :=     benchmarks dma ethernet gpio hsuart i2c \
                         keypad mcbsp mcspi mmc oskernel \
                         realtimeclock timer-32k touchscreen watchdog
 ifdef CONFIG_ARCH_OMAP3
-APPLICABLE_TESTS +=     camera audio-alsa framebuffer video
+APPLICABLE_TESTS +=     camera audio-alsa framebuffer video nand
 endif
 ifdef CONFIG_ANDROID
 APPLICABLE_TESTS +=     android

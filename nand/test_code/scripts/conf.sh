@@ -71,8 +71,8 @@ if [ "$TYPE" == "OneNAND" ]; then
 	export MTD_CHAR_DEV1=$MTD_FOLDER/$MTD_FILE
 	MTD_NUMBER=`echo $MTD_FILE | cut -c4-`
 	export MTD_BLK_DEV1=$BLOCK_FOLDER/mtdblock${MTD_NUMBER}
-  export MTD_DEV1_SIZE=`${TESTSCRIPT}/GetDeviceSize.sh "$TEMP_DEVICE"`
-  export MTD_DEV1_ERASESIZE=`${TESTSCRIPT}/GetDeviceEraseSize.sh "$TEMP_DEVICE"`
+	export MTD_DEV1_SIZE=`${TESTSCRIPT}/GetDeviceSize.sh "$TEMP_DEVICE"`
+	export MTD_DEV1_ERASESIZE=`${TESTSCRIPT}/GetDeviceEraseSize.sh "$TEMP_DEVICE"`
 	
 	# Kernel partition
 	export MTD_PROC_ENTRY=`cat /proc/mtd | grep OneNAND | grep "Kernel"`
@@ -98,6 +98,15 @@ elif [ "$TYPE" == "NAND" ]; then
 	export MTD_CHAR_DEV1=$MTD_FOLDER/$MTD_FILE
 	MTD_NUMBER=`echo $MTD_FILE | cut -c4-`
 	export MTD_BLK_DEV1=$BLOCK_FOLDER/mtdblock${MTD_NUMBER}
+
+  # Poky on zoom3, has /dev/block/mtdblock{number} and /dev/mtdblock{number},
+  # but the second one is the correct
+	if [ ! -d "$MTD_BLK_DEV1" ]
+	then
+	        export BLOCK_FOLDER=/dev
+		export MTD_BLK_DEV1=$BLOCK_FOLDER/mtdblock${MTD_NUMBER}
+	fi
+
 	export MTD_DEV1_SIZE=`${TESTSCRIPT}/GetDeviceSize.sh "$TEMP_DEVICE"`
 	export MTD_DEV1_ERASESIZE=`${TESTSCRIPT}/GetDeviceEraseSize.sh "$TEMP_DEVICE"`
 	
