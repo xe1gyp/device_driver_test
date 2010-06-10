@@ -1,17 +1,418 @@
 <?xml version="1.0"?>
 <titan>
 
+	<test id="L_DD_HSUART_0000_0001_01">
+
+		<information>
+			<autor> Jyothi </autor>
+			<description>Test UART TX and RX with 115Kbps baudrate no flowcontrol. </description>
+			<dateofcreation> 06/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_HSUART_0000_0002_01">
+
+		<information>
+			<autor> Jyothi </autor>
+			<description>Test UART TX and RX with 921Kbps baudrate no flowcontrol </description>
+			<dateofcreation> 06/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_HSUART_0000_0002_02">
+
+		<information>
+			<autor> Jyothi </autor>
+			<description>Test UART TX and RX with 3.5Mbps baudrate no flowcontrol.</description>
+			<dateofcreation> 06/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	<test id="L_DD_HSUART_0001_0001_01">
+
+		<information>
+			<autor> Jyothi </autor>
+			<description> Test UART TX and RX with 115Kbps baudrate with hardware flowcontrol.</description>
+			<dateofcreation> 06/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	<test id="L_DD_HSUART_0001_0001_02">
+
+		<information>
+			<autor> Jyothi </autor>
+			<description> Test UART TX and RX with 921Kbps baudrate with hardware flowcontrol.</description>
+			<dateofcreation> 06/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	<test id="L_DD_HSUART_0001_0001_03">
+
+		<information>
+			<autor> Jyothi </autor>
+			<description> Test UART TX and RX with 3.5Mbps baudrate with hardware flowcontrol.</description>
+			<dateofcreation> 06/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	<test id="L_DD_HSUART_0002_0001_01">
+
+		<information>
+			<autor> Jyothi </autor>
+			<description> Test UART TX and RX with 115Kbps baudrate with software flowcontrol.</description>
+			<dateofcreation> 06/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	<test id="L_DD_HSUART_0002_0001_02">
+
+		<information>
+			<autor> Jyothi </autor>
+			<description> Test UART TX and RX with 921Kbps baudrate with software flowcontrol.</description>
+			<dateofcreation> 06/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	<test id="L_DD_HSUART_0002_0001_03">
+
+		<information>
+			<autor> Jyothi </autor>
+			<description> Test UART TX and RX with 3.5Mbps baudrate with software flowcontrol.</description>
+			<dateofcreation> 06/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
 	<test id="L_DD_HSUART_0010_0001_01">
 
 		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/10 </dateofcreation>
+			<autor> Jyothi </autor>
+			<description> Test UART TX and RX CPU Affinity test 3.5Mbps no flowcontrol</description>
+			<dateofcreation> 06/10/10 </dateofcreation>
 		</information>
 
 		<run>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0001_01</command>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -25,25 +426,36 @@
 		</pass>
 
 		<fail>
-			<timeout time="240"/>
+			<timeout time="600"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
 		</fail>
 
 	</test>
-
 	<test id="L_DD_HSUART_0010_0001_02">
 
 		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/10 </dateofcreation>
+			<autor> Jyothi </autor>
+			<description> Test UART TX and RX CPU Affinity test	3.5Mbps with hardware flowcontrol.</description>
+			<dateofcreation> 06/10/10 </dateofcreation>
 		</information>
 
 		<run>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0001_02</command>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -57,25 +469,36 @@
 		</pass>
 
 		<fail>
-			<timeout time="240"/>
+			<timeout time="600"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
 		</fail>
 
 	</test>
-
-	<test id="L_DD_HSUART_0010_0002_01">
+	<test id="L_DD_HSUART_0010_0001_03">
 
 		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/10 </dateofcreation>
+			<autor> Jyothi </autor>
+			<description> Test UART TX and RX CPU Affinity test 3.5Mbps with software flowcontrol</description>
+			<dateofcreation> 06/10/10 </dateofcreation>
 		</information>
 
 		<run>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0002_01</command>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -89,25 +512,295 @@
 		</pass>
 
 		<fail>
-			<timeout time="240"/>
+			<timeout time="600"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
 		</fail>
 
 	</test>
+	<test id="L_DD_HSUART_0010_0001_04">
 
+		<information>
+			<autor> Jyothi </autor>
+			<description> Test UART TX and RX CPU Affinity test 921Kbps no flowcontrol </description>
+			<dateofcreation> 06/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	<test id="L_DD_HSUART_0010_0001_05">
+
+		<information>
+			<autor> Jyothi </autor>
+			<description> Test UART TX and RX CPU Affinity 921Kbps with hardware flowcontrol</description>
+			<dateofcreation> 06/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	<test id="L_DD_HSUART_0010_0001_06">
+
+		<information>
+			<autor> Jyothi </autor>
+			<description> Test UART TX and RX CPU Affinity test 921Kbps with software flowcontrol</description>
+			<dateofcreation> 06/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	<test id="L_DD_HSUART_0010_0001_07">
+
+		<information>
+			<autor> Jyothi </autor>
+			<description> Test UART TX and RX CPU Affinity test 115Kbps no flowcontrol</description>
+			<dateofcreation> 06/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	<test id="L_DD_HSUART_0010_0001_08">
+
+		<information>
+			<autor> Jyothi </autor>
+			<description> Test UART TX and RX CPU Affinity test115Kbps with hardware flowcontrol</description>
+			<dateofcreation> 06/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	<test id="L_DD_HSUART_0010_0001_09">
+
+		<information>
+			<autor> Jyothi </autor>
+			<description> Test UART TX and RX CPU Affinity test 115Kbps with software flowcontrol</description>
+			<dateofcreation> 06/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	
 	<test id="L_DD_HSUART_0010_0002_02">
 
 		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/10 </dateofcreation>
+			<autor> Jyothi </autor>
+			<description> Test parallel access from 2 processes, cat text files</description>
+			<dateofcreation> 06/10/10 </dateofcreation>
 		</information>
 
 		<run>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0002_02</command>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -121,77 +814,13 @@
 		</pass>
 
 		<fail>
-			<timeout time="240"/>
+			<timeout time="600"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
 		</fail>
 
 	</test>
-
-	<test id="L_DD_HSUART_0010_0003_01">
-
-		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/10 </dateofcreation>
-		</information>
-
-		<run>
-			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0003_01</command>
-			</action>
-			<action>
-				<command>rm /testsuites/hsuart/scripts/log.*</command>
-			</action>
-		</run>
-
-		<pass>
-			<output>
-				<value>stat=0</value>
-			</output>
-		</pass>
-
-		<fail>
-			<timeout time="240"/>
-			<output>
-				<regularexpression>stat=[^0]\d*</regularexpression>
-			</output>
-		</fail>
-
-	</test>
-
-	<test id="L_DD_HSUART_0010_0003_02">
-
-		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/10 </dateofcreation>
-		</information>
-
-		<run>
-			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0003_02</command>
-			</action>
-			<action>
-				<command>rm /testsuites/hsuart/scripts/log.*</command>
-			</action>
-		</run>
-
-		<pass>
-			<output>
-				<value>stat=0</value>
-			</output>
-		</pass>
-
-		<fail>
-			<timeout time="240"/>
-			<output>
-				<regularexpression>stat=[^0]\d*</regularexpression>
-			</output>
-		</fail>
-
-	</test>
-
 
 </titan>
+
