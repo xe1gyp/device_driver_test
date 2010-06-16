@@ -23,10 +23,11 @@ suspendResume() {
 	fi
 
 	echo $LOCAL_WAKEUP_TIME > $PM_WAKEUP_TIMER_SECONDS
+	echo $LOCAL_WAKEUP_TIME > $PM_WAKEUP_TIMER_SECONDS_VARIABLE
 
 	while [ 1 ]; do
 
-		echo > /var/log/messages
+		echo "Successfully" > /var/log/messages
 		echo mem > /sys/power/state
 
 		cat /var/log/messages | grep "Successfully"
@@ -57,6 +58,10 @@ if [ $? -eq 1 ]; then
 fi
 
 if [ ! -f "$PM_WAKEUP_TIMER_SECONDS" ]; then
+
+	PM_WAKEUP_TIMER_SECONDS=$PM_WAKEUP_TIMER_SECONDS_VARIABLE
+
+elif [ ! -f "$PM_WAKEUP_TIMER_SECONDS" ]; then
 	echo "FATAL: $PM_WAKEUP_TIMER_SECONDS cannot be found!"
 	handlerError.sh "log" "1" "halt" "handlerSuspendResume"
 	exit 1
