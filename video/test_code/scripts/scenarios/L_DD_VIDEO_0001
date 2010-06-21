@@ -28,11 +28,14 @@ COMMENT comment.sh "Verify different format video are rendered on video 1 2 and 
 0007_VD1 set -x; imgstream.sh 1 "YUYV 1280 720"  $VIDEOFILES/720p.yuv "0 0 1280 720"	&& exit 0 || exit 1
 0007_VD2 set -x; imgstream.sh 2 "YUYV 1280 720"  $VIDEOFILES/720p.yuv "0 0 1280 720"	&& exit 0 || exit 1
 0007_VD2 set -x; imgstream.sh 3 "YUYV 1280 720"  $VIDEOFILES/720p.yuv "0 0 1280 720"	&& exit 0 || exit 1
-0008_VD1_SAN set -x; imgstream.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12			&& exit 0 || exit 1
-0008_VD2_SAN set -x; imgstream.sh 2 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12			&& exit 0 || exit 1
-0008_VD3_SAN set -x; imgstream.sh 3 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12			&& exit 0 || exit 1
-0009_VD1_SAN set -x; imgstream.sh 1 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv			&& exit 0 || exit 1
-0009_VD2_SAN set -x; imgstream.sh 2 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv			&& exit 0 || exit 1
-0009_VD3_SAN set -x; imgstream.sh 3 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv			&& exit 0 || exit 1
+0008_VD1_SAN set -x; imgstream.sh 1 "NV12 128 96" $VIDEOFILES/2.nv12                        && exit 0 || exit 1
+0008_VD1_SAN set -x; imgstream.sh 2 "NV12 128 96" $VIDEOFILES/2.nv12                        && exit 0 || exit 1
+0008_VD1_SAN set -x; imgstream.sh 3 "NV12 128 96" $VIDEOFILES/2.nv12                        && exit 0 || exit 1
+0009_VD1_SAN set -x; imgstream.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12			&& exit 0 || exit 1
+0009_VD2_SAN set -x; imgstream.sh 2 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12			&& exit 0 || exit 1
+0009_VD3_SAN set -x; imgstream.sh 3 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12			&& exit 0 || exit 1
+0010_VD1_SAN set -x; imgstream.sh 1 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv			&& exit 0 || exit 1
+0010_VD2_SAN set -x; imgstream.sh 2 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv			&& exit 0 || exit 1
+0010_VD3_SAN set -x; imgstream.sh 3 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv			&& exit 0 || exit 1
 
 # End "L_DD_VIDEO_0001"
