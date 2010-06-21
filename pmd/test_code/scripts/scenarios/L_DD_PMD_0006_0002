@@ -5,16 +5,20 @@
 
 # Begin L_DD_POWER_0006_0002
 
-01  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
+01  set -x; debugFileSystem.sh "mount"
 
-02  set -x; smartReflexAutoComp.sh  enable  VDD1
-03  set -x; smartReflexAutoComp.sh  enable  VDD2
+02  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
 
-04  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
+03  set -x; smartReflexAutoComp.sh  enable  VDD1
+04  set -x; smartReflexAutoComp.sh  enable  VDD2
 
-05  set -x; smartReflexAutoComp.sh  disable  VDD1
-06  set -x; smartReflexAutoComp.sh  disable  VDD2
+05  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
 
-07  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
+06  set -x; smartReflexAutoComp.sh  disable  VDD1
+07  set -x; smartReflexAutoComp.sh  disable  VDD2
+
+08  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
+
+09  set -x; debugFileSystem.sh "umount"
 
 # End L_DD_POWER_0006_0002
