@@ -7,7 +7,7 @@
 LOCAL_OPERATION=$1
 FS_RULES_FILE=$UTILS_DIR_TMP/fs_rules
 
-ANDROID_RULES='-x /init;-d /dev/block;-d /dev/mtd;-d /system/bin'
+ANDROID_RULES='-x /init;-d /dev/block;-d /system/bin'
 UBUNTU_RULES='-x /sbin/init;-d /home'
 
 # =============================================================================
