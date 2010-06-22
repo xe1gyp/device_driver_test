@@ -60,12 +60,12 @@ test -f /proc/irq/$LOCAL_PROC_IRQ_NUMBER/smp_affinity
 if [ $? -eq 1 ]
 then
 	echo "Error: Cannot set affinity for irq $LOCAL_IRQ_NUMBER!"
-	return 1
+	exit 1
 fi
 
 handlerError.sh "test"
 if [ $? -eq 1 ]; then
-	return 1
+	exit 1
 fi
 
 if [ "$LOCAL_OPERATION" = "switch" ]; then

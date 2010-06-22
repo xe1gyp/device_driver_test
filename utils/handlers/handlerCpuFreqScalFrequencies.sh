@@ -112,7 +112,7 @@ setAllFrequencies() {
 
 handlerError.sh "test"
 if [ $? -eq 1 ]; then
-	return 1
+	exit 1
 fi
 
 if [ ! -f /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies ]; then

@@ -109,7 +109,7 @@ mdev -s
 
 if [ ! `echo 1+1 | bc` ]; then
 	echo "FATAL: BC is unavailable, cannot continue"
-	return 1
+	exit 1
 fi
 
 # End of file

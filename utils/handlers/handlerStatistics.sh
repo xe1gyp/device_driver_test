@@ -18,7 +18,7 @@ LOCAL_OPERATION=$1
 
 handlerError.sh "test"
 if [ $? -eq 1 ]; then
-  return 1
+  exit 1
 fi
 
 if [ "$LOCAL_OPERATION" = "clean" ]

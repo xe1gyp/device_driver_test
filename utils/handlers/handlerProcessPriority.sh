@@ -18,7 +18,7 @@ LOCAL_OPERATION=$1
 
 handlerError.sh "test"
 if [ $? -eq 1 ]; then
-	return 1
+	exit 1
 fi
 
 test -f /proc/1/sched
@@ -28,7 +28,7 @@ then
 	echo "Fatal: missing /proc/<process>/sched, cannot continue, directory looks like"
 	echo "Info : please enable in kernel menuconfig the macro CONFIG_SCHED_DEBUG"
 	echo "Info : Kernel Hacking -> Kernel Debugging -> Collect scheduler debugging info"
-	return 1
+	exit 1
 fi
 
 if [ "$LOCAL_OPERATION" = "clean" ]; then
@@ -156,27 +156,27 @@ elif [ "$LOCAL_OPERATION" = "verify" ]; then
 
 	if [ "$LOCAL_PROCESS_TO_FINISH_FIRST" = "equal" ]; then
 		echo -e "\nInfo: We don't know what process should have finished first\n"
-		return 0
+		exit 0
 	else
 		echo -e "\nInfo: Process with higher priority is $LOCAL_PROCESS_TO_FINISH_FIRST"
 		if [ "$LOCAL_PROCESS_TO_FINISH_FIRST" = "1" ]; then
 			LOCAL_RESULT=`echo "scale=6; $fvalue1 > $fvalue2" | bc`
 			if [ "$LOCAL_RESULT" = "0" ]; then
 				echo -e "Info: Failed!\n"
-				return 1
+				exit 1
 			else
 				echo -e "Info: Passed\n"
-				return 0
+				exit 0
 			fi
 
 		elif [ "$LOCAL_PROCESS_TO_FINISH_FIRST" = "2" ]; then
 			LOCAL_RESULT=`echo "scale=6; $fvalue2 > $fvalue1" | bc`
 			if [ "$LOCAL_RESULT" = "0" ]; then
 				echo -e "Info: Failed!\n"
-				return 1
+				exit 1
 			else
 				echo -e "Info: Passed\n"
-				return 0
+				exit 0
 			fi
 		fi
 	fi

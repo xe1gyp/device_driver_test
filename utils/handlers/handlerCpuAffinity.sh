@@ -18,7 +18,7 @@ LOCAL_OPERATION=$1
 
 handlerError.sh "test"
 if [ $? -eq 1 ]; then
-	return 1
+	exit 1
 fi
 
 if [ "$LOCAL_OPERATION" = "switch" ]; then
@@ -56,7 +56,7 @@ if [ "$LOCAL_OPERATION" = "switch" ]; then
 		then
 			echo -e "Error: Could not set cpu affinity for processor $processor!"
 			# FixMe
-			# return 1
+			# exit 1
 		fi
 
 		count=`expr $count + 1`

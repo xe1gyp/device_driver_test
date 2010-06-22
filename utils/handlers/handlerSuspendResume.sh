@@ -54,7 +54,7 @@ suspendResume() {
 
 handlerError.sh "test"
 if [ $? -eq 1 ]; then
-	return 1
+	exit 1
 fi
 
 if [ ! -f "$PM_WAKEUP_TIMER_SECONDS" ]; then
