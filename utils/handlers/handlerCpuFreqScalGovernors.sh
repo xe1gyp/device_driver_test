@@ -139,9 +139,9 @@ elif [ "$LOCAL_OPERATION" = "run" ]; then
 	LOCAL_COMMAND_LINE=$3
 
 	if [ "$LOCAL_GOVERNOR" = "all" ]; then
-		setAllGovernor $LOCAL_COMMAND_LINE
+		setAllGovernor "$LOCAL_COMMAND_LINE"
 	else
-		setOneGovernor $LOCAL_GOVERNOR $LOCAL_COMMAND_LINE
+		setOneGovernor $LOCAL_GOVERNOR "$LOCAL_COMMAND_LINE"
 	fi
 
 elif  [ "$LOCAL_OPERATION" = "get" ]; then
