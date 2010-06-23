@@ -1,0 +1,3 @@
+arm-none-linux-gnueabi-gcc -O2 -DPOSIX -c
+
+This will be used to compile .c files.
