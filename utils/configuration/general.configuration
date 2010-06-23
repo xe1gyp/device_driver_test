@@ -1,7 +1,10 @@
 #!/bin/sh
 
-# Check if procfs is mounted, if not set it up 
+# Check if procfs is mounted, if not set it up
 test -d /proc/1/ || mount -t proc proc /proc
+
+# Check if sysfs is mounted, if not set it up
+test -d /sys/kernel/ || mount -t sysfs sysfs /sys
 
 # Creation & clean up of temporal directory
 export UTILS_DIR_TMP=/tmp/testsuites/
@@ -115,6 +118,9 @@ export HFST_FSTAB_ORIGINAL=$UTILS_DIR_TMP/hfst.original
 
 # handlerFilesystem.sh
 export HFS_FS_TYPE=$UTILS_DIR_TMP/hfs.fs.type
+
+# handlerSysFs.sh
+export HSF_SYSFS_ENTRY_NAME=$UTILS_DIR_TMP/hsf.sysfs.entry.name
 
 # End of file
 
