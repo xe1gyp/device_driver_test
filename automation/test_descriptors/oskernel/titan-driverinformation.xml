@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<titan>
+
+	<driverinformation>
+		<name>oskernel</name>
+		<description>OS kernel testsuites</description>
+	</driverinformation>
+
+</titan>

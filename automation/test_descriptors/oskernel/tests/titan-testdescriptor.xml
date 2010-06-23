@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<titan>
+
+	<test id="L_DD_OSKERNEL_0009_0001">
+
+		<information>
+			<autor> Abraham Arce </autor>
+			<description> CPU cores availability </description>
+			<dateofcreation> 06/23/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/oskernel/scripts/test_runner.sh L_DD_OSKERNEL_0009_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/oskernel/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<timeout time="30"/>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_OSKERNEL_0009_0002">
+
+		<information>
+			<autor> Abraham Arce </autor>
+			<description> CPU cores load balancing </description>
+			<dateofcreation> 06/23/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/oskernel/scripts/test_runner.sh L_DD_OSKERNEL_0009_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/oskernel/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<timeout time="600"/>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_OSKERNEL_0014_0001">
+
+		<information>
+			<autor> Abraham Arce </autor>
+			<description> memtester utility </description>
+			<dateofcreation> 06/23/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/oskernel/scripts/test_runner.sh L_DD_ETHERNET_0014_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/oskernel/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="3600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+</titan>
