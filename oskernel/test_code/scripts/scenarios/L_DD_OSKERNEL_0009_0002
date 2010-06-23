@@ -1,0 +1,67 @@
+# Begin L_DD_OSKERNEL_0009_0002
+
+00  set -x; handlerSysFs.sh "compare" $OSKERNEL_SYSFS_CPU_ONLINE "0-1" || handlerError.sh "log" "1" "halt" "2 CPUs are not available"
+
+# No Load Balancing | CPU 1
+
+01  set -x; handlerCpuAffinity.sh "clean"
+01  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "1"
+01  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "1"
+01  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "1"
+01  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "1"
+01  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "1"
+01  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "1"
+01  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "1"
+01  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "1"
+01  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "1"
+01  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "1"
+01  set -x; handlerCpuAffinity.sh "execute"
+
+# No Load Balancing | CPU 2
+
+02  set -x; handlerCpuAffinity.sh "clean"
+02  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "2"
+02  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "2"
+02  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "2"
+02  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "2"
+02  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "2"
+02  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "2"
+02  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "2"
+02  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "2"
+02  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "2"
+02  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "2"
+02  set -x; handlerCpuAffinity.sh "execute"
+02  set -x; handlerCpuAffinity.sh "clean"
+
+# Load Balancing | CPU 1,2
+
+03  set -x; handlerCpuAffinity.sh "clean"
+03  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "1"
+03  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "2"
+03  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "1"
+03  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "2"
+03  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "1"
+03  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "2"
+03  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "1"
+03  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "2"
+03  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "1"
+03  set -x; handlerCpuAffinity.sh "assign" "dd if=/dev/urandom of=/dev/null bs=1M count=10" "2"
+03  set -x; handlerCpuAffinity.sh "execute"
+03  set -x; handlerCpuAffinity.sh "clean"
+
+# Load Balancing | CPU Random
+
+04  set -x; handlerCpuAffinity.sh "clean"
+04  set -x; handlerCpuAffinity.sh "random" "dd if=/dev/urandom of=/dev/null bs=1M count=10"
+04  set -x; handlerCpuAffinity.sh "random" "dd if=/dev/urandom of=/dev/null bs=1M count=10"
+04  set -x; handlerCpuAffinity.sh "random" "dd if=/dev/urandom of=/dev/null bs=1M count=10"
+04  set -x; handlerCpuAffinity.sh "random" "dd if=/dev/urandom of=/dev/null bs=1M count=10"
+04  set -x; handlerCpuAffinity.sh "random" "dd if=/dev/urandom of=/dev/null bs=1M count=10"
+04  set -x; handlerCpuAffinity.sh "random" "dd if=/dev/urandom of=/dev/null bs=1M count=10"
+04  set -x; handlerCpuAffinity.sh "random" "dd if=/dev/urandom of=/dev/null bs=1M count=10"
+04  set -x; handlerCpuAffinity.sh "random" "dd if=/dev/urandom of=/dev/null bs=1M count=10"
+04  set -x; handlerCpuAffinity.sh "random" "dd if=/dev/urandom of=/dev/null bs=1M count=10"
+04  set -x; handlerCpuAffinity.sh "random" "dd if=/dev/urandom of=/dev/null bs=1M count=10"
+04  set -x; handlerCpuAffinity.sh "execute"
+
+# End L_DD_OSKERNEL_0009_0002

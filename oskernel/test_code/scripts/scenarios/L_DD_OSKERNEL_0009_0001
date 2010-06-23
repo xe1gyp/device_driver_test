@@ -1,0 +1,8 @@
+# Begin L_DD_OSKERNEL_0009_0001
+
+01 set -x; handlerSysFs.sh "compare" $OSKERNEL_SYSFS_CPU_OFFLINE  ""
+02 set -x; handlerSysFs.sh "compare" $OSKERNEL_SYSFS_CPU_ONLINE   "0-1"
+03 set -x; handlerSysFs.sh "compare" $OSKERNEL_SYSFS_CPU_POSSIBLE "0-1"
+04 set -x; handlerSysFs.sh "compare" $OSKERNEL_SYSFS_CPU_PRESENT  "0-1"
+
+# End L_DD_OSKERNEL_0009_0001

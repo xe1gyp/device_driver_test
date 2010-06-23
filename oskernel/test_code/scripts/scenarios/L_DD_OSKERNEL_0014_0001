@@ -1,0 +1,10 @@
+# Begin L_DD_OSKERNEL_0014_0001
+
+01 set -x; handlerMemTester.sh "run"   "1M" "1"
+02 set -x; handlerMemTester.sh "run"   "5M" "1"
+03 set -x; handlerMemTester.sh "run"  "10M" "1"
+04 set -x; handlerMemTester.sh "run"  "25M" "1"
+05 set -x; handlerMemTester.sh "run"  "50M" "1"
+06 set -x; handlerMemTester.sh "run" "100M" "1"
+
+# End L_DD_OSKERNEL_0014_0001
