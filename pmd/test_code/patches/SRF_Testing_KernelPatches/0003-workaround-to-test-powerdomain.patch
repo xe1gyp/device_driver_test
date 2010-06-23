@@ -1,0 +1,31 @@
+From 215ba170e2549723e1f2a21fbeac98f515000a2d Mon Sep 17 00:00:00 2001
+From: Teerth Reddy <teerth@ti.com>
+Date: Wed, 7 Oct 2009 19:31:16 +0530
+Subject: [PATCH] workaround to test powerdomain
+ Testing power domain framework requires hacking the kernel with these
+ patch contents. This patch should be applied only during power domain
+ testing.
+
+
+Signed-off-by: Teerth Reddy <teerth@ti.com>
+---
+ arch/arm/mach-omap2/powerdomains.h |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+
+diff --git a/arch/arm/mach-omap2/powerdomains.h b/arch/arm/mach-omap2/powerdomains.h
+index 691470e..91b9710 100644
+--- a/arch/arm/mach-omap2/powerdomains.h
++++ b/arch/arm/mach-omap2/powerdomains.h
+@@ -152,7 +152,8 @@ static struct powerdomain wkup_pwrdm = {
+
+
+ /* As powerdomains are added or removed above, this list must also be changed */
+-static struct powerdomain *powerdomains_omap[] __initdata = {
++
++struct powerdomain *powerdomains_omap[] = {
+
+ 	&gfx_pwrdm,
+ 	&wkup_pwrdm,
+--
+1.6.0.4
+

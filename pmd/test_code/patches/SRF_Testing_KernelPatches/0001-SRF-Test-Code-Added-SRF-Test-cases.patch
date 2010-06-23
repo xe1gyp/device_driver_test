@@ -1,0 +1,1178 @@
+From 9177db1406aecbf76dd5790fb818b05ad04b91ad Mon Sep 17 00:00:00 2001
+From: Charulatha V <charu@ti.com>
+Date: Fri, 18 Sep 2009 16:55:17 +0530
+Subject: [PATCH] SRF Test Code: Added SRF Test cases
+
+Shared Resource Framework test cases are created to test
+the SRF FW on OMAP3430 Silicon version 3.1.1
+Changes in silicon version requires resources names change and other
+related changes in resource-debug.h and resource-debug.c
+
+Signed-off-by: Charulatha V <charu@ti.com>
+---
+ arch/arm/plat-omap/Makefile                      |    3 +
+ arch/arm/plat-omap/include/mach/resource-debug.h |  282 +++++++
+ arch/arm/plat-omap/resource-debug.c              |  851 ++++++++++++++++++++++
+ 3 files changed, 1136 insertions(+), 0 deletions(-)
+ create mode 100644 arch/arm/plat-omap/include/mach/resource-debug.h
+ create mode 100644 arch/arm/plat-omap/resource-debug.c
+
+diff --git a/arch/arm/plat-omap/Makefile b/arch/arm/plat-omap/Makefile
+index 092a686..1e070f8 100644
+--- a/arch/arm/plat-omap/Makefile
++++ b/arch/arm/plat-omap/Makefile
+@@ -31,3 +31,6 @@ obj-$(CONFIG_OMAP_MBOX_FWK) += mailbox.o
+ obj-$(CONFIG_OMAP_PM_NOOP) += omap-pm-noop.o
+ obj-$(CONFIG_OMAP_PM_SRF) += omap-pm-srf.o \
+ 				resource.o
++
++# OMAP mailbox framework
++obj-$(CONFIG_OMAP_PM_SRF) += resource-debug.o
+diff --git a/arch/arm/plat-omap/include/mach/resource-debug.h b/arch/arm/plat-omap/include/mach/resource-debug.h
+new file mode 100644
+index 0000000..1710452
+--- /dev/null
++++ b/arch/arm/plat-omap/include/mach/resource-debug.h
+@@ -0,0 +1,282 @@
++/*
++ * linux/arch/arm/plat-omap/include/mach/resource-debug.h
++ * OMAP3 SRF test header file
++ *
++ * Copyright (C) 2009-2010 Texas Instruments, Inc.
++ * Charulatha Varadarajan <charu@ti.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ *
++ * THIS PACKAGE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
++ * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
++ * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
++ * History:
++ *
++ * 2009-09-17: Charulatha V         Initial code
++ *
++ */
++
++#include <linux/module.h>
++#include <plat/resource.h>
++#include <plat/omap34xx.h>
++
++#define TEST_PASS	0
++#define TEST_FAIL	-1
++
++/* No of resources */
++#define NO_OF_OPP_RESOURCES		2
++#define NO_OF_FREQ_RESOURCES		2
++#define NO_OF_PWRDM_LAT_RESOURCES	7
++#define NO_OF_CORE_MPU_LAT_RESOURCES	2
++#define NO_OF_OPP_FREQ_RESOURCES	(NO_OF_OPP_RESOURCES+	\
++						NO_OF_FREQ_RESOURCES)
++#define NO_OF_RESOURCES			(NO_OF_OPP_FREQ_RESOURCES + 	    \
++						NO_OF_PWRDM_LAT_RESOURCES+  \
++						NO_OF_CORE_MPU_LAT_RESOURCES)
++/* No of test values to test each resource (atleast 4) */
++#define NO_OF_TEST_VALUES		5
++
++/* Convert VDD2 level to throughput */
++#define VDD2_LEVEL3_THROUGHPUT		400000
++#define VDD2_LEVEL2_THROUGHPUT		200000
++
++/* Power Domain Latency levels */
++#define PD_LATENCY_OFF		0x0
++#define PD_LATENCY_RET		0x1
++#define PD_LATENCY_INACT	0x2
++#define PD_LATENCY_ON		0x3
++
++static const char *res_names[] = {
++	/* List the resources in this order */
++	/* OPP resources */
++	"vdd1_opp",
++	"vdd2_opp",
++	/* frequency resources */
++	"mpu_freq",
++	"dsp_freq",
++	/* Power Domain Latency resources */
++	"iva2_pwrdm_latency",
++	"sgx_pwrdm_latency",
++	"dss_pwrdm_latency",
++	"cam_pwrdm_latency",
++	"per_pwrdm_latency",
++	"neon_pwrdm_latency",
++	"usbhost_pwrdm_latency",
++	/* MPU/core Latency resources */
++	"mpu_latency",
++	"core_latency"
++};
++
++/* vdd1 test values table - order high to low */
++static unsigned long vdd1_opp_test_table[NO_OF_TEST_VALUES] = {
++	VDD1_OPP5,
++	VDD1_OPP4,
++	VDD1_OPP3,
++	VDD1_OPP2,
++	VDD1_OPP1
++};
++
++/* vdd2 test values table - order high to low */
++static unsigned long vdd2_opp_test_table[NO_OF_TEST_VALUES] = {
++	VDD2_OPP3,
++	VDD2_OPP3,
++	VDD2_OPP3,
++	VDD2_OPP2,
++	VDD2_OPP2
++};
++
++/* mpu_freq test values table - order high to low */
++static unsigned long mpu_freq_test_table[NO_OF_TEST_VALUES] = {
++	600000000,
++	550000000,
++	500000000,
++	250000000,
++	125000000
++};
++
++/* dsp_freq test values table - order high to low */
++static unsigned long dsp_freq_test_table[NO_OF_TEST_VALUES] = {
++	430000000,
++	400000000,
++	360000000,
++	180000000,
++	90000000
++};
++
++/* MPU latency test values table - order high to low */
++static unsigned long mpu_latency_test_table[NO_OF_TEST_VALUES] = {
++	1100,
++	800,
++	350,
++	200,
++	10
++};
++
++/* Core latency test values table - order high to low */
++static unsigned long core_latency_test_table[NO_OF_TEST_VALUES] = {
++	1100,
++	800,
++	350,
++	200,
++	10
++};
++
++/* iva2 powerdomain latency reference values table */
++/* pwrdmn latency reference table does not include PD_LATENCY_INACT value */
++static unsigned long iva2_pwrdm_ref_table[] = {
++	1100,
++	350,
++	0
++};
++
++/* iva2 powerdomain latency test values table - order high to low */
++static unsigned long iva2_pwrdm_test_table[NO_OF_TEST_VALUES] = {
++	1150,
++	800,
++	350,
++	30,
++	10
++};
++
++/* sgx powerdomain latency reference values table */
++static unsigned long sgx_pwrdm_ref_table[] = {
++	1000,
++	100,
++	0
++};
++
++/* sgx powerdomain latency test values table - order high to low */
++static unsigned long sgx_pwrdm_test_table[NO_OF_TEST_VALUES] = {
++	1100,
++	900,
++	210,
++	90,
++	10
++};
++
++/* dss powerdomain latency reference values table */
++static unsigned long dss_pwrdm_ref_table[] = {
++	70,
++	20,
++	0
++};
++
++/* dss powerdomain latency test values table - order high to low */
++static unsigned long dss_pwrdm_test_table[NO_OF_TEST_VALUES] = {
++	100,
++	80,
++	55,
++	200,
++	10
++};
++
++/* cam powerdomain latency reference values table */
++static unsigned long cam_pwrdm_ref_table[] = {
++	850,
++	35,
++	0
++};
++
++/* cam powerdomain latency test values table - order high to low */
++static unsigned long cam_pwrdm_test_table[NO_OF_TEST_VALUES] = {
++	900,
++	800,
++	400,
++	10,
++	5
++};
++
++/* per powerdomain latency reference values table */
++static unsigned long per_pwrdm_ref_table[] = {
++	200,
++	110,
++	0
++};
++
++/* per powerdomain latency test values table - order high to low */
++static unsigned long per_pwrdm_test_table[NO_OF_TEST_VALUES] = {
++	300,
++	190,
++	100,
++	90,
++	5
++};
++
++/* neon powerdomain latency reference values table - order high to low */
++static unsigned long neon_pwrdm_ref_table[] = {
++	200,
++	35,
++	0
++};
++
++/* neon powerdomain latency test values table */
++static unsigned long neon_pwrdm_test_table[NO_OF_TEST_VALUES] = {
++	300,
++	150,
++	90,
++	10,
++	5
++};
++
++/* usbhost powerdomain latency reference values table - order high to low */
++static unsigned long usbhost_pwrdm_ref_table[] = {
++	800,
++	150,
++	0
++};
++
++/* usbhost powerdomain latency test values table - order high to low */
++static unsigned long usbhost_pwrdm_test_table[NO_OF_TEST_VALUES] = {
++	900,
++	200,
++	190,
++	90,
++	5
++};
++
++/* Resources test values table array*/
++static unsigned long *res_test_table[] = {
++	/* List the resources in the same order as res_names*/
++	/* OPP resources */
++	vdd1_opp_test_table,
++	vdd2_opp_test_table,
++	/* Frequency resources */
++	mpu_freq_test_table,
++	dsp_freq_test_table,
++	/* Power Domain Latency resources */
++	iva2_pwrdm_test_table,
++	sgx_pwrdm_test_table,
++	dss_pwrdm_test_table,
++	cam_pwrdm_test_table,
++	per_pwrdm_test_table,
++	neon_pwrdm_test_table,
++	usbhost_pwrdm_test_table,
++	/* Latency resources */
++	mpu_latency_test_table,
++	core_latency_test_table
++};
++
++/* Resources latency reference table array*/
++/* pwrdmn latency reference table does not include PD_LATENCY_INACT value */
++static unsigned long *lat_ref_table[] = {
++	/* List the resources in the same order as res_names*/
++	/* OPP resources */
++	NULL,
++	NULL,
++	/* Frequency resources */
++	NULL,
++	NULL,
++	/* Power Domain Latency resources */
++	iva2_pwrdm_ref_table,
++	sgx_pwrdm_ref_table,
++	dss_pwrdm_ref_table,
++	cam_pwrdm_ref_table,
++	per_pwrdm_ref_table,
++	neon_pwrdm_ref_table,
++	usbhost_pwrdm_ref_table,
++	/* MPU/core Latency resources */
++	NULL,
++	NULL
++};
+diff --git a/arch/arm/plat-omap/resource-debug.c b/arch/arm/plat-omap/resource-debug.c
+new file mode 100644
+index 0000000..2bfbd1e
+--- /dev/null
++++ b/arch/arm/plat-omap/resource-debug.c
+@@ -0,0 +1,851 @@
++/*
++ * linux/arch/arm/plat-omap/resource-debug.c
++ * OMAP3 SRF test file
++ *
++ * Copyright (C) 2009-2010 Texas Instruments, Inc.
++ * Charulatha Varadarajan <charu@ti.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ *
++ * THIS PACKAGE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
++ * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
++ * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
++ * History:
++ *
++ * 2009-09-17: Charulatha V         Initial code
++ *
++ */
++
++#include <linux/module.h>
++#include <mach/resource-debug.h>
++
++extern int resource_access_opp_lock(int res, int delta);
++extern struct omap_opp *l3_opps;
++extern unsigned short enable_off_mode;
++void resource_test(void);
++
++/**
++ * request_vdd2_opp - resource_request done for vdd2_opp resource
++ * @dev: device address
++ * @req_lvl: required level
++ *
++ * does a resource_request for vdd2_opp resource by giving the required
++ * throughput input parameter
++ *
++ * Returns TEST_FAIL during failure or return values of resource_request
++ */
++static int request_vdd2_opp(struct device *dev, unsigned long req_lvl)
++{
++	int ret;
++	switch (req_lvl) {
++	case VDD2_OPP2:
++		ret = resource_request("vdd2_opp", dev, VDD2_LEVEL2_THROUGHPUT);
++		break;
++
++	case VDD2_OPP3:
++		ret = resource_request("vdd2_opp", dev, VDD2_LEVEL3_THROUGHPUT);
++		break;
++
++	default:
++		printk(KERN_ERR "FAILED!!!! invalid vdd2_opp level\n");
++		ret = TEST_FAIL;
++	}
++	return ret;
++}
++/**
++ * min_level - Find the minimum of the given two levels
++ * @a: level1
++ * @b: level2
++ *
++ * Find the minimum of the given two levels
++ *
++ * Returns the minimum level
++ */
++static unsigned long min_level(unsigned long a, unsigned long b)
++{
++	return ((a <= b) ? a : b);
++}
++
++/**
++ * max_level - Find the maximum of the given two levels
++ * @a: level1
++ * @b: level2
++ *
++ * Find the maximum of the given two levels
++ *
++ * Returns the maximum level
++ */
++static unsigned long max_level(unsigned long a, unsigned long b)
++{
++	return ((a >= b) ? a : b);
++}
++
++/**
++ * min_level_1 - Find the minimum of the given four levels
++ * @a: level1
++ * @b: level2
++ * @c: level3
++ * @d: level4
++ *
++ * Find the minimum of the given four levels
++ *
++ * Returns the minimum level
++ */
++static unsigned long min_level_1(unsigned long a, unsigned long b,
++				unsigned long c, unsigned long d)
++{
++	unsigned long tmp;
++	tmp = ((a <= b) && (a <= c) ? a : (b <= c) ? b : c);
++	return ((tmp <= d) ? tmp : d);
++}
++
++/**
++ * max_level - Find the maximum of the given three levels
++ * @a: level1
++ * @b: level2
++ * @c: level3
++ *
++ * Find the maximum of the given three levels
++ *
++ * Returns the maximum level
++ */
++static unsigned long max_level_1(unsigned long a, unsigned long b,
++				unsigned long c)
++{
++	return ((a >= b) && (a >= c) ? a : (b >= c) ? b : c);
++}
++
++/**
++ * resource_test_1 - Tests the resource framework basic APIs for
++ *                   "opp/freq" resources
++ * @res_name: Name of the resource requested
++ * @req_lvl: Requested level for the resource
++ *
++ * Requests the "opp/freq" resource for the given level,
++ * verifies if the resource's current level is same as the requested level
++ * and releases the resource
++ *
++ * Returns 0 on success, -1 on failure
++ */
++static int resource_test_1(const char *res_name, unsigned long req_lvl)
++{
++	int ret, cur_lvl, result = TEST_PASS;
++	struct device dev;
++
++	printk(KERN_INFO "Entry resource_test_1 \n");
++
++	if (!strcmp(res_name, "vdd2_opp"))
++		ret = request_vdd2_opp(&dev, req_lvl);
++	else
++		ret = resource_request(res_name, &dev, req_lvl);
++
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev resource request for "
++			"%s failed with value %d\n", res_name, ret);
++		return TEST_FAIL;
++	}
++
++	cur_lvl = resource_get_level(res_name);
++	if (cur_lvl != req_lvl) {
++		printk(KERN_ERR "FAILED!!!! resource %s current level:%d"
++			" req lvl:%d\n", res_name, cur_lvl, (int)req_lvl);
++		result = TEST_FAIL;
++	}
++
++	ret = resource_release(res_name, &dev);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! resource release for %s failed"
++			" with value %d\n", res_name, ret);
++		result = TEST_FAIL;
++	}
++
++	if (!result)
++		printk(KERN_INFO "resource_test_1 PASSED for %s\n", res_name);
++	return result;
++}
++
++/**
++ * resource_test_2 - Tests resource framework APIs when two devices requests
++ *                   the same "opp/freq" resource for same or different levels
++ * @res_name: Name of the resource requested
++ * @req_lvl1: Device 1 level requested for the resource
++ * @req_lvl2: Device 2 level requested for the resource
++ *
++ * Two devices requests the "opp/freq" resource for the specified levels,
++ * verifies if the resource's current level is same as the maximum of
++ * requested levels and releases the resource
++ *
++ * Returns 0 on success, -1 on failure
++ */
++static int resource_test_2(const char *res_name, unsigned long req_lvl1,
++			unsigned long req_lvl2)
++{
++	int ret, result = TEST_PASS;
++	int cur_lvl, req_lvl;
++	struct device dev1, dev2;
++
++	printk(KERN_INFO "Entry resource_test_2 \n");
++
++	if (!strcmp(res_name, "vdd2_opp"))
++		ret = request_vdd2_opp(&dev1, req_lvl1);
++	else
++		ret = resource_request(res_name, &dev1, req_lvl1);
++
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev1 resource request for %s failed"
++			" with value %d\n", res_name, ret);
++		return TEST_FAIL;
++	}
++
++	if (!strcmp(res_name, "vdd2_opp"))
++		ret = request_vdd2_opp(&dev2, req_lvl2);
++	else
++		ret = resource_request(res_name, &dev2, req_lvl2);
++
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev2 resource request for %s failed"
++			" with value %d\n", res_name, ret);
++		resource_release(res_name, &dev1);
++		return TEST_FAIL;
++	}
++
++	cur_lvl = resource_get_level(res_name);
++	req_lvl = (int) max_level(req_lvl1, req_lvl2);
++	if (cur_lvl != req_lvl) {
++		printk(KERN_ERR "FAILED!!!! resource %s current level:%d"
++			" req lvl:%d\n", res_name, cur_lvl, req_lvl);
++		result = TEST_FAIL;
++	}
++
++	ret = resource_release(res_name, &dev1);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev1 resource release for %s failed"
++			" with value %d\n", res_name, ret);
++		result = TEST_FAIL;
++	}
++	ret = resource_release(res_name, &dev2);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev2 resource release for %s failed"
++			" with value %d\n", res_name, ret);
++		result = TEST_FAIL;
++	}
++
++	if (!result)
++		printk(KERN_INFO "resource_test_2 PASSED for %s\n", res_name);
++	return result;
++}
++
++/**
++ * resource_test_3 - Tests resource framework APIs when three devices requests
++ *                   the same "opp/freq" resource for same or different levels
++ * @res_name: Name of the resource requested
++ * @req_lvl1: Device 1 level requested for the resource
++ * @req_lvl2: Device 2 level requested for the resource
++ * @req_lvl3: Device 3 level requested for the resource
++ *
++ * Three devices requests the "opp/freq" resource for the specified levels,
++ * verifies if the resource's current level is same as the maximum of
++ * requested levels and releases the resource
++ *
++ * Returns 0 on success, -1 on failure
++ */
++static int resource_test_3(const char *res_name, unsigned long req_lvl1,
++		unsigned long req_lvl2, unsigned long req_lvl3)
++{
++	int ret, result = TEST_PASS;
++	int cur_lvl, req_lvl;
++	struct device dev1, dev2, dev3;
++
++	printk(KERN_INFO "Entry resource_test_3 \n");
++
++	if (!strcmp(res_name, "vdd2_opp"))
++		ret = request_vdd2_opp(&dev1, req_lvl1);
++	else
++		ret = resource_request(res_name, &dev1, req_lvl1);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev1 resource request for %s failed"
++			" with value %d\n", res_name, ret);
++		return TEST_FAIL;
++	}
++
++	if (!strcmp(res_name, "vdd2_opp"))
++		ret = request_vdd2_opp(&dev2, req_lvl2);
++	else
++		ret = resource_request(res_name, &dev2, req_lvl2);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev2 resource request for %s failed"
++			" with value %d\n", res_name, ret);
++		resource_release(res_name, &dev1);
++		return TEST_FAIL;
++	}
++
++	if (!strcmp(res_name, "vdd2_opp"))
++		ret = request_vdd2_opp(&dev3, req_lvl3);
++	else
++		ret = resource_request(res_name, &dev3, req_lvl3);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev3 resource request for %s failed"
++			" with value %d\n", res_name, ret);
++		resource_release(res_name, &dev1);
++		resource_release(res_name, &dev2);
++		return TEST_FAIL;
++	}
++
++	cur_lvl = resource_get_level(res_name);
++	req_lvl = (int) max_level_1(req_lvl1, req_lvl2, req_lvl3);
++	if (cur_lvl != req_lvl) {
++		printk(KERN_ERR "FAILED!!!! resource %s current level:%d"
++			" req lvl:%d\n", res_name, cur_lvl, req_lvl);
++		result = TEST_FAIL;
++	}
++
++	ret = resource_release(res_name, &dev1);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev1 resource release for %s failed"
++			" with value %d\n", res_name, ret);
++	result = TEST_FAIL;
++	}
++	ret = resource_release(res_name, &dev2);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev2 resource release for %s failed"
++			" with value %d\n", res_name, ret);
++	result = TEST_FAIL;
++	}
++	ret = resource_release(res_name, &dev3);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev3 resource release for %s failed"
++			" with value %d\n", res_name, ret);
++		result = TEST_FAIL;
++	}
++
++	if (!result)
++		printk(KERN_INFO "resource_test_3 PASSED for %s\n", res_name);
++	return result;
++}
++
++/**
++ * resource_test_4 - Tests the resource framework basic APIs for
++ *                   "latency" resources
++ * @res_name: Name of the resource requested
++ * @req_lat: Requested lat for the resource
++ * @ref_table: Pointer to the reference latency table for the given resource
++ *
++ * Requests the "latency" resource for the given level,
++ * verifies if the resource's current level is same as the
++ * closest lower reference level and releases the resource
++ *
++ * Returns 0 on success, -1 on failure
++ */
++static int resource_test_4(const char *res_name, unsigned long req_lat,
++			unsigned long *ref_table)
++{
++	int ret, i, result = TEST_PASS;
++	int cur_lvl;
++	struct device dev;
++
++	printk(KERN_INFO "Entry resource_test_4 \n");
++
++	ret = resource_request(res_name, &dev, req_lat);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! resource request for %s failed"
++			" with value %d\n", res_name, ret);
++		return TEST_FAIL;
++	}
++
++	cur_lvl = resource_get_level(res_name);
++
++	/* using the ref table to find the appropriate PD state */
++	for (i = 0; i < 3; i++) {
++		if (ref_table[i] < req_lat)
++			break;
++	}
++	if (!enable_off_mode && i == PD_LATENCY_OFF)
++		i = PD_LATENCY_RET;
++	/* Inactive state is not being tested */
++	else if (i == 2)
++		i = PD_LATENCY_ON;
++
++	if (cur_lvl != i) {
++		printk(KERN_ERR "FAILED!!!! resource %s current level:%d"
++			" req lvl:%d\n", res_name, cur_lvl, i);
++		result = TEST_FAIL;
++	}
++
++	ret = resource_release(res_name, &dev);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! resource release for %s failed"
++			" with value %d\n", res_name, ret);
++		result = TEST_FAIL;
++	}
++
++	if (!result)
++		printk(KERN_INFO "resource_test_4 PASSED for %s\n", res_name);
++	return result;
++}
++
++/**
++ * resource_test_5 - Tests resource framework APIs when two devices requests
++ *                   the same "latency" resource for same or different levels
++ * @res_name: Name of the resource requested
++ * @req_lat1: Device 1 latency requested for the resource
++ * @req_lat2: Device 2 latency requested for the resource
++ * @ref_table: Pointer to the reference latency table for the given resource
++ *
++ * Two devices requests the "lat" resource for the specified levels,
++ * verifies if the resource's current level is same as that of the
++ * closest lower reference level to the lowest level requested among the
++ * two devices and releases the resource
++ *
++ * Returns 0 on success, -1 on failure
++ */
++static int resource_test_5(const char *res_name, unsigned long req_lat1,
++			unsigned long req_lat2, unsigned long *ref_table)
++{
++	int ret, result = TEST_PASS, i;
++	struct device dev1, dev2;
++	int cur_lvl, req_lat;
++
++	printk(KERN_INFO "Entry resource_test_5 \n");
++
++	ret = resource_request(res_name, &dev1, req_lat1);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev1 resource request for %s failed"
++			" with value %d\n", res_name, ret);
++		return TEST_FAIL;
++	}
++
++	ret = resource_request(res_name, &dev2, req_lat2);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev2 resource request for %s failed"
++			" with value %d\n", res_name, ret);
++		resource_release(res_name, &dev1);
++		return TEST_FAIL;
++	}
++
++	cur_lvl = resource_get_level(res_name);
++	req_lat = (int) min_level(req_lat1, req_lat2);
++
++	/* using the ref table to find the appropriate PD state */
++	for (i = 0; i < 3; i++) {
++		if (ref_table[i] < req_lat)
++			break;
++	}
++	if (!enable_off_mode && i == PD_LATENCY_OFF)
++		i = PD_LATENCY_RET;
++	/* Inactive state is not being tested */
++	else if (i == 2)
++		i = PD_LATENCY_ON;
++
++	if (cur_lvl != i) {
++		printk(KERN_ERR "FAILED!!!! resource %s current level:%d"
++			" req lvl:%d\n", res_name, cur_lvl, i);
++		result = TEST_FAIL;
++	}
++
++	ret = resource_release(res_name, &dev1);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev1 resource release for %s failed"
++			" with value %d\n", res_name, ret);
++		result = TEST_FAIL;
++	}
++	ret = resource_release(res_name, &dev2);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev2 resource release for %s failed"
++			" with value %d\n", res_name, ret);
++		result = TEST_FAIL;
++	}
++
++	if (!result)
++		printk(KERN_INFO "resource_test_5 PASSED for %s\n", res_name);
++	return result;
++}
++
++/**
++ * resource_test_6 - Tests resource framework APIs when four devices requests
++ *                   the same "latency" resource for same or different levels
++ * @res_name: Name of the resource requested
++ * @req_lat1: Device 1 level requested for the resource
++ * @req_lat2: Device 2 level requested for the resource
++ * @req_lat4: Device 3 level requested for the resource
++ * @req_lat4: Device 4 level requested for the resource
++ * @ref_table: Pointer to the reference latency table for the given resource
++ *
++ * Four devices requests the "lat" resource for the specified levels,
++ * verifies if the resource's current level is same as that of the
++ * closest lower reference level to the lowest level requested among the
++ * four devices and releases the resource
++ *
++ * Returns 0 on success, -1 on failure
++ */
++static int resource_test_6(const char *res_name, unsigned long req_lat1,
++			unsigned long req_lat2, unsigned long req_lat3,
++			unsigned long req_lat4, unsigned long *ref_table)
++{
++	int ret, result = TEST_PASS, i;
++	struct device dev1, dev2, dev3, dev4;
++	int cur_lvl, req_lat;
++
++	printk(KERN_INFO "Entry resource_test_6 \n");
++
++	ret = resource_request(res_name, &dev1, req_lat1);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev1 resource request for %s failed"
++			" with value %d\n", res_name, ret);
++		return TEST_FAIL;
++	}
++
++	ret = resource_request(res_name, &dev2, req_lat2);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev2 resource request for %s failed"
++			" with value %d\n", res_name, ret);
++		resource_release(res_name, &dev1);
++		return TEST_FAIL;
++	}
++
++	ret = resource_request(res_name, &dev3, req_lat3);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev3 resource request for %s failed"
++			" with value %d\n", res_name, ret);
++		resource_release(res_name, &dev1);
++		resource_release(res_name, &dev2);
++		return TEST_FAIL;
++	}
++
++	ret = resource_request(res_name, &dev4, req_lat4);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev4 resource request for %s failed"
++			" with value %d\n", res_name, ret);
++		resource_release(res_name, &dev1);
++		resource_release(res_name, &dev2);
++		resource_release(res_name, &dev3);
++		return TEST_FAIL;
++	}
++
++	cur_lvl = resource_get_level(res_name);
++	req_lat = (int)min_level_1(req_lat1, req_lat2, req_lat3, req_lat4);
++
++	/* using the ref table to find the appropriate PD state */
++	for (i = 0; i < 3; i++) {
++		if (ref_table[i] < req_lat)
++			break;
++	}
++	if (!enable_off_mode && i == PD_LATENCY_OFF)
++		i = PD_LATENCY_RET;
++	/* Inactive state is not being tested */
++	else if (i == 2)
++		i = PD_LATENCY_ON;
++
++	if (cur_lvl != i) {
++		printk(KERN_ERR "FAILED!!!! resource %s current level:%d"
++			" req lvl:%d\n", res_name, cur_lvl, i);
++		result = TEST_FAIL;
++	}
++
++	ret = resource_release(res_name, &dev1);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev1 resource release for %s failed"
++			" with value %d\n", res_name, ret);
++		result = TEST_FAIL;
++	}
++	ret = resource_release(res_name, &dev2);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev2 resource release for %s failed"
++			" with value %d\n", res_name, ret);
++		result = TEST_FAIL;
++	}
++	ret = resource_release(res_name, &dev3);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev3 resource release for %s failed"
++			" with value %d\n", res_name, ret);
++		result = TEST_FAIL;
++	}
++	ret = resource_release(res_name, &dev4);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! dev4 resource release for %s failed"
++			" with value %d\n", res_name, ret);
++		result = TEST_FAIL;
++	}
++
++	if (!result)
++		printk(KERN_INFO "resource_test_6 PASSED for %s\n", res_name);
++	return result;
++}
++
++/**
++ * resource_test_7 - Tests the resource_refresh API
++ * @res_name: Name of the resource requested ("vdd1_opp"/"vdd2_opp")
++ * @req_lvl1: Requested lower level for the resource
++ * @req_lvl2: Requested higher level for the resource
++ *
++ * Device 1 requests the resource for the given lower level,
++ * locks the resource. Meanwhile device 2 requests the reource for a
++ * higher level.
++ * Verifies if the resource's current level is same as the requested
++ * higher level after device 1 unlocks the resource
++ *
++ * Returns 0 on success, -1 on failure
++ */
++static int resource_test_7(const char *res_name, unsigned long req_lvl1,
++			unsigned long req_lvl2)
++{
++	int ret, cur_lvl, result = TEST_PASS;
++	int lock_val;
++	struct device dev1, dev2;
++
++	printk(KERN_INFO "Entry resource_test_7 \n");
++
++	if (!strcmp(res_name, "vdd1_opp"))
++		lock_val = VDD1_OPP;
++	else if (!strcmp(res_name, "vdd2_opp"))
++		lock_val = VDD2_OPP;
++	else {
++		printk(KERN_ERR "FAILED!!!! invalid resource name\n");
++		return TEST_FAIL;
++	}
++
++	ret = resource_request(res_name, &dev1, req_lvl1);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! resource1 request for %s failed"
++			" with value %d\n", res_name, ret);
++		return TEST_FAIL;
++	}
++
++	cur_lvl = resource_get_level(res_name);
++	if (cur_lvl != req_lvl1) {
++		printk(KERN_ERR "FAILED!!!! resource %s current level:%d"
++			" req lvl:%d\n", res_name, cur_lvl, (int)req_lvl1);
++		result = TEST_FAIL;
++	}
++
++	if (result == TEST_PASS) {
++		ret = resource_access_opp_lock(lock_val, 1);
++		if (ret < 0) {
++			printk(KERN_ERR "FAILED!!!! resource %s lock failed"
++				" with value %d\n", res_name, ret);
++			result = TEST_FAIL;
++		}
++	}
++
++	if (result == TEST_PASS) {
++		ret = resource_request(res_name, &dev2, req_lvl2);
++		if (ret) {
++			printk(KERN_ERR "FAILED!!!! resource2 request %s failed"
++				" with value %d\n", res_name, ret);
++			ret = resource_access_opp_lock(lock_val, -1);
++			if (ret < 0)
++				printk(KERN_ERR "FAILED!!!! resource unlock"
++					"for %s failed\n", res_name);
++			result = TEST_FAIL;
++		}
++	}
++
++	if (result == TEST_PASS) {
++		cur_lvl = resource_get_level(res_name);
++		if (cur_lvl != req_lvl1) {
++			printk(KERN_ERR "FAILED!!!! %s current level:%d"
++				" req lvl:%d\n", res_name, cur_lvl,
++				(int)req_lvl1);
++			result = TEST_FAIL;
++		}
++
++		ret = resource_access_opp_lock(lock_val, -1);
++		if (ret < 0) {
++			printk(KERN_ERR "FAILED!!!! resource unlock %s failed"
++				" with value %d\n", res_name, ret);
++			result = TEST_FAIL;
++		}
++
++		ret = resource_refresh();
++		if (ret) {
++			printk(KERN_ERR "FAILED!!!! resource refresh failed"
++				" with value %d\n", ret);
++			result = TEST_FAIL;
++		}
++
++		cur_lvl = resource_get_level(res_name);
++		if (cur_lvl != req_lvl2) {
++			printk(KERN_ERR "FAILED!!!! %s current level:%d"
++				" req lvl:%d\n", res_name, cur_lvl,
++				(int)req_lvl2);
++			result = TEST_FAIL;
++		}
++	}
++
++	ret = resource_release(res_name, &dev1);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! resource1 release for %s failed"
++			" with value %d\n", res_name, ret);
++		result = TEST_FAIL;
++	}
++	ret = resource_release(res_name, &dev2);
++	if (ret) {
++		printk(KERN_ERR "FAILED!!!! resource2 release for %s failed"
++			" with value %d\n", res_name, ret);
++		result = TEST_FAIL;
++	}
++
++	if (!result)
++		printk(KERN_INFO "resource_test_7 PASSED for %s\n", res_name);
++	return result;
++}
++
++/**
++ * resource_test - Test the shared resource framework for different resources
++ *
++ * Test the shared resource framework APIs for different resources and
++ * different scenarios
++ *
++ */
++void resource_test()
++{
++	int i, j, k, ret, result = TEST_PASS;
++
++	printk(KERN_INFO "Entry resource_test \n"
++			"SRF test case assumes that\n"
++			"scaling_governor is in ondemand state\n");
++
++	/* Test basic SRF APIs for performance type resources */
++	for (i = 0; i < NO_OF_OPP_FREQ_RESOURCES; i++) {
++		for (j = 0; j < NO_OF_TEST_VALUES; j++) {
++			ret = resource_test_1(res_names[i],
++					res_test_table[i][j]);
++			if (ret)
++				result = ret;
++		}
++	}
++	if (!result)
++		printk(KERN_INFO "Resource Test1 Passed for all "
++			"OPP/Freq resources\n");
++	else
++		printk(KERN_ERR "Resource Test1 FAILED!!!! for"
++			" OPP/Freq resource(s)\n");
++
++	/* Test basic SRF APIs for core/MPU latency type resources */
++	result = TEST_PASS;
++	for (i = (NO_OF_OPP_FREQ_RESOURCES + NO_OF_PWRDM_LAT_RESOURCES);
++		i < NO_OF_RESOURCES; i++) {
++		for (j = 0; j < NO_OF_TEST_VALUES; j++) {
++			ret = resource_test_1(res_names[i],
++					res_test_table[i][j]);
++			if (ret)
++				result = ret;
++		}
++	}
++	if (!result)
++		printk(KERN_INFO "Resource Test1 Passed for all "
++			"MPU/core latency resources\n");
++	else
++		printk(KERN_ERR "Resource Test1 FAILED!!!! for"
++			" MPU/core latency resource(s)\n");
++
++	/* Test two devices resource sharing for performance type resources */
++	result = TEST_PASS;
++	for (i = 0; i < NO_OF_OPP_FREQ_RESOURCES; i++) {
++		for (j = 0; j < NO_OF_TEST_VALUES; j++) {
++			for (k = 0; k < NO_OF_TEST_VALUES; k++) {
++				ret = resource_test_2(res_names[i],
++					res_test_table[i][j],
++					res_test_table[i][k]);
++				if (ret)
++					result = ret;
++			}
++		}
++	}
++	if (!result)
++		printk(KERN_INFO "Resource Test2 Passed for all "
++			"OPP/Freq resources\n");
++	else
++		printk(KERN_ERR "Resource Test2 FAILED!!!!\n");
++
++	/* Test three devices resource sharing for performance type resources */
++	result = TEST_PASS;
++	for (i = 0; i < NO_OF_OPP_FREQ_RESOURCES; i++) {
++		ret = resource_test_3(res_names[i],
++					res_test_table[i][0],
++					res_test_table[i][1],
++					res_test_table[i][2]);
++		if (ret)
++			result = ret;
++	}
++	if (!result)
++		printk(KERN_INFO "Resource Test3 Passed for all "
++			"OPP/Freq resources\n");
++	else
++		printk(KERN_ERR "Resource Test3 FAILED!!!!\n");
++
++	/* Test basic SRF APIs for power domain latency type resources */
++	result = TEST_PASS;
++	for (i = NO_OF_OPP_FREQ_RESOURCES; i < NO_OF_PWRDM_LAT_RESOURCES; i++) {
++		for (j = 0; j < NO_OF_TEST_VALUES; j++) {
++			ret = resource_test_4(res_names[i],
++					res_test_table[i][j],
++					&lat_ref_table[i][0]);
++			if (ret)
++				result = ret;
++		}
++	}
++	if (!result)
++		printk(KERN_INFO "Resource Test4 Passed for all "
++			"pwrdm resources\n");
++	else
++		printk(KERN_ERR "Resource Test4 FAILED!!!!\n");
++
++	/* Test two devices resource sharing for pwrdmn lat type resources */
++	result = TEST_PASS;
++	for (i = NO_OF_OPP_FREQ_RESOURCES; i < NO_OF_PWRDM_LAT_RESOURCES; i++) {
++		for (j = 0; j < NO_OF_TEST_VALUES; j++) {
++			for (k = 0; k < NO_OF_TEST_VALUES; k++) {
++				ret = resource_test_5(res_names[i],
++					res_test_table[i][j],
++					res_test_table[i][k],
++					&lat_ref_table[i][0]);
++				if (ret)
++					result = ret;
++			}
++		}
++	}
++	if (!result)
++		printk(KERN_INFO "Resource Test5 Passed for all "
++			"pwrdm resources\n");
++	else
++		printk(KERN_ERR "Resource Test5 FAILED!!!!\n");
++
++	/* Test four devices resource sharing for pwrdmn lat type resources */
++	result = TEST_PASS;
++	for (i = NO_OF_OPP_FREQ_RESOURCES; i < NO_OF_PWRDM_LAT_RESOURCES; i++) {
++		ret = resource_test_6(res_names[i],
++					res_test_table[i][0],
++					res_test_table[i][1],
++					res_test_table[i][2],
++					res_test_table[i][3],
++					&lat_ref_table[i][0]);
++		if (ret)
++			result = ret;
++	}
++	if (!result)
++		printk(KERN_INFO "Resource Test6 Passed for all "
++			"pwrdm resources\n");
++	else
++		printk(KERN_ERR "Resource Test6 FAILED!!!!\n");
++
++	/* Test resource_refresh API for vdd1_opp resource */
++	result = resource_test_7("vdd1_opp", VDD1_OPP3,
++					VDD1_OPP5);
++	if (!result)
++		printk(KERN_INFO "Resource Test7 Passed for vdd1_opp \n");
++	else
++		printk(KERN_ERR "Resource Test7 FAILED!!!!\n");
++
++	/* Put the opp resources to default level - 3 */
++	ret = resource_test_1("vdd1_opp", VDD1_OPP3);
++	if (ret)
++		printk(KERN_INFO "Placing vdd1_opp to level1 failed\n");
++	ret = resource_test_1("vdd2_opp", VDD2_OPP3);
++	if (ret)
++		printk(KERN_INFO "Placing vdd2_opp to level2 failed\n");
++
++	return;
++}
++EXPORT_SYMBOL(resource_test);
+--
+1.6.0.4
+
