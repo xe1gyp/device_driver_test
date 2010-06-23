@@ -122,5 +122,9 @@ export HFS_FS_TYPE=$UTILS_DIR_TMP/hfs.fs.type
 # handlerSysFs.sh
 export HSF_SYSFS_ENTRY_NAME=$UTILS_DIR_TMP/hsf.sysfs.entry.name
 
+#handlerMemTester.sh
+export HMT_MEMTESTER_LOG_FILE=$UTILS_DIR_TMP/hmt.memtester.log.file
+export HMT_MEMTESTER_FIELDS_FILE=$UTILS_DIR_TMP/hmt.memtester.fields.file
+
 # End of file
 
