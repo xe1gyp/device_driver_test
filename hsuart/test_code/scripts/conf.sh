@@ -33,4 +33,11 @@ export UTILS_DIR_SCRIPTS=${HSUART_ROOT}/../../utils/scripts
 
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
+if [ "$UART_TEST_PORT1" == "" ]
+then
+	echo "FATAL: Please specify the PORT to send the data"
+	echo "e.g. export UART_TEST_PORT1=ttyO0"
+	exit 1
+fi
+
 # End of file
