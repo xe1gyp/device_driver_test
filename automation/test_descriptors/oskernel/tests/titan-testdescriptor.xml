@@ -75,7 +75,7 @@
 
 		<run>
 			<action>
-				<command>/testsuites/oskernel/scripts/test_runner.sh L_DD_ETHERNET_0014_0001</command>
+				<command>/testsuites/oskernel/scripts/test_runner.sh L_DD_OSKERNEL_0014_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/oskernel/scripts/log.*</command>
