@@ -249,7 +249,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="90"/>
+			<timeout time="600"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -346,6 +346,38 @@
 
 		<fail>
 			<timeout time="90"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_KEYPAD_0006_0004">
+
+		<information>
+			<autor> Abraham Arce </autor>
+			<description> tbd description </description>
+			<dateofcreation> 06/23/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/keypad/scripts/test_runner.sh L_DD_KEYPAD_0006_0004</command>
+			</action>
+			<action>
+				<command>rm /testsuites/keypad/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
