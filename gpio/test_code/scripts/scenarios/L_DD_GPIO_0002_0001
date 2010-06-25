@@ -1,13 +1,13 @@
 ################################################################################
-# Scenario: L_DD_GPIO_0002_0001
-# Author  : Moiz Sonasath
-# Date    : Wed 10th June, 2009
-# Description: Verify if GPIO driver reads GPIO input lines
+# Scenario    : L_DD_GPIO_0002_0001
+# Author      : Moiz Sonasath
+# Date        : Wed 10th June, 2009
+# Description : tbd
 ################################################################################
 
 # Begin L_DD_GPIO_0002_0001
 
-00 set -x; $TESTSCRIPT/gpio_read.sh
+01  set -x; echo "To be implemented" && exit 1
 
 # End L_DD_GPIO_0002_0001
 

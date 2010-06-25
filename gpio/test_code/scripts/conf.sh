@@ -1,49 +1,56 @@
 #!/bin/sh
 
-# Testsuite variables
-export POSTFIX=`date "+%Y%m%d-%H%M%S"`
-export TESTROOT=${PWD}
-export TESTBIN=${PWD}/../bin
-export MODDIR=${PWD}/../modules
-export TESTSCRIPT=${PWD}/helper
-export TMPBASE=${TESTROOT}/tmp
-export TMPFILE=${TMPBASE}/tmp.$POSTFIX
-export CMDFILE=cmd.$POSTFIX
-export TESTDIR=${TESTROOT}/test
-export PRETTY_PRT=""
-export VERBOSE=""
-export OUTPUTFILE=${TESTROOT}/output.$POSTFIX
-export LOGFILE=${TESTROOT}/log.$POSTFIX
-export DURATION=""
-export PATH="${TESTROOT}:${TESTBIN}:${TESTSCRIPT}:${PATH}"
-export TC_SCENARIO="${TESTROOT}/scenarios"
-export SCENARIO_NAMES=""
-export STRESS=""
-export COUNT=0
+#!/bin/sh
 
-# Utilities
-export UTILBIN=${TESTROOT}/../../utils/bin
-export WAITKEY=$UTILBIN/akey
-export UTILSCRIPTS=${TESTROOT}/../../utils/scripts
-export UTILS_DIR_HANDLERS=${TESTROOT}/../../utils/handlers
+# TestSuite General Variables
+export GPIO_POSTFIX=`date "+%Y%m%d-%H%M%S"`
+export GPIO_ROOT=`pwd`
 
-. ${TESTROOT}/../../utils/configuration/general.configuration
+export GPIO_DIR_BINARIES=${GPIO_ROOT}/../bin
+export GPIO_DIR_MODULES=${GPIO_ROOT}/../modules
+export GPIO_DIR_HELPER=${GPIO_ROOT}/helper
+export GPIO_DIR_TMP=${GPIO_ROOT}/tmp
+export GPIO_DIR_TEST=${GPIO_ROOT}/test
+export GPIO_DIR_SCENARIOS="${GPIO_ROOT}/scenarios"
 
-export PATH="$PATH:$UTILBIN:$UTILS_DIR_HANDLERS:$UTILSCRIPTS"
+export GPIO_FILE_OUTPUT=${GPIO_ROOT}/output.$GPIO_POSTFIX
+export GPIO_FILE_LOG=${GPIO_ROOT}/log.$GPIO_POSTFIX
+export GPIO_FILE_TMP=${GPIO_DIR_TMP}/tmp.$GPIO_POSTFIX
+export GPIO_FILE_CMD=cmd.$GPIO_POSTFIX
 
-# Driver specific
-export MAX_GPIO_LINES=209
-# 
+export GPIO_DURATION=""
+export GPIO_PRETTY_PRT=""
+export GPIO_VERBOSE=""
+export GPIO_SCENARIO_NAMES=""
+export GPIO_STRESS=""
+
+export PATH="${GPIO_ROOT}:${GPIO_DIR_BINARIES}:${GPIO_DIR_HELPER}:${PATH}"
+
+# Utils General Variables
+export UTILS_DIR_BIN=${GPIO_ROOT}/../../utils/bin
+export UTILS_DIR_HANDLERS=${GPIO_ROOT}/../../utils/handlers
+export UTILS_DIR_SCRIPTS=${GPIO_ROOT}/../../utils/scripts
+
+. ${GPIO_ROOT}/../../utils/configuration/general.configuration
+
+export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
+
+# GPIO Driver Specific
 if [ `cat /proc/cpuinfo| grep -ic OMAP4` ]; then
-	export MAX_GPIO_LINES=191
+	export GPIO_MAX_LINES=191
+else
+	export GPIO_MAX_LINES=209
 fi
-#
-export FIRST_GPIO_LINE=0
-export INITIAL_INVALID_RANGE=-5
-export FINAL_INVALID_RANGE=-1
 
-export GPIO_TEST=gpio_test.ko
-export TEST_MODULE=$MODDIR/$GPIO_TEST
+# GPIO Testsuite Specific
+export GPIO_FIRST_LINE=0
+export GPIO_INVALID_RANGE_INITIAL=-5
+export GPIO_INVALID_RANGE_FINAL=-1
+export GPIO_SMP_TEST_ITERATIONS=20
+
+export GPIO_TEST_MODULE_NAME=gpio_test.ko
+export GPIO_TEST_MODULE=$GPIO_DIR_MODULES/$GPIO_TEST_MODULE_NAME
+export GPIO_TEST_MODULE_PROCFS_RESULT=/proc/driver/gpio_test_result
 
 # export GPIO_PREEMPT=gpio.ko
 # export PREEMPT_MODULE=$MODDIR/$GPIO_PREEMPT

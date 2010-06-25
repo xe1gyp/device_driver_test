@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario    : L_DD_GPIO_0004_0001
+# Author      : Abraham Arce
+# Date        : Fri Jun 25 14:08:11 CDT 2010
+# Description : GPIO driver shall support read on the GPIO input pin
+###############################################################################
+
+# Begin L_DD_GPIO_0004_0001
+
+01  set -x; handlerGpioTest.sh "run" 3
+
+# End L_DD_GPIO_0004_0001

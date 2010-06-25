@@ -1,14 +1,13 @@
-#################################################################################################################
-# Scenario: L_DD_GPIO_0014_0001
-# Author  : Moiz Sonasath,Datta Shubhrajyoti
-# Date    : Mon 26th Oct, 2009
-# Description: Verify that the GPIO driver read is working in SMP environment
-#################################################################################################################
+###############################################################################
+# Scenario    : L_DD_GPIO_0014_0001
+# Author      : Moiz Sonasath, Datta Shubhrajyoti
+# Date        : Mon 26th Oct, 2009
+# Description : Verify that the GPIO driver read is working in SMP environment
+###############################################################################
 
 # Begin L_DD_GPIO_0014_0001
 
-00 set -x; $TESTSCRIPT/gpio_read_smp.sh
+01 set -x; handlerCpuAffinity.sh "switch" "handlerGpioTest.sh run 6" "1" "1"
 
 # End L_DD_GPIO_0014_0001
-
 

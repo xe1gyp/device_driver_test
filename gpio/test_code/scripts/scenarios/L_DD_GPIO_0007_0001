@@ -1,13 +1,12 @@
 ###############################################################################
-# Scenario    : L_DD_GPIO_0001_0001
-# Author      : Moiz Sonasath
-# Date        : Wed 10th June, 2009
+# Scenario    : L_DD_GPIO_0007_0001
+# Author      : Abraham Arce
+# Date        : Fri Jun 25 14:17:33 CDT 2010
 # Description : Verify if GPIO driver supports reserve and free of GPIO lines
 ###############################################################################
 
-# Begin L_DD_GPIO_0001_0001
+# Begin L_DD_GPIO_0007_0001
 
 01  set -x; handlerGpioTest.sh "run" 1
 
-# End L_DD_GPIO_0001_0001
-
+# End L_DD_GPIO_0007_0001

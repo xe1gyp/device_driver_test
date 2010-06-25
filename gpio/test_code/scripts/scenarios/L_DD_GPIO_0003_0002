@@ -1,13 +1,13 @@
-#################################################################################################################
+###############################################################################
 # Scenario: L_DD_GPIO_0003_0002
 # Author  : Moiz Sonasath
 # Date    : Wed 10th June, 2009
-# Description: Verify that the GPIO driver is able to configure the interrupt edge sensitivity (rising, falling)
-#################################################################################################################
+# Description: ???
+###############################################################################
 
 # Begin L_DD_GPIO_0003_0002
 
-00 set -x; $TESTSCRIPT/gpio_irq.sh
+01  set -x; echo "To be removed?" && exit 1
 
 # End L_DD_GPIO_0003_0002
 

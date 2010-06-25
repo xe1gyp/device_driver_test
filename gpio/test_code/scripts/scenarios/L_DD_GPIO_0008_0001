@@ -1,15 +1,15 @@
-################################################################################
-# Scenario: L_DD_GPIO_0008_0001
-# Author  : Moiz Sonasath
+###############################################################################
+# Scenario    : L_DD_GPIO_0008_0001
+# Author      : Moiz Sonasath
 # Modified by : Aharon Campos
-# Date    : October 23, 2009
-# Description: Verify DVFS is allowed during data transfer
-################################################################################
+# Date        : October 23, 2009
+# Description : GPIO driver shall support configuration of the interrupt
+#               edge sensitivity (rising, falling)
+###############################################################################
 
 # Begin L_DD_GPIO_0008_0001
 
-00 set -x; $TESTROOT/../../utils/scripts/dvfs.opp.sh& $TESTSCRIPT/gpio_read.sh
+01  set -x; handlerGpioTest.sh "run" 5
 
 # End L_DD_GPIO_0008_0001
-
 
