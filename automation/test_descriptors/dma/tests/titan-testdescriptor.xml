@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <titan>
 
-	<test id="L_DD_DMA_0001">
+	<test id="L_DD_DMA_0001_0001">
 
 		<information>
 			<autor> Gustavo Diaz </autor>
@@ -14,7 +14,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0001</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0001_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -36,7 +36,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0002">
+	<test id="L_DD_DMA_0002_0001">
 
 		<information>
 			<autor> Gustavo Diaz </autor>
@@ -49,7 +49,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0002</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0002_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -71,7 +71,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0003">
+	<test id="L_DD_DMA_0003_0001">
 
 		<information>
 			<autor> Gustavo Diaz </autor>
@@ -84,7 +84,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0003</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0003_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -106,7 +106,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0004">
+	<test id="L_DD_DMA_0004_0001">
 
 		<information>
 			<autor> Gustavo Diaz </autor>
@@ -119,7 +119,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0004</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0004_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -141,7 +141,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0005">
+	<test id="L_DD_DMA_0005_0001">
 
 		<information>
 			<autor> Gustavo Diaz </autor>
@@ -154,7 +154,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0005</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0005_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -176,7 +176,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0006">
+	<test id="L_DD_DMA_0006_0001">
 
 		<information>
 			<autor> Gustavo Diaz </autor>
@@ -189,7 +189,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0006</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0006_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -211,7 +211,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0007">
+	<test id="L_DD_DMA_0007_0001">
 
 		<information>
 			<autor> Gustavo Diaz </autor>
@@ -224,7 +224,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0007</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0007_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -246,7 +246,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0008">
+	<test id="L_DD_DMA_0008_0001">
 
 		<information>
 			<autor> Gustavo Diaz </autor>
@@ -259,7 +259,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0008</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0008_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -281,7 +281,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0010">
+	<test id="L_DD_DMA_0010_0001">
 
 		<information>
 			<autor> Gustavo Diaz </autor>
@@ -294,7 +294,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0010</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0010_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -316,7 +316,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0011">
+	<test id="L_DD_DMA_0011_0001">
 
 		<information>
 			<autor> Gustavo Diaz </autor>
@@ -329,7 +329,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0011</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0011_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -351,7 +351,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0012">
+	<test id="L_DD_DMA_0012_0001">
 
 		<information>
 			<autor> Gustavo Diaz </autor>
@@ -364,7 +364,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0012</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0012_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -386,7 +386,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0014">
+	<test id="L_DD_DMA_0014_0001">
 
 		<information>
 			<autor> Gustavo Diaz </autor>
@@ -399,7 +399,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0014</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0014_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -421,7 +421,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0015">
+	<test id="L_DD_DMA_0015_0001">
 
 		<information>
 			<autor> Gustavo Diaz </autor>
@@ -434,7 +434,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0015</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0015_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -596,7 +596,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0021">
+	<test id="L_DD_DMA_0021_0001">
 
 		<information>
 			<autor> Maddi Shilpa</autor>
@@ -609,7 +609,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0021</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0021_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -631,7 +631,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0022">
+	<test id="L_DD_DMA_0022_0001">
 
 		<information>
 			<autor> Maddi Shilpa</autor>
@@ -645,7 +645,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0022</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0022_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -667,7 +667,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0024">
+	<test id="L_DD_DMA_0024_0001">
 
 		<information>
 			<autor> Maddi Shilpa</autor>
@@ -680,7 +680,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0024</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0024_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -702,7 +702,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0025">
+	<test id="L_DD_DMA_0025_0001">
 
 		<information>
 			<autor> Maddi Shilpa</autor>
@@ -715,7 +715,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0025</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0025_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -737,7 +737,7 @@
 
 	</test>
 
-<test id="L_DD_DMA_0026">
+<test id="L_DD_DMA_0026_0001">
 
 		<information>
 			<autor> Maddi Shilpa</autor>
@@ -750,7 +750,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0026</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0026_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -772,7 +772,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0027">
+	<test id="L_DD_DMA_0027_0001">
 
 		<information>
 			<autor> Maddi Shilpa</autor>
@@ -785,7 +785,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0027</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0027_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -807,7 +807,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0031">
+	<test id="L_DD_DMA_0031_0001">
 
 		<information>
 			<autor> Maddi Shilpa</autor>
@@ -820,7 +820,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0031</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0031_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -842,7 +842,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0032">
+	<test id="L_DD_DMA_0032_0001">
 
 		<information>
 			<autor> Maddi Shilpa</autor>
@@ -855,7 +855,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0032</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0032_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -877,7 +877,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0033">
+	<test id="L_DD_DMA_0033_0001">
 
 		<information>
 			<autor> Maddi Shilpa</autor>
@@ -890,7 +890,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0033</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0033_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
@@ -912,7 +912,7 @@
 
 	</test>
 
-	<test id="L_DD_DMA_0034">
+	<test id="L_DD_DMA_0034_0001">
 
 		<information>
 			<autor> Maddi Shilpa</autor>
@@ -925,7 +925,7 @@
 				<command>sleep 10</command>
 			</action>
 			<action>
-				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0034</command>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0034_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/dma/scripts/log.*</command>
