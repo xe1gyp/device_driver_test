@@ -13,13 +13,12 @@ LOCAL_PARTITIONS=$2
 
 fstabModifier() {
 
-	LOCAL_MMCSD_FILESYSTEM_TYPE=$1
-	LOCAL_MMCSD_DEVFS_PARTITION=$2
-	LOCAL_MMCSD_MOUNTPOINT=$3
+	LOCAL_MMCSD_PARTITION_NUMBER=$1
+	LOCAL_MMCSD_FILESYSTEM_TYPE=$2
+	LOCAL_MMCSD_DEVFS_PARTITION=$3
+	LOCAL_MMCSD_MOUNTPOINT=$4
 
-	echo "${LOCAL_MMCSD_DEVFS_PARTITION} ${LOCAL_MMCSD_MOUNTPOINT} $LOCAL_MMCSD_FILESYSTEM_TYPE defaults 0 0" >> /etc/fstab
-	cat /etc/fstab
-
+	handlerFstab.sh "add" "$LOCAL_MMCSD_PARTITION_NUMBER" "${LOCAL_MMCSD_DEVFS_PARTITION} ${LOCAL_MMCSD_MOUNTPOINT} $LOCAL_MMCSD_FILESYSTEM_TYPE defaults 0 0"
 }
 
 xMountFunction() {
@@ -36,18 +35,13 @@ xMountFunction() {
 	mount -t $LOCAL_MMCSD_FILESYSTEM_TYPE $LOCAL_MMCSD_DEVFS_PARTITION $LOCAL_MMCSD_MOUNTPOINT
 	handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
 
-	fstabModifier $LOCAL_MMCSD_FILESYSTEM_TYPE $LOCAL_MMCSD_DEVFS_PARTITION $LOCAL_MMCSD_MOUNTPOINT
+	fstabModifier $LOCAL_MMCSD_PARTITION_NUMBER $LOCAL_MMCSD_FILESYSTEM_TYPE $LOCAL_MMCSD_DEVFS_PARTITION $LOCAL_MMCSD_MOUNTPOINT
 
 }
 
 # =============================================================================
 # Main
 # =============================================================================
-
-handlerError.sh "test"
-if [ $? -eq 1 ]; then
-	exit 1
-fi
 
 if [ "$LOCAL_OPERATION" = "create" ]; then
 
@@ -60,7 +54,9 @@ if [ "$LOCAL_OPERATION" = "create" ]; then
 
 	if [ ! -z $4 ] ; then
 		MMCSD_MOUNTPOINT_1=$4
+		echo "$MMCSD_MOUNTPOINT_1" > $MMCSD_MOUNTPOINT_1_LOG
 		MMCSD_MOUNTPOINT_2=$5
+		echo "$MMCSD_MOUNTPOINT_2" > $MMCSD_MOUNTPOINT_2_LOG
 	fi
 
 	handlerFstab.sh "save"
@@ -69,17 +65,16 @@ if [ "$LOCAL_OPERATION" = "create" ]; then
 
 	if [ "$LOCAL_PARTITIONS" = "1" ]; then
 
+		mount | grep $MMCSD_DEVFS_PARTITION_1 && umount $MMCSD_DEVFS_PARTITION_1
 		test -d $MMCSD_MOUNTPOINT_1 || mkdir -p $MMCSD_MOUNTPOINT_1
 
 		if [ "$LOCAL_FILESYSTEM_TYPE" = "ext2" ]; then
 
-			umount  $MMCSD_DEVFS_PARTITION_1
 			$MMCSD_DIR_BINARIES/mke2fs $MMCSD_DEVFS_PARTITION_1
 			xMountFunction "1" "ext2" $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
 
 		elif [ "$LOCAL_FILESYSTEM_TYPE" = "dos" ]; then
 
-			umount  $MMCSD_DEVFS_PARTITION_1
 			$MMCSD_DIR_BINARIES/mkdosfs $MMCSD_DEVFS_PARTITION_1
 			xMountFunction "1" "msdos" $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
 
@@ -129,8 +124,8 @@ elif [ "$LOCAL_OPERATION" = "remove" ]; then
 
 	if [ ! -z $4 ] ; then
 
-		MMCSD_MOUNTPOINT_1=$3
-		MMCSD_MOUNTPOINT_2=$4
+		MMCSD_MOUNTPOINT_1=`cat $MMCSD_MOUNTPOINT_1_LOG`
+		MMCSD_MOUNTPOINT_2=`cat $MMCSD_MOUNTPOINT_2_LOG`
 
 	fi
 
@@ -144,8 +139,6 @@ elif [ "$LOCAL_OPERATION" = "remove" ]; then
 		sync && umount $MMCSD_DEVFS_PARTITION_2
 
 	fi
-
-	mount
 
 	test -d $MMCSD_MOUNTPOINT_1 && rm -rf $MMCSD_MOUNTPOINT_1
 	test -d $MMCSD_MOUNTPOINT_2 && rm -rf $MMCSD_MOUNTPOINT_2
@@ -172,15 +165,7 @@ elif [ "$LOCAL_OPERATION" = "remount" ]; then
 		mount $MMCSD_DEVFS_PARTITION_2
 		handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
 
-	else
-
-		sync && umount $LOCAL_PARTITIONS
-		mount $LOCAL_PARTITIONS
-		handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
-
 	fi
-
-	mount
 
 fi
 
