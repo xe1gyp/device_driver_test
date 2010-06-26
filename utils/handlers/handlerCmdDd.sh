@@ -24,6 +24,11 @@ logIt() {
 # Main
 # =============================================================================
 
+handlerError.sh "test"
+if [ $? -eq 1 ]; then
+	exit 1
+fi
+
 echo > $HCDD_DD_LOG.$LOCAL_DD_INSTANCE
 
 handlerAppTop2.sh "start" $LOCAL_DD_INSTANCE

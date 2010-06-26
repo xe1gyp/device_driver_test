@@ -17,7 +17,7 @@ LOCAL_OPERATION=$1
 # =============================================================================
 
 handlerError.sh "test"
-if [ $? -eq 1 ]; then
+if [ "$?" -eq 1 ]; then
 	exit 1
 fi
 
@@ -58,7 +58,7 @@ else
 	# throughput = ------------------------------------------
 	#              LOCAL_TIME_REAL_CMD + LOCAL_TIME_REAL_SYNC
   
-	if [ -e "$LOCAL_FILE_PATH" ]; then
+	if [ -e $LOCAL_FILE_PATH ]; then
 		LOCAL_FILE_SIZE=`ls -al $LOCAL_FILE_PATH | awk '{print $5}'`
 		LOCAL_FILE_SIZE=`echo "($LOCAL_FILE_SIZE/1024)/1024" | bc`
 		echo $LOCAL_FILE_SIZE > $HFT_THROUGHPUT_REAL_FILE_SIZE.$LOCAL_INSTANCE

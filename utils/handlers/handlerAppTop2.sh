@@ -9,7 +9,7 @@ LOCAL_INSTANCE=$2
 Top2Scale=0
 
 # =============================================================================
-# Functions
+# Functionsrm $UTILS_DIR_BIN/top2.$LOCAL_INSTANCE
 # =============================================================================
 
 logIt() {
@@ -83,12 +83,23 @@ getMinimum() {
 # Main
 # =============================================================================
 
+handlerError.sh "test"
+if [ $? -eq 1 ]; then
+	exit 1
+fi
+
 if [ "$LOCAL_OPERATION" = "start" ]; then
 
 	echo > $HAT_TOP2_DATA_LOG.$LOCAL_INSTANCE
+	test -f $UTILS_DIR_BIN/top2.$LOCAL_INSTANCE && rm $UTILS_DIR_BIN/top2.$LOCAL_INSTANCE
 
 	# Start top2 data logging
-	cp $UTILS_DIR_BIN/top2 $UTILS_DIR_BIN/top2.$LOCAL_INSTANCE
+	cp $HAT_TOP2_PATH $UTILS_DIR_BIN/top2.$LOCAL_INSTANCE
+	if [ $? != 0 ]; then
+		handlerError.sh "log" "1" "continue" "handlerAppTop2.sh"
+		exit 1
+	fi
+
 	$UTILS_DIR_BIN/top2.$LOCAL_INSTANCE -d 1 -b | grep Cpu > $HAT_TOP2_DATA_RAW.$LOCAL_INSTANCE &
 	# Give sometime to stabilize power measurements
 	echo -e "\nSleep time : ${HAT_TOP2_SLEEP_TIME} second(s)" && sleep $HAT_TOP2_SLEEP_TIME
@@ -101,6 +112,7 @@ elif [ "$LOCAL_OPERATION" = "stop" ]; then
 	# Stop top2 data logging
 	echo "-> PPC Tag <-"
 	killall top2.$LOCAL_INSTANCE
+	rm $UTILS_DIR_BIN/top2.$LOCAL_INSTANCE
 
 elif [ "$LOCAL_OPERATION" = "parse" ]; then
 

@@ -52,6 +52,7 @@ export HPPR_COMMAND_PRIORITY_HIGHER=$UTILS_DIR_TMP/hppr.command.priority.higher
 export HPPR_OPERATION_CURRENT=$UTILS_DIR_TMP/hppr.current.operation
 
 # handlerAppTop2.sh
+export HAT_TOP2_PATH=/usr/bin/top
 export HAT_TOP2_SLEEP_TIME=5
 export HAT_TOP2_DATA_LOG=$UTILS_DIR_TMP/hat.top2.data.log
 export HAT_TOP2_DATA_RAW=$UTILS_DIR_TMP/hat.top2.data.raw
@@ -114,7 +115,9 @@ export HCFSG_GOVERNORS_LIST_ERROR=$UTILS_DIR_TMP/hcfsg.governors.list.error
 export HCFSG_CURRENT_GOVERNOR_FILE=$UTILS_DIR_TMP/hcfsg.governors.file.current
 
 # handlerFstab.sh
-export HFST_FSTAB_ORIGINAL=$UTILS_DIR_TMP/hfst.original
+export HFST_FSTAB_NAME=/etc/fstab
+export HFST_FSTAB_ORIGINAL=$UTILS_DIR_TMP/hfst.fstab.original
+export HFST_FSTAB_ENTRY=$UTILS_DIR_TMP/hfst.fstab.entry
 
 # handlerFilesystem.sh
 export HFS_FS_TYPE=$UTILS_DIR_TMP/hfs.fs.type

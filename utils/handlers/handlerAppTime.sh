@@ -18,13 +18,18 @@ LOCAL_IDENTIFIER=$3
 # Main
 # =============================================================================
 
+handlerError.sh "test"
+if [ "$?" -eq 1 ]; then
+	exit 1
+fi
+
 if [ "$LOCAL_OPERATION" = "start" ]; then
 
 	LOCAL_COMMAND=$4
 
 	test -f $HATI_TIME_FINAL && rm $HATI_TIME_FINAL
 
-	$UTILS_DIR_BIN/time $UTILS_DIR_BIN/time -p -o $HATI_TIME.$LOCAL_INSTANCE.$LOCAL_IDENTIFIER $LOCAL_COMMAND
+	$UTILS_DIR_BIN/time -p -o $HATI_TIME.$LOCAL_INSTANCE.$LOCAL_IDENTIFIER $LOCAL_COMMAND
 
 elif [ "$LOCAL_OPERATION" = "parse" ]; then
 

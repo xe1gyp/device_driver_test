@@ -18,15 +18,20 @@ LOCAL_OPERATION=$1
 
 handlerError.sh "test"
 if [ $? -eq 1 ]; then
-  exit 1
+	exit 1
 fi
 
 if [ "$LOCAL_OPERATION" = "clean" ]
 then
-  echo > $HS_STATISTICS_GENERAL_FILE
+
+	echo > $HS_STATISTICS_GENERAL_FILE
+
 elif [ "$LOCAL_OPERATION" = "display" ]
 then
-  cat $HS_STATISTICS_GENERAL_FILE
+
+	cat $HS_STATISTICS_GENERAL_FILE
+
 fi
 
 # End of file
+

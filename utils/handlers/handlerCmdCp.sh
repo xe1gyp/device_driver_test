@@ -22,6 +22,11 @@ logIt() {
 # Main
 # =============================================================================
 
+handlerError.sh "test"
+if [ "$?" -eq 1 ]; then
+	exit 1
+fi
+
 echo > $HCCP_CP_LOG.$LOCAL_CP_INSTANCE
 
 handlerAppTop2.sh "start" $LOCAL_CP_INSTANCE
