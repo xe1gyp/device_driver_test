@@ -28,13 +28,22 @@ export PATH="$PATH:$MMCSDP_ROOT:$MMCSDP_DIR_HELPER:MMCSDP_DIR_BINARIES"
 cd ${MMCSDP_ROOT}/../../../mmc/scripts/
 . ${MMCSDP_ROOT}/../../../mmc/scripts/conf.sh
 
+# Utils General Variables
+export UTILS_DIR_BIN=${MMCSD_ROOT}/../../utils/bin
+export UTILS_DIR_HANDLERS=${MMCSD_ROOT}/../../utils/handlers
+export UTILS_DIR_SCRIPTS=${MMCSD_ROOT}/../../utils/scripts
+
+. ${MMCSD_ROOT}/../../utils/configuration/general.configuration
+
+export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
+
 # MMC/SD General Variables
-if [ "$FORMAT" == "dos" ]; then
+if [ "$FORMAT" = "dos" ]; then
 
 	export MMCSDP_AUTO_PARTITION=1
 	echo "INFO: Formatting device type dos"
 
-elif [ "$FORMAT" == "vfat" ]; then
+elif [ "$FORMAT" = "vfat" ]; then
 
 	export MMCSDP_AUTO_PARTITION=0
 	echo "INFO: Device type vfat"
@@ -44,12 +53,12 @@ elif [ "$FORMAT" == "vfat" ]; then
 		exit 1
 	fi
   
-elif [ "$FORMAT" == "ext2" ]; then
+elif [ "$FORMAT" = "ext2" ]; then
 
 	export MMCSDP_AUTO_PARTITION=1
 	echo "INFO: Formatting device type ext2"
 
-elif [ "$FORMAT" == "ext3" ]; then
+elif [ "$FORMAT" = "ext3" ]; then
 
 	export MMCSDP_AUTO_PARTITION=0
 	echo "INFO: Device type ext3"
