@@ -1,0 +1,21 @@
+###############################################################################
+# Scenario: L_DD_MMC_0005_0003
+# Author  : Abraham Arce
+# Date    : Sat Jun 26 18:23:56 CDT 2010
+###############################################################################
+
+# Begin L_DD_MMC_0005_0003
+
+01  set -x; handlerMmcsdBlock.sh "create" "2" "mixed"
+02  set -x; handlerTmpfs.sh "create" "250" /mnt/tmpfs/
+
+03  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=/mnt/tmpfs/file.tmpfs bs=1M count=100"
+04  set -x; handlerCmd.sh "run" "cp /mnt/tmpfs/file.tmpfs $MMCSD_MOUNTPOINT_1 && sync"
+05  set -x; handlerCmd.sh "run" "cp /mnt/tmpfs/file.tmpfs $MMCSD_MOUNTPOINT_2 && sync"
+06  set -x; handlerCmd.sh "run" "cmp $MMCSD_MOUNTPOINT_1/$MMCSD_FILE_SIZE_BIG $MMCSD_MOUNTPOINT_2/$MMCSD_FILE_SIZE_BIG"
+
+07  set -x; handlerTmpfs.sh "remove" /mnt/tmpfs/
+08  set -x; handlerMmcsdBlock.sh "remove" "2"
+
+# End L_DD_MMC_0005_0003
+

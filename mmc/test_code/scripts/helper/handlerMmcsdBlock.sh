@@ -33,9 +33,45 @@ xMountFunction() {
 	mount | grep $LOCAL_MMCSD_DEVFS_PARTITION && umount $LOCAL_MMCSD_DEVFS_PARTITION
 
 	mount -t $LOCAL_MMCSD_FILESYSTEM_TYPE $LOCAL_MMCSD_DEVFS_PARTITION $LOCAL_MMCSD_MOUNTPOINT
+	if [ "$?" -ne "0" ]; then
+		echo "FATAL: Unknown $LOCAL_MMCSD_FILESYSTEM_TYPE filesystem type"
+		handlerError.sh "log" "1" "halt" "handlerMmmcsdBlock"
+		exit 1
+	fi
+
 	handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
 
 	fstabModifier $LOCAL_MMCSD_PARTITION_NUMBER $LOCAL_MMCSD_FILESYSTEM_TYPE $LOCAL_MMCSD_DEVFS_PARTITION $LOCAL_MMCSD_MOUNTPOINT
+
+}
+
+partitionFormatHelper() {
+
+	LOCAL_FORMAT_APPLICATION=$1
+	LOCAL_MMCSD_MOUNTPOINT_1=$2
+	LOCAL_MMCSD_MOUNTPOINT_2=$3
+
+	eval $LOCAL_FORMAT_APPLICATION
+	if [ "$?" -eq "127" ]; then
+		echo "FATAL: application $LOCAL_FORMAT_APPLICATION is not available un current filesystem"
+		handlerError.sh "log" "1" "halt" "handlerMmmcsdBlock"
+		exit 1
+	fi
+
+	if [ ! -z $2 ] ; then
+
+		$LOCAL_FORMAT_APPLICATION $MMCSD_DEVFS_PARTITION_1
+		xMountFunction "1" $LOCAL_FILESYSTEM_TYPE $MMCSD_DEVFS_PARTITION_1 $LOCAL_MMCSD_MOUNTPOINT_1
+			
+	fi
+
+
+	if [ ! -z $3 ] ; then
+
+		$LOCAL_FORMAT_APPLICATION $MMCSD_DEVFS_PARTITION_2
+		xMountFunction "2" $LOCAL_FILESYSTEM_TYPE $MMCSD_DEVFS_PARTITION_2 $LOCAL_MMCSD_MOUNTPOINT_2
+			
+	fi
 
 }
 
@@ -66,59 +102,73 @@ if [ "$LOCAL_OPERATION" = "create" ]; then
 	if [ "$LOCAL_PARTITIONS" = "1" ]; then
 
 		mount | grep $MMCSD_DEVFS_PARTITION_1 && umount $MMCSD_DEVFS_PARTITION_1
+
 		test -d $MMCSD_MOUNTPOINT_1 || mkdir -p $MMCSD_MOUNTPOINT_1
 
 		if [ "$LOCAL_FILESYSTEM_TYPE" = "ext2" ]; then
 
-			$MMCSD_DIR_BINARIES/mke2fs $MMCSD_DEVFS_PARTITION_1
-			xMountFunction "1" "ext2" $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
+			partitionFormatHelper $MMCSD_DIR_BINARIES/mke2fs $MMCSD_MOUNTPOINT_1
+
+		elif [ "$LOCAL_FILESYSTEM_TYPE" = "ext3" ]; then
+
+			partitionFormatHelper mkfs.ext3 $MMCSD_MOUNTPOINT_1
+
+		elif [ "$LOCAL_FILESYSTEM_TYPE" = "ext4" ]; then
+
+			partitionFormatHelper mkfs.ext4 $MMCSD_MOUNTPOINT_1
 
 		elif [ "$LOCAL_FILESYSTEM_TYPE" = "dos" ]; then
 
-			$MMCSD_DIR_BINARIES/mkdosfs $MMCSD_DEVFS_PARTITION_1
-			xMountFunction "1" "msdos" $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
+			export LOCAL_FILESYSTEM_TYPE=msdos
+			partitionFormatHelper $MMCSD_DIR_BINARIES/mkdosfs $MMCSD_MOUNTPOINT_1
+
+		elif [ "$LOCAL_FILESYSTEM_TYPE" = "vfat" ]; then
+
+			partitionFormatHelper mkfs.vfat $MMCSD_MOUNTPOINT_1
 
 		fi
 
 
 	elif [ "$LOCAL_PARTITIONS" = "2" ]; then
 
+
+		mount | grep $MMCSD_DEVFS_PARTITION_1 && umount $MMCSD_DEVFS_PARTITION_1
+		mount | grep $MMCSD_DEVFS_PARTITION_2 && umount $MMCSD_DEVFS_PARTITION_2
+
 		test -d $MMCSD_MOUNTPOINT_1 || mkdir -p $MMCSD_MOUNTPOINT_1
 		test -d $MMCSD_MOUNTPOINT_2 || mkdir -p $MMCSD_MOUNTPOINT_2
 
 		if [ "$LOCAL_FILESYSTEM_TYPE" = "ext2" ]; then
 
-			umount  $MMCSD_DEVFS_PARTITION_1  $MMCSD_DEVFS_PARTITION_2
-			$MMCSD_DIR_BINARIES/mke2fs $MMCSD_DEVFS_PARTITION_1
-			xMountFunction "1" "ext2" $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
+			partitionFormatHelper mkfs.ext2 $MMCSD_MOUNTPOINT_1 $MMCSD_MOUNTPOINT_2
 
-			$MMCSD_DIR_BINARIES/mke2fs $MMCSD_DEVFS_PARTITION_2
-			xMountFunction "2" "ext2" $MMCSD_DEVFS_PARTITION_2 $MMCSD_MOUNTPOINT_2
+		elif [ "$LOCAL_FILESYSTEM_TYPE" = "ext3" ]; then
+
+			partitionFormatHelper mkfs.ext3 $MMCSD_MOUNTPOINT_1 $MMCSD_MOUNTPOINT_2
+
+		elif [ "$LOCAL_FILESYSTEM_TYPE" = "ext4" ]; then
+
+			partitionFormatHelper mkfs.ext4 $MMCSD_MOUNTPOINT_1 $MMCSD_MOUNTPOINT_2
 
 		elif [ "$LOCAL_FILESYSTEM_TYPE" = "dos" ]; then
 
-			umount  $MMCSD_DEVFS_PARTITION_1  $MMCSD_DEVFS_PARTITION_2
-			$MMCSD_DIR_BINARIES/mkdosfs $MMCSD_DEVFS_PARTITION_1
-			xMountFunction "1" "msdos" $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
+			export LOCAL_FILESYSTEM_TYPE=msdos
+			partitionFormatHelper mkdosfs $MMCSD_MOUNTPOINT_1 $MMCSD_MOUNTPOINT_2
 
-			$MMCSD_DIR_BINARIES/mkdosfs $MMCSD_DEVFS_PARTITION_2
-			xMountFunction "2" "msdos" $MMCSD_DEVFS_PARTITION_2 $MMCSD_MOUNTPOINT_2
+		elif [ "$LOCAL_FILESYSTEM_TYPE" = "vfat" ]; then
+
+			partitionFormatHelper mkfs.vfat $MMCSD_MOUNTPOINT_1 $MMCSD_MOUNTPOINT_2
 
 		elif [ "$LOCAL_FILESYSTEM_TYPE" = "mixed" ]; then
 
-			umount  $MMCSD_DEVFS_PARTITION_1  $MMCSD_DEVFS_PARTITION_2
-			$MMCSD_DIR_BINARIES/mke2fs $MMCSD_DEVFS_PARTITION_1
-			xMountFunction "1" "ext2" $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
-
-			$MMCSD_DIR_BINARIES/mkdosfs $MMCSD_DEVFS_PARTITION_2
-			xMountFunction "2" "msdos" $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
+			export LOCAL_FILESYSTEM_TYPE=ext2
+			partitionFormatHelper $MMCSD_DIR_BINARIES/mke2fs $MMCSD_MOUNTPOINT_1
+			export LOCAL_FILESYSTEM_TYPE=msdos
+			partitionFormatHelper $MMCSD_DIR_BINARIES/mkdosfs "" $MMCSD_MOUNTPOINT_2
 
 		fi
 
 	fi
-
-	mount
-
 
 elif [ "$LOCAL_OPERATION" = "remove" ]; then
 
