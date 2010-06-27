@@ -38,43 +38,12 @@ export UTILS_DIR_SCRIPTS=${MMCSD_ROOT}/../../utils/scripts
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
 # MMC/SD General Variables
-if [ "$FORMAT" = "dos" ]; then
-
-	export MMCSDP_AUTO_PARTITION=1
-	echo "INFO: Formatting device type dos"
-
-elif [ "$FORMAT" = "vfat" ]; then
-
-	export MMCSDP_AUTO_PARTITION=0
-	echo "INFO: Device type vfat"
-	cat /etc/fstab | grep vfat
-	if [ $? -eq 1 ]; then
-		echo "FATAL: Please add vfat entry under /etc/fstab"
-		exit 1
-	fi
-  
-elif [ "$FORMAT" = "ext2" ]; then
-
-	export MMCSDP_AUTO_PARTITION=1
-	echo "INFO: Formatting device type ext2"
-
-elif [ "$FORMAT" = "ext3" ]; then
-
-	export MMCSDP_AUTO_PARTITION=0
-	echo "INFO: Device type ext3"
-	cat /etc/fstab | grep ext3
-	if [ $? -eq 1 ]; then
-		echo "FATAL: Please add ext3 entry under /etc/fstab"
-		exit 1
-	fi
-
-else
-
+if [ "$FORMAT" = "" ]
+then
 	echo "FATAL: Please specify the format of your device"
 	echo "FATAL: Available values: dos, vfat, ext2, ext3"
-	echo "e.g. export FORMAT=dos"
+	echo "e.g. export FORMAT=ext4"
 	exit 1
-
 fi
 
 # Remove any error file
