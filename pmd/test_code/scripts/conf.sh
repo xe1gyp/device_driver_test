@@ -1,10 +1,11 @@
 #!/bin/sh
-###################################################################################################################
+######################################################################
 # Configuration script
 # Author  : Misael Lopez Cruz
 # Date    : 04 Jul 07
-# Description: Configuration script with user specified value for some environment variables
-###################################################################################################################
+# Description: Configuration script with user specified value for some
+# environment variables
+######################################################################
 
 # These variables dont' need to be modified
 export POSTFIX=`date "+%Y%m%d-%H%M%S"`
