@@ -9,9 +9,6 @@ LOCAL_HIT=RET
 mkdir -p $DEBUGFS_DIRECTORY
 mount -t debugfs debugfs $DEBUGFS_DIRECTORY
 
-#Enable Sleep while Idle
-echo 1 > /debug/pm_debug/sleep_while_idle
-
 # Changing the governor to userspace
 echo "userspace" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 
@@ -19,7 +16,10 @@ echo "userspace" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 echo 1 > /debug/pm_debug/sr1_autocomp
 echo 1 > /debug/pm_debug/sr2_autocomp
 
-#make display blank
+#Enable Sleep while Idle
+echo 1 > /debug/pm_debug/sleep_while_idle
+
+#Blank the Screen
 echo "1" > /sys/class/graphics/fb0/blank
 
 # Checking if scaling_setspeed has been created
@@ -38,13 +38,14 @@ do
 	for i in $available_frequencies
 	do
 		echo "Setting ARM Frequency to" $i
-		echo $i > /sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed
-		cur_frequency=`cat /sys/devices/system/cpu/\
-cpu0/cpufreq/scaling_cur_freq`
+		echo $i > /sys/devices/system/cpu/cpu0/cpufreq/\
+scaling_setspeed
+		cur_frequency=`cat /sys/devices/system/cpu/cpu0/cpufreq/\
+scaling_cur_freq`
 		if [ "$i" != "$cur_frequency" ]
 		then
-			echo "Fatal: Current frequency is \
-different from the set one"
+			echo "Fatal: Current frequency is different\
+ from the set one"
 			exit 1
 		fi
 		cur_frequency=`cat /debug/clock/virt_26m_ck/osc_sys_ck/\
@@ -54,7 +55,16 @@ sys_ck/dpll2_ck/dpll2_m2_ck/iva2_ck/rate`
 		cur_frequency=`cat /debug/clock/virt_26m_ck/osc_sys_ck/\
 sys_ck/dpll3_ck/dpll3_m2_ck/core_ck/l3_ick/rate`
 		echo "L3 Clock ==> " $cur_frequency
+		echo "Sleeping... "
+		sleep 2
 	done
+	echo `date`
+	echo "Long Sleeping... "
+	sleep 5
+	TEMP=`cat $DEBUGFS_PMCOUNT | grep $LOCAL_POWER_DOMAIN |\
+ grep $LOCAL_HIT`
+	echo $TEMP
+	echo " "
 done
 
 umount $DEBUGFS_DIRECTORY
