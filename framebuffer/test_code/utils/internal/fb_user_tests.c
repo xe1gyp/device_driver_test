@@ -211,7 +211,7 @@ int call_test_write(int fd, int flag)
 				cmap.start, cmap.len, *cmap.red,
 				*cmap.green, *cmap.blue, *cmap.transp);
 			//initial color map is all zeroes, so this test is valid
-			if ( (cmap.red[0] == r) || (cmap.green[0] ==g) || (cmap.blue[0] == b)) {
+			if ( (cmap.red[0] != r) || (cmap.green[0] !=g) || (cmap.blue[0] != b)) {
 				case_fail_f(logfile, "call_test_write - Update to color map was allowed unexpectedly:%s\n",strerror(errno));
 				errors++;
 				break;
@@ -231,10 +231,7 @@ int call_test_write(int fd, int flag)
 			}
 			vinfo.xres=150;
 			vinfo.yres=329;
-			//if ( !(ioctl(fd, FBIOPUT_VSCREENINFO, &vinfo)) ) {
-			return_val = ioctl(fd, FBIOPUT_VSCREENINFO, &vinfo);
-			printf("RETURN_VAL = %d \n",return_val);
-			if ( !return_val) {
+			if ( ioctl(fd, FBIOPUT_VSCREENINFO, &vinfo )) {
 				case_fail_f(logfile, "call_test_write -  Could not put var screen info for write: %s\n", strerror(errno));
 				errors++;
 				break;
