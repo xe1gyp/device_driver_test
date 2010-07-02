@@ -1,0 +1,20 @@
+#####################
+# FILENAME: L_DD_CAMERA_0302
+# Author  : Ivaylo Petrov
+# Date    : Tue Jun 8, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Virtual sensor driver for HQ capture
+
+# Begin "L_DD_CAMERA_0302"
+
+COMMENT comment.sh "Test zoom x2 x3 and x4"
+
+0001 set -x; virtsenhq.sh "8MP" "8MP" "UYVY" 10 6 "ZOOM" 20 && exit 0 || exit 1
+0002 set -x; virtsenhq.sh "8MP" "8MP" "UYVY" 10 6 "ZOOM" 30 && exit 0 || exit 1
+0003_SAN set -x; virtsenhq.sh "8MP" "8MP" "UYVY" 10 6 "ZOOM" 40 && exit 0 || exit 1
+
+
+# End "L_DD_CAMERA_0302"
+

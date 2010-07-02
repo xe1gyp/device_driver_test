@@ -1,0 +1,19 @@
+#####################
+# FILENAME: L_DD_CAMERA_0304
+# Author  : Ivaylo Petrov
+# Date    : Tue Jun 8, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Virtual sensor driver for HQ capture
+
+# Begin "L_DD_CAMERA_0304"
+
+COMMENT comment.sh "Test brightness default, minimum and maximum."
+
+0001_SAN set -x; virtsenhq.sh "8MP" "8MP" "UYVY" 10 6 "BRIGHTNESS" "default" && exit 0 || exit 1
+0002_SAN set -x; virtsenhq.sh "8MP" "8MP" "UYVY" 10 6 "BRIGHTNESS" "mininum" && exit 0 || exit 1
+0003_SAN set -x; virtsenhq.sh "8MP" "8MP" "UYVY" 10 6 "BRIGHTNESS" "maximum" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0304"
+

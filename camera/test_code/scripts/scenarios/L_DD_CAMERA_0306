@@ -1,0 +1,17 @@
+#####################
+# FILENAME: L_DD_CAMERA_0306
+# Author  : Ivaylo Petrov
+# Date    : Tue Jun 8, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Virtual sensor driver for HQ capture
+
+# Begin "L_DD_CAMERA_0306"
+
+COMMENT comment.sh "Display the Virtual sensor's name from the kernel"
+
+0001 set -x; virtsenhq.sh "none" "none" "none" 10 "none" "INFO" "video_querycap" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0306"
+
