@@ -10,7 +10,7 @@ CC := $(CROSS_COMPILE)gcc
 CFLAGS += -I$(KDIR)/include -I$(KDIR)/arch/arm/plat-omap/include -I$(KDIR)/arch/arm/include
 
 objects := af_stream af_stream_rel burst_mode burst_mode_120 \
-	   burst_zoom capture flash_driver reszhq virtsenhq \
+	   burst_zoom capture flash_driver reszhq virtsenhq p2rhq \
 	   h3a_stream hist_test multi_open prev_wrap process_cam rsz_vbuff \
 	   streaming_abs streaming_frame \
 	   streaming_to_video_file streaming_zoom fps snapshot sensor_modes
@@ -85,6 +85,10 @@ reszhq: reszhq.c cmd_options.c file_operations.c
 virtsenhq: virtsenhq.c cmd_options.c file_operations.c
 	@echo "  CC  virtsenhq"
 	@$(CC) $(CFLAGS) -g virtsenhq.c cmd_options.c file_operations.c -o virtsenhq
+
+p2rhq: p2rhq.c cmd_options.c file_operations.c
+	@echo "  CC  p2rhq"
+	@$(CC) $(CFLAGS) -g p2rhq.c cmd_options.c file_operations.c -o p2rhq
 
 rsz_vbuff: rsz_vbuff.c
 	@echo "  CC  rsz_vbuff"
