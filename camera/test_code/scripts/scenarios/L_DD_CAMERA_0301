@@ -1,0 +1,19 @@
+#####################
+# FILENAME: L_DD_CAMERA_0301
+# Author  : Ivaylo Petrov
+# Date    : Tue Jun 8, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Virtual sensor driver for HQ capture
+
+# Begin "L_DD_CAMERA_0301"
+
+COMMENT comment.sh "Test 5Mpx capture in 3 color formats"
+
+0001_SAN set -x; virtsenhq.sh "8MP" "5MP" "RAW" 10 6 && exit 0 || exit 1
+0002_SAN set -x; virtsenhq.sh "8MP" "5MP" "YUYV" 10 6 && exit 0 || exit 1
+0003_SAN set -x; virtsenhq.sh "8MP" "5MP" "UYVY" 10 6 && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0301"
+
