@@ -19,7 +19,11 @@
 #include <linux/types.h>
 #include <linux/videodev2.h>
 #include <mach/isp_user.h>
-#include "prev_wrap.h"
+#include <linux/omap_previewer.h>
+
+#ifndef ALIGN
+ #define ALIGN(x, mask) (((x)+(mask-1))&~(mask-1))
+#endif
 
 /* Default values in Office Flourescent Light for RGBtoRGB Blending */
 static struct ispprev_rgbtorgb flr_rgb2rgb = {
@@ -65,7 +69,7 @@ int main(int argc, const char *argv[])
 	FILE *in_data, *out_data;
 	struct v4l2_requestbuffers creqbuf;
 	struct v4l2_buffer vbuffer;
-	struct prev_cropsize outsize;
+	struct v4l2_rect outsize;
 	void *ibuffer;
 	void *ibuffer_aligned;
 	int ibuffer_length;
@@ -119,9 +123,9 @@ int main(int argc, const char *argv[])
 	params.size_params.vsize = in_height;
 	params.size_params.pixsize = PREV_INWIDTH_10BIT;
 	/* Read Line Offset */
-	params.size_params.in_pitch = params.size_params.hsize * 2;
+	params.size_params.in_pitch = ALIGN(params.size_params.hsize * 2, 32);
 	/* Write Line Offset. This parameter is ignored */
-	params.size_params.out_pitch = params.size_params.hsize * 2;
+	params.size_params.out_pitch = ALIGN(params.size_params.hsize * 2, 32);
 	/* White Balance */
 	params.wbal.dgain = 0x100;
 	params.wbal.coef0 = 0x23;
@@ -170,10 +174,10 @@ int main(int argc, const char *argv[])
 		printf("\nPREV_GET_CROPSIZE failed\n");
 		return ret_val;
 	}
-	printf("\nOutput size is %d x %d pixels\n", outsize.hcrop,
-		outsize.vcrop);
+	printf("\nOutput size is %d x %d pixels\n", outsize.width,
+		outsize.height);
 	/* Output buffer size = hsize * vsize * bytesperpixel */
-	out_img_sz = outsize.hcrop * outsize.vcrop * 2;
+	out_img_sz = outsize.width * outsize.height * 2;
 
 	creqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 	creqbuf.memory = memtype;
