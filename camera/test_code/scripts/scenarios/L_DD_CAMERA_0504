@@ -1,0 +1,28 @@
+#####################
+# FILENAME: L_DD_CAMERA_0504
+# Author  : Ivaylo Petrov
+# Date    : Tue Jun 23, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Previewer wrapper driver for HQ capture
+
+# Begin "L_DD_CAMERA_0504"
+
+COMMENT comment.sh "Test omap-previewer with default, minimum and maximum CONTRAST"
+
+0001_SAN set -x; prvhq.sh "8MP" "omap-previewer" "CONTRAST" "default" && exit 0 || exit 1
+0002 set -x; prvhq.sh "8MP" "omap-previewer" "CONTRAST" "minimum" && exit 0 || exit 1
+0003 set -x; prvhq.sh "8MP" "omap-previewer" "CONTRAST" "maximum" && exit 0 || exit 1
+0004_SAN set -x; prvhq.sh "5MP" "omap-previewer" "CONTRAST" "default" && exit 0 || exit 1
+0005 set -x; prvhq.sh "5MP" "omap-previewer" "CONTRAST" "minimum" && exit 0 || exit 1
+0006 set -x; prvhq.sh "5MP" "omap-previewer" "CONTRAST" "maximum" && exit 0 || exit 1
+0007_SAN set -x; prvhq.sh "XGA" "omap-previewer" "CONTRAST" "default" && exit 0 || exit 1
+0008 set -x; prvhq.sh "XGA" "omap-previewer" "CONTRAST" "minimum" && exit 0 || exit 1
+0009 set -x; prvhq.sh "XGA" "omap-previewer" "CONTRAST" "maximum" && exit 0 || exit 1
+00010_SAN set -x; prvhq.sh "VGA" "omap-previewer" "CONTRAST" "default" && exit 0 || exit 1
+00011 set -x; prvhq.sh "VGA" "omap-previewer" "CONTRAST" "minimum" && exit 0 || exit 1
+00012 set -x; prvhq.sh "VGA" "omap-previewer" "CONTRAST" "maximum" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0504"
+
