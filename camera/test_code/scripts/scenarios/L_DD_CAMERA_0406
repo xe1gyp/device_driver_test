@@ -1,0 +1,17 @@
+#####################
+# FILENAME: L_DD_CAMERA_0406
+# Author  : Ivaylo Petrov
+# Date    : Tue Jun 16, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test prev2resz driver for HQ capture
+
+# Begin "L_DD_CAMERA_0406"
+
+COMMENT comment.sh "Test if 5MP upscale is supported up to x4."
+
+0001_SAN set -x; p2rhq.sh "5MPto8MP" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0406"
+
