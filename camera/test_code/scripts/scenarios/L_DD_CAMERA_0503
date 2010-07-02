@@ -1,0 +1,20 @@
+#####################
+# FILENAME: L_DD_CAMERA_0503
+# Author  : Ivaylo Petrov
+# Date    : Tue Jun 23, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Previewer wrapper driver for HQ capture
+
+# Begin "L_DD_CAMERA_0503"
+
+COMMENT comment.sh "Test omap-previewer without default NF"
+
+0001_SAN set -x; prvhq.sh "8MP" "omap-previewer" "NF" && exit 0 || exit 1
+0002 set -x; prvhq.sh "5MP" "omap-previewer" "NF" && exit 0 || exit 1
+0003 set -x; prvhq.sh "XGA" "omap-previewer" "NF" && exit 0 || exit 1
+0004_SAN set -x; prvhq.sh "VGA" "omap-previewer" "NF" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0503"
+
