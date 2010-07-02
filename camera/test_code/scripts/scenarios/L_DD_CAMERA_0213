@@ -1,0 +1,27 @@
+#####################
+# FILENAME: L_DD_CAMERA_0213
+# Author  : Ivaylo Petrov
+# Date    : Tue Jun 28, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test Resizer driver for HQ capture
+
+# Begin "L_DD_CAMERA_0213"
+
+COMMENT comment.sh "Test if SQCIF upscale is supported up to x4."
+
+#0001_SAN set -x; rszhq.sh "SQCIFto8MP" && exit 0 || exit 1
+#0002 set -x; rszhq.sh "SQCIFto5MP" && exit 0 || exit 1
+#0003 set -x; rszhq.sh "SQCIFtoQXGA" && exit 0 || exit 1
+#0004 set -x; rszhq.sh "SQCIFtoUXGA" && exit 0 || exit 1
+#0005_SAN set -x; rszhq.sh "SQCIFtoSXGA" && exit 0 || exit 1
+#0006 set -x; rszhq.sh "SQCIFtoXGA" && exit 0 || exit 1
+#0007 set -x; rszhq.sh "SQCIFtoSVGA" && exit 0 || exit 1
+#0008 set -x; rszhq.sh "SQCIFtoVGA" && exit 0 || exit 1
+0009_SAN set -x; rszhq.sh "SQCIFtoQVGA" && exit 0 || exit 1
+00010 set -x; rszhq.sh "SQCIFtoQCIF" && exit 0 || exit 1
+00011 set -x; rszhq.sh "SQCIFtoQQVGA" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0213"
+

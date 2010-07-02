@@ -1,0 +1,26 @@
+#####################
+# FILENAME: L_DD_CAMERA_0214
+# Author  : Ivaylo Petrov
+# Date    : Tue Jun 28, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test Resizer driver for HQ capture
+
+# Begin "L_DD_CAMERA_0214"
+
+COMMENT comment.sh "Test if QQVGA upscale is supported up to x4."
+
+#0001_SAN set -x; rszhq.sh "QQVGAto8MP" && exit 0 || exit 1
+#0002 set -x; rszhq.sh "QQVGAto5MP" && exit 0 || exit 1
+#0003 set -x; rszhq.sh "QQVGAtoQXGA" && exit 0 || exit 1
+#0004 set -x; rszhq.sh "QQVGAtoUXGA" && exit 0 || exit 1
+#0005_SAN set -x; rszhq.sh "QQVGAtoSXGA" && exit 0 || exit 1
+#0006 set -x; rszhq.sh "QQVGAtoXGA" && exit 0 || exit 1
+#0007 set -x; rszhq.sh "QQVGAtoSVGA" && exit 0 || exit 1
+0008 set -x; rszhq.sh "QQVGAtoCIF" && exit 0 || exit 1
+0009_SAN set -x; rszhq.sh "QQVGAtoQVGA" && exit 0 || exit 1
+00010 set -x; rszhq.sh "QQVGAtoQCIF" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0214"
+

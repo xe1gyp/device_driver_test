@@ -1,0 +1,19 @@
+#####################
+# FILENAME: L_DD_CAMERA_0219
+# Author  : Ivaylo Petrov
+# Date    : Tue Jun 28, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test Resizer driver for HQ capture
+
+# Begin "L_DD_CAMERA_0219"
+
+COMMENT comment.sh "Test new resizer with new pipes."
+
+0001 set -x; rszhq.sh "QVGAtoXGA" && exit 0 || exit 1
+0002 set -x; rszhq.sh "SXGAtoQVGA" && exit 0 || exit 1
+#0003 set -x; rszhq.sh "5MPtoQCIF" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0219"
+
