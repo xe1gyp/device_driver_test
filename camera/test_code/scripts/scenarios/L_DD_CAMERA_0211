@@ -1,0 +1,17 @@
+#####################
+# FILENAME: L_DD_CAMERA_0211
+# Author  : Ivaylo Petrov
+# Date    : Tue Jun 28, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test Resizer driver for HQ capture
+
+# Begin "L_DD_CAMERA_0211"
+
+COMMENT comment.sh "Test if SQCIF downscale is supported up to x4."
+
+0001  set -x; rszhq.sh "SQCIFtoSQCIF" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0211"
+

@@ -1,0 +1,23 @@
+#####################
+# FILENAME: L_DD_CAMERA_0205
+# Author  : Ivaylo Petrov
+# Date    : Tue Jun 28, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test Resizer driver for HQ capture
+
+# Begin "L_DD_CAMERA_0205"
+
+COMMENT comment.sh "Test if XGA downscale is supported up to x4."
+
+0001_SAN set -x; rszhq.sh "XGAtoXGA" && exit 0 || exit 1
+0002 set -x; rszhq.sh "XGAtoSVGA" && exit 0 || exit 1
+0003 set -x; rszhq.sh "XGAtoVGA" && exit 0 || exit 1
+0004_SAN set -x; rszhq.sh "XGAtoQVGA" && exit 0 || exit 1
+#0005 set -x; rszhq.sh "XGAtoQCIF" && exit 0 || exit 1
+#0006  set -x; rszhq.sh "XGAtoQQVGA" && exit 0 || exit 1
+#0007  set -x; rszhq.sh "XGAtoSQCIF" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0205"
+

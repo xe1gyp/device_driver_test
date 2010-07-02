@@ -1,0 +1,28 @@
+#####################
+# FILENAME: L_DD_CAMERA_0200
+# Author  : Ivaylo Petrov
+# Date    : Tue Jun 28, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test Resizer driver for HQ capture
+
+# Begin "L_DD_CAMERA_0200"
+
+COMMENT comment.sh "Test if 8Mpix downscale is supported up to x4."
+
+0001_SAN set -x; rszhq.sh "8MPto8MP" && exit 0 || exit 1
+0002 set -x; rszhq.sh "8MPto5MP" && exit 0 || exit 1
+0003 set -x; rszhq.sh "8MPtoQXGA" && exit 0 || exit 1
+0004 set -x; rszhq.sh "8MPtoUXGA" && exit 0 || exit 1
+0005_SAN set -x; rszhq.sh "8MPtoSXGA" && exit 0 || exit 1
+0006 set -x; rszhq.sh "8MPtoXGA" && exit 0 || exit 1
+#0007 set -x; rszhq.sh "8MPtoSVGA" && exit 0 || exit 1
+#0008 set -x; rszhq.sh "8MPtoVGA" && exit 0 || exit 1
+#0009_SAN set -x; rszhq.sh "8MPtoQVGA" && exit 0 || exit 1
+#00010 set -x; rszhq.sh "8MPtoQCIF" && exit 0 || exit 1
+#00012 set -x; rszhq.sh "8MPtoQQVGA" && exit 0 || exit 1
+#00013 set -x; rszhq.sh "8MPtoSQCIF" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0200"
+
