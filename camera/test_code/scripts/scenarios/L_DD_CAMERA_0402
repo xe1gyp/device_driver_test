@@ -1,0 +1,24 @@
+#####################
+# FILENAME: L_DD_CAMERA_0402
+# Author  : Ivaylo Petrov
+# Date    : Tue Jun 16, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test prev2resz driver for HQ capture
+
+# Begin "L_DD_CAMERA_0402"
+
+COMMENT comment.sh "Test if XGA downscale is supported up to x4."
+
+0001_SAN set -x; p2rhq.sh "XGAtoXGA" && exit 0 || exit 1
+0002 set -x; p2rhq.sh "XGAtoSVGA" && exit 0 || exit 1
+0003 set -x; p2rhq.sh "XGAtoVGA" && exit 0 || exit 1
+0004_SAN set -x; p2rhq.sh "XGAtoQVGA" && exit 0 || exit 1
+#0005 set -x; p2rhq.sh "XGAtoQCIF" && exit 0 || exit 1
+#0006  set -x; p2rhq.sh "XGAtoQQVGA" && exit 0 || exit 1
+#0007  set -x; p2rhq.sh "XGAtoSQCIF" && exit 0 || exit 1
+#0008_SAN set -x; p2rhq.sh "XGAtoQQCIF" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0402"
+

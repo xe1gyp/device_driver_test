@@ -1,0 +1,28 @@
+#####################
+# FILENAME: L_DD_CAMERA_0401
+# Author  : Ivaylo Petrov
+# Date    : Tue Jun 16, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test prev2resz driver for HQ capture
+
+# Begin "L_DD_CAMERA_0401"
+
+COMMENT comment.sh "Test if 5Mpix downscale is supported up to x4."
+
+0001_SAN set -x; p2rhq.sh "5MPto5MP" && exit 0 || exit 1
+0002 set -x; p2rhq.sh "5MPtoQXGA" && exit 0 || exit 1
+0003 set -x; p2rhq.sh "5MPtoUXGA" && exit 0 || exit 1
+0004_SAN set -x; p2rhq.sh "5MPtoSXGA" && exit 0 || exit 1
+0005 set -x; p2rhq.sh "5MPtoXGA" && exit 0 || exit 1
+0006 set -x; p2rhq.sh "5MPtoSVGA" && exit 0 || exit 1
+#0007 set -x; p2rhq.sh "5MPtoVGA" && exit 0 || exit 1
+#0008_SAN set -x; p2rhq.sh "5MPtoQVGA" && exit 0 || exit 1
+#0009 set -x; p2rhq.sh "5MPtoQCIF" && exit 0 || exit 1
+#00010 set -x; p2rhq.sh "5MPtoQQVGA" && exit 0 || exit 1
+#00011 set -x; p2rhq.sh "5MPtoSQCIF" && exit 0 || exit 1
+#00012_SAN set -x; p2rhq.sh "5MPtoQQCIF" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0401"
+

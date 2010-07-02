@@ -1,0 +1,23 @@
+#####################
+# FILENAME: L_DD_CAMERA_0404
+# Author  : Ivaylo Petrov
+# Date    : Tue Jun 16, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test prev2resz driver for HQ capture
+
+# Begin "L_DD_CAMERA_0404"
+
+COMMENT comment.sh "Test if VGA upscale is supported up to x4."
+
+#0001_SAN set -x; p2rhq.sh "VGAto8MP" && exit 0 || exit 1
+#0002 set -x; p2rhq.sh "VGAto5MP" && exit 0 || exit 1
+0003 set -x; p2rhq.sh "VGAtoQXGA" && exit 0 || exit 1
+0004 set -x; p2rhq.sh "VGAtoUXGA" && exit 0 || exit 1
+0005_SAN set -x; p2rhq.sh "VGAtoSXGA" && exit 0 || exit 1
+0006 set -x; p2rhq.sh "VGAtoXGA" && exit 0 || exit 1
+0007 set -x; p2rhq.sh "VGAtoSVGA" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0404"
+
