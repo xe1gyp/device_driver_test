@@ -238,7 +238,8 @@ int main(int argc, char *argv[])
 		vformat.fmt.pix.sizeimage);
 
 	if ((cformat.fmt.pix.width != vformat.fmt.pix.width) ||
-	    (cformat.fmt.pix.height != vformat.fmt.pix.height)) {
+	    (cformat.fmt.pix.height != vformat.fmt.pix.height) ||
+	    (cformat.fmt.pix.sizeimage != vformat.fmt.pix.sizeimage)) {
 		printf("image sizes don't match!\n");
 		set_video_img = 1;
 	}
@@ -250,7 +251,12 @@ int main(int argc, char *argv[])
 
 	if (set_video_img) {
 		printf("set video image the same as camera image ..\n");
-		vformat.fmt.pix.width = cformat.fmt.pix.width;
+		if (cformat.fmt.pix.width != (cformat.fmt.pix.bytesperline/2))
+			vformat.fmt.pix.width = cformat.fmt.pix.bytesperline/2;
+		else
+			vformat.fmt.pix.width = cformat.fmt.pix.width;
+
+
 		vformat.fmt.pix.height = cformat.fmt.pix.height;
 		vformat.fmt.pix.sizeimage = cformat.fmt.pix.sizeimage;
 		vformat.fmt.pix.pixelformat =
@@ -270,13 +276,10 @@ int main(int argc, char *argv[])
 			vformat.fmt.pix.width, vformat.fmt.pix.height,
 			vformat.fmt.pix.sizeimage);
 
-		if ((cformat.fmt.pix.width != vformat.fmt.pix.width) ||
-		    (cformat.fmt.pix.height !=
-		     vformat.fmt.pix.height) ||
-		    (cformat.fmt.pix.pixelformat !=
-		     vformat.fmt.pix.pixelformat)) {
-			printf("can't make camera and video image "
-				"compatible!\n");
+		if (cformat.fmt.pix.pixelformat !=
+		     vformat.fmt.pix.pixelformat) {
+				printf("can't make camera and video image "
+					"compatible!\n");
 			return 0;
 		}
 	}
