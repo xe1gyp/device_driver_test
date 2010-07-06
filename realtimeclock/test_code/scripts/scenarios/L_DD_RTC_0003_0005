@@ -9,6 +9,6 @@
 
 # Begin L_DD_RTC_0003_0005
 
-01	set -x; echo -e "2\n$APP_INVALID_DATE1\n$APP_INVALID_TIME1\n" | $APP_ALARM_SET $DEVFS_RTC && exit 1 || exit 0
+01	set -x; echo  "2\n$APP_INVALID_DATE1 $APP_INVALID_TIME1" | $APP_ALARM_SET $DEVFS_RTC && exit 1 || exit 0
 
 # End L_DD_RTC_0003_0005

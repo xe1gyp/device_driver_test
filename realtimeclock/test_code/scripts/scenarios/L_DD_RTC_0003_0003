@@ -6,6 +6,6 @@
 
 # Begin L_DD_RTC_0003_0003
 
-01	set -x; echo -e "$ALARM_SEC\n $ALARM_VALUE\n" | $APP_ALARM_SET $DEVFS_RTC && cat $PROCFS_RTC | grep "alarm_IRQ" | grep "yes" && $APP_ALARM_RESET $DEVFS_RTC && cat $PROCFS_RTC | grep "alarm_IRQ" | grep "no" && exit 0 || exit 1
+01	set -x; echo  "$ALARM_SEC $ALARM_VALUE" | $APP_ALARM_SET $DEVFS_RTC && cat $PROCFS_RTC | grep "alarm_IRQ" | grep "yes" && $APP_ALARM_RESET $DEVFS_RTC && cat $PROCFS_RTC | grep "alarm_IRQ" | grep "no" && exit 0 || exit 1
 
 # End L_DD_RTC_0003_0003
