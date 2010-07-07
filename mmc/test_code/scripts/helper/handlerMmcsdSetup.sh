@@ -21,7 +21,7 @@ GetEndSector(){
 
 if [ "$LOCAL_COMMAND" = "create" ]; then
 
-	export MMCSD_SECTOR_START=1
+	export MMCSD_SECTOR_START=100
 	export MMCSD_SECTOR_END=`GetEndSector $MMCSD_DEVFS_ENTRY`
 	export MMCSD_SECTOR_MIDDLE=`echo "$MMCSD_SECTOR_END/2" | bc`
 	export MMCSD_SECTOR2_START=`echo "$MMCSD_SECTOR_MIDDLE+1" | bc`
