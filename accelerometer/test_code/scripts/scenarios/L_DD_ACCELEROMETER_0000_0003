@@ -1,0 +1,11 @@
+###############################################################################
+# Scenario: L_DD_ACCELEROMETER_0000_0003
+# Author  : Hemanth V
+# Date    : Thu Jun 24 16:43:42 IST 2010
+###############################################################################
+
+# Begin L_DD_ACCELEROMETER_0000_0003
+
+01  set -x; $UTILS_DIR_HANDLERS/handlerIrq.sh "get" "cma3000_accl" $ACCELEROMETER_DIR_TMP/IRQ; file $ACCELEROMETER_DIR_TMP/IRQ 
+
+# End L_DD_ACCELEROMETER_0000_0003

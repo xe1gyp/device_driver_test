@@ -1,0 +1,11 @@
+###############################################################################
+# Scenario: L_DD_ACCELEROMETER_0000_0005
+# Author  : Hemanth V
+# Date    : Thu Jun 24 16:43:42 IST 2010
+###############################################################################
+
+# Begin L_DD_ACCELEROMETER_0000_0005
+
+01  set -x; echo $ACCELEROMETER_MODE_MEAS400 > $ACCELEROMETER_SYSFS_PATH/mode ;echo "Ensure board is Flat on the surface\n"; value=`$ACCELEROMETER_DIR_BINARIES/acctest $DEVFS_ACCELEROMETER Z |grep Value | awk '{print $2}'`;$ACCELEROMETER_DIR_HELPER/cmp.sh $value -ge 900
+
+# End L_DD_ACCELEROMETER_0000_0005

@@ -1,0 +1,11 @@
+###############################################################################
+# Scenario: L_DD_ACCELEROMETER_0000_0004
+# Author  : Hemanth V
+# Date    : Thu Jun 24 16:43:42 IST 2010
+###############################################################################
+
+# Begin L_DD_ACCELEROMETER_0000_0004
+
+01  set -x; echo $ACCELEROMETER_MODE_MEAS400 > $ACCELEROMETER_SYSFS_PATH/mode ; $ACCELEROMETER_DIR_BINARIES/evtest $DEVFS_ACCELEROMETER 
+
+# End L_DD_ACCELEROMETER_0000_0004

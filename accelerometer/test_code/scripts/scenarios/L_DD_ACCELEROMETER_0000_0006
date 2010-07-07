@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_ACCELEROMETER_0000_0006
+# Author  : Hemanth V
+# Date    : Thu Jun 24 16:43:42 IST 2010
+###############################################################################
+
+# Begin L_DD_ACCELEROMETER_0000_0006
+
+01  set -x; echo $ACCELEROMETER_MODE_MEAS400 > $ACCELEROMETER_SYSFS_PATH/mode; echo $ACCELEROMETER_RANGE_2G > $ACCELEROMETER_SYSFS_PATH/grange ;value=`$ACCELEROMETER_DIR_BINARIES/acctest $DEVFS_ACCELEROMETER X |grep Max | awk '{print $2}'`;$ACCELEROMETER_DIR_HELPER/cmp.sh $value -eq $ACCELEROMETER_RANGE_2G
+
+02  set -x; echo $ACCELEROMETER_MODE_MEAS400 > $ACCELEROMETER_SYSFS_PATH/mode; echo $ACCELEROMETER_RANGE_8G > $ACCELEROMETER_SYSFS_PATH/grange ;value=`$ACCELEROMETER_DIR_BINARIES/acctest $DEVFS_ACCELEROMETER X |grep Max | awk '{print $2}'`;$ACCELEROMETER_DIR_HELPER/cmp.sh $value -eq  $ACCELEROMETER_RANGE_8G
+# End L_DD_ACCELEROMETER_0000_0006

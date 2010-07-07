@@ -1,0 +1,66 @@
+#!/bin/sh -x
+
+# TestSuite General Variables
+export ACCELEROMETER_POSTFIX=`date "+%Y%m%d-%H%M%S"`
+export ACCELEROMETER_ROOT=`pwd`
+
+export ACCELEROMETER_DIR_BINARIES=${ACCELEROMETER_ROOT}/../bin
+export ACCELEROMETER_DIR_HELPER=${ACCELEROMETER_ROOT}/helper
+export ACCELEROMETER_DIR_TMP=${ACCELEROMETER_ROOT}/tmp
+export ACCELEROMETER_DIR_TEST=${ACCELEROMETER_ROOT}/test
+export ACCELEROMETER_DIR_SCENARIOS="${ACCELEROMETER_ROOT}/scenarios"
+
+export ACCELEROMETER_FILE_OUTPUT=${ACCELEROMETER_ROOT}/output.$ACCELEROMETER_POSTFIX
+export ACCELEROMETER_FILE_LOG=${ACCELEROMETER_ROOT}/log.$ACCELEROMETER_POSTFIX
+export ACCELEROMETER_FILE_TMP=${ACCELEROMETER_DIR_TMP}/tmp.$ACCELEROMETER_POSTFIX
+export ACCELEROMETER_FILE_CMD=cmd.$ACCELEROMETER_POSTFIX
+
+export ACCELEROMETER_DURATION=""
+export ACCELEROMETER_PRETTY_PRT=""
+export ACCELEROMETER_VERBOSE=""
+export ACCELEROMETER_SCENARIO_NAMES=""
+export ACCELEROMETER_STRESS=""
+
+export ACCELEROMETER_MODE_MEAS400=2
+export ACCELEROMETER_MODE_MOTDET=4
+export ACCELEROMETER_RANGE_2G=2000
+export ACCELEROMETER_RANGE_8G=8000
+
+export ACCELEROMETER_SYSFS_PATH="/sys/bus/i2c/drivers/cma3000_accl/4-001c"
+
+export PATH="${PATH}:${ACCELEROMETER_ROOT}:${ACCELEROMETER_DIR_BINARIES}:${ACCELEROMETER_DIR_HELPER}"
+
+# Utils General Variables
+export UTILS_DIR_BIN=${ACCELEROMETER_ROOT}/../../utils/bin
+export UTILS_DIR_HANDLERS=${ACCELEROMETER_ROOT}/../../utils/handlers
+export UTILS_DIR_SCRIPTS=${ACCELEROMETER_ROOT}/../../utils/scripts
+
+. ${ACCELEROMETER_ROOT}/../../utils/configuration/general.configuration
+
+export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
+
+# General variables
+export DMESG_FILE=/var/log/dmesg
+
+# Keypad devfs node
+TEMP_EVENT=`ls /sys/class/input/ | grep event`
+set $TEMP_EVENT
+
+for i in $TEMP_EVENT
+do
+	cat /sys/class/input/$i/device/name | grep "cma3000"
+	IS_THIS_OUR_DRIVER=`echo $?`
+	if [ "$IS_THIS_OUR_DRIVER" -eq "0" ]
+	then
+		export DEVFS_ACCELEROMETER=/dev/input/$i
+		echo "Accelerometer node is " $DEVFS_ACCELEROMETER
+	fi
+done
+
+if [ ! -e "$DEVFS_ACCELEROMETER" ]
+then
+	echo "FATAL: Accelerometer node cannot be found -> $DEVFS_ACCELEROMETER"
+	exit 1
+fi
+
+# End of file
