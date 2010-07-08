@@ -6,6 +6,6 @@
 
 # Begin L_DD_RTC_0003_0004
 
-01	set -x; echo  "$ALARM_SEC $(echo $ALARM_VALUE+5|bc)" | $APP_ALARM_SET $DEVFS_RTC && echo -e "$ALARM_SEC $ALARM_VALUE" | $APP_ALARM_SET $DEVFS_RTC && $APP_ALARM_GET_EVENT $DEVFS_RTC | grep "${MSG_OK_ALARM_RANG}" && exit 0 || exit 1
+01	set -x; echo  "$ALARM_SEC $(echo $ALARM_VALUE+5|bc)" | $APP_ALARM_SET $DEVFS_RTC && echo  "$ALARM_SEC $ALARM_VALUE" | $APP_ALARM_SET $DEVFS_RTC && $APP_ALARM_GET_EVENT $DEVFS_RTC | grep "${MSG_OK_ALARM_RANG}" && exit 0 || exit 1
 
 # End L_DD_RTC_0003_0004
