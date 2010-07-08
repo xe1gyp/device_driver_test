@@ -1,0 +1,17 @@
+###############################################################################
+# Scenario: L_DD_LED_0000_0004
+# Author  : Hemanth V
+# Date    : Thu Jun 24 16:43:42 IST 2010
+###############################################################################
+
+# Begin L_DD_LED_0000_0004
+
+01  echo 1 > $LED_SYSFS_PATH/omap4\:red\:user/brightness;echo "\n\n\n\nCheck RED User LED is ON, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+02  set -x; echo 0 > $LED_SYSFS_PATH/omap4\:red\:user/brightness;echo "\n\n\n\nCheck RED USER LED is OFF, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+
+03  echo 1 > $LED_SYSFS_PATH/omap4\:green\:user/brightness;echo "\n\n\n\nCheck GREEN User LED is ON, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+04  set -x; echo 0 > $LED_SYSFS_PATH/omap4\:green\:user/brightness;echo "\n\n\n\nCheck GREEN USER LED is OFF, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+
+04  echo 1 > $LED_SYSFS_PATH/omap4\:blue\:user/brightness;echo "\n\n\n\nCheck BLUE User LED is ON, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+05  set -x; echo 0 > $LED_SYSFS_PATH/omap4\:blue\:user/brightness;echo "\n\n\n\nCheck BLUE USER LED is OFF, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+# End L_DD_LED_0000_0004

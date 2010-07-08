@@ -1,0 +1,16 @@
+###############################################################################
+# Scenario: L_DD_LED_0000_0005
+# Author  : Hemanth V
+# Date    : Thu Jun 24 16:43:42 IST 2010
+###############################################################################
+
+# Begin L_DD_LED_0000_0005
+
+01  echo 1 > $LED_SYSFS_PATH/omap4\:green\:chrg/brightness;echo "\n\n\n\nCheck Charging LED is ON, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+
+02  echo 100 > $LED_SYSFS_PATH/omap4\:green\:chrg/brightness;echo "\n\n\n\nCheck Charging LED Brightness increased, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+
+03  echo 255 > $LED_SYSFS_PATH/omap4\:green\:chrg/brightness;echo "\n\n\n\nCheck Charging LED Brightness increased, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+
+04  echo 0 > $LED_SYSFS_PATH/omap4\:green\:chrg/brightness;echo "\n\n\n\nCheck Charging LED is OFF, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+# End L_DD_LED_0000_0005

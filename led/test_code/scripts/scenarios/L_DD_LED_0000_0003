@@ -1,0 +1,23 @@
+###############################################################################
+# Scenario: L_DD_LED_0000_0003
+# Author  : Hemanth V
+# Date    : Thu Jun 24 16:43:42 IST 2010
+###############################################################################
+
+# Begin L_DD_LED_0000_0003
+
+01  echo 1 > $LED_SYSFS_PATH/omap4\:green\:debug0/brightness;echo "\n\n\n\nCheck DEBUG LED 0 is ON, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+02  set -x; echo 0 > $LED_SYSFS_PATH/omap4\:green\:debug0/brightness;echo "\n\n\n\nCheck DEBUG LED 0 is OFF, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+
+03  echo 1 > $LED_SYSFS_PATH/omap4\:green\:debug1/brightness;echo "\n\n\n\nCheck DEBUG LED 1 is ON, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+04  set -x; echo 0 > $LED_SYSFS_PATH/omap4\:green\:debug1/brightness;echo "\n\n\n\nCheck DEBUG LED 1 is OFF, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+
+05  echo 1 > $LED_SYSFS_PATH/omap4\:green\:debug2/brightness;echo "\n\n\n\nCheck DEBUG LED 2 is ON, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+06  set -x; echo 0 > $LED_SYSFS_PATH/omap4\:green\:debug2/brightness;echo "\n\n\n\nCheck DEBUG LED 2 is OFF, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+
+07  echo 1 > $LED_SYSFS_PATH/omap4\:green\:debug3/brightness;echo "\n\n\n\nCheck DEBUG LED 3 is ON, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+08  set -x; echo 0 > $LED_SYSFS_PATH/omap4\:green\:debug3/brightness;echo "\n\n\n\nCheck DEBUG LED 3 is OFF, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+
+09  echo 1 > $LED_SYSFS_PATH/omap4\:green\:debug4/brightness;echo "\n\n\n\nCheck DEBUG LED 4 is ON, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+10  echo 0 > $LED_SYSFS_PATH/omap4\:green\:debug4/brightness;echo "\n\n\n\nCheck DEBUG LED 4 is OFF, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+# End L_DD_LED_0000_0003

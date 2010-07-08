@@ -1,0 +1,11 @@
+###############################################################################
+# Scenario: L_DD_LED_0000_0006
+# Author  : Hemanth V
+# Date    : Thu Jun 24 16:43:42 IST 2010
+###############################################################################
+
+# Begin L_DD_LED_0000_0006
+
+01  echo 1 > $LED_SYSFS_PATH/omap4\:green\:chrg/brightness& echo 1 > $LED_SYSFS_PATH/omap4\:green\:debug0/brightness&
+
+# End L_DD_LED_0000_0006
