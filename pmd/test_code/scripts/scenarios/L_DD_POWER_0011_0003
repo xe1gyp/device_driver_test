@@ -1,0 +1,15 @@
+################################################################################
+# Scenario:	L_DD_POWER_0011_0003
+# Author  :	Lesly A M
+# Date    :	June 29th, 2010
+# Description: PM - power domain framework test_3
+################################################################################
+
+# Begin L_DD_POWER_0011_0003
+
+0001	set -x; dmesg -c
+0002	set -x; insmod $TESTMODS/pd_test.ko test_id=0x3
+0003	set -x; dmesg -c | grep PASSED
+0004	set -x; rmmod pd_test
+
+# End L_DD_POWER_0011_0003

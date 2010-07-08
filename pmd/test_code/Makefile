@@ -28,7 +28,7 @@ install:
 	mkdir -p scripts/test
 	mkdir -p scripts/tmp
 	mkdir -p bin/
-	mkdir -p mods/
+	mkdir -p modules/
 	make -C utils install
 
 clean:
@@ -36,5 +36,5 @@ clean:
 	rm -rf scripts/tmp
 	rm -rf scripts/test
 	rm -rf bin/
-	rm -rf mods/
+	rm -rf modules/
 	make -C utils clean

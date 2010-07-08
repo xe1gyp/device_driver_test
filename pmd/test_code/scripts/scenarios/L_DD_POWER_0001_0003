@@ -1,0 +1,14 @@
+################################################################################
+# Scenario:	L_DD_POWER_0001_0003
+# Author  :	Lesly A M
+# Date    :	June 29th, 2010
+# Description: PM - system time check
+################################################################################
+
+# Begin L_DD_POWER_0001_0003
+
+0001	set -x; $TESTBIN/system_time >&1 | grep PASSED
+
+# End L_DD_POWER_0001_0003
+
+

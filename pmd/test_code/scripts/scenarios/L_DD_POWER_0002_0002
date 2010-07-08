@@ -1,0 +1,15 @@
+################################################################################
+# Scenario:	L_DD_POWER_0002_0002
+# Author  :	Lesly A M
+# Date    :	June 29th, 2010
+# Description: PM - clock framework test_2
+################################################################################
+
+# Begin L_DD_POWER_0002_0002
+
+0001	set -x; dmesg -c
+0002	set -x; insmod $TESTMODS/clock_test.ko test_id=0x2
+0003	set -x; dmesg -c | grep PASSED
+0004	set -x; rmmod clock_test
+
+# End L_DD_POWER_0002_0002
