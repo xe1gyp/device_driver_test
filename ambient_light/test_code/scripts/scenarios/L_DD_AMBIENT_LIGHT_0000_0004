@@ -1,0 +1,11 @@
+###############################################################################
+# Scenario: L_DD_AMBIENT_LIGHT_0000_0004
+# Author  : Hemanth V
+# Date    : Thu Jun 24 16:43:42 IST 2010
+###############################################################################
+
+# Begin L_DD_AMBIENT_LIGHT_0000_0004
+
+01  set -x; echo 3 > $AMBIENT_LIGHT_SYSFS_PATH/power_state;value=`cat  $AMBIENT_LIGHT_SYSFS_PATH/lux`;$AMBIENT_LIGHT_DIR_HELPER/cmp.sh $value -gt 0; 
+
+# End L_DD_AMBIENT_LIGHT_0000_0004
