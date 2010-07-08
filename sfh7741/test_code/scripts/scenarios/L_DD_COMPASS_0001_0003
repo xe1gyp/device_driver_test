@@ -1,0 +1,13 @@
+###############################################################################
+# Scenario: L_DD_COMPASS_0001_0003
+# Author  : Shubhro
+#
+# Date    : July 08 16:43:35 CDT 2010
+###############################################################################
+
+# Begin L_DD_COMPASS_0001_0003
+
+
+01 set -x; cat /sys/class/iio/device0/magn_x_raw ;  cat /sys/class/iio/device0/magn_y_raw;  cat /sys/class/iio/device0/magn_z_raw;
+
+# End L_DD_COMPASS_0001_0003
