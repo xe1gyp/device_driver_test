@@ -335,17 +335,24 @@ static int __init dma_module_init(void)
  */
 static void __exit dma_module_exit(void)
 {
-	int i;
+       int i, ret;
 
-	if (cht1.chain.request_success) {
-		omap_stop_dma_chain_transfers(cht1.chain.chain_id);
-		omap_free_dma_chain(cht1.chain.chain_id);
-	}
-
+       if(chain.request_success){
+	       ret = omap_stop_dma_chain_transfers(chain.chain_id);
+	       if (ret) {
+			printk("DMA stop chain failed\n");
+			set_test_passed_chain(0);
+	       }
+	       ret = omap_free_dma_chain(chain.chain_id);
+	       if (ret) {
+			printk("DMA Chain Free failed for id : %d\n",
+				chain.chain_id);
+			set_test_passed_chain(0);
+	       }
+       }
 	for (i = 0; i < cht1.current_transfer; i++)
 		stop_dma_transfer_chain(&(cht1.transfers[i]));
 
-	remove_dma_proc_chain(PROC_FILE);
 }
 
 module_init(dma_module_init);

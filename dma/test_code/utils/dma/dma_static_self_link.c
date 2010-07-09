@@ -240,7 +240,6 @@ static void __exit dma_module_exit(void) {
        for(i = 0; i < TRANSFER_COUNT; i++){
 	printk("\n In the exit DMA module \n");
               }
-       remove_dma_proc(PROC_FILE);
 }
 
 module_init(dma_module_init);

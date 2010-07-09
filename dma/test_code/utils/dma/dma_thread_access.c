@@ -131,12 +131,19 @@ static int __init dma_module_init(void)
  */
 static void __exit dma_module_exit(void)
 {
-	int i;
+	int i, ret = 0;
 	for (i = 0; i < TRANSFER_COUNT; i++) {
-		stop_dma_transfer(&gtransfers[i]);
-		stop_dma_transfer(&gtransfers2[i]);
+		ret = stop_dma_transfer(&gtransfers[i]);
+		if (ret) {
+			printk("Stop DMA transfer failed\n");
+			set_test_passed(0);
+		}
+		ret = stop_dma_transfer(&gtransfers2[i]);
+		if (ret) {
+			printk("Stop DMA transfer failed\n");
+			set_test_passed(0);
+		}
 	}
-	remove_dma_proc(PROC_FILE);
 }
 
 module_init(dma_module_init);

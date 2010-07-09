@@ -35,7 +35,6 @@
 static struct dma_transfer transfers[TRANSFER_COUNT];
 static int transfer_finished_order[TRANSFER_COUNT];
 static volatile int transfer_finished_count = 0;
-
 /*
  * Checks that the first transfer to finish is actually not the first in the
  * transfers array with the lowest priority.
@@ -47,7 +46,7 @@ static void check_test_passed(void){
      for(i = 0; i < TRANSFER_COUNT; i++){
          if(!transfers[i].data_correct){
              error = 1;
-             printk("Transfer id %d failed\n", transfers[i].transfer_id);
+		printk("Transfer id %d failed\n", transfers[i].transfer_id);
          }
      }
 
@@ -224,11 +223,11 @@ static int __init dma_module_init(void) {
  * Function called when the module is removed
  */
 static void __exit dma_module_exit(void) {
-       int i;
-       for(i = 0; i < TRANSFER_COUNT; i++){
-               stop_dma_transfer(&transfers[i]);
-       }
-       remove_dma_proc(PROC_FILE);
+	int i;
+
+	for(i = 0; i < TRANSFER_COUNT; i++) {
+		stop_dma_transfer(&transfers[i]);
+	}
 }
 
 module_init(dma_module_init);

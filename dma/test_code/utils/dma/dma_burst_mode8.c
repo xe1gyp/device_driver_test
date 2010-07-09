@@ -28,7 +28,6 @@
 #define PROC_FILE "driver/dma_burst_mode8"
 
 static struct dma_transfer transfers[TRANSFER_COUNT];
-
 /*
  * Checks that the destination buffers were written correctly
  */
@@ -135,11 +134,11 @@ static int __init dma_module_init(void) {
  * Function called when the module is removed
  */
 static void __exit dma_module_exit(void) {
-       int i;
-       for(i = 0; i < TRANSFER_COUNT; i++){
-               stop_dma_transfer(&transfers[i]);
-       }
-       remove_dma_proc(PROC_FILE);
+	int i;
+
+	for(i = 0; i < TRANSFER_COUNT; i++)
+		stop_dma_transfer(&transfers[i]);
+
 }
 
 module_init(dma_module_init);

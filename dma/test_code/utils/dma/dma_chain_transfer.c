@@ -62,11 +62,18 @@ void set_test_passed_chain(int passed){
 }
 EXPORT_SYMBOL(set_test_passed_chain);
 
+struct proc_dir_entry* entry;
+
 /*
  * Creates a read proc entry in the procfs
  */
-void create_dma_proc_chain(char *proc_name){
-	create_proc_read_entry(proc_name, 0, NULL, dma_read_proc, NULL);
+void create_dma_proc_chain(char *proc_name)
+{
+	entry = create_proc_read_entry(proc_name, 0, NULL, dma_read_proc, NULL);
+	if (!entry) {
+		printk("Creating proc entry failed !!!!\n");
+		return;
+	}
 }
 EXPORT_SYMBOL(create_dma_proc_chain);
 
@@ -369,6 +376,21 @@ void set_max_rounds(int rounds){
      max_rounds = rounds;
 }
 EXPORT_SYMBOL(set_max_rounds);
+
+static int __init dma_chain_init(void) {
+	/* Dummy init */
+	return 0;
+}
+
+static void __exit dma_chain_exit(void) {
+	/*
+	 * By this time, test result is available
+	 * in proc entry. Now it is safe to remove
+	 * proc entry.
+	 */
+	remove_dma_proc_chain((char *)&entry->name);
+}
+
 
 MODULE_AUTHOR("Texas Instruments");
 MODULE_LICENSE("GPL");

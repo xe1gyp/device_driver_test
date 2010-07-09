@@ -278,18 +278,26 @@ static int __init dma_module_init(void) {
  * Function called when the module is removed
  */
 static void __exit dma_module_exit(void) {
-       int i;
+       int i, ret = 0;
+       u32 ch_stop_status = 0;
 
        if(chain.request_success){
-	       omap_stop_dma_chain_transfers(chain.chain_id);
-	       omap_free_dma_chain(chain.chain_id);
+	       ret = omap_stop_dma_chain_transfers(chain.chain_id);
+	       if (ret) {
+			printk("DMA stop chain failed\n");
+			set_test_passed_chain(0);
+	       }
+	       ret = omap_free_dma_chain(chain.chain_id);
+	       if (ret) {
+			printk("DMA Chain Free failed for id : %d\n",
+				chain.chain_id);
+			set_test_passed_chain(0);
+	       }
        }
 
-       for(i = 0; i < current_transfer; i++){
+       for(i = 0; i < current_transfer; i++)
            stop_dma_transfer_chain(&transfers[i]);
-       }
 
-       remove_dma_proc_chain(PROC_FILE);
 }
 
 module_init(dma_module_init);

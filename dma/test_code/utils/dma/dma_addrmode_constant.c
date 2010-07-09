@@ -43,9 +43,9 @@ static void check_test_passed(void){
          }
      }
 
-     if(!error){
+     if(!error) {
          set_test_passed(1);
-     }else{
+     } else {
          set_test_passed(0);
      }
 }
@@ -225,11 +225,11 @@ static int __init dma_module_init(void) {
  * Function called when the module is removed
  */
 static void __exit dma_module_exit(void) {
-       int i;
-       for(i = 0; i < TRANSFER_COUNT; i++){
-               stop_dma_transfer(&transfers[i]);
-       }
-       remove_dma_proc(PROC_FILE);
+	int i;
+
+	for(i = 0; i < TRANSFER_COUNT; i++)
+		stop_dma_transfer(&transfers[i]);
+
 }
 
 module_init(dma_module_init);

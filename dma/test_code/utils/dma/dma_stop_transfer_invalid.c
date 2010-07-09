@@ -111,7 +111,7 @@ static int __init dma_module_init(void) {
  * Function called when the module is removed
  */
 static void __exit dma_module_exit(void) {
-       remove_dma_proc(PROC_FILE);
+	/* Dummy exit */
 }
 
 module_init(dma_module_init);

@@ -28,7 +28,6 @@
 
 static struct dma_transfer transfers[TRANSFER_COUNT];
 static struct dma_query queries[TRANSFER_COUNT];
-
 /*
  * Checks the transfer did not complete.
  */
@@ -38,7 +37,7 @@ static void check_test_passed(void){
      if(transfers[0].finished){
          printk("The transfer id %d was not supposed to be completed\n",
                transfers[0].transfer_id);
-         error = 1;
+		error = 1;
      }else{
          printk("The transfer id %d is not completed\n",
                transfers[0].transfer_id);
@@ -106,7 +105,11 @@ static int __init dma_module_init(void) {
  * Function called when the module is removed
  */
 static void __exit dma_module_exit(void) {
-       remove_dma_proc(PROC_FILE);
+
+	/* Dummy exit. nothing to release.
+	 * proc entries will be cleanup in
+	 * other module.
+	 */
 }
 
 module_init(dma_module_init);

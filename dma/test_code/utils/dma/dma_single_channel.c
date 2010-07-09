@@ -81,12 +81,18 @@ int check_dma_transfer_complete(struct dma_transfer *transfers,
 }
 EXPORT_SYMBOL(check_dma_transfer_complete);
 
+struct proc_dir_entry* entry;
+
 /*
  * Creates a read proc entry in the procfs
  */
 void create_dma_proc(char *proc_name)
 {
-	create_proc_read_entry(proc_name, 0, NULL, dma_read_proc, NULL);
+	entry = create_proc_read_entry(proc_name, 0, NULL, dma_read_proc, NULL);
+	if (!entry) {
+		printk("Creating proc entry failed !!!!\n");
+		return;
+	}
 }
 EXPORT_SYMBOL(create_dma_proc);
 
@@ -98,7 +104,6 @@ void remove_dma_proc(char *proc_name)
     remove_proc_entry(proc_name, NULL);
 }
 EXPORT_SYMBOL(remove_dma_proc);
-
 
 /*
  * Function used to verify the source an destination buffers of a dma transfer
@@ -432,6 +437,21 @@ void unlink_stop_dma_selflink_transfer(int channel_id){
 	   omap_free_dma(channel_id);
      }
 EXPORT_SYMBOL(unlink_stop_dma_selflink_transfer);
+
+static int __init dma_single_init(void) {
+	/* Dummy init */
+	return 0;
+}
+
+static void __exit dma_single_exit(void) {
+	printk("OMAPS ************************************\n");
+	/*
+	 * By this time, test result is available
+	 * in proc entry. Now it is safe to remove
+	 * proc entry.
+	 */
+	remove_dma_proc((char*)&entry->name);
+}
 
 MODULE_AUTHOR("Texas Instruments");
 MODULE_LICENSE("GPL");

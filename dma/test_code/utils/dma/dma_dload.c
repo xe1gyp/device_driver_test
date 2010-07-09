@@ -230,7 +230,6 @@ static void __exit dmatest_cleanup(void)
 {
 	int i;
 
-	remove_dma_proc(PROC_FILE);
 	dma_free_coherent(NULL, tls1.total_num_elements * 4,
 		tls1.bsptest_dma_dst_addr, (int)tls1.bsptest_dma_dst_addr_phy);
 	dma_free_coherent(NULL, PAGE_SIZE,

@@ -8,7 +8,7 @@
 # Begin L_DD_DMA_0033
 0001	set -x; insmod $TESTMODS/dma_single_channel.ko
 0002	set -x; insmod $TESTMODS/dma_unlink_before_stop_channels.ko
-0003	set -x; cat /proc/driver/unlink_before_stop | grep FAIL
 0004	set -x; rmmod dma_unlink_before_stop_channels
+0003	set -x; cat /proc/driver/unlink_before_stop | grep FAIL
 0005	set -x; rmmod dma_single_channel
 # End L_DD_DMA_0033
