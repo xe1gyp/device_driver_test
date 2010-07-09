@@ -4,6 +4,7 @@
 
 #include <plat/omap-pm.h>
 #include <plat/resource.h>
+#define OCP_INIT_ID	2
 
 static struct device *constraints_dummy_dev;
 static struct dentry *constraints_debugfs_root;
@@ -36,7 +37,9 @@ static int constraints_debug_set(void *data, u64 constraint)
 
 	if (!strcmp(sr_name, "mpu_freq")) {
 		omap_pm_set_min_mpu_freq(constraints_dummy_dev, constraint);
-	/* FIXME handle all other constraints here */
+	} else if (!strcmp(sr_name, "vdd2_opp")) {
+		omap_pm_set_min_bus_tput(constraints_dummy_dev, OCP_INIT_ID,
+				constraint);
 	} else {
 		pr_err("constraints: %s: error!  should not be here\n",
 				__func__);
@@ -45,7 +48,6 @@ static int constraints_debug_set(void *data, u64 constraint)
 	return 0;
 }
 
-/* FIXME define attributes for all other constraints */
 DEFINE_SIMPLE_ATTRIBUTE(constraints_debug_fops, NULL,
 		constraints_debug_set, "%llu\n");
 
@@ -68,6 +70,10 @@ static int __init constraints_init(void)
 			constraints_debugfs_root, "mpu_freq",
 			&constraints_debug_fops);
 
+	(void) debugfs_create_file("min_bus_tput", S_IWUGO,
+			constraints_debugfs_root, "vdd2_opp",
+			&constraints_debug_fops);
+
 	return 0;
 }
 
@@ -75,9 +81,8 @@ static void __exit constraints_exit(void)
 {
 	pr_info("constraints: unloaded\n");
 
-	/* FIXME release resources for all other constraints */
 	resource_release("mpu_freq", constraints_dummy_dev);
-
+	resource_release("vdd2_opp", constraints_dummy_dev);
 	kfree(constraints_dummy_dev);
 
 	debugfs_remove_recursive(constraints_debugfs_root);
