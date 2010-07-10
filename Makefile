@@ -81,7 +81,9 @@ endif
 
 APPLICABLE_TESTS :=     benchmarks dma ethernet gpio hsuart i2c \
                         keypad mcbsp mcspi mmc oskernel \
-                        realtimeclock timer-32k touchscreen watchdog pmd
+                        realtimeclock timer-32k touchscreen watchdog pmd\
+			sfh7741
+
 ifdef CONFIG_ARCH_OMAP3
 APPLICABLE_TESTS +=     camera audio-alsa framebuffer video nand
 endif
