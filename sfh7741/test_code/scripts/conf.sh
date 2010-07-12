@@ -41,7 +41,7 @@ set $TEMP_EVENT
 
 for i in $TEMP_EVENT
 do
-	cat /sys/class/input/$i/device/modalias | grep "sfh7741"
+	cat /sys/class/input/$i/device/device/modalias | grep "sfh7741"
 	IS_THIS_OUR_DRIVER=`echo $?`
 	if [ "$IS_THIS_OUR_DRIVER" -eq "0" ]
 	then
@@ -56,7 +56,6 @@ done
 if [ ! -e "$DEVFS_SENSOR" ]
 then
 	echo "FATAL: Proximity node cannot be found -> $DEVFS_SENSOR"
-	exit 1
 fi
 
 # End of file
