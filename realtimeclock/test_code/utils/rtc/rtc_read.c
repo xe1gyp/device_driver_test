@@ -33,7 +33,7 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <linux/rtc.h>
-#define MAXIMUM_TIME 10000
+#define MAXIMUM_TIME 5000 
 
 
 int main(int argc, char *argv[])
