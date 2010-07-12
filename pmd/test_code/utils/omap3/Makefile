@@ -9,7 +9,7 @@
 CC=$(CROSS_COMPILE)gcc
 
 TARGETS= system_time vfp_asm
-obj-m := clock_test.o resource_test.o clockdomain_test.o powerdomain_test.o
+obj-m := clock_test.o resource_test.o clockdomain_test.o powerdomain_test.o constraints.o
 
 all:
 	make -C $(KDIR) SUBDIRS=$(PWD)/utils/omap3 KERN=26 modules
