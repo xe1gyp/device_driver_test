@@ -19,6 +19,7 @@
 09 set -x; $TESTSCRIPT/requestTimerNumber.sh 9 && exit 0 || exit 1
 10 set -x; $TESTSCRIPT/requestTimerNumber.sh 10 && exit 0 || exit 1
 11 set -x; $TESTSCRIPT/requestTimerNumber.sh 11 && exit 0 || exit 1
-12 set -x; $TESTSCRIPT/requestTimerNumber.sh 12 && exit 0 || exit 1
+#dmtimer #12 is a secure timer
+#12 set -x; $TESTSCRIPT/requestTimerNumber.sh 12 && exit 0 || exit 1
 
 # End L_DD_TIMER_0004_0001
