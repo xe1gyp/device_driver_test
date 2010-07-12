@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+<titan>
+
+	<test id="L_DD_SENSOR_0001_0001">
+
+		<information>
+			<autor> Jyothi PK </autor>
+			<description> tbd description </description>
+			<dateofcreation> 07/12/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_SENSOR_0001_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/sfh7741/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_SENSOR_0002_0001">
+
+		<information>
+			<autor> Jyothi PK </autor>
+			<description> tbd description </description>
+			<dateofcreation> 07/12/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_SENSOR_0002_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/sfh7741/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_SENSOR_0005_0001">
+
+		<information>
+			<autor> Jyothi PK </autor>
+			<description> tbd description </description>
+			<dateofcreation> 07/12/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_SENSOR_0005_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/sfh7741/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	
+	<test id="L_DD_SENSOR_0005_0003">
+
+		<information>
+			<autor> Jyothi PK </autor>
+			<description> tbd description </description>
+			<dateofcreation> 07/12/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_SENSOR_0005_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/sfh7741/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	<test id="L_DD_COMPASS_0000_0001">
+
+		<information>
+			<autor> Jyothi PK </autor>
+			<description> tbd description </description>
+			<dateofcreation> 07/12/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_COMPASS_0000_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/sfh7741/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	<test id="L_DD_COMPASS_0000_0002">
+
+		<information>
+			<autor> Jyothi PK </autor>
+			<description> tbd description </description>
+			<dateofcreation> 07/12/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_COMPASS_0000_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/sfh7741/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	<test id="L_DD_COMPASS_0001_0003">
+
+		<information>
+			<autor> Jyothi PK </autor>
+			<description> tbd description </description>
+			<dateofcreation> 07/12/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_COMPASS_0001_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/sfh7741/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+
+</titan>
