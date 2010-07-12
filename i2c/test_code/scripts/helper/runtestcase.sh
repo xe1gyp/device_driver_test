@@ -46,15 +46,15 @@ case "$TESTCASEID" in
 	# Transfer using Interrupt Mode, the interrupts should be different due to i2c transfers
 	5)
 		verifyspeed.sh $MODE || exit 2 && for i in $I2C_ADDRESSES; do i2cdump -f -y $I2C_ADAPTER_1 $i b || exit 1; done
-		verifyspeed.sh $MODE || exit 2 && echo `cat $PROCFS_INTERRUPTS | grep $INTERRUPT_PREFIX | grep $INT_24XX_I2C1_IRQ: | sed -e "s/ */ /g" | cut -d ' ' -f3` > $TEMP_FILE_1 || exit 1
+		verifyspeed.sh $MODE || exit 2 && echo `cat $PROCFS_INTERRUPTS | grep $INTERRUPT_PREFIX | grep $INT_24XX_I2C1_IRQ: | awk '{print $2}' > $TEMP_FILE_1 || exit 1
 		verifyspeed.sh $MODE || exit 2 && for i in $I2C_ADDRESSES; do i2cdump -f -y $I2C_ADAPTER_1 $i b || exit 1; done
-		verifyspeed.sh $MODE || exit 2 && echo `cat $PROCFS_INTERRUPTS | grep $INTERRUPT_PREFIX | grep $INT_24XX_I2C1_IRQ: | sed -e "s/ */ /g" | cut -d ' ' -f3` > $TEMP_FILE_2 || exit 1
+		verifyspeed.sh $MODE || exit 2 && echo `cat $PROCFS_INTERRUPTS | grep $INTERRUPT_PREFIX | grep $INT_24XX_I2C1_IRQ: |awk '{print $2}' > $TEMP_FILE_2 || exit 1
 		verifyspeed.sh $MODE || exit 2 && cat $TEMP_FILE_1 && cat $TEMP_FILE_2; cmp $TEMP_FILE_1 $TEMP_FILE_2 && exit 1
 		verifyspeed.sh $MODE || exit 2 && for i in $I2C_ADDRESSES; do i2cdump -f -y $I2C_ADAPTER_1 $i b || exit 1; done
 		verifyspeed.sh && for i in $I2C_ADDRESSES; do i2cdump -f -y $I2C_ADAPTER_1 $i b || exit 1; done
-		verifyspeed.sh && echo `cat $PROCFS_INTERRUPTS | grep $INTERRUPT_PREFIX | grep $INT_24XX_I2C1_IRQ: | sed -e "s/ */ /g" | cut -d ' ' -f3` > $TEMP_FILE_1 || exit 1
+		verifyspeed.sh && echo `cat $PROCFS_INTERRUPTS | grep $INTERRUPT_PREFIX | grep $INT_24XX_I2C1_IRQ: | awk '{print $2}' > $TEMP_FILE_1 || exit 1
 		verifyspeed.sh && for i in $I2C_ADDRESSES; do i2cdump -f -y $I2C_ADAPTER_1 $i b || exit 1; done
-		verifyspeed.sh && echo `cat $PROCFS_INTERRUPTS | grep $INTERRUPT_PREFIX | grep $INT_24XX_I2C1_IRQ: | sed -e "s/ */ /g" | cut -d ' ' -f3` > $TEMP_FILE_2 || exit 1
+		verifyspeed.sh && echo `cat $PROCFS_INTERRUPTS | grep $INTERRUPT_PREFIX | grep $INT_24XX_I2C1_IRQ: | awk '{print $2}' > $TEMP_FILE_2 || exit 1
 		verifyspeed.sh && cat $TEMP_FILE_1 && cat $TEMP_FILE_2; cmp $TEMP_FILE_1 $TEMP_FILE_2 && exit 1
 		verifyspeed.sh && for i in $I2C_ADDRESSES; do i2cdump -f -y $I2C_ADAPTER_1 $i b || exit 1; done
 	;;
