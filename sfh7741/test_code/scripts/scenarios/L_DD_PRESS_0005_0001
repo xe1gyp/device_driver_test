@@ -1,0 +1,22 @@
+###############################################################################
+# Scenario: L_DD_PRESS_0005_0001
+# Author  : Shubhro
+# Testing if many parallel reads is an issue
+# Date    : July 08 16:43:35 CDT 2010
+###############################################################################
+
+# Begin L_DD_PRESS_0001_0002
+01 set -x; (cat $DEVFS_BMP085_TEMP & ) &&  cat $DEVFS_BMP085_PRESS &
+02 set -x; (cat $DEVFS_BMP085_TEMP & ) &&  cat $DEVFS_BMP085_PRESS &
+03 set -x; (cat $DEVFS_BMP085_TEMP & ) &&  cat $DEVFS_BMP085_PRESS &
+04 set -x; (cat $DEVFS_BMP085_TEMP & ) &&  cat $DEVFS_BMP085_PRESS &
+05 set -x; (cat $DEVFS_BMP085_TEMP & ) &&  cat $DEVFS_BMP085_PRESS &
+06 set -x; (cat $DEVFS_BMP085_TEMP & ) &&  cat $DEVFS_BMP085_PRESS &
+07 set -x; (cat $DEVFS_BMP085_TEMP & ) &&  cat $DEVFS_BMP085_PRESS &
+08 set -x; (cat $DEVFS_BMP085_TEMP & ) &&  cat $DEVFS_BMP085_PRESS &
+09 set -x; (cat $DEVFS_BMP085_TEMP & ) &&  cat $DEVFS_BMP085_PRESS &
+10 set -x; (cat $DEVFS_BMP085_TEMP & ) &&  cat $DEVFS_BMP085_PRESS &
+
+
+
+# End L_DD_PRESS_0005_0001

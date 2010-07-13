@@ -1,0 +1,13 @@
+###############################################################################
+# Scenario: L_DD_TEMP_0005_0003
+# Author  : Shubhro
+#
+# Date    : July 08 16:43:35 CDT 2010
+###############################################################################
+
+# Begin L_DD_TEMP_0005_0003
+01 set -x; cat $DEVFS_TEMP
+02 TEMP_COMMAND="cat $DEVFS_TEMP"
+echo $TEMP_COMMAND
+03 set -x; $UTILS_DIR_HANDLERS/handlerIrqAffinity.sh  "switch" "/testsuites/sfh7741/scripts/helper/Readvalues.sh 20  1  " "5" "15" "93"
+# End L_DD_TEMP_0005_0003

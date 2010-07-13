@@ -52,7 +52,9 @@ done
 
 # Hardcode primary controller for now
 #export DEVFS_SENSOR=/dev/input/event3
-
+export DEVFS_TEMP=/sys/class/hwmon/hwmon0/device/temp1_input
+export DEVFS_BMP085_TEMP=/sys/class/i2c-adapter/i2c-4/4-0077/temp0_input
+export DEVFS_BMP085_PRESS=/sys/class/i2c-adapter/i2c-4/4-0077/pressure0_input
 if [ ! -e "$DEVFS_SENSOR" ]
 then
 	echo "FATAL: Proximity node cannot be found -> $DEVFS_SENSOR"
