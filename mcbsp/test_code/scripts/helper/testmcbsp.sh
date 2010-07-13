@@ -45,25 +45,25 @@ do
     fi
     TRANSFER=`cat /proc/driver/mcbsp_test/status | grep "Number of transfers" | sed -e "s/ */ /g" | cut -d ' ' -f6`
     print "Starting Transmission : \"echo start > /proc/driver/mcbsp_test/transmission\""
-#    sleep $MESSAGE_DELAY
+    sleep $MESSAGE_DELAY
     echo 'start' > /proc/driver/mcbsp_test/transmission
-    #sleep $DELAY
-    TX=`cat /proc/driver/mcbsp_test/status | grep "No. of words transmitted" | sed -e "s/ */ /g" | cut -d ' ' -f7`
-    RX=`cat /proc/driver/mcbsp_test/status | grep "No. of words received" | sed -e "s/ */ /g" | cut -d ' ' -f7`
+    sleep $DELAY
+    TX=`cat /proc/driver/mcbsp_test/status | grep "No. of buffers transmitted" | sed -e "s/ */ /g" | cut -d ' ' -f7`
+    RX=`cat /proc/driver/mcbsp_test/status | grep "No. of buffers received" | sed -e "s/ */ /g" | cut -d ' ' -f7`
     print "$TEMP $j $TX $RX $TRANSFER"
-    if [ "$TEMP" != "$j" ] || [ "$TX" != "$TRANSFER" ] || [ "$RX" != "$TRANSFER" ] || !(cat /proc/driver/mcbsp_test/transmission | grep "0" > /dev/null)
+   if [ "$TEMP" != "$j" ] || [ "$TX" != "$TRANSFER" ] || [ "$RX" != "$TRANSFER" ]
     then
       print "Tx Value = $TX | $RX = Rx Value"
       print "Failed Tranmission on McBSP Interface $i using $COMMAND$j"
       print "FAIL"
-#      sleep $MESSAGE_DELAY
+      sleep $MESSAGE_DELAY
       rmmod $MODNAME
       status=1
     else
       print "Tx Value = $TX | $RX = Rx Value"
       print "Succesful Tranmission on McBSP Interface $i using $COMMAND$j"
       print "PASS"
-#     sleep $MESSAGE_DELAY
+     sleep $MESSAGE_DELAY
       rmmod $MODNAME
     fi
   done

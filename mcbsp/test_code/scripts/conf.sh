@@ -50,6 +50,9 @@ export TRANSFER=""
 
 # Parameters
 export McBSP_INTERFACES="0 1 2 3 4"
+if [ `cat /proc/cpuinfo| grep -ic OMAP4` ]; then
+	export McBSP_INTERFACES="0 1 2 3"
+fi
 #export McBSP_INTERFACES="1 0 2"
 export SAMPLE_RATES="8000 11025 12000 16000 22050 24000 32000 44100 48000"
 export PHASE_VALUES="1 2"
