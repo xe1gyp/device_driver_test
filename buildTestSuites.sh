@@ -37,7 +37,7 @@ elif [ "$TESTSUITES" == "all" ]
 then
         TESTSUITES="audio-alsa dma framebuffer gpio hsuart \
 i2c mcbsp mcspi mmc nand norflash benchmarks realtimeclock \
-timer-32k video watchdog"
+timer-32k video watchdog accelerometer ambient_light led"
 
 fi
 
