@@ -1,0 +1,290 @@
+<?xml version="1.0"?>
+<titan>
+
+	<test id="L_DD_ACCELEROMETER_0000_0001">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 07/14/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/accelerometer/scripts/test_runner.sh L_DD_ACCELEROMETER_0000_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/accelerometer/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_ACCELEROMETER_0000_0002">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 07/14/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/accelerometer/scripts/test_runner.sh L_DD_ACCELEROMETER_0000_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/accelerometer/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	<test id="L_DD_ACCELEROMETER_0000_0003">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 07/14/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/accelerometer/scripts/test_runner.sh L_DD_ACCELEROMETER_0000_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/accelerometer/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_ACCELEROMETER_0000_0004">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 07/14/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/accelerometer/scripts/test_runner.sh L_DD_ACCELEROMETER_0000_0004</command>
+			</action>
+			<action>
+				<command>rm /testsuites/accelerometer/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	<test id="L_DD_ACCELEROMETER_0000_0005">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 07/14/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/accelerometer/scripts/test_runner.sh L_DD_ACCELEROMETER_0000_0005</command>
+			</action>
+			<action>
+				<command>rm /testsuites/accelerometer/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_ACCELEROMETER_0000_0006">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 07/14/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/accelerometer/scripts/test_runner.sh L_DD_ACCELEROMETER_0000_0006</command>
+			</action>
+			<action>
+				<command>rm /testsuites/accelerometer/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	<test id="L_DD_ACCELEROMETER_0000_0007">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 07/14/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/accelerometer/scripts/test_runner.sh L_DD_ACCELEROMETER_0000_0007</command>
+			</action>
+			<action>
+				<command>rm /testsuites/accelerometer/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_ACCELEROMETER_0000_0008">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 07/14/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/accelerometer/scripts/test_runner.sh L_DD_ACCELEROMETER_0000_0008</command>
+			</action>
+			<action>
+				<command>rm /testsuites/accelerometer/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+	<test id="L_DD_ACCELEROMETER_0000_0011">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 07/14/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/accelerometer/scripts/test_runner.sh L_DD_ACCELEROMETER_0000_0011</command>
+			</action>
+			<action>
+				<command>rm /testsuites/accelerometer/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	
+
+</titan>
