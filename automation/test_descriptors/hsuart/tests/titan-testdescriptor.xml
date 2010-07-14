@@ -67,7 +67,7 @@
 				<command>export UART_TEST_PORT1='ttyO1'</command>
 			</action>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0002_01</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -111,7 +111,7 @@
 				<command>export UART_TEST_PORT1='ttyO1'</command>
 			</action>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0002_02</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -154,7 +154,7 @@
 				<command>export UART_TEST_PORT1='ttyO1'</command>
 			</action>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0001_0001_01</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -197,7 +197,7 @@
 				<command>export UART_TEST_PORT1='ttyO1'</command>
 			</action>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0001_0001_02</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -240,7 +240,7 @@
 				<command>export UART_TEST_PORT1='ttyO1'</command>
 			</action>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0001_0001_03</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -283,7 +283,7 @@
 				<command>export UART_TEST_PORT1='ttyO1'</command>
 			</action>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0002_0001_01</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -326,7 +326,7 @@
 				<command>export UART_TEST_PORT1='ttyO1'</command>
 			</action>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0002_0001_02</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -368,7 +368,7 @@
 				<command>export UART_TEST_PORT1='ttyO1'</command>
 			</action>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0002_0001_03</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -412,7 +412,7 @@
 				<command>export UART_TEST_PORT1='ttyO1'</command>
 			</action>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0001_01</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -455,7 +455,7 @@
 				<command>export UART_TEST_PORT1='ttyO1'</command>
 			</action>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0001_02</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -498,7 +498,7 @@
 				<command>export UART_TEST_PORT1='ttyO1'</command>
 			</action>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0001_03</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -541,7 +541,7 @@
 				<command>export UART_TEST_PORT1='ttyO1'</command>
 			</action>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0001_04</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -584,7 +584,7 @@
 				<command>export UART_TEST_PORT1='ttyO1'</command>
 			</action>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0001_05</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -627,7 +627,7 @@
 				<command>export UART_TEST_PORT1='ttyO1'</command>
 			</action>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0001_06</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -670,7 +670,7 @@
 				<command>export UART_TEST_PORT1='ttyO1'</command>
 			</action>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0001_07</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -713,7 +713,7 @@
 				<command>export UART_TEST_PORT1='ttyO1'</command>
 			</action>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0001_08</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -756,7 +756,7 @@
 				<command>export UART_TEST_PORT1='ttyO1'</command>
 			</action>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0001_09</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
@@ -800,7 +800,7 @@
 				<command>export UART_TEST_PORT1='ttyO1'</command>
 			</action>
 			<action>
-				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0000_0001_01</command>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_HSUART_0010_0002_02</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
