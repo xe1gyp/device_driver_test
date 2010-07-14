@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<titan>
+
+	<driverinformation>
+		<name>Accelerometer</name>
+		<description>Tests suites for Accelerometer</description>
+	</driverinformation>
+
+</titan>
