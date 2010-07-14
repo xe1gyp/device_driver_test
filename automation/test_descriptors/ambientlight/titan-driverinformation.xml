@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<titan>
+
+	<driverinformation>
+		<name>Ambient Light</name>
+		<description>Tests suites forAmbient Light</description>
+	</driverinformation>
+
+</titan>
