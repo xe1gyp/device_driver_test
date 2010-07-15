@@ -1,0 +1,12 @@
+################################################################################
+# Scenario:	L_DD_POWER_0001_0002
+# Author  :	Lesly A M
+# Date    :	June 29th, 2010
+# Description: PM - testing tick suppression
+################################################################################
+
+# Begin L_DD_POWER_0001_0002
+
+0001    set -x; x=`cat /proc/interrupts | grep LOC | awk '{print $2}'`; sleep 30; y=`cat /proc/interrupts | grep LOC | awk '{print $2}'`; $TESTSCRIPT/intrCount.sh $x $y | grep PASSED
+
+# End L_DD_POWER_0001_0002

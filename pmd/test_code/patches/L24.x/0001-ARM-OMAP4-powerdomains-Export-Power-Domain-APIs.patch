@@ -1,0 +1,334 @@
+From 109e9a3f3a123781e3a8be2036ae329b00ebf800 Mon Sep 17 00:00:00 2001
+From: Abhijit Pagare <abhijitpagare@ti.com>
+Date: Wed, 10 Feb 2010 18:48:55 +0530
+Subject: [PATCH] ARM: OMAP4: powerdomains: Export Power Domain APIs.
+
+Export API's for testing the power domain framework
+
+Signed-off-by: Abhijit Pagare <abhijitpagare@ti.com>
+
+--
+ arch/arm/mach-omap2/powerdomain.c             |   29 ++++++++++
+ arch/arm/plat-omap/include/plat/powerdomain.h |   70 +++++++++++++-------------
+ 2 files changed, 64 insertions(+), 35 deletions(-)
+---
+
+Index: L24.0.13-new/arch/arm/mach-omap2/powerdomain.c
+===================================================================
+--- L24.0.13-new.orig/arch/arm/mach-omap2/powerdomain.c
++++ L24.0.13-new/arch/arm/mach-omap2/powerdomain.c
+@@ -239,6 +239,7 @@ void pwrdm_init(struct powerdomain **pwr
+ 			_pwrdm_register(*p);
+ 	}
+ }
++EXPORT_SYMBOL(pwrdm_init);
+ 
+ /**
+  * pwrdm_lookup - look up a powerdomain by name, return a pointer
+@@ -258,6 +259,7 @@ struct powerdomain *pwrdm_lookup(const c
+ 
+ 	return pwrdm;
+ }
++EXPORT_SYMBOL(pwrdm_lookup);
+ 
+ /**
+  * pwrdm_for_each - call function on each registered clockdomain
+@@ -286,6 +288,7 @@ int pwrdm_for_each(int (*fn)(struct powe
+ 
+ 	return ret;
+ }
++EXPORT_SYMBOL(pwrdm_for_each);
+ 
+ /**
+  * pwrdm_add_clkdm - add a clockdomain to a powerdomain
+@@ -334,6 +337,7 @@ int pwrdm_add_clkdm(struct powerdomain *
+ pac_exit:
+ 	return ret;
+ }
++EXPORT_SYMBOL(pwrdm_add_clkdm);
+ 
+ /**
+  * pwrdm_del_clkdm - remove a clockdomain from a powerdomain
+@@ -374,6 +378,7 @@ int pwrdm_del_clkdm(struct powerdomain *
+ pdc_exit:
+ 	return ret;
+ }
++EXPORT_SYMBOL(pwrdm_del_clkdm);
+ 
+ /**
+  * pwrdm_for_each_clkdm - call function on each clkdm in a pwrdm
+@@ -402,6 +407,7 @@ int pwrdm_for_each_clkdm(struct powerdom
+ 
+ 	return ret;
+ }
++EXPORT_SYMBOL(pwrdm_for_each_clkdm);
+ 
+ /**
+  * pwrdm_get_mem_bank_count - get number of memory banks in this powerdomain
+@@ -417,6 +423,7 @@ int pwrdm_get_mem_bank_count(struct powe
+ 
+ 	return pwrdm->banks;
+ }
++EXPORT_SYMBOL(pwrdm_get_mem_bank_count);
+ 
+ /**
+  * pwrdm_set_next_pwrst - set next powerdomain power state
+@@ -446,6 +453,7 @@ int pwrdm_set_next_pwrst(struct powerdom
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(pwrdm_set_next_pwrst);
+ 
+ /**
+  * pwrdm_read_next_pwrst - get next powerdomain power state
+@@ -463,6 +471,7 @@ int pwrdm_read_next_pwrst(struct powerdo
+ 	return prm_read_mod_bits_shift(pwrdm->prcm_offs,
+ 				 pwrstctrl_reg_offs, OMAP_POWERSTATE_MASK);
+ }
++EXPORT_SYMBOL(pwrdm_read_next_pwrst);
+ 
+ /**
+  * pwrdm_read_pwrst - get current powerdomain power state
+@@ -480,6 +489,7 @@ int pwrdm_read_pwrst(struct powerdomain 
+ 	return prm_read_mod_bits_shift(pwrdm->prcm_offs,
+ 				 pwrstst_reg_offs, OMAP_POWERSTATEST_MASK);
+ }
++EXPORT_SYMBOL(pwrdm_read_pwrst);
+ 
+ /**
+  * pwrdm_read_prev_pwrst - get previous powerdomain power state
+@@ -501,6 +511,7 @@ int pwrdm_read_prev_pwrst(struct powerdo
+ 		return prm_read_mod_bits_shift(pwrdm->prcm_offs, OMAP4_PM_PWSTST,
+ 						OMAP4430_LASTPOWERSTATEENTERED_MASK);
+ }
++EXPORT_SYMBOL(pwrdm_read_prev_pwrst);
+ 
+ /**
+  * pwrdm_set_logic_retst - set powerdomain logic power state upon retention
+@@ -538,6 +549,7 @@ int pwrdm_set_logic_retst(struct powerdo
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(pwrdm_set_logic_retst);
+ 
+ /**
+  * pwrdm_set_mem_onst - set memory power state while powerdomain ON
+@@ -602,6 +614,7 @@ int pwrdm_set_mem_onst(struct powerdomai
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(pwrdm_set_mem_onst);
+ 
+ /**
+  * pwrdm_set_mem_retst - set memory power state while powerdomain in RET
+@@ -667,6 +680,7 @@ int pwrdm_set_mem_retst(struct powerdoma
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(pwrdm_set_mem_retst);
+ 
+ /**
+  * pwrdm_read_logic_pwrst - get current powerdomain logic retention power state
+@@ -685,6 +699,7 @@ int pwrdm_read_logic_pwrst(struct powerd
+ 	return prm_read_mod_bits_shift(pwrdm->prcm_offs, pwrstst_reg_offs,
+ 				       OMAP3430_LOGICSTATEST_MASK);
+ }
++EXPORT_SYMBOL(pwrdm_read_logic_pwrst);
+ 
+ /**
+  * pwrdm_read_prev_logic_pwrst - get previous powerdomain logic power state
+@@ -708,6 +723,7 @@ int pwrdm_read_prev_logic_pwrst(struct p
+ 	return prm_read_mod_bits_shift(pwrdm->prcm_offs, OMAP3430_PM_PREPWSTST,
+ 					OMAP3430_LASTLOGICSTATEENTERED_MASK);
+ }
++EXPORT_SYMBOL(pwrdm_read_prev_logic_pwrst);
+ 
+ /**
+  * pwrdm_read_logic_retst - get next powerdomain logic power state
+@@ -731,6 +747,7 @@ int pwrdm_read_logic_retst(struct powerd
+ 	return prm_read_mod_bits_shift(pwrdm->prcm_offs, pwrstctrl_reg_offs,
+ 				       OMAP3430_LOGICSTATEST_MASK);
+ }
++EXPORT_SYMBOL(pwrdm_read_logic_retst);
+ 
+ /**
+  * pwrdm_read_mem_pwrst - get current memory bank power state
+@@ -785,6 +802,7 @@ int pwrdm_read_mem_pwrst(struct powerdom
+ 	return prm_read_mod_bits_shift(pwrdm->prcm_offs,
+ 					 pwrstst_reg_offs, m);
+ }
++EXPORT_SYMBOL(pwrdm_read_mem_pwrst);
+ 
+ /**
+  * pwrdm_read_prev_mem_pwrst - get previous memory bank power state
+@@ -837,6 +855,7 @@ int pwrdm_read_prev_mem_pwrst(struct pow
+ 	return prm_read_mod_bits_shift(pwrdm->prcm_offs,
+ 					OMAP3430_PM_PREPWSTST, m);
+ }
++EXPORT_SYMBOL(pwrdm_read_prev_mem_pwrst);
+ 
+ /**
+  * pwrdm_read_mem_retst - get next memory bank power state
+@@ -887,6 +906,7 @@ int pwrdm_read_mem_retst(struct powerdom
+ 	return prm_read_mod_bits_shift(pwrdm->prcm_offs,
+ 					pwrstctrl_reg_offs, m);
+ }
++EXPORT_SYMBOL(pwrdm_read_mem_retst);
+ 
+ /**
+  * pwrdm_clear_all_prev_pwrst - clear previous powerstate register for a pwrdm
+@@ -914,6 +934,7 @@ int pwrdm_clear_all_prev_pwrst(struct po
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(pwrdm_clear_all_prev_pwrst);
+ 
+ /**
+  * pwrdm_enable_hdwr_sar - enable automatic hardware SAR for a pwrdm
+@@ -942,6 +963,7 @@ int pwrdm_enable_hdwr_sar(struct powerdo
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(pwrdm_enable_hdwr_sar);
+ 
+ /**
+  * pwrdm_disable_hdwr_sar - disable automatic hardware SAR for a pwrdm
+@@ -970,6 +992,7 @@ int pwrdm_disable_hdwr_sar(struct powerd
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(pwrdm_disable_hdwr_sar);
+ 
+ /**
+  * pwrdm_has_hdwr_sar - test whether powerdomain supports hardware SAR
+@@ -982,6 +1005,7 @@ bool pwrdm_has_hdwr_sar(struct powerdoma
+ {
+ 	return (pwrdm && pwrdm->flags & PWRDM_HAS_HDWR_SAR) ? 1 : 0;
+ }
++EXPORT_SYMBOL(pwrdm_has_hdwr_sar);
+ 
+ /**
+  * pwrdm_set_lowpwrstchange - Request a low power state change
+@@ -1050,11 +1074,13 @@ int pwrdm_wait_transition(struct powerdo
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(pwrdm_wait_transition);
+ 
+ int pwrdm_state_switch(struct powerdomain *pwrdm)
+ {
+ 	return _pwrdm_state_switch(pwrdm, PWRDM_STATE_NOW);
+ }
++EXPORT_SYMBOL(pwrdm_state_switch);
+ 
+ int pwrdm_clkdm_state_switch(struct clockdomain *clkdm)
+ {
+@@ -1065,16 +1091,19 @@ int pwrdm_clkdm_state_switch(struct cloc
+ 
+ 	return -EINVAL;
+ }
++EXPORT_SYMBOL(pwrdm_clkdm_state_switch);
+ 
+ int pwrdm_pre_transition(void)
+ {
+ 	pwrdm_for_each(_pwrdm_pre_transition_cb, NULL);
+ 	return 0;
+ }
++EXPORT_SYMBOL(pwrdm_pre_transition);
+ 
+ int pwrdm_post_transition(void)
+ {
+ 	pwrdm_for_each(_pwrdm_post_transition_cb, NULL);
+ 	return 0;
+ }
++EXPORT_SYMBOL(pwrdm_post_transition);
+ 
+Index: L24.0.13-new/arch/arm/plat-omap/include/plat/powerdomain.h
+===================================================================
+--- L24.0.13-new.orig/arch/arm/plat-omap/include/plat/powerdomain.h
++++ L24.0.13-new/arch/arm/plat-omap/include/plat/powerdomain.h
+@@ -118,49 +118,49 @@ struct powerdomain {
+ };
+ 
+ 
+-void pwrdm_init(struct powerdomain **pwrdm_list);
++extern void pwrdm_init(struct powerdomain **pwrdm_list);
+ 
+-struct powerdomain *pwrdm_lookup(const char *name);
++extern struct powerdomain *pwrdm_lookup(const char *name);
+ 
+-int pwrdm_for_each(int (*fn)(struct powerdomain *pwrdm, void *user),
++extern int pwrdm_for_each(int (*fn)(struct powerdomain *pwrdm, void *user),
+ 			void *user);
+-int pwrdm_for_each_nolock(int (*fn)(struct powerdomain *pwrdm, void *user),
++extern int pwrdm_for_each_nolock(int (*fn)(struct powerdomain *pwrdm, void *user),
+ 			void *user);
+ 
+-int pwrdm_add_clkdm(struct powerdomain *pwrdm, struct clockdomain *clkdm);
+-int pwrdm_del_clkdm(struct powerdomain *pwrdm, struct clockdomain *clkdm);
+-int pwrdm_for_each_clkdm(struct powerdomain *pwrdm,
++extern int pwrdm_add_clkdm(struct powerdomain *pwrdm, struct clockdomain *clkdm);
++extern int pwrdm_del_clkdm(struct powerdomain *pwrdm, struct clockdomain *clkdm);
++extern int pwrdm_for_each_clkdm(struct powerdomain *pwrdm,
+ 			 int (*fn)(struct powerdomain *pwrdm,
+ 				   struct clockdomain *clkdm));
+ 
+-int pwrdm_get_mem_bank_count(struct powerdomain *pwrdm);
++extern int pwrdm_get_mem_bank_count(struct powerdomain *pwrdm);
+ 
+-int pwrdm_set_next_pwrst(struct powerdomain *pwrdm, u8 pwrst);
+-int pwrdm_read_next_pwrst(struct powerdomain *pwrdm);
+-int pwrdm_read_pwrst(struct powerdomain *pwrdm);
+-int pwrdm_read_prev_pwrst(struct powerdomain *pwrdm);
+-int pwrdm_clear_all_prev_pwrst(struct powerdomain *pwrdm);
+-
+-int pwrdm_set_logic_retst(struct powerdomain *pwrdm, u8 pwrst);
+-int pwrdm_set_mem_onst(struct powerdomain *pwrdm, u8 bank, u8 pwrst);
+-int pwrdm_set_mem_retst(struct powerdomain *pwrdm, u8 bank, u8 pwrst);
+-
+-int pwrdm_read_logic_pwrst(struct powerdomain *pwrdm);
+-int pwrdm_read_prev_logic_pwrst(struct powerdomain *pwrdm);
+-int pwrdm_read_logic_retst(struct powerdomain *pwrdm);
+-int pwrdm_read_mem_pwrst(struct powerdomain *pwrdm, u8 bank);
+-int pwrdm_read_prev_mem_pwrst(struct powerdomain *pwrdm, u8 bank);
+-int pwrdm_read_mem_retst(struct powerdomain *pwrdm, u8 bank);
+-
+-int pwrdm_enable_hdwr_sar(struct powerdomain *pwrdm);
+-int pwrdm_disable_hdwr_sar(struct powerdomain *pwrdm);
+-bool pwrdm_has_hdwr_sar(struct powerdomain *pwrdm);
+-
+-int pwrdm_wait_transition(struct powerdomain *pwrdm);
+-
+-int pwrdm_state_switch(struct powerdomain *pwrdm);
+-int pwrdm_clkdm_state_switch(struct clockdomain *clkdm);
+-int pwrdm_pre_transition(void);
+-int pwrdm_post_transition(void);
++extern int pwrdm_set_next_pwrst(struct powerdomain *pwrdm, u8 pwrst);
++extern int pwrdm_read_next_pwrst(struct powerdomain *pwrdm);
++extern int pwrdm_read_pwrst(struct powerdomain *pwrdm);
++extern int pwrdm_read_prev_pwrst(struct powerdomain *pwrdm);
++extern int pwrdm_clear_all_prev_pwrst(struct powerdomain *pwrdm);
++
++extern int pwrdm_set_logic_retst(struct powerdomain *pwrdm, u8 pwrst);
++extern int pwrdm_set_mem_onst(struct powerdomain *pwrdm, u8 bank, u8 pwrst);
++extern int pwrdm_set_mem_retst(struct powerdomain *pwrdm, u8 bank, u8 pwrst);
++
++extern int pwrdm_read_logic_pwrst(struct powerdomain *pwrdm);
++extern int pwrdm_read_prev_logic_pwrst(struct powerdomain *pwrdm);
++extern int pwrdm_read_logic_retst(struct powerdomain *pwrdm);
++extern int pwrdm_read_mem_pwrst(struct powerdomain *pwrdm, u8 bank);
++extern int pwrdm_read_prev_mem_pwrst(struct powerdomain *pwrdm, u8 bank);
++extern int pwrdm_read_mem_retst(struct powerdomain *pwrdm, u8 bank);
++
++extern int pwrdm_enable_hdwr_sar(struct powerdomain *pwrdm);
++extern int pwrdm_disable_hdwr_sar(struct powerdomain *pwrdm);
++extern bool pwrdm_has_hdwr_sar(struct powerdomain *pwrdm);
++
++extern int pwrdm_wait_transition(struct powerdomain *pwrdm);
++
++extern int pwrdm_state_switch(struct powerdomain *pwrdm);
++extern int pwrdm_clkdm_state_switch(struct clockdomain *clkdm);
++extern int pwrdm_pre_transition(void);
++extern int pwrdm_post_transition(void);
+ 
+ #endif

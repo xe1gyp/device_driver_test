@@ -26,6 +26,7 @@ static struct clk_info clks[] = {
 	{NULL, "secure_32k_clk_src_ck"},
 	{NULL, "slimbus_clk"},
 	{NULL, "sys_32k_ck"},
+	{NULL, "tie_low_clock_ck"},
 	{NULL, "virt_12000000_ck"},
 	{NULL, "virt_13000000_ck"},
 	{NULL, "virt_16800000_ck"},
@@ -38,7 +39,7 @@ static struct clk_info clks[] = {
 	{NULL, "xclk60mhsp1_ck"},
 	{NULL, "xclk60mhsp2_ck"},
 	{NULL, "xclk60motg_ck"},
-	{NULL, "dpll_sys_ref_clk"},
+	{NULL, "abe_dpll_bypass_clk_mux_ck"},
 	{NULL, "abe_dpll_refclk_mux_ck"},
 	{NULL, "dpll_abe_ck"},
 	{NULL, "dpll_abe_m2x2_ck"},
@@ -76,8 +77,6 @@ static struct clk_info clks[] = {
 	{NULL, "dpll_per_m5_ck"},
 	{NULL, "dpll_per_m6_ck"},
 	{NULL, "dpll_per_m7_ck"},
-	{NULL, "dpll_unipro_ck"},
-	{NULL, "dpll_unipro_m2x2_ck"},
 	{NULL, "usb_hs_clk_div_ck"},
 #if 0
 	{NULL, "dpll_usb_ck"},
@@ -120,14 +119,13 @@ static struct clk_info clks[] = {
 	{NULL, "emif2_ick"},
 #endif
 	{NULL, "fdif_fck"},
-	{NULL, "per_sgx_fclk"},
 	{NULL, "gfx_fck"},
-	{NULL, "gpio1_ick"},
-	{NULL, "gpio2_ick"},
-	{NULL, "gpio3_ick"},
-	{NULL, "gpio4_ick"},
-	{NULL, "gpio5_ick"},
-	{NULL, "gpio6_ick"},
+	{"omap-gpio.0", "ick"},
+	{"omap-gpio.1", "ick"},
+	{"omap-gpio.2", "ick"},
+	{"omap-gpio.3", "ick"},
+	{"omap-gpio.4", "ick"},
+	{"omap-gpio.5", "ick"},
 	{NULL, "gpmc_ick"},
 	{NULL, "gpt1_fck"},
 	{NULL, "gpt10_fck"},
@@ -182,13 +180,12 @@ static struct clk_info clks[] = {
 	{NULL, "uart3_fck"},
 #endif
 	{NULL, "uart4_fck"},
-	{NULL, "unipro1_fck"},
 	{NULL, "usb_host_fck"},
 	{NULL, "usb_host_fs_fck"},
 	{"musb_hdrc", "ick"},
 	{NULL, "usb_tll_ick"},
 	{NULL, "usbphyocp2scp_ick"},
-	{NULL, "usim_fck"},
+	{NULL, "usim_ick"},
 	{"omap_wdt", "fck"},
 	{NULL, "wdt3_fck"},
 	{NULL, "otg_60m_gfclk_ck"},
@@ -338,21 +335,31 @@ int clk_test_opt2(void)
 
 		if (tclk->set_rate) {
 			/* Try double */
-			valid_rate = clk_round_rate(tclk, orig_rate * 2);
-			printk(KERN_INFO "Trying to set %lu, closest possible\
-					%lu\n", orig_rate * 2, valid_rate);
-			clk_set_rate(tclk, valid_rate);
+			/* Only if its not a DPLL, dplls cannot be locked at higher freq
+			 * without scaling voltages */
+			if (!tclk->dpll_data) {
+				valid_rate = clk_round_rate(tclk, orig_rate * 2);
+				/* Check if a valid rate exists */
+				if (valid_rate != ~0) {
+					printk(KERN_INFO "Trying to set %lu, closest possible\
+						%lu\n", orig_rate * 2, valid_rate);
+					clk_set_rate(tclk, valid_rate);
+					printk(KERN_INFO "Rate of clk %s is %lu\n",
+						tclk->name, rate);
+				}
+			}
 			rate = clk_get_rate(tclk);
-			printk(KERN_INFO "Rate of clk %s is %lu\n",
-					tclk->name, rate);
 			/* Try half rate */
 			valid_rate = clk_round_rate(tclk, orig_rate / 2);
-			printk(KERN_INFO "Trying to set %lu, closest possible\
+			/* Check if a valid rate exists */
+			if (valid_rate != ~0) {
+				printk(KERN_INFO "Trying to set %lu, closest possible\
 					%lu\n", orig_rate / 2, valid_rate);
-			clk_set_rate(tclk, valid_rate);
-			rate = clk_get_rate(tclk);
-			printk(KERN_INFO "Rate of clk %s is %lu\n",
+				clk_set_rate(tclk, valid_rate);
+				rate = clk_get_rate(tclk);
+				printk(KERN_INFO "Rate of clk %s is %lu\n",
 					tclk->name, rate);
+			}
 		}
 
 skip:
@@ -439,6 +446,33 @@ skip:
 
 int clk_test_opt4(void)
 {
+	struct clk *tclk;
+	int ret, i;
+
+	/* try getting a bogus clk */
+	tclk = clk_get_sys(NULL, "bogus_clk");
+	if(!IS_ERR(tclk)) {
+		printk(KERN_ERR "negative tst for clk_get_sys failed");
+		return -1;
+	}
+
+	for (i = 0; i < ARRAY_SIZE(clks); i++) {
+		tclk = clk_get_sys(clks[i].dev_id, clks[i].con_id);
+		if(IS_ERR(tclk)) {
+			printk(KERN_ERR "clk_get failed for clk %s, %s\n",
+						clks[i].dev_id, clks[i].con_id);
+			ret = 1;
+			continue;
+		}
+		if (tclk->set_rate) {
+			ret = clk_set_rate(tclk, 0x0);
+			if (ret != -EINVAL) {
+				printk(KERN_ERR "negative tst for clk_get_sys failed");
+				return -1;
+			}
+		}
+	}
+
 	return 0;
 }
 

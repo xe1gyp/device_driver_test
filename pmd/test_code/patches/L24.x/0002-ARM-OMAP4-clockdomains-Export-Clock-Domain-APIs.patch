@@ -1,0 +1,222 @@
+From d9106d52678613450c421aeb6cd541a6fd66b648 Mon Sep 17 00:00:00 2001
+From: Abhijit Pagare <abhijitpagare@ti.com>
+Date: Wed, 10 Feb 2010 18:48:59 +0530
+Subject: [PATCH] ARM: OMAP4: clockdomains: Export Clock Domain APIs.
+
+Export API's for testing the clock domain framework
+
+Signed-off-by: Abhijit Pagare <abhijitpagare@ti.com>
+---
+ arch/arm/mach-omap2/clockdomain.c             |   19 ++++++++++++
+ arch/arm/plat-omap/include/plat/clockdomain.h |   40 +++++++++++++-------------
+ 2 files changed, 39 insertions(+), 20 deletions(-)
+
+Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
+===================================================================
+--- L24.0.13-new.orig/arch/arm/mach-omap2/clockdomain.c
++++ L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
+@@ -387,6 +387,7 @@ void clkdm_init(struct clockdomain **clk
+ 		_init_sleepdep_usecount(clkdm);
+ 	}
+ }
++EXPORT_SYMBOL(clkdm_init);
+ 
+ /**
+  * clkdm_lookup - look up a clockdomain by name, return a pointer
+@@ -413,6 +414,7 @@ struct clockdomain *clkdm_lookup(const c
+ 
+ 	return clkdm;
+ }
++EXPORT_SYMBOL(clkdm_lookup);
+ 
+ /**
+  * clkdm_for_each - call function on each registered clockdomain
+@@ -445,6 +447,7 @@ int clkdm_for_each(int (*fn)(struct cloc
+ 
+ 	return ret;
+ }
++EXPORT_SYMBOL(clkdm_for_each);
+ 
+ 
+ /**
+@@ -461,6 +464,7 @@ struct powerdomain *clkdm_get_pwrdm(stru
+ 
+ 	return clkdm->pwrdm.ptr;
+ }
++EXPORT_SYMBOL(clkdm_get_pwrdm);
+ 
+ 
+ /* Hardware clockdomain control */
+@@ -501,6 +505,7 @@ int clkdm_add_wkdep(struct clockdomain *
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(clkdm_add_wkdep);
+ 
+ /**
+  * clkdm_del_wkdep - remove a wakeup dependency from clkdm2 to clkdm1
+@@ -536,6 +541,7 @@ int clkdm_del_wkdep(struct clockdomain *
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(clkdm_del_wkdep);
+ 
+ /**
+  * clkdm_read_wkdep - read wakeup dependency state from clkdm2 to clkdm1
+@@ -569,6 +575,7 @@ int clkdm_read_wkdep(struct clockdomain 
+ 	return prm_read_mod_bits_shift(clkdm1->pwrdm.ptr->prcm_offs, PM_WKDEP,
+ 				       (1 << clkdm2->dep_bit));
+ }
++EXPORT_SYMBOL(clkdm_read_wkdep);
+ 
+ /**
+  * clkdm_clear_all_wkdeps - remove all wakeup dependencies from target clkdm
+@@ -601,6 +608,7 @@ int clkdm_clear_all_wkdeps(struct clockd
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(clkdm_clear_all_wkdeps);
+ 
+ /**
+  * clkdm_add_sleepdep - add a sleep dependency from clkdm2 to clkdm1
+@@ -643,6 +651,7 @@ int clkdm_add_sleepdep(struct clockdomai
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(clkdm_add_sleepdep);
+ 
+ /**
+  * clkdm_del_sleepdep - remove a sleep dependency from clkdm2 to clkdm1
+@@ -686,6 +695,7 @@ int clkdm_del_sleepdep(struct clockdomai
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(clkdm_del_sleepdep);
+ 
+ /**
+  * clkdm_read_sleepdep - read sleep dependency state from clkdm2 to clkdm1
+@@ -726,6 +736,7 @@ int clkdm_read_sleepdep(struct clockdoma
+ 				       OMAP3430_CM_SLEEPDEP,
+ 				       (1 << clkdm2->dep_bit));
+ }
++EXPORT_SYMBOL(clkdm_read_sleepdep);
+ 
+ /**
+  * clkdm_clear_all_sleepdeps - remove all sleep dependencies from target clkdm
+@@ -762,6 +773,7 @@ int clkdm_clear_all_sleepdeps(struct clo
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(clkdm_clear_all_sleepdeps);
+ 
+ /**
+  * omap2_clkdm_clktrctrl_read - read the clkdm's current state transition mode
+@@ -784,6 +796,7 @@ static int omap2_clkdm_clktrctrl_read(st
+ 
+ 	return v;
+ }
++EXPORT_SYMBOL(omap2_clkdm_clktrctrl_read);
+ 
+ /**
+  * omap2_clkdm_sleep - force clockdomain sleep transition
+@@ -828,6 +841,7 @@ int omap2_clkdm_sleep(struct clockdomain
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(omap2_clkdm_sleep);
+ 
+ /**
+  * omap2_clkdm_wakeup - force clockdomain wakeup transition
+@@ -872,6 +886,7 @@ int omap2_clkdm_wakeup(struct clockdomai
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(omap2_clkdm_wakeup);
+ 
+ /**
+  * omap2_clkdm_allow_idle - enable hwsup idle transitions for clkdm
+@@ -913,6 +928,7 @@ void omap2_clkdm_allow_idle(struct clock
+ 
+ 	pwrdm_clkdm_state_switch(clkdm);
+ }
++EXPORT_SYMBOL(omap2_clkdm_allow_idle);
+ 
+ /**
+  * omap2_clkdm_deny_idle - disable hwsup idle transitions for clkdm
+@@ -951,6 +967,7 @@ void omap2_clkdm_deny_idle(struct clockd
+ 			_clkdm_del_autodeps(clkdm);
+ 	}
+ }
++EXPORT_SYMBOL(omap2_clkdm_deny_idle);
+ 
+ 
+ /* Clockdomain-to-clock framework interface code */
+@@ -1022,6 +1039,7 @@ int omap2_clkdm_clk_enable_post(struct c
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(omap2_clkdm_clk_enable);
+ 
+ /**
+  * omap2_clkdm_clk_disable - remove an enabled downstream clock from this clkdm
+@@ -1083,4 +1101,5 @@ int omap2_clkdm_clk_disable(struct clock
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL(omap2_clkdm_clk_disable);
+ 
+Index: L24.0.13-new/arch/arm/plat-omap/include/plat/clockdomain.h
+===================================================================
+--- L24.0.13-new.orig/arch/arm/plat-omap/include/plat/clockdomain.h
++++ L24.0.13-new/arch/arm/plat-omap/include/plat/clockdomain.h
+@@ -113,30 +113,30 @@ struct clockdomain {
+ 	struct list_head node;
+ };
+ 
+-void clkdm_init(struct clockdomain **clkdms, struct clkdm_autodep *autodeps);
++extern void clkdm_init(struct clockdomain **clkdms, struct clkdm_autodep *autodeps);
+ struct clockdomain *clkdm_lookup(const char *name);
+ 
+-int clkdm_for_each(int (*fn)(struct clockdomain *clkdm, void *user),
++extern int clkdm_for_each(int (*fn)(struct clockdomain *clkdm, void *user),
+ 			void *user);
+ struct powerdomain *clkdm_get_pwrdm(struct clockdomain *clkdm);
+ 
+-int clkdm_add_wkdep(struct clockdomain *clkdm1, struct clockdomain *clkdm2);
+-int clkdm_del_wkdep(struct clockdomain *clkdm1, struct clockdomain *clkdm2);
+-int clkdm_read_wkdep(struct clockdomain *clkdm1, struct clockdomain *clkdm2);
+-int clkdm_clear_all_wkdeps(struct clockdomain *clkdm);
+-int clkdm_add_sleepdep(struct clockdomain *clkdm1, struct clockdomain *clkdm2);
+-int clkdm_del_sleepdep(struct clockdomain *clkdm1, struct clockdomain *clkdm2);
+-int clkdm_read_sleepdep(struct clockdomain *clkdm1, struct clockdomain *clkdm2);
+-int clkdm_clear_all_sleepdeps(struct clockdomain *clkdm);
+-
+-void omap2_clkdm_allow_idle(struct clockdomain *clkdm);
+-void omap2_clkdm_deny_idle(struct clockdomain *clkdm);
+-
+-int omap2_clkdm_wakeup(struct clockdomain *clkdm);
+-int omap2_clkdm_sleep(struct clockdomain *clkdm);
+-
+-int omap2_clkdm_clk_enable(struct clockdomain *clkdm, struct clk *clk);
+-int omap2_clkdm_clk_enable_post(struct clockdomain *clkdm, struct clk *clk);
+-int omap2_clkdm_clk_disable(struct clockdomain *clkdm, struct clk *clk);
++extern int clkdm_add_wkdep(struct clockdomain *clkdm1, struct clockdomain *clkdm2);
++extern int clkdm_del_wkdep(struct clockdomain *clkdm1, struct clockdomain *clkdm2);
++extern int clkdm_read_wkdep(struct clockdomain *clkdm1, struct clockdomain *clkdm2);
++extern int clkdm_clear_all_wkdeps(struct clockdomain *clkdm);
++extern int clkdm_add_sleepdep(struct clockdomain *clkdm1, struct clockdomain *clkdm2);
++extern int clkdm_del_sleepdep(struct clockdomain *clkdm1, struct clockdomain *clkdm2);
++extern int clkdm_read_sleepdep(struct clockdomain *clkdm1, struct clockdomain *clkdm2);
++extern int clkdm_clear_all_sleepdeps(struct clockdomain *clkdm);
++
++extern void omap2_clkdm_allow_idle(struct clockdomain *clkdm);
++extern void omap2_clkdm_deny_idle(struct clockdomain *clkdm);
++
++extern int omap2_clkdm_wakeup(struct clockdomain *clkdm);
++extern int omap2_clkdm_sleep(struct clockdomain *clkdm);
++
++extern int omap2_clkdm_clk_enable(struct clockdomain *clkdm, struct clk *clk);
++extern int omap2_clkdm_clk_enable_post(struct clockdomain *clkdm, struct clk *clk);
++extern int omap2_clkdm_clk_disable(struct clockdomain *clkdm, struct clk *clk);
+ 
+ #endif

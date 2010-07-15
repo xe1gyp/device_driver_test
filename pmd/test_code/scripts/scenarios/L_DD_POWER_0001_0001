@@ -2,12 +2,12 @@
 # Scenario:	L_DD_POWER_0001_0001
 # Author  :	Lesly A M
 # Date    :	June 29th, 2010
-# Description: PM - system time check
+# Description: PM - system time check for 10 min
 ################################################################################
 
 # Begin L_DD_POWER_0001_0001
 
-0001	set -x; $TESTBIN/system_time >&1 | grep PASSED
+0001	set -x; $TESTBIN/system_time 600 >&1 | grep PASSED
 
 # End L_DD_POWER_0001_0001
 

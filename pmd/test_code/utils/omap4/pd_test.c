@@ -93,6 +93,7 @@ extern int pwrdm_read_prev_pwrst(struct powerdomain *pwrdm);
 extern int pwrdm_clear_all_prev_pwrst(struct powerdomain *pwrdm);
 
 extern int pwrdm_set_logic_retst(struct powerdomain *pwrdm, u8 pwrst);
+extern int pwrdm_read_logic_retst(struct powerdomain *pwrdm);
 extern int pwrdm_set_mem_onst(struct powerdomain *pwrdm, u8 bank, u8 pwrst);
 extern int pwrdm_set_mem_retst(struct powerdomain *pwrdm, u8 bank, u8 pwrst);
 
@@ -231,92 +232,65 @@ static int power_test_2()
 	ret1 = pwrdm_read_pwrst(p = pwrdm_omap);
 	printk(KERN_INFO "Default Power State of %s = %d\n", p->name, ret1);
 
-	for (i = 0; clockdomains_name[i]; i++) {
-		c = clkdm_lookup(clockdomains_name[i]);
-		if (!strcmp(c->pwrdm.name, pwrdm_omap->name))
-			retval = omap2_clkdm_wakeup(c);
-		if (!retval)
-			ret = -1;
-	}
-	if (pwrdm_omap->pwrsts && (1 << PWRDM_POWER_ON)) {
-		val = pwrdm_set_next_pwrst(p = pwrdm_omap, PWRDM_POWER_ON);
-		if (val == 0)
-			printk(KERN_INFO "Setting Next PWRST for %s to ON\n", p->name);
-		else if (val == -EINVAL) {
-			printk(KERN_INFO "ON not supported for %s\n", p->name);
-			goto loc1;
-		} else {
-			printk(KERN_ERR "Failed with value %d\n", val);
-			ret = -1;
-			goto loc1;
-		}
+	val = pwrdm_set_next_pwrst(p = pwrdm_omap, PWRDM_POWER_ON);
+	if (val == 0)
+		printk(KERN_INFO "Setting Next PWRST for %s to ON\n", p->name);
+	else if (val == -EINVAL) {
+		printk(KERN_INFO "ON not supported for %s\n", p->name);
+		goto loc1;
+	} else {
+		printk(KERN_ERR "Failed with value %d\n", val);
+		ret = -1;
+		goto loc1;
 	}
 
-	ret1 = pwrdm_read_pwrst(p);
+	ret1 = pwrdm_read_next_pwrst(p);
 	if (ret1 == PWRDM_POWER_ON)
 		printk(KERN_INFO "Successfully set ON for %s\n", p->name);
 	else {
-		printk(KERN_INFO "Unsuccessful, Please Validate!!!\n");
+		printk(KERN_INFO "Unsuccessful, Please Validate!!! ret = %x\n", ret);
 		ret = -1;
 	}
 
 loc1:
-	for (i = 0; clockdomains_name[i]; i++) {
-		c = clkdm_lookup(clockdomains_name[i]);
-		if (!strcmp(c->pwrdm.name, pwrdm_omap->name))
-			retval = omap2_clkdm_sleep(c);
-		if (!retval)
-			ret = -1;
-	}
-	if (pwrdm_omap->pwrsts && (1 << PWRDM_POWER_RET)) {
-		val = pwrdm_set_next_pwrst(p = pwrdm_omap, PWRDM_POWER_RET);
-		if (val == 0)
-			printk(KERN_INFO "Setting Next PWRST for %s to RET\n", p->name);
-		else if (val == -EINVAL) {
-			printk(KERN_INFO "RET not supported for %s\n", p->name);
-			goto loc2;
-		} else {
-			printk(KERN_ERR "Failed with value %d\n", val);
-			ret = -1;
-			goto loc2;
-		}
+	val = pwrdm_set_next_pwrst(p = pwrdm_omap, PWRDM_POWER_RET);
+	if (val == 0)
+		printk(KERN_INFO "Setting Next PWRST for %s to RET\n", p->name);
+	else if (val == -EINVAL) {
+		printk(KERN_INFO "RET not supported for %s\n", p->name);
+		goto loc2;
+	} else {
+		printk(KERN_ERR "Failed with value %d\n", val);
+		ret = -1;
+		goto loc2;
 	}
 
-	ret1 = pwrdm_read_pwrst(p);
+	ret1 = pwrdm_read_next_pwrst(p);
 	if (ret1 == PWRDM_POWER_RET)
 		printk(KERN_INFO "Successfully set RET for %s\n", p->name);
 	else {
-		printk(KERN_INFO "Unsuccessful, Please Validate!!!\n");
+		printk(KERN_INFO "Unsuccessful, Please Validate!!! ret = %x\n", ret);
 		ret = -1;
 	}
 
 loc2:
-	for (i = 0; clockdomains_name[i]; i++) {
-		c = clkdm_lookup(clockdomains_name[i]);
-		if (!strcmp(c->pwrdm.name, pwrdm_omap->name))
-			retval = omap2_clkdm_sleep(c);
-		if (!retval)
-			ret = -1;
-	}
-	if (pwrdm_omap->pwrsts && (1 << PWRDM_POWER_OFF)) {
-		val = pwrdm_set_next_pwrst(p = pwrdm_omap, PWRDM_POWER_OFF);
-		if (val == 0)
-			printk(KERN_INFO "Setting Next PWRST for %s to OFF\n", p->name);
-		else if (val == -EINVAL) {
-			printk(KERN_INFO "OFF not supported for %s\n", p->name);
-			goto loc3;
-		} else {
-			printk(KERN_ERR "Failed with value %d\n", val);
-			ret = -1;
-			goto loc3;
-		}
+	val = pwrdm_set_next_pwrst(p = pwrdm_omap, PWRDM_POWER_OFF);
+	if (val == 0)
+		printk(KERN_INFO "Setting Next PWRST for %s to OFF\n", p->name);
+	else if (val == -EINVAL) {
+		printk(KERN_INFO "OFF not supported for %s\n", p->name);
+		goto loc3;
+	} else {
+		printk(KERN_ERR "Failed with value %d\n", val);
+		ret = -1;
+		goto loc3;
 	}
 
-	ret1 = pwrdm_read_pwrst(p);
+	ret1 = pwrdm_read_next_pwrst(p);
 	if (ret1 == PWRDM_POWER_OFF)
 		printk(KERN_INFO "Successfully set OFF for %s\n", p->name);
 	else {
-		printk(KERN_INFO "Unsuccessful, Please Validate!!!\n");
+		printk(KERN_INFO "Unsuccessful, Please Validate!!! ret = %x\n", ret1);
 		ret = -1;
 	}
 
@@ -342,8 +316,7 @@ static int power_test_3()
 	printk(KERN_INFO "Default Logic Power State of %s = %d\n",
 							 p->name, val);
 
-	val = pwrdm_set_logic_retst(p = pwrdm_omap,
-					 PWRDM_POWER_RET);
+	val = pwrdm_set_logic_retst(p = pwrdm_omap, PWRDM_POWER_RET);
 	if (val == 0)
 		printk(KERN_INFO "Setting Logic-Ret State RET for %s\n", p->name);
 	else if (val == -EINVAL) {
@@ -356,7 +329,7 @@ static int power_test_3()
 		goto dest1;
 	}
 
-	ret1 = pwrdm_read_logic_pwrst(p = pwrdm_omap);
+	ret1 = pwrdm_read_logic_retst(p = pwrdm_omap);
 	if (ret1 == PWRDM_POWER_RET)
 		printk(KERN_INFO "Successfully set Logic-ret RET for"
 						" %s\n", p->name);
@@ -366,8 +339,7 @@ static int power_test_3()
 	}
 
 dest1:
-	val = pwrdm_set_logic_retst(p = pwrdm_omap,
-					 PWRDM_POWER_OFF);
+	val = pwrdm_set_logic_retst(p = pwrdm_omap, PWRDM_POWER_OFF);
 	if (val == 0)
 		printk(KERN_INFO "Setting Logic-Ret State OFF for %s\n",
 						 p->name);
@@ -380,7 +352,7 @@ dest1:
 		goto dest2;
 	}
 
-	ret1 = pwrdm_read_logic_pwrst(p = pwrdm_omap);
+	ret1 = pwrdm_read_logic_retst(p = pwrdm_omap);
 	if (ret1 == PWRDM_POWER_OFF)
 		printk(KERN_INFO "Successfully set Logic-ret OFF for"
 						 " %s\n", p->name);
@@ -388,123 +360,7 @@ dest1:
 		printk(KERN_INFO "Unsuccessful, Please Validate!!!\n");
 		ret = -1;
 	}
-
 dest2:
-	for (bank = 0; bank < PWRDM_MAX_MEM_BANKS; bank++) {
-		val = pwrdm_set_mem_onst(p = pwrdm_omap, bank, PWRDM_POWER_RET);
-		if (val == 0)
-			printk(KERN_INFO "Setting Memory-on State RET for %s"
-					 " bank%d\n", p->name, bank);
-		else if (val == -EINVAL) {
-			printk(KERN_INFO "Mem-on RET State Not supported for"
-					 " %s bank%d\n", p->name, bank);
-			goto dest3;
-		} else if (val == -EEXIST)
-			break;
-		else {
-			printk(KERN_ERR "Failed with value %d\n", val);
-			ret = -1;
-			goto dest3;
-		}
-
-		ret1 = pwrdm_read_mem_pwrst(p = pwrdm_omap, bank);
-		if (ret1 == PWRDM_POWER_RET)
-			printk(KERN_INFO "Successfully set Mem-on RET"
-					 " state for bank %d of %s = %d\n",
-					 bank, p->name, ret1);
-		else {
-			printk(KERN_INFO "Unsuccessful, Please Validate!!!\n");
-			ret = -1;
-		}
-	}
-
-dest3:
-	for (bank = 0; bank < PWRDM_MAX_MEM_BANKS; bank++) {
-		val = pwrdm_set_mem_onst(p = pwrdm_omap, bank, PWRDM_POWER_OFF);
-		if (val == 0)
-			printk(KERN_INFO "Setting Memory-on State OFF for %s"
-					 " bank%d\n", p->name, bank);
-		else if (val == -EINVAL) {
-			printk(KERN_INFO "Mem-on OFF State Not supported for"
-					 " %s bank%d\n", p->name, bank);
-			goto dest4;
-		} else if (val == -EEXIST)
-			break;
-		else {
-			printk(KERN_ERR "Failed with value %d\n", val);
-			ret = -1;
-			goto dest4;
-		}
-
-		ret1 = pwrdm_read_mem_pwrst(p = pwrdm_omap, bank);
-		if (ret1 == PWRDM_POWER_OFF)
-			printk(KERN_INFO "Successfully set Mem-on OFF"
-			" state for bank %d of %s = %d\n", bank, p->name, ret1);
-		else {
-			printk(KERN_INFO "Unsuccessful, Please Validate!!!\n");
-			ret = -1;
-		}
-	}
-
-dest4:
-	for (bank = 0; bank < PWRDM_MAX_MEM_BANKS; bank++) {
-		val = pwrdm_set_mem_retst(p = pwrdm_omap, bank, PWRDM_POWER_RET);
-		if (val == 0)
-			printk(KERN_INFO "Setting Memory-ret State RET for %s"
-					 " bank%d\n", p->name, bank);
-		else if (val == -EINVAL) {
-			printk(KERN_INFO "Mem-ret RET State Not supported for"
-					 " %s bank%d\n", p->name, bank);
-			goto dest5;
-		} else if (val == -EEXIST)
-			break;
-		else {
-			printk(KERN_ERR "Failed with value %d\n", val);
-			ret = -1;
-			goto dest5;
-		}
-
-		ret1 = pwrdm_read_mem_pwrst(p = pwrdm_omap, bank);
-		if (ret1 == PWRDM_POWER_OFF)
-			printk(KERN_INFO "Successfully set Mem-ret RET"
-			" state for bank %d of %s = %d\n",
-					 bank, p->name, ret1);
-		else {
-			printk(KERN_INFO "Unsuccessful, Please Validate!!!\n");
-			ret = -1;
-		}
-	}
-
-dest5:
-	for (bank = 0; bank < PWRDM_MAX_MEM_BANKS; bank++) {
-		val = pwrdm_set_mem_retst(p = pwrdm_omap,
-					 bank, PWRDM_POWER_OFF);
-		if (val == 0)
-			printk(KERN_INFO "Setting Memory-ret State OFF for %s"
-					 " bank%d\n", p->name, bank);
-		else if (val == -EINVAL) {
-			printk(KERN_INFO "Mem-ret OFF State Not supported for"
-					 " %s bank%d\n", p->name, bank);
-			goto dest6;
-		} else if (val == -EEXIST)
-			break;
-		else {
-			printk(KERN_ERR "Failed with value %d\n", val);
-			ret = -1;
-			goto dest6;
-		}
-
-		ret1 = pwrdm_read_mem_pwrst(p = pwrdm_omap, bank);
-		if (ret1 == PWRDM_POWER_OFF)
-			printk(KERN_INFO "Successfully set Mem-ret OFF"
-			" state for bank %d of %s = %d\n", bank, p->name, ret1);
-		else {
-			printk(KERN_INFO "Unsuccessful, Please Validate!!!\n");
-			ret = -1;
-		}
-	}
-
-dest6:
 	return ret;
 
 }
@@ -550,7 +406,6 @@ void power_domain_test()
 	case 0x2:
 		for (i = 0; powerdomains_name[i]; i++) {
 			pwrdm_omap = pwrdm_lookup(powerdomains_name[i]);
-			/* FIXME: Update once the prev_pwrst reg is in place */
 			if (strcmp(powerdomains_name[i], "cpu0_pwrdm") &&
 			strcmp(powerdomains_name[i], "cpu1_pwrdm") &&
 			strcmp(powerdomains_name[i], "mpu_pwrdm") &&
@@ -575,14 +430,11 @@ void power_domain_test()
 	case 0x3:
 		for (i = 0; powerdomains_name[i]; i++) {
 			pwrdm_omap = pwrdm_lookup(powerdomains_name[i]);
-			/* FIXME: Update once the prev_pwrst reg is in place */
-			if (strcmp(powerdomains_name[i], "cpu0_pwrdm") &&
-			strcmp(powerdomains_name[i], "cpu1_pwrdm") &&
-			strcmp(powerdomains_name[i], "mpu_pwrdm") &&
-			strcmp(powerdomains_name[i], "core_pwrdm") &&
-			strcmp(powerdomains_name[i], "wkup_pwrdm") &&
-			strcmp(powerdomains_name[i], "always_on_core_pwrdm") &&
-			strcmp(powerdomains_name[i], "emu_pwrdm")) {
+			if (!strcmp(powerdomains_name[i], "core_pwrdm") ||
+			!strcmp(powerdomains_name[i], "mpu_pwrdm") ||
+			!strcmp(powerdomains_name[i], "tesla_pwrdm") ||
+			strcmp(powerdomains_name[i], "l3init_pwrdm") ||
+			strcmp(powerdomains_name[i], "l4per_pwrdm")) {
 				ret = power_test_3();
 				if (ret) {
 					printk("\n\nTEST FAILED\n\n");
