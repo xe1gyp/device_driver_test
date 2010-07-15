@@ -30,9 +30,9 @@ do
   print "echo start > /proc/driver/mcbsp_test/transmission"
   sleep $MESSAGE_DELAY
   echo 'start' > /proc/driver/mcbsp_test/transmission
-  TX=`cat /proc/driver/mcbsp_test/status | grep "No. of buffers transmitted" | sed -e "s/ */ /g" | cut -d ' ' -f7`
-  RX=`cat /proc/driver/mcbsp_test/status | grep "No. of buffers received" | sed -e "s/ */ /g" | cut -d ' ' -f7`
-  if [ $TX != 0 ] || [ $RX != 0 ] 
+  TX=`cat /proc/driver/mcbsp_test/status | grep "No. of buffers transmitted" | awk '{print $6}'`
+  RX=`cat /proc/driver/mcbsp_test/status | grep "No. of buffers received" | awk '{print $6}'`
+  if [ $TX -ne 0 ] || [ $RX -ne 0 ] 
   then
     rmmod $McBSP_MODULE
     print "Tranmission on McBSP Interface $i is available after suspending"
@@ -52,10 +52,10 @@ do
   echo 'start' > /proc/driver/mcbsp_test/transmission
   sleep $DELAY
      
-  TX=`cat /proc/driver/mcbsp_test/status | grep "No. of buffers transmitted" | sed -e "s/ */ /g" | cut -d ' ' -f7`
-  RX=`cat /proc/driver/mcbsp_test/status | grep "No. of buffers received" | sed -e "s/ */ /g" | cut -d ' ' -f7`
+  TX=`cat /proc/driver/mcbsp_test/status | grep "No. of buffers transmitted" | awk '{print $6}'`
+  RX=`cat /proc/driver/mcbsp_test/status | grep "No. of buffers received" | awk '{print $6}'`
     
-  if [ $TX != 100 ] || [ $RX != 100 ] 
+  if [ $TX -ne 100 ] || [ $RX -ne 100 ] 
   then
     print "Tx Value = $TX | $RX = Rx Value"     
     print "Failed Tranmission on McBSP Interface $i after resuming"

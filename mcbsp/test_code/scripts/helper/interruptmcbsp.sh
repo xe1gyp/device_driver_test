@@ -37,17 +37,17 @@ do
 #	rmmod $MODNAME
 #    fi
     insmod $McBSP_MODULE $COMMAND$j test_mcbsp_id=$i
-    TEMP=`cat /proc/driver/mcbsp_test/status | grep "$TAG" | sed -e "s/ */ /g" | cut -d ' ' -f$PLACE`
+    TEMP=`cat /proc/driver/mcbsp_test/status | grep "$TAG" | awk '{print $6}'`
     print "Starting Transmission"
-#    sleep $MESSAGE_DELAY
+    sleep $MESSAGE_DELAY
     echo 'start' > /proc/driver/mcbsp_test/transmission &
-#    sleep $DELAY
+    sleep $DELAY
     print "Cancelling Transmission..."
-#    sleep $MESSAGE_DELAY
+    sleep $MESSAGE_DELAY
     echo 'stop' > /proc/driver/mcbsp_test/transmission
-    TX=`cat /proc/driver/mcbsp_test/status | grep "No. of words transmitted" | sed -e "s/ */ /g" | cut -d ' ' -f7`
-    RX=`cat /proc/driver/mcbsp_test/status | grep "No. of words received" | sed -e "s/ */ /g" | cut -d ' ' -f7`
-    if [ $TX != $RX  ] || !(cat /proc/driver/mcbsp_test/transmission | grep "0" > /dev/null)
+    TX=`cat /proc/driver/mcbsp_test/status | grep "No. of buffers transmitted" | awk '{print $6}'`
+    RX=`cat /proc/driver/mcbsp_test/status | grep "No. of buffers received" | awk '{print $6}'`
+    if [ $TX != $RX  ]
     then
       print "Tx Value = $TX | $RX = Rx Value"
       print "Succesful cancellation of data transfer on McBSP Interface $i using $COMMAND$j"

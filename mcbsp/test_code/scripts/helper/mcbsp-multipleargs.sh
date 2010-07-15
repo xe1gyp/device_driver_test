@@ -52,28 +52,28 @@ do
 #				TEMP=`cat /proc/driver/mcbsp_test/status | grep "$TAG" | sed -e "s/ */ /g" | cut -d ' ' -f$PLACE`
 #			fi
 			insmod -f $McBSP_MODULE $COMMAND$j $COMMAND2$k $COMMAND3$l test_mcbsp_id=$i
-			TEMP=`cat /proc/driver/mcbsp_test/status | grep "$TAG" | sed -e "s/ */ /g" | cut -d ' ' -f$PLACE`
-			TRANSFER=`cat /proc/driver/mcbsp_test/status | grep "Number of transfers" | sed -e "s/ */ /g" | cut -d ' ' -f6`
+			TEMP=`cat /proc/driver/mcbsp_test/status | grep "$TAG" | awk '{print $6}'`
+			TRANSFER=`cat /proc/driver/mcbsp_test/status | grep "Number of transfers" | awk '{print $5}'`
 			print "Starting Transmission : \"echo start > /proc/driver/mcbsp_test/transmission\""
-#			sleep $MESSAGE_DELAY
+			sleep $MESSAGE_DELAY
 			echo 'start' > /proc/driver/mcbsp_test/transmission
-			#sleep $DELAY
-			TX=`cat /proc/driver/mcbsp_test/status | grep "No. of words transmitted" | sed -e "s/ */ /g" | cut -d ' ' -f7`
-			RX=`cat /proc/driver/mcbsp_test/status | grep "No. of words received" | sed -e "s/ */ /g" | cut -d ' ' -f7`
+			sleep $DELAY
+			TX=`cat /proc/driver/mcbsp_test/status | grep "No. of buffers transmitted" | awk '{print $6}'`
+			RX=`cat /proc/driver/mcbsp_test/status | grep "No. of buffers received" | awk '{print $6}'`
 			print "$TEMP $j $TX $RX $TRANSFER"
-			if [ "$TEMP" != "$j" ] || [ "$TX" != "$TRANSFER" ] || [ "$RX" != "$TRANSFER" ] || !(cat /proc/driver/mcbsp_test/transmission | grep "0" > /dev/null)
+			if [ "$TEMP" -ne "$j" ] || [ "$TX" -ne "$TRANSFER" ] || [ "$RX" -ne "$TRANSFER" ]
 			then
 				print "Tx Value = $TX | $RX = Rx Value"
 				print "Failed Tranmission on McBSP Interface $i using $COMMAND$j"
 				print "FAIL"
-#				sleep $MESSAGE_DELAY
+				sleep $MESSAGE_DELAY
 				rmmod $MODNAME
 				status=1
 			else
 				print "Tx Value = $TX | $RX = Rx Value"
 				print "Succesful Tranmission on McBSP Interface $i using $COMMAND$j"
 				print "PASS"
-#				sleep $MESSAGE_DELAY
+				sleep $MESSAGE_DELAY
 				rmmod $MODNAME
 			fi
 		done
