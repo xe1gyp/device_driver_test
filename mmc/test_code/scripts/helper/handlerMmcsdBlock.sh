@@ -40,8 +40,8 @@ xMountFunction() {
 	fi
 
 	handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
-
-	fstabModifier $LOCAL_MMCSD_PARTITION_NUMBER $LOCAL_MMCSD_FILESYSTEM_TYPE $LOCAL_MMCSD_DEVFS_PARTITION $LOCAL_MMCSD_MOUNTPOINT
+	# Ubuntu has an issue were if any scenario forced to quit will make the ubuntu not boot as fstan entry is present
+	# fstabModifier $LOCAL_MMCSD_PARTITION_NUMBER $LOCAL_MMCSD_FILESYSTEM_TYPE $LOCAL_MMCSD_DEVFS_PARTITION $LOCAL_MMCSD_MOUNTPOINT
 
 }
 

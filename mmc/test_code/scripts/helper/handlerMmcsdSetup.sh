@@ -12,7 +12,7 @@ LOCAL_PARTITIONS=$2
 # =============================================================================
 
 GetEndSector(){
-	echo -e "p\nq\n" | fdisk $1 | grep "heads" | awk '{print $5}' | awk '{print $1}'
+	echo -e "c\nu\np\nq\n" | fdisk $1 | grep "heads" | awk '{print $5}' | awk '{print $1}'
 }
 
 # =============================================================================
