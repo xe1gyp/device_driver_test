@@ -80,9 +80,9 @@ TESTSUITES:=all
 endif
 
 APPLICABLE_TESTS :=     benchmarks dma gpadc ethernet gpio hsuart i2c \
-                        keypad mcbsp mcspi mmc oskernel \
+                        keypad mcbsp mcspi mmc  \
                         realtimeclock timer-32k touchscreen watchdog pmd\
-			sfh7741
+			sfh7741 accelerometer ambient_light led
 
 ifdef CONFIG_ARCH_OMAP3
 APPLICABLE_TESTS +=     camera audio-alsa framebuffer video nand
