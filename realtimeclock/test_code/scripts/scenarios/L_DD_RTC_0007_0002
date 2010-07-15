@@ -1,10 +1,11 @@
 ###############################################################################
-# Scenario: L_DD_RTC_0006
-# Author  : Shubhro
-# Date    : Octuber 16, 2009
+# Scenario: L_DD_RTC_0007_0002
+# Author  : Keerthy J
+# Date    : July 15, 2010
 ###############################################################################
 
-# Begin L_DD_RTC_0006
-0001	   set -x; $UTILS_DIR_HANDLERS/handlerIrqAffinity.sh "switch" "$APP_TIME_KEEP_READING /dev/rtc0 " "5" "15" $IRQ_VALUE && exit 0 || exit 1
+# Begin L_DD_RTC_0007_0002
 
-# End L_DD_RTC_0005
+0001	   set -x; irqAffinitySwitch.sh "switch" "5" "1" $IRQ_VALUE && exit 0 || exit 1
+
+# End L_DD_RTC_0007_0002
