@@ -29,7 +29,6 @@
 #define TRANSFER_COUNT 10
 #define TRANSFER_POLL_COUNT 60
 #define TRANSFER_POLL_TIME 1500
-#define PROC_FILE "driver/dma_chain_thread_access"
 
 struct chain_transfer {
 	struct dma_transfer transfers[TRANSFER_COUNT];
@@ -317,8 +316,6 @@ static int __init dma_module_init(void)
 	struct task_struct *p1, *p2;
 	int x;
 
-	/* Create the proc entry */
-	create_dma_proc_chain(PROC_FILE);
 	p1 = kthread_create(dma_chain_thread_entry, &cht1,
 			"dma_chain_thread/0");
 	p2 = kthread_create(dma_chain_thread_entry, &cht2,

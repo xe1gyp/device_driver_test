@@ -20,6 +20,9 @@
  */
 
 
+#include <linux/init.h>
+#include <linux/kernel.h>
+#include <linux/module.h>
 #include "dma_single_channel.h"
 
 #define TEST_FINISHED_POLL_TIME 1000
@@ -438,20 +441,27 @@ void unlink_stop_dma_selflink_transfer(int channel_id){
      }
 EXPORT_SYMBOL(unlink_stop_dma_selflink_transfer);
 
-static int __init dma_single_init(void) {
-	/* Dummy init */
+
+static int __init dma_s_init(void) {
+       /* Create the proc entry */
+       create_dma_proc(PROC_FILE);
+       printk("%s: ............\n");
 	return 0;
 }
 
-static void __exit dma_single_exit(void) {
-	printk("OMAPS ************************************\n");
+static void __exit dma_s_exit(void) {
 	/*
 	 * By this time, test result is available
 	 * in proc entry. Now it is safe to remove
 	 * proc entry.
 	 */
-	remove_dma_proc((char*)&entry->name);
+	remove_dma_proc(PROC_FILE);
+       printk("%s: ............\n");
 }
+
+module_init(dma_s_init);
+module_exit(dma_s_exit);
 
 MODULE_AUTHOR("Texas Instruments");
 MODULE_LICENSE("GPL");
+

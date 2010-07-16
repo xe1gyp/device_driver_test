@@ -24,7 +24,6 @@
 
 #define TRANSFER_COUNT 1
 #define TIME_BEFORE_STOP 50
-#define PROC_FILE "driver/dma_stop_transfer"
 
 static struct dma_transfer transfers[TRANSFER_COUNT];
 
@@ -55,8 +54,6 @@ static void check_test_passed(void){
  */
 static int __init dma_module_init(void) {
        int error;
-       /* Create the proc entry */
-       create_dma_proc(PROC_FILE);
        /* Create the transfer for the test */
 	transfers[0].device_id = OMAP_DMA_NO_DEVICE;
 	transfers[0].sync_mode = OMAP_DMA_SYNC_ELEMENT;

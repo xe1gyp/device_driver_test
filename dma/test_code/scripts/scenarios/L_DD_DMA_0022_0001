@@ -8,6 +8,6 @@
 0001    set -x; insmod $TESTMODS/dma_chain_transfer.ko
 0002    set -x; insmod $TESTMODS/dma_chain_static_invalid.ko
 0004    set -x; rmmod dma_chain_static_invalid
-0003    set -x; cat /proc/driver/dma_chain_static | grep PASS && exit 1 || exit 0;
+0003    set -x; cat /proc/driver/dma_test_status | grep PASS && exit 1 || exit 0;
 0005    set -x; rmmod dma_chain_transfer
 # End L_DD_DMA_0022

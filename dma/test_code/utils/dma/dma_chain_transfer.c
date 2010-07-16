@@ -69,11 +69,13 @@ struct proc_dir_entry* entry;
  */
 void create_dma_proc_chain(char *proc_name)
 {
+	printk("%s: %s\n", __func__, proc_name);
 	entry = create_proc_read_entry(proc_name, 0, NULL, dma_read_proc, NULL);
 	if (!entry) {
 		printk("Creating proc entry failed !!!!\n");
 		return;
 	}
+	printk("&&&&&&&&&&&  %s: %s\n", __func__, entry->name);
 }
 EXPORT_SYMBOL(create_dma_proc_chain);
 
@@ -81,7 +83,7 @@ EXPORT_SYMBOL(create_dma_proc_chain);
  * Removes a proc entry from the procfs
  */
 void remove_dma_proc_chain(char *proc_name){
-    remove_proc_entry(proc_name, NULL);
+	remove_proc_entry(proc_name, NULL);
 }
 EXPORT_SYMBOL(remove_dma_proc_chain);
 
@@ -378,7 +380,8 @@ void set_max_rounds(int rounds){
 EXPORT_SYMBOL(set_max_rounds);
 
 static int __init dma_chain_init(void) {
-	/* Dummy init */
+       /* Create the proc entry */
+       create_dma_proc_chain(PROC_FILE);
 	return 0;
 }
 
@@ -388,9 +391,11 @@ static void __exit dma_chain_exit(void) {
 	 * in proc entry. Now it is safe to remove
 	 * proc entry.
 	 */
-	remove_dma_proc_chain((char *)&entry->name);
+	remove_dma_proc_chain(PROC_FILE);
 }
 
+module_init(dma_chain_init);
+module_exit(dma_chain_exit);
 
 MODULE_AUTHOR("Texas Instruments");
 MODULE_LICENSE("GPL");

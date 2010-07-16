@@ -27,7 +27,6 @@
 #define TRANSFER_COUNT 40
 #define TRANSFER_POLL_COUNT 60
 #define TRANSFER_POLL_TIME 1500
-#define PROC_FILE "driver/dma_chain_dynamic"
 
 static struct dma_transfer transfers[TRANSFER_COUNT];
 static struct dma_chain chain;
@@ -189,9 +188,6 @@ int request_dma_chain(struct dma_chain *chain_params){
 static int __init dma_module_init(void) {
        int error;
        int i = 0;
-
-       /* Create the proc entry */
-       create_dma_proc_chain(PROC_FILE);
 
        /* Request a chain */
        chain.chain_type = OMAP_DMA_DYNAMIC_CHAIN;

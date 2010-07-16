@@ -25,7 +25,6 @@
 #define TRANSFER_COUNT 13
 #define TRANSFER_POLL_COUNT 60
 #define TRANSFER_POLL_TIME 1500
-#define PROC_FILE "driver/dma_thread_access"
 
 static struct dma_transfer gtransfers[TRANSFER_COUNT];
 static struct dma_transfer gtransfers2[TRANSFER_COUNT];
@@ -115,8 +114,6 @@ static int __init dma_module_init(void)
 	struct task_struct *p1, *p2;
 	int x;
 
-	/* Create the proc entry */
-	create_dma_proc(PROC_FILE);
 	p1 = kthread_create(dma_test_entry, gtransfers, "dmatest/0");
 	p2 = kthread_create(dma_test_entry, gtransfers2, "dmatest/1");
 	kthread_bind(p1, 0);

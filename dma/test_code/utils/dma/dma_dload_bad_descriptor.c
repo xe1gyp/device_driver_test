@@ -18,7 +18,6 @@
 
 /********************** GENERAL VARS *****************/
 #define num_elements_in_list (7)
-#define PROC_FILE  "driver/dma_descriptor_load"
 #define PAUSE_AT_ELEMENT (4)
 #define test_element_size 100
 #define OMAP_DMA_SGLIST_DESCRIPTOR_TYPE_WRONG 10

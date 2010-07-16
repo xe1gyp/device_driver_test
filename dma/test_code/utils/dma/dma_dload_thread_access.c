@@ -19,7 +19,6 @@
 
 /********************** GENERAL VARS *****************/
 #define num_elements_in_list (15)
-#define PROC_FILE  "driver/dma_dload_thread_access"
 #define PAUSE_AT_ELEMENT (4)
 
 #define test_element_size 100
@@ -237,7 +236,6 @@ static void __exit dmatest_cleanup(void)
 {
 	int i;
 
-	remove_dma_proc(PROC_FILE);
 	dma_free_coherent(NULL, tls1.total_num_elements * 4,
 		tls1.bsptest_dma_dst_addr, (int)tls1.bsptest_dma_dst_addr_phy);
 	dma_free_coherent(NULL, PAGE_SIZE,
@@ -258,7 +256,6 @@ static int __init dmatest_init(void)
 	int x;
 
 	test_result = 0;
-	create_dma_proc(PROC_FILE);
 	/* Init channel independent config parameters */
 	omap_dma_set_global_params(DMA_DEFAULT_ARB_RATE,
 				DMA_DEFAULT_FIFO_DEPTH,

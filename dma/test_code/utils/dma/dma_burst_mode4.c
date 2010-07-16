@@ -23,7 +23,6 @@
 #define TRANSFER_COUNT 3
 #define TRANSFER_POLL_COUNT 60
 #define TRANSFER_POLL_TIME 1500
-#define PROC_FILE "driver/dma_burst_mode4"
 
 static struct dma_transfer transfers[TRANSFER_COUNT];
 
@@ -67,8 +66,6 @@ static int get_transfers_finished(void){
 static int __init dma_module_init(void) {
        int error;
        int i = 0;
-       /* Create the proc entry */
-       create_dma_proc(PROC_FILE);
        transfers[0].data_type = OMAP_DMA_DATA_TYPE_S8;
        /*transfers[1].data_type = OMAP_DMA_DATA_TYPE_S16;
        transfers[2].data_type = OMAP_DMA_DATA_TYPE_S32;*/

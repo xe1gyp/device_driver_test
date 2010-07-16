@@ -13,7 +13,7 @@ SETUP_0003 set -x; echo Running on OPP5
 0001_01	set -x; echo Testing Constant Addressing Mode
 0001_02	set -x; insmod $TESTMODS/dma_single_channel.ko
 0001_03	set -x; insmod $TESTMODS/dma_addrmode_constant.ko
-0001_04	set -x; cat /proc/driver/dma_addrmode_constant | grep PASS
+0001_04	set -x; cat /proc/driver/dma_test_status | grep PASS
 0001_05	set -x; rmmod dma_addrmode_constant
 0001_06	set -x; rmmod dma_single_channel
 
@@ -21,7 +21,7 @@ SETUP_0003 set -x; echo Running on OPP5
 0002_01	set -x; echo Testing DMA Double indexing addressing mode
 0002_02	set -x; insmod $TESTMODS/dma_single_channel.ko
 0002_03	set -x; insmod $TESTMODS/dma_addrmode_doubleidx.ko
-0002_04	set -x; cat /proc/driver/dma_addrmode_doubleidx | grep PASS
+0002_04	set -x; cat /proc/driver/dma_test_status | grep PASS
 0002_05	set -x; rmmod dma_addrmode_doubleidx
 0002_06	set -x; rmmod dma_single_channel
 
@@ -29,7 +29,7 @@ SETUP_0003 set -x; echo Running on OPP5
 0003_01	set -x; echo Testing DMA Post increment addressing mode
 0003_02	set -x; insmod $TESTMODS/dma_single_channel.ko
 0003_03	set -x; insmod $TESTMODS/dma_addrmode_postinc.ko
-0003_04	set -x; cat /proc/driver/dma_addrmode_postinc | grep PASS
+0003_04	set -x; cat /proc/driver/dma_test_status | grep PASS
 0003_05	set -x; rmmod dma_addrmode_postinc
 0003_06	set -x; rmmod dma_single_channel
 
@@ -37,7 +37,7 @@ SETUP_0003 set -x; echo Running on OPP5
 0004_01	set -x; echo Testing DMA Single indexing addressing mode
 0004_02	set -x; insmod $TESTMODS/dma_single_channel.ko
 0004_03	set -x; insmod $TESTMODS/dma_addrmode_singleidx.ko
-0004_04	set -x; cat /proc/driver/dma_addrmode_singleidx | grep PASS
+0004_04	set -x; cat /proc/driver/dma_test_status | grep PASS
 0004_05	set -x; rmmod dma_addrmode_singleidx
 0004_06	set -x; rmmod dma_single_channel
 
@@ -45,7 +45,7 @@ SETUP_0003 set -x; echo Running on OPP5
 0005_01	set -x; echo DMA Burst mode disabled
 0005_02	set -x; insmod $TESTMODS/dma_single_channel.ko
 0005_03	set -x; insmod $TESTMODS/dma_burst_disabled.ko
-0005_04 set -x; cat /proc/driver/dma_burst_disabled | grep PASS
+0005_04 set -x; cat /proc/driver/dma_test_status | grep PASS
 0005_05	set -x; rmmod dma_burst_disabled
 0005_06	set -x; rmmod dma_single_channel
 
@@ -53,7 +53,7 @@ SETUP_0003 set -x; echo Running on OPP5
 0006_01	set -x; echo DMA Burst mode of 4 bytes
 0006_02	set -x; insmod $TESTMODS/dma_single_channel.ko
 0006_03	set -x; insmod $TESTMODS/dma_burst_mode4.ko
-0006_04 set -x; cat /proc/driver/dma_burst_mode4 | grep PASS
+0006_04 set -x; cat /proc/driver/dma_test_status | grep PASS
 0006_05	set -x; rmmod dma_burst_mode4
 0006_06	set -x; rmmod dma_single_channel
 
@@ -61,7 +61,7 @@ SETUP_0003 set -x; echo Running on OPP5
 0007_01	set -x; echo DMA Burst mode of 8 bytes
 0007_02	set -x; insmod $TESTMODS/dma_single_channel.ko
 0007_03	set -x; insmod $TESTMODS/dma_burst_mode8.ko
-0007_04 set -x; cat /proc/driver/dma_burst_mode8 | grep PASS
+0007_04 set -x; cat /proc/driver/dma_test_status | grep PASS
 0007_05	set -x; rmmod dma_burst_mode8
 0007_06	set -x; rmmod dma_single_channel
 
@@ -69,7 +69,7 @@ SETUP_0003 set -x; echo Running on OPP5
 0008_01	set -x; echo DMA Burst mode of 16 bytes
 0008_02	set -x; insmod $TESTMODS/dma_single_channel.ko
 0008_03	set -x; insmod $TESTMODS/dma_burst_mode16.ko
-0008_04  set -x; cat /proc/driver/dma_burst_mode16 | grep PASS
+0008_04  set -x; cat /proc/driver/dma_test_status | grep PASS
 0008_05	set -x; rmmod dma_burst_mode16
 0008_06	set -x; rmmod dma_single_channel
 
@@ -77,7 +77,7 @@ SETUP_0003 set -x; echo Running on OPP5
 0010_01	set -x; echo DMA High priority transfers
 0010_02	set -x; insmod $TESTMODS/dma_single_channel.ko
 0010_03	set -x; insmod $TESTMODS/dma_priority_high.ko
-0010_04 set -x; cat /proc/driver/dma_priority_high | grep PASS
+0010_04 set -x; cat /proc/driver/dma_test_status | grep PASS
 0010_05	set -x; rmmod dma_priority_high
 0010_06	set -x; rmmod dma_single_channel
 
@@ -85,7 +85,7 @@ SETUP_0003 set -x; echo Running on OPP5
 0011_01	set -x; echo DMA Low priority transfers
 0011_02	set -x; insmod $TESTMODS/dma_single_channel.ko
 0011_03	set -x; insmod $TESTMODS/dma_priority_low.ko
-0011_04  set -x; cat /proc/driver/dma_priority_low | grep PASS
+0011_04  set -x; cat /proc/driver/dma_test_status | grep PASS
 0011_05	set -x; rmmod dma_priority_low
 0011_06	set -x; rmmod dma_single_channel
 
@@ -93,7 +93,7 @@ SETUP_0003 set -x; echo Running on OPP5
 0012_01	set -x; echo DMA Stopping a on going transfer
 0012_02	set -x; insmod $TESTMODS/dma_single_channel.ko
 0012_03	set -x; insmod $TESTMODS/dma_stop_transfer.ko
-0012_04 set -x; cat /proc/driver/dma_stop_transfer | grep PASS
+0012_04 set -x; cat /proc/driver/dma_test_status | grep PASS
 0012_05	set -x; rmmod dma_stop_transfer
 0012_06	set -x; rmmod dma_single_channel
 
@@ -101,7 +101,7 @@ SETUP_0003 set -x; echo Running on OPP5
 0014_01	set -x; echo DMA Dynamic chaining
 0014_02	set -x; insmod $TESTMODS/dma_chain_transfer.ko
 0014_03	set -x; insmod $TESTMODS/dma_chain_dynamic.ko
-0014_04 set -x; cat /proc/driver/dma_chain_dynamic | grep PASS
+0014_04 set -x; cat /proc/driver/dma_test_status | grep PASS
 0014_05	set -x; rmmod dma_chain_dynamic
 0014_06	set -x; rmmod dma_chain_transfer
 
@@ -109,7 +109,7 @@ SETUP_0003 set -x; echo Running on OPP5
 0015_01	set -x; echo DMA Static chaining
 0015_02	set -x; insmod $TESTMODS/dma_chain_transfer.ko
 0015_03	set -x; insmod $TESTMODS/dma_chain_static.ko
-0015_04 set -x; cat /proc/driver/dma_chain_static | grep PASS
+0015_04 set -x; cat /proc/driver/dma_test_status | grep PASS
 0015_05	set -x; rmmod dma_chain_static
 0015_06	set -x; rmmod dma_chain_transfer
 
@@ -117,7 +117,7 @@ SETUP_0003 set -x; echo Running on OPP5
 0019_0001_01 set -x; echo Thread safety and SMP safety. DMA access from multiple processors.
 0019_0001_02 set -x; insmod $TESTMODS/dma_single_channel.ko
 0019_0001_03 set -x; insmod $TESTMODS/dma_thread_access.ko
-0019_0001_04 set -x; cat /proc/driver/dma_thread_access | grep PASS
+0019_0001_04 set -x; cat /proc/driver/dma_test_status | grep PASS
 0019_0001_05 set -x; rmmod dma_thread_access
 0019_0001_06 set -x; rmmod dma_single_channel
 
@@ -141,7 +141,7 @@ SETUP_0003 set -x; echo Running on OPP5
 0023_01 set -x; echo Stopping the channel transfer twice
 0023_02 set -x; insmod $TESTMODS/dma_single_channel.ko
 0023_03 set -x; insmod $TESTMODS/dma_stop_transfer_twice.ko
-0023_04 set -x; cat /proc/driver/dma_stop_transfer | grep PASS
+0023_04 set -x; cat /proc/driver/dma_test_status | grep PASS
 0023_05 set -x; rmmod dma_stop_transfer_twice
 0023_06 set -x; rmmod dma_single_channel
 
@@ -156,10 +156,10 @@ SETUP_0003 set -x; echo Running on OPP5
 0025_01 set -x; echo Remove link from a chain transfer when it is ongoing
 0025_02 set -x; insmod $TESTMODS/dma_chain_transfer.ko
 0025_03 set -x; insmod $TESTMODS/dma_chain_dynamic_break.ko
-0025_04 set -x; cat /proc/driver/dma_chain_dynamic | grep PASS && exit 1 || exit 0;
+0025_04 set -x; cat /proc/driver/dma_test_status | grep PASS && exit 1 || exit 0;
 0025_05 set -x; rmmod dma_chain_dynamic_break
 0025_06 set -x; insmod $TESTMODS/dma_chain_static_break.ko
-0025_07 set -x; cat /proc/driver/dma_chain_static | grep PASS && exit 1 || exit 0;
+0025_07 set -x; cat /proc/driver/dma_test_status | grep PASS && exit 1 || exit 0;
 0025_08 set -x; rmmod dma_chain_static_break
 0025_09 set -x; rmmod dma_chain_transfer
 
@@ -167,10 +167,10 @@ SETUP_0003 set -x; echo Running on OPP5
 0026_01 set -x; echo Remove a link from a chain transfer, the link belongs to another chain
 0026_02 set -x; insmod $TESTMODS/dma_chain_transfer.ko
 0026_03 set -x; insmod $TESTMODS/dma_chain_dynamic_removed.ko
-0026_04 set -x; cat /proc/driver/dma_chain_dynamic | grep FAIL
+0026_04 set -x; cat /proc/driver/dma_test_status | grep FAIL
 0026_05 set -x; rmmod dma_chain_dynamic_removed
 0026_06 set -x; insmod $TESTMODS/dma_chain_static_removed.ko
-0026_07 set -x; cat /proc/driver/dma_chain_static | grep FAIL
+0026_07 set -x; cat /proc/driver/dma_test_status | grep FAIL
 0026_08 set -x; rmmod dma_chain_static_removed
 0026_09 set -x; rmmod dma_chain_transfer
 
@@ -178,7 +178,7 @@ SETUP_0003 set -x; echo Running on OPP5
 0031_01 set -x; echo DMA Static Self linking
 0031_02	set -x; insmod $TESTMODS/dma_single_channel.ko
 0031_03	set -x; insmod $TESTMODS/dma_static_self_link.ko
-0031_04	set -x; cat /proc/driver/dma_static_self_link | grep PASS
+0031_04	set -x; cat /proc/driver/dma_test_status | grep PASS
 0031_05	set -x; rmmod dma_static_self_link
 0031_06	set -x; rmmod dma_single_channel
 
@@ -186,7 +186,7 @@ SETUP_0003 set -x; echo Running on OPP5
 0032_01 set -x; echo DMA Dynamic Self linking
 0032_02	set -x; insmod $TESTMODS/dma_single_channel.ko
 0032_03	set -x; insmod $TESTMODS/dma_dynamic_self_link.ko
-0032_04	set -x; cat /proc/driver/dma_self_link | grep PASS
+0032_04	set -x; cat /proc/driver/dma_test_status | grep PASS
 0032_05	set -x; rmmod dma_dynamic_self_link
 0032_06	set -x; rmmod dma_single_channel
 
@@ -194,7 +194,7 @@ SETUP_0003 set -x; echo Running on OPP5
 0033_01 set -x; echo Trying to unlink self linked chain before stopping channel
 0033_02	set -x; insmod $TESTMODS/dma_single_channel.ko
 0033_03	set -x; insmod $TESTMODS/dma_unlink_before_stop_channels.ko
-0033_04	set -x; cat /proc/driver/unlink_before_stop | grep FAIL
+0033_04	set -x; cat /proc/driver/dma_test_status | grep FAIL
 0033_05	set -x; rmmod dma_unlink_before_stop_channels
 0033_06	set -x; rmmod dma_single_channel
 
@@ -202,7 +202,7 @@ SETUP_0003 set -x; echo Running on OPP5
 0034_01 set -x; echo Trying to unlink non-linked channnels
 0034_02	set -x; insmod $TESTMODS/dma_single_channel.ko
 0034_03	set -x; insmod $TESTMODS/dma_unlink_nonlinked_channels.ko
-0034_04	set -x; cat /proc/driver/unlink_nonlinked | grep FAIL
+0034_04	set -x; cat /proc/driver/dma_test_status | grep FAIL
 0034_05	set -x; rmmod dma_unlink_nonlinked_channels
 0034_06	set -x; rmmod dma_single_channel
 

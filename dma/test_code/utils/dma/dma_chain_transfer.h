@@ -47,6 +47,8 @@
     #define DMA_TEST_BIG_ENDIAN BIG_ENDIAN
 #endif
 
+#define PROC_FILE	"driver/dma_test_status"
+
 /*
  * An struct that represents the buffers used for the transfer
  */

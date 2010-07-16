@@ -25,7 +25,6 @@
 #define TRANSFER_COUNT 13
 #define TRANSFER_POLL_COUNT 60
 #define TRANSFER_POLL_TIME 1500
-#define PROC_FILE "driver/dma_addrmode_constant"
 
 static struct dma_transfer transfers[TRANSFER_COUNT];
 
@@ -159,8 +158,6 @@ int request_dma(struct dma_transfer *transfer){
 static int __init dma_module_init(void) {
        int error;
        int i = 0;
-       /* Create the proc entry */
-       create_dma_proc(PROC_FILE);
 
        for(i = 0; i < TRANSFER_COUNT; i++){
 

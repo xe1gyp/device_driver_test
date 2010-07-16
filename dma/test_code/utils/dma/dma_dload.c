@@ -18,7 +18,6 @@
 
 /********************** GENERAL VARS *****************/
 #define num_elements_in_list (7)
-#define PROC_FILE  "driver/dma_descriptor_load"
 #define PAUSE_AT_ELEMENT (4)
 #define test_element_size 100
 int maximum_transfers = 5;	/* max transfers per channel */
@@ -247,7 +246,6 @@ static int __init dmatest_init(void)
 	int ret = 0;
 
 	test_result = 0;
-	create_dma_proc(PROC_FILE);
 	/* Init channel independent config parameters */
 	omap_dma_set_global_params(DMA_DEFAULT_ARB_RATE,
 				DMA_DEFAULT_FIFO_DEPTH,

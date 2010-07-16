@@ -30,7 +30,6 @@
 #define TRANSFER_COUNT 4
 #define TRANSFER_POLL_COUNT 60
 #define TRANSFER_POLL_TIME 1500
-#define PROC_FILE "driver/dma_priority_high"
 
 static struct dma_transfer transfers[TRANSFER_COUNT];
 static int transfer_finished_order[TRANSFER_COUNT];
@@ -155,8 +154,6 @@ static int get_transfers_finished(void){
 static int __init dma_module_init(void) {
        int error;
        int i;
-       /* Create the proc entry */
-       create_dma_proc(PROC_FILE);
 
        /* Create the transfers for the test */
        for(i = 0; i < TRANSFER_COUNT; i++){
