@@ -147,12 +147,12 @@ $(TESTSUITES):
 .SECONDEXPANSION:
 $(addprefix $(TESTROOT)/,$(TESTSUITES)): $$(notdir $$@)/$(CODE_DIR)
 	@mkdir -p $@
-	@-cp -r $</bin $@
+#	@-cp -r $</bin $@
 	@-cp -r $</scripts $@
 	@-cp -r $</modules $@
 	@mkdir -p $@/scripts/tmp
 	@mkdir -p $@/scripts/test
-	@if [ '$(findstring $(notdir $@), $(APPLICABLE_TESTS))' == '' ]; then \
+	@if [ '$(findstring $(notdir $@), $(APPLICABLE_TESTS))' = '' ]]; then \
 		echo "WARNING: Testsuite $(notdir $@) is not applicable "\
 		"for specified kernel!"; \
 		echo "No scenario files will be placed in output folder.";\
