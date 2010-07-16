@@ -152,7 +152,7 @@ $(addprefix $(TESTROOT)/,$(TESTSUITES)): $$(notdir $$@)/$(CODE_DIR)
 	@-cp -r $</modules $@
 	@mkdir -p $@/scripts/tmp
 	@mkdir -p $@/scripts/test
-	@if [ '$(findstring $(notdir $@), $(APPLICABLE_TESTS))' == '' ]; then \
+	@if [ '$(findstring $(notdir $@), $(APPLICABLE_TESTS))' = '' ]]; then \
 		echo "WARNING: Testsuite $(notdir $@) is not applicable "\
 		"for specified kernel!"; \
 		echo "No scenario files will be placed in output folder.";\
