@@ -153,7 +153,7 @@ if [ "$LOCAL_OPERATION" = "create" ]; then
 		elif [ "$LOCAL_FILESYSTEM_TYPE" = "dos" ]; then
 
 			export LOCAL_FILESYSTEM_TYPE=msdos
-			partitionFormatHelper mkdosfs $MMCSD_MOUNTPOINT_1 $MMCSD_MOUNTPOINT_2
+			partitionFormatHelper $MMCSD_DIR_BINARIES/mkdosfs $MMCSD_MOUNTPOINT_1 $MMCSD_MOUNTPOINT_2
 
 		elif [ "$LOCAL_FILESYSTEM_TYPE" = "vfat" ]; then
 
