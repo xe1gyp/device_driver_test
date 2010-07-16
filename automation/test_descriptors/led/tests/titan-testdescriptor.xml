@@ -11,10 +11,10 @@
 
 		<run>
 			<action>
-				<command>/testsuites/ambient_light/scripts/test_runner.sh L_DD_LED_0000_0001 </command>
+				<command>/testsuites/led/scripts/test_runner.sh L_DD_LED_0000_0001 </command>
 			</action>
 			<action>
-				<command>rm /testsuites/ambient_light/scripts/log.*</command>
+				<command>rm /testsuites/led/scripts/log.*</command>
 			</action>
 		</run>
 
@@ -43,10 +43,10 @@
 
 		<run>
 			<action>
-				<command>/testsuites/ambient_light/scripts/test_runner.sh L_DD_LED_0000_0002</command>
+				<command>/testsuites/led/scripts/test_runner.sh L_DD_LED_0000_0002</command>
 			</action>
 			<action>
-				<command>rm /testsuites/ambient_light/scripts/log.*</command>
+				<command>rm /testsuites/led/scripts/log.*</command>
 			</action>
 		</run>
 
@@ -74,10 +74,10 @@
 
 		<run>
 			<action>
-				<command>/testsuites/ambient_light/scripts/test_runner.sh L_DD_LED_0000_0003</command>
+				<command>/testsuites/led/scripts/test_runner.sh L_DD_LED_0000_0003</command>
 			</action>
 			<action>
-				<command>rm /testsuites/ambient_light/scripts/log.*</command>
+				<command>rm /testsuites/led/scripts/log.*</command>
 			</action>
 		</run>
 
@@ -106,10 +106,10 @@
 
 		<run>
 			<action>
-				<command>/testsuites/ambient_light/scripts/test_runner.sh L_DD_LED_0000_0004</command>
+				<command>/testsuites/led/scripts/test_runner.sh L_DD_LED_0000_0004</command>
 			</action>
 			<action>
-				<command>rm /testsuites/ambient_light/scripts/log.*</command>
+				<command>rm /testsuites/led/scripts/log.*</command>
 			</action>
 		</run>
 
@@ -137,10 +137,10 @@
 
 		<run>
 			<action>
-				<command>/testsuites/ambient_light/scripts/test_runner.sh L_DD_LED_0000_0005</command>
+				<command>/testsuites/led/scripts/test_runner.sh L_DD_LED_0000_0005</command>
 			</action>
 			<action>
-				<command>rm /testsuites/ambient_light/scripts/log.*</command>
+				<command>rm /testsuites/led/scripts/log.*</command>
 			</action>
 		</run>
 
@@ -169,10 +169,10 @@
 
 		<run>
 			<action>
-				<command>/testsuites/ambient_light/scripts/test_runner.sh L_DD_LED_0000_0006</command>
+				<command>/testsuites/led/scripts/test_runner.sh L_DD_LED_0000_0006</command>
 			</action>
 			<action>
-				<command>rm /testsuites/ambient_light/scripts/log.*</command>
+				<command>rm /testsuites/led/scripts/log.*</command>
 			</action>
 		</run>
 
