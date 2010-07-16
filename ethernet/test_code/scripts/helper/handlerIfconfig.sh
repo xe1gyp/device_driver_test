@@ -26,12 +26,14 @@ fi
 if [ "$LOCAL_COMMAND" = "get" ]; then
 
 	if [ "$LOCAL_FIELD" = "ipaddr" ]; then
+
 		ifconfig $ETHERNET_INTERFACE | grep addr: | sed -e 's@inet addr:@@' | sed q | awk '{print $1}' > $ETHERNET_IFCONFIG_IPADDR
 		if [ -z $ETHERNET_SERVER ]; then
-      cat $ETHERNET_IFCONFIG_IPADDR > $ETHERNET_EXTERNAL_HOST_IPADDR
-    else
-      echo $ETHERNET_SERVER > $ETHERNET_EXTERNAL_HOST_IPADDR
+			cat $ETHERNET_IFCONFIG_IPADDR > $ETHERNET_EXTERNAL_HOST_IPADDR
+		else
+			echo $ETHERNET_SERVER > $ETHERNET_EXTERNAL_HOST_IPADDR
 		fi
+
 	elif [ "$LOCAL_FIELD" = "hwaddr" ]; then
 		ifconfig | grep HWaddr | awk '{print $5}' > $ETHERNET_IFCONFIG_HWADDR
 	fi
@@ -58,6 +60,25 @@ elif [ "$LOCAL_COMMAND" = "unset" ]; then
 		ifconfig $ETHERNET_INTERFACE "-$LOCAL_DATA"
 		echo "Checking if $LOCAL_DATA was disabled"
 		ifconfig $ETHERNET_INTERFACE | grep -i $LOCAL_DATA && exit 1 || exit 0
+	fi
+
+elif [ "$LOCAL_COMMAND" = "interface" ]; then
+
+	if [ "$LOCAL_FIELD" = "up" ]; then
+
+		ifconfig $ETHERNET_INTERFACE up
+		ifconfig | grep $ETHERNET_INTERFACE
+		if [ $? -eq 1 ]; then
+			handlerError.sh "log" "1" "halt" "handlerIfconfig.sh"
+		fi
+
+	elif [ "$LOCAL_FIELD" = "down" ]; then
+
+		ifconfig $ETHERNET_INTERFACE down
+		ifconfig | grep $ETHERNET_INTERFACE
+		if [ $? -eq 0 ]; then
+			handlerError.sh "log" "1" "halt" "handlerIfconfig.sh"
+		fi
 	fi
 
 fi
