@@ -337,16 +337,16 @@ static void __exit dma_module_exit(void)
 {
        int i, ret;
 
-       if(chain.request_success){
-	       ret = omap_stop_dma_chain_transfers(chain.chain_id);
+       if(cht1.chain.request_success){
+	       ret = omap_stop_dma_chain_transfers(cht1.chain.chain_id);
 	       if (ret) {
 			printk("DMA stop chain failed\n");
 			set_test_passed_chain(0);
 	       }
-	       ret = omap_free_dma_chain(chain.chain_id);
+	       ret = omap_free_dma_chain(cht1.chain.chain_id);
 	       if (ret) {
 			printk("DMA Chain Free failed for id : %d\n",
-				chain.chain_id);
+				cht1.chain.chain_id);
 			set_test_passed_chain(0);
 	       }
        }
