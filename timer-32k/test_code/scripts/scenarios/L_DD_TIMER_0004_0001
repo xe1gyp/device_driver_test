@@ -8,8 +8,8 @@
 # Begin L_DD_TIMER_0004_0001
 
 # Checking if GP timer was registered. Executing dvfs script beforehand.
-01 set -x; $TESTROOT/../../utils/scripts/dvfs.opp.sh & $TESTSCRIPT/requestTimerNumber.sh 1 && exit 0 || exit 1
-02 set -x; $TESTSCRIPT/requestTimerNumber.sh 2 && exit 0 || exit 1
+#01 set -x; $TESTROOT/../../utils/scripts/dvfs.opp.sh & $TESTSCRIPT/requestTimerNumber.sh 1 && exit 0 || exit 1
+#02 set -x; $TESTSCRIPT/requestTimerNumber.sh 2 && exit 0 || exit 1
 03 set -x; $TESTSCRIPT/requestTimerNumber.sh 3 && exit 0 || exit 1
 04 set -x; $TESTSCRIPT/requestTimerNumber.sh 4 && exit 0 || exit 1
 05 set -x; $TESTSCRIPT/requestTimerNumber.sh 5 && exit 0 || exit 1

@@ -50,8 +50,11 @@ static int __init gptimer_request_init(void)
 		printk(KERN_ERR "GPtimers are not available\n");
 		return -1;
 	}
-	/*Set the clock source*/
-	omap_dm_timer_set_source(timer_ptr, OMAP_TIMER_SRC_SYS_CLK);
+	 /*Set the clock source*/
+	if (gptimer_id > 4 && gptimer_id < 9)
+		omap_dm_timer_set_source(timer_ptr, 2);
+	else
+		omap_dm_timer_set_source(timer_ptr, OMAP_TIMER_SRC_SYS_CLK);
 
 	/*Figure out what IRQ our timer triggers*/
 	timer_irq = omap_dm_timer_get_irq(timer_ptr);
