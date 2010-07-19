@@ -58,22 +58,15 @@ int verify_buffers(struct dma_buffers_info *buffers) {
     u8 *src_address = (u8*) buffers->src_buf;
     u8 *dest_address = (u8*) buffers->dest_buf;
 
-    /* Iterate through the source and destination buffers byte per byte */
-    for (i = 0; i < buffers->buf_size; i++) {
-        /* Compare the data in the source and destination */
-        if (*src_address != *dest_address) {
-            printk("Source buffer at 0x%x = %d , Destination buffer at 0x%x"
-                   " = %d\n", buffers->src_buf, *src_address, buffers->dest_buf,
-                   *dest_address);
-            return 1; /* error, buffers differ */
-        }
-        /*
-         * Increment the pointer to the next data, only the destination
-         * since we are using the constant addressing
-         */
-        dest_address++;
-    }
-    return 0;
+	for (i = 0; i < buffers->buf_size; i++) {
+		if (src_address[i] != dest_address[i]) {
+			printk(KERN_ERR "\nError: Data mismatch\n");
+			printk(KERN_ERR "src_buf[%d]=%d dest_buf[%d]=%d\n",
+			i, src_address[i], i, dest_address[i]);
+			return 1;
+		}
+	}
+	return 0;
 }
 
 /*
@@ -159,20 +152,19 @@ static int __init dma_module_init(void) {
        int error;
        int i = 0;
 
-       for(i = 0; i < TRANSFER_COUNT; i++){
-
-           /* Create the transfer for the test */
-           transfers[i].device_id = OMAP_DMA_NO_DEVICE;
-           transfers[i].sync_mode = OMAP_DMA_SYNC_ELEMENT;
-           transfers[i].data_burst = OMAP_DMA_DATA_BURST_DIS;
-           transfers[i].data_type = OMAP_DMA_DATA_TYPE_S8;
-           transfers[i].endian_type = DMA_TEST_LITTLE_ENDIAN;
-           transfers[i].addressing_mode = OMAP_DMA_AMODE_CONSTANT;
+	for (i = 0; i < TRANSFER_COUNT; i++) {
+		/* Create the transfer for the test */
+		transfers[i].device_id = OMAP_DMA_NO_DEVICE;
+		transfers[i].sync_mode = OMAP_DMA_SYNC_ELEMENT;
+		transfers[i].data_burst = OMAP_DMA_DATA_BURST_DIS;
+		transfers[i].data_type = OMAP_DMA_DATA_TYPE_S8;
+		transfers[i].endian_type = DMA_TEST_LITTLE_ENDIAN;
+		transfers[i].addressing_mode = OMAP_DMA_AMODE_POST_INC;
 		transfers[i].dst_addressing_mode = OMAP_DMA_AMODE_POST_INC;
-           transfers[i].priority = DMA_CH_PRIO_HIGH;
-           transfers[i].buffers.buf_size = (128 * (i+1)*(i+1)) + i % 2;
-		   transfers[i].src_ei = transfers[i].dest_ei = 0;
-		   transfers[i].src_fi = transfers[i].dest_fi = 0;
+		transfers[i].priority = DMA_CH_PRIO_HIGH;
+		transfers[i].buffers.buf_size = (128 * (i+1)*(i+1)) + i % 2;
+		transfers[i].src_ei = transfers[i].dest_ei = 0;
+		transfers[i].src_fi = transfers[i].dest_fi = 0;
 
            /* Request a dma transfer */
            error = request_dma(&transfers[i]);
