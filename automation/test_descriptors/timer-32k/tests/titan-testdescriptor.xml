@@ -70,6 +70,40 @@
 		</fail>
 
 	</test>
+	<test id="L_DD_TIMER_0003_0001">
+
+		<information>
+			<autor> Tarun </autor>
+			<description>Test DM timers</description>
+			<dateofcreation> 07/29/2009 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>cd /testsuites/timer-32k/scripts/</command>
+			</action>
+			<action>
+				<command>./test_runner.sh L_DD_TIMER_0003_0001</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="200"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
 	<test id="L_DD_TIMER_0004_0001">
 
 		<information>
