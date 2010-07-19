@@ -51,9 +51,11 @@ static int __init gptimer_request_init(void)
 		return -1;
 	}
 	 /*Set the clock source*/
+#ifdef CONFIG_ARCH_OMAP4
 	if (gptimer_id > 4 && gptimer_id < 9)
 		omap_dm_timer_set_source(timer_ptr, 2);
 	else
+#endif
 		omap_dm_timer_set_source(timer_ptr, OMAP_TIMER_SRC_SYS_CLK);
 
 	/*Figure out what IRQ our timer triggers*/
