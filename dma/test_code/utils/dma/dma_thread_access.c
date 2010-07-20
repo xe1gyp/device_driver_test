@@ -131,6 +131,7 @@ static void __exit dma_module_exit(void)
 	int i, ret = 0;
 	for (i = 0; i < TRANSFER_COUNT; i++) {
 		stop_dma_transfer(&gtransfers[i]);
+		stop_dma_transfer(&gtransfers2[i]);
 	}
 }
 

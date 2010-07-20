@@ -9,8 +9,8 @@
 
 0001	set -x; insmod $TESTMODS/dma_single_channel.ko
 0002	set -x; insmod $TESTMODS/dma_thread_access.ko
-0004	set -x; rmmod dma_thread_access
-0003  set -x; cat /proc/driver/dma_test_status | grep PASS
+0003  	set -x; cat /proc/driver/dma_test_status | grep PASS
+0004    set -x; rmmod dma_thread_access
 0005	set -x; rmmod dma_single_channel
 
 # End L_DD_DMA_0019_0001
