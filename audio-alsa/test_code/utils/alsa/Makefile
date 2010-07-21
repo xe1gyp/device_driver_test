@@ -14,7 +14,7 @@ CC := $(CROSS_COMPILE)gcc
 
 USRDIR := ../../
 CFLAGS := -I$(USRDIR)/include -Wall -mabi=aapcs-linux
-LDFLAGS += -L$(USRDIR)/lib -lasound -lm -ldl -lpthread
+LDFLAGS := -L$(USRDIR)/lib -lasound -lm -ldl -lpthread
 
 TARGETS=test_mute test_gain
 
