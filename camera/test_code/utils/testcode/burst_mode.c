@@ -11,6 +11,7 @@
 #include <fcntl.h>
 #include <linux/videodev2.h>
 #include <sys/mman.h>
+#include <sys/stat.h>
 #include <string.h>
 #include "mach/isp_user.h"
 
@@ -153,7 +154,8 @@ int main(int argc, char *argv[])
 	else
 		fileName = DEFAULT_FILE_NAME;
 
-	fd_save = creat(fileName, O_RDWR);
+	fd_save = creat(fileName,
+			O_RDWR | S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (fd_save <= 0) {
 		printf("Can't create file %s\n", fileName);
 		fd_save = 0;
