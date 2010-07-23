@@ -5,47 +5,13 @@ SIZE=$2
 FORMAT=$3
 DEVICE=$4
 
-# Usage: framerate <fbs>
-#$TESTBIN/framerate $FBS
+#Usage: streaming_frame /dev/video<X> <framerate> <pixformat> <size> <video> <frames>
+$TESTBIN/streaming_frame $DEVICE $FBS $FORMAT $SIZE "1" 500 &
 
-# Usage: ioctl <size> <format>
-#$TESTBIN/ioctl $SIZE $FORMAT
-
-#Usage: streaming <video> <frames>
-$TESTBIN/streaming_frame $DEVICE $FBS $FORMAT $SIZE "1" 500&
-
-sleep 7
+sleep 1
 echo "Suspend camera driver"
-echo "Touch screen or press key to return"
-echo -n standby > $SYSCAMPWD
-#echo -n 3 > $SYSCAMPWD
-#echo "You must be watching video streaming stopped"
-#sleep 4
-echo "Resume camera driver"
-#echo -n 0 > $SYSCAMPWD
-echo "You must be watching video streaming resumed"
-sleep 7
-echo "Suspend camera driver"
-echo "Touch screen or press key to return"
-echo -n standby > $SYSCAMPWD
-#echo -n 3 > $SYSCAMPWD
-#echo "You must be watching video streaming stopped"
-#sleep 4
-echo "Resume camera driver"
-#echo -n 0 > $SYSCAMPWD
-echo "You must be watching video streaming resumed"
-sleep 7
-echo "Suspend camera driver"
-echo "Touch screen or press key to return"
-echo -n standby > $SYSCAMPWD
-#echo -n 3 > $SYSCAMPWD
-#echo "You must be watching video streaming stopped"
-#sleep 4
-echo "Resume camera driver"
-#echo -n 0 > $SYSCAMPWD
-echo "You must be watching video streaming resumed"
-
-sleep 13
+echo "Touch screen or press key to resume"
+echo mem > /sys/power/state
 
 if [ -z "$STRESS" ]; then
     echo "";echo " Was streaming $FORMAT video in $SIZE size displayed cleanly on LCD screen, without kernel crash during the suspend-resume?";echo ""

@@ -1,0 +1,25 @@
+#####################
+# FILENAME: L_DD_CAMERA_2002
+# Author  : Sergio Aguirre
+# Date    : Mon Jun 21, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test suspend/resume of video previewing.
+
+# Begin "L_DD_CAMERA_2002"
+
+COMMENT comment.sh "Verify that the pipeline can be 'suspended' and 'resumed'"
+
+0001_COMMENT comment.sh "Image shall be rendered properly on Video Pipeline (YUYV VGA @ 15fps)"
+0001_COMMENT comment.sh "After turning off the lcd, please touch the board screen or the keypad."
+0001 set -x; cappwd.sh "15" "VGA" "YUYV" "5" && exit 0 || exit 1
+0002_COMMENT comment.sh "Image shall be rendered properly on Video Pipeline (YUYV VGA @ 30 fps)"
+0002_COMMENT comment.sh "After turning off the lcd, please touch the board screen or the keypad."
+0002 set -x; cappwd.sh "30" "VGA" "YUYV" "5" && exit 0 || exit 1
+0003_COMMENT comment.sh "Image shall be rendered properly on Video Pipeline (YUYV 720p @ 30 fps)"
+0003_COMMENT comment.sh "After turning off the lcd, please touch the board screen or the keypad."
+0003 set -x; cappwd.sh "30" "1280 720" "YUYV" "5" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_2002"
+
