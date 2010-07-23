@@ -21,7 +21,7 @@
 #define DEFAULT_PIXEL_FMT "YUYV"
 #define DEFAULT_VIDEO_SIZE "QCIF"
 #define DEFAULT_FILE_NAME "output.yuv"
-#define DEFAULT_FRAMERATE 15
+#define DEFAULT_FRAMERATE 30
 
 /* have to align at 32 bytes */
 static void usage(void)
@@ -44,7 +44,8 @@ static void usage(void)
 								"<file>\n");
 	printf("    If no file is specified output.yuv file is the default\n");
 	printf("   [framerate] is the framerate to be used, if no value"
-			" is given \n\t      30 fps is default\n");
+			" is given \n\t      %d fps is default\n",
+			DEFAULT_FRAMERATE);
 	printf("   [colorEffect] COLOR The image captured with "
 						"no color effect\n");
 
@@ -73,7 +74,7 @@ int main(int argc, char *argv[])
 	int fd, i, ret, count = 1, memtype = V4L2_MEMORY_USERPTR;
 	int fd_save = 0;
 	int index = 1;
-	int device = 1, framerate = 30;
+	int device = 1, framerate = DEFAULT_FRAMERATE;
 	int colorLevel = V4L2_COLORFX_NONE;
 	char *pixelFmt;
 	char *fileName;
@@ -168,8 +169,8 @@ int main(int argc, char *argv[])
 	if (argc > index) {
 		framerate = atoi(argv[index]);
 		if (framerate == 0) {
-			printf("Invalid framerate value, Using Default "
-							"framerate = 15\n");
+			printf("Invalid framerate value, Using default "
+			       "framerate = %d\n", DEFAULT_FRAMERATE);
 			framerate = DEFAULT_FRAMERATE;
 		}
 		index++;
