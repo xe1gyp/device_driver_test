@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 	struct v4l2_queryctrl queryctrl;
 	struct v4l2_control control;
 	struct omap34xxcam_sensor_info sens_info;
-	int fd, i, ret, count = 1, memtype = V4L2_MEMORY_USERPTR;
+	int fd, i, j, ret, count = 1, memtype = V4L2_MEMORY_USERPTR;
 	int fd_save = 0;
 	int index = 1;
 	int device = 1, framerate = DEFAULT_FRAMERATE;
@@ -432,9 +432,16 @@ int main(int argc, char *argv[])
 
 	printf("Start writing to file\n");
 	if (fd_save > 0) {
-		for (i = 0; i < count; i++)
-			write(fd_save, cbuffers[i].start,
-			       total_w * cformat.fmt.pix.height * 2);
+		for (i = 0; i < count; i++) {
+			void *start = cbuffers[i].start;
+			/* Crop padding data */
+			for (j = 0; j < cformat.fmt.pix.height; j++) {
+				void *start = (void *)((unsigned int)cbuffers[i].start +
+							(total_w * 2 * j));
+
+				write(fd_save, start, (cformat.fmt.pix.width * 2));
+			}
+		}
 	}
 	printf("Completed writing to file: %s\n", fileName);
 	for (i = 0; i < creqbuf.count; i++) {
