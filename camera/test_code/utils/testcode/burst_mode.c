@@ -331,33 +331,33 @@ int main(int argc, char *argv[])
 
 	queryctrl.id = V4L2_CID_COLORFX;
 	ret = ioctl(fd, VIDIOC_QUERYCTRL, &queryctrl);
-	if (ret)
+	if (ret) {
 		printf("COLOR effect is not supported!\n");
+	} else {
+		control.id = V4L2_CID_COLORFX;
+		ret = ioctl(fd, VIDIOC_G_CTRL, &control);
+		if (ret)
+			printf("VIDIOC_G_CTRL failed!\n");
 
-	control.id = V4L2_CID_COLORFX;
-	ret = ioctl(fd, VIDIOC_G_CTRL, &control);
-	if (ret)
-		printf("VIDIOC_G_CTRL failed!\n");
+		printf("Color effect at the beginning of the test is"
+			" supported, min %d, max %d.\nCurrent color is"
+			" level is %d\n",
+			queryctrl.minimum, queryctrl.maximum, control.value);
 
-	printf("Color effect at the beginning of the test is supported, min %d,"
-		"max %d.\nCurrent color is level is %d\n",
-		queryctrl.minimum, queryctrl.maximum, control.value);
+		control.value = colorLevel;
+		ret = ioctl(fd, VIDIOC_S_CTRL, &control);
+		if (ret)
+			printf("VIDIOC_S_CTRL COLOR failed!\n");
 
-	control.value = colorLevel;
-	ret = ioctl(fd, VIDIOC_S_CTRL, &control);
-	if (ret)
-		printf("VIDIOC_S_CTRL COLOR failed!\n");
+		control.id = V4L2_CID_COLORFX;
+		ret = ioctl(fd, VIDIOC_G_CTRL, &control);
+		if (ret)
+			printf("VIDIOC_G_CTRL failed!\n");
 
-	i = 0;
-
-	control.id = V4L2_CID_COLORFX;
-	ret = ioctl(fd, VIDIOC_G_CTRL, &control);
-	if (ret)
-		printf("VIDIOC_G_CTRL failed!\n");
-
-	printf("Color effect values after setup is supported, min %d,"
-		"max %d.\nCurrent color is level is %d\n",
-		queryctrl.minimum, queryctrl.maximum, control.value);
+		printf("Color effect values after setup is supported, min %d,"
+			"max %d.\nCurrent color is level is %d\n",
+			queryctrl.minimum, queryctrl.maximum, control.value);
+	}
 
 	/********************************************************/
 	/* Get Sensor info using SENSOR_INFO ioctl */
@@ -385,6 +385,7 @@ int main(int argc, char *argv[])
 
 	/********************************************************/
 
+	i = 0;
 	while (i < 1000) {
 		/* De-queue the next avaliable buffer */
 		ret = ioctl(fd, VIDIOC_DQBUF, &cfilledbuffer);
