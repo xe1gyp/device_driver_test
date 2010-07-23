@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <linux/videodev2.h>
+#include <errno.h>
 
 int cam_ioctl(int fd, char *pixFormat, char *size, char *sizeH)
 {
@@ -25,7 +26,7 @@ int cam_ioctl(int fd, char *pixFormat, char *size, char *sizeH)
 	ret = ioctl(fd, VIDIOC_G_FMT, &format);
 	if (ret < 0) {
 		perror("VIDIOC_G_FMT");
-		return -1;
+		return ret;
 	}
 
 	if (!strcmp(size, "QQCIF")) {
@@ -78,7 +79,7 @@ int cam_ioctl(int fd, char *pixFormat, char *size, char *sizeH)
 		format.fmt.pix.height = atoi(sizeH);
 	} else {
 		printf("Unsupported size!\n");
-		return -1;
+		return -EINVAL;
 	}
 
 	if (!strcmp(pixFormat, "YUYV"))
@@ -103,14 +104,14 @@ int cam_ioctl(int fd, char *pixFormat, char *size, char *sizeH)
 		format.fmt.pix.pixelformat = V4L2_PIX_FMT_SGBRG10;
 	else {
 		printf("unsupported pixel format!\n");
-		return -1;
+		return -EINVAL;
 	}
 
 	/* set size & format of the video image */
 	ret = ioctl(fd, VIDIOC_S_FMT, &format);
 	if (ret < 0) {
 		perror("VIDIOC_S_FMT");
-		return -1;
+		return ret;
 	}
 
 	/* read back */
@@ -118,7 +119,7 @@ int cam_ioctl(int fd, char *pixFormat, char *size, char *sizeH)
 	ret = ioctl(fd, VIDIOC_G_FMT, &format);
 	if (ret < 0) {
 		perror("VIDIOC_G_FMT");
-		return -1;
+		return ret;
 	}
 	printf("New video image: ");
 	print_image_size_format(&format);
@@ -160,5 +161,5 @@ int validateSize(char *size)
 	else if (!strcmp(size, "5MP"))
 		return 0;
 	else
-		return -1;
+		return -EINVAL;
 }

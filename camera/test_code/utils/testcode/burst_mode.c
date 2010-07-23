@@ -14,6 +14,7 @@
 #include <sys/stat.h>
 #include <string.h>
 #include "mach/isp_user.h"
+#include <errno.h>
 
 #define VIDEO_DEVICE1 "/dev/video1"
 #define VIDEO_DEVICE2 "/dev/video2"
@@ -82,7 +83,7 @@ int main(int argc, char *argv[])
 
 	if ((argc > 1) && (!strcmp(argv[1], "?"))) {
 		usage();
-		return 0;
+		return -EINVAL;
 	}
 
 	if (argc > index) {
@@ -93,25 +94,26 @@ int main(int argc, char *argv[])
 	fd = open_cam_device(O_RDWR, device);
 	if (fd <= 0) {
 		printf("Could not open the cam device\n");
-		return -1;
+		return fd;
 	}
 
-	if (ioctl(fd, VIDIOC_QUERYCAP, &capability) < 0) {
+	ret = ioctl(fd, VIDIOC_QUERYCAP, &capability);
+	if (ret) {
 		perror("VIDIOC_QUERYCAP");
-		return -1;
+		return ret;
 	}
 	if (capability.capabilities & V4L2_CAP_STREAMING)
 		printf("The driver is capable of Streaming!\n");
 	else {
 		printf("The driver is not capable of Streaming!\n");
-		return -1;
+		return -EINVAL;
 	}
 
 	if (capability.capabilities & V4L2_CAP_VIDEO_CAPTURE)
 		printf("The driver is capable of capturing!\n");
 	else {
 		printf("The driver is not capable of capturing!\n");
-		return -1;
+		return -EINVAL;
 	}
 
 	if (argc > index) {
@@ -123,7 +125,7 @@ int main(int argc, char *argv[])
 				ret = cam_ioctl(fd, pixelFmt, argv[index]);
 				if (ret < 0) {
 					usage();
-					return -1;
+					return ret;
 				}
 			} else {
 				index++;
@@ -132,12 +134,12 @@ int main(int argc, char *argv[])
 						argv[index-1], argv[index]);
 					if (ret < 0) {
 						usage();
-						return -1;
+						return ret;
 					}
 				} else {
 					printf("Invalid size\n");
 					usage();
-					return -1;
+					return ret;
 				}
 			}
 			index++;
@@ -145,14 +147,14 @@ int main(int argc, char *argv[])
 			printf("Setting QCIF as video size, default value\n");
 			ret = cam_ioctl(fd, pixelFmt, DEFAULT_VIDEO_SIZE);
 			if (ret < 0)
-				return -1;
+				return ret;
 		}
 	} else {
 		printf("Setting pixel format and video size with default"
 								" values\n");
 		ret = cam_ioctl(fd, DEFAULT_PIXEL_FMT, DEFAULT_VIDEO_SIZE);
 		if (ret < 0)
-			return -1;
+			return ret;
 	}
 
 
@@ -165,7 +167,7 @@ int main(int argc, char *argv[])
 	if (count >= 32 || count <= 0) {
 		printf("Camera driver only support max 32 buffers, "
 			"you request %d\n", count);
-		return -1;
+		return -EINVAL;
 	}
 
 	if (argc > index)
@@ -215,7 +217,7 @@ int main(int argc, char *argv[])
 					printf("Invalid Color Effect: argv[%d]"
 					       "=%s", index, argv[index]);
 					usage();
-					return 0;
+					return -EINVAL;
 				}
 			}
 		}
@@ -227,7 +229,7 @@ int main(int argc, char *argv[])
 	ret = setFramerate(fd, framerate);
 	if (ret < 0) {
 		printf("Error setting framerate = %d\n", framerate);
-		return -1;
+		return ret;
 	}
 
 
@@ -238,7 +240,7 @@ int main(int argc, char *argv[])
 	ret = ioctl(fd, VIDIOC_G_FMT, &cformat);
 	if (ret < 0) {
 		perror("VIDIOC_G_FMT");
-		return -1;
+		return ret;
 	}
 
 	/* Note: If no padding then bytesperline can be zero */
@@ -268,9 +270,10 @@ int main(int argc, char *argv[])
 	printf("Requesting %d buffers of type %s\n", creqbuf.count,
 		(memtype == V4L2_MEMORY_USERPTR) ? "V4L2_MEMORY_USERPTR" :
 						"V4L2_MEMORY_MMAP");
-	if (ioctl(fd, VIDIOC_REQBUFS, &creqbuf) < 0) {
+	ret = ioctl(fd, VIDIOC_REQBUFS, &creqbuf);
+	if (ret) {
 		perror("VIDEO_REQBUFS");
-		return -1;
+		return ret;
 	}
 	printf("Camera Driver allowed buffers reqbuf.count = %d\n",
 		creqbuf.count);
@@ -285,9 +288,10 @@ int main(int argc, char *argv[])
 		buffer.type = creqbuf.type;
 		buffer.memory = creqbuf.memory;
 		buffer.index = i;
-		if (ioctl(fd, VIDIOC_QUERYBUF, &buffer) < 0) {
+		ret = ioctl(fd, VIDIOC_QUERYBUF, &buffer);
+		if (ret) {
 			perror("VIDIOC_QUERYBUF");
-			return -1;
+			return ret;
 		}
 		if (memtype == V4L2_MEMORY_USERPTR) {
 			cbuffers[i].length = buffer.length;
@@ -304,16 +308,17 @@ int main(int argc, char *argv[])
 				 MAP_SHARED, fd, buffer.m.offset);
 			if (cbuffers[i].start == MAP_FAILED) {
 				perror("mmap");
-				return -1;
+				return -ENOMEM;
 			}
 			printf("Mapped Buffers[%d].start = %x  length = %d\n",
 				i, cbuffers[i].start, cbuffers[i].length);
 			buffer.m.userptr = (unsigned int)cbuffers[i].start;
 			buffer.length = cbuffers[i].length;
 		}
-		if (ioctl(fd, VIDIOC_QBUF, &buffer) < 0) {
+		ret = ioctl(fd, VIDIOC_QBUF, &buffer);
+		if (ret) {
 			perror("CAMERA VIDIOC_QBUF");
-			return -1;
+			return ret;
 		}
 	}
 
@@ -325,11 +330,13 @@ int main(int argc, char *argv[])
 	memset(&queryctrl, 0, sizeof(queryctrl));
 
 	queryctrl.id = V4L2_CID_COLORFX;
-	if (ioctl(fd, VIDIOC_QUERYCTRL, &queryctrl) == -1)
+	ret = ioctl(fd, VIDIOC_QUERYCTRL, &queryctrl);
+	if (ret)
 		printf("COLOR effect is not supported!\n");
 
 	control.id = V4L2_CID_COLORFX;
-	if (ioctl(fd, VIDIOC_G_CTRL, &control) == -1)
+	ret = ioctl(fd, VIDIOC_G_CTRL, &control);
+	if (ret)
 		printf("VIDIOC_G_CTRL failed!\n");
 
 	printf("Color effect at the beginning of the test is supported, min %d,"
@@ -337,13 +344,15 @@ int main(int argc, char *argv[])
 		queryctrl.minimum, queryctrl.maximum, control.value);
 
 	control.value = colorLevel;
-	if (ioctl(fd, VIDIOC_S_CTRL, &control) == -1)
+	ret = ioctl(fd, VIDIOC_S_CTRL, &control);
+	if (ret)
 		printf("VIDIOC_S_CTRL COLOR failed!\n");
 
 	i = 0;
 
 	control.id = V4L2_CID_COLORFX;
-	if (ioctl(fd, VIDIOC_G_CTRL, &control) == -1)
+	ret = ioctl(fd, VIDIOC_G_CTRL, &control);
+	if (ret)
 		printf("VIDIOC_G_CTRL failed!\n");
 
 	printf("Color effect values after setup is supported, min %d,"
@@ -354,7 +363,8 @@ int main(int argc, char *argv[])
 	/* Get Sensor info using SENSOR_INFO ioctl */
 
 	printf("Getting Sensor Info...\n");
-	if (ioctl(fd, VIDIOC_PRIVATE_OMAP34XXCAM_SENSOR_INFO, &sens_info) < 0) {
+	ret = ioctl(fd, VIDIOC_PRIVATE_OMAP34XXCAM_SENSOR_INFO, &sens_info);
+	if (ret) {
 		printf("VIDIOC_PRIVATE_OMAP34XXCAM_SENSOR_INFO not supported.\n");
 	} else {
 		printf("  Pixel clk:   %d Hz\n", sens_info.current_xclk);
@@ -367,18 +377,20 @@ int main(int argc, char *argv[])
 	}
 
 	/* turn on streaming */
-	if (ioctl(fd, VIDIOC_STREAMON, &creqbuf.type) < 0) {
+	ret = ioctl(fd, VIDIOC_STREAMON, &creqbuf.type);
+	if (ret) {
 		perror("VIDIOC_STREAMON");
-		return -1;
+		return ret;
 	}
 
 	/********************************************************/
 
 	while (i < 1000) {
 		/* De-queue the next avaliable buffer */
-		while (ioctl(fd, VIDIOC_DQBUF, &cfilledbuffer) < 0) {
+		ret = ioctl(fd, VIDIOC_DQBUF, &cfilledbuffer);
+		if (ret) {
 			perror("VIDIOC_DQBUF");
-			printf(" ERROR HAS OCCURED\n");
+			return ret;
 		}
 
 		i++;
@@ -386,23 +398,28 @@ int main(int argc, char *argv[])
 		if (i == count) {
 			printf("Cancelling the streaming capture...\n");
 			creqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-			if (ioctl(fd, VIDIOC_STREAMOFF, &creqbuf.type) < 0) {
+			ret = ioctl(fd, VIDIOC_STREAMOFF, &creqbuf.type);
+			if (ret) {
 				perror("VIDIOC_STREAMOFF");
-				return -1;
+				return ret;
 			}
 			printf("Done\n");
 			break;
 		}
 
-		while (ioctl(fd, VIDIOC_QBUF, &cfilledbuffer) < 0)
+		ret = ioctl(fd, VIDIOC_QBUF, &cfilledbuffer);
+		if (ret) {
 			perror("CAM VIDIOC_QBUF");
+			return ret;
+		}
 	}
 	/* we didn't turn off streaming yet */
 	if (count == -1) {
 		creqbuf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-		if (ioctl(fd, VIDIOC_STREAMOFF, &creqbuf.type) == -1) {
+		ret = ioctl(fd, VIDIOC_STREAMOFF, &creqbuf.type);
+		if (ret) {
 			perror("VIDIOC_STREAMOFF");
-			return -1;
+			return ret;
 		}
 	}
 
