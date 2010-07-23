@@ -107,6 +107,13 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
+	if (capability.capabilities & V4L2_CAP_VIDEO_CAPTURE)
+		printf("The driver is capable of capturing!\n");
+	else {
+		printf("The driver is not capable of capturing!\n");
+		return -1;
+	}
+
 	if (argc > index) {
 		pixelFmt = argv[index];
 		index++;
