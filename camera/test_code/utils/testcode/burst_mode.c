@@ -96,6 +96,17 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
+	if (ioctl(fd, VIDIOC_QUERYCAP, &capability) < 0) {
+		perror("VIDIOC_QUERYCAP");
+		return -1;
+	}
+	if (capability.capabilities & V4L2_CAP_STREAMING)
+		printf("The driver is capable of Streaming!\n");
+	else {
+		printf("The driver is not capable of Streaming!\n");
+		return -1;
+	}
+
 	if (argc > index) {
 		pixelFmt = argv[index];
 		index++;
@@ -212,17 +223,6 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-
-	if (ioctl(fd, VIDIOC_QUERYCAP, &capability) < 0) {
-		perror("VIDIOC_QUERYCAP");
-		return -1;
-	}
-	if (capability.capabilities & V4L2_CAP_STREAMING)
-		printf("The driver is capable of Streaming!\n");
-	else {
-		printf("The driver is not capable of Streaming!\n");
-		return -1;
-	}
 
 	/********************************************************/
 	/* Get Camera Image Format & display */
