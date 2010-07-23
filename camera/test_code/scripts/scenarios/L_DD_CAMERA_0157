@@ -1,0 +1,29 @@
+#####################
+# FILENAME: L_DD_CAMERA_0157
+# Author  : Christina Warren
+# Date    : Thurs July 22, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Test prev2resz driver for HQ capture
+# For sensor Sony IMX046
+
+# Begin "L_DD_CAMERA_0157"
+
+COMMENT comment.sh "Verify that downscale & upscale is supported up to 4x."
+
+COMMENT comment.sh "Downscaling..."
+
+0001_SAN set -x; p2rhq.sh "8MPtoXGA" && exit 0 || exit 1
+0002 set -x; p2rhq.sh "UXGAtoVGA" && exit 0 || exit 1
+0003 set -x; p2rhq.sh "SVGAtoQVGA" && exit 0 || exit 1
+0004 set -x; p2rhq.sh "QQVGAtoSQCIF" && exit 0 || exit 1
+
+COMMENT comment.sh "Upscaling..."
+
+0005_SAN set -x; p2rhq.sh "SXGAto8MP" && exit 0 || exit 1
+0006 set -x; p2rhq.sh "XGAto5MP" && exit 0 || exit 1
+0007 set -x; p2rhq.sh "VGAtoQXGA" && exit 0 || exit 1
+0008 set -x; p2rhq.sh "SQCIFtoCIF" && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0157"
