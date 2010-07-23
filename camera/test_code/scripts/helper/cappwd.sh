@@ -3,6 +3,7 @@
 FBS=$1
 SIZE=$2
 FORMAT=$3
+DEVICE=$4
 
 # Usage: framerate <fbs>
 #$TESTBIN/framerate $FBS
@@ -11,7 +12,7 @@ FORMAT=$3
 #$TESTBIN/ioctl $SIZE $FORMAT
 
 #Usage: streaming <video> <frames>
-$TESTBIN/streaming_frame "1" $FBS $FORMAT $SIZE "1" 500&
+$TESTBIN/streaming_frame $DEVICE $FBS $FORMAT $SIZE "1" 500&
 
 sleep 7
 echo "Suspend camera driver"

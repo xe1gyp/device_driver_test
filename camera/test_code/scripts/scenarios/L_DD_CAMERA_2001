@@ -11,7 +11,7 @@
 
 COMMENT comment.sh "Observe that captured video is displayed cleanly on LCD screen for the supported sizes."
 
-0001 set -x; cappwd.sh "15" "QCIF" "YUYV" && exit 0 || exit 1
+0001 set -x; cappwd.sh "15" "QCIF" "YUYV" "1" && exit 0 || exit 1
 0002 set -x; prepwd.sh "no" "QCIF" "YUYV" "LCD" && exit 0 || exit 1
 0004 set -x; prepwd2.sh "no" "QCIF" "YUYV" "LCD" && exit 0 || exit 1
 
