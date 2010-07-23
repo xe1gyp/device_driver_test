@@ -18,9 +18,9 @@ int setFramerate(int fd, int framerate)
 
 	parm.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 	ret = ioctl(fd, VIDIOC_G_PARM, &parm);
-	if (ret != 0) {
-		perror("VIDIOC_G_PARM ");
-		return -1;
+	if (ret) {
+		perror("VIDIOC_G_PARM");
+		return ret;
 	}
 	printf("Old frame rate is %d/%d = %d fps\n",
 		parm.parm.capture.timeperframe.denominator,
@@ -31,9 +31,9 @@ int setFramerate(int fd, int framerate)
 	parm.parm.capture.timeperframe.numerator = 1;
 	parm.parm.capture.timeperframe.denominator = framerate;
 	ret = ioctl(fd, VIDIOC_S_PARM, &parm);
-	if (ret != 0) {
-		perror("VIDIOC_S_PARM ");
-		return -1;
+	if (ret) {
+		perror("VIDIOC_S_PARM");
+		return ret;
 	}
 
 	printf("New frame rate is %d/%d = %d fps\n",
