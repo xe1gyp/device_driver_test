@@ -15,4 +15,25 @@ COMMENT comment.sh "Check if driver supports preview wrapper."
 0001_SAN set -x; wrapper.sh "2592 1944"&& exit 0 || exit 1
 0002_SAN set -x; wrapper.sh "3264 2464"&& exit 0 || exit 1
 
+COMMENT comment.sh "Test omap-previewer with WBAL-red"
+0003_SAN set -x; prvhq.sh "8MP" "omap-previewer" "WBAL" "red" && exit 0 || exit 1
+
+COMMENT comment.sh "Test omap-previewer with WBAL-green"
+0004 set -x; prvhq.sh "5MP" "omap-previewer" "WBAL" "green" && exit 0 || exit 1
+
+COMMENT comment.sh "Test omap-previewer with WBAL-blue"
+0005 set -x; prvhq.sh "XGA" "omap-previewer" "WBAL" "blue" && exit 0 || exit 1
+
+COMMENT comment.sh "Test omap-previewer without using default CFA"
+0006_SAN set -x; prvhq.sh "VGA" "omap-previewer" "CFA" && exit 0 || exit 1
+
+COMMENT comment.sh "Test omap-previewer with minimum BRIGHTNESS"
+0007_SAN set -x; prvhq.sh "8MP" "omap-previewer" "BRIGHTNESS" "minimum" && exit 0 || exit 1
+
+COMMENT comment.sh "Test omap-previewer without using default NF"
+0008_SAN set -x; prvhq.sh "VGA" "omap-previewer" "NF" && exit 0 || exit 1
+
+COMMENT comment.sh "Test omap-previewer with maximum CONTRAST"
+0009_SAN set -x; prvhq.sh "5MP" "omap-previewer" "CONTRAST" "maximum" && exit 0 || exit 1
+
 # End "L_DD_CAMERA_0121"
