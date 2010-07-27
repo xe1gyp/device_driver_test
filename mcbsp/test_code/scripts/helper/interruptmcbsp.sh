@@ -47,7 +47,7 @@ do
     echo 'stop' > /proc/driver/mcbsp_test/transmission
     TX=`cat /proc/driver/mcbsp_test/status | grep "No. of buffers transmitted" | awk '{print $6}'`
     RX=`cat /proc/driver/mcbsp_test/status | grep "No. of buffers received" | awk '{print $6}'`
-    if [ $TX != $RX  ]
+    if [ $TX -lt $j  ]
     then
       print "Tx Value = $TX | $RX = Rx Value"
       print "Succesful cancellation of data transfer on McBSP Interface $i using $COMMAND$j"
