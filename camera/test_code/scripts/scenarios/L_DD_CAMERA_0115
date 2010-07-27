@@ -1,0 +1,16 @@
+#####################
+# FILENAME: L_DD_CAMERA_0115
+# Author  : Ivaylo Petrov
+# Date    : Fri Aug 28, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Tests the issue
+
+# Begin "L_DD_CAMERA_0115"
+
+COMMENT comment.sh " Test a corner case, in which an ISP errata is hit. In case AF window ends 2 pixels before AE window ends "
+
+0001_SAN set -x; AWB-AE-HIST.sh "I421_ERRATA" 5 && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0115"
