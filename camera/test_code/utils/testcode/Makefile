@@ -12,7 +12,7 @@ CFLAGS += -I$(KDIR)/include -I$(KDIR)/arch/arm/plat-omap/include -I$(KDIR)/arch/
 objects := af_stream af_stream_rel burst_mode burst_mode_120 \
 	   burst_zoom capture flash_driver reszhq virtsenhq p2rhq prvhq\
 	   h3a_stream hist_test multi_open prev_wrap process_cam rsz_vbuff \
-	   streaming_abs streaming_frame \
+	   streaming_abs streaming_frame i421_errata_af_stats\
 	   streaming_to_video_file streaming_zoom fps snapshot sensor_modes
 
 all: $(objects)
@@ -57,6 +57,11 @@ capture: capture.c
 flash_driver: flash_driver.c lib.c ioctl.c
 	@echo "  CC  flash_driver"
 	@$(CC) $(CFLAGS) -g flash_driver.c lib.c ioctl.c -o flash_driver
+
+
+i421_errata_af_stats: i421_errata_af_stats.c
+	@echo "  CC  i421_errata_af_stats"
+	@$(CC) $(CFLAGS) -g i421_errata_af_stats.c lib.c framerateLib.c -o i421_errata_af_stats
 
 h3a_stream: h3a_stream.c lib.c ioctl.c framerateLib.c
 	@echo "  CC  h3a_stream"
