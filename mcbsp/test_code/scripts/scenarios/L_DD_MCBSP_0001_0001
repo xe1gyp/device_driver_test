@@ -8,7 +8,7 @@
 
 # Begin L_DD_MCBSP_0001_0001
 
-#This test case verifies if the McBSP driver supports full duplex transmission of data using DMA
+#This test case verifies if the McBSP driver supports master mode
 0001 set -x;testmcbsp.sh "0001_0001" "McBSP ID" "" "" "None" && exit 0 || exit 1
 
 # End L_DD_MCBSP_0001_0001

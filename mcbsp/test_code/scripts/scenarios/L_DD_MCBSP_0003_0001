@@ -8,7 +8,7 @@
 
 # Begin L_DD_MCBSP_0003_0001
 
-#The McBSP driver supports configuring the "words per frame" parameter, this test case verifies the same.
-0001 set -x; testmcbsp.sh "0003_0001" "Words" "8" "words_per_frame=" "$WORDS_PER_FRAME" && exit 0 || exit 1
+#The McBSP driver supports transferring of data using frames configured in single phase
+0001 set -x; testmcbsp.sh "0003_0001" "Phase \[1=Single, 2=Dual\]" "6" "phase=" '1' && exit 0 || exit 1
 
 # End L_DD_MCBSP_0003_0001

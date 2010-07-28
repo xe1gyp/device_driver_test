@@ -1,0 +1,14 @@
+##############################
+# File Name   : L_DD_MCBSP_0016_0001
+# Author      : Abraham Arce
+# Modified by : Aharon Campos
+# Date        : October 15, 2009
+# Description : McBSP Test Suite
+###############################
+
+# Begin L_DD_MCBSP_0016_0001
+
+#This test checks if the multiple McBSP transfers initiated concurrently by different CPU cores functions properly.
+0001 set -x;testmcbsp.sh "0016_0001" "McBSP ID" "" "test_mcbsp_smp=" '1' && exit 0 || exit 1
+
+# End L_DD_MCBSP_0016_0001

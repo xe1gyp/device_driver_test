@@ -8,7 +8,6 @@
 
 # Begin L_DD_MCBSP_0007_0001
 
-#The McBSP driver supports cancelling  the transmit/receive operations this test verifies the same.
-0001 set -x; TRANSFER_VALUES=2000; DELAY=10; interruptmcbsp.sh "0007_0001" "Number of transfers" "6" "no_of_trans=" "$TRANSFER_VALUES" && exit 0 || exit 1
-
+#The McBSP driver supports configuring the "CLKX" parameters, this test case verifies the same.
+0001 set -x; mcbsp-multipleargs.sh "0007_0001" "CLKX_Polarity" "6" "" "None" "clkx_polarity=" "$CLKX_POLARITY_VALUES" "fsx_polarity=" "$FSX__POLARITY_VALUES" && exit 0 || exit 1
 # End L_DD_MCBSP_0007_0001

@@ -1,14 +1,14 @@
 ##############################
-# File Name   : L_DD_MCBSP_0001_0002
+# File Name   : L_DD_MCBSP_0015_0001
 # Author      : Abraham Arce
 # Modified by : Aharon Campos
 # Date        : Oct 15, 2009
 # Description : McBSP Test Suite
 ###############################
 
-# Begin L_DD_MCBSP_0001_0002
+# Begin L_DD_MCBSP_0015_0001
 
 #The McBSP driver supports configuring the sampling rate, this test case verifies the same.
-0002 set -x; testmcbsp.sh "0001_0002" "Sampling Rate (frequency, hertz)" "7" "sample_rate=" "$SAMPLE_RATES" && exit 0 || exit 1
+0002 set -x; testmcbsp.sh "0015_0001" "Sampling Rate (frequency, hertz)" "7" "sample_rate=" "$SAMPLE_RATES" && exit 0 || exit 1
 
-# End L_DD_MCBSP_0001_0002
+# End L_DD_MCBSP_0015_0001
