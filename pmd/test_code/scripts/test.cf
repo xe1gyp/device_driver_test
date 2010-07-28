@@ -53,3 +53,26 @@ export SLOW_OPERATING_POINT=s
 export FAST_OPERATING_POINT=f
 export STRESS_OPERATING_POINTS=7
 export STRESS_FREQUENCIES=6
+
+#export KERNEL_MESSAGES=/var/log/messages
+export KERNEL_MESSAGES=dmesg
+
+
+# Power Specific Variables
+export ENABLE=1
+export DISABLE=0
+export WAKEUP_TIMER_DEFAULT_VALUE=1
+export MEM="mem"
+
+# debugFileSystem.sh Script
+export DEBUGFS_DIRECTORY=/debug
+export DEBUGFS_PMCOUNT=$DEBUGFS_DIRECTORY/pm_debug/count
+
+# All sysfs entries for Power
+export SYSFS_POWER_ENTRY=/sys/power/
+export DEBUGFS_POWER_ENTRY=$DEBUGFS_DIRECTORY/pm_debug
+export STATE=$SYSFS_POWER_ENTRY/state
+export SLEEP_WHILE_IDLE=$DEBUGFS_POWER_ENTRY/sleep_while_idle
+export ENABLED_OFF_MODE=$DEBUGFS_POWER_ENTRY/enable_off_mode
+export VOLTAGE_OFF_WHILE_IDLE=$DEBUGFS_POWER_ENTRY/voltage_off_while_idle
+export WAKEUP_TIMER_SECONDS=$DEBUGFS_POWER_ENTRY/wakeup_timer_seconds

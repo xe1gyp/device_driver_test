@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_POWER_0004_0001
+# Author : Teerth/Lesly
+# Testing : Suspend/Resume using wake-up timer, 5 seconds
+###############################################################################
+
+# Begin L_DD_POWER_0004_0001
+
+001  set -x; debugFileSystem.sh "mount"
+002  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE | grep "PASSED"
+
+# End L_DD_POWER_0004_0001
