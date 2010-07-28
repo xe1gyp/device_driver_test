@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_POWER_0004_0002
+# Author : Teerth/Lesly
+# Testing : Suspend/Resume using wake-up timer, 10 minutes
+###############################################################################
+
+# Begin L_DD_POWER_0004_0002
+
+001  set -x; debugFileSystem.sh "mount"
+002  set -x; x=`date +%s`; suspendResume.sh  "suspend"  "600"; y=`date +%s`; $TESTSCRIPT/timediff.sh $x $y 600 | grep "PASSED"
+
+# End L_DD_POWER_0004_0002
