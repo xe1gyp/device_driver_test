@@ -60,6 +60,9 @@ elif [ "$LOCAL_COMMAND" = "compare" ]; then
   if [ $? -eq 0 ]; then
     echo "Error: values match"
     exit 1
+  else
+    echo "TEST PASSED"
+    exit 1
   fi
 
 else
