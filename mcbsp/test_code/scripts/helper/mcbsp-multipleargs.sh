@@ -51,6 +51,10 @@ do
 #				insmod -f $McBSP_MODULE $COMMAND$j test_mcbsp_id=$i
 #				TEMP=`cat /proc/driver/mcbsp_test/status | grep "$TAG" | sed -e "s/ */ /g" | cut -d ' ' -f$PLACE`
 #			fi
+			if [$COMMAND = ""]
+			then
+				j=""
+			fi 
 			insmod -f $McBSP_MODULE $COMMAND$j $COMMAND2$k $COMMAND3$l test_mcbsp_id=$i
 			TEMP=`cat /proc/driver/mcbsp_test/status | grep "$TAG" | awk '{print $6}'`
 			TRANSFER=`cat /proc/driver/mcbsp_test/status | grep "Number of transfers" | awk '{print $5}'`
