@@ -1,0 +1,16 @@
+#####################
+# FILENAME: L_DD_CAMERA_0158
+# Author  : Akwasi Boateng
+# Date    : Tue Jun 8, 2010
+# Copyright (C) 2010 Texas Instruments
+#
+# Description:
+# Camera (CAMERA) Virtual sensor driver for HQ capture
+
+# Begin "L_DD_CAMERA_0158"
+
+COMMENT comment.sh "Test 8Mpx capture using Virtual Sensor "
+
+0001_SAN set -x; virtsenhq.sh "8MP" "8MP" "UYVY" 10 6 && exit 0 || exit 1
+
+# End "L_DD_CAMERA_0158"
