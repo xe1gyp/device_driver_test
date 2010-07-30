@@ -8,6 +8,6 @@
 # Begin L_DD_COMPASS_0001_0003
 
 
-01 set -x; cat /sys/class/iio/device0/magn_x_raw ;  cat /sys/class/iio/device0/magn_y_raw;  cat /sys/class/iio/device0/magn_z_raw;
+01 set -x; cat /sys/bus/iio/devices/device0/magn_x_raw ;  cat  /sys/bus/iio/devices/device0/magn_y_raw;  cat  /sys/bus/iio/devices/device0/magn_z_raw;
 
 # End L_DD_COMPASS_0001_0003
