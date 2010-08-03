@@ -6,6 +6,6 @@
 
 # Begin L_DD_AMBIENT_LIGHT_0000_0004
 
-01  set -x; echo 3 > $AMBIENT_LIGHT_SYSFS_PATH/power_state;value=`cat  $AMBIENT_LIGHT_SYSFS_PATH/lux`;$AMBIENT_LIGHT_DIR_HELPER/cmp.sh $value -gt 0; 
+01  set -x; echo 3 > $AMBIENT_LIGHT_SYSFS_PATH/power_state;sleep 1; value=`cat  $AMBIENT_LIGHT_SYSFS_PATH/lux`;$AMBIENT_LIGHT_DIR_HELPER/cmp.sh $value -gt 0;
 
 # End L_DD_AMBIENT_LIGHT_0000_0004
