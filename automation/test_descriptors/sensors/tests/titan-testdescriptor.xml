@@ -222,5 +222,258 @@
 
 	</test>
 
+        <test id="L_DD_PRESS_0000_0002">
 
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Pressure sensor driver shall support Linux sysfs interface </description>
+                        <dateofcreation> 08/03/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_PRESS_0000_0002</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/sfh7741/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="90"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+        <test id="L_DD_PRESS_0001_0002">
+
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Pressure sensore driver shall report appropriate values </description>
+                        <dateofcreation> 08/03/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_PRESS_0001_0002</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/sfh7741/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="90"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+
+        <test id="L_DD_PRESS_0005_0002">
+
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Press driver shall support CPU affinity while handling input subsystem events </description>
+                        <dateofcreation> 08/03/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_PRESS_0005_0002</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/sfh7741/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="120"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+        <test id="L_DD_PRESS_0005_0003">
+
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Press driver shall support IRQ affinity while handling input subsystem events </description>
+                        <dateofcreation> 08/03/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_PRESS_0005_0003</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/sfh7741/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="120"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+        <test id="L_DD_TEMP_0000_0002">
+
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> TEMP driver shall support Linux hwmon subsystem </description>
+                        <dateofcreation> 08/03/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_TEMP_0000_0002</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/sfh7741/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="90"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+        <test id="L_DD_TEMP_0001_0002">
+
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> TEMP sensor driver shall report appropriate values </description>
+                        <dateofcreation> 08/03/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_TEMP_0001_0002</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/sfh7741/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="90"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+        <test id="L_DD_TEMP_0005_0002">
+
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> TEMP driver shall support CPU affinity while handling input subsystem events </description>
+                        <dateofcreation> 08/03/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_TEMP_0005_0002</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/sfh7741/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="120"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+        </test>
+
+        <test id="L_DD_TEMP_0005_0003">
+
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> TEMP driver shall support IRQ affinity while handling input subsystem events </description>
+                        <dateofcreation> 08/03/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_TEMP_0005_0003</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/sfh7741/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="120"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+        </test>
 </titan>
