@@ -69,13 +69,11 @@ struct proc_dir_entry* entry;
  */
 void create_dma_proc_chain(char *proc_name)
 {
-	printk("%s: %s\n", __func__, proc_name);
 	entry = create_proc_read_entry(proc_name, 0, NULL, dma_read_proc, NULL);
 	if (!entry) {
 		printk("Creating proc entry failed !!!!\n");
 		return;
 	}
-	printk("&&&&&&&&&&&  %s: %s\n", __func__, entry->name);
 }
 EXPORT_SYMBOL(create_dma_proc_chain);
 
@@ -95,6 +93,7 @@ int verify_buffers_chain(struct dma_buffers_info *buffers) {
     int i;
     u8 *src_address = (u8*) buffers->src_buf;
     u8 *dest_address = (u8*) buffers->dest_buf;
+
 
     /* Iterate through the source and destination buffers byte per byte */
     for (i = 0; i < buffers->buf_size; i++) {

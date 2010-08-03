@@ -39,6 +39,9 @@ struct chain_transfer {
 
 struct chain_transfer cht1, cht2;
 int cht1phy;
+static volatile int chained_id = 0;
+static int count;
+
 /*
  * Checks that the destination buffers were written correctly
  */
@@ -63,21 +66,11 @@ static void check_test_passed(struct dma_transfer *transfers)
 		set_test_passed_chain(0);
 }
 
-/*
- * Determines if the transfers have finished
- */
-static int get_transfers_finished(void)
-{
-	if (cht1.transfer_end && cht2.transfer_end)
-		return 1;
-	return 0;
-}
-
 static int dynamic_chain_transfer(struct chain_transfer *ct)
 {
 	int error;
 	struct dma_chain *chain_params = &(ct->chain);
-	struct dma_transfer *transfer = &(ct->transfers[ct->current_transfer]);
+	struct dma_transfer *transfer = &ct->transfers;
 	transfer->finished = 0;
 	transfer->data_correct = 0;
 	transfer->frame_count = 1;
@@ -98,21 +91,23 @@ static int dynamic_chain_transfer(struct chain_transfer *ct)
 		return 0;
 	}
 
+	map_to_phys_buffers(&transfer->buffers);
 	printk(KERN_INFO "Chaining a transfer to chain id %d\n",
 			chain_params->chain_id);
-	transfer->chained_id++;
+	transfer->chained_id = chained_id++;
 	transfer->chain_id = chain_params->chain_id;
 	error = omap_dma_chain_a_transfer(chain_params->chain_id,
 					transfer->buffers.src_buf_phys,
 					transfer->buffers.dest_buf_phys,
 					transfer->elements_in_frame,
-					transfer->frame_count, ct);
+					transfer->frame_count, (void *)transfer);
 	if (error) {
 		printk(KERN_ERR "Error chaining transfer to chain id %d\n",
 				chain_params->chain_id);
 		return 1;
 	}
 	transfer->request_success = 1;
+	printk(" Chained transfer id is %d\n", transfer->chained_id);
 	return 0;
 }
 
@@ -122,7 +117,7 @@ static int dynamic_chain_transfer(struct chain_transfer *ct)
 void dma_callback_chain(int transfer_id, u16 transfer_status, void *data)
 {
 	struct chain_transfer *ct = (struct chain_transfer *)data;
-	struct dma_transfer *transfer = &ct->transfers[ct->current_transfer];
+	struct dma_transfer *transfer = &ct->transfers;
 
 	int error = 1;
 	transfer->data_correct = 1;
@@ -136,6 +131,7 @@ void dma_callback_chain(int transfer_id, u16 transfer_status, void *data)
 		return;
 	}
 
+	unmap_phys_buffers(&transfer->buffers);
 	printk(KERN_INFO "Transfer complete in chain %d-%d, checking dest buffer\n",
 	   transfer->chain_id, transfer->chained_id);
 	/* Check if the transfer numbers are equal */
@@ -164,7 +160,12 @@ void dma_callback_chain(int transfer_id, u16 transfer_status, void *data)
 				transfer->chained_id);
 		ct->transfer_end = 1;
 		return;
-	}
+	} else
+               printk("Verification Success for tranfer %d-%d......!!!!!\n",
+				transfer->chain_id, transfer->chained_id);
+
+
+	transfer[ct->current_transfer].data_correct = 1;
 	ct->current_transfer++;
 
 	/* Create the buffers for a new transfer */
@@ -193,7 +194,7 @@ void dma_callback_chain(int transfer_id, u16 transfer_status, void *data)
 		transfer->data_correct = 0;
 		return;
 	}
-	transfer->data_correct = 1;
+	printk(" Linking succeed\n");
 }
 
 /*
@@ -291,7 +292,7 @@ int dma_chain_thread_entry(void *info)
 
 	/* Poll if the all the transfers have finished */
 	for (i = 0; i < TRANSFER_POLL_COUNT; i++) {
-		if (get_transfers_finished()) {
+		if (ct->transfer_end) {
 			mdelay(TRANSFER_POLL_TIME);
 			check_test_passed(ct->transfers);
 			break;
@@ -305,6 +306,7 @@ int dma_chain_thread_entry(void *info)
 		set_test_passed_chain(0);
 		return 1;
 	}
+	count += 1;
 	return 0;
 }
 
@@ -334,6 +336,9 @@ static void __exit dma_module_exit(void)
 {
        int i, ret;
 
+       while(count < 2)
+		msleep(10);
+
        if(cht1.chain.request_success){
 	       ret = omap_stop_dma_chain_transfers(cht1.chain.chain_id);
 	       if (ret) {
@@ -347,8 +352,25 @@ static void __exit dma_module_exit(void)
 			set_test_passed_chain(0);
 	       }
        }
-	for (i = 0; i < cht1.current_transfer; i++)
-		stop_dma_transfer_chain(&(cht1.transfers[i]));
+
+	for (i = 0; i < cht2.current_transfer; i++)
+		stop_dma_transfer_chain(&(cht2.transfers[i]));
+
+	       if(cht2.chain.request_success){
+	       ret = omap_stop_dma_chain_transfers(cht2.chain.chain_id);
+	       if (ret) {
+			printk("DMA stop chain failed\n");
+			set_test_passed_chain(0);
+	       }
+	       ret = omap_free_dma_chain(cht2.chain.chain_id);
+	       if (ret) {
+			printk("DMA Chain Free failed for id : %d\n",
+				cht2.chain.chain_id);
+			set_test_passed_chain(0);
+	       }
+       }
+	for (i = 0; i < cht2.current_transfer; i++)
+		stop_dma_transfer_chain(&(cht2.transfers[i]));
 
 }
 
