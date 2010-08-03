@@ -28,6 +28,7 @@
 
 static struct dma_transfer gtransfers[TRANSFER_COUNT];
 static struct dma_transfer gtransfers2[TRANSFER_COUNT];
+static int count;
 
 /*
  * Determines if the transfers have finished
@@ -103,6 +104,7 @@ static int dma_test_entry(void *info)
 	else
 		set_test_passed(1);
 
+	count += 1;
 	return 0;
 }
 
@@ -129,6 +131,11 @@ static int __init dma_module_init(void)
 static void __exit dma_module_exit(void)
 {
 	int i, ret = 0;
+
+	/* Wait till all transfers completes */
+	while (count < 2)
+		msleep(10);
+
 	for (i = 0; i < TRANSFER_COUNT; i++) {
 		stop_dma_transfer(&gtransfers[i]);
 		stop_dma_transfer(&gtransfers2[i]);
