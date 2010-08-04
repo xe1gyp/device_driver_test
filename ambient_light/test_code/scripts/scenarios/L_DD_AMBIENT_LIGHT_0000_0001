@@ -6,6 +6,6 @@
 
 # Begin L_DD_AMBIENT_LIGHT_0000_0001
 
-01  set -x; /usr/bin/file $AMBIENT_LIGHT_SYSFS_PATH 
+01  set -x; test -h $AMBIENT_LIGHT_SYSFS_PATH
 
 # End L_DD_AMBIENT_LIGHT_0000_0001
