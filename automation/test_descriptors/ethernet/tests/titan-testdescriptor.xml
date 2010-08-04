@@ -321,6 +321,70 @@
 
 	</test>
 
+        <test id="L_DD_ETHERNET_0006_0001">
+
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Network Protocol: FTP Functional </description>
+                        <dateofcreation> 08/04/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0006_0001</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/ethernet/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="3600"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+        <test id="L_DD_ETHERNET_0007_0001">
+
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Network Protocol: NFS Functional </description>
+                        <dateofcreation> 08/04/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0007_0001</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/ethernet/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="3600"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
 	<test id="L_DD_ETHERNET_0008_0001">
 
 		<information>
