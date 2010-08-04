@@ -11,9 +11,9 @@
 02  set -x; handlerFtp.sh "check"
 
 # Validating the scenario
-03  set -x; handlerCmd.sh "date > $TMPBASE/test_file1"
-04  set -x; handlerFtp.sh "put" "-u $USER -p $PASSWD $IPADDR test_file $TMPBASE/test_file1"
-04  set -x; handlerFtp.sh "get" "-u $USER -p $PASSWD $IPADDR $TMPBASE/test_file2 test_file"
-05  set -x; handlerCmd.sh "cmp $TMPBASE/test_file1 $TMPBASE/test_file2"
+03  set -x; handlerCmd.sh "run" "date > $ETHERNET_DIR_TMP/test_file1"
+04  set -x; handlerFtp.sh "put" "-u $FTP_USER -p $FTP_PASSWD $FTP_SERVER test_file $ETHERNET_DIR_TMP/test_file1"
+05  set -x; handlerFtp.sh "get" "-u $FTP_USER -p $FTP_PASSWD $FTP_SERVER $ETHERNET_DIR_TMP/test_file2 test_file"
+06  set -x; handlerCmd.sh "run" "cmp $ETHERNET_DIR_TMP/test_file1 $ETHERNET_DIR_TMP/test_file2"
 
 # End L_DD_ETHERNET_0006_0001
