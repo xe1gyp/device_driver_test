@@ -26,6 +26,9 @@ if [ "$LOCAL_OPERATION" = "run" ]; then
 	LOCAL_COMMAND=$2
 	eval $LOCAL_COMMAND
 
+else
+	echo "Unsupported Operation"
+	exit 1
 fi
 
 # End of file
