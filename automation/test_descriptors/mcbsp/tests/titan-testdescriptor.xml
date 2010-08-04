@@ -30,39 +30,6 @@
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
 		</fail>
-
-	</test>
-
-	<test id="L_DD_MCBSP_0001_0002">
-
-		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/2010 </dateofcreation>
-		</information>
-
-		<run>
-			<action>
-				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0001_0002</command>
-			</action>
-			<action>
-				<command>rm /testsuites/mcbsp/scripts/log.*</command>
-			</action>
-		</run>
-
-		<pass>
-			<output>
-				<value>stat=0</value>
-			</output>
-		</pass>
-
-		<fail>
-			<timeout time="600"/>
-			<output>
-				<regularexpression>stat=[^0]\d*</regularexpression>
-			</output>
-		</fail>
-
 	</test>
 
 	<test id="L_DD_MCBSP_0002_0001">
@@ -94,71 +61,6 @@
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
 		</fail>
-
-	</test>
-
-	<test id="L_DD_MCBSP_0002_0002">
-
-		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/2010 </dateofcreation>
-		</information>
-
-		<run>
-			<action>
-				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0002_0002</command>
-			</action>
-			<action>
-				<command>rm /testsuites/mcbsp/scripts/log.*</command>
-			</action>
-		</run>
-
-		<pass>
-			<output>
-				<value>stat=0</value>
-			</output>
-		</pass>
-
-		<fail>
-			<timeout time="600"/>
-			<output>
-				<regularexpression>stat=[^0]\d*</regularexpression>
-			</output>
-		</fail>
-
-	</test>
-
-	<test id="L_DD_MCBSP_0002_0003">
-
-		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/2010 </dateofcreation>
-		</information>
-
-		<run>
-			<action>
-				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0002_0003</command>
-			</action>
-			<action>
-				<command>rm /testsuites/mcbsp/scripts/log.*</command>
-			</action>
-		</run>
-
-		<pass>
-			<output>
-				<value>stat=0</value>
-			</output>
-		</pass>
-
-		<fail>
-			<timeout time="600"/>
-			<output>
-				<regularexpression>stat=[^0]\d*</regularexpression>
-			</output>
-		</fail>
-
 	</test>
 
 	<test id="L_DD_MCBSP_0003_0001">
@@ -193,6 +95,103 @@
 
 	</test>
 
+        <test id="L_DD_MCBSP_0003_0003">
+
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> McBSP driver supports configuring phase parameter </description>
+                        <dateofcreation> 08/04/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0003_0003</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/mcbsp/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="600"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+        <test id="L_DD_MCBSP_0003_0004">
+
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> McBSP driver supports configuring phase parameter </description>
+                        <dateofcreation> 08/04/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0003_0004</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/mcbsp/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="600"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+        <test id="L_DD_MCBSP_0003_0005">
+
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> McBSP driver supports configuring phase parameter </description>
+                        <dateofcreation> 08/04/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0003_0005</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/mcbsp/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="600"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+
 	<test id="L_DD_MCBSP_0004_0001">
 
 		<information>
@@ -225,38 +224,6 @@
 
 	</test>
 
-	<test id="L_DD_MCBSP_0004_0002">
-
-		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/2010 </dateofcreation>
-		</information>
-
-		<run>
-			<action>
-				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0004_0002</command>
-			</action>
-			<action>
-				<command>rm /testsuites/mcbsp/scripts/log.*</command>
-			</action>
-		</run>
-
-		<pass>
-			<output>
-				<value>stat=0</value>
-			</output>
-		</pass>
-
-		<fail>
-			<timeout time="600"/>
-			<output>
-				<regularexpression>stat=[^0]\d*</regularexpression>
-			</output>
-		</fail>
-
-	</test>
-
 	<test id="L_DD_MCBSP_0005_0001">
 
 		<information>
@@ -268,38 +235,6 @@
 		<run>
 			<action>
 				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0005_0001</command>
-			</action>
-			<action>
-				<command>rm /testsuites/mcbsp/scripts/log.*</command>
-			</action>
-		</run>
-
-		<pass>
-			<output>
-				<value>stat=0</value>
-			</output>
-		</pass>
-
-		<fail>
-			<timeout time="600"/>
-			<output>
-				<regularexpression>stat=[^0]\d*</regularexpression>
-			</output>
-		</fail>
-
-	</test>
-
-	<test id="L_DD_MCBSP_0005_0002">
-
-		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/2010 </dateofcreation>
-		</information>
-
-		<run>
-			<action>
-				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0005_0002</command>
 			</action>
 			<action>
 				<command>rm /testsuites/mcbsp/scripts/log.*</command>
@@ -513,4 +448,163 @@
 
 	</test>
 
+        <test id="L_DD_MCBSP_0012_0001">
+
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Clock Signals </description>
+                        <dateofcreation> 08/04/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0012_0001</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/mcbsp/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="600"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+        <test id="L_DD_MCBSP_0013_0001">
+
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Frame Sync Signals </description>
+                        <dateofcreation> 08/04/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0013_0001</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/mcbsp/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="600"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+        <test id="L_DD_MCBSP_0014_0001">
+
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> Dinamic Voltage Frequency Scaling </description>
+                        <dateofcreation> 08/04/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0014_0001</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/mcbsp/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="600"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+        <test id="L_DD_MCBSP_0015_0001">
+
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> McBSP driver supports configuring the sampling rate </description>
+                        <dateofcreation> 08/04/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0015_0001</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/mcbsp/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="600"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+        <test id="L_DD_MCBSP_0016_0001">
+
+                <information>
+                        <autor> Cristopherson Torres </autor>
+                        <description> SMP Safety </description>
+                        <dateofcreation> 08/04/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0016_0001</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/mcbsp/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="600"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
 </titan>
