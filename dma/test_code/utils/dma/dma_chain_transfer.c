@@ -54,9 +54,9 @@ static int dma_read_proc(char *buf, char **start, off_t offset,
  */
 void set_test_passed_chain(int passed){
      if(passed){
-        printk("\nTest PASSED\n");
+        printk("Test PASSED\n");
      }else{
-        printk("\nTest FAILED\n");
+        printk("Test FAILED\n");
      }
      test_passed = passed;
 }
@@ -99,7 +99,7 @@ int verify_buffers_chain(struct dma_buffers_info *buffers) {
     for (i = 0; i < buffers->buf_size; i++) {
         /* Compare the data in the source and destination */
         if (*src_address != *dest_address) {
-            printk("Source buffer at 0x%x = %d , Destination buffer at 0x%x"
+            printk(KERN_DEBUG "Source buffer at 0x%x = %d , Destination buffer at 0x%x"
                    " = %d\n", buffers->src_buf, *src_address, buffers->dest_buf,
                    *dest_address);
             return 1; /* error, buffers differ */
@@ -120,7 +120,7 @@ void dma_callback_chain(int transfer_id, u16 transfer_status, void *data) {
        int error = 1;
        if(transfer->rounds == max_rounds){
            omap_stop_dma_chain_transfers(transfer->chain_id);
-           printk("Chain id %d stopped\n", transfer->chain_id);
+           printk(KERN_DEBUG "Chain id %d stopped\n", transfer->chain_id);
            return;
        }
        (transfer->rounds)++;
@@ -129,11 +129,11 @@ void dma_callback_chain(int transfer_id, u16 transfer_status, void *data) {
 	unmap_phys_buffers(&transfer->buffers);
 
        /* Stop the chain */
-       printk("\nTransfer complete in chain %d-%d, checking destination buffer\n",
+       printk(KERN_DEBUG "\nTransfer complete in chain %d-%d, checking destination buffer\n",
            transfer->chain_id, transfer->chained_id);
        /* Check if the transfer numbers are equal */
        if(transfer->chain_id != transfer_id){
-           printk(" WARNING: Transfer chain id %d differs from the "
+           printk(KERN_DEBUG " WARNING: Transfer chain id %d differs from the "
                 "one received in callback (%d)\n", transfer->chain_id,
                 transfer_id);
        }
@@ -154,7 +154,7 @@ void dma_callback_chain(int transfer_id, u16 transfer_status, void *data) {
                 transfer->chained_id);
            transfer->rounds = max_rounds;
        }else{
-           printk(" Verification succeeded for transfer id %d-%d\n",
+           printk(KERN_DEBUG " Verification succeeded for transfer id %d-%d\n",
                 transfer->chain_id, transfer->chained_id);
            transfer->data_correct = 1;
        }
@@ -166,7 +166,7 @@ EXPORT_SYMBOL(dma_callback_chain);
  * and destination.
  */
 int create_transfer_buffers_chain( struct dma_buffers_info *buffers){
-       printk("Allocating non-cacheable source and destination buffers\n");
+       printk(KERN_DEBUG "Allocating non-cacheable source and destination buffers\n");
 
 	/* Allocate source buffer */
 	buffers->src_buf = (unsigned int)kmalloc(buffers->buf_size, GFP_DMA);
@@ -176,19 +176,19 @@ int create_transfer_buffers_chain( struct dma_buffers_info *buffers){
 
        /* Check the buffers have been allocated correctly */
        if( !buffers->src_buf ){
-           printk(" Unable to allocate %d bytes for the source transfer"
+           printk(KERN_DEBUG " Unable to allocate %d bytes for the source transfer"
                 " buffer\n", buffers->buf_size);
            return 1;
        }else if( !buffers->dest_buf ){
-           printk(" Unable to allocate %d bytes for the destination transfer"
+           printk(KERN_DEBUG " Unable to allocate %d bytes for the destination transfer"
                 " buffer\n", buffers->buf_size);
            return 1;
        }else{
-           printk(" Buffers allocated successfully (%d bytes per buffer)\n",
+           printk(KERN_DEBUG " Buffers allocated successfully (%d bytes per buffer)\n",
                 buffers->buf_size);
-           printk(" Source buffer on address 0x%x\n",
+           printk(KERN_DEBUG " Source buffer on address 0x%x\n",
                 buffers->src_buf);
-           printk(" Destination buffer on address 0x%x\n",
+           printk(KERN_DEBUG " Destination buffer on address 0x%x\n",
                 buffers->dest_buf);
        }
        return 0;
@@ -201,13 +201,13 @@ EXPORT_SYMBOL(create_transfer_buffers_chain);
 void fill_source_buffer_chain(struct dma_buffers_info *buffers){
        int i;
        u8 *src_buf_byte;
-       printk("Filling source buffer 0x%x with %d bytes...", buffers->src_buf,
+       printk(KERN_DEBUG "Filling source buffer 0x%x with %d bytes...", buffers->src_buf,
            buffers->buf_size);
        src_buf_byte = (u8*) buffers->src_buf;
        for (i = 0; i < buffers->buf_size; i++) {
            src_buf_byte[i] = (~i << 7) | (buffers->buf_size << 3) | i;
        }
-       printk("done\n");
+       printk(KERN_DEBUG "done\n");
 }
 EXPORT_SYMBOL(fill_source_buffer_chain);
 
@@ -234,7 +234,7 @@ int request_dma_chain(struct dma_chain *chain_params){
       chain_params->channel_params.ie = 0;
       chain_params->channel_params.burst_mode = chain_params->data_burst;
       /* Request the chain */
-      printk("Requesting OMAP DMA chain transfer\n");
+      printk(KERN_DEBUG "Requesting OMAP DMA chain transfer\n");
       error = omap_request_dma_chain(chain_params->device_id,
 				    "dma_test", dma_callback_chain,
 				    &(chain_params->chain_id),
@@ -247,7 +247,7 @@ int request_dma_chain(struct dma_chain *chain_params){
            return 1;
       }
       chain_params->request_success = 1;
-      printk(" Request succeeded, chain id is %d\n", chain_params->chain_id);
+      printk(KERN_DEBUG " Request succeeded, chain id is %d\n", chain_params->chain_id);
       return 0;
 }
 EXPORT_SYMBOL(request_dma_chain);
@@ -255,14 +255,14 @@ EXPORT_SYMBOL(request_dma_chain);
 void setup_dma_chain(struct dma_chain *chain_param){
 
        /* Determine the elements present in a frame */
-       printk("Setting up chain id %d\n", chain_param->chain_id);
+       printk(KERN_DEBUG "Setting up chain id %d\n", chain_param->chain_id);
 
        /* Global dma configuration parameters */
        omap_dma_set_global_params(
                 0x3,
                 DMA_DEFAULT_FIFO_DEPTH,
                 0);
-       printk(" Chain with id %d is ready\n", chain_param->chain_id);
+       printk(KERN_DEBUG " Chain with id %d is ready\n", chain_param->chain_id);
 }
 EXPORT_SYMBOL(setup_dma_chain);
 
@@ -271,13 +271,13 @@ EXPORT_SYMBOL(setup_dma_chain);
  */
 int start_dma_chain(struct dma_chain *chain_params){
        int error;
-       printk("\nStarting dma chain for id %d", chain_params->chain_id);
+       printk(KERN_DEBUG "\nStarting dma chain for id %d", chain_params->chain_id);
        error = omap_start_dma_chain_transfers(chain_params->chain_id);
        if(error){
-           printk("DMA chain id %d start failed\n", chain_params->chain_id);
+           printk(KERN_DEBUG "DMA chain id %d start failed\n", chain_params->chain_id);
            return 1;
        }
-       printk("\n");
+       printk(KERN_DEBUG "\n");
        return 0;
 }
 EXPORT_SYMBOL(start_dma_chain);
@@ -329,7 +329,7 @@ int chain_transfer(struct dma_chain *chain_params,
        }
 
 	map_to_phys_buffers(&transfer->buffers);
-       printk("Chaining a transfer to chain id %d\n", chain_params->chain_id);
+       printk(KERN_DEBUG "Chaining a transfer to chain id %d\n", chain_params->chain_id);
        transfer->chained_id = chained_id++;
        transfer->chain_id = chain_params->chain_id;
        error = omap_dma_chain_a_transfer(chain_params->chain_id,
@@ -343,7 +343,7 @@ int chain_transfer(struct dma_chain *chain_params,
            return 1;
        }
        transfer->request_success = 1;
-       printk(" Chained transfer id is %d\n", transfer->chained_id);
+       printk(KERN_DEBUG " Chained transfer id is %d\n", transfer->chained_id);
        return 0;
 }
 EXPORT_SYMBOL(chain_transfer);

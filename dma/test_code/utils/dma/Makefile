@@ -39,15 +39,13 @@ MODULES = dma_single_channel.o \
   dma_chain_dynamic_break.o \
   dma_chain_static_break.o \
   dma_stop_transfer_twice.o \
+  dma_thread_access.o \
+  dma_chain_thread_access.o \
+  dma_chain_thread_stress.o
 
  ifeq ($(TARGET_PLATFORM), OMAP_4430)
- MODULES += dma_dload.o
- endif
-
- ifdef CONFIG_SMP
- MODULES += dma_thread_access.o \
-	    dma_dload_thread_access.o \
-	    dma_chain_thread_access.o
+ MODULES += dma_dload.o \
+	    dma_dload_thread_access.o
  endif
 
 obj-m:=$(MODULES)
