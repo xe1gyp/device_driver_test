@@ -18,7 +18,7 @@ obj-m := clock_test.o pd_test.o cd_test.o
 
 all:
 	make -C $(KDIR) SUBDIRS=$(SUITE_DIR)/utils/omap4 KERN=26 modules
-	$(CC) system_time.c -o system_time
+	$(CC) $(CFLAGS) system_time.c -o system_time
 
 install:
 	cp -vf clock_test.ko ../../modules
