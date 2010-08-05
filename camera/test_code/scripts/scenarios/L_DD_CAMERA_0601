@@ -1,0 +1,4 @@
+#!/bin/sh
+COMMENT comment.sh "Test to capture video 1000 times in YUYV format for supported sizes"
+
+0001 set -x; random_streaming_test.sh
