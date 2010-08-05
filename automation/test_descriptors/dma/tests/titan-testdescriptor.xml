@@ -386,6 +386,8 @@
 
 	</test>
 
+
+
 	<test id="L_DD_DMA_0014_0001">
 
 		<information>
@@ -519,6 +521,38 @@
 
 		<fail>
 			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+<test id="L_DD_DMA_0019_0003">
+
+		<information>
+			<autor> Jyothi PK</autor>
+			<description> Stress test for DMA chain access</description>
+			<dateofcreation> 08/05/10 </dateofcreation>
+		</information>
+
+		<run>
+				<action>
+				<command>/testsuites/dma/scripts/test_runner.sh L_DD_DMA_0019_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/dma/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="2000"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
