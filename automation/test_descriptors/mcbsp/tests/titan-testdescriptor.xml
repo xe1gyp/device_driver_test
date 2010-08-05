@@ -344,7 +344,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="600"/>
+			<timeout time="1000"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -441,6 +441,38 @@
 
 		<fail>
 			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+<test id="L_DD_MCBSP_0011_0002">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/mcbsp/scripts/test_runner.sh L_DD_MCBSP_0011_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mcbsp/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="800"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
