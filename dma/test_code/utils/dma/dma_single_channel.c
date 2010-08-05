@@ -445,7 +445,6 @@ EXPORT_SYMBOL(unlink_stop_dma_selflink_transfer);
 static int __init dma_s_init(void) {
        /* Create the proc entry */
        create_dma_proc(PROC_FILE);
-       printk("%s: ............\n");
 	return 0;
 }
 
@@ -456,7 +455,6 @@ static void __exit dma_s_exit(void) {
 	 * proc entry.
 	 */
 	remove_dma_proc(PROC_FILE);
-       printk("%s: ............\n");
 }
 
 module_init(dma_s_init);

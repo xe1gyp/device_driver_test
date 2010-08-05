@@ -19,7 +19,7 @@
 
 /********************** GENERAL VARS *****************/
 #define num_elements_in_list (15)
-#define PAUSE_AT_ELEMENT (4)
+#define PAUSE_AT_ELEMENT (0)
 
 #define test_element_size 100
 int maximum_transfers = 5;	/* max transfers per channel */
@@ -225,7 +225,7 @@ static int dmasglist_test1(void *info)
 
 	omap_dma_set_prio_lch(sglist_id, DMA_CH_PRIO_HIGH, DMA_CH_PRIO_HIGH);
 	omap_dma_set_sglist_fastmode(sglist_id, 1);
-	omap_set_dma_callback(sglist_id, dma_sglist_cb_inter, tls);
+	omap_set_dma_callback(sglist_id, dma_sglist_cb_final, tls);
 
 	rc = omap_start_dma_sglist_transfers(sglist_id, PAUSE_AT_ELEMENT);
 
