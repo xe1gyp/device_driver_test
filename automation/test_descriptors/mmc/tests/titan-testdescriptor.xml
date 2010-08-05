@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <titan>
 
-	<test id="L_DD_MMC_SD_0001_0001">
+	<test id="L_DD_MMC_0001_0001">
 
 		<information>
 			<autor> Misael Lopez </autor>
@@ -11,7 +11,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0001_0001</command>
@@ -36,7 +36,7 @@
 
 	</test>
 
-	<test id="L_DD_MMC_SD_0002_0001">
+	<test id="L_DD_MMC_0002_0001">
 
 		<information>
 			<autor> Misael Lopez </autor>
@@ -46,7 +46,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0002_0001</command>
@@ -71,7 +71,7 @@
 
 	</test>
 
-	<test id="L_DD_MMC_SD_0002_0002">
+	<test id="L_DD_MMC_0002_0002">
 
 		<information>
 			<autor> Misael Lopez </autor>
@@ -81,7 +81,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0002_0002</command>
@@ -106,7 +106,7 @@
 
 	</test>
 
-	<test id="L_DD_MMC_SD_0003_0001">
+	<test id="L_DD_MMC_0003_0001">
 
 		<information>
 			<autor> Misael Lopez </autor>
@@ -116,7 +116,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0003_0001</command>
@@ -141,7 +141,7 @@
 
 	</test>
 
-	<test id="L_DD_MMC_SD_0003_0002">
+	<test id="L_DD_MMC_0003_0002">
 
 		<information>
 			<autor> Misael Lopez </autor>
@@ -151,7 +151,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0003_0002</command>
@@ -176,7 +176,7 @@
 
 	</test>
 
-	<test id="L_DD_MMC_SD_0003_0003">
+	<test id="L_DD_MMC_0003_0003">
 
 		<information>
 			<autor> Misael Lopez </autor>
@@ -186,7 +186,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0003_0003</command>
@@ -211,7 +211,7 @@
 
 	</test>
 
-	<test id="L_DD_MMC_SD_0004_0001">
+	<test id="L_DD_MMC_0004_0001">
 
 		<information>
 			<autor> Misael Lopez </autor>
@@ -221,7 +221,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0004_0001</command>
@@ -246,7 +246,7 @@
 
 	</test>
 
-	<test id="L_DD_MMC_SD_0004_0002">
+	<test id="L_DD_MMC_0004_0002">
 
 		<information>
 			<autor> Misael Lopez </autor>
@@ -256,7 +256,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0004_0002</command>
@@ -281,7 +281,7 @@
 
 	</test>
 
-	<test id="L_DD_MMC_SD_0004_0003">
+	<test id="L_DD_MMC_0004_0003">
 
 		<information>
 			<autor> Misael Lopez </autor>
@@ -291,7 +291,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0004_0003</command>
@@ -316,7 +316,7 @@
 
 	</test>
 
-	<test id="L_DD_MMC_SD_0005_0001">
+	<test id="L_DD_MMC_0005_0001">
 
 		<information>
 			<autor> Misael Lopez </autor>
@@ -326,7 +326,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0005_0001</command>
@@ -351,7 +351,7 @@
 
 	</test>
 
-	<test id="L_DD_MMC_SD_0005_0002">
+	<test id="L_DD_MMC_0005_0002">
 
 		<information>
 			<autor> Misael Lopez </autor>
@@ -361,7 +361,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0005_0002</command>
@@ -386,7 +386,7 @@
 
 	</test>
 
-	<test id="L_DD_MMC_SD_0005_0003">
+	<test id="L_DD_MMC_0005_0003">
 
 		<information>
 			<autor> Misael Lopez </autor>
@@ -396,7 +396,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0005_0003</command>
@@ -421,7 +421,7 @@
 
 	</test>
 
-	<test id="L_DD_MMC_SD_0005_0004">
+	<test id="L_DD_MMC_0005_0004">
 
 		<information>
 			<autor> Misael Lopez </autor>
@@ -431,7 +431,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0005_0004</command>
@@ -456,7 +456,7 @@
 
 	</test>
 
-	<test id="L_DD_MMC_SD_0005_0005">
+	<test id="L_DD_MMC_0005_0005">
 
 		<information>
 			<autor> Misael Lopez </autor>
@@ -466,7 +466,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0005_0005</command>
@@ -491,7 +491,7 @@
 
 	</test>
 
-	<test id="L_DD_MMC_SD_0018_0001">
+	<test id="L_DD_MMC_0018_0001">
 
 		<information>
 			<autor> Cristopherson Torres </autor>
@@ -501,7 +501,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0001</command>
@@ -526,7 +526,7 @@
 
 	</test>
 
-	<test id="L_DD_MMC_SD_0018_0002">
+	<test id="L_DD_MMC_0018_0002">
 
 		<information>
 			<autor> Cristopherson Torres </autor>
@@ -536,7 +536,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0002</command>
@@ -561,7 +561,7 @@
 
 	</test>
 
-	<test id="L_DD_MMC_SD_0018_0003">
+	<test id="L_DD_MMC_0018_0003">
 
 		<information>
 			<autor> Cristopherson Torres </autor>
@@ -571,7 +571,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0003</command>
@@ -596,7 +596,7 @@
 
 	</test>
 
-	<test id="L_DD_MMC_SD_0018_0004">
+	<test id="L_DD_MMC_0018_0004">
 
 		<information>
 			<autor> Cristopherson Torres </autor>
@@ -606,7 +606,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0004</command>
