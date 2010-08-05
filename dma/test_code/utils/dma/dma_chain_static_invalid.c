@@ -25,7 +25,7 @@
 #include "dma_chain_transfer.h"
 
 #define TRANSFER_ROUNDS 5
-#define TRANSFER_COUNT 40
+#define TRANSFER_COUNT 25
 #define TRANSFER_POLL_COUNT 60
 #define TRANSFER_POLL_TIME 1500
 
