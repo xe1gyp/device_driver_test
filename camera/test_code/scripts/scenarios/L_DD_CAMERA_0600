@@ -1,0 +1,4 @@
+#!/bin/sh
+COMMENT comment.sh "Test to capture a 1000 images of supported sizes"
+
+0001 set -x; random_burst_test.sh
