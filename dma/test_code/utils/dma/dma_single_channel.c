@@ -386,16 +386,21 @@ EXPORT_SYMBOL(start_dma_transfer);
 /*
  * Stops a dma transfer and free used resources
  */
-void stop_dma_transfer(struct dma_transfer *transfer)
+int stop_dma_transfer(struct dma_transfer *transfer)
 {
 	/* Stop the dma transfer */
 	if (transfer->request_success) {
 		omap_stop_dma(transfer->transfer_id);
 		omap_free_dma(transfer->transfer_id);
-	}
-
 		kfree((void *)transfer->buffers.src_buf);
 		kfree((void *)transfer->buffers.dest_buf);
+		transfer->request_success = 0;
+		return 0;
+	} else {
+		printk("Trying to stop non existing DMA transfer\n");
+		return 1;
+	}
+
 }
 EXPORT_SYMBOL(stop_dma_transfer);
 

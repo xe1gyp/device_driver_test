@@ -144,7 +144,7 @@ void start_dma_transfer(struct dma_transfer *transfer);
 /*
  * Stops a dma transfer and free used resources
  */
-void stop_dma_transfer(struct dma_transfer *transfer);
+int stop_dma_transfer(struct dma_transfer *transfer);
 
 /*
  * Stops an invalid dma transfer and free used resources

@@ -23,7 +23,7 @@
 #include "dma_single_channel.h"
 
 #define TRANSFER_COUNT 1
-#define TIME_BEFORE_STOP 50
+#define TIME_BEFORE_STOP 10
 
 static struct dma_transfer transfers[TRANSFER_COUNT];
 static struct dma_query queries[TRANSFER_COUNT];
@@ -93,8 +93,21 @@ static int __init dma_module_init(void) {
        mdelay(TIME_BEFORE_STOP);
        printk("Stopping transfer id %d before completion\n",
                transfers[0].transfer_id);
-       stop_dma_transfer(&transfers[0]);
-       stop_dma_transfer(&transfers[0]);	
+
+	/* First time stop should succeed */
+       error = stop_dma_transfer(&transfers[0]);
+       if (!error)
+		set_test_passed(1);
+       else
+		set_test_passed(0);
+
+       /* Try to stop again */
+	error = stop_dma_transfer(&transfers[0]);
+	if (error)
+		set_test_passed(1);
+	else
+		set_test_passed(0);
+
        check_test_passed();
 
        return 0;
