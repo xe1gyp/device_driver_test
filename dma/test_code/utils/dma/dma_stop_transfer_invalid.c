@@ -22,7 +22,7 @@
 
 #include "dma_single_channel.h"
 
-#define TRANSFER_COUNT 1
+#define TRANSFER_COUNT 2
 #define TIME_BEFORE_STOP 50
 
 static struct dma_transfer transfers[TRANSFER_COUNT];
