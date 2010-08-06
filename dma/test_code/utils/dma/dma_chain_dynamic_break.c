@@ -40,20 +40,17 @@ static int transfer_end = 0;
 static void check_test_passed(void){
      int i;
      int error = 0;
-     /* Check that all the transfers finished */
-     for(i = 0; i < TRANSFER_COUNT; i++){
-         if(!transfers[i].data_correct){
+     /* check for 3rd transfer, chain transfer has failed */
+         if(transfers[3].data_correct){
              error = 1;
-             printk("Chain id %d failed\n", transfers[i].chain_id);
-             break;
+             printk("Chain id %d failed\n", transfers[3].chain_id);
          }
-     }
 
-     if(!error){
+     if(!error)
          set_test_passed_chain(1);
-     }else{
+     else
          set_test_passed_chain(0);
-     }
+
 }
 
 /*
@@ -85,18 +82,27 @@ void dma_callback_chain(int transfer_id, u16 transfer_status, void *data) {
 
        /* Removed link */
 	if(transfer->chained_id == 3){	
-		omap_free_dma_chain(chain.chain_id);
-		set_test_passed_chain(0);
-		printk(" Linking removed\n Chain lost \n ");
-		transfer->data_correct = 1;
-	        transfer->finished = 0;
-        	transfer_end = 1;
-        	omap_stop_dma_chain_transfers(transfer->chain_id);
-        	printk("Chain id %d stopped\n", transfer->chain_id);
-        	return;
+		error = omap_stop_dma_chain_transfers(transfer->chain_id);
+		if (!error) {
+			printk("Chain id %d stopped\n", transfer->chain_id);
+			set_test_passed_chain(1);
+		}
+		else
+			set_test_passed_chain(0);
+
+		error = omap_free_dma_chain(chain.chain_id);
+		if (!error) {
+			printk(" Linking removed\n Chain lost \n ");
+			set_test_passed_chain(1);
+		}
+		else
+			set_test_passed_chain(0);
+
+		transfer->data_correct = 0;
+		transfer->finished = 0;
+		transfer_end = 1;
+		return;
 	}
-		 transfer->data_correct = 0;
-	   	 transfer->finished = 1;
 
 	 /* Stop the chain */
        printk("\nTransfer complete in chain %d-%d, checking destination buffer\n",
@@ -275,26 +281,7 @@ static int __init dma_module_init(void) {
  * Function called when the module is removed
  */
 static void __exit dma_module_exit(void) {
-       int i, ret = 0;
-       u32 ch_stop_status = 0;
-
-       if(chain.request_success){
-	       ret = omap_stop_dma_chain_transfers(chain.chain_id);
-	       if (ret) {
-			printk("DMA stop chain failed\n");
-			set_test_passed_chain(0);
-	       }
-	       ret = omap_free_dma_chain(chain.chain_id);
-	       if (ret) {
-			printk("DMA Chain Free failed for id : %d\n",
-				chain.chain_id);
-			set_test_passed_chain(0);
-	       }
-       }
-
-       for(i = 0; i < current_transfer; i++)
-           stop_dma_transfer_chain(&transfers[i]);
-
+	/* Dummy */
 }
 
 module_init(dma_module_init);
