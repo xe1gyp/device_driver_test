@@ -18,12 +18,7 @@ objects := af_stream af_stream_rel burst_mode burst_mode_120 \
 all: $(objects)
 
 install:
-	@echo "Installing test applications in bin directory..."
-	@if test -d bin; then rm -rf bin/; fi
-	@mkdir -p bin
-	@cp -f $(objects) bin/
-	@cp bin/* ../../bin/
-	@echo "Done!"
+	cp $(objects) ../../bin
 
 af_stream: af_stream.c lib.c ioctl.c framerateLib.c
 	@echo "  CC  af_stream"
@@ -130,5 +125,4 @@ snapshot: snapshot.c snapshot_lsc.c framerateLib.c lib.c ioctl.c
 clean:
 	@echo "Cleaning up objects..."
 	@rm -f $(objects) *~ *.o *.bak
-	@rm -rf bin/
 	@echo "Done!"
