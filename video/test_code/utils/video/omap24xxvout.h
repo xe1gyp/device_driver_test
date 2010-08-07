@@ -16,8 +16,8 @@
 #define OMAP24XX_OUTPUT_TV         5
 
 
-#define OMAP24XX_GFX_DESTINATION   100
-#define OMAP24XX_VIDEO_SOURCE      101
+#define OMAP_GFX_DESTINATION   1
+#define OMAP_VIDEO_SOURCE      2
 
 
 struct omap24xxvout_colorkey {

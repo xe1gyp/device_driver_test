@@ -23,7 +23,8 @@
 static int usage(void)
 {
 	printf("Usage: settransck < o/p device [1:LCD 2:TV]> "
-		"<key type [0:GFX DEST 1:VID SRC]> <RGB key value> \n");
+		"<key type [0:Disabled 1:GFX DEST 2:VID SRC]> \
+		<RGB key value>\n");
 	printf("RGB Key value for 0xF801 -> 63489\n");
 	return 1;
 }
@@ -47,12 +48,13 @@ int main(int argc, char *argv[])
 		return usage();
 	}
 
-	cktype	= atoi(argv[2])+ 100;
+	cktype	= atoi(argv[2]);
 
-	if ((cktype != OMAP24XX_GFX_DESTINATION) &&
-		(cktype != OMAP24XX_VIDEO_SOURCE)) {
-		printf("Color Key type should be 1 for GFX destination "
-			"and 2 for VID src\n");
+	if ((cktype != OMAP_GFX_DESTINATION) &&
+		(cktype != OMAP_VIDEO_SOURCE) &&
+		(cktype != 0)) {
+		printf("Color Key type should be 0 for Disabled,\
+			1 for GFX destination and 2 for VID src\n");
 		return usage();
 	}
 
@@ -69,15 +71,17 @@ int main(int argc, char *argv[])
 		perror("VIDIOC_G_FBUF");
 		return 1;
 	}
+
 	v4l2_fmt.type = V4L2_BUF_TYPE_VIDEO_OVERLAY;
 	result = ioctl(file_descriptor, VIDIOC_G_FMT, &v4l2_fmt);
 	if (result != 0) {
 		perror("VIDIOC_G_FMT");
 		return 1;
 	}
+
 	color_key = atoi(argv[3]);
-       if (v4l2_fmt.fmt.win.chromakey != color_key)
-	v4l2_fmt.fmt.win.chromakey = color_key;
+	if (v4l2_fmt.fmt.win.chromakey != color_key)
+		v4l2_fmt.fmt.win.chromakey = color_key;
 
 	result = ioctl(file_descriptor, VIDIOC_S_FMT, &v4l2_fmt);
 	if (result != 0) {
@@ -86,13 +90,16 @@ int main(int argc, char *argv[])
 	}
 
 	switch (cktype) {
-	case OMAP24XX_GFX_DESTINATION:
-				v4l2_fb.flags = V4L2_FBUF_FLAG_CHROMAKEY;
-				break;
-	case OMAP24XX_VIDEO_SOURCE:
-				v4l2_fb.flags = V4L2_FBUF_FLAG_SRC_CHROMAKEY;
-				break;
+	case OMAP_GFX_DESTINATION:
+		v4l2_fb.flags = V4L2_FBUF_FLAG_CHROMAKEY;
+		break;
+	case OMAP_VIDEO_SOURCE:
+		v4l2_fb.flags = V4L2_FBUF_FLAG_SRC_CHROMAKEY;
+		break;
+	default:
+		v4l2_fb.flags = 0;
 	}
+
 	result = ioctl(file_descriptor, VIDIOC_S_FBUF, &v4l2_fb);
 	if (result != 0) {
 		perror("VIDIOC_S_FBUF");
