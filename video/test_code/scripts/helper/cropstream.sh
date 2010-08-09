@@ -16,7 +16,7 @@ $TESTBIN/setcrop $VIDEO_PIPELINE $SETCROP_PARAMETERS
 RESULT=`command_tracking.sh $RESULT $?`
 
 # Usage: streaming <vid> <inputfile> [<n>]
-$TESTBIN/streaming_tiler $VIDEO_PIPELINE $STREAMING_PARAMETERS 0
+$TESTBIN/streaming $VIDEO_PIPELINE $STREAMING_PARAMETERS 0
 RESULT=`command_tracking.sh $RESULT $?`
 
 if [ -z "$STRESS" ]; then
