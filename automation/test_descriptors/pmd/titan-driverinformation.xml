@@ -2,7 +2,7 @@
 <titan>
 
 	<driverinformation>
-		<name>Power</name>
+		<name>pmd</name>
 		<description>Tests suites for Power</description>
 	</driverinformation>
 
