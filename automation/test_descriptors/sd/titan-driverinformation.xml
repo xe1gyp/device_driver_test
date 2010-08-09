@@ -2,7 +2,7 @@
 <titan>
 
 	<driverinformation>
-		<name>mmc</name>
+		<name>SD</name>
 		<description>Tests suites for SD</description>
 	</driverinformation>
 
