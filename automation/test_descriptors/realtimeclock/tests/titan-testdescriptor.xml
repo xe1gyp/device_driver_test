@@ -25,7 +25,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="30"/>
+			<timeout time="100"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -57,7 +57,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="30"/>
+			<timeout time="100"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -89,7 +89,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="30"/>
+			<timeout time="100"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -121,7 +121,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="30"/>
+			<timeout time="100"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -153,7 +153,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="30"/>
+			<timeout time="100"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -185,7 +185,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="30"/>
+			<timeout time="100"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -217,7 +217,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="30"/>
+			<timeout time="100"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -249,7 +249,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="30"/>
+			<timeout time="100"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -281,7 +281,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="30"/>
+			<timeout time="100"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -313,7 +313,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="50"/>
+			<timeout time="100"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -345,7 +345,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="30"/>
+			<timeout time="100"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -377,7 +377,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="30"/>
+			<timeout time="100"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -409,7 +409,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="50"/>
+			<timeout time="100"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -473,7 +473,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="20"/>
+			<timeout time="100"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -505,7 +505,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="30"/>
+			<timeout time="100"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -537,7 +537,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="60"/>
+			<timeout time="100"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -569,7 +569,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="60"/>
+			<timeout time="100"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
