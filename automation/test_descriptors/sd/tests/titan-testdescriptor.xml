@@ -364,7 +364,7 @@
 				<command>export SLOT=0</command>
 			</action>
 			<action>
-				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_SD0005_0002</command>
+				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0005_0002</command>
 			</action>
 			<action>
 				<command>rm /testsuites/mmc/scripts/log.*</command>
