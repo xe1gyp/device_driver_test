@@ -23,7 +23,9 @@ SUITE_DIR=$(PWD)
 endif
 
 DESTDIR := $(SUITE_DIR)/bin
-OBJS := utilities install
+#OBJS := utilities install
+OBJS := install
+
 
 HTOP_PWD=$(SUITE_DIR)
 CPPFLAGS := "-I$(HTOP_PWD)/utils/ncurses-5.7/include/"
@@ -41,14 +43,14 @@ utilities:
 
 install:
 	mkdir -p $(DESTDIR)
-	cp utils/htop-0.8.1/htop $(DESTDIR)
+	#cp utils/htop-0.8.1/htop $(DESTDIR)
 	mkdir -p scripts/test
 	mkdir -p scripts/tmp
 
 clean:
 	rm -rvf $(DESTDIR)
-	make -C utils/ncurses-5.7/ clean
-	make -C utils/htop-0.8.1/ clean
+	#make -C utils/ncurses-5.7/ clean
+	#make -C utils/htop-0.8.1/ clean
 	rm -rf scripts/log*
 	rm -rf scripts/tmp
 	rm -rf scripts/test
