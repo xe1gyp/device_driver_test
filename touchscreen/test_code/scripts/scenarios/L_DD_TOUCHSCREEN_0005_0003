@@ -6,6 +6,7 @@
 
 # Begin L_DD_TOUCHSCREEN_0005_0003
 
-01  set -x; $UTILS_DIR_HANDLERS/handlerIrqAffinity.sh "switch" "$TOUCHSCREEN_DIR_BINARIES/evtest $DEVFS_TOUCHSCREEN" "10" "15" "195"
+01  set -x; handlerIrqAffinity.sh "switch" "evtest $DEVFS_TOUCHSCREEN" "10" "15" "195"
 
 # End L_DD_TOUCHSCREEN_0005_0003
+
