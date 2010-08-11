@@ -3,6 +3,8 @@
 01  set -x; handlerIfconfig.sh "get" "ipaddr"
 02  set -x; handlerNfs.sh "verify"
 
+# Process Priority N Commands Random Delay
+
 03  set -x; handlerProcessPriority.sh "clean"
 
 04  set -x; handlerProcessPriority.sh "assign" "ping -c 25 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_EXTERNAL_HOST_IPADDR`" "-20"
@@ -27,5 +29,22 @@
 
 22  set -x; handlerProcessPriority.sh "execute" "withrandomdelay"
 
-# End L_DD_ETHERNET_0012_0001
+# CPU Affinity N Commands Random CPU Random Delay
 
+23  set -x; handlerCpuAffinity.sh "clean"
+
+24  set -x; handlerCpuAffinity.sh "assign" "ping -c 50 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_EXTERNAL_HOST_IPADDR`" "1"
+25  set -x; handlerCpuAffinity.sh "assign" "ping -c 50 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_EXTERNAL_HOST_IPADDR`" "2"
+26  set -x; handlerCpuAffinity.sh "assign" "ping -c 50 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_EXTERNAL_HOST_IPADDR`" "3"
+27  set -x; handlerCpuAffinity.sh "assign" "ping -c 50 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_EXTERNAL_HOST_IPADDR`" "2"
+28  set -x; handlerCpuAffinity.sh "assign" "ping -c 50 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_EXTERNAL_HOST_IPADDR`" "1"
+
+29  set -x; handlerCpuAffinity.sh "assign" "dd if=$ETHERNET_DEV_URANDOM of=`cat $ETHERNET_NFS_DIR`/eth.01 bs=1M count=5" "1"
+30  set -x; handlerCpuAffinity.sh "assign" "dd if=$ETHERNET_DEV_URANDOM of=`cat $ETHERNET_NFS_DIR`/eth.01 bs=1M count=5" "2"
+31  set -x; handlerCpuAffinity.sh "assign" "dd if=$ETHERNET_DEV_URANDOM of=`cat $ETHERNET_NFS_DIR`/eth.01 bs=1M count=5" "3"
+32  set -x; handlerCpuAffinity.sh "assign" "dd if=$ETHERNET_DEV_URANDOM of=`cat $ETHERNET_NFS_DIR`/eth.01 bs=1M count=5" "2"
+33  set -x; handlerCpuAffinity.sh "assign" "dd if=$ETHERNET_DEV_URANDOM of=`cat $ETHERNET_NFS_DIR`/eth.01 bs=1M count=5" "1"
+
+34  set -x; handlerCpuAffinity.sh "execute" "withrandomdelay"
+
+# End L_DD_ETHERNET_0012_0001
