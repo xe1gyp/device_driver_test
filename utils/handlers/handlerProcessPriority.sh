@@ -21,16 +21,6 @@ if [ $? -eq 1 ]; then
 	exit 1
 fi
 
-test -f /proc/1/sched
-if [ $? -eq 1 ]
-then
-	handlerError.sh "log" "1" "halt" "handlerProcessPriority.sh"
-	echo "Fatal: missing /proc/<process>/sched, cannot continue, directory looks like"
-	echo "Info : please enable in kernel menuconfig the macro CONFIG_SCHED_DEBUG"
-	echo "Info : Kernel Hacking -> Kernel Debugging -> Collect scheduler debugging info"
-	exit 1
-fi
-
 if [ "$LOCAL_OPERATION" = "clean" ]; then
 
 	test -f $HPPR_LIST_CMDS_TOTALS && rm $HPPR_LIST_CMDS_TOTALS
@@ -49,6 +39,17 @@ elif [ "$LOCAL_OPERATION" = "add" ]; then
 	LOCAL_COMMAND_NUMBER=$2
 	LOCAL_COMMAND_LINE=$3
 	LOCAL_COMMAND_PRIORITY=$4
+
+	test -f /proc/1/sched
+
+	if [ $? -eq 1 ]
+	then
+		handlerError.sh "log" "1" "halt" "handlerProcessPriority.sh"
+		echo "Fatal: missing /proc/<process>/sched, cannot continue, directory looks like"
+		echo "Info : please enable in kernel menuconfig the macro CONFIG_SCHED_DEBUG"
+		echo "Info : Kernel Hacking -> Kernel Debugging -> Collect scheduler debugging info"
+		exit 1
+	fi
 
 	echo $LOCAL_COMMAND_LINE > $HPPR_COMMAND_LINE.$LOCAL_COMMAND_NUMBER
 	echo $LOCAL_COMMAND_PRIORITY > $HPPR_COMMAND_PRIORITY.$LOCAL_COMMAND_NUMBER
@@ -89,8 +90,8 @@ elif [ "$LOCAL_OPERATION" = "execute" ]; then
 			echo equal > $HPPR_COMMAND_PRIORITY_HIGHER
 		fi
 
-		handlerProcessPriorityExecutor.sh $FIRST_CMD "`cat $HPPR_COMMAND_LINE.$FIRST_CMD`" "$LOCAL_REPEATABILITY" "`cat $HPPR_COMMAND_PRIORITY.$FIRST_CMD`" $LOCAL_COMMAND_DELAY &
-		handlerProcessPriorityExecutor.sh $SECOND_CMD "`cat $HPPR_COMMAND_LINE.$SECOND_CMD`" "$LOCAL_REPEATABILITY" "`cat $HPPR_COMMAND_PRIORITY.$SECOND_CMD`" $LOCAL_COMMAND_DELAY &
+		handlerProcessPriorityExecutor.sh "$LOCAL_CURRENT_OPERATION" "$FIRST_CMD" "`cat $HPPR_COMMAND_LINE.$FIRST_CMD`" "$LOCAL_REPEATABILITY" "`cat $HPPR_COMMAND_PRIORITY.$FIRST_CMD`" $LOCAL_COMMAND_DELAY &
+		handlerProcessPriorityExecutor.sh "$LOCAL_CURRENT_OPERATION" "$SECOND_CMD" "`cat $HPPR_COMMAND_LINE.$SECOND_CMD`" "$LOCAL_REPEATABILITY" "`cat $HPPR_COMMAND_PRIORITY.$SECOND_CMD`" $LOCAL_COMMAND_DELAY &
 
 		wait
 
@@ -115,7 +116,7 @@ elif [ "$LOCAL_OPERATION" = "execute" ]; then
 
 			fi
 
-			handlerProcessPriorityExecutor.sh "$LOCAL_INSTANCE" "$LOCAL_COMMAND_LINE" "1" "$LOCAL_COMMAND_PRIORITY" "$LOCAL_COMMAND_DELAY" &
+			handlerProcessPriorityExecutor.sh "$LOCAL_CURRENT_OPERATION" "$LOCAL_INSTANCE" "$LOCAL_COMMAND_LINE" "1" "$LOCAL_COMMAND_PRIORITY" "$LOCAL_COMMAND_DELAY" &
 
 		done < $HPPR_LIST_CMDS_TOTALS
 
