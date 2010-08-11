@@ -48,7 +48,13 @@ if [ $? -eq 1 ]; then
 	exit 1
 fi
 
+PROCFS_MEMINFO=/proc/meminfo
+
 if [ "$LOCAL_COMMAND" = "run" ]; then
+
+	# Print how much Total and Free memory we have before memtester
+	cat $PROCFS_MEMINFO | grep MemTotal
+	cat $PROCFS_MEMINFO | grep MemFree
 
 	memtester $LOCAL_SIZE $LOCAL_LOOPS > $HMT_MEMTESTER_LOG_FILE
 	memTesterFieldsPopulate
@@ -65,6 +71,10 @@ if [ "$LOCAL_COMMAND" = "run" ]; then
 		fi
 
 	done < $HMT_MEMTESTER_FIELDS_FILE
+
+	# Print how much Total and Free memory we have after memtester
+	cat $PROCFS_MEMINFO | grep MemTotal
+	cat $PROCFS_MEMINFO | grep MemFree
 
 fi
 
