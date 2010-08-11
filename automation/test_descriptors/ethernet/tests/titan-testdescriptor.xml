@@ -321,37 +321,37 @@
 
 	</test>
 
-        <test id="L_DD_ETHERNET_0006_0001">
+	<test id="L_DD_ETHERNET_0006_0001">
 
-                <information>
-                        <autor> Cristopherson Torres </autor>
-                        <description> Network Protocol: FTP Functional </description>
-                        <dateofcreation> 08/04/2010 </dateofcreation>
-                </information>
+		<information>
+			<autor> Cristopherson Torres </autor>
+			<description> Network Protocol: FTP Functional </description>
+			<dateofcreation> 08/04/2010 </dateofcreation>
+		</information>
 
-                <run>
-                        <action>
-                                <command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0006_0001</command>
-                        </action>
-                        <action>
-                                <command>rm /testsuites/ethernet/scripts/log.*</command>
-                        </action>
-                </run>
+		<run>
+			<action>
+				<command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0006_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/ethernet/scripts/log.*</command>
+			</action>
+		</run>
 
-                <pass>
-                        <output>
-                                <value>stat=0</value>
-                        </output>
-                </pass>
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
 
-                <fail>
-                        <timeout time="3600"/>
-                        <output>
-                                <regularexpression>stat=[^0]\d*</regularexpression>
-                        </output>
-                </fail>
+		<fail>
+			<timeout time="3600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
 
-        </test>
+	</test>
 
         <test id="L_DD_ETHERNET_0007_0001">
 
@@ -449,6 +449,38 @@
 
 	</test>
 
+	<test id="L_DD_ETHERNET_0009_0002">
+
+		<information>
+			<autor> Abraham Arce </autor>
+			<description> SMP: Stress Process Priority </description>
+			<dateofcreation> 08/11/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0009_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/ethernet/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="3600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
 	<test id="L_DD_ETHERNET_0010_0001">
 
 		<information>
@@ -460,6 +492,38 @@
 		<run>
 			<action>
 				<command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0010_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/ethernet/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="3600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_ETHERNET_0010_0002">
+
+		<information>
+			<autor> Abraham Arce </autor>
+			<description> SMP: Stress CPU Affinity </description>
+			<dateofcreation> 08/11/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0010_0002</command>
 			</action>
 			<action>
 				<command>rm /testsuites/ethernet/scripts/log.*</command>
@@ -545,5 +609,36 @@
 
 	</test>
 
+	<test id="L_DD_ETHERNET_0012_0002">
+
+		<information>
+			<autor> Abraham Arce </autor>
+			<description> SMP: Stress Thread Safety </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0012_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/ethernet/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="3600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
 
 </titan>
