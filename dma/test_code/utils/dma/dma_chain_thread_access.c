@@ -353,8 +353,8 @@ static void __exit dma_module_exit(void)
 	       }
        }
 
-	for (i = 0; i < cht2.current_transfer; i++)
-		stop_dma_transfer_chain(&(cht2.transfers[i]));
+	for (i = 0; i < cht1.current_transfer; i++)
+		stop_dma_transfer_chain(&(cht1.transfers[i]));
 
 	       if(cht2.chain.request_success){
 	       ret = omap_stop_dma_chain_transfers(cht2.chain.chain_id);
@@ -368,9 +368,10 @@ static void __exit dma_module_exit(void)
 				cht2.chain.chain_id);
 			set_test_passed_chain(0);
 	       }
+
+		for (i = 0; i < cht2.current_transfer; i++)
+			stop_dma_transfer_chain(&(cht2.transfers[i]));
        }
-	for (i = 0; i < cht2.current_transfer; i++)
-		stop_dma_transfer_chain(&(cht2.transfers[i]));
 
 }
 
