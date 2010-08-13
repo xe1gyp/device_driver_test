@@ -1,0 +1,4 @@
+#!/bin/sh
+COMMENT comment.sh "Test to run a 1000 captures using the prev2rsz wrapper"
+
+0001 set -x; random_p2rhq_wrapper_test.sh
