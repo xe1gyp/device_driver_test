@@ -1,0 +1,4 @@
+#!/bin/sh
+COMMENT comment.sh "Test to run a 1000 captures using the resizer wrapper"
+
+0001 set -x; random_rszhq_wrapper_test.sh
