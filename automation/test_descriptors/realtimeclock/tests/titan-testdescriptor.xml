@@ -537,7 +537,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="100"/>
+			<timeout time="300"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
