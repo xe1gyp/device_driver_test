@@ -7,12 +7,12 @@
 # Begin L_DD_MMC_0018_0004
 
 01_01  set -x; handlerMmcsdBlock.sh "create" "1" "ext2" "/mnt/mmc/"
-01_02  set -x; handlerTmpfs.sh "create" "250" "/mnt/tmpfs/"
+01_02  set -x; handlerTmpfs.sh "create" "300" "/mnt/tmpfs/"
 
 01_03  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=/mnt/tmpfs/file.temporal bs=1M count=250 && sync"
-01_04  set -x; handlerIrqAffinity.sh "switch" "cp /mnt/tmpfs/file.temporal /mnt/mmc/file.cp" "10" "5" "118"
-01_05  set -x; handlerIrqAffinity.sh "switch" "dd if=/mnt/tmpfs/file.temporal of=/mnt/mmc/file.dd" "10" "5" "118"
-01_06  set -x; handlerIrqAffinity.sh "switch" "dd if=/dev/urandom of=/mnt/mmc/file.urandom bs=1M count=2000" "10" "5" "118"
+01_04  set -x; handlerIrqAffinity.sh "switch" "cp /mnt/tmpfs/file.temporal /mnt/mmc/file.cp" "10" "5" "$MMC_IRQ_NUM"
+01_05  set -x; handlerIrqAffinity.sh "switch" "dd if=/mnt/tmpfs/file.temporal of=/mnt/mmc/file.dd" "10" "5" "$MMC_IRQ_NUM"
+01_06  set -x; handlerIrqAffinity.sh "switch" "dd if=/dev/urandom of=/mnt/mmc/file.urandom bs=1M count=2000" "10" "5" "$MMC_IRQ_NUM"
 01_07  set -x; handlerCmd.sh "run" "cmp /mnt/mmc/file.cp /mnt/mmc/file.dd"
 
 01_08  set -x; handlerTmpfs.sh "remove" "/mnt/tmpfs/"
@@ -21,12 +21,12 @@
 # ---
 
 02_01  set -x; handlerMmcsdBlock.sh "create" "1" "dos" "/mnt/mmc/"
-02_02  set -x; handlerTmpfs.sh "create" "250" "/mnt/tmpfs/"
+02_02  set -x; handlerTmpfs.sh "create" "300" "/mnt/tmpfs/"
 
 02_03  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=/mnt/tmpfs/file.temporal bs=1M count=250 && sync"
-02_04  set -x; handlerIrqAffinity.sh "switch" "cp /mnt/tmpfs/file.temporal /mnt/mmc/file.cp" "10" "5" "118"
-02_05  set -x; handlerIrqAffinity.sh "switch" "dd if=/mnt/tmpfs/file.temporal of=/mnt/mmc/file.dd" "10" "5" "118"
-01_06  set -x; handlerIrqAffinity.sh "switch" "dd if=/dev/urandom of=/mnt/mmc/file.urandom bs=1M count=2000" "10" "5" "118"
+02_04  set -x; handlerIrqAffinity.sh "switch" "cp /mnt/tmpfs/file.temporal /mnt/mmc/file.cp" "10" "5" "$MMC_IRQ_NUM"
+02_05  set -x; handlerIrqAffinity.sh "switch" "dd if=/mnt/tmpfs/file.temporal of=/mnt/mmc/file.dd" "10" "5" "$MMC_IRQ_NUM"
+01_06  set -x; handlerIrqAffinity.sh "switch" "dd if=/dev/urandom of=/mnt/mmc/file.urandom bs=1M count=2000" "10" "5" "$MMC_IRQ_NUM"
 02_07  set -x; handlerCmd.sh "run" "cmp /mnt/mmc/file.cp /mnt/mmc/file.dd"
 
 02_08  set -x; handlerTmpfs.sh "remove" "/mnt/tmpfs/"
@@ -35,13 +35,13 @@
 # ---
 
 03_01  set -x; handlerMmcsdBlock.sh "create" "2" "mixed" "/mnt/mmc1/" "/mnt/mmc2/"
-03_02  set -x; handlerTmpfs.sh "create" "250" "/mnt/tmpfs/"
+03_02  set -x; handlerTmpfs.sh "create" "300" "/mnt/tmpfs/"
 
 03_03  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=/mnt/tmpfs/file.temporal bs=1M count=250 && sync"
-03_04  set -x; handlerIrqAffinity.sh "switch" "cp /mnt/tmpfs/file.temporal /mnt/mmc1/file.cp" "10" "5" "118"
-03_05  set -x; handlerIrqAffinity.sh "switch" "dd if=/mnt/tmpfs/file.temporal of=/mnt/mmc2/file.dd" "10" "5" "118"
-01_06  set -x; handlerIrqAffinity.sh "switch" "dd if=/dev/urandom of=/mnt/mmc1/file.urandom bs=1M count=2000" "10" "5" "118"
-01_07  set -x; handlerIrqAffinity.sh "switch" "dd if=/dev/urandom of=/mnt/mmc2/file.urandom bs=1M count=2000" "10" "5" "118"
+03_04  set -x; handlerIrqAffinity.sh "switch" "cp /mnt/tmpfs/file.temporal /mnt/mmc1/file.cp" "10" "5" "$MMC_IRQ_NUM"
+03_05  set -x; handlerIrqAffinity.sh "switch" "dd if=/mnt/tmpfs/file.temporal of=/mnt/mmc2/file.dd" "10" "5" "$MMC_IRQ_NUM"
+01_06  set -x; handlerIrqAffinity.sh "switch" "dd if=/dev/urandom of=/mnt/mmc1/file.urandom bs=1M count=2000" "10" "5" "$MMC_IRQ_NUM"
+01_07  set -x; handlerIrqAffinity.sh "switch" "dd if=/dev/urandom of=/mnt/mmc2/file.urandom bs=1M count=2000" "10" "5" "$MMC_IRQ_NUM"
 03_08  set -x; handlerCmd.sh "run" "cmp /mnt/mmc1/file.cp /mnt/mmc2/file.dd"
 
 03_09  set -x; handlerTmpfs.sh "remove" "/mnt/tmpfs/"

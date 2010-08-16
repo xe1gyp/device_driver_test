@@ -59,6 +59,12 @@ export MMCSD_MOUNTPOINT_2_LOG=$MMCSD_DIR_TMP/mmcsd.mountpoint.2
 export MMCSD_MOUNTPOINT_1=/media/mmcsdp`echo "$SLOT+1" | bc`
 export MMCSD_MOUNTPOINT_2=/media/mmcsdp`echo "$SLOT+2" | bc`
 
+if [ "$SLOT" = "0" ]; then
+	export MMC_IRQ_NUM=118
+elif [ "$SLOT" = "1" ]; then
+	export MMC_IRQ_NUM=115
+fi
+
 export MMCSD_TMPFS_MOUNTPOINT=/media/tmpfs
 
 export MMCSD_FILE_SIZE_BIG=file.size.big

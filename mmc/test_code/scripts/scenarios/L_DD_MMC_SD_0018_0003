@@ -7,7 +7,7 @@
 # Begin L_DD_MMC_0018_0003
 
 01_01  set -x; handlerMmcsdBlock.sh "create" "1" "ext2" "/mnt/mmc/"
-01_02  set -x; handlerTmpfs.sh "create" "250" "/mnt/tmpfs/"
+01_02  set -x; handlerTmpfs.sh "create" "300" "/mnt/tmpfs/"
 
 01_03  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=/mnt/tmpfs/file.temporal bs=1M count=250 && sync"
 01_04  set -x; handlerCpuAffinity.sh "switch" "cp /mnt/tmpfs/file.temporal /mnt/mmc/file.cp" "10" "5"
@@ -20,7 +20,7 @@
 # ---
 
 02_01  set -x; handlerMmcsdBlock.sh "create" "1" "dos" "/mnt/mmc/"
-02_02  set -x; handlerTmpfs.sh "create" "250" "/mnt/tmpfs/"
+02_02  set -x; handlerTmpfs.sh "create" "300" "/mnt/tmpfs/"
 
 02_03  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=/mnt/tmpfs/file.temporal bs=1M count=250 && sync"
 02_04  set -x; handlerCpuAffinity.sh "switch" "cp /mnt/tmpfs/file.temporal /mnt/mmc/file.cp" "10" "5"
@@ -33,7 +33,7 @@
 # ---
 
 03_01  set -x; handlerMmcsdBlock.sh "create" "2" "mixed" "/mnt/mmc1/" "/mnt/mmc2/"
-03_02  set -x; handlerTmpfs.sh "create" "250" "/mnt/tmpfs/"
+03_02  set -x; handlerTmpfs.sh "create" "300" "/mnt/tmpfs/"
 
 03_03  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=/mnt/tmpfs/file.temporal bs=1M count=250 && sync"
 03_04  set -x; handlerCpuAffinity.sh "switch" "cp /mnt/tmpfs/file.temporal /mnt/mmc1/file.cp" "10" "5"
