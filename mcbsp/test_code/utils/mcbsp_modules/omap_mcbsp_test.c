@@ -607,6 +607,8 @@ static
 void fill_global_structure(u8 id)
 {
 	mcbsptest_info[id].mcbsp_id = test_mcbsp_id + id;
+	if ( id == 1 )
+		mcbsptest_info[id].mcbsp_id = (test_mcbsp_id + id) % 4;
 	mcbsptest_info[id].mode = OMAP_MCBSP_MASTER;	/* Master or Slave */
 	mcbsptest_info[id].rx_cnt = 0;
 	mcbsptest_info[id].tx_cnt = 0;
