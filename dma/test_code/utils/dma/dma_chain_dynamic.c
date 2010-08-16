@@ -281,7 +281,6 @@ static void __exit dma_module_exit(void) {
        for(i = 0; i < current_transfer; i++)
            stop_dma_transfer_chain(&transfers[i]);
 
-	printk("%s : module exit\n");
 
 }
 
