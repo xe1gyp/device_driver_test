@@ -1,0 +1,14 @@
+##############################
+# File Name   : L_DD_GPADC_0002_0001
+# Author      : J Keerthy
+# Date        : Aug 17, 2010
+# Description : GPADC Test Suite
+###############################
+
+# Begin L_DD_GPADC_0002_0001
+
+#This test case verifies if the GPADC driver supports SW Conversion IRQ method
+0001 set -x; insmod $GPADC_IRQ_MODULE  && exit 0 || exit 1
+0002 set -x; rmmod $GPADC_IRQ_MODULE
+
+# End L_DD_GPADC_0002_0001

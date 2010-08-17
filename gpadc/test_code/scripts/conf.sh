@@ -35,6 +35,8 @@ fi
 # Modules
 export MODNAME="omap_gpadc_test"
 export GPADC_MODULE="$MODDIR/$MODNAME.ko"
+export MODIRQNAME="omap_gpadc_sw_irq_test"
+export GPADC_IRQ_MODULE="$MODDIR/$MODIRQNAME.ko"
 
 # Specific Variables
 export DELAY=5
