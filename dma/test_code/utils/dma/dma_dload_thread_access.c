@@ -18,10 +18,12 @@
 #include "dma_single_channel.h"
 
 /********************** GENERAL VARS *****************/
-#define num_elements_in_list (15)
-#define PAUSE_AT_ELEMENT (0)
+#define num_elements_in_list 	2
+#define PAUSE_AT_ELEMENT 	0
+#define MAX_THREADS		4
 
 #define test_element_size 100
+
 int maximum_transfers = 5;	/* max transfers per channel */
 int buf_size = PAGE_SIZE;	/* Buffer size for each channel */
 
@@ -41,7 +43,7 @@ struct tlist_transfer {
 	struct omap_dma_sglist_node *user_sglist;
 	dma_addr_t user_sglist_phy;
 };
-static struct tlist_transfer tls1, tls2;
+static struct tlist_transfer tls[MAX_THREADS];
 
 #define TOTAL_TRANSFERR_WORD  (num_elements_in_list*test_element_size)
 #define TOTAL_TRANSFER_BYTES  (TOTAL_TRANSFERR_WORD*4)
@@ -155,7 +157,10 @@ static void dmatest_populate_sglist(struct tlist_transfer *ptls,
 	}
 }
 
-static int dmasglist_test1(void *info)
+static int  count;
+static int  stress_count;
+
+static int dmasglist_test(void *info)
 {
 	int rc;
 	int i;
@@ -228,47 +233,70 @@ static int dmasglist_test1(void *info)
 	omap_set_dma_callback(sglist_id, dma_sglist_cb_final, tls);
 
 	rc = omap_start_dma_sglist_transfers(sglist_id, PAUSE_AT_ELEMENT);
+	count += 1;
 
 	return rc;
 }
 
 static void __exit dmatest_cleanup(void)
 {
-	int i;
+	/* Dummy */
 
-	dma_free_coherent(NULL, tls1.total_num_elements * 4,
-		tls1.bsptest_dma_dst_addr, (int)tls1.bsptest_dma_dst_addr_phy);
-	dma_free_coherent(NULL, PAGE_SIZE,
-		tls1.user_sglist, tls1.user_sglist_phy);
-	for (i = 0; i < num_elements_in_list; ++i)
-		dma_free_coherent(NULL,
-				tls1.transfer_sizes[i] * 4,
-				(void *)tls1.bsptest_dma_src_addr[i],
-				(int)tls1.bsptest_dma_src_addr_phy[i]);
-	 omap_release_dma_sglist(tls1.sglist_id);
+}
 
+void create_dma_threads()
+{
+	struct task_struct *p[MAX_THREADS];
+	int t_count;
+
+	for (t_count = 0; t_count < MAX_THREADS; t_count++) {
+		p[t_count] = kthread_create(dmasglist_test, &tls[t_count],
+								"dma_dload_thread");
+		if (!IS_ERR(p[t_count]))
+			kthread_bind(p[t_count], t_count);
+		else
+			WARN_ON(1);
+	}
+
+	/* Start all the threads at a time */
+	for (t_count = 0; t_count < MAX_THREADS; t_count++) {
+		wake_up_process(p[t_count]);
+	}
+	return;
 }
 
 static int __init dmatest_init(void)
 {
-	int ret = 0;
-	struct task_struct *p1, *p2;
-	int x;
+	int ret = 0, t_count, i;
 
-	test_result = 0;
 	/* Init channel independent config parameters */
 	omap_dma_set_global_params(DMA_DEFAULT_ARB_RATE,
 				DMA_DEFAULT_FIFO_DEPTH,
 				DMA_THREAD_RESERVE_ONET |
 				DMA_THREAD_FIFO_25);
-	p1 = kthread_create(dmasglist_test1, &tls1,
-			"dma_dload_thread/0");
-	p2 = kthread_create(dmasglist_test1, &tls2,
-			"dma_dload_thread/1");
-	kthread_bind(p1, 0);
-	kthread_bind(p2, 1);
-	x = wake_up_process(p1);
-	x = wake_up_process(p2);
+
+	create_dma_threads();
+
+	/* Wait till all the thread finish data transfer */
+	while(count < MAX_THREADS)
+		msleep(10);
+
+	for (t_count = 0; t_count < MAX_THREADS; t_count++) {
+		
+		dma_free_coherent(NULL, tls[t_count].total_num_elements * 4,
+				tls[t_count].bsptest_dma_dst_addr, 
+				(int)tls[t_count].bsptest_dma_dst_addr_phy);
+
+		dma_free_coherent(NULL, PAGE_SIZE, tls[t_count].user_sglist, 
+						tls[t_count].user_sglist_phy);
+
+		for (i = 0; i < num_elements_in_list; ++i)
+			dma_free_coherent(NULL,	tls[t_count].transfer_sizes[i] * 4,
+				(void *)tls[t_count].bsptest_dma_src_addr[i],
+				(int)tls[t_count].bsptest_dma_src_addr_phy[i]);
+
+		omap_release_dma_sglist(tls[t_count].sglist_id);
+	}
 
 	return ret;
 }
