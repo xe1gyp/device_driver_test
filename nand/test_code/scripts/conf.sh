@@ -101,7 +101,7 @@ elif [ "$TYPE" == "NAND" ]; then
 
   # Poky on zoom3, has /dev/block/mtdblock{number} and /dev/mtdblock{number},
   # but the second one is the correct
-	if [ ! -d "$MTD_BLK_DEV1" ]
+	if [ ! -b "$MTD_BLK_DEV1" ]
 	then
 	        export BLOCK_FOLDER=/dev
 		export MTD_BLK_DEV1=$BLOCK_FOLDER/mtdblock${MTD_NUMBER}
