@@ -11,11 +11,11 @@ Signed-off-by: Abhijit Pagare <abhijitpagare@ti.com>
  arch/arm/plat-omap/include/plat/clockdomain.h |   40 +++++++++++++-------------
  2 files changed, 39 insertions(+), 20 deletions(-)
 
-Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
+Index: kernel-omap4/arch/arm/mach-omap2/clockdomain.c
 ===================================================================
---- L24.0.13-new.orig/arch/arm/mach-omap2/clockdomain.c
-+++ L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
-@@ -387,6 +387,7 @@ void clkdm_init(struct clockdomain **clk
+--- kernel-omap4.orig/arch/arm/mach-omap2/clockdomain.c	2010-08-16 17:59:15.540167543 +0530
++++ kernel-omap4/arch/arm/mach-omap2/clockdomain.c	2010-08-16 17:59:45.340417485 +0530
+@@ -387,6 +387,7 @@
  		_init_sleepdep_usecount(clkdm);
  	}
  }
@@ -23,7 +23,7 @@ Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
  
  /**
   * clkdm_lookup - look up a clockdomain by name, return a pointer
-@@ -413,6 +414,7 @@ struct clockdomain *clkdm_lookup(const c
+@@ -413,6 +414,7 @@
  
  	return clkdm;
  }
@@ -31,7 +31,7 @@ Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
  
  /**
   * clkdm_for_each - call function on each registered clockdomain
-@@ -445,6 +447,7 @@ int clkdm_for_each(int (*fn)(struct cloc
+@@ -445,6 +447,7 @@
  
  	return ret;
  }
@@ -39,7 +39,7 @@ Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
  
  
  /**
-@@ -461,6 +464,7 @@ struct powerdomain *clkdm_get_pwrdm(stru
+@@ -461,6 +464,7 @@
  
  	return clkdm->pwrdm.ptr;
  }
@@ -47,7 +47,7 @@ Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
  
  
  /* Hardware clockdomain control */
-@@ -501,6 +505,7 @@ int clkdm_add_wkdep(struct clockdomain *
+@@ -501,6 +505,7 @@
  
  	return 0;
  }
@@ -55,7 +55,7 @@ Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
  
  /**
   * clkdm_del_wkdep - remove a wakeup dependency from clkdm2 to clkdm1
-@@ -536,6 +541,7 @@ int clkdm_del_wkdep(struct clockdomain *
+@@ -536,6 +541,7 @@
  
  	return 0;
  }
@@ -63,7 +63,7 @@ Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
  
  /**
   * clkdm_read_wkdep - read wakeup dependency state from clkdm2 to clkdm1
-@@ -569,6 +575,7 @@ int clkdm_read_wkdep(struct clockdomain 
+@@ -569,6 +575,7 @@
  	return prm_read_mod_bits_shift(clkdm1->pwrdm.ptr->prcm_offs, PM_WKDEP,
  				       (1 << clkdm2->dep_bit));
  }
@@ -71,7 +71,7 @@ Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
  
  /**
   * clkdm_clear_all_wkdeps - remove all wakeup dependencies from target clkdm
-@@ -601,6 +608,7 @@ int clkdm_clear_all_wkdeps(struct clockd
+@@ -601,6 +608,7 @@
  
  	return 0;
  }
@@ -79,7 +79,7 @@ Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
  
  /**
   * clkdm_add_sleepdep - add a sleep dependency from clkdm2 to clkdm1
-@@ -643,6 +651,7 @@ int clkdm_add_sleepdep(struct clockdomai
+@@ -643,6 +651,7 @@
  
  	return 0;
  }
@@ -87,7 +87,7 @@ Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
  
  /**
   * clkdm_del_sleepdep - remove a sleep dependency from clkdm2 to clkdm1
-@@ -686,6 +695,7 @@ int clkdm_del_sleepdep(struct clockdomai
+@@ -686,6 +695,7 @@
  
  	return 0;
  }
@@ -95,7 +95,7 @@ Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
  
  /**
   * clkdm_read_sleepdep - read sleep dependency state from clkdm2 to clkdm1
-@@ -726,6 +736,7 @@ int clkdm_read_sleepdep(struct clockdoma
+@@ -726,6 +736,7 @@
  				       OMAP3430_CM_SLEEPDEP,
  				       (1 << clkdm2->dep_bit));
  }
@@ -103,7 +103,7 @@ Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
  
  /**
   * clkdm_clear_all_sleepdeps - remove all sleep dependencies from target clkdm
-@@ -762,6 +773,7 @@ int clkdm_clear_all_sleepdeps(struct clo
+@@ -762,6 +773,7 @@
  
  	return 0;
  }
@@ -111,7 +111,7 @@ Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
  
  /**
   * omap2_clkdm_clktrctrl_read - read the clkdm's current state transition mode
-@@ -784,6 +796,7 @@ static int omap2_clkdm_clktrctrl_read(st
+@@ -784,6 +796,7 @@
  
  	return v;
  }
@@ -119,7 +119,7 @@ Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
  
  /**
   * omap2_clkdm_sleep - force clockdomain sleep transition
-@@ -828,6 +841,7 @@ int omap2_clkdm_sleep(struct clockdomain
+@@ -828,6 +841,7 @@
  
  	return 0;
  }
@@ -127,7 +127,7 @@ Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
  
  /**
   * omap2_clkdm_wakeup - force clockdomain wakeup transition
-@@ -872,6 +886,7 @@ int omap2_clkdm_wakeup(struct clockdomai
+@@ -872,6 +886,7 @@
  
  	return 0;
  }
@@ -135,7 +135,7 @@ Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
  
  /**
   * omap2_clkdm_allow_idle - enable hwsup idle transitions for clkdm
-@@ -913,6 +928,7 @@ void omap2_clkdm_allow_idle(struct clock
+@@ -908,6 +923,7 @@
  
  	pwrdm_clkdm_state_switch(clkdm);
  }
@@ -143,15 +143,15 @@ Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
  
  /**
   * omap2_clkdm_deny_idle - disable hwsup idle transitions for clkdm
-@@ -951,6 +967,7 @@ void omap2_clkdm_deny_idle(struct clockd
- 			_clkdm_del_autodeps(clkdm);
- 	}
+@@ -941,6 +957,7 @@
+	if ((atomic_read(&clkdm->usecount) > 0) && (!cpu_is_omap44xx()))
+		_clkdm_del_autodeps(clkdm);
  }
 +EXPORT_SYMBOL(omap2_clkdm_deny_idle);
  
  
  /* Clockdomain-to-clock framework interface code */
-@@ -1022,6 +1039,7 @@ int omap2_clkdm_clk_enable_post(struct c
+@@ -1012,6 +1029,7 @@
  
  	return 0;
  }
@@ -159,17 +159,17 @@ Index: L24.0.13-new/arch/arm/mach-omap2/clockdomain.c
  
  /**
   * omap2_clkdm_clk_disable - remove an enabled downstream clock from this clkdm
-@@ -1083,4 +1101,5 @@ int omap2_clkdm_clk_disable(struct clock
+@@ -1073,4 +1091,5 @@
  
  	return 0;
  }
 +EXPORT_SYMBOL(omap2_clkdm_clk_disable);
  
-Index: L24.0.13-new/arch/arm/plat-omap/include/plat/clockdomain.h
+Index: kernel-omap4/arch/arm/plat-omap/include/plat/clockdomain.h
 ===================================================================
---- L24.0.13-new.orig/arch/arm/plat-omap/include/plat/clockdomain.h
-+++ L24.0.13-new/arch/arm/plat-omap/include/plat/clockdomain.h
-@@ -113,30 +113,30 @@ struct clockdomain {
+--- kernel-omap4.orig/arch/arm/plat-omap/include/plat/clockdomain.h	2010-08-16 17:59:15.532199148 +0530
++++ kernel-omap4/arch/arm/plat-omap/include/plat/clockdomain.h	2010-08-16 17:59:45.340417485 +0530
+@@ -113,30 +113,30 @@
  	struct list_head node;
  };
  

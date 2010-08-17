@@ -26,7 +26,6 @@ static struct clk_info clks[] = {
 	{NULL, "secure_32k_clk_src_ck"},
 	{NULL, "slimbus_clk"},
 	{NULL, "sys_32k_ck"},
-	{NULL, "tie_low_clock_ck"},
 	{NULL, "virt_12000000_ck"},
 	{NULL, "virt_13000000_ck"},
 	{NULL, "virt_16800000_ck"},
@@ -35,6 +34,7 @@ static struct clk_info clks[] = {
 	{NULL, "virt_27000000_ck"},
 	{NULL, "virt_38400000_ck"},
 	{NULL, "sys_clkin_ck"},
+	{NULL, "tie_low_clock_ck"},
 	{NULL, "utmi_phy_clkout_ck"},
 	{NULL, "xclk60mhsp1_ck"},
 	{NULL, "xclk60mhsp2_ck"},
@@ -78,11 +78,9 @@ static struct clk_info clks[] = {
 	{NULL, "dpll_per_m6_ck"},
 	{NULL, "dpll_per_m7_ck"},
 	{NULL, "usb_hs_clk_div_ck"},
-#if 0
-	{NULL, "dpll_usb_ck"},
-#endif
 	{NULL, "dpll_usb_clkdcoldo_ck"},
 	{NULL, "dpll_usb_m2_ck"},
+	{NULL, "ducati_clk_mux_ck"},
 	{NULL, "func_12m_fclk"},
 	{NULL, "func_24m_clk"},
 	{NULL, "func_24mc_fclk"},
@@ -107,54 +105,43 @@ static struct clk_info clks[] = {
 	{NULL, "aes1_fck"},
 	{NULL, "aes2_fck"},
 	{NULL, "aess_fck"},
-	{NULL, "cust_efuse_fck"},
 	{NULL, "des3des_fck"},
 	{NULL, "dmic_sync_mux_ck"},
 	{NULL, "dmic_fck"},
 	{NULL, "dss_fck"},
-	{NULL, "ducati_ick"},
+	{NULL, "efuse_ctrl_cust_fck"},
 #if 0
 	/* Cannot disable EMIF clocks */
 	{NULL, "emif1_ick"},
 	{NULL, "emif2_ick"},
 #endif
 	{NULL, "fdif_fck"},
-	{NULL, "gfx_fck"},
-	{"omap-gpio.0", "ick"},
-	{"omap-gpio.1", "ick"},
-	{"omap-gpio.2", "ick"},
-	{"omap-gpio.3", "ick"},
-	{"omap-gpio.4", "ick"},
-	{"omap-gpio.5", "ick"},
+	{NULL, "fpka_fck"},
+	{NULL, "gpio1_ick"},
+	{NULL, "gpio2_ick"},
+	{NULL, "gpio3_ick"},
+	{NULL, "gpio4_ick"},
+	{NULL, "gpio5_ick"},
+	{NULL, "gpio6_ick"},
 	{NULL, "gpmc_ick"},
-	{NULL, "gpt1_fck"},
-	{NULL, "gpt10_fck"},
-	{NULL, "gpt11_fck"},
-	{NULL, "gpt2_fck"},
-	{NULL, "gpt3_fck"},
-	{NULL, "gpt4_fck"},
-	{NULL, "gpt5_fck"},
-	{NULL, "gpt6_fck"},
-	{NULL, "gpt7_fck"},
-	{NULL, "gpt8_fck"},
-	{NULL, "gpt9_fck"},
 	{"omap2_hdq.0", "fck"},
-	{NULL, "hsi_ick"},
+	{NULL, "hsi_fck"},
 	{"i2c_omap.1", "fck"},
 	{"i2c_omap.2", "fck"},
 	{"i2c_omap.3", "fck"},
 	{"i2c_omap.4", "fck"},
 	{NULL, "iss_fck"},
-	{NULL, "ivahd_ick"},
-	{NULL, "keyboard_fck"},
-	{NULL, "l3_instr_interconnect_ick"},
-	{NULL, "l3_interconnect_3_ick"},
+	{NULL, "iva_fck"},
+	{NULL, "kbd_fck"},
+	{NULL, "l3_instr_ick"},
+	{NULL, "l3_main_3_ick"},
 	{NULL, "mcasp_sync_mux_ck"},
 	{NULL, "mcasp_fck"},
 	{NULL, "mcbsp1_sync_mux_ck"},
 	{NULL, "mcbsp2_sync_mux_ck"},
 	{NULL, "mcbsp3_sync_mux_ck"},
 	{NULL, "mcbsp4_sync_mux_ck"},
+	{NULL, "mcpdm_fck"},
 	{"omap2_mcspi.1", "fck"},
 	{"omap2_mcspi.2", "fck"},
 	{"omap2_mcspi.3", "fck"},
@@ -162,32 +149,31 @@ static struct clk_info clks[] = {
 	{"mmci-omap-hs.2", "fck"},
 	{"mmci-omap-hs.3", "fck"},
 	{"mmci-omap-hs.4", "fck"},
-	{NULL, "ocp_wp1_ick"},
-	{NULL, "pdm_fck"},
-	{NULL, "pkaeip29_fck"},
+	{NULL, "ocp_wp_noc_ick"},
 	{"omap_rng", "ick"},
-	{NULL, "sha2md51_fck"},
-	{NULL, "sl2_ick"},
+	{NULL, "sha2md5_fck"},
+	{NULL, "sl2if_ick"},
 	{NULL, "slimbus1_fck"},
 	{NULL, "slimbus2_fck"},
-	{NULL, "sr_core_fck"},
-	{NULL, "sr_iva_fck"},
-	{NULL, "sr_mpu_fck"},
-	{NULL, "tesla_ick"},
+	{NULL, "smartreflex_core_fck"},
+	{NULL, "smartreflex_iva_fck"},
+	{NULL, "smartreflex_mpu_fck"},
 	{NULL, "uart1_fck"},
 	{NULL, "uart2_fck"},
 #if 0
 	{NULL, "uart3_fck"},
 #endif
 	{NULL, "uart4_fck"},
-	{NULL, "usb_host_fck"},
 	{NULL, "usb_host_fs_fck"},
+	{NULL, "usb_host_hs_fck"},
 	{"musb_hdrc", "ick"},
-	{NULL, "usb_tll_ick"},
+	{NULL, "usb_tll_hs_ick"},
+#if 0
 	{NULL, "usbphyocp2scp_ick"},
+#endif
 	{NULL, "usim_ick"},
 	{"omap_wdt", "fck"},
-	{NULL, "wdt3_fck"},
+	{NULL, "wd_timer3_fck"},
 	{NULL, "otg_60m_gfclk_ck"},
 	{NULL, "stm_clk_div_ck"},
 	{NULL, "trace_clk_div_ck"},
@@ -344,11 +330,11 @@ int clk_test_opt2(void)
 					printk(KERN_INFO "Trying to set %lu, closest possible\
 						%lu\n", orig_rate * 2, valid_rate);
 					clk_set_rate(tclk, valid_rate);
+					rate = clk_get_rate(tclk);
 					printk(KERN_INFO "Rate of clk %s is %lu\n",
 						tclk->name, rate);
 				}
 			}
-			rate = clk_get_rate(tclk);
 			/* Try half rate */
 			valid_rate = clk_round_rate(tclk, orig_rate / 2);
 			/* Check if a valid rate exists */
@@ -464,6 +450,9 @@ int clk_test_opt4(void)
 			ret = 1;
 			continue;
 		}
+
+		printk("\nClk name: %s\n", tclk->name);
+
 		if (tclk->set_rate) {
 			ret = clk_set_rate(tclk, 0x0);
 			if (ret != -EINVAL) {
