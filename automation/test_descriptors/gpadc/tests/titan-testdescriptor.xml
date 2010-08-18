@@ -65,6 +65,38 @@
 
 	</test>
 
+        <test id="L_DD_GPADC_0002_0001">
+
+                <information>
+                        <autor> Keerthy </autor>
+                        <description> GPADC conversion SW INT </description>
+                        <dateofcreation> 17/08/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/gpadc/scripts/test_runner.sh L_DD_GPADC_0002_0001</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/gpadc/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="300"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
 	
 
 </titan>
