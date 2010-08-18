@@ -10,6 +10,9 @@
 		</information>
 
 		<run>
+			<action>
+				<command>sleep 600</command>
+			</action>
 				<action>
 				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0001_0001</command>
 			</action>
@@ -25,7 +28,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="800"/>
+			<timeout time="1500"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -43,6 +46,9 @@
 		</information>
 
 		<run>
+			<action>
+				<command>sleep 600</command>
+			</action>
 				<action>
 				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0001_0002</command>
 			</action>
