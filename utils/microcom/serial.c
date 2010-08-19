@@ -103,8 +103,10 @@ struct ios_ops * serial_init(char *device)
 	struct termios pts;	/* termios settings on port */
 	struct ios_ops *ops;
 	int fd;
+#ifndef ANDROID
 	char *substring;
 	long pid;
+#endif
 
 	ops = malloc(sizeof(*ops));
 	if (!ops)
@@ -133,11 +135,12 @@ struct ios_ops * serial_init(char *device)
 	fd = open(lockfile, O_RDWR | O_CREAT, 0444);
 	if (fd < 0)
 		main_usage(3, "cannot create lockfile", device);
-#endif
+
 	/* Kermit wants binary pid */
 	pid = getpid();
 	write(fd, &pid, sizeof(long));
 	close(fd);
+#endif
 
 	/* open the device */
 	fd = open(device, O_RDWR);
