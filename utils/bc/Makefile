@@ -11,7 +11,7 @@ CC := $(CROSS_COMPILE)gcc
 
 all:
 	mkdir -p build
-	cd build; ../configure --host=$(HOST) CC=$(CC)
+	cd build; CC=$(CC) ../configure --host=$(HOST)
 	make -C build
 
 install:
