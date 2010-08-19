@@ -149,7 +149,9 @@ $(addprefix $(TESTROOT)/,$(TESTSUITES)): $$(notdir $$@)/$(CODE_DIR)
 	@mkdir -p $@
 	@-cp -r $</bin $@
 	@-cp -r $</scripts $@
-	@-cp -r $</modules $@
+	@if [ -d $</modules ]; then \
+		-cp -r $</modules $@; \
+	fi;
 	@mkdir -p $@/scripts/tmp
 	@mkdir -p $@/scripts/test
 	@if [ '$(findstring $(notdir $@), $(APPLICABLE_TESTS))' = '' ]]; then \
