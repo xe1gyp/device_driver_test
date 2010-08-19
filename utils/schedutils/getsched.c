@@ -44,7 +44,7 @@
 char progname[_POSIX_PATH_MAX];
 
 void
-print_usage ()
+print_usage (void)
 {
   fprintf (stderr, "Usage : %s [-h] pid [pid, ...]\n\
 Gets the scheduler and priority used for processes identified with the pids.\n\

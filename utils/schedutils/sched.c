@@ -47,7 +47,7 @@
 char progname[_POSIX_PATH_MAX];
 
 void
-print_usage ()
+print_usage (void)
 {
   fprintf (stderr, "Usage : %s [-h] [-v] -r|-o|-f priority program [args, ..]\n\
 Runs program with a new scheduler and priority.\n\

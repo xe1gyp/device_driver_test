@@ -45,7 +45,7 @@
 char progname[_POSIX_PATH_MAX];
 
 void
-print_usage ()
+print_usage (void)
 {
   fprintf (stderr, "Usage : %s [-h] [-v] -r|-o|-f pid [priority]\n\
 Sets a new scheduler and/or priority for process identified with pid.\n\
