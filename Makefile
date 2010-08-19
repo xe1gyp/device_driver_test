@@ -24,7 +24,10 @@ check:
 -include .config
 -include $(KDIR)/.config
 
-TESTROOT 	:= $(PWD)/build
+ifeq ($(TESTROOT),)
+$(warning TESTROOT was not specified. Defaulting to "$(PWD)/build")
+TESTROOT        := $(PWD)/build
+endif
 CODE_DIR	:= test_code
 UTILSDIR 	:= $(PWD)/utils
 SCENARIOS	:= scripts/scenarios
