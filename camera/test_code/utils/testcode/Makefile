@@ -10,10 +10,24 @@ CC := $(CROSS_COMPILE)gcc
 CFLAGS += -I$(KDIR)/include -I$(KDIR)/arch/arm/plat-omap/include -I$(KDIR)/arch/arm/include
 
 objects := af_stream af_stream_rel burst_mode burst_mode_120 \
-	   burst_zoom capture flash_driver reszhq virtsenhq p2rhq prvhq\
-	   h3a_stream hist_test multi_open prev_wrap process_cam rsz_vbuff \
+	   burst_zoom capture flash_driver \
+	   h3a_stream hist_test multi_open process_cam \
 	   streaming_abs streaming_frame i421_errata_af_stats\
 	   streaming_to_video_file streaming_zoom fps snapshot sensor_modes
+
+
+#HACK: compile, Virtual sensor & HQ compilation only if below condition is true
+ifdef CONFIG_VIDEO_OMAP34XX_ISP_PREV2RESZ
+objects += virtsenhq p2rhq
+
+ifdef CONFIG_VIDEO_OMAP34XX_ISP_PREVIEWER
+objects += prvhq prev_wrap
+endif
+
+ifdef CONFIG_VIDEO_OMAP34XX_ISP_RESIZER
+objects += reszhq rsz_vbuff
+endif
+endif
 
 all: $(objects)
 
