@@ -1296,7 +1296,7 @@ case 41:
 YY_RULE_SETUP
 #line 315 "scan.l"
 {
- 	      unsigned char *look;
+ 	      char *look;
 	      int count = 0;
 	      yylval.s_value = strcopyof(yytext);
 	      for (look = yytext; *look != 0; look++)
@@ -1312,7 +1312,7 @@ case 42:
 YY_RULE_SETUP
 #line 327 "scan.l"
 {
-	      unsigned char *src, *dst;
+	      char *src, *dst;
 	      int len;
 	      /* remove a trailing decimal point. */
 	      len = strlen(yytext);
