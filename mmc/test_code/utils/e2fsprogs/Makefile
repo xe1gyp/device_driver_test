@@ -22,6 +22,7 @@ install:
 	cp build/misc/tune2fs ../../bin
 	cp build/e2fsck/e2fsck ../../bin
 	cp build/e2fsck/gen_crc32table ../../bin
+	cd ../../bin; rm -f mkfs.ext?
 	cd ../../bin; ln -s mke2fs mkfs.ext2
 	cd ../../bin; ln -s mke2fs mkfs.ext3
 	cd ../../bin; ln -s mke2fs mkfs.ext4
