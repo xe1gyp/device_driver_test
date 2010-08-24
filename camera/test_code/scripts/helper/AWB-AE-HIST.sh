@@ -11,7 +11,7 @@ fi
 
 if [ $TEST = "AWB" ]; then
   echo "";echo "Running h3a_stream program to configure the H3A engine and to collect auto white balance statistics."
-   echo "";echo "To obtain again the AWB statistics, press S20."
+   echo "";echo "To obtain again the AWB statistics, press S20 (or C) in keypad."
   QUESTION="Was the camera able to capture video, and let you configure H3A engine and collect AWB statistics?"
   sleep 5
   $TESTBIN/h3a_stream $DEVICE 30 1 $PARAMETER
@@ -19,7 +19,7 @@ if [ $TEST = "AWB" ]; then
   echo "Test returned $RESULT"
 elif [ $TEST = "AE" ]; then
   echo "";echo "Running h3a_stream program to configure the H3A engine and to collect auto exposure statistics."
-  echo "";echo "To obtain again the AE/AWB statistics, press S20."
+  echo "";echo "To obtain again the AE/AWB statistics, press S20 (or C) in keypad."
   QUESTION="Was the camera able to capture video, and let you configure H3A engine and collect AWB statistics?"
   sleep 5
   $TESTBIN/h3a_stream $DEVICE 30 1 $PARAMETER
@@ -27,7 +27,7 @@ elif [ $TEST = "AE" ]; then
   echo "Test returned $RESULT"
 elif [ $TEST = "HIST" ]; then
   echo "";echo "Run histogram test progam './hist_test'"
-  echo "";echo "Check if the application run without problems"
+  echo "";echo "Check if the application runs without problems"
   sleep 5
   $TESTBIN/hist_test $DEVICE
   RESULT=$?

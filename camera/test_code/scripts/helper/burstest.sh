@@ -40,17 +40,17 @@ if [ "$SIZE" = "982 560" ]; then
 fi
 
 if [ -z "$6" ]; then
-  # Usage: burst_mode <camDevice><pixelFmt><size><num_of_images><file_name>
+  # Usage: burst_mode <camDevice><pixelFmt><size><num_of_images><file_name><fps>
   $TESTBIN/burst_mode $DEVICE $FORMAT $SIZE $FRNUM "$FNAME" $FPS
   RESULT=$?
   echo "Test returned $RESULT"
 elif [ "$TEST" = "BW" ]; then
-    # Usage: busrt_mode <camDevice><pixelFmt><size><num_of_images><file_name><effect>
+   # Usage: burst_mode <camDevice><pixelFmt><size><num_of_images><file_name><fps><test>
    $TESTBIN/burst_mode $DEVICE $FORMAT $SIZE $FRNUM "$FNAME" $FPS $TEST
    RESULT=$?
    echo "Test returned $RESULT"
 elif [ "$TEST" = "SEPIA" ]; then
-      # Usage: busrt_mode <camDevice><pixelFmt><size><num_of_images><file_name><effect>
+      # Usage: burst_mode <camDevice><pixelFmt><size><num_of_images><file_name><fps><test>
       $TESTBIN/burst_mode $DEVICE $FORMAT $SIZE $FRNUM "$FNAME" $FPS $TEST
       RESULT=$?
       echo "Test returned $RESULT"
@@ -60,8 +60,7 @@ elif [ "$FPS" = "120" ]; then
       RESULT=$?
       echo "Test returned $RESULT"
 else
-      # Usage: busrt_zoom <camDevice><pixelFmt><size><num_of_images><file_name><zoomFactor>
-      #echo "$TESTBIN/burst_zoom $DEVICE $FORMAT $SIZE $FRNUM $FNAME $EFFECT"
+      # Usage: burst_zoom <camDevice><pixelFmt><size><num_of_images><file_name><zoomFactor*10>
       $TESTBIN/burst_zoom $DEVICE $FORMAT $SIZE $FRNUM "$FNAME" $TEST
       RESULT=$?
       echo "Test returned $RESULT"

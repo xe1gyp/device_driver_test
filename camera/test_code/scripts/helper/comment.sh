@@ -7,5 +7,4 @@ if [ -z "$STRESS" ]; then
   $WAIT_KEY
 else 
 	echo "";echo $COMMENT;echo ""
-	#sleep 0
 fi

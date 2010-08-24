@@ -8,8 +8,7 @@ if [ -z "$DEVICE" ]; then
   DEVICE=1
 fi
 
-# Usage: multi_opwn <combination>
-
+# Usage: multi_open <combination> <fps> <out dev> <capture dev>
 $TESTBIN/multi_open $COMB 30 1 $DEVICE
 RESULT=$?
 echo "Test returned $RESULT"
@@ -17,7 +16,7 @@ echo "Test returned $RESULT"
 if [ $RESULT -eq 255 ]; then
   ERR=1
 elif [ -z "$STRESS" ]; then
-  echo "";echo "Was the video captured and displayed on the LCD with birgthness change?";echo ""
+  echo "";echo "Was the video captured and displayed on the LCD with brigthness change?";echo ""
   $WAIT_ANSWER
   ERR=$?
 fi

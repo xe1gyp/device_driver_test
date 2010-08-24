@@ -1,12 +1,12 @@
 #!/bin/sh
 
-FBS=$1
+FPS=$1
 SIZE=$2
 FORMAT=$3
 DEVICE=$4
 
-#Usage: streaming_frame /dev/video<X> <framerate> <pixformat> <size> <video> <frames>
-$TESTBIN/streaming_frame $DEVICE $FBS $FORMAT $SIZE "1" 500 &
+#Usage: streaming_frame <cam dev> <framerate> <pixformat> <size> <vout dev> <frames>
+$TESTBIN/streaming_frame $DEVICE $FPS $FORMAT $SIZE "1" 500 &
 
 sleep 1
 echo "Suspend camera driver"

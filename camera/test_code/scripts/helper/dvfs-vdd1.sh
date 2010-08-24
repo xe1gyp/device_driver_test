@@ -20,7 +20,6 @@ sleep 1
 # Find pid for the background test.
 pid=`ps | grep $TEST | grep -v "grep" | awk '{print $1}'`
 
-
 # Changing the governor to userspace.
 GOV=`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor`
 echo "userspace" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
@@ -63,7 +62,7 @@ echo "Reset Governor to:" `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_gove
 
 
 if [ -z "$STRESS" ]; then
-    echo "";echo " Was streaming video at $FPS fbs and OPP values displayed cleanly on LCD screen?";echo ""
+    echo "";echo " Was streaming video at $FPS fps and OPP values displayed cleanly on LCD screen?";echo ""
   $WAIT_ANSWER
   ERR=$?
   if [ $ERR -eq 1 ]; then
