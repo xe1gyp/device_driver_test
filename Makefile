@@ -147,10 +147,14 @@ $(TESTSUITES):
 .SECONDEXPANSION:
 $(addprefix $(TESTROOT)/,$(TESTSUITES)): $$(notdir $$@)/$(CODE_DIR)
 	@mkdir -p $@
-	@-cp -r $</bin $@
-	@-cp -r $</scripts $@
+	@if [ -d $</bin ]; then \
+		cp -r $</bin $@; \
+	fi;
+	@if [ -d $</scripts ]; then \
+		cp -r $</scripts $@; \
+	fi;
 	@if [ -d $</modules ]; then \
-		-cp -r $</modules $@; \
+		cp -r $</modules $@; \
 	fi;
 	@mkdir -p $@/scripts/tmp
 	@mkdir -p $@/scripts/test
