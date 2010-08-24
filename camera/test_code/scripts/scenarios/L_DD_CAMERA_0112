@@ -11,7 +11,7 @@
 
 COMMENT comment.sh "Test v4l2 compliance by using a standard v4l2 app"
 
-0002_SAN set -x; v4l2test.sh "mmap" "QVGA" "YUYV" "/dev/video5"&& exit 0 || exit 1
-0003_SAN set -x; v4l2test.sh "user" "QVGA" "YUYV"  "/dev/video5"&& exit 0 || exit 1
+0002_SAN set -x; v4l2test.sh "mmap" "/dev/video5"&& exit 0 || exit 1
+0003_SAN set -x; v4l2test.sh "user" "/dev/video5"&& exit 0 || exit 1
 
 # End "L_DD_CAMERA_0112"

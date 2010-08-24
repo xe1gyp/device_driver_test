@@ -1,9 +1,7 @@
 #!/bin/sh
 
 MODE=$1
-SIZE=$2
-FORMAT=$3
-DEVICE=$4
+DEVICE=$2
 
 if [ $MODE = "mmap" ]; then
   $TESTBIN/capture -d $DEVICE -m
