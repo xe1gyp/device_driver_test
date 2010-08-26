@@ -101,7 +101,9 @@ ifeq ($(TESTSUITES),all)
 override TESTSUITES := $(APPLICABLE_TESTS)
 endif
 
-CFLAGS+= -D $(TARGET_PLATFORM) -D $(TARGET_FILESYSTEM)
+ifeq ($(findstring -D $(TARGET_PLATFORM) -D $(TARGET_FILESYSTEM),$(CFLAGS)),)
+CFLAGS += -D $(TARGET_PLATFORM) -D $(TARGET_FILESYSTEM)
+endif
 
 .PHONY: all check cleanup maketest clean distclean utilities $(TESTSUITES)\
 $(TESTROOT)/$(notdir $(UTILSDIR)) $(addprefix $(TESTROOT)/,$(TESTSUITES))
