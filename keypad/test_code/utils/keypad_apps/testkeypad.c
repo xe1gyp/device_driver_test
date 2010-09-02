@@ -16,27 +16,34 @@ int main(int argc, char *argv[])
 		unsigned int value;
 	} keyinfo;
 
-	#define MAX_LIMIT_INTERACTIONS 500
-
 	int bytes;
-	int fd = open(argv[1], O_RDONLY);
+	int fd;
 	int counter = 0;
+	int iterations = 0;
 
-	if (argc < 2) {
-		printf("Usage: testkeypad /dev/input/eventX\n");
+	if (argc < 3) {
+		printf("Usage: testkeypad /dev/input/eventX <iterations>\n");
 		printf("Where X = input device number\n");
 		return 1;
 	}
 
+	fd = open(argv[1], O_RDONLY);
 	if (fd == -1) {
 		printf("Received node cannot be opened!\n");
 		return 1;
 	}
 
+	iterations = atoi(argv[2]);
+	printf("Number of iterations %d\n", iterations);
+	if (iterations < 1) {
+		printf("number of iterations shall be > 0\n");
+		return 1;
+	}
+
 	printf("\nProgram will wait for %d interactions to finish\n\n",
-					MAX_LIMIT_INTERACTIONS);
+					iterations);
 	fflush(stdout);
-	while (counter < MAX_LIMIT_INTERACTIONS) {
+	while (counter < iterations) {
 		bytes = read(fd, &keyinfo, sizeof(struct input_event));
 		if (bytes && keyinfo.type == 0x01) {
 			printf("sequence= %d > time=%ld | sec %ld "

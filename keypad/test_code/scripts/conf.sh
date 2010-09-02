@@ -34,11 +34,11 @@ export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
 # General variables
 export DMESG_FILE=/var/log/dmesg
-export CHIP_NAME=twl
+export ITERATIONS_DEFAULT_VALUE=50
 
 # Keypad devfs node
 TEMP_EVENT=`ls /dev/input/ | grep event`
-echo "Found 2 nodes available:"
+echo "The following nodes are available:"
 echo  $TEMP_EVENT
 
 set $TEMP_EVENT
@@ -65,4 +65,3 @@ fi
 handlerError.sh "clean"
 
 # End of file
-

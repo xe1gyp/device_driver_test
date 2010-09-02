@@ -8,6 +8,6 @@
 # Begin L_DD_KEYPAD_0004_0001
 
 01  set -x; echo -e "\n\nThe system is going to sleep, you can use any key to bring it back\n\n"
-02  set -x; handlerSuspendResume.sh "run" "5" "evtest $DEVFS_KEYPAD"
+02  set -x; handlerSuspendResume.sh "run" "5" "evtest $DEVFS_KEYPAD $ITERATIONS_DEFAULT_VALUE"
 
 # End L_DD_KEYPAD_0004_0001
