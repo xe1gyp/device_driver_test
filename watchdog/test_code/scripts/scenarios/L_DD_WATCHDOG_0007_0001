@@ -1,0 +1,13 @@
+###############################################################################
+# Scenario: L_DD_WATCHDOG_0007_0001
+# Author  :Shubhrajyoti
+# Date    : September 3, 2010
+###############################################################################
+
+# Begin L_DD_WATCHDOG_0007_0001
+
+01 set -x; $WATCHDOG_TIMEOUT_SET $WATCHDOG_DEVFS five
+#on giving erroneous the default should be returned
+02 set -x; $WATCHDOG_TIMEOUT_GET $WATCHDOG_DEVFS | grep 60
+
+# End L_DD_WATCHDOG_0007_0001
