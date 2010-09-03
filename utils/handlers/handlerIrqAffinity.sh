@@ -89,14 +89,14 @@ if [ "$LOCAL_OPERATION" = "switch" ]; then
 		if [ $rem -eq 0 ]
 		then
 
-			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $2}'`
-			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $3}'`
+			initial_value_p1=`handlerIrq.sh get cpu0 $LOCAL_IRQ_NUMBER`
+			initial_value_p2=`handlerIrq.sh get cpu1 $LOCAL_IRQ_NUMBER`
 
 			echo 1 > /proc/irq/$LOCAL_PROC_IRQ_NUMBER/smp_affinity
 			sleep $LOCAL_TIME_TO_WAIT
 
-			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $2}'`
-			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $3}'`
+			final_value_p1=`handlerIrq.sh get cpu0 $LOCAL_IRQ_NUMBER`
+			final_value_p2=`handlerIrq.sh get cpu1 $LOCAL_IRQ_NUMBER`
 
 			echo "Values IP1 FP1 IP2 FP2: $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2"
 
@@ -110,14 +110,14 @@ if [ "$LOCAL_OPERATION" = "switch" ]; then
 
 		else
 
-			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $2}'`
-			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $3}'`
+			initial_value_p1=`handlerIrq.sh get cpu0 $LOCAL_IRQ_NUMBER`
+			initial_value_p2=`handlerIrq.sh get cpu1 $LOCAL_IRQ_NUMBER`
 
 			echo 2 > /proc/irq/$LOCAL_PROC_IRQ_NUMBER/smp_affinity
 			sleep $LOCAL_TIME_TO_WAIT
 
-			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $2}'`
-			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $3}'`
+			final_value_p1=`handlerIrq.sh get cpu0 $LOCAL_IRQ_NUMBER`
+			final_value_p2=`handlerIrq.sh get cpu1 $LOCAL_IRQ_NUMBER`
 
 			echo "Values IP1 FP1 IP2 FP2: $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2"
 
