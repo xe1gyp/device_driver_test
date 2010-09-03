@@ -48,7 +48,7 @@ export ETHERNET_KERNEL_MESSAGES=$ETHERNET_DIR_TMP/ethernet.kernel.messages
 export ETHERNET_NFS_DIR=$ETHERNET_DIR_TMP/ethernet.nfs.directory.path
 
 export ETHERNET_IRQ=$ETHERNET_DIR_TMP/ethernet.irq
-handlerIrq.sh "get" "eth0" "$ETHERNET_IRQ"
+handlerIrq.sh "get" "irq" "eth0" "$ETHERNET_IRQ"
 
 if [ ! `echo 1+1 | bc` ]; then
 	echo "FATAL: bc application unavailable, cannot continue"
