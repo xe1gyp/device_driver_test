@@ -37,8 +37,6 @@
 #define EV_SYN 0
 #endif
 
-#define MAX_LIMIT_INTERACTIONS 1000
-
 char *events[EV_MAX + 1] = {
 	[0 ... EV_MAX] = NULL,
 	[EV_SYN] = "Sync",			[EV_KEY] = "Key",
@@ -306,15 +304,24 @@ int main (int argc, char **argv)
 	char name[256] = "Unknown";
 	int abs[5];
 	int counter = 0;
+	int iterations = 0;
 
-	if (argc < 2) {
-		printf("Usage: evtest /dev/input/eventX\n");
+	if (argc < 3) {
+		printf("Usage: evtest /dev/input/eventX <iterations>\n");
 		printf("Where X = input device number\n");
 		return 1;
 	}
 
-	if ((fd = open(argv[argc - 1], O_RDONLY)) < 0) {
-		perror("evtest");
+	fd = open(argv[argc - 2], O_RDONLY);
+	if (fd < 0) {
+		perror("evtest: cannot open node");
+		return 1;
+	}
+
+	iterations = atoi(argv[argc - 1]);
+	printf("Number of iterations %d\n", iterations);
+	if (iterations < 1) {
+		perror("evtest: number of iterations shall be > 1\n");
 		return 1;
 	}
 
@@ -355,9 +362,12 @@ int main (int argc, char **argv)
 		}
 
 
-	printf("Testing 1000 times... (interrupt to exit)\n");
+	printf("Interacting %d times... (interrupt to exit)\n",
+			iterations);
 
-	while (counter < MAX_LIMIT_INTERACTIONS) {
+	while (counter < iterations) {
+		printf("Info : %d of %d iterations\n", counter,
+				iterations);
 		rd = read(fd, ev, sizeof(struct input_event) * 64);
 
 		if (rd < (int) sizeof(struct input_event)) {
@@ -386,6 +396,7 @@ int main (int argc, char **argv)
 					names[ev[i].type] ? (names[ev[i].type][ev[i].code] ? names[ev[i].type][ev[i].code] : "?") : "?",
 					ev[i].value);
 			}
-    counter++;
+		counter++;
 	}
+	return 0;
 }
