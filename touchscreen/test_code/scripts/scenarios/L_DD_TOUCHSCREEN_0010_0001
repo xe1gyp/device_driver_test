@@ -1,0 +1,5 @@
+# Begin L_DD_TOUCHSCREEN_0010_0001
+
+01  set -x; handlerCpuAffinity.sh "switch" "handlerEvtest.sh run $TOUCHSCREEN_DEVFS_PRIMARY 1000" "10" "5"
+
+# End L_DD_TOUCHSCREEN_0010_0001

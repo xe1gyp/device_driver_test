@@ -1,0 +1,6 @@
+# Begin L_DD_TOUCHSCREEN_0003_0001
+
+01  set -x; handlerEvtest.sh "test" "$TOUCHSCREEN_DEVFS_PRIMARY" "50"
+02  set -x; handlerEvtest.sh "test" "$TOUCHSCREEN_DEVFS_PRIMARY" "50" "noevents"
+
+# End L_DD_TOUCHSCREEN_0003_0001

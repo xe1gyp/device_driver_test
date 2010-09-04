@@ -1,0 +1,9 @@
+# Begin L_DD_TOUCHSCREEN_0009_0001
+
+01  set -x; handlerProcessPriority.sh "assign" "handlerEvtest.sh run $TOUCHSCREEN_DEVFS_PRIMARY 50" "-20"
+02  set -x; handlerProcessPriority.sh "assign" "handlerEvtest.sh run $TOUCHSCREEN_DEVFS_PRIMARY 50" "0"
+03  set -x; handlerProcessPriority.sh "assign" "handlerEvtest.sh run $TOUCHSCREEN_DEVFS_PRIMARY 50" "+20"
+
+04  set -x; handlerProcessPriority.sh "execute" "withrandomdelay"
+
+# End L_DD_TOUCHSCREEN_0009_0001

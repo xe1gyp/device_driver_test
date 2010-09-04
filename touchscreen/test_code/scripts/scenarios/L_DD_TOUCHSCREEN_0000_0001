@@ -1,0 +1,6 @@
+# Begin L_DD_TOUCHSCREEN_0000_0001
+
+01  set -x; filesystemtype.sh; cat /tmp/result.tmp | grep -i "$TOUCHSCREEN_SYSFS_NAME"
+02  set -x; rm -f /tmp/result.tmp; ls /tmp | grep result.tmp | exit 0 || exit 1;
+
+# End L_DD_TOUCHSCREEN_0000_0001

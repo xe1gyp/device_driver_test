@@ -1,0 +1,8 @@
+# Begin L_DD_TOUCHSCREEN_0002_0001
+
+01  set -x; IRQ=`handlerIrq.sh get cpu0 $TOUCHSCREEN_IRQ_PRIMARY` && echo $IRQ > $TOUCHSCREEN_IRQ_INITIAL
+02  set -x; handlerEvtest.sh "run" "$TOUCHSCREEN_DEVFS_PRIMARY" "25" ""
+03  set -x; IRQ=`handlerIrq.sh get cpu0 $TOUCHSCREEN_IRQ_PRIMARY` && echo $IRQ > $TOUCHSCREEN_IRQ_FINAL
+04  set -x; if [ `cat $TOUCHSCREEN_IRQ_FINAL` -gt `cat $TOUCHSCREEN_IRQ_INITIAL` ]; then exit 0; else exit 1; fi
+
+# End L_DD_TOUCHSCREEN_0002_0001

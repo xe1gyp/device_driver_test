@@ -1,0 +1,30 @@
+# Begin L_DD_TOUCHSCREEN_0012_0001
+
+01  set -x; handlerProcessPriority.sh "clean"
+02  set -x; handlerTmpfs.sh "create" "100" "/mnt/tmpfs/"
+
+03  set -x; handlerProcessPriority.sh "assign" "dd if=/dev/urandom of=/mnt/tmpfs/file.temporal bs=1M count=5 && sync" "-20"
+04  set -x; handlerProcessPriority.sh "assign" "dd if=/dev/urandom of=/mnt/tmpfs/file.temporal bs=1M count=5 && sync" "-15"
+05  set -x; handlerProcessPriority.sh "assign" "dd if=/dev/urandom of=/mnt/tmpfs/file.temporal bs=1M count=5 && sync" "-10"
+06  set -x; handlerProcessPriority.sh "assign" "dd if=/dev/urandom of=/mnt/tmpfs/file.temporal bs=1M count=5 && sync"  "-5"
+07  set -x; handlerProcessPriority.sh "assign" "dd if=/dev/urandom of=/mnt/tmpfs/file.temporal bs=1M count=5 && sync"   "0"
+08  set -x; handlerProcessPriority.sh "assign" "dd if=/dev/urandom of=/mnt/tmpfs/file.temporal bs=1M count=5 && sync"   "5"
+09  set -x; handlerProcessPriority.sh "assign" "dd if=/dev/urandom of=/mnt/tmpfs/file.temporal bs=1M count=5 && sync"  "10"
+10  set -x; handlerProcessPriority.sh "assign" "dd if=/dev/urandom of=/mnt/tmpfs/file.temporal bs=1M count=5 && sync"  "15"
+11  set -x; handlerProcessPriority.sh "assign" "dd if=/dev/urandom of=/mnt/tmpfs/file.temporal bs=1M count=5 && sync"  "20"
+
+12  set -x; handlerProcessPriority.sh "assign" "handlerEvtest.sh run $TOUCHSCREEN_DEVFS_PRIMARY 10" "-20"
+13  set -x; handlerProcessPriority.sh "assign" "handlerEvtest.sh run $TOUCHSCREEN_DEVFS_PRIMARY 10" "-15"
+14  set -x; handlerProcessPriority.sh "assign" "handlerEvtest.sh run $TOUCHSCREEN_DEVFS_PRIMARY 10" "-10"
+15  set -x; handlerProcessPriority.sh "assign" "handlerEvtest.sh run $TOUCHSCREEN_DEVFS_PRIMARY 10"  "-5"
+16  set -x; handlerProcessPriority.sh "assign" "handlerEvtest.sh run $TOUCHSCREEN_DEVFS_PRIMARY 10"   "0"
+17  set -x; handlerProcessPriority.sh "assign" "handlerEvtest.sh run $TOUCHSCREEN_DEVFS_PRIMARY 10"   "5"
+18  set -x; handlerProcessPriority.sh "assign" "handlerEvtest.sh run $TOUCHSCREEN_DEVFS_PRIMARY 10"  "10"
+19  set -x; handlerProcessPriority.sh "assign" "handlerEvtest.sh run $TOUCHSCREEN_DEVFS_PRIMARY 10"  "15"
+20  set -x; handlerProcessPriority.sh "assign" "handlerEvtest.sh run $TOUCHSCREEN_DEVFS_PRIMARY 10"  "20"
+
+21  set -x; handlerProcessPriority.sh "execute" "withrandomdelay"
+
+22  set -x; handlerTmpfs.sh "remove" "/mnt/tmpfs/"
+
+# End L_DD_TOUCHSCREEN_0012_0001
