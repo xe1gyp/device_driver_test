@@ -33,30 +33,59 @@ export UTILS_DIR_SCRIPTS=${TOUCHSCREEN_ROOT}/../../utils/scripts
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
 # General variables
-export DMESG_FILE=/var/log/dmesg
+# None
 
-# Keypad devfs node
+if [ `cat /proc/cpuinfo| grep -ic "OMAP4"` -eq 1 ]; then
+	export TOUCHSCREEN_SYSFS_NAME="Synaptic TM12XX"
+	export TOUCHSCREEN_IRQ_NAME="tm12xx_ts"
+fi
+
+# Touchscreen devfs node
 TEMP_EVENT=`ls /sys/class/input/ | grep event`
 set $TEMP_EVENT
 
+LOCAL_COUNTER=0
 for i in $TEMP_EVENT
 do
-	cat /sys/class/input/$i/device/modalias | grep "tm12xx"
-	IS_THIS_OUR_DRIVER=`echo $?`
-	if [ "$IS_THIS_OUR_DRIVER" -eq "0" ]
+	cat /sys/class/input/$i/device/name | grep -i "$TOUCHSCREEN_SYSFS_NAME"
+	if [ $? -eq 0 ]
 	then
-		export DEVFS_TOUCHSCREEN=/dev/input/$i
-		echo "Keypad node is " $DEVFS_TOUCHSCREEN
+		echo "Touchscreen node is /dev/input/$i"
+		LOCAL_COUNTER=`expr $LOCAL_COUNTER + 1`
+
+		if [ $LOCAL_COUNTER -eq 1 ]; then
+			export TOUCHSCREEN_DEVFS_PRIMARY=/dev/input/$i
+		elif  [ $LOCAL_COUNTER -eq 2 ]; then
+			export TOUCHSCREEN_DEVFS_SECONDARY=/dev/input/$i
+		fi
 	fi
 done
 
-# Hardcode touchscreen primary controller for now
-export DEVFS_TOUCHSCREEN=/dev/input/event1
+echo "INFO: Total number of touchscreen controllers found: $LOCAL_NUMBER_OF_INTERFACE"
 
-if [ ! -e "$DEVFS_TOUCHSCREEN" ]
+if [ ! -e "$TOUCHSCREEN_DEVFS_PRIMARY" ]
 then
-	echo "FATAL: Touchscreen node cannot be found -> $DEVFS_TOUCHSCREEN"
+	echo "FATAL: Touchscreen node cannot be found -> $TOUCHSCREEN_DEVFS_PRIMARY"
 	exit 1
 fi
+
+# Touchscreen irq number
+export TOUCHSCREEN_IRQ_NUMBER=$TOUCHSCREEN_DIR_TMP/touchscreen.irq.number
+export TOUCHSCREEN_IRQ_INITIAL=$TOUCHSCREEN_DIR_TMP/touchscreen.irq.initial
+export TOUCHSCREEN_IRQ_FINAL=$TOUCHSCREEN_DIR_TMP/touchscreen.irq.final
+
+TOUCHSCREEN_IRQ_TEMP=`handlerIrq.sh "get" "irq" "$TOUCHSCREEN_IRQ_NAME" "$TOUCHSCREEN_IRQ_NUMBER"`
+
+set $TOUCHSCREEN_IRQ_TEMP
+LOCAL_COUNTER=0
+for i in $TOUCHSCREEN_IRQ_TEMP
+do
+	LOCAL_COUNTER=`expr $LOCAL_COUNTER + 1`
+  if [ $LOCAL_COUNTER -eq 1 ]; then
+		export TOUCHSCREEN_IRQ_PRIMARY=$i
+	elif [ $LOCAL_COUNTER -eq 2 ]; then
+		export TOUCHSCREEN_IRQ_SECONDARY=$i
+	fi
+done
 
 # End of file
