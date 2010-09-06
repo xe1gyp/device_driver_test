@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario    : L_DD_GPIO_0014_0003
+# Author      : Datta Shubhrajyoti, Charulatha V
+# Date        : Fri 03rd Sep, 2010
+# Description : Run different thread binded on different processors
+###############################################################################
+
+# Begin L_DD_GPIO_0014_0003
+
+01 set -x; handlerCpuAffinity.sh "switch" "handlerGpioTest.sh run 8" "1" "1"
+
+# End L_DD_GPIO_0014_0003

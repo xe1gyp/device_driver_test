@@ -1,0 +1,13 @@
+###############################################################################
+# Scenario    : L_DD_GPIO_0010_0001
+# Author      : Charulatha V
+# Date        : Wed 10th Nov, 2009
+# Description : Verify if GPIO driver disables a GPIO module when all the
+#               pins of the GPIO module are inactive
+###############################################################################
+
+# Begin L_DD_GPIO_0010_0001
+
+01  set -x; handlerGpioTest.sh "run" 9
+
+# End L_DD_GPIO_0010_0001

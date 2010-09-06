@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario    : L_DD_GPIO_0013_0001
+# Author      : Charulatha V, Datta Shubhrajyoti
+# Date        : Fri Sep 03 12:35:33 IST 2010
+# Description : GPIO Thread saftey
+###############################################################################
+
+# Begin L_DD_GPIO_0013_0001
+
+01  set -x; handlerGpioTest.sh "run" 13
+
+# End L_DD_GPIO_0013_0001

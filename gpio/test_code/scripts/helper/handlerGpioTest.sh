@@ -37,7 +37,12 @@ module() {
 
 if [ "$LOCAL_OPERATION" = "run" ]
 then
-	if [ "$LOCAL_TEST" = "2" ] || [ "$LOCAL_TEST" = "4" ]
+	if [ "$LOCAL_TEST" = "12" ]
+	then
+		LOCAL_COUNT=`expr $GPIO_MAX_LINES + 400`
+		LOCAL_GPIO_TEMP_VALUE=-1
+		module "gpio=$LOCAL_COUNT value=1"
+	elif [ "$LOCAL_TEST" = "2" ] || [ "$LOCAL_TEST" = "4" ]
 	then
 		LOCAL_GPIO_TEMP_VALUE=152
 	else

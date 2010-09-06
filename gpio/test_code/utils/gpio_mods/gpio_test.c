@@ -2,6 +2,7 @@
 #include <linux/moduleparam.h>
 #include <linux/init.h>
 #include <linux/irq.h>
+#include <linux/cpu.h>
 #include <asm/irq.h>
 #include <linux/version.h>
 #include <linux/gpio.h>
@@ -23,10 +24,8 @@
 
 #include <linux/proc_fs.h>
 
-#ifdef CONFIG_ARCH_OMAP4
- #include <linux/sched.h>
- #include <linux/kthread.h>
-#endif
+#include <linux/sched.h>
+#include <linux/kthread.h>
 
 #define PROC_FILE "driver/gpio_test_result"
 
@@ -38,11 +37,9 @@ static uint input_direction_flag = 0;
 static uint output_direction_flag = 0;
 static uint test_passed = 1;
 static uint error_flag_1 = 1, error_flag_2 = 1, error_flag_3 = 1;
-#ifdef CONFIG_ARCH_OMAP4
 static uint iterations = 1;
 
 module_param(iterations, int, S_IRUGO|S_IWUSR);
-#endif
 module_param(test, int, S_IRUGO|S_IWUSR);
 module_param(gpio, int, S_IRUGO|S_IWUSR);
 module_param(value, int, S_IRUGO|S_IWUSR);
@@ -140,7 +137,6 @@ static void gpio_test_irq(void)
 	}
 }
 
-#ifdef CONFIG_ARCH_OMAP4
 void gpio_keep_reading(void *no_of_iterations)
 {
 	int loop;
@@ -156,7 +152,6 @@ void gpio_keep_reading(void *no_of_iterations)
                 }
         }
 }
-#endif
 
 #if !defined CONFIG_ANDROID
 static void gpio_test7(void)
@@ -164,29 +159,27 @@ static void gpio_test7(void)
 	int ret, request_status[32], i, j;
 	u32 *bank_base_addr[6], mod_status, bank_status;
 
-	if (!(cpu_is_omap24xx() || cpu_is_omap34xx() || cpu_is_omap44xx())) {
-		printk(KERN_ERR "Test case not applicable");
+	if (cpu_is_omap34xx()) {
+		/* Initialise base addresses for each bank */
+		bank_base_addr[0] = OMAP2_L4_IO_ADDRESS(0x48310000);
+		bank_base_addr[1] = OMAP2_L4_IO_ADDRESS(0x49050000);
+		bank_base_addr[2] = OMAP2_L4_IO_ADDRESS(0x49052000);
+		bank_base_addr[3] = OMAP2_L4_IO_ADDRESS(0x49054000);
+		bank_base_addr[4] = OMAP2_L4_IO_ADDRESS(0x49056000);
+		bank_base_addr[5] = OMAP2_L4_IO_ADDRESS(0x49058000);
+	} else if (cpu_is_omap44xx()) {
+		bank_base_addr[0] = OMAP2_L4_IO_ADDRESS(0x4a310000);
+		bank_base_addr[1] = OMAP2_L4_IO_ADDRESS(0x48055000);
+		bank_base_addr[2] = OMAP2_L4_IO_ADDRESS(0x48057000);
+		bank_base_addr[3] = OMAP2_L4_IO_ADDRESS(0x48059000);
+		bank_base_addr[4] = OMAP2_L4_IO_ADDRESS(0x4805B000);
+		bank_base_addr[5] = OMAP2_L4_IO_ADDRESS(0x4805D000);
+	} else {
+		printk(KERN_ERR "This GPIO test case not supported"
+				" for this architecture\n");
 		return;
 	}
 
-	/* Initialise base addresses for each bank */
-#ifdef CONFIG_ARCH_OMAP3
-	bank_base_addr[0] = OMAP2_L4_IO_ADDRESS(0x48310000);
-	bank_base_addr[1] = OMAP2_L4_IO_ADDRESS(0x49050000);
-	bank_base_addr[2] = OMAP2_L4_IO_ADDRESS(0x49052000);
-	bank_base_addr[3] = OMAP2_L4_IO_ADDRESS(0x49054000);
-	bank_base_addr[4] = OMAP2_L4_IO_ADDRESS(0x49056000);
-	bank_base_addr[5] = OMAP2_L4_IO_ADDRESS(0x49058000);
-#elif CONFIG_ARCH_OMAP4
-	bank_base_addr[0] = OMAP2_L4_IO_ADDRESS(0x4a310000);
-	bank_base_addr[1] = OMAP2_L4_IO_ADDRESS(0x48055000);
-	bank_base_addr[2] = OMAP2_L4_IO_ADDRESS(0x48057000);
-	bank_base_addr[3] = OMAP2_L4_IO_ADDRESS(0x48059000);
-	bank_base_addr[4] = OMAP2_L4_IO_ADDRESS(0x4805B000);
-	bank_base_addr[5] = OMAP2_L4_IO_ADDRESS(0x4805D000);
-#else
-#error OMAP architecture not supported
-#endif
 	for (i = 0; i < 6; i++) {
 		bank_status = 0;
 		for (j = 0; j < 32; j++) {
@@ -204,11 +197,12 @@ static void gpio_test7(void)
 				gpio_free(j+i*32);
 		}
 		/* Read GPIO_CTRL to verify the module status */
-#ifdef CONFIG_ARCH_OMAP3
-		mod_status = __raw_readl(bank_base_addr[i] + 0xc) & 0x1;
-#elif CONFIG_ARCH_OMAP4
-		mod_status = __raw_readl(bank_base_addr[i] + 0x4c) & 0x1;
-#endif
+		if (cpu_is_omap34xx())
+			mod_status = __raw_readl(bank_base_addr[i] + 0xc)
+						& 0x1;
+		else if (cpu_is_omap44xx())
+			mod_status = __raw_readl(bank_base_addr[i] + 0x4c)
+						& 0x1;
 		if (mod_status)
 			printk(KERN_INFO "GPIO Module %d disable Success"
 				"\n\n", i);
@@ -225,11 +219,9 @@ static void gpio_test7(void)
 
 static void gpio_test(void)
 {
-#ifdef CONFIG_ARCH_OMAP4
 		int loop;
-		struct task_struct *p1, *p2;
+		struct task_struct *p1, *p2, *p3, *p4;
 		int x;
-#endif
 
 		switch (test) {
 
@@ -332,7 +324,40 @@ static void gpio_test(void)
 				gpio_test_free();
 			}
 			break;
+		case 11:
+			for (loop = 0; loop < 500; loop++) {
+				gpio_test_request();
+				if (request_flag) {
+
+					gpio_test_direction_output();
+					if (output_direction_flag)
+						gpio_test_write();
+
+					gpio_test_direction_input();
+					if (input_direction_flag)
+						gpio_test_read();
+					gpio_test_free();
+				} else
+					break;
+			}
+			break;
+		case 13: /* thread */
+			p1 = kthread_create(gpio_keep_reading, NULL ,
+						"gpiotest/0");
+			p2 = kthread_create(gpio_keep_reading, NULL ,
+						"gpiotest/1");
+			p3 = kthread_create(gpio_keep_reading, NULL ,
+						"gpiotest/3");
+			p4 = kthread_create(gpio_keep_reading, NULL ,
+						"gpiotest/4");
+			x = wake_up_process(p1);
+			x = wake_up_process(p2);
+			x = wake_up_process(p3);
+			x = wake_up_process(p4);
+			break;
 #endif
+		case 12:
+			break;
 		default:
 			printk(KERN_INFO "Test option not available.\n");
 	}
