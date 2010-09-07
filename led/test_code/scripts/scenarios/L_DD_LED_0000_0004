@@ -6,12 +6,13 @@
 
 # Begin L_DD_LED_0000_0004
 
-01  echo 1 > $LED_SYSFS_PATH/omap4\:red\:user/brightness;echo "\n\n\n\nCheck RED User LED is ON, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
-02  set -x; echo 0 > $LED_SYSFS_PATH/omap4\:red\:user/brightness;echo "\n\n\n\nCheck RED USER LED is OFF, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+01  set -x; echo 1 > $LED_SYSFS_PATH/omap4\:red\:user/brightness;echo "\n\n\n\nCheck RED User LED is ON\n"; sleep 1; $UTILS_DIR_BIN/akey $DEVFS_KEYPAD;
+02  set -x; echo 0 > $LED_SYSFS_PATH/omap4\:red\:user/brightness;echo "\n\n\n\nCheck RED USER LED is OFF\n"; sleep 1; $UTILS_DIR_BIN/akey $DEVFS_KEYPAD;
 
-03  echo 1 > $LED_SYSFS_PATH/omap4\:green\:user/brightness;echo "\n\n\n\nCheck GREEN User LED is ON, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
-04  set -x; echo 0 > $LED_SYSFS_PATH/omap4\:green\:user/brightness;echo "\n\n\n\nCheck GREEN USER LED is OFF, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+03  set -x; echo 1 > $LED_SYSFS_PATH/omap4\:green\:user/brightness;echo "\n\n\n\nCheck GREEN User LED is ON\n"; sleep 1; $UTILS_DIR_BIN/akey $DEVFS_KEYPAD;
+04  set -x; echo 0 > $LED_SYSFS_PATH/omap4\:green\:user/brightness;echo "\n\n\n\nCheck GREEN USER LED is OFF\n"; sleep 1; $UTILS_DIR_BIN/akey $DEVFS_KEYPAD;
 
-04  echo 1 > $LED_SYSFS_PATH/omap4\:blue\:user/brightness;echo "\n\n\n\nCheck BLUE User LED is ON, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
-05  set -x; echo 0 > $LED_SYSFS_PATH/omap4\:blue\:user/brightness;echo "\n\n\n\nCheck BLUE USER LED is OFF, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+05  set -x; echo 1 > $LED_SYSFS_PATH/omap4\:blue\:user/brightness;echo "\n\n\n\nCheck BLUE User LED is ON\n"; sleep 1; $UTILS_DIR_BIN/akey $DEVFS_KEYPAD;
+06  set -x; echo 0 > $LED_SYSFS_PATH/omap4\:blue\:user/brightness;echo "\n\n\n\nCheck BLUE USER LED is OFF\n"; sleep 1; $UTILS_DIR_BIN/akey $DEVFS_KEYPAD;
+
 # End L_DD_LED_0000_0004

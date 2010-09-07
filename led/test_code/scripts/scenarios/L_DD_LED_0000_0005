@@ -6,11 +6,12 @@
 
 # Begin L_DD_LED_0000_0005
 
-01  echo 1 > $LED_SYSFS_PATH/omap4\:green\:chrg/brightness;echo "\n\n\n\nCheck Charging LED is ON, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+01  set -x; echo 1 > $LED_SYSFS_PATH/omap4\:green\:chrg/brightness;echo "\n\n\n\nCheck Charging LED is ON\n"; sleep 1; $UTILS_DIR_BIN/akey $DEVFS_KEYPAD;
 
-02  echo 100 > $LED_SYSFS_PATH/omap4\:green\:chrg/brightness;echo "\n\n\n\nCheck Charging LED Brightness increased, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+02  set -x; echo 100 > $LED_SYSFS_PATH/omap4\:green\:chrg/brightness;echo "\n\n\n\nCheck Charging LED Brightness increased\n"; sleep 1; $UTILS_DIR_BIN/akey $DEVFS_KEYPAD;
 
-03  echo 255 > $LED_SYSFS_PATH/omap4\:green\:chrg/brightness;echo "\n\n\n\nCheck Charging LED Brightness increased, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+03  set -x; echo 255 > $LED_SYSFS_PATH/omap4\:green\:chrg/brightness;echo "\n\n\n\nCheck Charging LED Brightness increased\n"; sleep 1; $UTILS_DIR_BIN/akey $DEVFS_KEYPAD;
 
-04  echo 0 > $LED_SYSFS_PATH/omap4\:green\:chrg/brightness;echo "\n\n\n\nCheck Charging LED is OFF, If YES press OK button on keypad, else press any other button\n"; $LED_DIR_BINARIES/testkeypad $DEVFS_KEYPAD|grep "code=352";
+04  set -x; echo 0 > $LED_SYSFS_PATH/omap4\:green\:chrg/brightness;echo "\n\n\n\nCheck Charging LED is OFF\n"; sleep 1; $UTILS_DIR_BIN/akey $DEVFS_KEYPAD;
+
 # End L_DD_LED_0000_0005
