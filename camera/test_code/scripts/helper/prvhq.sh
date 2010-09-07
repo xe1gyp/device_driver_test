@@ -14,7 +14,7 @@ fi
 if [ "$ISIZE" = "8MP" ]; then
   INSIZE="-iw 3264 -ih 2464"
   INFILE="-ifile ${TESTSCRIPT}/8MP.raw"
-  OUTFILE="${TMPBASE}/prvhq_out_${TEST}-${TESTPARAM}-${ISIZE} _3248x2456_UYVY.yuv"
+  OUTFILE="${TMPBASE}/prvhq_out_${TEST}-${TESTPARAM}-${ISIZE}_3248x2456_UYVY.yuv"
 fi
 
 if [ "$ISIZE" = "5MP" ]; then
