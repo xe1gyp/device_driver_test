@@ -42,7 +42,7 @@ set $TEMP_EVENT
 
 for i in $TEMP_EVENT
 do
-	cat /sys/class/input/$i/device/device/modalias | grep "sfh7741"
+	cat /sys/class/input/$i/device/name | grep "sfh7741"
 	IS_THIS_OUR_DRIVER=`echo $?`
 	if [ "$IS_THIS_OUR_DRIVER" -eq "0" ]
 	then
