@@ -1,0 +1,15 @@
+###############################################################################
+# Scenario: L_DD_MMC_0011_0001
+# Author  : Sukumar Ghorai
+# Date    : 01 September 2010
+###############################################################################
+
+# Begin L_DD_MMC_0011_0001
+
+01  set -x; handlerMmcsdBlock.sh "create" "1" "ext3"
+
+02  set -x; handlerCmd.sh "run" "cp -Rfp /* $MMCSD_MOUNTPOINT_1/. && sync"
+03  set -x; echo  "rebooting... and change the bootargs= .. root=$MMCSD_DEVFS_PARTITION_1 rootwait"
+03  set -x; reboot
+
+# End L_DD_MMC_0011_0001

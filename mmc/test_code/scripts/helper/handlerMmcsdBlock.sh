@@ -206,21 +206,29 @@ elif [ "$LOCAL_OPERATION" = "remove" ]; then
 
 
 elif [ "$LOCAL_OPERATION" = "remount" ]; then
+	LOCAL_FILESYSTEM_TYPE=$3
 
-	if [ "$LOCAL_PARTITIONS" = "1" ]; then
+	if [ "$LOCAL_PARTITIONS" -ge "1" ]; then
 
-		sync && umount $MMCSD_DEVFS_PARTITION_1
-		mount $MMCSD_DEVFS_PARTITION_1
+		MNT_INFO=$(mount | awk -v mnt=$MMCSD_DEVFS_PARTITION_1 '{ if ($1 == mnt) print $3 }')
+		if [ "$MNT_INFO" != "" ]; then
+			umount $MNT_INFO
+		fi
+
+		test -d $MMCSD_MOUNTPOINT_1 || mkdir -p $MMCSD_MOUNTPOINT_1
+		xMountFunction "1" $LOCAL_FILESYSTEM_TYPE $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1
+		
 		handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
-
-	elif [ "$LOCAL_PARTITIONS" = "2" ]; then
-
-		sync && umount $MMCSD_DEVFS_PARTITION_1
-		sync && umount $MMCSD_DEVFS_PARTITION_2
-		mount $MMCSD_DEVFS_PARTITION_1
-		handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
-		mount $MMCSD_DEVFS_PARTITION_2
-		handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
+	fi
+	
+	if [ "$LOCAL_PARTITIONS" = "2" ]; then
+		MNT_INFO=$(mount | awk -v mnt=$MMCSD_DEVFS_PARTITION_2 '{ if ($1 == mnt) print $3 }')
+		if [ "$MNT_INFO" != "" ]; then
+			umount $MNT_INFO
+		fi
+		
+		test -d $MMCSD_MOUNTPOINT_2 || mkdir -p $MMCSD_MOUNTPOINT_2
+		xMountFunction "1" $LOCAL_FILESYSTEM_TYPE $MMCSD_DEVFS_PARTITION_2 $MMCSD_MOUNTPOINT_2
 
 	fi
 

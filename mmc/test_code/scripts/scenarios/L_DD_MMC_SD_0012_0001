@@ -1,0 +1,20 @@
+###############################################################################
+# Scenario: L_DD_MMC_0012_0001
+# Author  : Sukumar Ghorai
+# Date    : 01 September 2010
+###############################################################################
+
+# Begin L_DD_MMC_0012_0001
+
+01  set -x; cat $PROCFS_DEVICES | grep 'mmc' && exit 0 || exit 1
+02  set -x; cat $PROCFS_INTERRUPTS | grep 'mmc' && exit 0 || exit 1
+03  set -x; cat $PROCFS_PARTITIONS | grep 'mmc' && exit 0 || exit 1
+04  set -x; ls $MMCSD_BLOCK_FOLDER/mmc* && exit 0 || exit 1
+05  set -x; ls $SYS_MMC_HOST/mmc$SLOT | grep mmc && exit 0 || exit 1
+06  set -x; handlerMmcsdBlock.sh "remount" "2" "vfat"
+07  set -x; mount | grep $MMCSD_MOUNTPOINT_1 && exit 0 || exit 1
+08  set -x; mount | grep $MMCSD_MOUNTPOINT_2 && exit 0 || exit 1
+09  set -x; umount $MMCSD_MOUNTPOINT_1
+10  set -x; umount $MMCSD_MOUNTPOINT_2
+
+# End L_DD_MMC_0012_0001
