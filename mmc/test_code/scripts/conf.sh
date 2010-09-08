@@ -70,18 +70,11 @@ export MMCSD_TMPFS_MOUNTPOINT=/media/tmpfs
 export MMCSD_FILE_SIZE_BIG=file.size.big
 export MMCSD_FILE_SIZE_SMALL=file.size.small
 
-removePartitions.sh $MMCSD_DEVFS_ENTRY
-
-mount | grep $MMCSD_DEVFS_ENTRY
-if [ "$?" -eq "0" ]; then
-	echo "FATAL: mmc/sd $MMCSD_DEVFS_ENTRY is not inserted in the specified slot, cannot continue"
-	exit 1
-fi
-
 # System Variables
 export PROCFS_DEVICES=/proc/devices
 export PROCFS_INTERRUPTS=/proc/interrupts
 export PROCFS_PARTITIONS=/proc/partitions
+export SYS_MMC_HOST=/sys/class/mmc_host
 
 # Check if bc is available, otherwise abort
 if [ ! `echo 1+1 | bc` ]; then
