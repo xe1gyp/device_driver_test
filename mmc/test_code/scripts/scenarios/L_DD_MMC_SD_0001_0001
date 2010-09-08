@@ -10,5 +10,6 @@
 02  set -x; cat $PROCFS_INTERRUPTS | grep 'mmc' && exit 0 || exit 1
 03  set -x; cat $PROCFS_PARTITIONS | grep 'mmc' && exit 0 || exit 1
 04  set -x; ls $MMCSD_BLOCK_FOLDER/mmc* && exit 0 || exit 1
+05  set -x; ls $SYS_MMC_HOST/mmc$SLOT/mmc* && exit 0 || exit 1
 
 # End L_DD_MMC_0001_0001

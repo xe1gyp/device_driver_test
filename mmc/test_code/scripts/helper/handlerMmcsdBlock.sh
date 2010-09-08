@@ -159,6 +159,13 @@ if [ "$LOCAL_OPERATION" = "create" ]; then
 
 			partitionFormatHelper mkfs.vfat $MMCSD_MOUNTPOINT_1 $MMCSD_MOUNTPOINT_2
 
+		elif [ "$LOCAL_FILESYSTEM_TYPE" = "dos-ext2" ]; then
+
+			export LOCAL_FILESYSTEM_TYPE=msdos
+			partitionFormatHelper $MMCSD_DIR_BINARIES/mkdosfs $MMCSD_MOUNTPOINT_1
+			export LOCAL_FILESYSTEM_TYPE=ext2
+			partitionFormatHelper $MMCSD_DIR_BINARIES/mke2fs "" $MMCSD_MOUNTPOINT_2
+
 		elif [ "$LOCAL_FILESYSTEM_TYPE" = "mixed" ]; then
 
 			export LOCAL_FILESYSTEM_TYPE=ext2
@@ -181,12 +188,12 @@ elif [ "$LOCAL_OPERATION" = "remove" ]; then
 
 	if [ "$LOCAL_PARTITIONS" = "1" ]; then
 
-		sync && umount $MMCSD_DEVFS_PARTITION_1
+		sync && umount $MMCSD_MOUNTPOINT_1
 
 	elif [ "$LOCAL_PARTITIONS" = "2" ]; then
 
-		sync && umount $MMCSD_DEVFS_PARTITION_1
-		sync && umount $MMCSD_DEVFS_PARTITION_2
+		sync && umount $MMCSD_MOUNTPOINT_1
+		sync && umount $MMCSD_MOUNTPOINT_2
 
 	fi
 
@@ -216,6 +223,36 @@ elif [ "$LOCAL_OPERATION" = "remount" ]; then
 		handlerError.sh "log" "$?" "halt" "handlerMmmcsdBlock"
 
 	fi
+
+elif [ "$LOCAL_OPERATION" = "fs-test" ]; then
+
+	if [ "$LOCAL_PARTITIONS" = "2" ]; then
+		export MMCSD_MOUNTPOINT_1=$MMCSD_MOUNTPOINT_2
+	fi
+	
+	handlerTmpfs.sh "create" "250" $MMCSD_TMPFS_MOUNTPOINT
+
+	handlerCmd.sh "run" "dd if=/dev/urandom of=$MMCSD_TMPFS_MOUNTPOINT/1k.txt bs=1024 count=1"
+	handlerCmd.sh "run" "dd if=/dev/urandom of=$MMCSD_TMPFS_MOUNTPOINT/50k.txt bs=1024 count=50"
+	handlerCmd.sh "run" "dd if=/dev/urandom of=$MMCSD_TMPFS_MOUNTPOINT/75k.txt bs=1024 count=75"
+	handlerCmd.sh "run" "dd if=/dev/urandom of=$MMCSD_TMPFS_MOUNTPOINT/99k.txt bs=1024 count=99"
+	handlerCmd.sh "run" "dd if=/dev/urandom of=$MMCSD_TMPFS_MOUNTPOINT/2k.txt bs=1024 count=2"
+
+	handlerCmd.sh "run" "cp $MMCSD_TMPFS_MOUNTPOINT/1k.txt $MMCSD_MOUNTPOINT_1"
+	handlerCmd.sh "run" "cp $MMCSD_TMPFS_MOUNTPOINT/50k.txt $MMCSD_MOUNTPOINT_1"
+	handlerCmd.sh "run" "cp $MMCSD_TMPFS_MOUNTPOINT/75k.txt $MMCSD_MOUNTPOINT_1"
+	handlerCmd.sh "run" "cp $MMCSD_TMPFS_MOUNTPOINT/99k.txt $MMCSD_MOUNTPOINT_1"
+	handlerCmd.sh "run" "cp $MMCSD_TMPFS_MOUNTPOINT/2k.txt $MMCSD_MOUNTPOINT_1"
+
+	sync
+
+	handlerCmd.sh "run" "cmp $MMCSD_TMPFS_MOUNTPOINT/1k.txt $MMCSD_MOUNTPOINT_1/1k.txt"
+	handlerCmd.sh "run" "cmp $MMCSD_TMPFS_MOUNTPOINT/50k.txt $MMCSD_MOUNTPOINT_1/50k.txt"
+	handlerCmd.sh "run" "cmp $MMCSD_TMPFS_MOUNTPOINT/75k.txt $MMCSD_MOUNTPOINT_1/75k.txt"
+	handlerCmd.sh "run" "cmp $MMCSD_TMPFS_MOUNTPOINT/99k.txt $MMCSD_MOUNTPOINT_1/99k.txt"
+	handlerCmd.sh "run" "cmp $MMCSD_TMPFS_MOUNTPOINT/2k.txt $MMCSD_MOUNTPOINT_1/2k.txt"
+
+	handlerTmpfs.sh "remove" $MMCSD_TMPFS_MOUNTPOINT
 
 fi
 
