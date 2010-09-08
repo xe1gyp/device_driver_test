@@ -104,7 +104,7 @@ p2rhq: p2rhq.c cmd_options.c file_operations.c
 	@echo "  CC  p2rhq"
 	@$(CC) $(CFLAGS) -g p2rhq.c cmd_options.c file_operations.c -o p2rhq
 
-prvhq: p2rhq.c cmd_options.c file_operations.c
+prvhq: prvhq.c cmd_options.c file_operations.c
 	@echo "  CC  prvhq"
 	@$(CC) $(CFLAGS) -g prvhq.c cmd_options.c file_operations.c -o prvhq
 
