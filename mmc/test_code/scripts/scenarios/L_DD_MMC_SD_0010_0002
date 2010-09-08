@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_MMC_0010_0002
+# Author  : Sukumar Ghorai
+# Date    : S01 eptember 2010
+###############################################################################
+
+# Begin L_DD_MMC_0010_0002
+
+01  set -x; ls /sys/bus/mmc/drivers | grep 'mmc_test' && exit 0 || exit 1
+02  set -x; handlerMmcsdBlock.sh "mmc_test" "highmem"
+
+# End L_DD_MMC_0010_0002

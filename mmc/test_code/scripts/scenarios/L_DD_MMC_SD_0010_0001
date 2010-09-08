@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_MMC_0010_0001
+# Author  : Sukumar Ghorai
+# Date    : 01 September 2010
+###############################################################################
+
+# Begin L_DD_MMC_0010_0001
+
+01  set -x; ls /sys/bus/mmc/drivers | grep 'mmc_test' && exit 0 || exit 1
+02  set -x; handlerMmcsdBlock.sh "mmc_test"
+
+# End L_DD_MMC_0010_0001

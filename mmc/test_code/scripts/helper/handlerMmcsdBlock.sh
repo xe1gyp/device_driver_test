@@ -253,7 +253,38 @@ elif [ "$LOCAL_OPERATION" = "fs-test" ]; then
 	handlerCmd.sh "run" "cmp $MMCSD_TMPFS_MOUNTPOINT/2k.txt $MMCSD_MOUNTPOINT_1/2k.txt"
 
 	handlerTmpfs.sh "remove" $MMCSD_TMPFS_MOUNTPOINT
+	
+elif [ "$LOCAL_OPERATION" = "mmc_test" ]; then
 
+	#assume mmc card present and mmc_test note present 
+	mmc_node=`ls /sys/bus/mmc/drivers/mmcblk | grep mmc$SLOT`
+	if [ $mmc_node ]; then		
+		echo $mmc_node > /sys/bus/mmc/drivers/mmcblk/unbind
+		echo $mmc_node > /sys/bus/mmc/drivers/mmc_test/bind
+	fi
+
+	mmc_node=`ls /sys/bus/mmc/drivers/mmc_test/mmc$SLOT*`
+	if  [ $mmc_node = "" ]; then
+		exit 1
+	fi
+	
+	if [ -e $mmc_node/test ]; then
+		#testcase 11 to 14 : dma unalligned buffer not supported by OMAP
+		#testcase 19 to 22 : only for highmem test
+		for i in 1 2 3 4 5 6 7 8 9 10 15 16 17 18
+		do
+			echo $i > $mmc_node/test
+		done
+
+		#highmem test only
+		if [ "$2" = "highmem" ]; then
+			for i in 19 20 21 22
+			do
+				echo $i > $mmc_node/test
+			done
+		fi
+	fi
+	
 elif [ "$LOCAL_OPERATION" = "check-card-version" ]; then
 	#for loop required to support multiple catd in a slot
 	for file in $(find /sys/class/mmc_host/mmc$SLOT -type f -name csd); do
