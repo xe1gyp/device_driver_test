@@ -1,0 +1,13 @@
+###############################################################################
+# Scenario: L_DD_MMC_0001_0003
+# Author  : Sukumar Ghorai
+# Date    : Aug 30, 2010
+###############################################################################
+
+# Begin L_DD_MMC_0001_0003
+
+01  set -x; echo "Remove the MMC/SD card.."
+01  set -x; sleep 10
+03  set -x; ls $SYS_MMC_HOST/mmc$SLOT | grep mmc && exit 1 || exit 0
+
+# End L_DD_MMC_0001_0003

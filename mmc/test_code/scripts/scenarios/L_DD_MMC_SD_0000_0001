@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_MMC_0000_0001
+# Author  : Sukumar Ghorai
+# Date    : Aug 30, 2010
+###############################################################################
+
+# Begin L_DD_MMC_0000_0001
+
+01  set -x; ls $SYS_MMC_HOST/mmc$SLOT/mmc* && exit 0 || exit 1
+02  set -x; handlerMmcsdBlock.sh "check-card-version"
+
+# End L_DD_MMC_0000_0001

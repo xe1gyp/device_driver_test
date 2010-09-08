@@ -254,6 +254,50 @@ elif [ "$LOCAL_OPERATION" = "fs-test" ]; then
 
 	handlerTmpfs.sh "remove" $MMCSD_TMPFS_MOUNTPOINT
 
+elif [ "$LOCAL_OPERATION" = "check-card-version" ]; then
+	#for loop required to support multiple catd in a slot
+	for file in $(find /sys/class/mmc_host/mmc$SLOT -type f -name csd); do
+		#echo $file
+		csd=`cat $file`
+		echo CSD=$csd
+		csd=`echo $csd | tr '[a-z]' '[A-Z]' `
+		#csd in MSB format sting
+		csd=`echo $csd | cut -c0`
+		csd=`expr $csd`
+		csd=`echo "obase=2; $csd" | bc`
+		len=`expr length $csd`
+		if ($length > 2) ; then
+			len=`expr 4 - $len`
+			len=`expr 2 - $len`
+			csd=`expr substr $csd 1 $len` 
+			csd=`echo "ibase=2;obase=A;$csd" | bc`
+		else
+			csd=0
+		fi
+
+		for file in $(find /sys/class/mmc_host/mmc$SLOT -type f -name type); do
+			#echo $file
+			card=`cat $file`
+			if [ $card == "MMC" ] ; then
+			case $csd in
+			 "0") echo "MMC : Version 1.0-1.2" ;;
+			 "1") echo "MMC : Version 1.4 - 2.2" ;;
+			 "2") echo "MMC : Version 3.1 - 3.2 - 3.31 - 4.0 - 4.1 - 4.2 - 4.3" ;;
+			 "3") echo "MMC : Version 4.4" ;;
+			 *)  echo "MMC: Wrong MMC card" ;; 
+			esac
+
+			else
+
+			case $csd in
+			 "0") echo "SD : Specification Ver 1.01-1.10 OR Ver 2.00/Standard Capacity" ;;
+			 "1") echo "SD : Specification Ver 2.00/High Capacity" ;;
+			 *)  echo "SD : Wrong SD card" ;; 
+			esac
+			fi
+
+		done
+	done
 fi
 
 # End of file
