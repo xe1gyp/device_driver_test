@@ -1,0 +1,24 @@
+###############################################################################
+# Scenario: L_DD_MMC_SD_0006_0002
+# Author  : Sukumar Ghorai
+# Date    : 01 Sept 2010
+###############################################################################
+
+# Begin L_DD_MMC_SD_0006_0002
+
+01  set -x; handlerMmcsdBlock.sh "create" "1" "dos"
+
+02  set -x; echo "Remove the card here...after 1sec"
+03  set -x; handlerCmd.sh "run" "dd if=/dev/zero of=$MMCSD_MOUNTPOINT_1/$MMCSD_FILE_SIZE_BIG bs=1M count=50"
+04  set -x; sync
+04  set -x; mount | grep $MMCSD_MOUNTPOINT_1
+05  set -x; handlerMmcsdBlock.sh "remove" "1"
+
+06 set -x; sleep 10
+07 set -x; echo "Insert the card..."
+08 set -x; sleep 5
+
+09  set -x; ls $SYS_MMC_HOST/mmc$SLOT/mmc* && exit 0 || exit 1
+
+# End L_DD_MMC_SD_0006_0002
+
