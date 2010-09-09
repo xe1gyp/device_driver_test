@@ -9,13 +9,15 @@
 001  set -x; debugFileSystem.sh "mount"
 002  set -x; debugFileSystem.sh "log" "mpu_pwrdm" "RET" "1"
 
-003  set -x; echo $ENABLE > $SLEEP_WHILE_IDLE && sleep 5
+003  set -x; echo $DISABLE > $CPU1
+004  set -x; echo $ENABLE > $SLEEP_WHILE_IDLE && sleep 5
 
-004  set -x; debugFileSystem.sh "log" "mpu_pwrdm" "RET" "2"
-005  set -x; debugFileSystem.sh "compare" "1" "2" | grep PASSED && sleep 2 && exit 0 || exit 1
+005  set -x; debugFileSystem.sh "log" "mpu_pwrdm" "RET" "2"
+006  set -x; debugFileSystem.sh "compare" "1" "2" | grep PASSED && sleep 2 && exit 0 || exit 1
 
-006  set -x; echo $DISABLE > $SLEEP_WHILE_IDLE && sleep 5
+007  set -x; echo $DISABLE > $SLEEP_WHILE_IDLE && sleep 5
 
+008 set -x; echo $ENABLE > $CPU1
 #007  set -x; debugFileSystem.sh "umount"
 
 # End L_DD_POWER_0006_0003
