@@ -229,6 +229,1062 @@
 
 	</test>
 
+       <test id="L_DD_AUDIO-ALSA_0102_0001">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0102_0001</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0102_0002">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0102_0002</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0102_0003">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0102_0003</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0102_0006">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0102_0006</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0102_0007">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0102_0007</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0102_0008">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0102_0008</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0103_0001a">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0103_0001a</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0103_0001b">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0103_0001b</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0103_0001c">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0103_0001c</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0103_0001d">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0103_0001d</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0103_0001e">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0103_0001e</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0103_0002a">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0103_0002a</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0103_0002b">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0103_0002b</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0103_0002c">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0103_0002c</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0103_0002d">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0103_0002d</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0103_0002e">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0103_0002e</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0103_0003a">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0103_0003a</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0103_0003b">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0103_0003b</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0103_0003c">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0103_0003c</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0103_0003d">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0103_0003d</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0103_0003e">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0103_0003e</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0103_0005">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0103_0005</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0103_0006">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0103_0006</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0103_0007">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0103_0007</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0104_0001a">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0104_0001a</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0104_0001b">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0104_0001b</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0104_0001c">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0104_0001c</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0104_0001d">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0104_0001d</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0104_0002a">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0104_0002a</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0104_0002b">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0104_0002b</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0104_0002c">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0104_0002c</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0104_0002d">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0104_0002d</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+       <test id="L_DD_AUDIO-ALSA_0104_0004">
+
+                <information>
+                        <autor> Cristopherson Torres  </autor>
+                        <description> tbd description </description>
+                        <dateofcreation> 08/05/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/audio-alsa/scripts/test_runner.sh L_DD_AUDIO-ALSA_0104_0004</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/audio-alsa/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="240"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
 	<test id="L_DD_AUDIO-ALSA_0200_0001">
 
 		<information>
