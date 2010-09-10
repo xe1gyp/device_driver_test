@@ -1,0 +1,19 @@
+##############################################################################
+# Scenario: L_DD_AUDIO-ALSA_0103_0005
+# Author  : Cristopherson Torres
+# Date    : 05 August 2010
+##############################################################################
+
+# Begin L_DD_AUDIO-ALSA_0103_0005
+
+01 set -x; $APLAY -D plughw:0,0 --buffer-time=5000 $AUDIO_SAMPLES/beethoven_48000.wav && exit 0 || exit 1
+02 set -x; $APLAY -D plughw:0,1 --buffer-time=5000 $AUDIO_SAMPLES/beethoven_48000.wav && exit 0 || exit 1
+03 set -x; $APLAY -D plughw:0,2 --buffer-time=5000 $AUDIO_SAMPLES/beethoven_48000.wav && exit 0 || exit 1
+04 set -x; $APLAY -D plughw:0,0 --buffer-time=10000 $AUDIO_SAMPLES/beethoven_48000.wav && exit 0 || exit 1
+05 set -x; $APLAY -D plughw:0,1 --buffer-time=10000 $AUDIO_SAMPLES/beethoven_48000.wav && exit 0 || exit 1
+06 set -x; $APLAY -D plughw:0,2 --buffer-time=10000 $AUDIO_SAMPLES/beethoven_48000.wav && exit 0 || exit 1
+07 set -x; $APLAY -D plughw:0,0 --buffer-time=20000 $AUDIO_SAMPLES/beethoven_48000.wav && exit 0 || exit 1
+08 set -x; $APLAY -D plughw:0,1 --buffer-time=20000 $AUDIO_SAMPLES/beethoven_48000.wav && exit 0 || exit 1
+09 set -x; $APLAY -D plughw:0,2 --buffer-time=20000 $AUDIO_SAMPLES/beethoven_48000.wav && exit 0 || exit 1
+
+# End L_DD_AUDIO-ALSA_0103_0005

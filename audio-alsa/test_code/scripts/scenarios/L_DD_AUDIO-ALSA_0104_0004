@@ -1,0 +1,16 @@
+##############################################################################
+# Scenario: L_DD_AUDIO-ALSA_0104_0004
+# Author  : Cristopherson Torres
+# Date    : 05 August 2010
+##############################################################################
+
+# Begin L_DD_AUDIO-ALSA_0104_0004
+
+01 set -x; $ARECORD -f S32_LE -c 2 -r 48000 -d 2 --buffer-time=5000 $TMPBASE/test_record.wav && exit 0 || exit 1
+02 set -x; $APLAY $TMPBASE/test_record.wav && exit 0 || exit 1
+03 set -x; $ARECORD -f S32_LE -c 2 -r 48000 -d 2 --buffer-time=5000 $TMPBASE/test_record.wav && exit 0 || exit 1
+04 set -x; $APLAY $TMPBASE/test_record.wav && exit 0 || exit 1
+05 set -x; $ARECORD -f S32_LE -c 2 -r 48000 -d 2 --buffer-time=5000 $TMPBASE/test_record.wav && exit 0 || exit 1
+06 set -x; $APLAY $TMPBASE/test_record.wav && exit 0 || exit 1
+
+# End L_DD_AUDIO-ALSA_0104_0004

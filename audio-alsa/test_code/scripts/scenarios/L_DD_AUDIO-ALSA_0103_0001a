@@ -1,0 +1,15 @@
+##############################################################################
+# Scenario: L_DD_AUDIO-ALSA_0103_0001a
+# Author  : Cristopherson Torres
+# Date    : 05 August 2010
+##############################################################################
+
+# Begin L_DD_AUDIO-ALSA_0103_0001a
+
+01 set -x; $AMIXER cset name='DL1 Mixer Multimedia' 1 && exit 0 || exit 1
+02 set -x; $AMIXER cset name='HS Left Playback' 1 && exit 0 || exit 1
+03 set -x; $AMIXER cset name='HS Right Playback' 1 && exit 0 || exit 1
+04 set -x; $APLAY -D plughw:0,0 $AUDIO_SAMPLES/beethoven_48000.wav && exit 0 || exit 1
+05 set -x; $APLAY -D plughw:0,0 $AUDIO_SAMPLES/beethoven_44100.wav && exit 0 || exit 1
+
+# End L_DD_AUDIO-ALSA_0103_0001a

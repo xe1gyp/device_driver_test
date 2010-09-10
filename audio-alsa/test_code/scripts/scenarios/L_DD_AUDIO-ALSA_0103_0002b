@@ -1,0 +1,20 @@
+##############################################################################
+# Scenario: L_DD_AUDIO-ALSA_0103_0002b
+# Author  : Cristopherson Torres
+# Date    : 05 August 2010
+##############################################################################
+
+# Begin L_DD_AUDIO-ALSA_0103_0002b
+
+01 set -x; $AMIXER cset name='HS Left Playback' 1 && exit 0 || exit 1
+02 set -x; $AMIXER cset name='HS Right Playback' 1 && exit 0 || exit 1
+03 set -x; $ARECORD -D plughw:0,0 -f S16_LE -c 2 -r 48000 -d 5 $TMPBASE/test16bit_48000.wav && exit 0 || exit 1
+04 set -x; $APLAY -D plughw:0,1 $TMPBASE/test16bit_48000.wav && exit 0 || exit 1
+05 set -x; $ARECORD -D plughw:0,0 -f S24_LE -c 2 -r 48000 -d 5  $TMPBASE/test24bit_48000.wav && exit 0 || exit 1
+06 set -x; $APLAY -D plughw:0,1  $TMPBASE/test24bit_48000.wav && exit 0 || exit 1
+07 set -x; $ARECORD -D plughw:0,0 -f S16_LE -c 2 -r 44100 -d 5  $TMPBASE/test16bit_44100.wav && exit 0 || exit 1
+08 set -x; $APLAY -D plughw:0,1  $TMPBASE/test16bit_44100.wav && exit 0 || exit 1
+09 set -x; $ARECORD -D plughw:0,0 -f S24_LE -c 2 -r 44100 -d 5  $TMPBASE/test24bit_44100.wav && exit 0 || exit 1
+10 set -x; $APLAY -D plughw:0,1  $TMPBASE/test24bit_44100.wav && exit 0 || exit 1
+
+# End L_DD_AUDIO-ALSA_0103_0002b

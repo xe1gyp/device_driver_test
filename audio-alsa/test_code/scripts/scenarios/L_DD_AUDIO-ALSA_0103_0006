@@ -1,0 +1,13 @@
+##############################################################################
+# Scenario: L_DD_AUDIO-ALSA_0103_0006
+# Author  : Cristopherson Torres
+# Date    : 05 August 2010
+##############################################################################
+
+# Begin L_DD_AUDIO-ALSA_0103_0006
+
+01 set -x; $APLAY -D plughw:0,0 $AUDIO_SAMPLES/beethoven_48000.wav && exit 0 || exit 1
+02 set -x; $APLAY -D plughw:0,1 $AUDIO_SAMPLES/beethoven_48000.wav && exit 0 || exit 1
+03 set -x; $APLAY -D plughw:0,2 $AUDIO_SAMPLES/beethoven_48000.wav && exit 0 || exit 1
+
+# End L_DD_AUDIO-ALSA_0103_0006

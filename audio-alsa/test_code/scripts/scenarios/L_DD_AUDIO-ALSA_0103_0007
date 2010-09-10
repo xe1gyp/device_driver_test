@@ -1,0 +1,11 @@
+##############################################################################
+# Scenario: L_DD_AUDIO-ALSA_0103_0007
+# Author  : Cristopherson Torres
+# Date    : 05 August 2010
+##############################################################################
+
+# Begin L_DD_AUDIO-ALSA_0103_0007
+
+01 set -x; $APLAY --period-size=128 $AUDIO_SAMPLES/beethoven_48000.wav && exit 0 || exit 1
+
+# End L_DD_AUDIO-ALSA_0103_0007

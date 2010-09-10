@@ -1,0 +1,14 @@
+##############################################################################
+# Scenario: L_DD_AUDIO-ALSA_0103_0003c
+# Author  : Cristopherson Torres
+# Date    : 05 August 2010
+##############################################################################
+
+# Begin L_DD_AUDIO-ALSA_0103_0003c
+
+01 set -x; $ARECORD -D plughw:0,0 -f S16_LE -c 1 -r 8000 -d 5 mono_8000.wav && exit 0 || exit 1
+02 set -x; $APLAY -D plughw:0,1 mono_8000.wav && exit 0 || exit 1
+03 set -x; $ARECORD -D plughw:0,0 -f S16_LE -c 2 -r 8000 -d 5 stereo_8000.wav && exit 0 || exit 1
+04 set -x; $APLAY -D plughw:0,1 stereo_8000.wav && exit 0 || exit 1
+
+# End L_DD_AUDIO-ALSA_0103_0003c
