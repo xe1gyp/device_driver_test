@@ -5,7 +5,7 @@
 ###############################################################################
 
 # Begin L_DD_RTC_0005
-0001	   set -x; $UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "$APP_TIME_KEEP_READING /dev/rtc0 " "5" "3" && exit 0 || exit 1
 
+01  set -x; handlerCpuAffinity.sh "switch" "$APP_TIME_KEEP_READING /dev/rtc0 " "5" "3" && exit 0 || exit 1
 
 # End L_DD_RTC_0005

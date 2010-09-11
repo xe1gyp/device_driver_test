@@ -1,34 +1,41 @@
 #!/bin/sh
 
-# Testsuites variables
-export POSTFIX=`date "+%Y%m%d-%H%M%S"`
-export TESTROOT=${PWD}
-export TESTBIN=${PWD}/../bin
-export UTILBIN=${PWD}/../../utils/bin
-export UTILSCRIPTS=${PWD}/../../utils/scripts
-export TESTMODS=${PWD}/../modules
-export TESTSCRIPT=${PWD}/helper
-export TMPBASE=${TESTROOT}/tmp
-export TMPFILE=${TMPBASE}/tmp.$POSTFIX
-export CMDFILE=cmd.$POSTFIX
-export TESTDIR=${TESTROOT}/test
-export PRETTY_PRT=""
-export VERBOSE=""
-export OUTPUTFILE=${TESTROOT}/output.$POSTFIX
-export LOGFILE=${TESTROOT}/log.$POSTFIX
-export DURATION=""
-export PATH="${PATH}:${TESTROOT}:${TESTBIN}:${TESTSCRIPT}"
-export TC_SCENARIO="${TESTROOT}/scenarios"
-export SCENARIO_NAMES=""
+# TestSuite General Variables
+export RTC_POSTFIX=`date "+%Y%m%d-%H%M%S"`
+export RTC_ROOT=`pwd`
+
+export RTC_DIR_BINARIES=${RTC_ROOT}/../bin
+export RTC_DIR_HELPER=${RTC_ROOT}/helper
+export RTC_DIR_TMP=${RTC_ROOT}/tmp
+export RTC_DIR_TEST=${RTC_ROOT}/test
+export RTC_DIR_SCENARIOS="${RTC_ROOT}/scenarios"
+
+export RTC_FILE_OUTPUT=${RTC_ROOT}/output.$RTC_POSTFIX
+export RTC_FILE_LOG=${RTC_ROOT}/log.$RTC_POSTFIX
+export RTC_FILE_TMP=${RTC_DIR_TMP}/tmp.$RTC_POSTFIX
+export RTC_FILE_CMD=cmd.$RTC_POSTFIX
+
+export RTC_DURATION=""
+export RTC_PRETTY_PRT=""
+export RTC_VERBOSE=""
+export RTC_SCENARIO_NAMES=""
+export RTC_STRESS=""
+
+export PATH="$PATH:$RTC_ROOT:$RTC_DIR_BINARIES:$RTC_DIR_HELPER"
+
+# Utils General Variables
+export UTILS_DIR=$RTC_ROOT/../../utils/
+export UTILS_DIR_BIN=$UTILS_DIR/bin
+export UTILS_DIR_HANDLERS=$UTILS_DIR/handlers
+export UTILS_DIR_SCRIPTS=$UTILS_DIR/scripts
+
+. $UTILS_DIR/configuration/general.configuration
+
+export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
 # General variables
 export CHIP_NAME=twl
 export PROCFS_RTC=/proc/driver/rtc
-export UTILS_DIR_HANDLERS=${TESTROOT}/../../utils/handlers
-
-. ${TESTROOT}/../../utils/configuration/general.configuration
-
-export PATH="$PATH:$UTILS_DIR_HANDLERS:$UTILBIN"
 
 # rtc devfs node autodetection
 TEMP_EVENT=`ls /sys/class/rtc/ | grep rtc`
@@ -101,10 +108,10 @@ export ALARM_VALUE=5
 
 # IRQ value
 IRQ_FILE=$TMPBASE/irq_temp
-$UTILS_DIR_HANDLERS/handlerIrq.sh "get" "irq" "rtc" "$IRQ_FILE"
+handlerIrq.sh "get" "irq" "rtc" "$IRQ_FILE"
 export IRQ_VALUE=`cat $IRQ_FILE`
 
-if [ "$IRQ_VALUE" == "" ]; then
+if [ "$IRQ_VALUE" = "" ]; then
 	echo "Warning: Interrupt not found. Some test cases could be affected"
 fi
 

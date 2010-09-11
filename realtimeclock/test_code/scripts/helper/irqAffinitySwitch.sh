@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -x
+
 # =============================================================================
 # Variables
 # =============================================================================
@@ -12,69 +14,58 @@ LOCAL_IRQ_NUMBER=$4
 export LOCAL_IRQ_GPIO=0
 export LOCAL_PROC_IRQ_NUMBER=0
 
-
-
 # =============================================================================
 # Main
 # =============================================================================
 
-
-
+handlerSysFs.sh "compare" $SYSFS_CPU_ONLINE  "0-1"
+if [ $? -eq 0 ]; then
+	LOCAL_MULTICORE=1
+else
+	echo -e "\n\nINFO: Only CPU 0 is online, will set up affinity automatically\n\n"
+fi
 
 if [ "$LOCAL_OPERATION" = "switch" ]; then
 
-        LOCAL_COMMAND_PID="0"
-        LOCAL_COMMAND_PID=`ps -A | grep "twl6030" | grep -v grep | awk '{print $1}'` 
-        count=1
-	process=
+	LOCAL_COMMAND_PID="0"
+	LOCAL_COMMAND_PID=`ps -A | grep "twl6030" | grep -v grep | awk '{print $1}'`
+
+	count=1
 	while [ $count -le $LOCAL_EXECUTION_TIMES ]
 	do
 
 		#echo "Info: PID $LOCAL_COMMAND_PID | Irq Number $LOCAL_IRQ_NUMBER | Count $count of $LOCAL_EXECUTION_TIMES"
-		
-                rem=$(( $count % 2 ))
-                if [ $rem -eq 0 ]
+
+		LOCAL_PROCESSOR=1
+
+		rem=$(( $count % 2 ))
+		if [ $rem -eq 0 ]
 		then
-                        
-			initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $2}'`
-			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $3}'`
-                        
-			taskset -p "1" $LOCAL_COMMAND_PID
-                        echo  1 | per_int /dev/rtc0 
-			sleep $LOCAL_TIME_TO_WAIT
-
-			final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $2}'`
-			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $3}'`
-
-			echo "Values IP1 FP1 IP2 FP2: $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2"
-
-			if [ "$initial_value_p1" -lt "$final_value_p1" ]
-			then
-				echo "Number of interrupts were increased in Processor 1"
-			else
-				echo "Error: Number of interrupts were not increased in Processor 1"
-				exit 1
-			fi
-
+			LOCAL_PROCESSOR=1
 		else
-                        initial_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $2}'`
-			initial_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $3}'`
-                        taskset -p 2 $LOCAL_COMMAND_PID
-                        echo 1 | per_int /dev/rtc0
-                        sleep $LOCAL_TIME_TO_WAIT
-                        final_value_p1=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $2}'`
-			final_value_p2=`cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $3}'`
-
-			echo "Values IP1 FP1 IP2 FP2: $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2"
-
-			if [ "$initial_value_p2" -lt "$final_value_p2" ]
-			then
-				echo "Number of interrupts increased in Processor 2"
-			else
-				echo "Error: Number of interrupts were not increased in Processor 2"
-				exit 1
+			if [ $LOCAL_MULTICORE ]; then
+				LOCAL_PROCESSOR=2
 			fi
+		fi
 
+		LOCAL_CPU=`expr $LOCAL_PROCESSOR - 1`
+
+		LOCAL_VALUE_INITIAL=`handlerIrq.sh get "cpu$LOCAL_CPU" $LOCAL_IRQ_NUMBER`
+
+		taskset -p $LOCAL_PROCESSOR $LOCAL_COMMAND_PID
+		echo  1 | per_int /dev/rtc0
+		sleep $LOCAL_TIME_TO_WAIT
+
+		LOCAL_VALUE_FINAL=`handlerIrq.sh get "cpu$LOCAL_CPU" $LOCAL_IRQ_NUMBER`
+
+		echo "Values Initial | Final : $LOCAL_VALUE_INITIAL | $LOCAL_VALUE_FINAL"
+
+		if [ "$LOCAL_VALUE_INITIAL" -lt "$LOCAL_VALUE_FINAL" ]
+		then
+			echo "Number of interrupts were increased in Processor $LOCAL_PROCESSOR"
+		else
+			echo "Error: Number of interrupts were not increased in Processor $LOCAL_PROCESSOR"
+			exit 1
 		fi
 
 		count=`expr $count + 1`

@@ -5,6 +5,7 @@
 ###############################################################################
 
 # Begin L_DD_RTC_0008
-0001	   set -x; echo "$APP_ALARM_REPEAT_VAL" | $APP_ALARM_KEEP_READING $DEVFS_RTC && exit 0 || exit 1
+
+01	set -x; echo "$APP_ALARM_REPEAT_VAL" | $APP_ALARM_KEEP_READING $DEVFS_RTC && exit 0 || exit 1
 
 # End L_DD_RTC_0008

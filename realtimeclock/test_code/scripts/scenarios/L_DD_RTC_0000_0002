@@ -6,7 +6,7 @@
 
 # Begin L_DD_RTC_0000_0002
 
-01	set -x; echo  "$ALARM_SEC $ALARM_VALUE" | $APP_ALARM_SET $DEVFS_RTC && (($APP_ALARM_GET_EVENT $DEVFS_RTC &) && ($APP_ALARM_GET_EVENT $DEVFS_RTC)) |       grep "${MSG_CANNOT_OPEN_DEVICE}" && exit 0 || exit 1
+01	set -x; echo  "$ALARM_SEC $ALARM_VALUE" | $APP_ALARM_SET $DEVFS_RTC && (($APP_ALARM_GET_EVENT $DEVFS_RTC &) && ($APP_ALARM_GET_EVENT $DEVFS_RTC)) | grep "${MSG_CANNOT_OPEN_DEVICE}" && exit 0 || exit 1
 02	set -x; rm -f /tmp/result.tmp; ls /tmp | grep result.tmp | exit 0 || exit 1;
 
 # End L_DD_RTC_0000_0002
