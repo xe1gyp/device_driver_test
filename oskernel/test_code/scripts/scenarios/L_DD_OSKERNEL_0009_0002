@@ -1,6 +1,6 @@
 # Begin L_DD_OSKERNEL_0009_0002
 
-00  set -x; handlerSysFs.sh "compare" $OSKERNEL_SYSFS_CPU_ONLINE "0-1" || handlerError.sh "log" "1" "halt" "2 CPUs are not available"
+00  set -x; handlerSysFs.sh "compare" $SYSFS_CPU_ONLINE "0-1" || handlerError.sh "log" "1" "halt" "2 CPUs are not available"
 
 # No Load Balancing | CPU 1
 

@@ -24,21 +24,16 @@ export OSKERNEL_STRESS=""
 export PATH="${OSKERNEL_ROOT}:${OSKERNEL_DIR_BINARIES}:${OSKERNEL_DIR_HELPER}:${PATH}"
 
 # Utils General Variables
-export UTILS_DIR_BIN=${OSKERNEL_ROOT}/../../utils/bin
-export UTILS_DIR_HANDLERS=${OSKERNEL_ROOT}/../../utils/handlers
-export UTILS_DIR_SCRIPTS=${OSKERNEL_ROOT}/../../utils/scripts
+export UTILS_DIR=$OSKERNEL_ROOT/../../utils/
+export UTILS_DIR_BIN=$UTILS_DIR/bin
+export UTILS_DIR_HANDLERS=$UTILS_DIR/handlers
+export UTILS_DIR_SCRIPTS=$UTILS_DIR/scripts
 
-. ${OSKERNEL_ROOT}/../../utils/configuration/general.configuration
+. $UTILS_DIR/configuration/general.configuration
 
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
-# General variables
-export OSKERNEL_SYSFS_CPU=/sys/devices/system/cpu/
-export OSKERNEL_SYSFS_CPU_OFFLINE=/sys/devices/system/cpu/offline
-export OSKERNEL_SYSFS_CPU_ONLINE=/sys/devices/system/cpu/online
-export OSKERNEL_SYSFS_CPU_POSSIBLE=/sys/devices/system/cpu/possible
-export OSKERNEL_SYSFS_CPU_PRESENT=/sys/devices/system/cpu/present
-
+# OSKernel General Variables
 export OSKERNEL_PROCFS_CPUINFO=/proc/cpuinfo
 
 # Remove all existing references for handlerError.sh
