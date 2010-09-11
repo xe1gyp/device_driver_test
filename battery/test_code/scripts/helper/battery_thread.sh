@@ -11,6 +11,7 @@ then
 	echo "     Example: $0 OMAP 400"
 	exit -1
 fi
+
 export TEST_PLATFORM=$1
 #Include the common utilities needed for Battery tests
 . battery_util.sh
@@ -19,13 +20,14 @@ export TEST_PLATFORM=$1
 Global_test_result=0 # Set Pass
 Global_ERR=0
 
-function access_battery_params()
+access_battery_params()
 {
-	loopcount="0"
+	loopcount=0
 	loopmax=$1
-	for (( loopcount = 0 ; loopcount <= loopmax ; loopcount++ ))
+	while [ $loopcount != $loopmax ]
 	do
 		battery_test_get_battery_state retval1 retval2 retval3 retval4 retval5
+		loopcount=`expr $loopcount + 1`
 		if [ $Global_ERR != 0 ]
 		then
 			echo "Error encountered: $$ failed on $loopcount iteration"
@@ -33,8 +35,6 @@ function access_battery_params()
 		fi
 	done
 	echo "Pid $$ done"
-
 }
 
 access_battery_params $2
-

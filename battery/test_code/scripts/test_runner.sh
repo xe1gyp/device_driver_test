@@ -42,18 +42,23 @@ setup()
 	# Load config file
 	if [ -f "./conf.sh" ]; then
 		. ./conf.sh
+		if [ $? -eq 0 ]; then
+			echo "INFO: Requested tests will be started"
+		else
+			echo "FATAL: Configuration file with errors"
+		fi
 	else
-		die "FATAL: Test suite driver 'pan' not found"
+		die "FATAL: Configuration file not found"
 	fi
 
 	# scenario less tests?? have the user organize it properly at least..
-	[ -d $TC_SCENARIO ] ||
+	[ -d $BATTERY_DIR_SCENARIOS ] ||
 	{
 		die "Test suite not installed correctly - no scenarios"
 	}
 
 	# we'd need the reporting tool ofcourse..
-	[ -e $UTILBIN/pan ] ||
+	[ -e $UTILS_DIR_BIN/pan ] ||
 	{
 		die "FATAL: Test suite driver 'pan' not found"
 	}
@@ -62,29 +67,29 @@ setup()
 usage()
 {
 	# Human redable please
-	local PP=` if [ -z "$PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
-	local VV=` if [ -z "$VERBOSE" ]; then echo "off"; else echo "on"; fi`
+	local PP=` if [ -z "$BATTERY_PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
+	local VV=` if [ -z "$BATTERY_VERBOSE" ]; then echo "off"; else echo "on"; fi`
 
 	# Give the gyan
 	cat <<-EOF >&2
-	usage: ./${0##*/} [-z] [-h] [-v] [-d TESTDIR] [-o OUTPUTFILE] [-l LOGFILE]
-	[-n DURATION ] [-t TMPDIR] [SCENARIO_NAMES..]
+	usage: ./${0##*/} [-z] [-h] [-v] [-d BATTERY_DIR_TEST] [-o BATTERY_FILE_OUTPUT] [-l BATTERY_FILE_LOG]
+	[-n BATTERY_DURATION ] [-t TMPDIR] [BATTERY_SCENARIO_NAMES..]
 
-	-d TESTDIR      Run LTP to test the filesystem mounted here. [Current - $TESTDIR]
+	-d BATTERY_DIR_TEST      Run LTP to test the filesystem mounted here. [Current - $BATTERY_DIR_TEST]
 			At the end of test, the testdir gets cleaned out
-	-s TC_SCENARIO  Test scenarios are located here. [Current - $TC_SCENARIO]
-	-o OUTPUTFILE   Redirect test output to a file. [Current- $OUTPUTFILE {psid}]
+	-s BATTERY_DIR_SCENARIOS  Test scenarios are located here. [Current - $BATTERY_DIR_SCENARIOS]
+	-o BATTERY_FILE_OUTPUT   Redirect test output to a file. [Current- $BATTERY_FILE_OUTPUT {psid}]
 	-p              Human readable(dont laugh too much) format logfiles. [Current - ($PP)]
 	-z              Dont Merge the Scenario Name with tcid to create final tc id
 	-E              Use Extended Test cases also - these are painful and can take real long time
-	-l LOGFILE      Log results of test in a logfile. [Current- $LOGFILE {psid}]
-	-t TMPDIR       Run LTP using tmp dir [Current - $TMPBASE]
-	-n DURATION     Execute the testsuite for given duration. Examples:
+	-l BATTERY_FILE_LOG      Log results of test in a logfile. [Current- $BATTERY_FILE_LOG {psid}]
+	-t TMPDIR       Run LTP using tmp dir [Current - $BATTERY_DIR_TMP]
+	-n BATTERY_DURATION     Execute the testsuite for given duration. Examples:
 			-n 60s = 60 seconds
 			-n 45m = 45 minutes
 			-n 24h = 24 hours
 			-n 2d  = 2 days
-			[Current - $DURATION]
+			[Current - $BATTERY_DURATION]
 
 	-v              Print more verbose output to screen.[Current - ($VV)]
 	-q              No messages from this script. no info too - Brave eh??
@@ -94,11 +99,11 @@ usage()
 			List to appear here
 	-S              Run in Stress mode
 
-	SCENARIO_NAMES  List of scenarios to test.. else, take all scenarios
-			[Current - These are all filenames from $TC_SCENARIO]
+	BATTERY_SCENARIO_NAMES  List of scenarios to test.. else, take all scenarios
+			[Current - These are all filenames from $BATTERY_DIR_SCENARIOS]
 
 	Good News: Ctrl+c stops and cleans up for you :)
-	More help: Read the $TESTROOT/README
+	More help: Read the $BATTERY_ROOT/README
 
 	EOF
 	exit 0
@@ -110,57 +115,57 @@ sanity_check()
     # Check the current values...
     # Just ensure that pan can run with a bit of peace of mind...
 
-    [ ! -d "$TMPBASE" -o ! -w "$TMPBASE" ] && die "$TMPBASE - cannot work as temporary directory"
-    [ ! -d "$TESTDIR" -o ! -w "$TESTDIR" ] && die "$TESTDIR - cannot work as test directory"
-    [ ! -d "$TC_SCENARIO" ] && die "$TC_SCENARIO - No such directories"
-    [ -z "$SCENARIO_NAMES" ] && die "No Scenarios"
-		[ ! -z "$VERBOSE" -a ! -z "$QUIET_MODE" ] && die "Make up your mind - verbose or quiet??"
+    [ ! -d "$BATTERY_DIR_TMP" -o ! -w "$BATTERY_DIR_TMP" ] && die "$BATTERY_DIR_TMP - cannot work as temporary directory"
+    [ ! -d "$BATTERY_DIR_TEST" -o ! -w "$BATTERY_DIR_TEST" ] && die "$BATTERY_DIR_TEST - cannot work as test directory"
+    [ ! -d "$BATTERY_DIR_SCENARIOS" ] && die "$BATTERY_DIR_SCENARIOS - No such directories"
+    [ -z "$BATTERY_SCENARIO_NAMES" ] && die "No Scenarios"
+		[ ! -z "$BATTERY_VERBOSE" -a ! -z "$BATTERY_QUIET_MODE" ] && die "Make up your mind - verbose or quiet??"
 
-    export CMDFILE=$TMPBASE/$CMDFILE
-    rm -f $CMDFILE
+    export BATTERY_FILE_CMD=$BATTERY_DIR_TMP/$BATTERY_FILE_CMD
+    rm -f $BATTERY_FILE_CMD
 
-		for SCEN in $SCENARIO_NAMES
+		for SCEN in $BATTERY_SCENARIO_NAMES
     do
-		  [ ! -f "$TC_SCENARIO/$SCEN" -o ! -r "$TC_SCENARIO/$SCEN" ] && die "$TC_SCENARIO/$SCEN - not a scenario file"
-			cat $TC_SCENARIO/$SCEN|grep -v "#"|sed -e "s/^[  ]*$//g"|sed -e "/^$/d">$TMPFILE|| die "Count not create tmp file $TMPFILE"
+		  [ ! -f "$BATTERY_DIR_SCENARIOS/$SCEN" -o ! -r "$BATTERY_DIR_SCENARIOS/$SCEN" ] && die "$BATTERY_DIR_SCENARIOS/$SCEN - not a scenario file"
+			cat $BATTERY_DIR_SCENARIOS/$SCEN|grep -v "#"|sed -e "s/^[  ]*$//g"|sed -e "/^$/d">$BATTERY_FILE_TMP|| die "Count not create tmp file $BATTERY_FILE_TMP"
 			if [ -z "$DONT" ]; then
-				cat $TMPFILE|sed -e "s/^/$SCEN-/g"|sed -e "s/-/_/" >>$CMDFILE || die "Count not create command file $CMDFILE"
+				cat $BATTERY_FILE_TMP|sed -e "s/^/$SCEN-/g"|sed -e "s/-/_/" >>$BATTERY_FILE_CMD || die "Count not create command file $BATTERY_FILE_CMD"
 				else
-				cat $TMPFILE>>$CMDFILE || die "Count not create command file $CMDFILE"
+				cat $BATTERY_FILE_TMP>>$BATTERY_FILE_CMD || die "Count not create command file $BATTERY_FILE_CMD"
 			fi
 
 			# Remove the extended test cases
 			if [ -z "$EXTENDED_TEST" ]; then
 
-				cat $CMDFILE|grep -v "^[_A-Za-z0-9]*_EXT ">$TMPFILE || die "intermediate file gen failed"
-				cat $TMPFILE>$CMDFILE || die "Second intermediate creation failed"
+				cat $BATTERY_FILE_CMD|grep -v "^[_A-Za-z0-9]*_EXT ">$BATTERY_FILE_TMP || die "intermediate file gen failed"
+				cat $BATTERY_FILE_TMP>$BATTERY_FILE_CMD || die "Second intermediate creation failed"
 			fi
 
-			rm -f $TMPFILE
+			rm -f $BATTERY_FILE_TMP
 
     done
 
-		local PP=` if [ -z "$PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
-    local VV=` if [ -z "$VERBOSE" ]; then echo "off"; else echo "on"; fi`
-    export TMPDIR=${TESTDIR}
+		local PP=` if [ -z "$BATTERY_PRETTY_PRT" ]; then echo "off"; else echo "on"; fi`
+    local VV=` if [ -z "$BATTERY_VERBOSE" ]; then echo "off"; else echo "on"; fi`
+    export TMPDIR=${BATTERY_DIR_TEST}
 
 		# Print some nice info
-    if [ ! -z "$VERBOSE" ]; then
-        debug "POSTFIX        $POSTFIX       "
-        info  "TESTROOT       $TESTROOT      "
-        info  "TMPBASE        $TMPBASE       "
-        info  "TMPFILE        $TMPFILE       "
-        debug "CMDFILE        $CMDFILE       "
-        info  "TESTDIR        $TESTDIR       "
-        info  "PRETTY_PRT     $PP            "
-        info  "VERBOSE        $VV            "
-        info  "OUTPUTFILE     $OUTPUTFILE    "
-        info  "LOGFILE        $LOGFILE       "
-        info  "DURATION       $DURATION      "
+    if [ ! -z "$BATTERY_VERBOSE" ]; then
+        debug "BATTERY_POSTFIX        $BATTERY_POSTFIX       "
+        info  "BATTERY_ROOT       $BATTERY_ROOT      "
+        info  "BATTERY_DIR_TMP        $BATTERY_DIR_TMP       "
+        info  "BATTERY_FILE_TMP        $BATTERY_FILE_TMP       "
+        debug "BATTERY_FILE_CMD        $BATTERY_FILE_CMD       "
+        info  "BATTERY_DIR_TEST        $BATTERY_DIR_TEST       "
+        info  "BATTERY_PRETTY_PRT     $PP            "
+        info  "BATTERY_VERBOSE        $VV            "
+        info  "BATTERY_FILE_OUTPUT     $BATTERY_FILE_OUTPUT    "
+        info  "BATTERY_FILE_LOG        $BATTERY_FILE_LOG       "
+        info  "BATTERY_DURATION       $BATTERY_DURATION      "
         debug "PATH           $PATH          "
-        info  "TC_SCENARIO    $TC_SCENARIO   "
+        info  "BATTERY_DIR_SCENARIOS    $BATTERY_DIR_SCENARIOS   "
         info  "TMPDIR         $TMPDIR        "
-        info  "SCENARIO_NAMES $SCENARIO_NAMES"
+        info  "BATTERY_SCENARIO_NAMES $BATTERY_SCENARIO_NAMES"
     fi
 }
 
@@ -170,25 +175,25 @@ main()
 	while getopts zx:Sd:qt:po:l:vn:hs:E:I arg
 	do  case $arg in
 		d)
-			TESTDIR=${OPTARG} ;;
+			BATTERY_DIR_TEST=${BATTERY_OPTARG} ;;
 		t)
-			TMPBASE=${OPTARG} ;;
+			BATTERY_DIR_TMP=${BATTERY_OPTARG} ;;
 		E)
 			EXTENDED_TEST=y ;;
 	        q)
-			QUIET_MODE=" -q " ;;
+			BATTERY_QUIET_MODE=" -q " ;;
 	        z)
 			DONT=" " ;;
 		p)
-			PRETTY_PRT=" -p " ;;
+			BATTERY_PRETTY_PRT=" -p " ;;
 		o)
-			OUTPUTFILE=${OPTARG};OO_LOG=1 ;;
+			BATTERY_FILE_OUTPUT=${BATTERY_OPTARG};OO_LOG=1 ;;
 		l)
-			LOGFILE=${OPTARG} ;;
+			BATTERY_FILE_LOG=${BATTERY_OPTARG} ;;
 		v)
-			VERBOSE="-v" ;;
+			BATTERY_VERBOSE="-v" ;;
 		n)
-			DURATION=" -t ${OPTARG}" ;;
+			BATTERY_DURATION=" -t ${BATTERY_OPTARG}" ;;
 		h)
 			usage ;;
 		x)  # number of ltp's to run
@@ -199,20 +204,20 @@ main()
 			to be ran exclusively.
 			Pausing for 10 seconds...Last chance to hit that ctrl+c
 			EOF
-				sleep 10
-			INSTANCES="-x $OPTARG -O ${TMP}" ;;
+					sleep 10
+			BATTERY_INSTANCES="-x $BATTERY_OPTARG -O ${TMP}" ;;
 		s)
-			TC_SCENARIO=${OPTARG} ;;
+			BATTERY_DIR_SCENARIOS=${BATTERY_OPTARG} ;;
 		S)
-			STRESS=y
-			STRESSARG="-S";;
+			BATTERY_STRESS=y
+			BATTERY_STRESSARG="-S";;
 
 		\?) # Handle illegals
 			usage ;;
 
 	esac
 
-	if [ ! -z "${OPTARG}" ]; then
+	if [ ! -z "${BATTERY_OPTARG}" ]; then
 		count=" $count + 2"
 	else
 		count=" $count + 1"
@@ -227,29 +232,27 @@ main()
 		count=$(($count - 1))
 	done
 
-	SCENARIO_NAMES=$@
+	BATTERY_SCENARIO_NAMES=$@
 
 	sanity_check
 
 	# Test start
 
-	[ -z "$QUIET_MODE" ] && { info "Test start time: $(date)" ; }
-	# run pan
-	# $PAN_COMMAND #Duplicated code here, because otherwise if we fail, only "PAN_COMMAND" gets output
-	#Usage: pan -n name [ -SyAehp ] [ -s starts ] [-t time[s|m|h|d] [ -x nactive ] [
-	#-l logfile ]
-	#[ -a active-file ] [ -f command-file ] [ -d debug-level ]
-	#[-o output-file] [-O output-buffer-directory] [cmd]
+	[ -z "$BATTERY_QUIET_MODE" ] && { info "Test start time: $(date)" ; }
 
-	cd $TESTDIR
-	PAN_COMMAND="${UTILBIN}/pan $QUIET_MODE -e -S $INSTANCES $DURATION -a $$ -n $$ $PRETTY_PRT -f ${CMDFILE} -l $LOGFILE"
+	# Usage: pan -n name [ -SyAehp ] [ -s starts ] [-t time[s|m|h|d] [ -x nactive ] [-l logfile ]
+	# [ -a active-file ] [ -f command-file ] [ -d debug-level ]
+	# [-o output-file] [-O output-buffer-directory] [cmd]
 
-	[ ! -z "$VERBOSE" ] && { info "PAN_COMMAND=$PAN_COMMAND"; }
+	cd $BATTERY_DIR_TEST
+	PAN_COMMAND="${UTILS_DIR_BIN}/pan $BATTERY_QUIET_MODE -e -S $BATTERY_INSTANCES $BATTERY_DURATION -a $$ -n $$ $BATTERY_PRETTY_PRT -f ${BATTERY_FILE_CMD} -l $BATTERY_FILE_LOG"
+
+	[ ! -z "$BATTERY_VERBOSE" ] && { info "PAN_COMMAND=$PAN_COMMAND"; }
 
 	if [ -z "$OO_LOG" ]; then
 		$PAN_COMMAND
 	else
-		$PAN_COMMAND|tee $OUTPUTFILE
+		$PAN_COMMAND|tee $BATTERY_FILE_OUTPUT
 	fi
 
 	if [ $? -eq 0 ]; then
@@ -261,18 +264,18 @@ main()
 	fi
 
 	# Test end
-	[ -z "$QUIET_MODE" ] && { info "Test end time: $(date)" ; }
-	[ -z "$QUIET_MODE" ] && {
+	[ -z "$BATTERY_QUIET_MODE" ] && { info "Test end time: $(date)" ; }
+	[ -z "$BATTERY_QUIET_MODE" ] && {
 
 	cat <<-EOF >&1
 
 	###############################################################"
 		Done executing testcases."
-		Result log is in the $LOGFILE "
+		Result log is in the $BATTERY_FILE_LOG "
 	###############################################################"
 
 	EOF
-	cat $LOGFILE
+	cat $BATTERY_FILE_LOG
 
 	}
 	cleanup
@@ -282,14 +285,14 @@ main()
 
 cleanup()
 {
-	[  -z "$QUIET_MODE" ] && echo -n "INFO: Cleaning up..."
-	if [ -n "${TMPFILE}" -a -n "${CMDFILE}" -a -n "${TESTDIR}" -a -n "${TMPBASE}" ]; then
-		rm -rf ${TMPFILE} ${CMDFILE} ${TESTDIR}/* ${TMPBASE}/*
+	[  -z "$BATTERY_QUIET_MODE" ] && echo -n "INFO: Cleaning up..."
+	if [ -n "${BATTERY_FILE_TMP}" -a -n "${BATTERY_FILE_CMD}" -a -n "${BATTERY_DIR_TEST}" -a -n "${BATTERY_DIR_TMP}" ]; then
+		rm -rf ${BATTERY_FILE_TMP} ${BATTERY_FILE_CMD} ${BATTERY_DIR_TEST}/* ${BATTERY_DIR_TMP}/*
 	else
 		echo "INFO: Clean up process won't be executed because variables for directories to be removed are not set..."
 	fi
 
-	[  -z "$QUIET_MODE" ] && echo "done."
+	[  -z "$BATTERY_QUIET_MODE" ] && echo "done."
 }
 
 

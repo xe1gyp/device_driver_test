@@ -2,75 +2,75 @@
 # Initial Version 21.Oct.2009
 #
 
-
-if [ $TEST_PLATFORM == "OMAP4" ]
+if [ "$TEST_PLATFORM" = "OMAP" ]
 then
-	#TBD. This needs documentation from battery driver
-	#For now, use zoom2 defintions from below
-	$TEST_PLATFORM="OMAP"
+	export OMAP_BATT_SYSFS=/sys/class/power_supply #Common path
+	export OMAP_BATT_PRESENT="${OMAP_BATT_SYSFS}/twl4030_bci_battery/present"
+	export OMAP_BATT_MAIN_VOLTAGE="${OMAP_BATT_SYSFS}/twl4030_bci_battery/voltage_now"
+	export OMAP_BATT_BACK_VOLTAGE="${OMAP_BATT_SYSFS}/twl4030_bci_bk_batt/voltage_now"
+	export OMAP_BATT_CHARGE_SRC="${OMAP_BATT_SYSFS}/twl4030_bci_battery/online"
+	export OMAP_BATT_TEMP="${OMAP_BATT_SYSFS}/twl4030_bci_battery/uevent"
 fi
 
-if [ $TEST_PLATFORM == "OMAP" ]
+if [ "$TEST_PLATFORM" = "OMAP4" ]
 then
-export OMAP_BATT_SYSFS=/sys/class/power_supply #Common path
-export OMAP_BATT_PRESENT="${OMAP_BATT_SYSFS}/twl4030_bci_battery/present"
-export OMAP_BATT_MAIN_VOLTAGE="${OMAP_BATT_SYSFS}/twl4030_bci_battery/voltage_now"
-export OMAP_BATT_BACK_VOLTAGE="${OMAP_BATT_SYSFS}/twl4030_bci_bk_batt/voltage_now"
-export OMAP_BATT_CHARGE_SRC="${OMAP_BATT_SYSFS}/twl4030_bci_battery/online"
-export OMAP_BATT_TEMP="${OMAP_BATT_SYSFS}/twl4030_bci_battery/uevent"
+	export OMAP_BATT_SYSFS=/sys/class/power_supply #Common path
+	export OMAP_BATT_PRESENT="${OMAP_BATT_SYSFS}/twl6030_bci_battery/present"
+	export OMAP_BATT_MAIN_VOLTAGE="${OMAP_BATT_SYSFS}/twl6030_bci_battery/voltage_now"
+	export OMAP_BATT_BACK_VOLTAGE="${OMAP_BATT_SYSFS}/twl6030_bci_bk_batt/voltage_now"
+	export OMAP_BATT_CHARGE_SRC="${OMAP_BATT_SYSFS}/twl6030_bci_battery/online"
+	export OMAP_BATT_TEMP="${OMAP_BATT_SYSFS}/twl6030_bci_battery/uevent"
 fi
 
-if [ $TEST_PLATFORM == "DUMMY" ]
+if [ "$TEST_PLATFORM" = "DUMMY" ]
 then
-export OMAP_BATT_SYSFS=/sys/class/net #Common path
-export OMAP_BATT_PRESENT="${OMAP_BATT_SYSFS}/eth0/tx_queue_len"
-export OMAP_BATT_MAIN_VOLTAGE="${OMAP_BATT_SYSFS}/eth0/address"
-export OMAP_BATT_BACK_VOLTAGE="${OMAP_BATT_SYSFS}/eth0/addr_len"
-export OMAP_BATT_CHARGE_SRC="${OMAP_BATT_SYSFS}/eth0/ifindex"
-export OMAP_BATT_TEMP="${OMAP_BATT_SYSFS}/eth0/mtu"
-
+	export OMAP_BATT_SYSFS=/sys/class/net #Common path
+	export OMAP_BATT_PRESENT="${OMAP_BATT_SYSFS}/eth0/tx_queue_len"
+	export OMAP_BATT_MAIN_VOLTAGE="${OMAP_BATT_SYSFS}/eth0/address"
+	export OMAP_BATT_BACK_VOLTAGE="${OMAP_BATT_SYSFS}/eth0/addr_len"
+	export OMAP_BATT_CHARGE_SRC="${OMAP_BATT_SYSFS}/eth0/ifindex"
+	export OMAP_BATT_TEMP="${OMAP_BATT_SYSFS}/eth0/mtu"
 fi
 
-
-#The below functions return the battery state values from various sysfs entries
-#The values are exported into the named variable passed as the last parameter
-#to the function
-#note:\$$# = Dereference the last parameter passed to the function
+# The below functions return the battery state values from various sysfs entries
+# The values are exported into the named variable passed as the last parameter
+# to the function
+# note:\$$# = Dereference the last parameter passed to the function
 
 # Example usage
 # source battery_util.sh
-#Declare a dummy variable to store the battery temperature
+# Declare a dummy variable to store the battery temperature
 # Battery_temp_val=
 # get_batt_temperature "Battery_temp_val"
 # echo $Battery_temp_val  #This will print the value as stored by the function
 
-function get_battery_presence()
+get_battery_presence()
 {
 	eval "export \$$#=`cat $OMAP_BATT_PRESENT`"
 }
 
-function get_main_batt_voltage()
+get_main_batt_voltage()
 {
 	eval "export \$$#=`cat $OMAP_BATT_MAIN_VOLTAGE`"
 }
 
-function get_back_batt_voltage()
+get_back_batt_voltage()
 {
 	eval "export \$$#=`cat $OMAP_BATT_BACK_VOLTAGE`"
 }
 
-function get_batt_charging_source()
+get_batt_charging_source()
 {
 	eval "export \$$#=`cat $OMAP_BATT_CHARGE_SRC`"
 }
 
-function get_batt_temperature()
+get_batt_temperature()
 {
 	eval "export \$$#=`cat $OMAP_BATT_TEMP`"
 }
 
 
-function battery_test_get_battery_state()
+battery_test_get_battery_state()
 {
 	get_battery_presence "$1"
 	if [ $? != 0 ]

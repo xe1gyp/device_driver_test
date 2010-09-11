@@ -7,6 +7,6 @@
 
 # Begin L_DD_BATTERY_0009_0002
 
-01  set -x; $UTILS_DIR_HANDLERS/handlerCpuAffinity.sh "switch" "battery_thread.sh $TEST_PLATFORM 400" "10" "10"
+01  set -x; handlerCpuAffinity.sh "switch" "battery_thread.sh $TEST_PLATFORM 50" "10" "10"
 
 # End L_DD_BATTERY_0009_0002

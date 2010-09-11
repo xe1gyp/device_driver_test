@@ -7,10 +7,10 @@
 
 # Begin L_DD_BATTERY_0009_0001
 
-01  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "clean"
-02  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "$TESTSCRIPT/battery_thread.sh $TEST_PLATFORM 400"
-03  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "$TESTSCRIPT/battery_thread.sh $TEST_PLATFORM 400"
-03  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "add" "$TESTSCRIPT/battery_thread.sh $TEST_PLATFORM 400"
-04  set -x; $UTILS_DIR_HANDLERS/handlerProcessParallelism.sh "execute"
+01  set -x; handlerProcessParallelism.sh "clean"
+02  set -x; handlerProcessParallelism.sh "add" "battery_thread.sh $TEST_PLATFORM 50"
+03  set -x; handlerProcessParallelism.sh "add" "battery_thread.sh $TEST_PLATFORM 50"
+03  set -x; handlerProcessParallelism.sh "add" "battery_thread.sh $TEST_PLATFORM 50"
+04  set -x; handlerProcessParallelism.sh "execute"
 
 # End L_DD_BATTERY_0009_0001
