@@ -26,11 +26,12 @@ export LED_SYSFS_PATH="/sys/class/leds"
 export PATH="${PATH}:${LED_ROOT}:${LED_DIR_BINARIES}:${LED_DIR_HELPER}"
 
 # Utils General Variables
-export UTILS_DIR_BIN=${LED_ROOT}/../../utils/bin
-export UTILS_DIR_HANDLERS=${LED_ROOT}/../../utils/handlers
-export UTILS_DIR_SCRIPTS=${LED_ROOT}/../../utils/scripts
+export UTILS_DIR=$LED_ROOT/../../utils/
+export UTILS_DIR_BIN=$UTILS_DIR/bin
+export UTILS_DIR_HANDLERS=$UTILS_DIR/handlers
+export UTILS_DIR_SCRIPTS=$UTILS_DIR/scripts
 
-. ${LED_ROOT}/../../utils/configuration/general.configuration
+. $UTILS_DIR/configuration/general.configuration
 
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 

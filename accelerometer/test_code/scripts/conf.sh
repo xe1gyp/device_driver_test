@@ -31,11 +31,12 @@ export ACCELEROMETER_SYSFS_PATH="/sys/bus/i2c/drivers/cma3000_accl/4-001c"
 export PATH="${PATH}:${ACCELEROMETER_ROOT}:${ACCELEROMETER_DIR_BINARIES}:${ACCELEROMETER_DIR_HELPER}"
 
 # Utils General Variables
-export UTILS_DIR_BIN=${ACCELEROMETER_ROOT}/../../utils/bin
-export UTILS_DIR_HANDLERS=${ACCELEROMETER_ROOT}/../../utils/handlers
-export UTILS_DIR_SCRIPTS=${ACCELEROMETER_ROOT}/../../utils/scripts
+export UTILS_DIR=$ACCELEROMETER_ROOT/../../utils/
+export UTILS_DIR_BIN=$UTILS_DIR/bin
+export UTILS_DIR_HANDLERS=$UTILS_DIR/handlers
+export UTILS_DIR_SCRIPTS=$UTILS_DIR/scripts
 
-. ${ACCELEROMETER_ROOT}/../../utils/configuration/general.configuration
+. $UTILS_DIR/configuration/general.configuration
 
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 

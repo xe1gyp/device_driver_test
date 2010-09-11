@@ -29,11 +29,12 @@ cd ${MMCSDP_ROOT}/../../../mmc/scripts/
 . ${MMCSDP_ROOT}/../../../mmc/scripts/conf.sh
 
 # Utils General Variables
-export UTILS_DIR_BIN=${MMCSD_ROOT}/../../utils/bin
-export UTILS_DIR_HANDLERS=${MMCSD_ROOT}/../../utils/handlers
-export UTILS_DIR_SCRIPTS=${MMCSD_ROOT}/../../utils/scripts
+export UTILS_DIR=$MMCSDP_ROOT/../../utils/
+export UTILS_DIR_BIN=$UTILS_DIR/bin
+export UTILS_DIR_HANDLERS=$UTILS_DIR/handlers
+export UTILS_DIR_SCRIPTS=$UTILS_DIR/scripts
 
-. ${MMCSD_ROOT}/../../utils/configuration/general.configuration
+. $UTILS_DIR/configuration/general.configuration
 
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 

@@ -24,11 +24,12 @@ export MTD_STRESS=""
 export PATH="${MTD_ROOT}:${MTD_DIR_HELPER}:${PATH}"
 
 # Utils General Variables
-export UTILS_DIR_BIN=${MTD_ROOT}/../../utils/bin
-export UTILS_DIR_HANDLERS=${MTD_ROOT}/../../utils/handlers
-export UTILS_DIR_SCRIPTS=${MTD_ROOT}/../../utils/scripts
+export UTILS_DIR=$MTD_ROOT/../../utils/
+export UTILS_DIR_BIN=$UTILS_DIR/bin
+export UTILS_DIR_HANDLERS=$UTILS_DIR/handlers
+export UTILS_DIR_SCRIPTS=$UTILS_DIR/scripts
 
-. ${MTD_ROOT}/../../utils/configuration/general.configuration
+. $UTILS_DIR/configuration/general.configuration
 
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 

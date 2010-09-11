@@ -25,11 +25,12 @@ export HSUART_STRESS=""
 export PATH="$PATH:$HSUART_ROOT:$HSUART_DIR_BINARIES:$HSUART_DIR_HELPER"
 
 # Utils General Variables
-export UTILS_DIR_BIN=${HSUART_ROOT}/../../utils/bin
-export UTILS_DIR_HANDLERS=${HSUART_ROOT}/../../utils/handlers
-export UTILS_DIR_SCRIPTS=${HSUART_ROOT}/../../utils/scripts
+export UTILS_DIR=$HSUART_ROOT/../../utils/
+export UTILS_DIR_BIN=$UTILS_DIR/bin
+export UTILS_DIR_HANDLERS=$UTILS_DIR/handlers
+export UTILS_DIR_SCRIPTS=$UTILS_DIR/scripts
 
-. ${HSUART_ROOT}/../../utils/configuration/general.configuration
+. $UTILS_DIR/configuration/general.configuration
 
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 

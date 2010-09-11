@@ -1,7 +1,5 @@
 #!/bin/sh
 
-#!/bin/sh
-
 # TestSuite General Variables
 export GPIO_POSTFIX=`date "+%Y%m%d-%H%M%S"`
 export GPIO_ROOT=`pwd`
@@ -24,14 +22,15 @@ export GPIO_VERBOSE=""
 export GPIO_SCENARIO_NAMES=""
 export GPIO_STRESS=""
 
-export PATH="${GPIO_ROOT}:${GPIO_DIR_BINARIES}:${GPIO_DIR_HELPER}:${PATH}"
+export PATH="$PATH:$GPIO_ROOT:$GPIO_DIR_BINARIES:$GPIO_DIR_HELPER"
 
 # Utils General Variables
-export UTILS_DIR_BIN=${GPIO_ROOT}/../../utils/bin
-export UTILS_DIR_HANDLERS=${GPIO_ROOT}/../../utils/handlers
-export UTILS_DIR_SCRIPTS=${GPIO_ROOT}/../../utils/scripts
+export UTILS_DIR=$GPIO_ROOT/../../utils/
+export UTILS_DIR_BIN=$UTILS_DIR/bin
+export UTILS_DIR_HANDLERS=$UTILS_DIR/handlers
+export UTILS_DIR_SCRIPTS=$UTILS_DIR/scripts
 
-. ${GPIO_ROOT}/../../utils/configuration/general.configuration
+. $UTILS_DIR/configuration/general.configuration
 
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 

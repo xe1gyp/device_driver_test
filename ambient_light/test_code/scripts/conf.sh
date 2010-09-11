@@ -31,11 +31,12 @@ export AMBIENT_LIGHT_SYSFS_PATH="/sys/bus/i2c/drivers/bh1780/3-0029"
 export PATH="${PATH}:${AMBIENT_LIGHT_ROOT}:${AMBIENT_LIGHT_DIR_BINARIES}:${AMBIENT_LIGHT_DIR_HELPER}"
 
 # Utils General Variables
-export UTILS_DIR_BIN=${AMBIENT_LIGHT_ROOT}/../../utils/bin
-export UTILS_DIR_HANDLERS=${AMBIENT_LIGHT_ROOT}/../../utils/handlers
-export UTILS_DIR_SCRIPTS=${AMBIENT_LIGHT_ROOT}/../../utils/scripts
+export UTILS_DIR=$AMBIENT_LIGHT_ROOT/../../utils/
+export UTILS_DIR_BIN=$UTILS_DIR/bin
+export UTILS_DIR_HANDLERS=$UTILS_DIR/handlers
+export UTILS_DIR_SCRIPTS=$UTILS_DIR/scripts
 
-. ${AMBIENT_LIGHT_ROOT}/../../utils/configuration/general.configuration
+. $UTILS_DIR/configuration/general.configuration
 
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 

@@ -24,11 +24,12 @@ export SENSOR_STRESS=""
 export PATH="${PATH}:${SENSOR_ROOT}:${SENSOR_DIR_BINARIES}:${SENSOR_DIR_HELPER}"
 
 # Utils General Variables
-export UTILS_DIR_BIN=${SENSOR_ROOT}/../../utils/bin
-export UTILS_DIR_HANDLERS=${SENSOR_ROOT}/../../utils/handlers
-export UTILS_DIR_SCRIPTS=${SENSOR_ROOT}/../../utils/scripts
+export UTILS_DIR=$SENSOR_ROOT/../../utils/
+export UTILS_DIR_BIN=$UTILS_DIR/bin
+export UTILS_DIR_HANDLERS=$UTILS_DIR/handlers
+export UTILS_DIR_SCRIPTS=$UTILS_DIR/scripts
 
-. ${SENSOR_ROOT}/../../utils/configuration/general.configuration
+. $UTILS_DIR/configuration/general.configuration
 
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 

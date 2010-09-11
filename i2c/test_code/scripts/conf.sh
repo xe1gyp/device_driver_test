@@ -27,13 +27,14 @@ export TC_SCENARIO="${TESTROOT}/scenarios"
 export SCENARIO_NAMES=""
 
 # Utilities
-export UTILBIN=${TESTROOT}/../../utils/bin
-export UTILS_DIR_HANDLERS=${TESTROOT}/../../utils/handlers
-export UTILSCRIPTS=${TESTROOT}/../../utils/scripts
+export UTILS_DIR=$TESTROOT/../../utils/
+export UTILS_DIR_BIN=$UTILS_DIR/bin
+export UTILS_DIR_HANDLERS=$UTILS_DIR/handlers
+export UTILS_DIR_SCRIPTS=$UTILS_DIR/scripts
 
-. ${TESTROOT}/../../utils/configuration/general.configuration
+. $UTILS_DIR/configuration/general.configuration
 
-export PATH="$PATH:$UTILBIN:$UTILS_DIR_HANDLERS:$UTILSCRIPTS"
+export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
 # Adapters
 export I2C_ADAPTERS="1 2 3"
