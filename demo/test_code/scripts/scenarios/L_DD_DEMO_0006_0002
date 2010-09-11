@@ -7,6 +7,6 @@
 
 # Begin L_DD_DEMO_0006_0001
 
-01  set -x; $UTILS_DIR_HANDLERS/handlerIrqAffinity.sh "switch" "dd if=/dev/urandom of=/dev/null bs=1M count=50" "10" "15" "83"
+01  set -x; handlerIrqAffinity.sh "switch" "dd if=/dev/urandom of=/dev/null bs=1M count=50" "10" "15" "83"
 
 # End L_DD_DEMO_0006_0001

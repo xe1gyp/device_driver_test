@@ -1,33 +1,37 @@
 #!/bin/sh
 
-# Testsuite variables
-export POSTFIX=`date "+%Y%m%d-%H%M%S"`
-export TESTROOT=${PWD}
-export TESTBIN=${PWD}/../bin
-export MODDIR=${PWD}/../modules
-export TESTSCRIPT=${PWD}/helper
-export TMPBASE=${TESTROOT}/tmp
-export TMPFILE=${TMPBASE}/tmp.$POSTFIX
-export CMDFILE=cmd.$POSTFIX
-export TESTDIR=${TESTROOT}/test
-export PRETTY_PRT=""
-export VERBOSE=""
-export OUTPUTFILE=${TESTROOT}/output.$POSTFIX
-export LOGFILE=${TESTROOT}/log.$POSTFIX
-export DURATION=""
-export PATH="${TESTROOT}:${TESTBIN}:${TESTSCRIPT}:${PATH}"
-export TC_SCENARIO="${TESTROOT}/scenarios"
-export SCENARIO_NAMES=""
-export STRESS=""
+# TestSuite General Variables
+export DEMO_POSTFIX=`date "+%Y%m%d-%H%M%S"`
+export DEMO_ROOT=`pwd`
 
-# External Utilities
-export UTILBIN=${TESTROOT}/../../utils/bin
-export UTILS_DIR_HANDLERS=${TESTROOT}/../../utils/handlers
-export UTILS_DIR_SCRIPTS=${TESTROOT}/../../utils/scripts
+export DEMO_DIR_BINARIES=${DEMO_ROOT}/../bin
+export DEMO_DIR_HELPER=${DEMO_ROOT}/helper
+export DEMO_DIR_TMP=${DEMO_ROOT}/tmp
+export DEMO_DIR_TEST=${DEMO_ROOT}/test
+export DEMO_DIR_SCENARIOS="${DEMO_ROOT}/scenarios"
 
-. ${TESTROOT}/../../utils/configuration/general.configuration
+export DEMO_FILE_OUTPUT=${DEMO_ROOT}/output.$DEMO_POSTFIX
+export DEMO_FILE_LOG=${DEMO_ROOT}/log.$DEMO_POSTFIX
+export DEMO_FILE_TMP=${DEMO_DIR_TMP}/tmp.$DEMO_POSTFIX
+export DEMO_FILE_CMD=cmd.$DEMO_POSTFIX
 
-export PATH="$PATH:$UTILBIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
+export DEMO_DURATION=""
+export DEMO_PRETTY_PRT=""
+export DEMO_VERBOSE=""
+export DEMO_SCENARIO_NAMES=""
+export DEMO_STRESS=""
+
+export PATH="$DEMO_ROOT:$DEMO_DIR_BINARIES:$DEMO_DIR_HELPER:$PATH"
+
+# Utils General Variables
+export UTILS_DIR=$DEMO_ROOT/../../utils/
+export UTILS_DIR_BIN=$UTILS_DIR/bin
+export UTILS_DIR_HANDLERS=$UTILS_DIR/handlers
+export UTILS_DIR_SCRIPTS=$UTILS_DIR/scripts
+
+. $UTILS_DIR/configuration/general.configuration
+
+export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
 # Driver specific
 export HELLO_WORLD_APP=hello.world
@@ -38,5 +42,8 @@ export MODULE_HELLO_WORLD=$MODDIR/$HELLO_WORLD_MOD
 
 export KERNEL_MESSAGES=/var/log/messages
 export HELPER_KERNEL_MESSAGES=helperKernelMessages.sh
+
+# Remove all existing references for handlerError.sh
+handlerError.sh "clean"
 
 # End of file
