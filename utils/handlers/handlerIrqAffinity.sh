@@ -46,14 +46,10 @@ getIrqBank() {
 # We need to change the affinity for the irq of the GPIO bank it belongs to
 
 if [ "$LOCAL_IRQ_NUMBER" -gt "160" ]; then
-
 	getIrqBank $LOCAL_IRQ_NUMBER
 	LOCAL_PROC_IRQ_NUMBER=$LOCAL_IRQ_GPIO
-
 else
-
 	LOCAL_PROC_IRQ_NUMBER=$LOCAL_IRQ_NUMBER
-
 fi
 
 test -f /proc/irq/$LOCAL_PROC_IRQ_NUMBER/smp_affinity
@@ -68,13 +64,19 @@ if [ $? -eq 1 ]; then
 	exit 1
 fi
 
+handlerSysFs.sh "compare" $SYSFS_CPU_ONLINE  "0-1"
+if [ $? -eq 0 ]; then
+	LOCAL_MULTICORE=1
+else
+	echo -e "\n\nINFO: Only CPU 0 is online, will set up affinity automatically\n\n"
+fi
+
 if [ "$LOCAL_OPERATION" = "switch" ]; then
 
 	$LOCAL_COMMAND_LINE &
 	LOCAL_COMMAND_PID=`echo $!`
 
 	count=1
-	process=
 	while [ $count -le $LOCAL_EXECUTION_TIMES ]
 	do
 
@@ -84,55 +86,36 @@ if [ "$LOCAL_OPERATION" = "switch" ]; then
 			break
 		fi
 
+		LOCAL_PROCESSOR=1
+
 		rem=$(( $count % 2 ))
-
-		if [ $rem -eq 0 ]
+		if [ $rem -eq 1 ]
 		then
-
-			initial_value_p1=`handlerIrq.sh get cpu0 $LOCAL_IRQ_NUMBER`
-			initial_value_p2=`handlerIrq.sh get cpu1 $LOCAL_IRQ_NUMBER`
-
-			echo 1 > /proc/irq/$LOCAL_PROC_IRQ_NUMBER/smp_affinity
-			sleep $LOCAL_TIME_TO_WAIT
-
-			final_value_p1=`handlerIrq.sh get cpu0 $LOCAL_IRQ_NUMBER`
-			final_value_p2=`handlerIrq.sh get cpu1 $LOCAL_IRQ_NUMBER`
-
-			echo "Values IP1 FP1 IP2 FP2: $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2"
-
-			if [ "$initial_value_p1" -lt "$final_value_p1" ]
-			then
-				echo "Number of interrupts were increased in Processor 1"
-			else
-				echo "Error: Number of interrupts were not increased in Processor 1"
-				exit 1
+			if [ $LOCAL_MULTICORE ]; then
+				LOCAL_PROCESSOR=2
 			fi
+		fi
 
+		LOCAL_CPU=`expr $LOCAL_PROCESSOR - 1`
+
+		LOCAL_VALUE_INITIAL=`handlerIrq.sh get "cpu$LOCAL_CPU" $LOCAL_IRQ_NUMBER`
+
+		echo $LOCAL_PROCESSOR > /proc/irq/$LOCAL_PROC_IRQ_NUMBER/smp_affinity
+		sleep $LOCAL_TIME_TO_WAIT
+
+		LOCAL_VALUE_FINAL=`handlerIrq.sh get "cpu$LOCAL_CPU" $LOCAL_IRQ_NUMBER`
+
+		echo "Values Initial | Final : $LOCAL_VALUE_INITIAL | $LOCAL_VALUE_FINAL"
+
+		if [ "$LOCAL_VALUE_INITIAL" -lt "$LOCAL_VALUE_FINAL" ]
+		then
+			echo "Number of interrupts were increased in Processor $LOCAL_PROCESSOR"
 		else
-
-			initial_value_p1=`handlerIrq.sh get cpu0 $LOCAL_IRQ_NUMBER`
-			initial_value_p2=`handlerIrq.sh get cpu1 $LOCAL_IRQ_NUMBER`
-
-			echo 2 > /proc/irq/$LOCAL_PROC_IRQ_NUMBER/smp_affinity
-			sleep $LOCAL_TIME_TO_WAIT
-
-			final_value_p1=`handlerIrq.sh get cpu0 $LOCAL_IRQ_NUMBER`
-			final_value_p2=`handlerIrq.sh get cpu1 $LOCAL_IRQ_NUMBER`
-
-			echo "Values IP1 FP1 IP2 FP2: $initial_value_p1 $final_value_p1 $initial_value_p2 $final_value_p2"
-
-			if [ "$initial_value_p2" -lt "$final_value_p2" ]
-			then
-				echo "Number of interrupts increased in Processor 2"
-			else
-				echo "Error: Number of interrupts were not increased in Processor 2"
-				exit 1
-			fi
-
+			echo "Error: Number of interrupts were not increased in Processor $LOCAL_PROCESSOR"
+			exit 1
 		fi
 
 		count=`expr $count + 1`
-		sleep $LOCAL_TIME_TO_WAIT
 
 	done
 

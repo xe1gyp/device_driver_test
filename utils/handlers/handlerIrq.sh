@@ -37,18 +37,20 @@ if [ "$LOCAL_OPERATION" = "get" ]; then
 
 	elif [ "$LOCAL_OPTION" = "cpu0" ] || [ "$LOCAL_OPTION" = "cpu1" ]; then
 
-    LOCAL_IRQ_NUMBER=$3
-    test -f  $LOCAL_IRQ_NUMBER
-    if [ $? == 0 ]; then
-    	LOCAL_IRQ_NUMBER=`cat $LOCAL_IRQ_NUMBER`
-    fi
+		LOCAL_IRQ_NUMBER=$3
 
-    cat /proc/interrupts | grep -i $LOCAL_OPTION &> /dev/null
+		test -f  $LOCAL_IRQ_NUMBER
+		if [ $? = 0 ]; then
+			LOCAL_IRQ_NUMBER=`cat $LOCAL_IRQ_NUMBER`
+		fi
+
+		cat /proc/interrupts | grep -i $LOCAL_OPTION 2>&1 > /dev/null
 		if [ $? != 0 ]; then
 			echo "FATAL: $LOCAL_OPTION irq information not available, please check!"
 			cat /proc/interrupts
+			exit 1
 		fi
-		
+
 		if [ "$LOCAL_OPTION" = "cpu0" ]; then
 			cat /proc/interrupts | grep $LOCAL_IRQ_NUMBER: | awk '{print $2}'
 		elif [ "$LOCAL_OPTION" = "cpu1" ]; then

@@ -21,6 +21,13 @@ if [ $? -eq 1 ]; then
 	exit 1
 fi
 
+handlerSysFs.sh "compare" $SYSFS_CPU_ONLINE  "0-1"
+if [ $? -eq 0 ]; then
+	LOCAL_MULTICORE=1
+else
+	echo -e "\n\nINFO: Only CPU 0 is online, will set up affinity automatically\n\n"
+fi
+
 if [ "$LOCAL_OPERATION" = "switch" ]; then
 
 	LOCAL_COMMAND_LINE=$2
@@ -31,7 +38,7 @@ if [ "$LOCAL_OPERATION" = "switch" ]; then
 	LOCAL_COMMAND_PID=`echo $!`
 
 	count=1
-	processor=1
+
 	while [ $count -le $LOCAL_COMMAND_REPEATABILITY ]
 	do
 
@@ -41,22 +48,21 @@ if [ "$LOCAL_OPERATION" = "switch" ]; then
 			break
 		fi
 
-		rem=$(( $count % 2 ))
+		LOCAL_PROCESSOR=1
 
-		if [ $rem -eq 0 ]
+		rem=$(( $count % 2 ))
+		if [ $rem -eq 1 ]
 		then
-			processor=1
-			taskset -p $processor $LOCAL_COMMAND_PID
-		else
-			processor=2
-			taskset -p $processor $LOCAL_COMMAND_PID
+			if [ $LOCAL_MULTICORE ]; then
+				LOCAL_PROCESSOR=2
+			fi
 		fi
 
+		taskset -p $processor $LOCAL_COMMAND_PID
 		if [ $? -ne 0 ]
 		then
 			echo -e "Error: Could not set cpu affinity for processor $processor!"
-			# FixMe
-			# exit 1
+			exit 1
 		fi
 
 		count=`expr $count + 1`
@@ -89,17 +95,25 @@ elif [ "$LOCAL_OPERATION" = "assign" ]; then
 	LOCAL_COMMAND_LINE=$2
 	LOCAL_COMMAND_PROCESSOR_MASK=$3
 
-	echo "$LOCAL_COMMAND_LINE:$LOCAL_COMMAND_PROCESSOR_MASK" >> $HCA_LIST_CMDS_TOTALS
+	if [ $LOCAL_MULTICORE ]; then
+		echo "$LOCAL_COMMAND_LINE:$LOCAL_COMMAND_PROCESSOR_MASK" >> $HCA_LIST_CMDS_TOTALS
+	else
+		echo "$LOCAL_COMMAND_LINE:1" >> $HCA_LIST_CMDS_TOTALS
+	fi
 
 elif [ "$LOCAL_OPERATION" = "random" ]; then
 
 	LOCAL_COMMAND_LINE=$2
-
 	LOCAL_COMMAND_PROCESSOR=0
-	while [  $LOCAL_COMMAND_PROCESSOR -eq 0 ]; do
-		LOCAL_NUMBER=`dd if=/dev/urandom count=1 2> /dev/null | cksum | cut -f1 -d" "`
-		LOCAL_COMMAND_PROCESSOR=`echo "$LOCAL_NUMBER%4" | bc`
-	done
+
+	if [ $LOCAL_MULTICORE ]; then
+		while [  $LOCAL_COMMAND_PROCESSOR -eq 0 ]; do
+			LOCAL_NUMBER=`dd if=/dev/urandom count=1 2> /dev/null | cksum | cut -f1 -d" "`
+			LOCAL_COMMAND_PROCESSOR=`echo "$LOCAL_NUMBER%4" | bc`
+		done
+	else
+		LOCAL_COMMAND_PROCESSOR=1
+	fi
 
 	echo "$LOCAL_COMMAND_LINE:$LOCAL_COMMAND_PROCESSOR" >> $HCA_LIST_CMDS_TOTALS
 

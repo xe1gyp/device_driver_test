@@ -5,6 +5,7 @@ test -d /proc/1/ || mount -t proc proc /proc
 
 # Check if sysfs is mounted, if not set it up
 test -d /sys/kernel/ || mount -t sysfs sysfs /sys
+. ${UTILS_DIR}/configuration/sysfs.configuration
 
 # Creation & clean up of temporal directory
 export UTILS_DIR_TMP=/tmp/testsuites/

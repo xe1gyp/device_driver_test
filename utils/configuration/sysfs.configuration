@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# /sys/devices/system/cpu/
+export SYSFS_CPU=/sys/devices/system/cpu/
+export SYSFS_CPU_OFFLINE=$SYSFS_CPU/offline
+export SYSFS_CPU_ONLINE=$SYSFS_CPU/online
+export SYSFS_CPU_POSSIBLE=$SYSFS_CPU/possible
+export SYSFS_CPU_PRESENT=$SYSFS_CPU/present
+
+# /sys/devices/system/cpu/cpu0
+export SYSFS_CPU0_ONLINE=$SYSFS_CPU/cpu0/online
+
+# /sys/devices/system/cpu/cpu1
+export SYSFS_CPU1_ONLINE=$SYSFS_CPU/cpu1/online
+
+# End of file
