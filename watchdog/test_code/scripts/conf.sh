@@ -1,30 +1,41 @@
 #!/bin/sh
 
-# Testsuite variables
-export POSTFIX=`date "+%Y%m%d-%H%M%S"`
-export TESTROOT=${PWD}
-export TESTBIN=${PWD}/../bin
-export UTILBIN=${PWD}/../../utils/bin
-export UTILSCRIPTS=${PWD}/../../utils/scripts
-export TESTMODS=${PWD}/../modules
-export TESTSCRIPT=${PWD}/helper
-export TMPBASE=${TESTROOT}/tmp
-export TMPFILE=${TMPBASE}/tmp.$POSTFIX
-export CMDFILE=cmd.$POSTFIX
-export TESTDIR=${TESTROOT}/test
-export PRETTY_PRT=""
-export VERBOSE=""
-export OUTPUTFILE=${TESTROOT}/output.$POSTFIX
-export LOGFILE=${TESTROOT}/log.$POSTFIX
-export DURATION=""
-export PATH="${PATH}:${TESTROOT}:${TESTBIN}:${TESTSCRIPT}"
-export TC_SCENARIO="${TESTROOT}/scenarios"
-export SCENARIO_NAMES=""
-export UTILS_DIR_HANDLERS=${TESTROOT}/../../utils/handlers
+# TestSuite General Variables
+export WATCHDOG_POSTFIX=`date "+%Y%m%d-%H%M%S"`
+export WATCHDOG_ROOT=`pwd`
+
+export WATCHDOG_DIR_BINARIES=${WATCHDOG_ROOT}/../bin
+export WATCHDOG_DIR_MODULES=${WATCHDOG_ROOT}/../modules
+export WATCHDOG_DIR_HELPER=${WATCHDOG_ROOT}/helper
+export WATCHDOG_DIR_TMP=${WATCHDOG_ROOT}/tmp
+export WATCHDOG_DIR_TEST=${WATCHDOG_ROOT}/test
+export WATCHDOG_DIR_SCENARIOS="${WATCHDOG_ROOT}/scenarios"
+
+export WATCHDOG_FILE_OUTPUT=${WATCHDOG_ROOT}/output.$WATCHDOG_POSTFIX
+export WATCHDOG_FILE_LOG=${WATCHDOG_ROOT}/log.$WATCHDOG_POSTFIX
+export WATCHDOG_FILE_TMP=${WATCHDOG_DIR_TMP}/tmp.$WATCHDOG_POSTFIX
+export WATCHDOG_FILE_CMD=cmd.$WATCHDOG_POSTFIX
+
+export WATCHDOG_DURATION=""
+export WATCHDOG_PRETTY_PRT=""
+export WATCHDOG_VERBOSE=""
+export WATCHDOG_SCENARIO_NAMES=""
+export WATCHDOG_STRESS=""
+
+export PATH="$PATH:$WATCHDOG_ROOT:$WATCHDOG_DIR_BINARIES:$WATCHDOG_DIR_HELPER"
+
+# Utils General Variables
+export UTILS_DIR=$WATCHDOG_ROOT/../../utils/
+export UTILS_DIR_BIN=$UTILS_DIR/bin
+export UTILS_DIR_HANDLERS=$UTILS_DIR/handlers
+export UTILS_DIR_SCRIPTS=$UTILS_DIR/scripts
+
+. $UTILS_DIR/configuration/general.configuration
+
+export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
 # Platform
 export DMESG_FILE=/tmp/result.tmp
-$TESTSCRIPT/fileSystemType.sh
 
 # Driver specific
 export WATCHDOG_DEVFS=/dev/watchdog
