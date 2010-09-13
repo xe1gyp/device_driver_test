@@ -11,7 +11,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0001_0001</command>
@@ -46,7 +46,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0002_0001</command>
@@ -81,7 +81,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0002_0002</command>
@@ -116,7 +116,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0003_0001</command>
@@ -151,7 +151,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0003_0002</command>
@@ -186,7 +186,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0003_0003</command>
@@ -221,7 +221,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0004_0001</command>
@@ -256,7 +256,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0004_0002</command>
@@ -291,7 +291,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0004_0003</command>
@@ -326,7 +326,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0005_0001</command>
@@ -361,7 +361,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0005_0002</command>
@@ -395,7 +395,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0005_0003</command>
@@ -430,7 +430,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0005_0004</command>
@@ -465,7 +465,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0005_0005</command>
@@ -500,7 +500,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0001</command>
@@ -535,7 +535,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0002</command>
@@ -570,7 +570,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0003</command>
@@ -605,7 +605,7 @@
 
 		<run>
 			<action>
-				<command>export SLOT=0</command>
+				<command>export SLOT=1</command>
 			</action>
 			<action>
 				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0018_0004</command>
