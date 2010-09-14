@@ -10,17 +10,28 @@
  * Input device support when  make menuconfig
  *
 */
-int main(void) {
+int main(int argc, char *argv[])
+{
+	char *input_device = "/dev/input/event0";
+
+	if (argc > 1) {
+		int size = (strlen(argv[1]) + 1) * sizeof(char);
+		input_device = (char *) malloc(size);
+		strcpy(input_device, argv[1]);
+	}
+
 	struct input_event keyinfo;
 	int bytes;
-	int fd = open("/dev/input/event0", O_RDONLY);
+	int fd = open(input_device, O_RDONLY);
 	int ret;
 	
 	if (fd > 0) {
 		sleep(1);
 		printf("Press a key:\n"
-			"PASS (3430 & 3630 SDP: S26 || Zoom2/3: H or Send)\n"
-			"FAIL (3430 & 3630 SDP: S19 || Zoom2/3: U or End)\n");
+			"PASS (3430 & 3630 SDP: S26 ||"
+			" Zoom2/3 & SDP4430: H or Send)\n"
+			"FAIL (3430 & 3630 SDP: S19 ||"
+			" Zoom2/3 & SDP4430: U or End)\n");
 		fflush(stdout);
 		while(1) {
 			bytes = read(fd, &keyinfo, sizeof(keyinfo));
