@@ -1,7 +1,7 @@
 CC := arm-none-linux-gnueabi-gcc
 OBJS := showinfo setimg setwin setcrop streaming streaming_tiler setlink setrotation setmirror \
 setbgcolor settransck enablecolkey setcolorconv setdefcolcon streaming_process \
-tv_detect_app createRGB
+tv_detect_app createRGB streaming_usrptr
 
 all: $(OBJS)
 
@@ -55,6 +55,9 @@ tv_detect_app: tv_detect_app.c lib.h
 
 createRGB: createRGB.c
 	$(CC) $(CFLAGS) -g createRGB.c	-o createRGB
+
+streaming_usrptr: streaming_usrptr.c
+	$(CC) $(CFLAGS) -g streaming_usrptr.c -o streaming_usrptr
 
 install:
 	
