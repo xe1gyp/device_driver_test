@@ -29,22 +29,20 @@ int main(int argc, char *argv[])
 		sleep(1);
 		printf("Press a key:\n"
 			"PASS (3430 & 3630 SDP: S26 ||"
-			" Zoom2/3 & SDP4430: H or Send)\n"
-			"FAIL (3430 & 3630 SDP: S19 ||"
-			" Zoom2/3 & SDP4430: U or End)\n");
+			" Zoom2/3 & SDP4430: OK)\n"
+			"FAIL (Any other key)\n");
 		fflush(stdout);
 		while(1) {
 			bytes = read(fd, &keyinfo, sizeof(keyinfo));
 			if (bytes && keyinfo.type == EV_KEY) {
-				if (keyinfo.code == KEY_H ||
-				    keyinfo.code == KEY_SEND) {
+				if (keyinfo.code == KEY_ENTER ||
+					keyinfo.code == KEY_SELECT ||
+					keyinfo.code == KEY_OK) {
 					printf("Validation Criteria: PASS\n");
 					fflush(stdout);
 					ret = 0;
 					break;
-				}
-				if (keyinfo.code == KEY_U ||
-				    keyinfo.code == KEY_END) {
+				} else {
 					printf("Validation Criteria: FAIL\n");
 					fflush(stdout);
 					ret = 1;
