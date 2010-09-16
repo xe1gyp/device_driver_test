@@ -41,7 +41,7 @@ elif [ "$LOCAL_COMMAND" = "log" ]; then
     HIT_PLACE=5
   fi
   
-  TEMP=`cat $DEBUGFS_PMCOUNT | grep $LOCAL_POWER_DOMAIN | grep $LOCAL_HIT`
+  TEMP=`cat $DEBUGFS_PMCOUNT | grep -v always_on_core_pwrdm | grep $LOCAL_POWER_DOMAIN | grep $LOCAL_HIT`
   set $TEMP
   RESULT=`echo $2 | cut -d "," -f $HIT_PLACE`
   echo $RESULT > $TMPBASE.$LOCAL_VALUE
@@ -62,7 +62,7 @@ elif [ "$LOCAL_COMMAND" = "compare" ]; then
     exit 1
   else
     echo "TEST PASSED"
-    exit 1
+    exit 0
   fi
 
 else

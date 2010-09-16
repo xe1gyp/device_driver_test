@@ -11,7 +11,7 @@
 
 003  set -x; echo $DISABLE > $CPU1
 
-004  set -x; echo $ENABLE > $SLEEP_WHILE_IDLE && sleep 25
+004  set -x; echo $ENABLE > $SLEEP_WHILE_IDLE && sleep 30
 
 005  set -x; debugFileSystem.sh "log" "core_pwrdm" "RET" "2"
 006  set -x; debugFileSystem.sh "compare" "1" "2" | grep PASSED && sleep 2 && exit 0 || exit 1

@@ -76,3 +76,4 @@ export SLEEP_WHILE_IDLE=$DEBUGFS_POWER_ENTRY/sleep_while_idle
 export ENABLED_OFF_MODE=$DEBUGFS_POWER_ENTRY/enable_off_mode
 export VOLTAGE_OFF_WHILE_IDLE=$DEBUGFS_POWER_ENTRY/voltage_off_while_idle
 export WAKEUP_TIMER_SECONDS=$DEBUGFS_POWER_ENTRY/wakeup_timer_seconds
+export CPU1=/sys/devices/system/cpu/cpu1/online
