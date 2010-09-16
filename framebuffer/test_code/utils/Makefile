@@ -11,6 +11,7 @@ clean:
 install:
 	make -C internal/ install
 	make -C FBdev/utilities/fbtest/ install
+	cp -r patterns/ ../bin
 fbdev: 
 	make -C FBdev/utilities/fbtest/
 
