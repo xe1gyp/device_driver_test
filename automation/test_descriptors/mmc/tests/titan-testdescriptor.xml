@@ -1,6 +1,41 @@
 <?xml version="1.0"?>
 <titan>
 
+	<test id="L_DD_MMC_0000_0001">
+
+		<information>
+			<autor> Misael Lopez </autor>
+			<description> Test the registration of the MMC driver </description>
+			<dateofcreation> 10/20/2006 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export SLOT=0</command>
+			</action>
+			<action>
+				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0000_0001</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="180"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
 	<test id="L_DD_MMC_0001_0001">
 
 		<information>
@@ -35,6 +70,77 @@
 		</fail>
 
 	</test>
+
+	<test id="L_DD_MMC_0001_0002">
+
+		<information>
+			<autor> Misael Lopez </autor>
+			<description> Test the registration of the MMC driver </description>
+			<dateofcreation> 10/20/2006 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export SLOT=0</command>
+			</action>
+			<action>
+				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0001_0002</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="180"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_MMC_0001_0003">
+
+		<information>
+			<autor> Misael Lopez </autor>
+			<description> Test the registration of the MMC driver </description>
+			<dateofcreation> 10/20/2006 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export SLOT=0</command>
+			</action>
+			<action>
+				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0001_0003</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="180"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
 
 	<test id="L_DD_MMC_0002_0001">
 
@@ -490,7 +596,291 @@
 		</fail>
 
 	</test>
+<test id="L_DD_MMC_0005_0006">
 
+		<information>
+			<autor> Misael Lopez </autor>
+			<description> Execute several file I/O operations in a EXT2 file system </description>
+			<dateofcreation> 10/20/2006 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export SLOT=0</command>
+			</action>
+			<action>
+				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0005_0006</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mmc/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="350"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_MMC_0006_0001">
+
+		<information>
+			<autor> Misael Lopez </autor>
+			<description> Execute several file I/O operations in a EXT2 file system </description>
+			<dateofcreation> 10/20/2006 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export SLOT=0</command>
+			</action>
+			<action>
+				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0006_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mmc/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="350"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+
+	<test id="L_DD_MMC_0006_0002">
+
+		<information>
+			<autor> Misael Lopez </autor>
+			<description> Execute several file I/O operations in a EXT2 file system </description>
+			<dateofcreation> 10/20/2006 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export SLOT=0</command>
+			</action>
+			<action>
+				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0006_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mmc/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="350"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+
+	<test id="L_DD_MMC_0007_0001">
+
+		<information>
+			<autor> Misael Lopez </autor>
+			<description> Execute several file I/O operations in a EXT2 file system </description>
+			<dateofcreation> 10/20/2006 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export SLOT=0</command>
+			</action>
+			<action>
+				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0007_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mmc/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="350"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+
+	<test id="L_DD_MMC_0010_0001">
+
+		<information>
+			<autor> Misael Lopez </autor>
+			<description> Execute several file I/O operations in a EXT2 file system </description>
+			<dateofcreation> 10/20/2006 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export SLOT=0</command>
+			</action>
+			<action>
+				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0010_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mmc/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="350"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+
+	<test id="L_DD_MMC_0010_0002">
+
+		<information>
+			<autor> Misael Lopez </autor>
+			<description> Execute several file I/O operations in a EXT2 file system </description>
+			<dateofcreation> 10/20/2006 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export SLOT=0</command>
+			</action>
+			<action>
+				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0010_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mmc/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="350"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+
+	<test id="L_DD_MMC_0011_0001">
+
+		<information>
+			<autor> Misael Lopez </autor>
+			<description> Execute several file I/O operations in a EXT2 file system </description>
+			<dateofcreation> 10/20/2006 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export SLOT=0</command>
+			</action>
+			<action>
+				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0011_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mmc/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="350"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+
+	<test id="L_DD_MMC_0012_0001">
+
+		<information>
+			<autor> Misael Lopez </autor>
+			<description> Execute several file I/O operations in a EXT2 file system </description>
+			<dateofcreation> 10/20/2006 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export SLOT=0</command>
+			</action>
+			<action>
+				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0012_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mmc/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="350"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
 	<test id="L_DD_MMC_0018_0001">
 
 		<information>
