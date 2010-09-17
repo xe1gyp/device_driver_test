@@ -33,15 +33,16 @@ setOneGovernor() {
 
 setAllGovernor() {
 
-	LOCAL_COMMAND_LINE=$1
+	LOCAL_COMMAND_LINE=$@
 
 	error=0
 	echo > $HCFSG_GOVERNORS_LIST_OK
 	echo > $HCFSG_GOVERNORS_LIST_ERROR
 
 	LOCAL_GOVERNORS_LIST_AVAILABLE=`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors`
+	echo "Info: Available Governors are -> $LOCAL_GOVERNORS_LIST_AVAILABLE"
 
-	if [ -n $LOCAL_COMMAND_LINE ]; then
+	if [ -n "$LOCAL_COMMAND_LINE" ]; then
 		$LOCAL_COMMAND_LINE &
 		LOCAL_COMMAND_PID=`echo $!`
 	fi
@@ -61,9 +62,10 @@ setAllGovernor() {
 				echo "Info: Governor $i was correctly set"
 				echo $i >> $HCFSG_GOVERNORS_LIST_OK
 			fi
+			sleep 1
 		done
 
-		if [ -n $LOCAL_COMMAND_LINE ]; then
+		if [ -n "$LOCAL_COMMAND_LINE" ]; then
 			test -d /proc/$LOCAL_COMMAND_PID || break
 		else
 			break
@@ -73,9 +75,9 @@ setAllGovernor() {
 
 	wait
 
-	echo "Info: The following governors were correctly set"
+	echo "Info: The following Governors were correctly set"
 	cat $HCFSG_GOVERNORS_LIST_OK
-	echo "Info: The following governors were not correctly set"
+	echo "Info: The following Governors were not correctly set"
 	cat $HCFSG_GOVERNORS_LIST_ERROR
 
 	sleep 5
@@ -87,8 +89,10 @@ setAllGovernor() {
 
 getCurrentGovernor() {
 	LOCAL_FILE=$1
+	LOCAL_GOVERNOR=`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor`
+	echo "Info: Current Governor -> $LOCAL_GOVERNOR"
 
-	cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor > $LOCAL_FILE
+	echo $LOCAL_GOVERNOR > $LOCAL_FILE
 }
 
 restoreCurrentGovernor() {
@@ -96,6 +100,7 @@ restoreCurrentGovernor() {
 
 	if [ -f $LOCAL_FILE ]; then
 		cat $LOCAL_FILE > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+		echo "Info: Restore to Governor -> `cat $LOCAL_FILE`"
 	else
 		echo 'Error: $LOCAL_FILE parameter is empty'
 	fi
@@ -154,4 +159,4 @@ elif  [ "$LOCAL_OPERATION" = "restore" ]; then
 
 fi
 
-# End of ile
+# End of file
