@@ -271,11 +271,12 @@ elif [ "$LOCAL_OPERATION" = "mmc_test" ]; then
 		echo $mmc_node > /sys/bus/mmc/drivers/mmc_test/bind
 	fi
 
-	mmc_node=`ls /sys/bus/mmc/drivers/mmc_test/mmc$SLOT*`
+	mmc_node=`ls /sys/bus/mmc/drivers/mmc_test | grep mmc$SLOT*`
 	if  [ $mmc_node = "" ]; then
 		exit 1
 	fi
 	
+	mmc_node=/sys/bus/mmc/drivers/mmc_test/$mmc_node
 	if [ -e $mmc_node/test ]; then
 		#testcase 11 to 14 : dma unalligned buffer not supported by OMAP
 		#testcase 19 to 22 : only for highmem test
