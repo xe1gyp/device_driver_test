@@ -52,39 +52,38 @@ setOneFrequency() {
 
 setAllFrequencies() {
 
-	LOCAL_COMMAND_LINE=$1
+	LOCAL_COMMAND_LINE=$@
 
 	error=0
 	echo > $HCFSF_FREQUENCIES_LIST_OK
 	echo > $HCFSF_FREQUENCIES_LIST_ERROR
 
 	LOCAL_FREQUENCIES_LIST_AVAILABLE=`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies`
+	echo "Info: Available governors are -> `echo $LOCAL_FREQUENCIES_LIST_AVAILABLE`"
 
-	if [ -n $LOCAL_COMMAND_LINE ]; then
+	if [ -n "$LOCAL_COMMAND_LINE" ]; then
 		$LOCAL_COMMAND_LINE &
 		LOCAL_COMMAND_PID=`echo $!`
 	fi
 
-
 	while [ 1 ]; do
 
 		for i in $LOCAL_FREQUENCIES_LIST_AVAILABLE
-
 		do
-			echo "Info: Setting Governor to" $i
+			echo "Info: Setting Frequency to" $i
 			echo $i > /sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed
 			if [ $? != 0 ]; then
 				echo "Info: Error! Frequency $i cannot be set"
 				echo $i >> $HCFSF_FREQUENCIES_LIST_ERROR
 				error=1
 			else
-				echo "Info: Governor $i was correctly set"
+				echo "Info: Frequency $i was correctly set"
 				echo $i >> $HCFSF_FREQUENCIES_LIST_OK
 			fi
 			sleep 1
 		done
 
-		if [ -n $LOCAL_COMMAND_LINE ]; then
+		if [ -n "$LOCAL_COMMAND_LINE" ]; then
 			test -d /proc/$LOCAL_COMMAND_PID || break
 		else
 			break
@@ -143,9 +142,9 @@ elif [ "$LOCAL_OPERATION" = "run" ]; then
 	LOCAL_COMMAND_LINE=$3
 
 	if [ "$LOCAL_FREQUENCY" = "all" ]; then
-		setAllFrequencies $LOCAL_COMMAND_LINE
+		setAllFrequencies "$LOCAL_COMMAND_LINE"
 	else
-		setOneFrequency $LOCAL_FREQUENCY $LOCAL_COMMAND_LINE
+		setOneFrequency $LOCAL_FREQUENCY "$LOCAL_COMMAND_LINE"
 	fi
 
 fi
