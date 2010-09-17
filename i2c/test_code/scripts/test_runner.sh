@@ -53,7 +53,7 @@ setup()
 	}
 
 	# we'd need the reporting tool ofcourse..
-	[ -e $UTILBIN/pan ] ||
+	[ -e $UTILS_DIR_BIN/pan ] ||
 	{
 		die "FATAL: Test suite driver 'pan' not found"
 	}
@@ -242,7 +242,7 @@ main()
 	#[-o output-file] [-O output-buffer-directory] [cmd]
 
 	cd $TESTDIR
-	PAN_COMMAND="${UTILBIN}/pan $QUIET_MODE -e -S $INSTANCES $DURATION -a $$ -n $$ $PRETTY_PRT -f ${CMDFILE} -l $LOGFILE"
+	PAN_COMMAND="${UTILS_DIR_BIN}/pan $QUIET_MODE -e -S $INSTANCES $DURATION -a $$ -n $$ $PRETTY_PRT -f ${CMDFILE} -l $LOGFILE"
     
 	[ ! -z "$VERBOSE" ] && { info "PAN_COMMAND=$PAN_COMMAND"; }
     	
