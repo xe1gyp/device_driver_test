@@ -9,18 +9,18 @@
 # Begin L_DD_KEYPAD_0003_0001
 
 # Frequency
-01  set -x; echo -e "\n\nThe application will wait for $ITERATIONS_DEFAULT_VALUE keypresses"
+01  set -x; echo -e "\n\nThe application will wait for 200 keypresses"
 02  set -x; echo -e "Please verify that keycodes are reported accordingly\n\n"
 03  set -x; handlerCpuFreqScalGovernors.sh "get"
 04  set -x; handlerCpuFreqScalGovernors.sh "set" "userspace"
-05  set -x; handlerCpuFreqScalFrequencies.sh "run" "all" "evtest $DEVFS_KEYPAD $ITERATIONS_DEFAULT_VALUE"
+05  set -x; handlerCpuFreqScalFrequencies.sh "run" "all" "evtest $DEVFS_KEYPAD 200"
 06  set -x; handlerCpuFreqScalGovernors.sh "restore"
 
 # Governors
-07  set -x; echo -e "\n\nThe application will wait for $ITERATIONS_DEFAULT_VALUE keypresses"
+07  set -x; echo -e "\n\nThe application will wait for 200 keypresses"
 08  set -x; echo -e "Pease verify that keycodes are reported accordingly\n\n"
 09  set -x; handlerCpuFreqScalGovernors.sh "get"
-10  set -x; handlerCpuFreqScalGovernors.sh "run" "all" "evtest $DEVFS_KEYPAD $ITERATIONS_DEFAULT_VALUE"
+10  set -x; handlerCpuFreqScalGovernors.sh "run" "all" "evtest $DEVFS_KEYPAD 200"
 11  set -x; handlerCpuFreqScalGovernors.sh "restore"
 
 # End L_DD_KEYPAD_0003_0001
