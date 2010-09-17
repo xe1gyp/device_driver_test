@@ -8,7 +8,7 @@ test -d /sys/kernel/ || mount -t sysfs sysfs /sys
 . ${UTILS_DIR}/configuration/sysfs.configuration
 
 # Creation & clean up of temporal directory
-export UTILS_DIR_TMP=/tmp/testsuites/
+export UTILS_DIR_TMP=$UTILS_DIR/tmp
 test -d $UTILS_DIR_TMP || mkdir -p $UTILS_DIR_TMP
 rm -f $UTILS_DIR_TMP/*
 
@@ -93,17 +93,30 @@ export HE_ERROR_FILE_CONTINUE=$UTILS_DIR_TMP/he.error.file.continue
 # handlerFile.sh
 export HF_TEXT_PATTERN=$UTILS_DIR_SCRIPTS/text.pattern
 
+# handlerDebugFileSystem.sh
+export HDFS_DEBUG_FILESYSTEM_DIRECTORY=/debug/
+
 # Power Management
 export PM_SYSFS_POWER_ENTRY=/sys/power/
 export PM_STATE=$PM_SYSFS_POWER_ENTRY/state
-export PM_SLEEP_WHILE_IDLE=$PM_SYSFS_POWER_ENTRY/sleep_while_idle
-export PM_ENABLED_OFF_MODE=$PM_SYSFS_POWER_ENTRY/enable_off_mode
-export PM_VOLTAGE_OFF_WHILE_IDLE=$PM_SYSFS_POWER_ENTRY/voltage_off_while_idle
-export PM_WAKEUP_TIMER_SECONDS=$PM_SYSFS_POWER_ENTRY/wakeup_timer_seconds
-export PM_WAKEUP_TIMER_SECONDS_VARIABLE=/debug/pm_debug/wakeup_timer_seconds
 
-# handlerDebugFileSsytem.sh
-export HDFS_DEBUG_FILESYSTEM_DIRECTORY=/debug/
+if [ `cat /proc/cpuinfo | grep -ic OMAP4` ]; then
+	export PM_SYSFS_POWER_DEBUG_ENTRY=$HDFS_DEBUG_FILESYSTEM_DIRECTORY/pm_debug/
+	export PM_ENABLED_OFF_MODE=$PM_SYSFS_POWER_DEBUG_ENTRY/enable_off_mode
+	export PM_ENABLE_SR_VP_DEBUG=$PM_SYSFS_POWER_DEBUG_ENTRY/enable_sr_vp_debug
+	export PM_SLEEP_WHILE_IDLE=$PM_SYSFS_POWER_DEBUG_ENTRY/sleep_while_idle
+	export PM_WAKEUP_TIMER_SECONDS=$PM_SYSFS_POWER_DEBUG_ENTRY/wakeup_timer_seconds
+	export PM_WAKEUP_TIMER_MILLISECONDS=$PM_SYSFS_POWER_DEBUG_ENTRY/wakeup_timer_milliseconds
+
+else
+	export PM_SLEEP_WHILE_IDLE=$PM_SYSFS_POWER_ENTRY/sleep_while_idle
+	export PM_ENABLED_OFF_MODE=$PM_SYSFS_POWER_ENTRY/enable_off_mode
+	export PM_VOLTAGE_OFF_WHILE_IDLE=$PM_SYSFS_POWER_ENTRY/voltage_off_while_idle
+	export PM_WAKEUP_TIMER_SECONDS=$PM_SYSFS_POWER_ENTRY/wakeup_timer_seconds
+fi
+
+# handlerSuspendResume.sh
+export HSR_SUSPEND_RESUME_MESSAGE_SUCCESS="resume of devices complete"
 
 # handlerCpuFreqScalFrequencies.sh
 export HCFSF_FREQUENCIES_LIST_OK=$UTILS_DIR_TMP/hcfsg.frequencies.list.ok
