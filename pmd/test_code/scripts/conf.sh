@@ -22,7 +22,7 @@ export PRETTY_PRT=""
 export VERBOSE=""
 export OUTPUTFILE=${TESTROOT}/output.$POSTFIX
 export LOGFILE=${TESTROOT}/log.$POSTFIX
-export DURATION="1h"
+export DURATION=""
 export PATH="${PATH}:${TESTROOT}:${TESTBIN}:${TESTSCRIPT}"
 export TC_SCENARIO="${TESTROOT}/scenarios"
 export SCENARIO_NAMES=""
@@ -68,6 +68,7 @@ export ENABLE=1
 export DISABLE=0
 export WAKEUP_TIMER_DEFAULT_VALUE=1
 export MEM="mem"
+export SUSPEND_RESUME_PASS_MESSAGE="resume of devices complete"
 
 # debugFileSystem.sh Script
 export DEBUGFS_DIRECTORY=/debug
