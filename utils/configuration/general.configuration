@@ -97,21 +97,26 @@ export HDFS_DEBUG_FILESYSTEM_DIRECTORY=/debug/
 export PM_SYSFS_POWER_ENTRY=/sys/power/
 export PM_STATE=$PM_SYSFS_POWER_ENTRY/state
 
-if [ `cat /proc/cpuinfo | grep -ic OMAP4` ]; then
-	export PM_ENABLE=1
-	export PM_DISABLE=0
-	export PM_SYSFS_POWER_DEBUG=$HDFS_DEBUG_FILESYSTEM_DIRECTORY/pm_debug/
-	export PM_ENABLED_OFF_MODE=$PM_SYSFS_POWER_DEBUG/enable_off_mode
-	export PM_ENABLE_SR_VP_DEBUG=$PM_SYSFS_POWER_DEBUG/enable_sr_vp_debug
-	export PM_SLEEP_WHILE_IDLE=$PM_SYSFS_POWER_DEBUG/sleep_while_idle
-	export PM_WAKEUP_TIMER_SECONDS=$PM_SYSFS_POWER_DEBUG/wakeup_timer_seconds
-	export PM_WAKEUP_TIMER_MILLISECONDS=$PM_SYSFS_POWER_DEBUG/wakeup_timer_milliseconds
+export PM_ENABLE=1
+export PM_DISABLE=0
+export PM_DEBUGFS_DIRECTORY=$HDFS_DEBUG_FILESYSTEM_DIRECTORY
+export PM_DEBUG=$PM_DEBUGFS_DIRECTORY/pm_debug/
 
-else
-	export PM_SLEEP_WHILE_IDLE=$PM_SYSFS_POWER_ENTRY/sleep_while_idle
-	export PM_ENABLED_OFF_MODE=$PM_SYSFS_POWER_ENTRY/enable_off_mode
-	export PM_VOLTAGE_OFF_WHILE_IDLE=$PM_SYSFS_POWER_ENTRY/voltage_off_while_idle
-	export PM_WAKEUP_TIMER_SECONDS=$PM_SYSFS_POWER_ENTRY/wakeup_timer_seconds
+if [ `cat /proc/cpuinfo | grep -ic OMAP4` ]; then
+	export PM_COUNT=$PM_DEBUG/count
+	export PM_ENABLED_OFF_MODE=$PM_DEBUG/enable_off_mode
+	export PM_ENABLE_SR_VP_DEBUG=$PM_DEBUG/enable_sr_vp_debug
+	export PM_SLEEP_WHILE_IDLE=$PM_DEBUG/sleep_while_idle
+	export PM_VOLTAGE_OFF_WHILE_IDLE=$PM_DEBUG/voltage_off_while_idle
+	export PM_WAKEUP_TIMER_SECONDS=$PM_DEBUG/wakeup_timer_seconds
+	export PM_WAKEUP_TIMER_MILLISECONDS=$PM_DEBUG/wakeup_timer_milliseconds
+fi
+
+# handlerSmartReflex.sh
+if [ `cat /proc/cpuinfo | grep -ic OMAP4` ]; then
+	export SR_CORE_AUTOCOMP=$PM_DEBUG/smartreflex/sr_core/autocomp
+	export SR_IVA_AUTOCOMP=$PM_DEBUG/smartreflex/sr_iva/autocomp
+	export SR_MPU_AUTOCOMP=$PM_DEBUG/smartreflex/sr_mpu/autocomp
 fi
 
 # handlerSuspendResume.sh
@@ -126,6 +131,11 @@ export HCFSF_FREQUENCIES_LIST_AVAILABILITY=$UTILS_DIR_TMP/hcfsg.frequencies.list
 export HCFSG_GOVERNORS_LIST_OK=$UTILS_DIR_TMP/hcfsg.governors.list.ok
 export HCFSG_GOVERNORS_LIST_ERROR=$UTILS_DIR_TMP/hcfsg.governors.list.error
 export HCFSG_CURRENT_GOVERNOR_FILE=$UTILS_DIR_TMP/hcfsg.governors.file.current
+export GOVERNOR_CONSERVATIVE=conservative
+export GOVERNOR_ONDEMAND=ondemand
+export GOVERNOR_POWERSAVE=powersave
+export GOVERNOR_USERSPACE=userspace
+export GOVERNOR_PERFORMANCE=performance
 
 # handlerFstab.sh
 export HFST_FSTAB_NAME=/etc/fstab
