@@ -8,7 +8,7 @@
 # Begin L_DD_POWER_0011_0004
 
 0001	set -x; dmesg -c
-0002	set -x; insmod $TESTMODS/pd_test.ko test_id=0x4
+0002	set -x; insmod $PMD_DIR_MODULES/pd_test.ko test_id=0x4
 0003	set -x; dmesg -c | grep PASSED
 0004	set -x; rmmod pd_test
 

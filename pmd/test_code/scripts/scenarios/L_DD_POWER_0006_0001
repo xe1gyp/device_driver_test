@@ -6,20 +6,17 @@
 
 # Begin L_DD_POWER_0006_0001
 
-001  set -x; debugFileSystem.sh "mount"
-002  set -x; debugFileSystem.sh "log" "core_pwrdm" "RET" "1"
+001  set -x; debugFileSystem.sh "log" "core_pwrdm" "RET" "1"
 
-003  set -x; echo $DISABLE > $CPU1
+002  set -x; handlerSysFs.sh  "set"  $SYSFS_CPU1_ONLINE  0
 
-004  set -x; echo $ENABLE > $SLEEP_WHILE_IDLE && sleep 30
+003  set -x; handlerDebugFileSystem.sh "set" $PM_ENABLE $PM_SLEEP_WHILE_IDLE && sleep 30
 
-005  set -x; debugFileSystem.sh "log" "core_pwrdm" "RET" "2"
-006  set -x; debugFileSystem.sh "compare" "1" "2" | grep PASSED && sleep 2 && exit 0 || exit 1
+004  set -x; debugFileSystem.sh "log" "core_pwrdm" "RET" "2"
+005  set -x; debugFileSystem.sh "compare" "1" "2" | grep PASSED && sleep 2 && exit 0 || exit 1
 
-007  set -x; echo $DISABLE > $SLEEP_WHILE_IDLE && sleep 5
+006  set -x; handlerDebugFileSystem.sh "set" $PM_DISABLE $PM_SLEEP_WHILE_IDLE && sleep 5
 
-008 set -x; echo $ENABLE > $CPU1
-
-#07  set -x; debugFileSystem.sh "umount"
+007  set -x; handlerSysFs.sh  "set"  $SYSFS_CPU1_ONLINE  1
 
 # End L_DD_POWER_0006_0001

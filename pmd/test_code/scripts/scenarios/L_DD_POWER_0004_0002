@@ -6,7 +6,6 @@
 
 # Begin L_DD_POWER_0004_0002
 
-001  set -x; debugFileSystem.sh "mount"
-002  set -x; x=`date +%s`; suspendResume.sh  "suspend"  "600"; y=`date +%s`; $TESTSCRIPT/timediff.sh $x $y 600 | grep "PASSED"
+001  set -x; x=`date +%s`; handlerSuspendResume.sh "suspend" "600"; y=`date +%s`; timediff.sh $x $y 600 | grep "PASSED"
 
 # End L_DD_POWER_0004_0002

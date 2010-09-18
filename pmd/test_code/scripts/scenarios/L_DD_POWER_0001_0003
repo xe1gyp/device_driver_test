@@ -7,7 +7,7 @@
 
 # Begin L_DD_POWER_0001_0003
 
-0001	set -x; $TESTBIN/system_time 86400 >&1 | grep PASSED
+0001	set -x; system_time 86400 >&1 | grep PASSED
 
 # End L_DD_POWER_0001_0003
 

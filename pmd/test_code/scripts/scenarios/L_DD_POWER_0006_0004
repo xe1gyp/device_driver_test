@@ -6,22 +6,20 @@
 
 # Begin L_DD_POWER_0006_0004
 
-001  set -x; debugFileSystem.sh "mount"
-002  set -x; debugFileSystem.sh "log" "mpu_pwrdm" "OFF" "1"
+001  set -x; debugFileSystem.sh "log" "mpu_pwrdm" "OFF" "1"
 
-003  set -x; echo $DISABLE > $CPU1
-004  set -x; echo $ENABLE > $SLEEP_WHILE_IDLE
-005  set -x; echo $ENABLE > $ENABLED_OFF_MODE && sleep 60
-#006  set -x; echo $ENABLE > $VOLTAGE_OFF_WHILE_IDLE && sleep 35
+002  set -x; handlerSysFs.sh  "set"  $SYSFS_CPU1_ONLINE  0
+003  set -x; handlerDebugFileSystem.sh  "set"  $PM_ENABLE  $PM_SLEEP_WHILE_IDLE
+004  set -x; handlerDebugFileSystem.sh  "set"  $PM_ENABLE  $PM_ENABLED_OFF_MODE && sleep 60
+#005  set -x; handlerDebugFileSystem.sh  "set"  $PM_ENABLE  $PM_VOLTAGE_OFF_WHILE_IDLE && sleep 35
 
-007  set -x; debugFileSystem.sh "log" "mpu_pwrdm" "OFF" "2"
-008  set -x; debugFileSystem.sh "compare" "1" "2" | grep PASSED && sleep 2 && exit 0 || exit 1
+006  set -x; debugFileSystem.sh "log" "mpu_pwrdm" "OFF" "2"
+007  set -x; debugFileSystem.sh "compare" "1" "2" | grep PASSED && sleep 2 && exit 0 || exit 1
 
-009  set -x; echo $DISABLE > $SLEEP_WHILE_IDLE
-010  set -x; echo $DISABLE > $ENABLED_OFF_MODE
-#011  set -x; echo $DISABLE > $VOLTAGE_OFF_WHILE_IDLE
+008  set -x; handlerDebugFileSystem.sh  "set"  $PM_DISABLE  $PM_SLEEP_WHILE_IDLE
+009  set -x; handlerDebugFileSystem.sh  "set"  $PM_DISABLE  $PM_ENABLED_OFF_MODE
+#010  set -x; handlerDebugFileSystem.sh  "set"  $PM_DISABLE  $PM_VOLTAGE_OFF_WHILE_IDLE
 
-012 set -x; echo $ENABLE > $CPU1
-#011  set -x; debugFileSystem.sh "umount"
+011 set -x; handlerSysFs.sh  "set"  $SYSFS_CPU1_ONLINE  1
 
 # End L_DD_POWER_0006_0004
