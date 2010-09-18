@@ -12,9 +12,6 @@ export UTILS_DIR_TMP=$UTILS_DIR/tmp
 test -d $UTILS_DIR_TMP || mkdir -p $UTILS_DIR_TMP
 rm -f $UTILS_DIR_TMP/*
 
-# General Variables
-export DEBUG=n
-
 # handlerCpuAffinity.sh && handlerCpuAffinityExecutor.sh
 export HCA_LIST_CMDS_TOTALS=$UTILS_DIR_TMP/hca.list.cmds.totals
 export HCA_LIST_CMDS_PASSED=$UTILS_DIR_TMP/hca.list.cmds.passed
@@ -101,12 +98,14 @@ export PM_SYSFS_POWER_ENTRY=/sys/power/
 export PM_STATE=$PM_SYSFS_POWER_ENTRY/state
 
 if [ `cat /proc/cpuinfo | grep -ic OMAP4` ]; then
-	export PM_SYSFS_POWER_DEBUG_ENTRY=$HDFS_DEBUG_FILESYSTEM_DIRECTORY/pm_debug/
-	export PM_ENABLED_OFF_MODE=$PM_SYSFS_POWER_DEBUG_ENTRY/enable_off_mode
-	export PM_ENABLE_SR_VP_DEBUG=$PM_SYSFS_POWER_DEBUG_ENTRY/enable_sr_vp_debug
-	export PM_SLEEP_WHILE_IDLE=$PM_SYSFS_POWER_DEBUG_ENTRY/sleep_while_idle
-	export PM_WAKEUP_TIMER_SECONDS=$PM_SYSFS_POWER_DEBUG_ENTRY/wakeup_timer_seconds
-	export PM_WAKEUP_TIMER_MILLISECONDS=$PM_SYSFS_POWER_DEBUG_ENTRY/wakeup_timer_milliseconds
+	export PM_ENABLE=1
+	export PM_DISABLE=0
+	export PM_SYSFS_POWER_DEBUG=$HDFS_DEBUG_FILESYSTEM_DIRECTORY/pm_debug/
+	export PM_ENABLED_OFF_MODE=$PM_SYSFS_POWER_DEBUG/enable_off_mode
+	export PM_ENABLE_SR_VP_DEBUG=$PM_SYSFS_POWER_DEBUG/enable_sr_vp_debug
+	export PM_SLEEP_WHILE_IDLE=$PM_SYSFS_POWER_DEBUG/sleep_while_idle
+	export PM_WAKEUP_TIMER_SECONDS=$PM_SYSFS_POWER_DEBUG/wakeup_timer_seconds
+	export PM_WAKEUP_TIMER_MILLISECONDS=$PM_SYSFS_POWER_DEBUG/wakeup_timer_milliseconds
 
 else
 	export PM_SLEEP_WHILE_IDLE=$PM_SYSFS_POWER_ENTRY/sleep_while_idle
