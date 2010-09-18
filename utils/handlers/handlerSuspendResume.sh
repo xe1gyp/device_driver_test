@@ -28,10 +28,12 @@ suspendResume() {
 
 		echo > /var/log/messages
 		sleep 1
-		echo mem > /sys/power/state
+		echo mem > $SYSFS_POWER_STATE
 
 		cat /var/log/messages | grep "$HSR_SUSPEND_RESUME_MESSAGE_SUCCESS"
-		if [ $? != 0 ]; then
+		if [ $? -eq 0 ]; then
+			echo "TEST PASSED"
+		else
 			echo "Error: all powerdomains did not enter target state"
 			cat /var/log/messages
 			LOCAL_ERROR=1
@@ -46,7 +48,6 @@ suspendResume() {
 	done
 
 	wait
-	exit $LOCAL_ERROR
 }
 
 # =============================================================================
@@ -58,19 +59,19 @@ if [ $? -eq 1 ]; then
 	exit 1
 fi
 
+handlerDebugFileSystem.sh "mount"
+
 if [ ! -f "$PM_WAKEUP_TIMER_SECONDS" ]; then
 	echo "FATAL: $PM_WAKEUP_TIMER_SECONDS cannot be found!"
 	handlerError.sh "log" "1" "halt" "handlerSuspendResume"
 	exit 1
 fi
 
-if [ ! -f /sys/power/state ]; then
-	echo "FATAL: /sys/power/state cannot be found!"
+if [ ! -f $SYSFS_POWER_STATE ]; then
+	echo "FATAL: $SYSFS_POWER_STATE cannot be found!"
 	handlerError.sh "log" "1" "halt" "handlerSuspendResume"
 	exit 1
 fi
-
-handlerDebugFileSystem.sh "mount"
 
 if [ "$LOCAL_OPERATION" = "suspend" ]; then
 	suspendResume $LOCAL_WAKEUP_TIME
@@ -80,5 +81,7 @@ elif [ "$LOCAL_OPERATION" = "run" ]; then
 fi
 
 handlerDebugFileSystem.sh "umount"
+
+exit $LOCAL_ERROR
 
 # End of file
