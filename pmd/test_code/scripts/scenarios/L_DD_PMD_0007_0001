@@ -1,16 +1,16 @@
 ###############################################################################
-# Scenario: L_DD_POWER_0007_0001
+# Scenario: L_DD_PMD_0007_0001
 # Testing : CPUFreq: changing among governors
 ###############################################################################
 
-# Begin L_DD_POWER_0007_0001
+# Begin L_DD_PMD_0007_0001
 
-01  set -x; cpuFreqScalGovernors.sh  list
-02  set -x; cpuFreqScalGovernors.sh  set  all
-03  set -x; cpuFreqScalGovernors.sh  set  $GOVERNOR_CONSERVATIVE
-04  set -x; cpuFreqScalGovernors.sh  set  $GOVERNOR_ONDEMAND
-05  set -x; cpuFreqScalGovernors.sh  set  $GOVERNOR_POWERSAVE
-06  set -x; cpuFreqScalGovernors.sh  set  $GOVERNOR_USERSPACE
-07  set -x; cpuFreqScalGovernors.sh  set  $GOVERNOR_PERFORMANCE
+01  set -x; handlerCpuFreqScalGovernors.sh  list
+02  set -x; handlerCpuFreqScalGovernors.sh  set  all
+03  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_CONSERVATIVE
+04  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_ONDEMAND
+05  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_POWERSAVE
+06  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_USERSPACE
+07  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_PERFORMANCE
 
-# End L_DD_POWER_0007_0001
+# End L_DD_PMD_0007_0001

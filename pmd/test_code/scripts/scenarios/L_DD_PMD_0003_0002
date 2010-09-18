@@ -1,28 +1,25 @@
 ###############################################################################
-# Scenario: L_DD_POWER_0003_0002
+# Scenario: L_DD_PMD_0003_0002
 # Testing : Enabling system for hitting OFF + suspend/resume
 ###############################################################################
 
-# Begin L_DD_POWER_0003_0002
+# Begin L_DD_PMD_0003_0002
 
-01  set -x; debugFileSystem.sh "mount"
-02  set -x; debugFileSystem.sh "log" "core_pwrdm" "OFF" "1"
+01  set -x; debugFileSystem.sh "log" "core_pwrdm" "OFF" "1"
 
-03  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
-04  set -x; echo $ENABLE > $SLEEP_WHILE_IDLE
-05  set -x; echo $ENABLE > $ENABLED_OFF_MODE
-06  set -x; echo $ENABLE > $VOLTAGE_OFF_WHILE_IDLE && sleep 5
-07  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
+02  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
+03  set -x; handlerDebugFileSystem.sh "set" $PM_ENABLE $PM_SLEEP_WHILE_IDLE
+04  set -x; handlerDebugFileSystem.sh "set" $PM_ENABLE $PM_ENABLED_OFF_MODE
+05  set -x; handlerDebugFileSystem.sh "set" $PM_ENABLE $PM_VOLTAGE_OFF_WHILE_IDLE && sleep 5
+06  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
 
-08  set -x; debugFileSystem.sh "log" "core_pwrdm" "OFF" "2"
-09  set -x; debugFileSystem.sh "compare" "1" "2" && sleep 2 && exit 0 || exit 1
+07  set -x; debugFileSystem.sh "log" "core_pwrdm" "OFF" "2"
+08  set -x; debugFileSystem.sh "compare" "1" "2" && sleep 2 && exit 0 || exit 1
 
-10  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
-11  set -x; echo $DISABLE > $SLEEP_WHILE_IDLE
-12  set -x; echo $DISABLE > $ENABLED_OFF_MODE
-13  set -x; echo $DISABLE > $VOLTAGE_OFF_WHILE_IDLE
-14  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
+09  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
+10  set -x; handlerDebugFileSystem.sh "set" $PM_DISABLE $PM_SLEEP_WHILE_IDLE
+11  set -x; handlerDebugFileSystem.sh "set" $PM_DISABLE $PM_ENABLED_OFF_MODE
+12  set -x; handlerDebugFileSystem.sh "set" $PM_DISABLE $PM_VOLTAGE_OFF_WHILE_IDLE
+13  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
 
-15  set -x; debugFileSystem.sh "umount"
-
-# End L_DD_POWER_0003_0002
+# End L_DD_PMD_0003_0002

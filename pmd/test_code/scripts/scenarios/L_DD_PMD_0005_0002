@@ -1,19 +1,20 @@
 ###############################################################################
-# Scenario: L_DD_POWER_0005_0002
+# Scenario: L_DD_PMD_0005_0002
 # Testing : OPPs Control: Requesting/Confirming OPPs
 ###############################################################################
 
-# Begin L_DD_POWER_0005_0002
+# Begin L_DD_PMD_0005_0002
 
-01  set -x; smartReflexAutoComp.sh  enable  VDD1
-02  set -x; smartReflexAutoComp.sh  enable  VDD2
+01  set -x; handlerSmartReflex.sh  enable  core
+02  set -x; handlerSmartReflex.sh  enable  iva
+03  set -x; handlerSmartReflex.sh  enable  mpu
 
-03  set -x; echo "userspace" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+04  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_USERSPACE
 
-04  set -x; oppControl.sh  request  VDD1  300000
-05  set -x; oppControl.sh  request  VDD1  600000
-06  set -x; oppControl.sh  request  VDD1  800000
-07  set -x; oppControl.sh  request  VDD1  1000000
+05  set -x; oppControl.sh  request  VDD1  300000
+06  set -x; oppControl.sh  request  VDD1  600000
+07  set -x; oppControl.sh  request  VDD1  800000
+08  set -x; oppControl.sh  request  VDD1  1000000
 09  set -x; oppControl.sh  request  VDD1  300000
 
 10  set -x; oppControl.sh  request  VDD2  260000000  && exit 0 || exit 1
@@ -22,7 +23,8 @@
 14  set -x; oppControl.sh  request  VDD2  800000000  && exit 0 || exit 1
 15  set -x; oppControl.sh  request  VDD2  260000000  && exit 0 || exit 1
 
-16  set -x; smartReflexAutoComp.sh  disable  VDD1
-17  set -x; smartReflexAutoComp.sh  disable  VDD2
+16  set -x; handlerSmartReflex.sh  disable  mpu
+17  set -x; handlerSmartReflex.sh  disable  iva
+18  set -x; handlerSmartReflex.sh  disable  core
 
-# End L_DD_POWER_0005_0002
+# End L_DD_PMD_0005_0002

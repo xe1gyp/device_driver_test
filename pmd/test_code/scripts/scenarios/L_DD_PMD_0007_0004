@@ -1,12 +1,32 @@
 ###############################################################################
-# Scenario: L_DD_POWER_0007_0004
-# Testing : CPUFreq: changing among frequencies
+# Scenario: L_DD_PMD_0007_0004
+# Testing : CPUFreq: changing among frequencies with suspend resume
 ###############################################################################
 
-# Begin L_DD_POWER_0007_0004
-00  set -x; debugFileSystem.sh "mount"
-01  set -x; cpuFreqScalFrequencies.sh  list
-02  set -x; cpuFreqScalFrequencies.sh  set suspend
-03  set -x; debugFileSystem.sh "umount"
+# Begin L_DD_PMD_0007_0004
 
-# End L_DD_POWER_0007_0004
+01  set -x; handlerCpuFreqScalFrequencies.sh  list
+02  set -x; handlerCpuFreqScalFrequencies.sh  set  all
+03  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
+
+04  set -x; handlerCpuFreqScalFrequencies.sh  list
+05  set -x; handlerCpuFreqScalFrequencies.sh  set  1
+06  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
+
+07  set -x; handlerCpuFreqScalFrequencies.sh  list
+08  set -x; handlerCpuFreqScalFrequencies.sh  set  2
+09  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
+
+10  set -x; handlerCpuFreqScalFrequencies.sh  list
+11  set -x; handlerCpuFreqScalFrequencies.sh  set  3
+12  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
+
+13  set -x; handlerCpuFreqScalFrequencies.sh  list
+14  set -x; handlerCpuFreqScalFrequencies.sh  set  4
+15  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
+
+16  set -x; handlerCpuFreqScalFrequencies.sh  list
+17  set -x; handlerCpuFreqScalFrequencies.sh  set  5
+18  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
+
+# End L_DD_PMD_0007_0004

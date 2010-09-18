@@ -1,29 +1,26 @@
 ###############################################################################
-# Scenario: L_DD_POWER_0007_0002
-# Testing : CPUFreq: changing among governors with suspend and resume
+# Scenario: L_DD_PMD_0007_0002
+# Testing : CPUFreq: changing among governors with suspend resume
 ###############################################################################
 
-# Begin L_DD_POWER_0007_0002
-00  set -x; debugFileSystem.sh "mount"
+# Begin L_DD_PMD_0007_0002
 
-01  set -x; cpuFreqScalGovernors.sh  list
-02  set -x; cpuFreqScalGovernors.sh  set  all
+01  set -x; handlerCpuFreqScalGovernors.sh  list
+02  set -x; handlerCpuFreqScalGovernors.sh  set  all
 
-04  set -x; cpuFreqScalGovernors.sh  set  $GOVERNOR_ONDEMAND
-31  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
+03  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_ONDEMAND
+04  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
 
-05  set -x; cpuFreqScalGovernors.sh  set  $GOVERNOR_POWERSAVE
-41  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
+05  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_POWERSAVE
+06  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
 
-06  set -x; cpuFreqScalGovernors.sh  set  $GOVERNOR_USERSPACE
-51  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
+07  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_USERSPACE
+08  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
 
-07  set -x; cpuFreqScalGovernors.sh  set  $GOVERNOR_PERFORMANCE
-61  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
+09  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_PERFORMANCE
+10  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
 
-03  set -x; cpuFreqScalGovernors.sh  set  $GOVERNOR_CONSERVATIVE
-31  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
+11  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_CONSERVATIVE
+12  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
 
-70  set -x; debugFileSystem.sh "umount"
-
-# End L_DD_POWER_0007_0002
+# End L_DD_PMD_0007_0002

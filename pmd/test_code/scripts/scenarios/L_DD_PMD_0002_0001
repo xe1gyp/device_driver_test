@@ -1,20 +1,17 @@
 ###############################################################################
-# Scenario: L_DD_POWER_0002_0001
+# Scenario: L_DD_PMD_0002_0001
 # Testing : Enabling system for hitting retention during idle, enable | disable
 ###############################################################################
 
-# Begin L_DD_POWER_0002_0001
+# Begin L_DD_PMD_0002_0001
 
-01  set -x; debugFileSystem.sh "mount"
-02  set -x; debugFileSystem.sh "log" "core_pwrdm" "RET" "1"
+01  set -x; debugFileSystem.sh "log" "core_pwrdm" "RET" "1"
 
-03  set -x; echo $ENABLE > $SLEEP_WHILE_IDLE && sleep 5
+02  set -x; handlerDebugFileSystem.sh "set"  $PM_ENABLE $PM_SLEEP_WHILE_IDLE && sleep 5
 
-04  set -x; debugFileSystem.sh "log" "core_pwrdm" "RET" "2"
-05  set -x; debugFileSystem.sh "compare" "1" "2" && sleep 2 && exit 0 || exit 1
+03  set -x; debugFileSystem.sh "log" "core_pwrdm" "RET" "2"
+04  set -x; debugFileSystem.sh "compare" "1" "2" && sleep 2 && exit 0 || exit 1
 
-06  set -x; echo $DISABLE > $SLEEP_WHILE_IDLE && sleep 5
+05  set -x; handlerDebugFileSystem.sh "set"  $PM_DISABLE  $PM_SLEEP_WHILE_IDLE && sleep 5
 
-07  set -x; debugFileSystem.sh "umount"
-
-# End L_DD_POWER_0002_0001
+# End L_DD_PMD_0002_0001

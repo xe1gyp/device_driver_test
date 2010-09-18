@@ -1,11 +1,16 @@
 ###############################################################################
-# Scenario: L_DD_POWER_0007_0003
+# Scenario: L_DD_PMD_0007_0003
 # Testing : CPUFreq: changing among frequencies
 ###############################################################################
 
-# Begin L_DD_POWER_0007_0003
+# Begin L_DD_PMD_0007_0003
 
-01  set -x; cpuFreqScalFrequencies.sh  list
-02  set -x; cpuFreqScalFrequencies.sh  set  all
+01  set -x; handlerCpuFreqScalFrequencies.sh  list
+02  set -x; handlerCpuFreqScalFrequencies.sh  set  all
+03  set -x; handlerCpuFreqScalFrequencies.sh  set  1
+04  set -x; handlerCpuFreqScalFrequencies.sh  set  2
+05  set -x; handlerCpuFreqScalFrequencies.sh  set  3
+06  set -x; handlerCpuFreqScalFrequencies.sh  set  4
+07  set -x; handlerCpuFreqScalFrequencies.sh  set  5
 
-# End L_DD_POWER_0007_0003
+# End L_DD_PMD_0007_0003

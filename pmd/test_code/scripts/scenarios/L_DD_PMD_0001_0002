@@ -1,12 +1,10 @@
 ###############################################################################
-# Scenario: L_DD_POWER_0001_0002
+# Scenario: L_DD_PMD_0001_0002
 # Testing : Suspend/Resume using wake-up timer, 5 minutes
 ###############################################################################
 
-# Begin L_DD_POWER_0001_0002
+# Begin L_DD_PMD_0001_0002
 
-00  set -x; debugFileSystem.sh "mount"
-01  set -x; suspendResume.sh  "suspend"  "300"
-02  set -x; debugFileSystem.sh "umount"
+01  set -x; handlerSuspendResume.sh "suspend" "300"
 
-# End L_DD_POWER_0001_0002
+# End L_DD_PMD_0001_0002

@@ -1,24 +1,21 @@
 ###############################################################################
-# Scenario: L_DD_POWER_0003_0001
+# Scenario: L_DD_PMD_0003_0001
 # Testing : Enabling system for hitting OFF, enable/disable
 ###############################################################################
 
-# Begin L_DD_POWER_0003_0001
+# Begin L_DD_PMD_0003_0001
 
-01  set -x; debugFileSystem.sh "mount"
-02  set -x; debugFileSystem.sh "log" "core_pwrdm" "OFF" "1"
+01  set -x; debugFileSystem.sh "log" "core_pwrdm" "OFF" "1"
 
-03  set -x; echo $ENABLE > $SLEEP_WHILE_IDLE
-04  set -x; echo $ENABLE > $ENABLED_OFF_MODE
-05  set -x; echo $ENABLE > $VOLTAGE_OFF_WHILE_IDLE && sleep 5
+02  set -x; handlerDebugFileSystem.sh "set" $PM_ENABLE $PM_SLEEP_WHILE_IDLE
+03  set -x; handlerDebugFileSystem.sh "set" $PM_ENABLE $PM_ENABLED_OFF_MODE
+04  set -x; handlerDebugFileSystem.sh "set" $PM_ENABLE $PM_VOLTAGE_OFF_WHILE_IDLE && sleep 5
 
-06  set -x; debugFileSystem.sh "log" "core_pwrdm" "OFF" "2"
-07  set -x; debugFileSystem.sh "compare" "1" "2" && sleep 2 && exit 0 || exit 1
+05  set -x; debugFileSystem.sh "log" "core_pwrdm" "OFF" "2"
+06  set -x; debugFileSystem.sh "compare" "1" "2" && sleep 2 && exit 0 || exit 1
 
-08  set -x; echo $DISABLE > $SLEEP_WHILE_IDLE
-09  set -x; echo $DISABLE > $ENABLED_OFF_MODE
-10  set -x; echo $DISABLE > $VOLTAGE_OFF_WHILE_IDLE
+07  set -x; handlerDebugFileSystem.sh "set" $PM_DISABLE $PM_SLEEP_WHILE_IDLE
+08  set -x; handlerDebugFileSystem.sh "set" $PM_DISABLE $PM_ENABLED_OFF_MODE
+09  set -x; handlerDebugFileSystem.sh "set" $PM_DISABLE $PM_VOLTAGE_OFF_WHILE_IDLE
 
-11  set -x; debugFileSystem.sh "umount"
-
-# End L_DD_POWER_0003_0001
+# End L_DD_PMD_0003_0001

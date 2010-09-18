@@ -1,24 +1,21 @@
 ###############################################################################
-# Scenario: L_DD_POWER_0002_0002
+# Scenario: L_DD_PMD_0002_0002
 # Testing : Enabling system for hitting retention during idle + suspend/resume
 ###############################################################################
 
-# Begin L_DD_POWER_0002_0002
+# Begin L_DD_PMD_0002_0002
 
-01  set -x; debugFileSystem.sh "mount"
-02  set -x; debugFileSystem.sh "log" "core_pwrdm" "RET" "1"
+01  set -x; debugFileSystem.sh "log" "core_pwrdm" "RET" "1"
 
-03  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
-04  set -x; echo $ENABLE > $SLEEP_WHILE_IDLE && sleep 5
-05  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
+02  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
+03  set -x; handlerDebugFileSystem.sh "set"  $PM_ENABLE  $PM_SLEEP_WHILE_IDLE && sleep 5
+04  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
 
-06  set -x; debugFileSystem.sh "log" "core_pwrdm" "RET" "2"
-07  set -x; debugFileSystem.sh "compare" "1" "2" && sleep 2 && exit 0 || exit 1
+05  set -x; debugFileSystem.sh "log" "core_pwrdm" "RET" "2"
+06  set -x; debugFileSystem.sh "compare" "1" "2" && sleep 2 && exit 0 || exit 1
 
-09  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
-08  set -x; echo $DISABLE > $SLEEP_WHILE_IDLE && sleep 5
-09  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
+07  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
+08  set -x; handlerDebugFileSystem.sh "set"  $PM_DISABLE  $PM_SLEEP_WHILE_IDLE && sleep 5
+09  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
 
-10  set -x; debugFileSystem.sh "umount"
-
-# End L_DD_POWER_0002_0002
+# End L_DD_PMD_0002_0002

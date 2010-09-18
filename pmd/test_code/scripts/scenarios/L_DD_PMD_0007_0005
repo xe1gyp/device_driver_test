@@ -1,13 +1,13 @@
 ###############################################################################
-# Scenario: L_DD_POWER_0007_0005
+# Scenario: L_DD_PMD_0007_0005
 # Author  : Miramontes, David
 # Date    : November 30, 2009
 # Testing : CPUFreq: Set invalid CPU freq and check for the system stability
 ###############################################################################
 
-# Begin L_DD_POWER_0007_0005
+# Begin L_DD_PMD_0007_0005
 
-01  set -x; cpuFreqScalFrequencies.sh  list
-02  set -x; cpuFreqScalFrequencies.sh  set_fail  all
+01  set -x; handlerCpuFreqScalFrequencies.sh  list
+02  set -x; handlerCpuFreqScalFrequencies.sh  set_fail
 
-# End L_DD_POWER_0007_0005
+# End L_DD_PMD_0007_0005

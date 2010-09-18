@@ -1,24 +1,22 @@
 ###############################################################################
-# Scenario: L_DD_POWER_0006_0002
+# Scenario: L_DD_PMD_0006_0002
 # Testing : Smart Reflex Auto Compensation: Enable/Disable + Suspend/Resume
 ###############################################################################
 
-# Begin L_DD_POWER_0006_0002
+# Begin L_DD_PMD_0006_0002
 
-01  set -x; debugFileSystem.sh "mount"
+01  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
 
-02  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
+02  set -x; handlerSmartReflex.sh  enable  core
+03  set -x; handlerSmartReflex.sh  enable  iva
+04  set -x; handlerSmartReflex.sh  enable  mpu
 
-03  set -x; smartReflexAutoComp.sh  enable  VDD1
-04  set -x; smartReflexAutoComp.sh  enable  VDD2
+05  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
 
-05  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
+06  set -x; handlerSmartReflex.sh  disable  mpu
+07  set -x; handlerSmartReflex.sh  disable  iva
+08  set -x; handlerSmartReflex.sh  disable  core
 
-06  set -x; smartReflexAutoComp.sh  disable  VDD1
-07  set -x; smartReflexAutoComp.sh  disable  VDD2
+09  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
 
-08  set -x; suspendResume.sh  "suspend"  $WAKEUP_TIMER_DEFAULT_VALUE
-
-09  set -x; debugFileSystem.sh "umount"
-
-# End L_DD_POWER_0006_0002
+# End L_DD_PMD_0006_0002

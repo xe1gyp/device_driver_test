@@ -1,18 +1,16 @@
 ###############################################################################
-# Scenario: L_DD_POWER_0006_0001
+# Scenario: L_DD_PMD_0006_0001
 # Testing : Smart Reflex Auto Compensation: Enable/Disable
 ###############################################################################
 
-# Begin L_DD_POWER_0006_0001
+# Begin L_DD_PMD_0006_0001
 
-01  set -x; debugFileSystem.sh "mount"
+01  set -x; handlerSmartReflex.sh  enable  core
+02  set -x; handlerSmartReflex.sh  enable  iva
+03  set -x; handlerSmartReflex.sh  enable  mpu
 
-02  set -x; smartReflexAutoComp.sh  enable  VDD1
-03  set -x; smartReflexAutoComp.sh  enable  VDD2
+04  set -x; handlerSmartReflex.sh  disable  mpu
+05  set -x; handlerSmartReflex.sh  disable  iva
+06  set -x; handlerSmartReflex.sh  disable  core
 
-04  set -x; smartReflexAutoComp.sh  disable  VDD1
-05  set -x; smartReflexAutoComp.sh  disable  VDD2
-
-06  set -x; debugFileSystem.sh "umount"
-
-# End L_DD_POWER_0006_0001
+# End L_DD_PMD_0006_0001
