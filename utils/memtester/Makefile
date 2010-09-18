@@ -34,7 +34,7 @@ auto-ccld.sh: \
 conf-cc conf-ld warn-auto.sh
 	( cat warn-auto.sh; \
 	echo CC=\'`head -1 conf-cc`\'; \
-	echo LD=\'`head -1 conf-ld`\' \
+	echo LD=\'`head -1 conf-ld` $(CFLAGS)\' \
 	) > auto-ccld.sh
 
 compile: \
