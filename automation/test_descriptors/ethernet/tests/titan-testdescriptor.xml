@@ -641,4 +641,68 @@
 
 	</test>
 
+	<test id="L_DD_ETHERNET_0013_0001">
+
+		<information>
+			<autor> Abraham Arce </autor>
+			<description> Power Management: Resources </description>
+			<dateofcreation> 09/18/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0013_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/ethernet/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="3600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_ETHERNET_0014_0001">
+
+		<information>
+			<autor> Abraham Arce </autor>
+			<description> Power Management: DVFS </description>
+			<dateofcreation> 09/18/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0014_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/ethernet/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="3600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
 </titan>
