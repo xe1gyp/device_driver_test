@@ -1,0 +1,12 @@
+#########################################################################################
+# Scenario    : L_DD_DEMO_0008_0002
+# Author      : Name of Author
+# Date        : Sun Sep 19 15:19:13 CDT 2010
+# Description : Dynamic Voltage and Frequency Scaling, Governors, "run" operation
+#########################################################################################
+
+# Begin L_DD_DEMO_0008_0002
+
+01  set -x; handlerCpuFreqScalGovernors.sh  run  all  "dd if=/dev/urandom of=/dev/null bs=1M count=50"
+
+# End L_DD_DEMO_0008_0002

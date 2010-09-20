@@ -1,0 +1,14 @@
+#########################################################################################
+# Scenario    : L_DD_DEMO_0010_0002
+# Author      : Name of Author
+# Date        : Sun Sep 19 15:19:13 CDT 2010
+# Description : Power Management, Retention, "run" operation
+#########################################################################################
+
+# Begin L_DD_DEMO_0010_0002
+
+01  set -x; handlerPowerRetention.sh  enable
+02  set -x; handlerPowerRetention.sh  run  "core_pwrdm"  "dd if=/dev/urandom of=/dev/null bs=1M count=50"
+03  set -x; handlerPowerRetention.sh  disable
+
+# End L_DD_DEMO_0010_0002

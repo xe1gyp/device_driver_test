@@ -1,0 +1,19 @@
+#########################################################################################
+# Scenario    : L_DD_DEMO_0010_0001
+# Author      : Name of Author
+# Date        : Sun Sep 19 15:19:13 CDT 2010
+# Description : Power Management, Retention, "check" operation
+#########################################################################################
+
+# Begin L_DD_DEMO_0010_0001
+
+01  set -x; handlerPowerRetention.sh  enable
+
+02  set -x; handlerPowerRetention.sh  check  "core_pwrdm"
+03  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=/dev/null bs=1M count=5"
+04  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=/dev/null bs=1M count=5"
+05  set -x; handlerPowerRetention.sh  check  "core_pwrdm"
+
+06  set -x; handlerPowerRetention.sh  disable
+
+# End L_DD_DEMO_0010_0001

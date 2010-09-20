@@ -1,0 +1,32 @@
+#########################################################################################
+# Scenario    : L_DD_DEMO_0008_0001
+# Author      : Name of Author
+# Date        : Sun Sep 19 15:19:13 CDT 2010
+# Description : Dynamic Voltage and Frequency Scaling, Governors, "set" operation
+#########################################################################################
+
+# Begin L_DD_DEMO_0008_0001
+
+# List all available governors
+01  set -x; handlerCpuFreqScalGovernors.sh  list
+
+# Set all available governors
+02  set -x; handlerCpuFreqScalGovernors.sh  set  all
+
+# Set specific governor
+03  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_CONSERVATIVE
+04  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=/dev/null bs=1M count=10"
+
+05  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_ONDEMAND
+06  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=/dev/null bs=1M count=10"
+
+07  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_POWERSAVE
+08  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=/dev/null bs=1M count=10"
+
+09  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_USERSPACE
+10  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=/dev/null bs=1M count=10"
+
+11  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_PERFORMANCE
+12  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=/dev/null bs=1M count=10"
+
+# End L_DD_DEMO_0008_0001

@@ -1,0 +1,16 @@
+#########################################################################################
+# Scenario    : L_DD_DEMO_0007_0002
+# Author      : Name of Author
+# Date        : Sun Sep 19 15:19:13 CDT 2010
+# Description : Suspend Resume, "run" operation
+#########################################################################################
+
+# Begin L_DD_DEMO_0007_0002
+
+# Default Wakeup Timer
+01  set -x; handlerSuspendResume.sh "run" $PM_WAKEUP_TIMER_DEFAULT "dd if=/dev/urandom of=/dev/null bs=1M count=50"
+
+# Specific Wakeup Timer
+02  set -x; handlerSuspendResume.sh "run" 5 "dd if=/dev/urandom of=/dev/null bs=1M count=50"
+
+# End L_DD_DEMO_0007_0002
