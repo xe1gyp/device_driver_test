@@ -26,4 +26,8 @@ export SYSFS_CPU0_STATS_TIME_IN_STATE=$SYSFS_CPU0_CPUFREQ/stats/time_in_state
 # /sys/power/state
 export SYSFS_POWER_STATE=/sys/power/state
 
+# /sys/class/graphics/fb0/
+export SYSFS_GRAPHICS_FB=/sys/class/graphics/fb0/
+export SYSFS_FB_BLANK=$SYSFS_GRAPHICS_FB/blank
+
 # End of file
