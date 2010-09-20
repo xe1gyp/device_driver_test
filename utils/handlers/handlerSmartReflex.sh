@@ -48,7 +48,7 @@ if [ ! -f $SR_MPU_AUTOCOMP ]; then
 fi
 
 if [ $LOCAL_ERROR -eq 1 ]; then
-	handlerDebugFileSystem.sh "mount"
+	handlerDebugFileSystem.sh "umount"
 	exit $LOCAL_ERROR
 fi
 
