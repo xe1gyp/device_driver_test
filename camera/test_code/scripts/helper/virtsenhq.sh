@@ -10,31 +10,47 @@ TESTPARAM=$7
 
 if [ "$ISIZE" = "8MP" ]; then
   INSIZE="-iw 3280 -ih 2464"
+  in_sz="3280x2464"
 fi
 
 if [ "$OSIZE" = "8MP" ]; then
   OUTSIZE="-ow 3280 -oh 2464"
+  out_sz="3280x2464"
 fi
 
 if [ "$ISIZE" = "5MP" ]; then
   INSIZE="-iw 2592 -ih 1944"
+  in_sz="2592x1944"
 fi
 
 if [ "$OSIZE" = "5MP" ]; then
   OUTSIZE="-ow 2592 -oh 1944"
+  out_sz="2592x1944"
 fi
 
 if [ "$ISIZE" = "3264x2464" ]; then
   INFILE="${TESTSCRIPT}/8MP.raw"
   INSIZE="-iw 3264 -ih 2464"
+  in_sz="3264x2464"
 fi
 
 if [ "$OSIZE" = "3264x2464" ]; then
   OUTSIZE="-ow 3264 -oh 2464"
+  out_sz="3264x2464"
 fi
 
-
-OUTFILE="${TMPBASE}/virtsenhq_out_${TEST}-${TESTPARAM}-${OSIZE}.${OFORMAT}"
+if [ "$OFORMAT" = "RAW" ]; then
+OUTFILE="${TMPBASE}/virtsenhq_out_${TEST}-${TESTPARAM}-${ISIZE}"to"${OSIZE}"_"${out_sz}"."${OFORMAT}"
+elif [ "$OFORMAT" = "YUYV" ]; then
+OUTFILE="${TMPBASE}/virtsenhq_out_${TEST}-${TESTPARAM}-${ISIZE}"to"${OSIZE}"_"${out_sz}"_YUY2.yuv
+elif [ "$OFORMAT" = "UYVY" ]; then
+OUTFILE="${TMPBASE}/virtsenhq_out_${TEST}-${TESTPARAM}-${ISIZE}"to"${OSIZE}"_"${out_sz}"_"${OFORMAT}".yuv
+   if [ "$TEST" = "BRIGHTNESS" -o "$TEST" = "CONTRAST" ]; then
+      if [ "$TESTPARAM" = "maximum" ]; then
+          OUTFILE="${TMPBASE}/virtsenhq_out_${TEST}"_M"-${ISIZE}"to"${OSIZE}"_"${out_sz}"_"${OFORMAT}".yuv
+      fi
+   fi
+fi
 
 INDEVICE="-idev /dev/video$IDEVICE"
 OUTDEVICE="-odev /dev/video$ODEVICE"
@@ -104,7 +120,7 @@ elif [ -z "$STRESS" ]; then
 if [ "$TEST" = "INFO" ]; then
   echo "";echo "Was the displayed information for $INDEVICE correct?";echo ""
 else
-  echo "";echo "Was camera able to capture $FRNUM frame(s) in $FORMAT format of $SIZE size and saved into $FNAME?";echo ""
+  echo "";echo "Was camera able to capture $OSIZE in $OFORMAT format and save into $OUTFILE?";echo ""
 fi
   $WAIT_ANSWER
   ERR=$?
