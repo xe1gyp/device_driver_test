@@ -4,9 +4,9 @@
 	<test id="L_DD_MMC_0000_0001">
 
 		<information>
-			<autor> Misael Lopez </autor>
-			<description> Test the registration of the MMC driver </description>
-			<dateofcreation> 10/20/2006 </dateofcreation>
+			<autor> Sukumar Ghorai </autor>
+			<description> Specifications: V4.0, V4.2, V4.3, V4.4 </description>
+			<dateofcreation> 08/30/2010 </dateofcreation>
 		</information>
 
 		<run>
@@ -39,9 +39,9 @@
 	<test id="L_DD_MMC_0001_0001">
 
 		<information>
-			<autor> Misael Lopez </autor>
-			<description> Test the registration of the MMC driver </description>
-			<dateofcreation> 10/20/2006 </dateofcreation>
+			<autor> Misael Lopez Cruz </autor>
+			<description> Test : Card Plug in </description>
+			<dateofcreation> 09/20/2006 </dateofcreation>
 		</information>
 
 		<run>
@@ -74,9 +74,9 @@
 	<test id="L_DD_MMC_0001_0002">
 
 		<information>
-			<autor> Misael Lopez </autor>
-			<description> Test the registration of the MMC driver </description>
-			<dateofcreation> 10/20/2006 </dateofcreation>
+			<autor> Sukumar Ghorai </autor>
+			<description> Test : Card Hot Plug in </description>
+			<dateofcreation> 08/30/2010 </dateofcreation>
 		</information>
 
 		<run>
@@ -109,9 +109,9 @@
 	<test id="L_DD_MMC_0001_0003">
 
 		<information>
-			<autor> Misael Lopez </autor>
-			<description> Test the registration of the MMC driver </description>
-			<dateofcreation> 10/20/2006 </dateofcreation>
+			<autor> Sukumar Ghorai </autor>
+			<description> Test : Card Plug out </description>
+			<dateofcreation> 08/30/2010 </dateofcreation>
 		</information>
 
 		<run>
@@ -145,9 +145,9 @@
 	<test id="L_DD_MMC_0002_0001">
 
 		<information>
-			<autor> Misael Lopez </autor>
+			<autor> Misael Lopez Cruz </autor>
 			<description> Single Partition: Creation / Removal </description>
-			<dateofcreation> 10/20/2006 </dateofcreation>
+			<dateofcreation> 09/20/2006 </dateofcreation>
 		</information>
 
 		<run>
@@ -180,7 +180,7 @@
 	<test id="L_DD_MMC_0002_0002">
 
 		<information>
-			<autor> Misael Lopez </autor>
+			<autor> Misael Lopez Cruz </autor>
 			<description> Multiple Partitions: Creation / Removal </description>
 			<dateofcreation> 10/20/2006 </dateofcreation>
 		</information>
@@ -215,7 +215,7 @@
 	<test id="L_DD_MMC_0003_0001">
 
 		<information>
-			<autor> Misael Lopez </autor>
+			<autor> Misael Lopez Cruz </autor>
 			<description> Create a DOS file system on the specified partition </description>
 			<dateofcreation> 10/20/2006 </dateofcreation>
 		</information>
@@ -250,7 +250,7 @@
 	<test id="L_DD_MMC_0003_0002">
 
 		<information>
-			<autor> Misael Lopez </autor>
+			<autor> Misael Lopez Cruz </autor>
 			<description> Create a EXT2 file system on the specified partition </description>
 			<dateofcreation> 10/20/2006 </dateofcreation>
 		</information>
@@ -285,7 +285,7 @@
 	<test id="L_DD_MMC_0003_0003">
 
 		<information>
-			<autor> Misael Lopez </autor>
+			<autor> Misael Lopez Cruz </autor>
 			<description> Create a DOS and EXT2 file systems on the specified partitions </description>
 			<dateofcreation> 10/20/2006 </dateofcreation>
 		</information>
@@ -320,7 +320,7 @@
 	<test id="L_DD_MMC_0004_0001">
 
 		<information>
-			<autor> Misael Lopez </autor>
+			<autor> Misael Lopez Cruz </autor>
 			<description> Copy data and remove in a DOS file system in one single partition </description>
 			<dateofcreation> 10/20/2006 </dateofcreation>
 		</information>
@@ -355,7 +355,7 @@
 	<test id="L_DD_MMC_0004_0002">
 
 		<information>
-			<autor> Misael Lopez </autor>
+			<autor> Misael Lopez Cruz </autor>
 			<description> Copy data and remove in a EXT2 file system in one single partition </description>
 			<dateofcreation> 10/20/2006 </dateofcreation>
 		</information>
@@ -390,7 +390,7 @@
 	<test id="L_DD_MMC_0004_0003">
 
 		<information>
-			<autor> Misael Lopez </autor>
+			<autor> Misael Lopez Cruz </autor>
 			<description> Copy and remove data to DOS and EXT2 file systems on multiple partitions </description>
 			<dateofcreation> 10/20/2006 </dateofcreation>
 		</information>
@@ -425,8 +425,8 @@
 	<test id="L_DD_MMC_0005_0001">
 
 		<information>
-			<autor> Misael Lopez </autor>
-			<description> Execute several file I/O operations in a DOS file system </description>
+			<autor> Misael Lopez Cruz </autor>
+			<description> File I/O: DOS : Execute several file I/O operations</description>
 			<dateofcreation> 10/20/2006 </dateofcreation>
 		</information>
 
@@ -460,8 +460,8 @@
 	<test id="L_DD_MMC_0005_0002">
 
 		<information>
-			<autor> Misael Lopez </autor>
-			<description> Execute several file I/O operations in a EXT2 file system </description>
+			<autor> Misael Lopez Cruz </autor>
+			<description> File I/O: EXT : Execute several file I/O operations </description>
 			<dateofcreation> 10/20/2006 </dateofcreation>
 		</information>
 
@@ -495,9 +495,9 @@
 	<test id="L_DD_MMC_0005_0003">
 
 		<information>
-			<autor> Misael Lopez </autor>
-			<description> Execute several file I/O operations in a EXT2 file system </description>
-			<dateofcreation> 10/20/2006 </dateofcreation>
+			<autor> Abraham Arce </autor>
+			<description> File I/O: DOS & EXT2 Filesystems : Execute several file I/O operations </description>
+			<dateofcreation> 06/26/2010 </dateofcreation>
 		</information>
 
 		<run>
@@ -530,9 +530,9 @@
 	<test id="L_DD_MMC_0005_0004">
 
 		<information>
-			<autor> Misael Lopez </autor>
-			<description> Execute several file I/O operations in a EXT2 file system </description>
-			<dateofcreation> 10/20/2006 </dateofcreation>
+			<autor> Abraham Arce </autor>
+			<description> File I/O: EXT3 Filesystems : Execute several file I/O operations </description>
+			<dateofcreation> 06/26/2010 </dateofcreation>
 		</information>
 
 		<run>
@@ -565,9 +565,9 @@
 	<test id="L_DD_MMC_0005_0005">
 
 		<information>
-			<autor> Misael Lopez </autor>
-			<description> Execute several file I/O operations in a EXT2 file system </description>
-			<dateofcreation> 10/20/2006 </dateofcreation>
+			<autor> Sukumar Ghorai </autor>
+			<description> File I/O: EXT4  Filesystems : Execute several file I/O operations </description>
+			<dateofcreation> 09/01/2010 </dateofcreation>
 		</information>
 
 		<run>
@@ -596,12 +596,13 @@
 		</fail>
 
 	</test>
-<test id="L_DD_MMC_0005_0006">
+
+	<test id="L_DD_MMC_0005_0006">
 
 		<information>
-			<autor> Misael Lopez </autor>
-			<description> Execute several file I/O operations in a EXT2 file system </description>
-			<dateofcreation> 10/20/2006 </dateofcreation>
+			<autor> Sukumar Ghorai </autor>
+			<description> File I/O: from DOS partiton to EXT2 partition </description>
+			<dateofcreation> 09/01/2010 </dateofcreation>
 		</information>
 
 		<run>
@@ -634,9 +635,9 @@
 	<test id="L_DD_MMC_0006_0001">
 
 		<information>
-			<autor> Misael Lopez </autor>
-			<description> Execute several file I/O operations in a EXT2 file system </description>
-			<dateofcreation> 10/20/2006 </dateofcreation>
+			<autor> Sukumar Ghorai </autor>
+			<description> Data Sanity test, after re-insert/re-mount the card </description>
+			<dateofcreation> 09/01/2010 </dateofcreation>
 		</information>
 
 		<run>
@@ -670,9 +671,9 @@
 	<test id="L_DD_MMC_0006_0002">
 
 		<information>
-			<autor> Misael Lopez </autor>
-			<description> Execute several file I/O operations in a EXT2 file system </description>
-			<dateofcreation> 10/20/2006 </dateofcreation>
+			<autor> Sukumar Ghorai </autor>
+			<description> File I/O: remove the card when transfer(read) in progress </description>
+			<dateofcreation> 09/01/2010 </dateofcreation>
 		</information>
 
 		<run>
@@ -706,9 +707,9 @@
 	<test id="L_DD_MMC_0007_0001">
 
 		<information>
-			<autor> Misael Lopez </autor>
-			<description> Execute several file I/O operations in a EXT2 file system </description>
-			<dateofcreation> 10/20/2006 </dateofcreation>
+			<autor> Sukumar Ghorai </autor>
+			<description> Data Transfers: 4 Bit mode </description>
+			<dateofcreation> 09/01/2010 </dateofcreation>
 		</information>
 
 		<run>
@@ -738,13 +739,47 @@
 
 	</test>
 
+	<test id="L_DD_MMC_0007_0002">
+
+		<information>
+			<autor> Sukumar Ghorai </autor>
+			<description> Data Transfers: 8 Bit mode </description>
+			<dateofcreation> 09/01/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export SLOT=0</command>
+			</action>
+			<action>
+				<command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0007_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/mmc/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="350"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
 
 	<test id="L_DD_MMC_0010_0001">
 
 		<information>
-			<autor> Misael Lopez </autor>
-			<description> Execute several file I/O operations in a EXT2 file system </description>
-			<dateofcreation> 10/20/2006 </dateofcreation>
+			<autor> Sukumar Ghorai </autor>
+			<description> mmc_test : using mmc test code available in driver/mmc/card/mmc_test.c </description>
+			<dateofcreation> 09/01/2010 </dateofcreation>
 		</information>
 
 		<run>
@@ -778,9 +813,9 @@
 	<test id="L_DD_MMC_0010_0002">
 
 		<information>
-			<autor> Misael Lopez </autor>
-			<description> Execute several file I/O operations in a EXT2 file system </description>
-			<dateofcreation> 10/20/2006 </dateofcreation>
+			<autor> Sukumar Ghorai </autor>
+			<description> Highmem mmc_test : using mmc test code available in driver/mmc/card/mmc_test.c </description>
+			<dateofcreation> 09/01/2010 </dateofcreation>
 		</information>
 
 		<run>
@@ -814,9 +849,9 @@
 	<test id="L_DD_MMC_0011_0001">
 
 		<information>
-			<autor> Misael Lopez </autor>
-			<description> Execute several file I/O operations in a EXT2 file system </description>
-			<dateofcreation> 10/20/2006 </dateofcreation>
+			<autor> Sukumar Ghorai </autor>
+			<description> Booting Root Fs on Card </description>
+			<dateofcreation> 09/01/2010 </dateofcreation>
 		</information>
 
 		<run>
@@ -850,9 +885,9 @@
 	<test id="L_DD_MMC_0012_0001">
 
 		<information>
-			<autor> Misael Lopez </autor>
-			<description> Execute several file I/O operations in a EXT2 file system </description>
-			<dateofcreation> 10/20/2006 </dateofcreation>
+			<autor> Sukumar Ghorai </autor>
+			<description> Download the SDFormatte tool from www.sdcard.org and install it on Windows PC. </description>
+			<dateofcreation> 09/01/2010 </dateofcreation>
 		</information>
 
 		<run>
@@ -884,9 +919,9 @@
 	<test id="L_DD_MMC_0018_0001">
 
 		<information>
-			<autor> Cristopherson Torres </autor>
-			<description> Run a MMC application and switch its CPU affinity from one CPU to another. </description>
-			<dateofcreation> 10/20/2006 </dateofcreation>
+			<autor> Abraham Arce </autor>
+			<description> SMP Safety: Process Parallelism </description>
+			<dateofcreation> 09/24/2009 </dateofcreation>
 		</information>
 
 		<run>
@@ -919,9 +954,9 @@
 	<test id="L_DD_MMC_0018_0002">
 
 		<information>
-			<autor> Cristopherson Torres </autor>
-			<description> Simultaneous MMC accesses from 2 processes running on the two CPUs should not fail or lock up the system </description>
-			<dateofcreation> 03/29/2010 </dateofcreation>
+			<autor> Abraham Arce </autor>
+			<description> SMP Safety : Process priority: MMC driver shall support process priority </description>
+			<dateofcreation> 09/24/2009 </dateofcreation>
 		</information>
 
 		<run>
@@ -954,9 +989,9 @@
 	<test id="L_DD_MMC_0018_0003">
 
 		<information>
-			<autor> Cristopherson Torres </autor>
-			<description> Simultaneous MMC accesses from 2 kernel threads running on the two CPUs with IRQ affinities set to the different CPUs should not fail or lock up the system </description>
-			<dateofcreation> 03/29/2010 </dateofcreation>
+			<autor> Abraham Arce </autor>
+			<description> SMP Safety: CPU Affinity: Run a MMC application and switch its CPU affinity from one CPU to another. </description>
+			<dateofcreation> 09/24/2009 </dateofcreation>
 		</information>
 
 		<run>
@@ -989,9 +1024,9 @@
 	<test id="L_DD_MMC_0018_0004">
 
 		<information>
-			<autor> Cristopherson Torres </autor>
-			<description> TBD </description>
-			<dateofcreation> 03/29/2010 </dateofcreation>
+			<autor> Abraham Arce </autor>
+			<description> SMP Safety : Irq Affinity </description>
+			<dateofcreation> 09/24/2009 </dateofcreation>
 		</information>
 
 		<run>
