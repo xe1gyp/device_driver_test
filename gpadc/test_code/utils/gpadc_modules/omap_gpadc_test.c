@@ -17,23 +17,11 @@
 #include <linux/types.h>
 #include <linux/init.h>
 #include <linux/errno.h>
-//#include <linux/interrupt.h>
-//#include <asm/irq.h>
-//#include <asm/io.h>
+#include <linux/i2c/twl6030-gpadc.h>
 
-#define TWL6030_GPADC_MAX_CHANNELS 17
 #define TWL6030_GPADC_WAIT 0
 #define TWL6030_GPADC_SW2 1
-struct twl6030_gpadc_request {
-	int short channels;
-	int short do_avg;
-	int short method;
-	int short type;
-	int active;
-	int result_pending;
-	int rbuf[TWL6030_GPADC_MAX_CHANNELS];
-	void (*func_cb)(int len, int channels, int *buf);
-};
+
 extern int twl6030_gpadc_conversion(struct twl6030_gpadc_request *);
 
 static int channels = 131071; /* Read All 17 Channels */
