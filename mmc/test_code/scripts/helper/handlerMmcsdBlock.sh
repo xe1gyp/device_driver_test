@@ -293,7 +293,40 @@ elif [ "$LOCAL_OPERATION" = "mmc_test" ]; then
 			done
 		fi
 	fi
+
+elif [ "$LOCAL_OPERATION" = "throughput" ]; then
 	
+	#usage: handlerMmcsdBlock.sh "throughput" "write" "sync"
+	TOTAL=1000
+
+	if [ ! -z $3 ] ; then
+		#3rd parameter is not appicable for raw mode
+		if [ $3 = "sync" ]; then
+			handlerCmd.sh "run" "umount $MMCSD_MOUNTPOINT_1"
+			handlerCmd.sh "run" "mount -o sync $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1"
+		elif [ $3 = "async" ]; then
+			handlerCmd.sh "run" "umount $MMCSD_MOUNTPOINT_1"
+			handlerCmd.sh "run" "mount -o async $MMCSD_DEVFS_PARTITION_1 $MMCSD_MOUNTPOINT_1"
+		fi
+	fi
+
+	#$(date +%S%N) - and you will get nanoseconds precision
+	START=$(date +%s)
+	if [ $2 = "write" ]; then
+		handlerCmd.sh "run" "dd if=/dev/zero of=$MMCSD_MOUNTPOINT_1/$MMCSD_FILE_SIZE_BIG bs=1M count=$TOTAL && sync"
+	elif [ $2 = "read" ]; then
+		handlerCmd.sh "run" "dd if=$MMCSD_MOUNTPOINT_1/$MMCSD_FILE_SIZE_BIG of=/dev/null bs=1M count=$TOTAL && sync"
+	elif [ $2 = "raw-write" ]; then
+		handlerCmd.sh "run" "dd if=/dev/zero of=$MMCSD_DEVFS_ENTRY bs=1M count=$TOTAL && sync"
+	elif [ $2 = "raw-read" ]; then
+		handlerCmd.sh "run" "dd if=$MMCSD_DEVFS_ENTRY of=/dev/null bs=1M count=$TOTAL && sync"
+	fi
+	END=$(date +%s)
+	DIFF=$(( $END - $START ))
+
+	MNT_INFO=$(mount | awk -v mnt=$MMCSD_DEVFS_PARTITION_1 '{ if ($1 == mnt) print $5 }')
+	echo Result:$1: $MNT_INFO: $3 : $2 $TOTAL-MBytes in $DIFF seconds : `echo "scale=4; $TOTAL / $DIFF" | bc` MBps
+
 elif [ "$LOCAL_OPERATION" = "check-card-version" ]; then
 	#for loop required to support multiple catd in a slot
 	for file in $(find /sys/class/mmc_host/mmc$SLOT -type f -name csd); do

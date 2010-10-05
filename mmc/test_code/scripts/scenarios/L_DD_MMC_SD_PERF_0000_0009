@@ -1,0 +1,11 @@
+###############################################################################
+# Scenario: L_DD_MMC_SD_PERF_0000_0009
+# Author  : Sukumar Ghorai
+# Date    : October 01, 2010
+###############################################################################
+
+# Begin L_DD_MMC_SD_PERF_0000_0009
+
+01  set -x; handlerMmcsdBlock.sh "throughput" "raw-write"
+
+# End L_DD_MMC_SD_PERF_0000_0009

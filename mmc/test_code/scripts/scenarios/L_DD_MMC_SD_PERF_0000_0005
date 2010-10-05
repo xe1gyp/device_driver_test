@@ -1,0 +1,14 @@
+###############################################################################
+# Scenario: L_DD_MMC_SD_PERF_0000_0005
+# Author  : Sukumar Ghorai
+# Date    : October 01, 2010
+###############################################################################
+
+# Begin L_DD_MMC_SD_PERF_0000_0005
+
+01  set -x; handlerMmcsdBlock.sh "create" "1" "ext3"
+
+02  set -x; handlerMmcsdBlock.sh "throughput" "write" "sync"
+03  set -x; handlerMmcsdBlock.sh "remove" "1"
+
+# End L_DD_MMC_SD_PERF_0000_0005
