@@ -7,6 +7,6 @@
 
 # Begin L_DD_KEYPAD_0000_0002
 
-01  set -x; openclose $DEVFS_KEYPAD && exit 0 || exit 1
+01  set -x; openclose $KEYPAD_DEVFS && exit 0 || exit 1
 
 # End L_DD_KEYPAD_0000_0002

@@ -7,11 +7,11 @@
 # Begin L_DD_KEYPAD_0006_0003
 
 01  set -x; handlerCpuAffinity.sh "clean"
-02  set -x; handlerCpuAffinity.sh "assign" "evtest $DEVFS_KEYPAD $ITERATIONS_DEFAULT_VALUE" "1"
-03  set -x; handlerCpuAffinity.sh "assign" "evtest $DEVFS_KEYPAD $ITERATIONS_DEFAULT_VALUE" "2"
-04  set -x; handlerCpuAffinity.sh "assign" "evtest $DEVFS_KEYPAD $ITERATIONS_DEFAULT_VALUE" "3"
-05  set -x; handlerCpuAffinity.sh "assign" "evtest $DEVFS_KEYPAD $ITERATIONS_DEFAULT_VALUE" "2"
-06  set -x; handlerCpuAffinity.sh "assign" "evtest $DEVFS_KEYPAD $ITERATIONS_DEFAULT_VALUE" "1"
+02  set -x; handlerCpuAffinity.sh "assign" "handlerEvtest.sh run $KEYPAD_DEVFS $KEYPAD_ITERATIONS" "1"
+03  set -x; handlerCpuAffinity.sh "assign" "handlerEvtest.sh run $KEYPAD_DEVFS $KEYPAD_ITERATIONS" "2"
+04  set -x; handlerCpuAffinity.sh "assign" "handlerEvtest.sh run $KEYPAD_DEVFS $KEYPAD_ITERATIONS" "3"
+05  set -x; handlerCpuAffinity.sh "assign" "handlerEvtest.sh run $KEYPAD_DEVFS $KEYPAD_ITERATIONS" "2"
+06  set -x; handlerCpuAffinity.sh "assign" "handlerEvtest.sh run $KEYPAD_DEVFS $KEYPAD_ITERATIONS" "1"
 07  set -x; handlerCpuAffinity.sh "execute" "withrandomdelay"
 
 # End L_DD_KEYPAD_0006_0003

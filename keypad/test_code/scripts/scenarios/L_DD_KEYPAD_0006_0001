@@ -6,9 +6,9 @@
 
 # Begin L_DD_KEYPAD_0006_0001
 
-01  set -x; handlerProcessPriority.sh "assign" "evtest $DEVFS_KEYPAD $ITERATIONS_DEFAULT_VALUE" "-20"
-02  set -x; handlerProcessPriority.sh "assign" "evtest $DEVFS_KEYPAD $ITERATIONS_DEFAULT_VALUE" "0"
-03  set -x; handlerProcessPriority.sh "assign" "evtest $DEVFS_KEYPAD $ITERATIONS_DEFAULT_VALUE" "20"
+01  set -x; handlerProcessPriority.sh "assign" "handlerEvtest.sh run $KEYPAD_DEVFS $KEYPAD_ITERATIONS" "-20"
+02  set -x; handlerProcessPriority.sh "assign" "handlerEvtest.sh run $KEYPAD_DEVFS $KEYPAD_ITERATIONS" "0"
+03  set -x; handlerProcessPriority.sh "assign" "handlerEvtest.sh run $KEYPAD_DEVFS $KEYPAD_ITERATIONS" "20"
 
 04  set -x; handlerProcessPriority.sh "execute" "withrandomdelay"
 

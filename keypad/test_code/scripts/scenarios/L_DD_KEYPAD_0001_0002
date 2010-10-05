@@ -7,8 +7,8 @@
 
 # Begin L_DD_KEYPAD_0001_0002
 
-01  set -x; echo -e "\n\n\nThe application will wait for $ITERATIONS_DEFAULT_VALUE keypresses"
+01  set -x; echo -e "\n\n\nThe application will wait for $KEYPAD_ITERATIONS keypresses"
 02  set -x; echo -e "Keep one key depressed to verify that 'value' (last column) is reported as 2\n\n\n";
-03  set -x; testkeypad $DEVFS_KEYPAD $ITERATIONS_DEFAULT_VALUE | grep value=2
+03  set -x; testkeypad $KEYPAD_DEVFS $KEYPAD_ITERATIONS | grep value=2
 
 # End L_DD_KEYPAD_0001_0002

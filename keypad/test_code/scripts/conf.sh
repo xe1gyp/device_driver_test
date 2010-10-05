@@ -35,7 +35,7 @@ export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
 # General variables
 export DMESG_FILE=/var/log/dmesg
-export ITERATIONS_DEFAULT_VALUE=50
+export KEYPAD_ITERATIONS=250
 
 # Keypad devfs node
 TEMP_EVENT=`ls /dev/input/ | grep event`
@@ -50,15 +50,15 @@ do
 	IS_THIS_OUR_DRIVER=`echo $?`
 	if [ "$IS_THIS_OUR_DRIVER" -eq "0" ]
 	then
-		export DEVFS_KEYPAD=/dev/input/$i
-		echo "Keypad node is " $DEVFS_KEYPAD
+		export KEYPAD_DEVFS=/dev/input/$i
+		echo "Keypad node is " $KEYPAD_DEVFS
 		break
 	fi
 done
 
-if [ ! -e "$DEVFS_KEYPAD" ]
+if [ ! -e "$KEYPAD_DEVFS" ]
 then
-	echo "FATAL: Keypad node cannot be found -> $DEVFS_KEYPAD"
+	echo "FATAL: Keypad node cannot be found -> $KEYPAD_DEVFS"
 	exit 1
 fi
 
