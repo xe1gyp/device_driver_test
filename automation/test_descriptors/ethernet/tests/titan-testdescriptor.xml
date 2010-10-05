@@ -389,7 +389,7 @@
 
 		<information>
 			<autor> Abraham Arce </autor>
-			<description> SMP: Process Parallelism </description>
+			<description> Process Parallelism </description>
 			<dateofcreation> 04/06/2010 </dateofcreation>
 		</information>
 
@@ -581,7 +581,7 @@
 
 		<information>
 			<autor> Abraham Arce </autor>
-			<description> SMP: Thread Safety </description>
+			<description> Thread Safety </description>
 			<dateofcreation> 04/06/2010 </dateofcreation>
 		</information>
 
@@ -613,7 +613,7 @@
 
 		<information>
 			<autor> Abraham Arce </autor>
-			<description> SMP: Stress Thread Safety </description>
+			<description> Stress Thread Safety </description>
 			<dateofcreation> 04/06/2010 </dateofcreation>
 		</information>
 
@@ -683,7 +683,7 @@
 
 		<run>
 			<action>
-				<command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0014_0002</command>
+				<command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0014_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/ethernet/scripts/log.*</command>
