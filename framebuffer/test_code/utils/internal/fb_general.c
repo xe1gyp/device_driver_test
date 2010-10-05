@@ -406,20 +406,20 @@ int test_display_size()
 		return ret;
 
 	/* Check if all xres values from 1 to v.xres work */
-	for (i=0; i<=v.xres; i++)
+	for (i = 16; i <= v.xres; i++)
 		set_display_size(i, v.yres, 0, 0);
 	/* Reset to original */
 	set_display_size(v.xres, v.yres, 0, 0);
 
 	/* Check if all yres values from 1 to v.yres work */
-	for (i=0; i<=v.yres; i++)
+	for (i = 16; i <= v.yres; i++)
 		set_display_size(v.xres, i, 0, 0);
 	/* Reset to original */
 	set_display_size(v.xres, v.yres, 0, 0);
 	
 	/* Check if changing xres and yres together works */
 	max = v.xres > v.yres ? v.xres : v.yres;
-	for (i=0; i<=max; i++)
+	for (i = 16; i <= max; i++)
 		set_display_size((i <= v.xres)? i : v.xres,
 				 (i <= v.yres)? i : v.yres, 0, 0);
 	/* Reset to original */
