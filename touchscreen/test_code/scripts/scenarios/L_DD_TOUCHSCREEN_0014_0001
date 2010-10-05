@@ -1,0 +1,23 @@
+# Begin L_DD_TOUCHSCREEN_0014_0001
+
+# Suspend/Resume
+01  set -x; handlerSuspendResume.sh "suspend" $PM_WAKEUP_TIMER_DEFAULT
+02  set -x; handlerCmd.sh "run" "handlerEvtest.sh run $TOUCHSCREEN_DEVFS_PRIMARY 200"
+03  set -x; handlerSuspendResume.sh "suspend" $PM_WAKEUP_TIMER_DEFAULT
+
+04  set -x; handlerSuspendResume.sh "run" "5" "handlerEvtest.sh run $TOUCHSCREEN_DEVFS_PRIMARY 250"
+
+# CPU1 Hotplug
+05  set -x; handlerCpuHotPlug.sh "run" "5" "handlerEvtest.sh run $TOUCHSCREEN_DEVFS_PRIMARY 500"
+
+# Retention
+06  set -x; handlerPowerRetention.sh  enable
+
+07  set -x; handlerPowerRetention.sh  check  "core_pwrdm"
+08  set -x; handlerCmd.sh "run" "handlerEvtest.sh run $TOUCHSCREEN_DEVFS_PRIMARY 200"
+10  set -x; handlerPowerRetention.sh  check  "core_pwrdm"
+
+11  set -x; handlerPowerRetention.sh  disable
+
+
+# End L_DD_TOUCHSCREEN_0014_0001
