@@ -1,0 +1,14 @@
+# Begin L_DD_TOUCHSCREEN_0013_0001
+
+# Frequency
+01  set -x; handlerCpuFreqScalGovernors.sh "get"
+02  set -x; handlerCpuFreqScalGovernors.sh "set" "userspace"
+03  set -x; handlerCpuFreqScalFrequencies.sh "run" "all" "handlerEvtest.sh run $TOUCHSCREEN_DEVFS_PRIMARY 200"
+04  set -x; handlerCpuFreqScalGovernors.sh "restore"
+
+# Governors
+05  set -x; handlerCpuFreqScalGovernors.sh "get"
+06  set -x; handlerCpuFreqScalGovernors.sh "run" "all" "handlerEvtest.sh run $TOUCHSCREEN_DEVFS_PRIMARY 200"
+07  set -x; handlerCpuFreqScalGovernors.sh "restore"
+
+# End L_DD_TOUCHSCREEN_0013_0001
