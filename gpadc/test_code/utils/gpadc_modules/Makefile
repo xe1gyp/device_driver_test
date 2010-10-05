@@ -3,10 +3,10 @@ KERN:=26
 
 ifneq ($(KERNELRELEASE),)
 ifeq ($(KERN),26)
-	obj-m := omap_gpadc_test.o omap_gpadc_sw_irq_test.o
+	obj-m := omap_gpadc_test.o omap_gpadc_sw_irq_test.o omap_gpadc_smp_test.o
 else
-	export-objs := omap_gpadc_test.o omap_gpadc_sw_irq_test.o
-	obj-m += omap_gpadc_test.o omap_gpadc_sw_irq_test.o
+	export-objs := omap_gpadc_test.o omap_gpadc_sw_irq_test.o omap_gpadc_smp_test.o
+	obj-m += omap_gpadc_test.o omap_gpadc_sw_irq_test.o omap_gpadc_smp_test.o
 include $(TOPDIR)/Rules.make
 endif
 else

@@ -1,0 +1,16 @@
+##############################
+# File Name   : L_DD_GPADC_0003_0001
+# Author      : J Keerthy
+# Date        : Oct 1, 2010
+# Description : GPADC Test Suite
+###############################
+
+# Begin L_DD_GPADC_0003_0001
+
+#This test case verifies SMP readiness of the GPADC driver
+
+0001 set -x; insmod $GPADC_SMP_MODULE iterations=10 && exit 0 || exit 1
+0002 set -x; rmmod $GPADC_SMP_MODULE
+
+# End L_DD_GPADC_0003_0001
+
