@@ -25,9 +25,15 @@ if [ $? -eq 1 ]; then
 	exit 1
 fi
 
+if [ "$LOCAL_DEVFS_NODE" = "$TOUCHSCREEN_DEVFS_PRIMARY" ]; then
+	LOCAL_CONTROLLER="Primary"
+elif [ "$LOCAL_DEVFS_NODE" = "$TOUCHSCREEN_DEVFS_SECONDARY" ]; then
+	LOCAL_CONTROLLER="Secondary"
+fi
+
 if [ "$LOCAL_OPERATION" = "run" ]; then
 
-	echo -e "\n\n\nINFO: Please interact with touchscreen in 5 seconds"
+	echo -e "\n\n\nINFO: Please interact with $LOCAL_CONTROLLER Touchscreen in 5 seconds"
 	echo -e "INFO: Working with $LOCAL_DEVFS_NODE\n\n\n"
 
 	sleep 5
@@ -40,7 +46,7 @@ elif [ "$LOCAL_OPERATION" = "test" ]; then
 
 	if [ "$LOCAL_MODE" = "noevents" ]; then
 
-		echo -e "\n\n\nINFO: Please DO NOT interact with touchscreen, wait for process to finish"
+		echo -e "\n\n\nINFO: Please DO NOT interact with $LOCAL_CONTROLLER Touchscreen, wait for process to finish"
 		echo -e "INFO: Working with $LOCAL_DEVFS_NODE\n\n\n"
 		sleep 5
 		eval evtest $LOCAL_DEVFS_NODE $LOCAL_NUMBER_ITERATIONS | grep Event | grep time | grep type | grep code > $LOCAL_TEMP_FILE &
@@ -53,7 +59,7 @@ elif [ "$LOCAL_OPERATION" = "test" ]; then
 
 	else
 
-		echo -e "\n\n\nINFO: Please interact with touchscreen in 5 seconds"
+		echo -e "\n\n\nINFO: Please interact with $LOCAL_CONTROLLER Touchscreen in 5 seconds"
 		echo -e "INFO: Working with $LOCAL_DEVFS_NODE, no events will be displayed"
 		sleep 5
 		echo -e "INFO: Now!\n\n\n"
