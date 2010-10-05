@@ -24,6 +24,7 @@ export TOUCHSCREEN_STRESS=""
 export PATH="${PATH}:${TOUCHSCREEN_ROOT}:${TOUCHSCREEN_DIR_BINARIES}:${TOUCHSCREEN_DIR_HELPER}"
 
 # Utils General Variables
+export UTILS_DIR=${TOUCHSCREEN_ROOT}/../../utils/
 export UTILS_DIR_BIN=${TOUCHSCREEN_ROOT}/../../utils/bin
 export UTILS_DIR_HANDLERS=${TOUCHSCREEN_ROOT}/../../utils/handlers
 export UTILS_DIR_SCRIPTS=${TOUCHSCREEN_ROOT}/../../utils/scripts
