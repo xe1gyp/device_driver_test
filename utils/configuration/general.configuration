@@ -103,6 +103,7 @@ export PM_WAKEUP_TIMER_DEFAULT=1
 export PM_RETENTION_TIMER_DEFAULT=30
 export PM_DEBUGFS_DIRECTORY=$HDFS_DEBUG_FILESYSTEM_DIRECTORY
 export PM_DEBUG=$PM_DEBUGFS_DIRECTORY/pm_debug/
+export PM_SYS_PWR=/sys/power
 
 if [ `cat /proc/cpuinfo | grep -ic OMAP4` ]; then
 	export PM_COUNT=$PM_DEBUG/count
@@ -115,10 +116,14 @@ if [ `cat /proc/cpuinfo | grep -ic OMAP4` ]; then
 fi
 
 # handlerSmartReflex.sh
-if [ `cat /proc/cpuinfo | grep -ic OMAP4` ]; then
-	export SR_CORE_AUTOCOMP=$PM_DEBUG/smartreflex/sr_core/autocomp
-	export SR_IVA_AUTOCOMP=$PM_DEBUG/smartreflex/sr_iva/autocomp
-	export SR_MPU_AUTOCOMP=$PM_DEBUG/smartreflex/sr_mpu/autocomp
+if [ `cat /proc/cpuinfo | grep -ic OMAP4` -gt 0 ]; then
+		export SR_CORE_AUTOCOMP=$PM_DEBUG/smartreflex/sr_core/autocomp
+		export SR_IVA_AUTOCOMP=$PM_DEBUG/smartreflex/sr_iva/autocomp
+		export SR_MPU_AUTOCOMP=$PM_DEBUG/smartreflex/sr_mpu/autocomp
+
+	elif [ `cat /proc/cpuinfo | grep -ic Zoom3` -gt 0 ]; then
+		export SR_VDD1_AUTOCOMP=$PM_SYS_PWR/sr_vdd1_autocomp
+		export SR_VDD2_AUTOCOMP=$PM_SYS_PWR/sr_vdd2_autocomp
 fi
 
 # handlerSuspendResume.sh
