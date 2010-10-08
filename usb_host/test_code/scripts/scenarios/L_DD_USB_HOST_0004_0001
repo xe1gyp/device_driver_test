@@ -1,0 +1,19 @@
+###############################################################################
+# Scenario: L_DD_USB_HOST_0004_0001
+# Author  : Mantesh
+# Date    : September 07, 2010
+###############################################################################
+
+# Begin L_DD_USB_HOST_0004_0001
+
+01  set -x; insmod $UTILSMODULES/ehci-hcd.ko  &&  exit 0 || exit 1
+02  set -x; insmod $UTILSMODULES/keyspan.ko  &&  exit 0 || exit 1
+03  set -x; mount -t usbfs none /proc/bus/usb &&  exit 0 || exit 1
+04  set -x; cat /proc/bus/usb/devices | grep 'keyspan' && exit 0 || exit 1
+05  set -x; handlerHsuart.sh $UART_TEST_PORT1 115200 0
+06  set -x; diff uart_tx_file_$UART_TEST_PORT1 uart_rx_file_$UART_TEST_PORT1 && exit 0 || exit 1
+07  set -x; rmmod ehci-hcd && exit 0 || exit 1
+08  set -x; rmmod keyspan && exit 0 || exit 1
+
+
+# End L_DD_USB_HOST_0004_0001

@@ -1,0 +1,25 @@
+###############################################################################
+# Scenario: L_DD_USB_HOST_0018_0001
+# Author  : Mantesh
+# Date    : September 07, 2010
+###############################################################################
+
+# Begin L_DD_USB_HOST_0018_0001
+
+01  set -x; insmod $UTILSMODULES/keyspan.ko  &&  exit 0 || exit 1
+02  set -x; mount -t usbfs none /proc/bus/usb &&  exit 0 || exit 1
+03  set -x; touch otg.txt &&  exit 0 || exit 1
+04  set -x; chmod 777 otg.txt &&  exit 0 || exit 1
+05  set -x; echo "echo "otg" > /sys/devices/platform/musb_hdrc/mode" > otg.txt &&  exit 0 || exit 1
+06  set -x; sh otg.txt &&  exit 0 || exit 1
+07  set -x; cat /proc/bus/usb/devices | grep 'stor' && exit 0 || exit 1
+08  set -x; chmod 777 -R /sys/bus/usb/drivers/keyspan/unbind
+09  set -x; chmod 777 -R /sys/bus/usb/drivers/keyspan/bind
+10  set -x; chmod 777 -R /sys/bus/usb/devices/usb1/1-1/power/control
+11  set -x; ls /sys/bus/usb/drivers/keyspan | grep : > /sys/bus/usb/drivers/keyspan/unbind
+12  set -x; echo auto > /sys/bus/usb/devices/usb1/1-1/power/control
+13  set -x; echo on > /sys/bus/usb/devices/usb1/1-1/power/control
+14  set -x; ls /sys/bus/usb/drivers/usb-storage | grep : > /sys/bus/usb/drivers/keyspan/bind
+15  set -x; rmmod keyspan && exit 0 || exit 1
+
+# End L_DD_USB_HOST_0018_0001

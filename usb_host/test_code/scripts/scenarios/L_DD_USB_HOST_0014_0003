@@ -1,0 +1,48 @@
+#########################################################
+# Scenario: L_DD_USB_HOST_0014_0003
+# Testing :  Mentor_Host + EHCI_Host Process Priority
+#########################################################
+
+# Begin L_DD_USB_HOST_0014_0003
+
+01  set -x; insmod $UTILSMODULES/ehci-hcd.ko  &&  exit 0 || exit 1
+02  set -x; mount -t usbfs none /proc/bus/usb &&  exit 0 || exit 1
+03  set -x; cat /proc/bus/usb/devices | grep 'stor' && exit 0 || exit 1
+04  set -x; ls /dev/sd* &&  sleep 10 && exit 0 || exit 1
+05  set -x; mkdir  /testsuites/usb_host/scripts/misc/mass_storage &&  exit 0 || exit 1
+06  set -x; mount  /dev/sda1  /testsuites/usb_host/scripts/misc/mass_storage &&  exit 0 || exit 1
+07  set -x; mkdir  /testsuites/usb_host/scripts/misc/mass_storage1 &&  exit 0 || exit 1
+08  set -x; mount  /dev/sdb1  /testsuites/usb_host/scripts/misc/mass_storage1 &&  exit 0 || exit 1
+
+09  set -x; handlerProcessPriority.sh "add" "1" "dd if=/dev/urandom of=/testsuites/usb_host/scripts/misc/mass_storage/file.1 bs=1M count=50" "-20"
+10  set -x; handlerProcessPriority.sh "add" "2" "dd if=/dev/urandom of=/testsuites/usb_host/scripts/misc/mass_storage/file.2 bs=1M count=50" "+20"
+
+11  set -x; handlerProcessPriority.sh "execute" "1"
+
+12  set -x; handlerProcessPriority.sh "verify"
+
+13  set -x; handlerProcessPriority.sh "add" "1" "dd if=/dev/urandom of=/testsuites/usb_host/scripts/misc/mass_storage/file.3 bs=1M count=50" "+20"
+14  set -x; handlerProcessPriority.sh "add" "2" "dd if=/dev/urandom of=/testsuites/usb_host/scripts/misc/mass_storage/file.4 bs=1M count=50" "-20"
+
+15  set -x; handlerProcessPriority.sh "execute" "1"
+
+16  set -x; handlerProcessPriority.sh "verify"
+
+17  set -x; cmp /testsuites/usb_host/scripts/misc/mass_storage/test.txt /testsuites/usb_host/scripts/misc/mass_storage1/test_1.txt
+
+18  set -x; umount /testsuites/usb_host/scripts/misc/mass_storage &&  exit 0 || exit 1
+19  set -x; umount /testsuites/usb_host/scripts/misc/mass_storage1 &&  exit 0 || exit 1
+20  set -x; umount /proc/bus/usb &&  exit 0 || exit 1
+
+
+21 set -x; rm -Rf /testsuites/usb_host/scripts/misc/mass_storage/* &&  exit 0 || exit 1
+22 set -x; rmdir /testsuites/usb_host/scripts/misc/mass_storage &&  exit 0 || exit 1
+23 set -x; rm -Rf /testsuites/usb_host/scripts/misc/mass_storage1/* &&  exit 0 || exit 1
+24 set -x; rmdir /testsuites/usb_host/scripts/misc/mass_storage1 &&  exit 0 || exit 1
+
+25  set -x; rmmod ehci-hcd && exit 0 || exit 1
+
+# End L_DD_USB_HOST_0014_0003
+
+
+
