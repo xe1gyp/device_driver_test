@@ -1,0 +1,20 @@
+###############################################################################
+# Scenario: L_DD_POWER_1001_0001
+# Testing : Power measurements with Smart Reflex Auto Compensation enabled
+###############################################################################
+
+# Begin L_DD_POWER_1001_0001
+
+01  set -x; handlerSmartReflex.sh  enable  core
+02  set -x; handlerSmartReflex.sh  enable  iva
+03  set -x; handlerSmartReflex.sh  enable  mpu
+
+04 set -x; handlerManualMeasurements.sh
+
+05  set -x; handlerSmartReflex.sh  disable  mpu
+06  set -x; handlerSmartReflex.sh  disable  iva
+07  set -x; handlerSmartReflex.sh  disable  core
+
+08 set -x; handlerManualMeasurements.sh
+
+# End L_DD_POWER_1001_0001
