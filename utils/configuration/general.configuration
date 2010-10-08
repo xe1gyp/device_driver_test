@@ -19,7 +19,7 @@ export HCA_LIST_CMDS_FAILED=$UTILS_DIR_TMP/hca.list.cmds.failed
 export HCA_LIST_PIDS_TOTALS=$UTILS_DIR_TMP/hca.list.pids.totals
 
 # handlerIrqAffinity.sh
-if [ `cat /proc/cpuinfo | grep -ic OMAP4` ]; then
+if [ `cat /proc/cpuinfo | grep -ic OMAP4` -gt 0 ]; then
 	export INT_GPIO_BANK1=61
 	export INT_GPIO_BANK2=62
 	export INT_GPIO_BANK3=63
@@ -105,7 +105,7 @@ export PM_DEBUGFS_DIRECTORY=$HDFS_DEBUG_FILESYSTEM_DIRECTORY
 export PM_DEBUG=$PM_DEBUGFS_DIRECTORY/pm_debug/
 export PM_SYS_PWR=/sys/power
 
-if [ `cat /proc/cpuinfo | grep -ic OMAP4` ]; then
+if [ `cat /proc/cpuinfo | grep -ic OMAP4` -gt 0 ]; then
 	export PM_COUNT=$PM_DEBUG/count
 	export PM_ENABLED_OFF_MODE=$PM_DEBUG/enable_off_mode
 	export PM_ENABLE_SR_VP_DEBUG=$PM_DEBUG/enable_sr_vp_debug
