@@ -1,0 +1,17 @@
+2 S09:006 S10:014 S11:085 S12:050 S18:000
+S36:007 S40:104 S41:195 S46:138 S95:000 
+
+
+
+STORED PROFILE 1:
+
+B1 E1 L1 M1 N0 Q0 T V1043 S06:002 S07:50 S08:002 S09:006 S10:014 S11:085 S12:050 S18:0
+**********Help***********
+  x - exit microcom
+  b - send break
+  l - log on             
+  s - start script       
+  t - set terminal
+  q - quit help
+*************************
+Command: 
