@@ -160,5 +160,36 @@
 		</fail>
 
 	</test>
+	<test id="L_DD_WATCHDOG_0007_0001">
+
+		<information>
+			<autor> tbd author </autor>
+			<description> tbd description </description>
+			<dateofcreation> 04/06/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/watchdog/scripts/test_runner.sh L_DD_WATCHDOG_0007_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/watchdog/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
 
 </titan>
