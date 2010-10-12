@@ -12,6 +12,9 @@ export UTILS_DIR_TMP=$UTILS_DIR/tmp
 test -d $UTILS_DIR_TMP || mkdir -p $UTILS_DIR_TMP
 rm -f $UTILS_DIR_TMP/*
 
+# Load content from conf.sh which is common for all drivers
+. ${UTILS_DIR}/configuration/conf.sh
+
 # handlerCpuAffinity.sh && handlerCpuAffinityExecutor.sh
 export HCA_LIST_CMDS_TOTALS=$UTILS_DIR_TMP/hca.list.cmds.totals
 export HCA_LIST_CMDS_PASSED=$UTILS_DIR_TMP/hca.list.cmds.passed
