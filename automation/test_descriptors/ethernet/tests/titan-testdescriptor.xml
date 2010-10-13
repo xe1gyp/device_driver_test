@@ -715,7 +715,7 @@
 
 		<run>
 			<action>
-				<command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0014_0002</command>
+				<command>/testsuites/ethernet/scripts/test_runner.sh L_DD_ETHERNET_0014_0001</command>
 			</action>
 			<action>
 				<command>rm /testsuites/ethernet/scripts/log.*</command>
