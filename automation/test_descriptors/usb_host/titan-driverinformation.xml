@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<titan>
+
+	<driverinformation>
+		<name>USB Host</name>
+		<description>The tests contained in this folder tests the USB Host functionalities</description>
+	</driverinformation>
+
+</titan>

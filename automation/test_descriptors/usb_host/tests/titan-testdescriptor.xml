@@ -1,0 +1,1021 @@
+<?xml version="1.0"?>
+<titan>
+
+	<test id="L_DD_USB_HOST_0001_0001">
+
+		<information>
+			<autor> Mantesh </autor>
+			<description>The following test checks that the USB Device enumeration</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_0001_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_USB_HOST_0005_0001">
+
+		<information>
+			<autor> Mantesh </autor>
+			<description>The following test case tests the USB Massstorage functionallity</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_0005_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_USB_HOST_0009_0001">
+
+		<information>
+			<autor> Mantesh </autor>
+			<description>The following test checks USB Keyboard detection and enumeration</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_0009_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_USB_HOST_0006_0001">
+
+		<information>
+			<autor>Mantesh </autor>
+			<description>The following test checks that the USB MUSB driver does not block system-wide suspend/resume</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_0006_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+	
+	<test id="L_DD_USB_HOST_0006_0002">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>The following test checks  the (Port) suspend and resume functionality of the USB HOST
+controller</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_0006_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+	
+	<test id="L_DD_USB_HOST_0018_0001">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>The following test checks the suspend and resume functionality of the USB host controller, with USB serial convertor device</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_0018_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+	
+	<test id="L_DD_USB_HOST_0019_0001">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>The following test checks the suspend and resume functionality of the USB Host controller, with USB ethernet adaptor.</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_0019_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+	<test id="L_DD_USB_HOST_0009_0002">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>The following test checks USB Mouse detection and enumeration</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_0009_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+	
+	<test id="L_DD_USB_HOST_0020_0001">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>The following test checks  the suspend and resume functionality of the USB Host controller, with Netchip Gadget serial device</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_0020_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+
+	<test id="L_DD_USB_HOST_0003_0001">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>The following test checks  control transfer (Chapter 9) tests control using 'usbtest' on high-speed test device </description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_0003_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+
+	<test id="L_DD_USB_HOST_0003_0002">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>The following test checks bulk transfer (Chapter 9) tests in out using 'usbtest' on high-speed test device</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_0003_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+
+	<test id="L_DD_USB_HOST_0011_0001">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>USB Mentor Host driver shall support process parallelism</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_0011_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+	<test id="L_DD_USB_HOST_0011_0002">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>SB mentor_host driver shall support Process Priority while doing data transfers</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_0011_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+	<test id="L_DD_USB_HOST_0011_0003">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>MUSB driver shall support CPU Affinity while doing data transfers.</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_0011_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+	<test id="L_DD_USB_HOST_0011_0004">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>MUSB driver shall support IRQ Affinity while doing data transfers</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_0011_0004</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+	<test id="L_DD_USB_HOST_0014_0001">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>USB mentor_host driver shall support process parallelism(Mentor_Host + EHCI_Hos)</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_0014_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+	<test id="L_DD_USB_HOST_0014_0002">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>USB mentor_host driver shall support process parallelism(Mentor_Host + OHCI_Host)</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_0014_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+	<test id="L_DD_USB_HOST_0014_0003">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>USB mentor_host driver and ehci_host shall support Process Priority while doing data transfers</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_0014_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+	<test id="L_DD_USB_HOST_0014_0004">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>USB mentor_host driver and ehci_host shall support Process Priority while doing data transfers</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_0014_0004</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+	
+	<test id="L_DD_USB_HOST_EHCI_0006_0003">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>This test checks the USB suspend/resume test for EHCI port, Hub with the multiple devices connected to EHCI port</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_EHCI_0006_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+
+	<test id="L_DD_USB_HOST_EHCI_0006_0004">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>This test checks the USB suspend/resume test for EHCI port, Hub with the multiple devices connected to EHCI port.</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_EHCI_0006_0004</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+	
+	<test id="L_DD_USB_HOST_EHCI_0023_0001">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>Load and unload the EHCI driver module continously while switching OPPs.</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_EHCI_0023_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+<test id="L_DD_USB_HOST_OHCI_0006_0003">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>This test checks the USB suspend/resume test for EHCI port, Hub with the multiple devices connected to OHCI port</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_OHCI_0006_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+
+	<test id="L_DD_USB_HOST_OHCI_0006_0004">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>This test checks the USB suspend/resume test for EHCI port, Hub with the multiple devices connected to OHCI port.</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_OHCI_0006_0004</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+	
+	<test id="L_DD_USB_HOST_OHCI_0023_0001">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>Load and unload the OHCI driver module continously while switching OPPs.</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_OHCI_0023_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+<test id="L_DD_USB_HOST_MUSB_0006_0003">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>This test checks the USB suspend/resume test for EHCI port, Hub with the multiple devices connected to MUSB port</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_MUSB_0006_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+
+	<test id="L_DD_USB_HOST_MUSB_0006_0004">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>This test checks the USB suspend/resume test for EHCI port, Hub with the multiple devices connected to MUSB port.</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_MUSB_0006_0004</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+	
+	<test id="L_DD_USB_HOST_MUSB_0023_0001">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>Load and unload the MUSB driver module continously while switching OPPs.</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_MUSB_0023_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+
+
+	<test id="L_DD_USB_HOST_PERF_0001_0001">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>This test checks the USB performance</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_PERF_0001_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+	<test id="L_DD_USB_HOST_PERF_0001_0002">
+	
+		<information>
+			<autor>Mantesh </autor>
+			<description>This test checks the USB performance</description>
+			<dateofcreation> 07/9/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>sleep 10</command>
+			</action>
+			<action>
+				<command>/testsuites/usb_host/scripts/test_runner.sh L_DD_USB_HOST_PERF_0001_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_host/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+	</test>
+	
+
+
+
+</titan>
