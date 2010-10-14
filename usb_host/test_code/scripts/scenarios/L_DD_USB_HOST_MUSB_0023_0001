@@ -1,0 +1,13 @@
+###############################################################################
+# Scenario: L_DD_USB_HOST_MUSB_0023_0001
+# Author  : Mantesh
+# Date    : October 14, 2010
+###############################################################################
+
+# Begin L_DD_USB_HOST_MUSB_0023_0001
+
+01  set -x; mount -t usbfs none /proc/bus/usb &&  exit 0 || exit 1
+02  set -x; sh $USBHOST_DIR_HELPER/loadUnloadModuletest.sh "musb"
+03  set -x; umount /proc/bus/usb &&  exit 0 || exit 1
+
+# End L_DD_USB_HOST_MUSB_0023_0001
