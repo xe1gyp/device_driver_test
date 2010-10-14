@@ -82,7 +82,7 @@ $(warning TESTSUITES was not specified. Defaulting to "all")
 TESTSUITES:=all
 endif
 
-APPLICABLE_TESTS :=	benchmarks dma gpadc ethernet gpio hsuart i2c \
+APPLICABLE_TESTS :=	benchmarks dma gpadc ethernet usb_host gpio hsuart i2c \
 			keypad mcbsp mcspi mmc  \
 			realtimeclock timer-32k touchscreen watchdog pmd\
 			sfh7741 accelerometer ambient_light led oskernel
