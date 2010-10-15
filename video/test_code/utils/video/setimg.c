@@ -62,6 +62,7 @@ int main(int argc, char *argv[])
 	format.fmt.pix.width  = atoi(argv[3]);
 	format.fmt.pix.height = atoi(argv[4]);
 	format.type           = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+	format.fmt.pix.field = V4L2_FIELD_NONE;
 	
 	file_descriptor =
 		open((video_device == 1) ? VIDEO_DEVICE1 :
