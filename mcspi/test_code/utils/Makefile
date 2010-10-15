@@ -12,9 +12,13 @@ all: $(SUBDIRS)
 
 install:
 	make -C mcspi_modules install
+	make -C mcspi_spidev install
 
 mcspi_modules_dir:
 	make -C mcspi_modules
+
+mcspi_spidev_dir:
+	 make -C mcspi_spidev
 
 clean:
 	make -C mcspi_modules clean
