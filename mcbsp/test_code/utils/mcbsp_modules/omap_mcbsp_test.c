@@ -681,6 +681,7 @@ int __init omap2_mcbsp_init(void)
 static
 void __exit omap_mcbsp_exit(void)
 {
+	omap_mcbsp_stop(mcbsptest_info[0].mcbsp_id , 1 , 1);
 	if (test_mcbsp_smp) {
 
 #if (LINUX_VERSION_CODE <= KERNEL_VERSION(2, 6, 00))
