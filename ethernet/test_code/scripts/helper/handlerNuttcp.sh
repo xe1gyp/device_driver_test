@@ -38,18 +38,18 @@ if [ "$LOCAL_MODE" = "server" ]; then
 
 elif [ "$LOCAL_MODE" = "remote" ]; then
 
-	if [ -z $NUTTCP_SERVER ]; then
-		echo "FATAL: Cannot find NUTTCP_SERVER variable exported, please check!"
+	if [ -z $TESTER_ADDRESS ]; then
+		echo "FATAL: Cannot find TESTER_ADDRESS variable exported, please check!"
 		exit 2
 	fi
 
 elif [ "$LOCAL_MODE" = "local" ]; then
 
-	NUTTCP_SERVER=127.0.0.1
+	TESTER_ADDRESS=127.0.0.1
 
 fi
 
-echo $NUTTCP_SERVER > $ETHERNET_NUTTCP_SERVER_IPADDR
+echo $TESTER_ADDRESS > $ETHERNET_NUTTCP_SERVER_IPADDR
 
 if [ "$LOCAL_OPERATION" = "common" ]; then
 
