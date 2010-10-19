@@ -6,26 +6,38 @@
 
 # Begin L_DD_ETHERNET_0007_0001
 
+# TODO
+# 1. Modify handlerNfs.sh to accept mount/umount operations
+#    to stop using handlerCmd.sh
+# 2. Instead of using TESTER_NFS_DIRECTORY, get nfs directory from /proc/cmdline
+
 # Checking the current setup
-01 set -x; if [ "$IPADDR" == "" ]; then echo "FATAL: IPADDR is not set"; handlerError.sh "log" "1" "halt" "L_DD_ETHERNET_0007_0001"; exit 1; fi; exit 0
-02 set -x; if [ "$HOST_MOUNT_POINT" == "" ]; then echo "FATAL: HOST_MOUNT_POINT is not set"; handlerError.sh "log" "1" "halt" "L_DD_ETHERNET_0007_0001"; exit 1; fi; exit 0
+01 set -x; if [ "$TESTER_ADDRESS" == "" ]; then echo "FATAL: TESTER_ADDRESS is not set"; handlerError.sh "log" "1" "halt" "L_DD_ETHERNET_0007_0001"; exit 1; fi; exit 0
+02 set -x; if [ "$TESTER_NFS_DIRECTORY" == "" ]; then echo "FATAL: TESTER_NFS_DIRECTORY is not set"; handlerError.sh "log" "1" "halt" "L_DD_ETHERNET_0007_0001"; exit 1; fi; exit 0
 
 # Validating the scenario
-03 set -x; handlerCmd.sh "run" "mkdir -p $MOUNT_POINT || echo "Folder is already created""
-04 set -x; handlerCmd.sh "run" "mount | grep $MOUNT_POINT" && exit 1 || exit 0
-05 set -x; handlerCmd.sh "run" "mount -o nolock -t nfs $IPADDR:$HOST_MOUNT_POINT $MOUNT_POINT"
+03 set -x; handlerCmd.sh "run" "mkdir -p $ETHERNET_NFS_LOCAL || echo "Folder is already created""
+04 set -x; handlerCmd.sh "run" "mount | grep $ETHERNET_NFS_LOCAL" && exit 1 || exit 0
+05 set -x; handlerCmd.sh "run" "mount -o nolock -t nfs $TESTER_ADDRESS:$TESTER_NFS_DIRECTORY $ETHERNET_NFS_LOCAL"
 06 set -x; handlerCmd.sh "run" "mount | grep nfs"
-07 set -x; handlerCmd.sh "run" "ls $MOUNT_POINT/testfile" && exit 1 || exit 0
-08 set -x; handlerCmd.sh "run" "date > $ETHERNET_DIR_TMP/testfile; cp $ETHERNET_DIR_TMP/testfile $MOUNT_POINT/testfile"
-09 set -x  handlerCmd.sh "run" "ls $MOUNT_POINT/testfile"
-10 set -x; handlerCmd.sh "run" "umount $MOUNT_POINT"
-11 set -x; handlerCmd.sh "run" "ls $MOUNT_POINT/testfile" && exit 1 || exit 0
-12 set -x; handlerCmd.sh "run" "mount -o nolock -t nfs $IPADDR:$HOST_MOUNT_POINT $MOUNT_POINT"
-13 set -x; handlerCmd.sh "run" "ls $MOUNT_POINT/testfile && cmp $MOUNT_POINT/testfile $ETHERNET_DIR_TMP/testfile"
-14 set -x; handlerCmd.sh "run" "rm $MOUNT_POINT/testfile"
-15 set -x; handlerCmd.sh "run" "umount $MOUNT_POINT"
-16 set -x; handlerCmd.sh "run" "mount -o nolock -t nfs $IPADDR:$HOST_MOUNT_POINT $MOUNT_POINT"
-17 set -x; handlerCmd.sh "run" "ls $MOUNT_POINT/testfile" && exit 1 || exit 0
-18 set -x; handlerCmd.sh "run" "umount $MOUNT_POINT"
+07 set -x; handlerCmd.sh "run" "ls $ETHERNET_NFS_LOCAL/testfile" && exit 1 || exit 0
+08 set -x; handlerCmd.sh "run" "date > $ETHERNET_DIR_TMP/testfile; cp $ETHERNET_DIR_TMP/testfile $ETHERNET_NFS_LOCAL/testfile"
+09 set -x  handlerCmd.sh "run" "ls $ETHERNET_NFS_LOCAL/testfile"
+10 set -x; handlerCmd.sh "run" "umount $ETHERNET_NFS_LOCAL"
+
+11 set -x; handlerCmd.sh "run" "ls $ETHERNET_NFS_LOCAL/testfile" && exit 1 || exit 0
+12 set -x; handlerCmd.sh "run" "mount -o nolock -t nfs $TESTER_ADDRESS:$TESTER_NFS_DIRECTORY $ETHERNET_NFS_LOCAL"
+13 set -x; handlerCmd.sh "run" "ls $ETHERNET_NFS_LOCAL/testfile && cmp $ETHERNET_NFS_LOCAL/testfile $ETHERNET_DIR_TMP/testfile"
+14 set -x; handlerCmd.sh "run" "rm $ETHERNET_NFS_LOCAL/testfile"
+15 set -x; handlerCmd.sh "run" "umount $ETHERNET_NFS_LOCAL"
+
+16 set -x; handlerCmd.sh "run" "mount -o nolock -t nfs $TESTER_ADDRESS:$TESTER_NFS_DIRECTORY $ETHERNET_NFS_LOCAL"
+17 set -x; handlerCmd.sh "run" "ls $ETHERNET_NFS_LOCAL/testfile" && exit 1 || exit 0
+18 set -x; handlerCmd.sh "run" "umount $ETHERNET_NFS_LOCAL"
+
+16 set -x; handlerCmd.sh "run" "mount -o nolock -t nfs $TESTER_ADDRESS:$TESTER_NFS_DIRECTORY $ETHERNET_NFS_LOCAL"
+17 set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=$ETHERNET_NFS_LOCAL/testfile bs=1M count=50"
+18 set -x; handlerCmd.sh "run" "rm $ETHERNET_NFS_LOCAL/testfile"
+19 set -x; handlerCmd.sh "run" "umount $ETHERNET_NFS_LOCAL"
 
 # End L_DD_ETHERNET_0007_0001

@@ -51,6 +51,9 @@ export ETHERNET_NFS_DIR=$ETHERNET_DIR_TMP/ethernet.nfs.directory.path
 export ETHERNET_IRQ=$ETHERNET_DIR_TMP/ethernet.irq
 handlerIrq.sh "get" "irq" "eth0" "$ETHERNET_IRQ"
 
+# NFS
+export ETHERNET_NFS_LOCAL=$ETHERNET_DIR_TMP/nfs
+
 if [ ! `echo 1+1 | bc` ]; then
 	echo "FATAL: bc application unavailable, cannot continue"
 	exit 1
