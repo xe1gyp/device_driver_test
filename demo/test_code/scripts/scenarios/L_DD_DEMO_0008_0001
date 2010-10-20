@@ -29,4 +29,7 @@
 11  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_PERFORMANCE
 12  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=/dev/null bs=1M count=10"
 
+13  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_HOTPLUG
+14  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=/dev/null bs=1M count=10"
+
 # End L_DD_DEMO_0008_0001
