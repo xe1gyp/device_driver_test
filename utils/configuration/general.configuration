@@ -146,6 +146,7 @@ export GOVERNOR_ONDEMAND=ondemand
 export GOVERNOR_POWERSAVE=powersave
 export GOVERNOR_USERSPACE=userspace
 export GOVERNOR_PERFORMANCE=performance
+export GOVERNOR_HOTPLUG=hotplug
 
 # handlerFstab.sh
 export HFST_FSTAB_NAME=/etc/fstab
