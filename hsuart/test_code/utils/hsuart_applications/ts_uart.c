@@ -20,6 +20,9 @@
 
 #include "common.h"
 
+#define TIOCMSET 0x5418
+#define TIOCM_LOOP 0x8000
+
 int main(int argc, char **argv)
 {
 	int i = 0, rd = 0;
@@ -30,6 +33,8 @@ int main(int argc, char **argv)
 	char uartportname[20];
 	int size = 0;
 	int chk_flag, error = 0;
+
+	unsigned long loopback_val = TIOCM_LOOP;
 
 	char md5_sum1[33];
 	char cmd_buf [20];
@@ -78,6 +83,15 @@ int main(int argc, char **argv)
 	printf("\n Configured port for baudrate= %d", getbaud(ut.fd));
 
 	sscanf(argv[1], "%c", &tx_rx);
+
+	error = ioctl(ut.fd, TIOCMBIS, &loopback_val);
+	if (error) {
+		printf("\n ERROR in setting UART_LOOPBACK: \n \
+			 ioctl error ret = %d \n", error);
+		exit(1);
+	} else {
+		printf("\n Sucessfull in setting UART in LOOPBACK MODE \n");
+	}
 
 	switch (tx_rx) {
 	case 'r':
