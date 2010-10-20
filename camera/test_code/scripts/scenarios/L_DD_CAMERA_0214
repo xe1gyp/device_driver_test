@@ -18,7 +18,7 @@ COMMENT comment.sh "Test if QQVGA upscale is supported up to x4."
 #0005_SAN set -x; rszhq.sh "QQVGAtoSXGA" && exit 0 || exit 1
 #0006 set -x; rszhq.sh "QQVGAtoXGA" && exit 0 || exit 1
 #0007 set -x; rszhq.sh "QQVGAtoSVGA" && exit 0 || exit 1
-0008 set -x; rszhq.sh "QQVGAtoCIF" && exit 0 || exit 1
+0008 set -x; rszhq.sh "QQVGAtoVGA" && exit 0 || exit 1
 0009_SAN set -x; rszhq.sh "QQVGAtoQVGA" && exit 0 || exit 1
 00010 set -x; rszhq.sh "QQVGAtoQCIF" && exit 0 || exit 1
 
