@@ -37,10 +37,10 @@ do
 #    fi
     if [ "$COMMAND" = "" ]
     then
-      insmod -f $McBSP_MODULE test_mcbsp_id=$i
+      insmod $McBSP_MODULE test_mcbsp_id=$i
       TEMP=$j
     else
-      insmod -f $McBSP_MODULE $COMMAND$j test_mcbsp_id=$i
+      insmod $McBSP_MODULE $COMMAND$j test_mcbsp_id=$i
       TEMP=`cat /proc/driver/mcbsp_test/status | grep "$TAG" | awk '{print $6}'`
     fi
     TRANSFER=`cat /proc/driver/mcbsp_test/status | grep "Number of transfers" | awk '{print $5}'`
