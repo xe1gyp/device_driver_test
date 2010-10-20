@@ -23,4 +23,7 @@
 11  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_CONSERVATIVE
 12  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
 
+13  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_HOTPLUG
+14  set -x; handlerSuspendResume.sh  "suspend"  $PMD_WAKEUP_TIMER_DEFAULT
+
 # End L_DD_PMD_0007_0002

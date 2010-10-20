@@ -12,5 +12,6 @@
 05  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_POWERSAVE
 06  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_USERSPACE
 07  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_PERFORMANCE
+08  set -x; handlerCpuFreqScalGovernors.sh  set  $GOVERNOR_HOTPLUG
 
 # End L_DD_PMD_0007_0001
