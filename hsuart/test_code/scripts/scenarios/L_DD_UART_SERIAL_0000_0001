@@ -1,13 +1,14 @@
 ##############################################################################
-# Scenario    : L_DD_UART_SERIAL_0000_0002_01
+# Scenario    : L_DD_UART_SERIAL_0000_0001
 # Author      : Govindraj.R
 # Date        : Apr 30 2010
-# Description : Test UART TX and RX with 921Kbps baudrate no flowcontrol.
+# Description : Test UART TX and RX with 115Kbps baudrate no flowcontrol.
 ##############################################################################
 
-# Begin L_DD_UART_SERIAL_0000_0002_01
+# Begin L_DD_UART_SERIAL_0000_0001
 
-01  set -x; handlerHsuart.sh $UART_TEST_PORT1 921600 0
+01  set -x; handlerHsuart.sh $UART_TEST_PORT1 115200 0
 02  set -x; diff uart_tx_file_$UART_TEST_PORT1 uart_rx_file_$UART_TEST_PORT1 && exit 0 || exit 1
 
-# End L_DD_UART_SERIAL_0000_0002_01
+# End L_DD_UART_SERIAL_0000_0001
+

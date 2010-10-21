@@ -1,16 +1,20 @@
 ##############################################################################
-# Scenario    : L_DD_UART_SERIAL_0010_0003_01
+# Scenario    : L_DD_UART_SERIAL_0011_0003
 # Author      : Venkatraman S
 # Date        : Thu Sep 17 11:25:35 CDT 2009
 # Modified by : Govindraj.R
 # Modified on : 05 May 2010
 # Description : Test UART TX and RX IRQ Affinity test
 #		3.5Mbps with no flowcontrol
+#		Also Test HSUART Irq Affinity, cat text files
 ##############################################################################
 
-# Begin L_DD_UART_SERIAL_0010_0003_01
+# Begin L_DD_UART_SERIAL_0011_0003
 
 01  set -x; handlerIrqAffinity.sh "switch" "handlerHsuart.sh $UART_TEST_PORT1 3500000 0" "10" "300" "105"
 02  set -x; diff uart_tx_file_$UART_TEST_PORT1 uart_rx_file_$UART_TEST_PORT1 && exit 0 || exit 1
 
-# End L_DD_UART_SERIAL_0010_0003_01
+03  set -x; handlerFile.sh "create" "pattern" "$HSUART_DIR_TMP/text.file" "1000"
+04  set -x; handlerIrqAffinity.sh "switch" "cat $HSUART_DIR_TMP/text.file" "10" "5" "106"
+
+# End L_DD_UART_SERIAL_0011_0003
