@@ -1,0 +1,16 @@
+###############################################################################
+# Scenario: L_DD_I2C_0011
+# Author  : Shilpa Maddi
+# Date    : Aug 19th, 2010
+###############################################################################
+
+# This test case verifies that data transfers to different locations using
+# i2c_access utility
+
+
+# Begin L_DD_I2C_0011
+
+01 set -x; i2c_access $I2C_REG_1 0x14 $I2C_REG_1_VALUE_INITIAL
+02 set -x; i2c_access $I2C_REG_2 0x20 $I2C_REG_1_VALUE_INITIAL
+
+# End L_DD_I2C_0011
