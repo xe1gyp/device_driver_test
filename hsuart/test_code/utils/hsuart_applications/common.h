@@ -16,8 +16,8 @@
 #define ERROR -1
 #define SUCCESS 1
 
-static int bufsize = 4096 ;	/* buffer of size 4K */
-//static int bufsize = 2048;	/* buffer of size 4K */
+static int bufsize = 4095 ;	/* buffer of size 4K -1 */
+//static int bufsize = 2047;	/* buffer of size 2K -1 */
 
 /* contains varibles required for UART PORT TESTING */
 struct uart_test {

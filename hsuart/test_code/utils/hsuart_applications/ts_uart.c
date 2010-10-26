@@ -94,7 +94,7 @@ int main(int argc, char **argv)
 		while (1) {
 			FD_ZERO(&readFds);
 			FD_SET(ut.fd, &readFds);
-			respTime.tv_sec = 15;
+			respTime.tv_sec = 30;
 			respTime.tv_usec = 0;
 
 			/*
@@ -125,7 +125,7 @@ int main(int argc, char **argv)
 				if (unlink(tx_rx_filename) == -1)
 					printf("\n Failed to delete the \
 						file %s \n", tx_rx_filename);
-				printf("\n Waited for 15 seconds no data was \
+				printf("\n Waited for 30 seconds no data was \
 						available to read, exiting \n");
 				close_port();
 			}
