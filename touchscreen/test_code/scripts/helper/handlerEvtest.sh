@@ -38,7 +38,7 @@ if [ "$LOCAL_OPERATION" = "run" ]; then
 
 	sleep 5
 
-	evtest $LOCAL_DEVFS_NODE $LOCAL_NUMBER_ITERATIONS
+	$TOUCHSCREEN_DIR_BINARIES/evtest $LOCAL_DEVFS_NODE $LOCAL_NUMBER_ITERATIONS
 
 elif [ "$LOCAL_OPERATION" = "test" ]; then
 
@@ -49,7 +49,7 @@ elif [ "$LOCAL_OPERATION" = "test" ]; then
 		echo -e "\n\n\nINFO: Please DO NOT interact with $LOCAL_CONTROLLER Touchscreen, wait for process to finish"
 		echo -e "INFO: Working with $LOCAL_DEVFS_NODE\n\n\n"
 		sleep 5
-		eval evtest $LOCAL_DEVFS_NODE $LOCAL_NUMBER_ITERATIONS | grep Event | grep time | grep type | grep code > $LOCAL_TEMP_FILE &
+		eval $TOUCHSCREEN_DIR_BINARIES/evtest $LOCAL_DEVFS_NODE $LOCAL_NUMBER_ITERATIONS | grep Event | grep time | grep type | grep code > $LOCAL_TEMP_FILE &
 		sleep 10
 		test -s $LOCAL_TEMP_FILE
 		if [ $? -eq 0 ]; then
@@ -63,7 +63,7 @@ elif [ "$LOCAL_OPERATION" = "test" ]; then
 		echo -e "INFO: Working with $LOCAL_DEVFS_NODE, no events will be displayed"
 		sleep 5
 		echo -e "INFO: Now!\n\n\n"
-		eval evtest $LOCAL_DEVFS_NODE $LOCAL_NUMBER_ITERATIONS | grep Event | grep time | grep type | grep code > $LOCAL_TEMP_FILE &
+		eval $TOUCHSCREEN_DIR_BINARIES/evtest $LOCAL_DEVFS_NODE $LOCAL_NUMBER_ITERATIONS | grep Event | grep time | grep type | grep code > $LOCAL_TEMP_FILE &
 		sleep 10
 		test -s $LOCAL_TEMP_FILE
 		if [ $? -eq 1 ]; then
