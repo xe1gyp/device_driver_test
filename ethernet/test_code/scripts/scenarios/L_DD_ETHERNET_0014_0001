@@ -27,6 +27,15 @@
 
 18  set -x; handlerPowerRetention.sh  disable
 
-19  set -x; handlerNuttcp.sh "server" "stop"
+# Open Switch Retention
+19  set -x; handlerPowerOSWR.sh  check  "core_pwrdm"
+20  set -x; handlerCmd.sh "run" "ping -c 25 -s $ETHERNET_PACKET_SIZE `cat $ETHERNET_EXTERNAL_HOST_IPADDR`"
+21  set -x; handlerPowerOSWR.sh  check  "core_pwrdm"
+22  set -x; handlerCmd.sh "run" "dd if=$ETHERNET_DEV_URANDOM of=`cat $ETHERNET_NFS_DIR`/eth.01 bs=1M count=100"
+23  set -x; handlerPowerOSWR.sh  check  "core_pwrdm"
+24  set -x; handlerCmd.sh "run" "handlerNuttcp.sh "local"  "throughput" "-R50m" "9""
+25  set -x; handlerPowerOSWR.sh  check  "core_pwrdm"
+
+26  set -x; handlerNuttcp.sh "server" "stop"
 
 # End L_DD_ETHERNET_0014_0001
