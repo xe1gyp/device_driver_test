@@ -1,0 +1,15 @@
+#########################################################################################
+# Scenario    : L_DD_DEMO_0012_0001
+# Author      : Name of Author
+# Date        : Sun Sep 19 15:19:13 CDT 2010
+# Description : Power Management, Open Switch Retention, "check" operation
+#########################################################################################
+
+# Begin L_DD_DEMO_0012_0001
+
+01  set -x; handlerPowerOSWR.sh  check  "core_pwrdm"
+02  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=/dev/null bs=1M count=5"
+03  set -x; handlerCmd.sh "run" "dd if=/dev/urandom of=/dev/null bs=1M count=5"
+04  set -x; handlerPowerOSWR.sh  check  "core_pwrdm"
+
+# End L_DD_DEMO_0012_0001
