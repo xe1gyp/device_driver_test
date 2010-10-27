@@ -22,8 +22,15 @@
 
 07  set -x; handlerPowerRetention.sh  check  "core_pwrdm"
 08  set -x; handlerCmd.sh "run" "handlerEvtest.sh run $KEYPAD_DEVFS 200"
-10  set -x; handlerPowerRetention.sh  check  "core_pwrdm"
+09  set -x; handlerPowerRetention.sh  check  "core_pwrdm"
 
-11  set -x; handlerPowerRetention.sh  disable
+10  set -x; handlerPowerRetention.sh  disable
+
+# Open Switch Retention
+11  set -x; handlerPowerOSWR.sh  check  "core_pwrdm"
+12  set -x; handlerCmd.sh "run" "handlerEvtest.sh run $KEYPAD_DEVFS 200"
+13  set -x; handlerPowerOSWR.sh  check  "core_pwrdm"
+
+14  set -x; handlerPowerOSWR.sh  run  "core_pwrdm"  "handlerEvtest.sh run $KEYPAD_DEVFS 200"
 
 # End L_DD_KEYPAD_0004_0001
