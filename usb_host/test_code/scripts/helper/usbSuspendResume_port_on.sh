@@ -1,6 +1,11 @@
 #!/bin/sh
 
+# =============================================================================
+# Variables
+# =============================================================================
+
 LOCAL_DRIVER=$1
+
 
 if [ "$LOCAL_DRIVER" = "musb" ]; then
 	echo "USB Suspend/Resume test USB1"
@@ -29,7 +34,7 @@ if [ "$LOCAL_DRIVER" = "musb" ]; then
 	
 	echo "prev acitve dur $PREV_ACTIVE current active duration $CURR_ACTIVE"
 	
-	if ["$PREV_ACTIVE" = "$CURR_ACTIVE"]; then
+	if [ "$PREV_ACTIVE" = "$CURR_ACTIVE" ]; then
 		echo "Error:USB Main port suspended"
 		exit 1
 	fi
@@ -51,7 +56,7 @@ if [ "$LOCAL_DRIVER" = "ehci" ]; then
 	USB_NO=`grep -s Lev=01 /proc/bus/usb/devices | grep -s Bus=02`
 	echo " USB no $USB_NO"
 	USB_BUS=2
-	if ["$USB_NO" = ""]; then
+	if [ "$USB_NO" = "" ]; then
 		USB_BUS=3
 	fi
 	echo on > /sys/bus/usb/devices/usb$USB_BUS/power/control
@@ -79,7 +84,7 @@ if [ "$LOCAL_DRIVER" = "ehci" ]; then
 	
 	echo "prev acitve dur $PREV_ACTIVE current active duration $CURR_ACTIVE"
 	
-	if ["$PREV_ACTIVE" = "$CURR_ACTIVE"]; then
+	if [ "$PREV_ACTIVE" = "$CURR_ACTIVE" ]; then
 		echo "Error:USB Main port suspended"
 		exit 1
 	fi
@@ -101,7 +106,7 @@ if [ "$LOCAL_DRIVER" = "ohci" ]; then
 	USB_NO=`grep -s Lev=01 /proc/bus/usb/devices | grep -s Bus=02`
 	echo " USB no $USB_NO"
 	USB_BUS=2
-	if ["$USB_NO" = ""]; then
+	if [ "$USB_NO" = "" ]; then
 		USB_BUS=3
 	fi
 	echo on > /sys/bus/usb/devices/usb$USB_BUS/power/control
@@ -128,7 +133,7 @@ if [ "$LOCAL_DRIVER" = "ohci" ]; then
 	
 	echo "prev acitve dur $PREV_ACTIVE current active duration $CURR_ACTIVE"
 	
-	if ["$PREV_ACTIVE" = "$CURR_ACTIVE"]; then
+	if [ "$PREV_ACTIVE" = "$CURR_ACTIVE" ]; then
 		echo "Error:USB Main port suspended"
 		exit 1
 	fi
