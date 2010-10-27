@@ -6,19 +6,28 @@
 
 LOCAL_OPERATION=$1
 LOCAL_ERROR=0
+LOCAL_LCD=1
 
 # =============================================================================
 # Functions
 # =============================================================================
 
 enableRetention() {
-	handlerSysFs.sh  "set"  $SYSFS_FB_BLANK  1
+
+	if [ ! $LOCAL_LCD ]; then
+		handlerSysFs.sh  "set"  $SYSFS_FB_BLANK  1
+	fi
+
 	handlerSysFs.sh  "set"  $SYSFS_CPU1_ONLINE  0
 }
 
 disableRetention() {
+
 	handlerSysFs.sh  "set"  $SYSFS_CPU1_ONLINE  1
-	handlerSysFs.sh  "set"  $SYSFS_FB_BLANK  0
+
+	if [ ! $LOCAL_LCD ]; then
+		handlerSysFs.sh  "set"  $SYSFS_FB_BLANK  0
+	fi
 }
 
 checkRetention() {
@@ -54,8 +63,9 @@ fi
 
 if [ ! -f $SYSFS_FB_BLANK ]; then
 	echo "Fatal: $SYSFS_FB_BLANK cannot be found!"
-	handlerError.sh "log" "1" "halt" "handlerPowerRetention.sh"
-	LOCAL_ERROR=1
+	handlerError.sh "log" "1" "continue" "handlerPowerRetention.sh"
+	LOCAL_ERROR=0
+	LOCAL_LCD=0
 fi
 
 if [ ! -f $SYSFS_CPU1_ONLINE ]; then
@@ -87,7 +97,7 @@ elif [ "$LOCAL_OPERATION" = "run" ]; then
 	LOCAL_POWER_DOMAIN=$2
 	LOCAL_COMMAND_LINE=$3
 
-	checkRetention $LOCAL_POWER_DOMAIN $LOCAL_COMMAND_LINE
+	checkRetention $LOCAL_POWER_DOMAIN "$LOCAL_COMMAND_LINE"
 
 else
 
