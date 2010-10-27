@@ -28,10 +28,10 @@ if [ "$LOCAL_COMMAND" = "get" ]; then
 	if [ "$LOCAL_FIELD" = "ipaddr" ]; then
 
 		ifconfig $ETHERNET_INTERFACE | grep addr: | sed -e 's@inet addr:@@' | sed q | awk '{print $1}' > $ETHERNET_IFCONFIG_IPADDR
-		if [ -z $ETHERNET_SERVER ]; then
+		if [ -z $TESTER_ADDRESS ]; then
 			cat $ETHERNET_IFCONFIG_IPADDR > $ETHERNET_EXTERNAL_HOST_IPADDR
 		else
-			echo $ETHERNET_SERVER > $ETHERNET_EXTERNAL_HOST_IPADDR
+			echo $TESTER_ADDRESS > $ETHERNET_EXTERNAL_HOST_IPADDR
 		fi
 
 	elif [ "$LOCAL_FIELD" = "hwaddr" ]; then
