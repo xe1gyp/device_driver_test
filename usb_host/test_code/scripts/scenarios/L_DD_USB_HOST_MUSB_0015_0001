@@ -1,0 +1,16 @@
+###############################################################################
+# Scenario: L_DD_USB_HOST_MUSB_0015_0001
+# Author  : Mantesh
+# Date    : September 07, 2010
+###############################################################################
+
+# Begin L_DD_USB_HOST_MUSB_0015_0001
+
+
+01  set -x; echo "Test MUSB Bind/Unbind"  &&  exit 0 || exit 1
+02  set -x; mount -t usbfs none /proc/bus/usb && sleep 10 &&  exit 0 || exit 1
+03  set -x; cat /proc/bus/usb/devices | grep 'keyspan' && exit 0 || exit 1
+04  set -x; sh bindUnbindtest.sh "musb" "keyspan"
+05  set -x; umount /proc/bus/usb &&  exit 0 || exit 1
+
+# End L_DD_USB_HOST_MUSB_0015_0001

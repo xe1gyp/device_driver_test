@@ -1,0 +1,20 @@
+###############################################################################
+# Scenario: L_DD_USB_HOST_MUSB_0005_0002
+# Author  : Mantesh
+# Date    : September 07, 2010
+###############################################################################
+
+# Begin L_DD_USB_HOST_MUSB_0005_0002
+
+01  set -x; echo "File storage test"
+02  set -x; mount -t usbfs none /proc/bus/usb &&  exit 0 || exit 1
+03  set -x; cat /proc/bus/usb/devices | grep 'stor' && sleep 10 && exit 0 || exit 1
+04  set -x; ls /dev/sd* &&  exit 0 || exit 1
+05  set -x; sh $USBHOST_DIR_HELPER/ms_perf.sh "/dev/sda1" "300" "mass_stroage" "ramdrive"
+06  set -x; rmdir /testsuites/usb_host/scripts/misc/mass_stroage
+07  set -x; rmdir /testsuites/usb_host/scripts/misc/ramdrive
+08  set -x; umount /proc/bus/usb && exit 0 || exit 1
+
+
+
+# End L_DD_USB_HOST_MUSB_0005_0002

@@ -1,0 +1,17 @@
+###############################################################################
+# Scenario: L_DD_USB_HOST_EHCI_0016_0001
+# Author  : Mantesh
+# Date    : September 07, 2010
+###############################################################################
+
+# Begin L_DD_USB_HOST_EHCI_0016_0001
+
+
+01  set -x; insmod $UTILSMODULES/ehci-hcd.ko  &&  exit 0 || exit 1
+02  set -x; mount -t usbfs none /proc/bus/usb &&  exit 0 || exit 1
+03  set -x; cat /proc/bus/usb/devices | grep 'asix' && sleep 10 && exit 0 || exit 1
+04  set -x; sh bindUnbindtest.sh "ehci" "ether"
+05  set -x; umount /proc/bus/usb &&  exit 0 || exit 1
+06  set -x; rmmod ehci-hcd && exit 0 || exit 1
+
+# End L_DD_USB_HOST_EHCI_0016_0001

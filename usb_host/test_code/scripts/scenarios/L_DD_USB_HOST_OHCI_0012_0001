@@ -1,0 +1,17 @@
+###############################################################################
+# Scenario: L_DD_USB_HOST_OHCI_0012_0001
+# Author  : Mantesh
+# Date    : September 07, 2010
+###############################################################################
+
+# Begin L_DD_USB_HOST_OHCI_0012_0001
+
+
+01  set -x; insmod $UTILSMODULES/ohci-hcd.ko  &&  exit 0 || exit 1
+02  set -x; mount -t usbfs none /proc/bus/usb && sleep 10 &&  exit 0 || exit 1
+03  set -x; cat /proc/bus/usb/devices | grep 'stor' && exit 0 || exit 1
+04  set -x; sh bindUnbindtest.sh "ohci" "storage"
+05  set -x; umount /proc/bus/usb &&  exit 0 || exit 1
+06  set -x; rmmod ohci-hcd && exit 0 || exit 1
+
+# End L_DD_USB_HOST_OHCI_0012_0001
