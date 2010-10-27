@@ -45,7 +45,7 @@ checkRetention() {
   sleep $PM_RETENTION_TIMER_DEFAULT
 
 	handlerPowerTransitionStats.sh "log" $LOCAL_POWER_DOMAIN "RET" "2"
-	handlerPowerTransitionStats.sh "compare" "1" "2"
+	handlerPowerTransitionStats.sh "compare" "RET" "1" "2"
   if [ $? -eq 1 ]; then
     LOCAL_ERROR=1
   fi
@@ -101,7 +101,7 @@ elif [ "$LOCAL_OPERATION" = "run" ]; then
 
 else
 
-  echo "Fatal: Operation in smartReflexAutoComp is not supported!"
+  echo "Fatal: Operation in handlerPowerRetention is not supported!"
   LOCAL_ERROR=1
 
 fi
