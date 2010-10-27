@@ -12,11 +12,15 @@
 01  set -x; handlerHsuart.sh $UART_TEST_PORT1 115200 1
 02  set -x; diff uart_tx_file_$UART_TEST_PORT1 uart_rx_file_$UART_TEST_PORT1 && exit 0 || exit 1
 
-03  set -x; handlerHsuart.sh $UART_TEST_PORT1 921600 1
-04  set -x; diff uart_tx_file_$UART_TEST_PORT1 uart_rx_file_$UART_TEST_PORT1 && exit 0 || exit 1
+03  set -x; sleep 10
 
-05  set -x; handlerHsuart.sh $UART_TEST_PORT1 3500000 1
-06  set -x; diff uart_tx_file_$UART_TEST_PORT1 uart_rx_file_$UART_TEST_PORT1 && exit 0 || exit 1
+04  set -x; handlerHsuart.sh $UART_TEST_PORT1 921600 1
+05  set -x; diff uart_tx_file_$UART_TEST_PORT1 uart_rx_file_$UART_TEST_PORT1 && exit 0 || exit 1
+
+06  set -x; sleep 10
+
+07  set -x; handlerHsuart.sh $UART_TEST_PORT1 3500000 1
+08  set -x; diff uart_tx_file_$UART_TEST_PORT1 uart_rx_file_$UART_TEST_PORT1 && exit 0 || exit 1
 
 # End L_DD_UART_SERIAL_0001_0001
 
