@@ -5,7 +5,6 @@
 # =============================================================================
 
 LOCAL_OPERATION=$1
-LOCAL_DOMAIN=$2
 LOCAL_ERROR=0
 
 # =============================================================================
@@ -40,6 +39,8 @@ if [ "$LOCAL_OPERATION" = "log" ]; then
 		LOCAL_HIT_PLACE=4
 	elif [ "$LOCAL_HIT" = "ON" ]; then
 		LOCAL_HIT_PLACE=5
+	elif [ "$LOCAL_HIT" = "RET-LOGIC-OFF" ]; then
+		LOCAL_HIT_PLACE=6
 	fi
 
 	LOCAL_TEMP=`cat $PM_COUNT | grep ^$LOCAL_POWER_DOMAIN | cut -d "," -f $LOCAL_HIT_PLACE`
