@@ -6,7 +6,7 @@
 #  in the license agreement under which this software has been supplied.
 # ========================================================================== */
 
-SUBDIRS = mcspi_modules_dir
+SUBDIRS = mcspi_modules_dir mcspi_spidev_dir
 
 all: $(SUBDIRS)
 
@@ -22,3 +22,4 @@ mcspi_spidev_dir:
 
 clean:
 	make -C mcspi_modules clean
+	make -C mcspi_spidev clean

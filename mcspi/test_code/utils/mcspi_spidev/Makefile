@@ -1,13 +1,17 @@
-CC:=$(CROSS_COMPILE)gcc
-UFLAGS:= $(CFLAGS)
-CFLAGS:= -g -c -Wall
+ifeq ($(SUITE_DIR),)
+SUITE_DIR:=$(PWD)
+endif
 
-all: spidev_test.c spidev_fdx.c
-	$(CC)  $(CFLAGS) spidev_test.c -o spidev_test.o
-	$(CC)  $(CFLAGS) spidev_fdx.c -o spidev_fdx.o
+CC:=$(CROSS_COMPILE)gcc
+TARGETS := spidev_test spidev_fdx
+
+all: $(TARGETS)
+
+$(TARGETS):
+	$(CC) $(CFLAGS) $@.c -o $@
 
 install:
-	cp spidev_test.o spidev_fdx.o  ../../bin/
+	cp -vf $(TARGETS) $(SUITE_DIR)/bin
 
 clean:
-	rm -rf *.o
+	rm -vf $(TARGETS)
