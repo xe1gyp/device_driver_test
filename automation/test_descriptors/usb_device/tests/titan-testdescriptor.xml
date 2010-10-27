@@ -1,0 +1,775 @@
+<?xml version="1.0"?>
+<titan>
+
+	<test id="L_DD_USB_DEVICE_0001_0001">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> Gadget Zero: Enumeration with a standard host </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0001_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="120"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_USB_DEVICE_0001_0002">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> Gadget Serial: Enumeration with a standard host </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0001_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="120"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_USB_DEVICE_0001_0003">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> Gadget Ethernet: Enumeration with a standard host </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0001_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="120"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_USB_DEVICE_0001_0004">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> Gadget File Storage: Enumeration with a standard host </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0001_0004</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="120"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_USB_DEVICE_0002_0001">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> Gadget Zero: Data transfers </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0002_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="900"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_USB_DEVICE_0002_0002">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> Gadget Zero: Data transfers, stress test test.sh 10 times </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0002_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+        <test id="L_DD_USB_DEVICE_0005_0001">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> Gadget file storage: Data transfers RAMDISK </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0005_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+        <test id="L_DD_USB_DEVICE_0005_0003">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> Gadget file storage: Data transfers MMC </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0005_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+        <test id="L_DD_USB_DEVICE_0005_0004">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> Gadget file storage: Data transfers, stress test  </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0005_0004</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1200"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+        <test id="L_DD_USB_DEVICE_0006_0001">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> Gadget zero Global suspend resume  </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0006_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+        <test id="L_DD_USB_DEVICE_0006_0002">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> Gadget serial Global suspend resume  </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0006_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+        <test id="L_DD_USB_DEVICE_0006_0003">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> Gadget ether Global suspend resume  </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0006_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+
+
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+        <test id="L_DD_USB_DEVICE_0006_0004">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> Gadget file storage Global suspend resume  </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0006_0004</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+        <test id="L_DD_USB_DEVICE_0010_0001">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> SMP: IrqAffinity Gadget Zero </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0010_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="300"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+        <test id="L_DD_USB_DEVICE_0010_0002">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> SMP: IrqAffinity gadgetfilestoarage </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0010_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="240"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+        <test id="L_DD_USB_DEVICE_0010_0006">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> SMP: ProcessPriority </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0010_0006</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="240"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+        <test id="L_DD_USB_DEVICE_0010_0007">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> SMP : CpuAffinity </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0010_0007</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="240"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+        <test id="L_DD_USB_DEVICE_0010_0008">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> SMP : ProcessParallelism </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0010_0008</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="240"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+        <test id="L_DD_USB_DEVICE_0012_0001">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> Gadget zero selective suspend resume  </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0012_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="900"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+        <test id="L_DD_USB_DEVICE_0012_0002">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> Gadget serial selective suspend resume  </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0012_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="900"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+        <test id="L_DD_USB_DEVICE_0012_0003">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> Gadget ether selective suspend resume  </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0012_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="900"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+        <test id="L_DD_USB_DEVICE_0012_0004">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> Gadget file storage Selective suspend resume  </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0012_0004</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="900"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+        <test id="L_DD_USB_DEVICE_0013_0001">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> Load/Unload controller driver module continuously </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0013_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1200"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+        <test id="L_DD_USB_DEVICE_0013_0002">
+
+		<information>
+			<autor> Vamsi </autor>
+			<description> Gadget Load/Unload all gadget driver 50 times </description>
+			<dateofcreation> 10/22/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/usb_device/scripts/test_runner.sh L_DD_USB_DEVICE_0013_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/usb_device/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="900"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+
+</titan>

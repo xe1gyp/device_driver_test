@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<titan>
+
+	<driverinformation>
+		<name>USBDevice</name>
+		<description>Tests suites for USBDevice</description>
+	</driverinformation>
+
+</titan>
