@@ -14,10 +14,8 @@
 # Each CPU is doing TX and RX on different ports
 
 01  set -x; handlerProcessParallelism.sh "clean"
-02  set -x; handlerProcessParallelism.sh "add" "taskset -c 1 ts_uart r $UART_TEST_PORT1 3500000 0"
-03  set -x; handlerProcessParallelism.sh "add" "taskset -c 0 ts_uart s $UART_TEST_PORT1 3500000 0"
-04  set -x; handlerProcessParallelism.sh "add" "taskset -c 0 ts_uart r $UART_TEST_PORT2 3500000 0"
-05  set -x; handlerProcessParallelism.sh "add" "taskset -c 1 ts_uart s $UART_TEST_PORT2 3500000 0"
+02  set -x; handlerProcessParallelism.sh "add" "handlerHsuart.sh $UART_TEST_PORT1 3500000 0"
+04  set -x; handlerProcessParallelism.sh "add" "handlerHsuart.sh $UART_TEST_PORT2 3500000 0"
 06  set -x; handlerProcessParallelism.sh "execute"
 07  set -x; diff uart_tx_file_$UART_TEST_PORT1 uart_rx_file_$UART_TEST_PORT1 && exit 0 || exit 1
 08  set -x; diff uart_tx_file_$UART_TEST_PORT2 uart_rx_file_$UART_TEST_PORT2 && exit 0 || exit 1
