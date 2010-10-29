@@ -241,9 +241,54 @@
 			</action>
 			<action>
 				<command>export UART_TEST_PORT1='ttyO1'</command>
+				<command>export UART_TEST_PORT2='ttyO0'</command>
 			</action>
 			<action>
 				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_UART_SERIAL_0011_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/hsuart/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="600"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_UART_SERIAL_0011_0003">
+
+		<information>
+			<autor> Jyothi </autor>
+			<description> Test parallel access from 2 processes, cat text files</description>
+			<dateofcreation> 06/10/10 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>export PATH=$PATH:/testsuites/utils/handlers:/testsuites/utils/bin:/testsuites/hsuart/scripts/helper</command>
+			</action>
+			<action>
+				<command>export HSUART_DIR_TMP=/testsuites/hsuart/scripts/tmp</command>
+		    </action>
+			<action>
+				<command>export HSUART_DIR_BINARIES=/testsuites/hsuart/bin</command>
+			</action>
+			<action>
+				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
+				<command>/testsuites/hsuart/scripts/test_runner.sh L_DD_UART_SERIAL_0011_0003</command>
 			</action>
 			<action>
 				<command>rm /testsuites/hsuart/scripts/log.*</command>
