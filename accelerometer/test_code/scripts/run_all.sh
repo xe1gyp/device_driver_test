@@ -1,0 +1,20 @@
+./test_runner.sh -S L_DD_ACCELEROMETER_0000_0001
+./test_runner.sh -S L_DD_ACCELEROMETER_0000_0002
+./test_runner.sh -S L_DD_ACCELEROMETER_0000_0003
+./test_runner.sh -S L_DD_ACCELEROMETER_0000_0004
+./test_runner.sh -S L_DD_ACCELEROMETER_0000_0005
+./test_runner.sh -S L_DD_ACCELEROMETER_0000_0006
+./test_runner.sh -S L_DD_ACCELEROMETER_0000_0007
+./test_runner.sh -S L_DD_ACCELEROMETER_0000_0008
+./test_runner.sh -S L_DD_ACCELEROMETER_0000_0011
+./test_runner.sh -S L_DD_ACCELEROMETER_0000_0013
+./test_runner.sh -S L_DD_ACCELEROMETER_0000_0014
+./test_runner.sh -S L_DD_ACCELEROMETER_0000_0015
+./test_runner.sh -S L_DD_ACCELEROMETER_0000_0016
+./test_runner.sh -S L_DD_ACCELEROMETER_0000_0018
+./test_runner.sh -S L_DD_ACCELEROMETER_0000_0019
+./test_runner.sh -S L_DD_ACCELEROMETER_0000_0020
+./test_runner.sh -S L_DD_ACCELEROMETER_0000_0023
+./test_runner.sh -S L_DD_ACCELEROMETER_0000_0024
+
+
