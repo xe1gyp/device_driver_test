@@ -6,7 +6,32 @@
 
 # Begin L_DD_ACCELEROMETER_0000_0006
 
-01  set -x; echo $ACCELEROMETER_MODE_MEAS400 > $ACCELEROMETER_SYSFS_PATH/mode; echo $ACCELEROMETER_RANGE_2G > $ACCELEROMETER_SYSFS_PATH/grange ;value=`$ACCELEROMETER_DIR_BINARIES/acctest $DEVFS_ACCELEROMETER X |grep Max | awk '{print $2}'`;$ACCELEROMETER_DIR_HELPER/cmp.sh $value -eq $ACCELEROMETER_RANGE_2G
+01  set -x; handlerSysFs.sh "get" $ACCELEROMETER_SYSFS_PATH/mode > mode.log
 
-02  set -x; echo $ACCELEROMETER_MODE_MEAS400 > $ACCELEROMETER_SYSFS_PATH/mode; echo $ACCELEROMETER_RANGE_8G > $ACCELEROMETER_SYSFS_PATH/grange ;value=`$ACCELEROMETER_DIR_BINARIES/acctest $DEVFS_ACCELEROMETER X |grep Max | awk '{print $2}'`;$ACCELEROMETER_DIR_HELPER/cmp.sh $value -eq  $ACCELEROMETER_RANGE_8G
+02  set -x; handlerSysFs.sh "get" $ACCELEROMETER_SYSFS_PATH/grange > grange.log
+
+03  set -x; handlerSysFs.sh "set" $ACCELEROMETER_SYSFS_PATH/grange $ACCELEROMETER_RANGE_2G
+
+04  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/grange $ACCELEROMETER_RANGE_2G
+
+05  set -x; value=`$ACCELEROMETER_DIR_BINARIES/acctest $DEVFS_ACCELEROMETER X |grep Max | awk '{print $2}'`; $ACCELEROMETER_DIR_HELPER/cmp.sh $value -eq $ACCELEROMETER_RANGE_2G
+
+06  set -x; handlerSysFs.sh "set" $ACCELEROMETER_SYSFS_PATH/grange $ACCELEROMETER_RANGE_8G
+
+07  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/grange $ACCELEROMETER_RANGE_8G
+
+08  set -x; value=`$ACCELEROMETER_DIR_BINARIES/acctest $DEVFS_ACCELEROMETER X |grep Max | awk '{print $2}'`; $ACCELEROMETER_DIR_HELPER/cmp.sh $value -eq  $ACCELEROMETER_RANGE_8G
+
+09  set -x; handlerSysFs.sh "set" $ACCELEROMETER_SYSFS_PATH/grange "`cat grange.log`"
+
+10  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/grange "`cat grange.log`"
+
+11  rm grange.log
+
+12  set -x; handlerSysFs.sh "set" $ACCELEROMETER_SYSFS_PATH/mode "`cat mode.log`"
+
+13  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/mode "`cat mode.log`"
+
+14  rm mode.log
+
 # End L_DD_ACCELEROMETER_0000_0006

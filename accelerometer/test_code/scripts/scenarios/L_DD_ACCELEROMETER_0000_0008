@@ -1,13 +1,28 @@
 ###############################################################################
 # Scenario: L_DD_ACCELEROMETER_0000_0008
 # Author  : Hemanth V
+# Author  : Dan Murphy
 # Date    : Thu Jun 24 16:43:42 IST 2010
+# Updated : Mon Nov 01, 2010
 ###############################################################################
 
 # Begin L_DD_ACCELEROMETER_0000_0008
+01  set -x; handlerSysFs.sh "get" $ACCELEROMETER_SYSFS_PATH/mode > mode.log
 
-01  set -x; echo $ACCELEROMETER_MODE_MEAS400 > $ACCELEROMETER_SYSFS_PATH/mode ; echo 4 > $ACCELEROMETER_SYSFS_PATH/mdthr; $ACCELEROMETER_DIR_BINARIES/evtest $DEVFS_ACCELEROMETER;value=`cat $ACCELEROMETER_SYSFS_PATH/mdthr`;$ACCELEROMETER_DIR_HELPER/cmp.sh $value -eq 4 
+02  set -x; handlerSysFs.sh "set" $ACCELEROMETER_SYSFS_PATH/mode $ACCELEROMETER_MODE_MEAS400
 
-02  set -x; echo $ACCELEROMETER_MODE_MEAS400 > $ACCELEROMETER_SYSFS_PATH/mode ; echo 34 > $ACCELEROMETER_SYSFS_PATH/mdfftmr; $ACCELEROMETER_DIR_BINARIES/evtest $DEVFS_ACCELEROMETER;value=`cat $ACCELEROMETER_SYSFS_PATH/mdfftmr`;$ACCELEROMETER_DIR_HELPER/cmp.sh $value -eq 34 
+03  set -x; handlerSysFs.sh "set" $ACCELEROMETER_SYSFS_PATH/mdthr "4"
+
+04  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/mdthr 4
+
+05  set -x; handlerSysFs.sh "set" $ACCELEROMETER_SYSFS_PATH/mdthr "34"
+
+06  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/mdthr 34
+
+07  set -x; handlerSysFs.sh "set" $ACCELEROMETER_SYSFS_PATH/mode "`cat mode.log`"
+
+08  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/mode "`cat mode.log`"
+
+09  rm mode.log
 
 # End L_DD_ACCELEROMETER_0000_0008

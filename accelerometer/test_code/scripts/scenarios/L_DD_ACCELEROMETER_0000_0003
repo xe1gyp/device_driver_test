@@ -1,11 +1,29 @@
 ###############################################################################
 # Scenario: L_DD_ACCELEROMETER_0000_0003
-# Author  : Hemanth V
-# Date    : Thu Jun 24 16:43:42 IST 2010
+# Author  : Dan Murphy
+# Date    : Mon Nov 1, 2010
 ###############################################################################
 
 # Begin L_DD_ACCELEROMETER_0000_0003
 
-01  set -x; $UTILS_DIR_HANDLERS/handlerIrq.sh "get" "irq" "cma3000_accl" $ACCELEROMETER_DIR_TMP/IRQ; test -f $ACCELEROMETER_DIR_TMP/IRQ
+01  set -x; $UTILS_DIR_HANDLERS/handlerIrq.sh "get" "irq" "cma3000_accl" $ACCELEROMETER_DIR_TMP/IRQ
+
+02  set -x; test -f $ACCELEROMETER_DIR_TMP/IRQ
+
+03  set -x; handlerSysFs.sh "get" $ACCELEROMETER_SYSFS_PATH/mode > mode.log
+
+04  set -x; handlerSysFs.sh "set" $ACCELEROMETER_SYSFS_PATH/mode $ACCELEROMETER_MODE_MEAS400
+
+05  set -x; $UTILS_DIR_HANDLERS/handlerIrq.sh "get" "cpu0_irq" "cma3000_accl" $ACCELEROMETER_DIR_TMP/FIRQ
+
+06  set -x; $UTILS_DIR_HANDLERS/handlerIrq.sh "get" "cpu0_irq" "cma3000_accl" $ACCELEROMETER_DIR_TMP/NIRQ
+
+07  set -x; $ACCELEROMETER_DIR_HELPER/cmp.sh "`cat $ACCELEROMETER_DIR_TMP/FIRQ`" -lt "`cat $ACCELEROMETER_DIR_TMP/NIRQ`"
+
+08  set -x; handlerSysFs.sh "set" $ACCELEROMETER_SYSFS_PATH/mode "`cat mode.log`"
+
+09  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/mode "`cat mode.log`"
+
+10  rm mode.log
 
 # End L_DD_ACCELEROMETER_0000_0003
