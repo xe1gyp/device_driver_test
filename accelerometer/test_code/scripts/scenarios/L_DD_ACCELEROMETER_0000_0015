@@ -1,0 +1,29 @@
+###############################################################################
+# Scenario: L_DD_ACCELEROMETER_0000_0015
+# Author  : Dan Murphy
+# Date    : Mon Nov 1, 2010
+###############################################################################
+
+# Begin L_DD_ACCELEROMETER_0000_0015
+
+01  set -x; handlerSysFs.sh "get" $ACCELEROMETER_SYSFS_PATH/enable > enable.log
+
+02  set -x; handlerOutOfBounds.sh "set" $ACCELEROMETER_SYSFS_PATH/enable "8"
+
+03  set -x; value=`cat $ACCELEROMETER_SYSFS_PATH/enable`
+
+04  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/enable "`cat enable.log`"
+
+05  set -x; handlerOutOfBounds.sh "set" $ACCELEROMETER_SYSFS_PATH/enable "-1"
+
+06  set -x; value=`cat $ACCELEROMETER_SYSFS_PATH/enable`
+
+07  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/enable "`cat enable.log`"
+
+08  set -x; handlerSysFs.sh "set" $ACCELEROMETER_SYSFS_PATH/enable "`cat enable.log`"
+
+09  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/enable "`cat enable.log`"
+
+10  rm enable.log
+
+# End L_DD_ACCELEROMETER_0000_0015

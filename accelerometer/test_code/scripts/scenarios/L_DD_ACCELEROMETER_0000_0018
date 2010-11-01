@@ -1,0 +1,28 @@
+###############################################################################
+# Scenario: L_DD_ACCELEROMETER_0000_0018
+# Author  : Dan Murphy
+# Date    : Mon Nov 1, 2010
+###############################################################################
+
+# Begin L_DD_ACCELEROMETER_0000_0018
+01  set -x; handlerSysFs.sh "get" $ACCELEROMETER_SYSFS_PATH/mode > mode.log
+
+02  set -x; handlerOutOfBounds.sh "set" $ACCELEROMETER_SYSFS_PATH/mode "8"
+
+03  set -x; value=`cat $ACCELEROMETER_SYSFS_PATH/mode`
+
+04  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/mode "`cat mode.log`"
+
+05  set -x; handlerOutOfBounds.sh "set" $ACCELEROMETER_SYSFS_PATH/mode "-1"
+
+06  set -x; value=`cat $ACCELEROMETER_SYSFS_PATH/mode`
+
+07  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/mode "`cat mode.log`"
+
+08  set -x; handlerSysFs.sh "set" $ACCELEROMETER_SYSFS_PATH/mode "`cat mode.log`"
+
+09  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/mode "`cat mode.log`"
+
+10  rm mode.log
+
+# End L_DD_ACCELEROMETER_0000_0018
