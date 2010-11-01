@@ -16,7 +16,7 @@ LOCAL_COMMAND=$1
 # Main
 # =============================================================================
 
-handlerError.sh "test"
+#handlerError.sh "test"
 if [ $? -eq 1 ]; then
 	exit 1
 fi
@@ -44,6 +44,8 @@ elif [ "$LOCAL_COMMAND" = "compare" ]; then
 	LOCAL_SYSFS_ENTRY_VALUE=$3
 
 	LOCAL_SYSFS_ENTRY_CURRENT=`cat $LOCAL_SYSFS_ENTRY_NAME`
+
+	echo $LOCAL_SYSFS_ENTRY_CURRENT
 	echo "Desired Value: $LOCAL_SYSFS_ENTRY_VALUE | Current Value: $LOCAL_SYSFS_ENTRY_CURRENT"
 
 	if [ "$LOCAL_SYSFS_ENTRY_VALUE" = "$LOCAL_SYSFS_ENTRY_CURRENT" ]; then
