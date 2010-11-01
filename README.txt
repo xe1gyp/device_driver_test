@@ -18,7 +18,10 @@ Method 1
 	# driver_x=The driver for which the testsuite is to be built
 	# Use "all" for building the entire testsuite
 	export TESTSUITES="driver_x"
+	export TESTROOT=<output dir>
 	make
+
+ The testsuite will be created in the location specified by <output dir>
 
 Method 2
 --------
