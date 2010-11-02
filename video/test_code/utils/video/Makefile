@@ -2,7 +2,7 @@ CC := $(CROSS_COMPILE)gcc
 CFLAGS+= -I$(KDIR)/include
 OBJS := showinfo setimg setwin setcrop streaming streaming_tiler setlink setrotation setmirror \
 setbgcolor settransck enablecolkey setcolorconv setdefcolcon streaming_process \
-tv_detect_app createRGB streaming_usrptr
+tv_detect_app createRGB streaming_usrptr streaming_wb
 
 all: $(OBJS)
 
@@ -50,6 +50,9 @@ setdefcolcon: setdefcolcon.c
 
 streaming_process: streaming_process.c
 	$(CC) $(CFLAGS) -g streaming_process.c -o streaming_process
+
+streaming_wb: streaming_wb.c
+	$(CC) $(CFLAGS) -g streaming_wb.c lib.c -o streaming_wb
 
 tv_detect_app: tv_detect_app.c lib.h
 	$(CC) $(CFLAGS) -g $< -o $@
