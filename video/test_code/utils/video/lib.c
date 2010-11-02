@@ -15,12 +15,15 @@
 #include <linux/kernel.h>
 #include <linux/videodev2.h>
 
-int show_info(int file_descriptor)
+int show_info(enum v4l2_buf_type type, int file_descriptor)
 {
  	struct v4l2_format format;
 	struct v4l2_crop crop;
 	int result;
 	
+        if (type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
+                format.type = type;
+        else
 	format.type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
 	result = ioctl(file_descriptor, VIDIOC_G_FMT, &format);
 	if (result != 0) {
@@ -30,7 +33,7 @@ int show_info(int file_descriptor)
 	printf("new picture width = %d\n", format.fmt.pix.width);
 	printf("new picture height = %d\n", format.fmt.pix.height);
 	printf("new picture colorspace = %x\n", format.fmt.pix.colorspace);
-	printf("new picture pixelformat = ");
+        printf("new picture pixelformat = %d\n", format.fmt.pix.pixelformat);
 	switch (format.fmt.pix.pixelformat) {
 	case V4L2_PIX_FMT_NV12:
 		printf("NV12\n");
@@ -54,16 +57,18 @@ int show_info(int file_descriptor)
 		printf("not supported\n");
 	}
 
+ if (type != V4L2_BUF_TYPE_VIDEO_CAPTURE) {
 	crop.type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
 	result = ioctl(file_descriptor, VIDIOC_G_CROP, &crop);
 	if (result != 0) {
 		perror("VIDIOC_G_CROP");
-		return 1;
+                        printf("Couldn't get crop values\n");
 	}
 	printf("new crop left = %d\n", crop.c.left);
 	printf("new crop top = %d\n", crop.c.top);
 	printf("new crop width = %d\n", crop.c.width);
 	printf("new crop height = %d\n", crop.c.height);
+        }
  
 	format.type = V4L2_BUF_TYPE_VIDEO_OVERLAY;
 	result = ioctl(file_descriptor, VIDIOC_G_FMT, &format);

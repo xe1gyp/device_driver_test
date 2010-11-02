@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	result = show_info(file_descriptor);
+	result = show_info(crop.type, file_descriptor);
 	close(file_descriptor);
 
 	return result;

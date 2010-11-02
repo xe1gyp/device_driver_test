@@ -20,4 +20,4 @@
 #define V4L2_CID_ROTATE (V4L2_CID_BASE+ROTATE_OFFSET)
 #define V4L2_CID_BG_COLOR (V4L2_CID_BASE+BG_COLOR_OFFSET)
 
-int show_info(int fd);
+int show_info(enum v4l2_buf_type type, int file_descriptor);

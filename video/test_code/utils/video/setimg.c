@@ -33,8 +33,8 @@ int main(int argc, char *argv[])
 		return usage();
 
 	video_device = atoi(argv[1]);
-	if ((video_device != 1) && (video_device != 2) && (video_device != 3)) {
-		printf("video_device has to be 1 or 2 or 3! "
+	if ((video_device != 1) && (video_device != 2) && (video_device != 3) && (video_device != 4)) {
+		printf("video_device has to be 1 or 2 or 3 or 4! "
 			"video_device=%d, argv[1]=%s\n", video_device, argv[1]);
 		return usage();
 	}
@@ -61,22 +61,28 @@ int main(int argc, char *argv[])
 
 	format.fmt.pix.width  = atoi(argv[3]);
 	format.fmt.pix.height = atoi(argv[4]);
+	if (video_device == 4)
+		format.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+	else
 	format.type           = V4L2_BUF_TYPE_VIDEO_OUTPUT;
 	format.fmt.pix.field = V4L2_FIELD_NONE;
 	
 	file_descriptor =
 		open((video_device == 1) ? VIDEO_DEVICE1 :
-			((video_device == 2) ? VIDEO_DEVICE2 : VIDEO_DEVICE3),
+			((video_device == 2) ? VIDEO_DEVICE2 :
+			((video_device == 3) ? VIDEO_DEVICE3 : WB_DEV)),
 		O_RDONLY);
 	if (file_descriptor <= 0) {
 		printf("Could not open %s\n",
 			(video_device == 1) ? VIDEO_DEVICE1 :
-			((video_device == 2) ? VIDEO_DEVICE2 : VIDEO_DEVICE3));
+			((video_device == 2) ? VIDEO_DEVICE2 :
+			((video_device == 3) ? VIDEO_DEVICE3 : WB_DEV)));
 		return 1;
 	} else {
-		printf("openned %s\n",
+		printf("opened %s\n",
 			(video_device == 1) ? VIDEO_DEVICE1 :
-			((video_device == 2) ? VIDEO_DEVICE2 : VIDEO_DEVICE3));
+			((video_device == 2) ? VIDEO_DEVICE2 :
+			((video_device == 3) ? VIDEO_DEVICE3 : WB_DEV)));
 	}
 
 	/* set format of the picture captured */
@@ -86,7 +92,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	result = show_info(file_descriptor);
+	result = show_info(format.type, file_descriptor);
 
 	close(file_descriptor);
 	return result;
