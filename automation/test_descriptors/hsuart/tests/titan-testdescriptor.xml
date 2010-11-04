@@ -241,6 +241,8 @@
 			</action>
 			<action>
 				<command>export UART_TEST_PORT1='ttyO1'</command>
+			</action>
+			<action>
 				<command>export UART_TEST_PORT2='ttyO0'</command>
 			</action>
 			<action>
