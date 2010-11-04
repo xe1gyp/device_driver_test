@@ -4,6 +4,9 @@ endif
 
 CC:=$(CROSS_COMPILE)gcc
 TARGETS := spidev_test spidev_fdx
+ifneq ($(KDIR),)
+CFLAGS+= -I$(KDIR)/include -I$(KDIR)/arch/arm/include
+endif
 
 all: $(TARGETS)
 
