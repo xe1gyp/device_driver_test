@@ -31,3 +31,8 @@ export WAITKEY=../../../utils/bin/waitkey
 
 echo ""
 echo "Perform MANUAL test/measurement"
+echo ""
+echo "Waiting from USER input to continue"
+echo ""
+
+$WAITKEY
