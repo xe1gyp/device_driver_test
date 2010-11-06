@@ -153,7 +153,6 @@ void gpio_keep_reading(void *no_of_iterations)
         }
 }
 
-#if !defined CONFIG_ANDROID
 static void gpio_test7(void)
 {
 	int ret, request_status[32], i, j;
@@ -215,7 +214,6 @@ static void gpio_test7(void)
 			printk(KERN_INFO "GPIO Module %d not free\n\n", i);
 	}
 }
-#endif
 
 static void gpio_test(void)
 {
@@ -305,8 +303,6 @@ static void gpio_test(void)
 			x = wake_up_process(p2);
 			break;
 #endif
-#if !defined CONFIG_ANDROID
-
 		case 9:/* Verify if GPIO module disable happens if all \
 				GPIOs in the module are inactive */
 			gpio_test7();
@@ -355,7 +351,6 @@ static void gpio_test(void)
 			x = wake_up_process(p3);
 			x = wake_up_process(p4);
 			break;
-#endif
 		case 12:
 			break;
 		default:
