@@ -10,7 +10,8 @@
 # Variables
 # ==========================================================================
 
-# LOCAL
+LOCAL_MESSAGE=$1
+LOCAL_ERROR=0
 
 # ==========================================================================
 # Functions
@@ -30,9 +31,14 @@ fi
 export WAITKEY=../../../utils/bin/waitkey
 
 echo ""
-echo "Perform MANUAL test/measurement"
+echo "------------------------------------------------"
 echo ""
-echo "Waiting from USER input to continue"
+echo "$LOCAL_MESSAGE"
+echo "Waiting for user input to continue ............."
+echo ""
+echo "------------------------------------------------"
 echo ""
 
 $WAITKEY
+
+exit $LOCAL_ERROR
