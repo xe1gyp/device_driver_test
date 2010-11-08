@@ -714,4 +714,174 @@
 		</fail>
 
 </test>
+<test id="L_DD_POWER_1005_0001">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> PM - DVFS with AV playback usecase </description>
+			<dateofcreation> 11/08/2010</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_1005_0001</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_1005_0002">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> PM - DVFS with Audio playback usecase </description>
+			<dateofcreation> 11/08/2010</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_1005_0002</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_1005_0003">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> PM - DVFS with AV record usecase </description>
+			<dateofcreation> 11/08/2010</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_1005_0003</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_1005_0004">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> PM - DVFS with Audio record usecase </description>
+			<dateofcreation> 11/08/2010</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_1005_0004</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_1005_0005">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> PM - DVFS with Image capture usecase </description>
+			<dateofcreation> 11/08/2010</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_1005_0005</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
 </titan>

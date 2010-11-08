@@ -1,0 +1,63 @@
+###############################################################################
+# Scenario: L_DD_POWER_1005_4
+# Author  : Leed Aguilar
+# Author  : Axel Haslam
+# Date    : 11/08/10
+# Testing : DVFS with Audio record: Measure clocks and frequency values before,
+#	    during and after running the Audio record usecase. Voltage values
+#	    will be measure manually by now to get more accurate results.
+# Results : Clocks and Frequency domains should be the same before and after
+#	    the test, but during the test some domains must scale. if these
+#	    two validation criterias are met, then the testcase pass
+###############################################################################
+
+# Begin L_DD_POWER_1005_4
+
+# Taking Frequency and Clocks measurements before Audio record usecase
+0001 set +x; handlerOmapconf.sh run FREQUENCY > T0
+0002 set +x; sleep 2
+0003 set +x; handlerOmapconf.sh run CLOCKS >> T0
+0004 set +x; sleep 2
+0005 set +x; cat T0
+0006 set +x; sleep 2
+
+# Start Audio record usecase
+0007 set -x; handlerActivityManager.sh audio_record start
+
+# Taking Frequency and Clocks measurements during Audio record usecase
+0010 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadUp
+0010 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadCenter
+0011 set -x; handlerOmapconf.sh run VOLTAGE > T1
+0013 set -x; handlerOmapconf.sh run CLOCKS >> T1
+0014 set -x; sleep 2
+0017 set -x; cat T1
+0018 set -x; sleep 2
+
+# Stop Audio record usecase
+0016 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadCenter
+0016 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadUp
+0016 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadRight
+0016 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadCenter
+0016 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeHome
+0017 set -x; sleep 5
+
+# Taking Frequency and Clocks measurements after Audio record usecase
+0018 set -x; handlerOmapconf.sh run FREQUENCY > T2
+0019 set -x; sleep 2
+0020 set -x; handlerOmapconf.sh run CLOCKS >> T2
+0021 set -x; sleep 2
+0022 set -x; cat T2
+0023 set -x; sleep 2
+
+# Domains should scale during the test
+0024 set -x; handlerOmapconf.sh compare FREQUENCY T0 T1 differ
+0025 set -x; handlerOmapconf.sh compare CLOCKS T0 T1 differ
+
+# Domains should be the same before and after the test
+0026 set -x; handlerOmapconf.sh compare FREQUENCY T0 T2 match
+0027 set -x; handlerOmapconf.sh compare CLOCKS T0 T2 match
+
+# Cleaning log files
+0028 set -x; rm T0 T1 T2
+
+# End L_DD_POWER_1005_4
