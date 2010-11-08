@@ -222,5 +222,13 @@ export HSF_SYSFS_ENTRY_NAME=$UTILS_DIR_TMP/hsf.sysfs.entry.name
 export HMT_MEMTESTER_LOG_FILE=$UTILS_DIR_TMP/hmt.memtester.log.file
 export HMT_MEMTESTER_FIELDS_FILE=$UTILS_DIR_TMP/hmt.memtester.fields.file
 
+#-------------------------------------------------------------
+# handlerActivityManager.sh
+#-------------------------------------------------------------
+
+export MP3_FILE="song.mp3"
+export MP4_FILE="video.mp4"
+export JPEG_FILE="img.jpeg"
+
 # End of file
 
