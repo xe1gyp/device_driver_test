@@ -1,6 +1,58 @@
 #!/bin/sh
 
-# /sys/devices/system/cpu/
+# Export all sysfs entries available
+# Please add the sysfs entries in alphabetical order
+# according to the sysfs name
+
+#-------------------------------------------------------------
+# /sys/block
+#-------------------------------------------------------------
+
+# loop0    loop4    mmcblk0  ram10    ram14    ram4     ram8
+# loop1    loop5    mmcblk1  ram11    ram15    ram5     ram9
+# loop2    loop6    ram0     ram12    ram2     ram6
+# loop3    loop7    ram1     ram13    ram3     ram7
+
+#-------------------------------------------------------------
+# /sys/bus
+#-------------------------------------------------------------
+
+# /sys/bus/hid
+# /sys/bus/i2c
+# /sys/bus/iio
+# /sys/bus/mmc
+# /sys/bus/omapdss
+# /sys/bus/platform
+# /sys/bus/sdio
+# /sys/bus/serio
+# /sys/bus/spi
+# /sys/bus/usb
+
+#-------------------------------------------------------------
+# /sys/class
+#-------------------------------------------------------------
+
+# /sys/class/graphics/fb0/
+export SYSFS_GRAPHICS_FB=/sys/class/graphics/fb0/
+export SYSFS_FB_BLANK=$SYSFS_GRAPHICS_FB/blank
+
+#-------------------------------------------------------------
+# /sys/dev
+#-------------------------------------------------------------
+
+# /sys/dev/block
+# /sys/dev/char
+
+#-------------------------------------------------------------
+# /sys/devices
+#-------------------------------------------------------------
+
+# /sys/devices/omapdss
+# /sys/devices/platform
+# /sys/devices/system
+# /sys/devices/system/clocksource
+# /sys/devices/system/cpu
+
 export SYSFS_CPU=/sys/devices/system/cpu/
 export SYSFS_CPU_OFFLINE=$SYSFS_CPU/offline
 export SYSFS_CPU_ONLINE=$SYSFS_CPU/online
@@ -23,11 +75,78 @@ export SYSFS_CPU0_SET_SPEED=$SYSFS_CPU0_CPUFREQ/scaling_setspeed
 export SYSFS_CPU0_STATS_TOTAL_TRANS=$SYSFS_CPU0_CPUFREQ/stats/total_trans
 export SYSFS_CPU0_STATS_TIME_IN_STATE=$SYSFS_CPU0_CPUFREQ/stats/time_in_state
 
-# /sys/power/state
-export SYSFS_POWER_STATE=/sys/power/state
+# /sys/devices/system/smodule
+# /sys/devices/system/timekeeping
+# /sys/devices/system/timer
+# /sys/devices/system/vfp
+# /sys/devices/virtual
 
-# /sys/class/graphics/fb0/
-export SYSFS_GRAPHICS_FB=/sys/class/graphics/fb0/
-export SYSFS_FB_BLANK=$SYSFS_GRAPHICS_FB/blank
+
+#-------------------------------------------------------------
+# /sys/firmware
+#-------------------------------------------------------------
+
+# NONE
+
+#-------------------------------------------------------------
+# /sys/fs
+#-------------------------------------------------------------
+
+# NONE
+
+#-------------------------------------------------------------
+# /sys/kernel
+#-------------------------------------------------------------
+
+export SYSFS_KERNEL_UEVENT_HELPER=/sys/kernel/uevent_helper
+export SYSFS_KERNEL_UEVENT_SEQNUM=/sys/kernel/uevent_seqnum
+
+# /sys/kernel/debug
+# /sys/kernel/ipv4
+# /sys/kernel/mm
+# /sys/kernel/slab
+# /sys/kernel
+
+#-------------------------------------------------------------
+# /sys/module
+#-------------------------------------------------------------
+
+# 8250                     musb_hdrc                snd
+# alarm                    nf_conntrack             snd_pcm
+# alarm_dev                nf_conntrack_amanda      snd_timer
+# auth_rpcgss              nf_conntrack_ftp         spurious
+# bh1780gli                nf_conntrack_h323        sunrpc
+# binder                   nf_conntrack_ipv4        tcp_cubic
+# earlysuspend             nf_conntrack_irc         tda8290
+# hid                      nf_conntrack_netbios_ns  tda9887
+# hmc5843                  nf_conntrack_sane        tea5761
+# ipv6                     nf_conntrack_sip         tea5767
+# ir_common                nf_conntrack_tftp        tuner_simple
+# ir_core                  nfs                      tuner_xc2028
+# ir_kbd_i2c               omap_s3d_overlay         u_ether
+# kernel                   omap_vout                usbcore
+# keyboard                 omapdss                  userwakelock
+# l2cap                    omapfb                   v4l1_compat
+# lockd                    printk                   videobuf_core
+# lowmemorykiller          rfcomm                   vt
+# mmc_core                 rfkill                   wakelock
+# mt20xx                   sco                      xc5000
+
+#-------------------------------------------------------------
+# /sys/power
+#-------------------------------------------------------------
+
+export PM_SYS_PWR=/sys/power
+export SYSFS_PM_TEST=/sys/power/pm_test
+export SYSFS_PM_ASYNC=pm_async
+export SYSFS_POWER_STATE=/sys/power/state
+export SYSTEM_WAKE_LOCK=/sys/power/wake_lock
+export SYSTEM_WAKE_UNLOCK=/sys/power/wake_unlock
+
+#-------------------------------------------------------------
+# /sys/smodule
+#-------------------------------------------------------------
+
+export SYSFS_SMODULE_INFO=/sys/smodule
 
 # End of file
