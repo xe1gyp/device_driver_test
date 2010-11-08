@@ -1,5 +1,7 @@
 #!/bin/sh
 
+########################### SETUP ###########################
+
 # Check if procfs is mounted, if not set it up
 test -d /proc/1/ || mount -t proc proc /proc
 
@@ -15,13 +17,22 @@ rm -f $UTILS_DIR_TMP/*
 # Load content from conf.sh which is common for all drivers
 . ${UTILS_DIR}/configuration/conf.sh
 
+#############################################################
+
+
+#-------------------------------------------------------------
 # handlerCpuAffinity.sh && handlerCpuAffinityExecutor.sh
+#-------------------------------------------------------------
+
 export HCA_LIST_CMDS_TOTALS=$UTILS_DIR_TMP/hca.list.cmds.totals
 export HCA_LIST_CMDS_PASSED=$UTILS_DIR_TMP/hca.list.cmds.passed
 export HCA_LIST_CMDS_FAILED=$UTILS_DIR_TMP/hca.list.cmds.failed
 export HCA_LIST_PIDS_TOTALS=$UTILS_DIR_TMP/hca.list.pids.totals
 
+#-------------------------------------------------------------
 # handlerIrqAffinity.sh
+#-------------------------------------------------------------
+
 if [ `cat /proc/cpuinfo | grep -ic OMAP4` -gt 0 ]; then
 	export INT_GPIO_BANK1=61
 	export INT_GPIO_BANK2=62
@@ -31,82 +42,105 @@ if [ `cat /proc/cpuinfo | grep -ic OMAP4` -gt 0 ]; then
 	export INT_GPIO_BANK6=66
 fi
 
-# handlerProcessParallelism.sh || handlerProcessParallelismExecutor.sh
+#-------------------------------------------------------------
+# handlerProcessParallelism.sh
+# handlerProcessParallelismExecutor.sh
+#-------------------------------------------------------------
+
 export HPPA_LIST_CMDS_TOTALS=$UTILS_DIR_TMP/hppa.list.cmds.totals
 export HPPA_LIST_CMDS_PASSED=$UTILS_DIR_TMP/hppa.list.cmds.passed
 export HPPA_LIST_CMDS_FAILED=$UTILS_DIR_TMP/hppa.list.cmds.failed
 export HPPA_LIST_PIDS_TOTALS=$UTILS_DIR_TMP/hppa.list.pids.totals
 
-# handlerProcessPriority.sh || handlerProcessPriorityExecutor.sh
+#-------------------------------------------------------------
+# handlerProcessPriority.sh
+# handlerProcessPriorityExecutor.sh
+#-------------------------------------------------------------
+
 export HPPR_LIST_CMDS_TOTALS=$UTILS_DIR_TMP/hppr.list.cmds.totals
 export HPPR_LIST_CMDS_PASSED=$UTILS_DIR_TMP/hppr.list.cmds.passed
 export HPPR_LIST_CMDS_FAILED=$UTILS_DIR_TMP/hppr.list.cmds.failed
 export HPPR_LIST_PIDS_TOTALS=$UTILS_DIR_TMP/hppr.list.pids.totals
-
 export HPPR_PROCFS_PID_SCHED_START=$UTILS_DIR_TMP/hppr.procfs.pid.sched.start
 export HPPR_PROCFS_PID_SCHED_CURRENT=$UTILS_DIR_TMP/hppr.procfs.pid.sched.current
-
 export HPPR_COMMAND_LINE=$UTILS_DIR_TMP/hppr.command.line
 export HPPR_COMMAND_PRIORITY=$UTILS_DIR_TMP/hppr.command.priority
 export HPPR_COMMAND_PRIORITY_HIGHER=$UTILS_DIR_TMP/hppr.command.priority.higher
-
 export HPPR_OPERATION_CURRENT=$UTILS_DIR_TMP/hppr.current.operation
 
+#-------------------------------------------------------------
 # handlerAppTop2.sh
+#-------------------------------------------------------------
+
 export HAT_TOP2_PATH=/usr/bin/top
 export HAT_TOP2_SLEEP_TIME=5
 export HAT_TOP2_DATA_LOG=$UTILS_DIR_TMP/hat.top2.data.log
 export HAT_TOP2_DATA_RAW=$UTILS_DIR_TMP/hat.top2.data.raw
 export HAT_TOP2_DATA_TEMPORAL=$UTILS_DIR_TMP/hat.top2.data.temporal
-
 export HAT_CPU_USAGE_VALUE_AVR=$UTILS_DIR_TMP/hat.cpu.usage.value.avr
 export HAT_CPU_USAGE_VALUE_MAX=$UTILS_DIR_TMP/hat.cpu.usage.value.max
 export HAT_CPU_USAGE_VALUE_MIN=$UTILS_DIR_TMP/hat.cpu.usage.value.min
 
+#-------------------------------------------------------------
 # handlerAppTime.sh
+#-------------------------------------------------------------
+
 export HATI_TIME=$UTILS_DIR_TMP/hati.time
 export HATI_TIME_FINAL=$UTILS_DIR_TMP/hati.time.final
 
+#-------------------------------------------------------------
 # handlerCmdDd.sh
+#-------------------------------------------------------------
+
 export HCDD_DD_BS="1M"
 export HCDD_DD_LOG=$UTILS_DIR_TMP/hcdd.dd.log
 export HCDD_EXECUTION_TIME_DD=$UTILS_DIR_TMP/hcdd.execution.time.dd
 export HCDD_EXECUTION_TIME_SYNC=$UTILS_DIR_TMP/hcdd.execution.time.sync
 
+#-------------------------------------------------------------
 # handlerCmdCp.sh
+#-------------------------------------------------------------
+
 export HCCP_CP_LOG=$UTILS_DIR_TMP/hccp.log.file
 export HCCP_EXECUTION_TIME_CP=$UTILS_DIR_TMP/hccp.execution.time.cp
 export HCCP_EXECUTION_TIME_SYNC=$UTILS_DIR_TMP/hccp.execution.time.sync
 
+#-------------------------------------------------------------
 # handlerFileThroughput.sh
+#-------------------------------------------------------------
 export HFT_THROUGHPUT_REAL_FILE_SIZE=$UTILS_DIR_TMP/hft.throughput.real.file.size
 export HFT_THROUGHPUT_MBps=$UTILS_DIR_TMP/hft.throughput.mbs
 export HFT_THROUGHPUT_Mbps=$UTILS_DIR_TMP/hft.throughput.mbps
 
+#-------------------------------------------------------------
 # handlerStatistics.sh
+#-------------------------------------------------------------
 export HS_STATISTICS_GENERAL_FILE=$UTILS_DIR_TMP/hs.statistics.general.file
 
+#-------------------------------------------------------------
 # handlerError.sh
+#-------------------------------------------------------------
+
 export HE_ERROR_FILE_HALT=$UTILS_DIR_TMP/he.error.file.halt
 export HE_ERROR_FILE_CONTINUE=$UTILS_DIR_TMP/he.error.file.continue
 
+#-------------------------------------------------------------
 # handlerFile.sh
+#-------------------------------------------------------------
+
 export HF_TEXT_PATTERN=$UTILS_DIR_SCRIPTS/text.pattern
 
+#-------------------------------------------------------------
 # handlerDebugFileSystem.sh
+#-------------------------------------------------------------
+
 export HDFS_DEBUG_FILESYSTEM_DIRECTORY=/debug/
-
-# Power Management
-export PM_SYSFS_POWER_ENTRY=/sys/power/
-export PM_STATE=$PM_SYSFS_POWER_ENTRY/state
-
 export PM_ENABLE=1
 export PM_DISABLE=0
 export PM_WAKEUP_TIMER_DEFAULT=1
 export PM_RETENTION_TIMER_DEFAULT=30
 export PM_DEBUGFS_DIRECTORY=$HDFS_DEBUG_FILESYSTEM_DIRECTORY
 export PM_DEBUG=$PM_DEBUGFS_DIRECTORY/pm_debug/
-export PM_SYS_PWR=/sys/power
 
 if [ `cat /proc/cpuinfo | grep -ic OMAP4` -gt 0 ]; then
 	export PM_COUNT=$PM_DEBUG/count
@@ -118,7 +152,10 @@ if [ `cat /proc/cpuinfo | grep -ic OMAP4` -gt 0 ]; then
 	export PM_WAKEUP_TIMER_MILLISECONDS=$PM_DEBUG/wakeup_timer_milliseconds
 fi
 
+#-------------------------------------------------------------
 # handlerSmartReflex.sh
+#-------------------------------------------------------------
+
 if [ `cat /proc/cpuinfo | grep -ic OMAP4` -gt 0 ]; then
 		export SR_CORE_AUTOCOMP=$PM_DEBUG/smartreflex/sr_core/autocomp
 		export SR_IVA_AUTOCOMP=$PM_DEBUG/smartreflex/sr_iva/autocomp
@@ -129,15 +166,25 @@ if [ `cat /proc/cpuinfo | grep -ic OMAP4` -gt 0 ]; then
 		export SR_VDD2_AUTOCOMP=$PM_SYS_PWR/sr_vdd2_autocomp
 fi
 
+#-------------------------------------------------------------
 # handlerSuspendResume.sh
-export HSR_SUSPEND_RESUME_MESSAGE_SUCCESS="resume of devices complete"
+# handlerAndroidPM.sh
+#-------------------------------------------------------------
 
+export HSR_SUSPEND_RESUME_MESSAGE_SUCCESS="PM: resume of devices complete"
+
+#-------------------------------------------------------------
 # handlerCpuFreqScalFrequencies.sh
+#-------------------------------------------------------------
+
 export HCFSF_FREQUENCIES_LIST_OK=$UTILS_DIR_TMP/hcfsg.frequencies.list.ok
 export HCFSF_FREQUENCIES_LIST_ERROR=$UTILS_DIR_TMP/hcfsg.frequencies.list.error
 export HCFSF_FREQUENCIES_LIST_AVAILABILITY=$UTILS_DIR_TMP/hcfsg.frequencies.list.availability
 
+#-------------------------------------------------------------
 # handlerCpuFreqScalGovernors.sh
+#-------------------------------------------------------------
+
 export HCFSG_GOVERNORS_LIST_OK=$UTILS_DIR_TMP/hcfsg.governors.list.ok
 export HCFSG_GOVERNORS_LIST_ERROR=$UTILS_DIR_TMP/hcfsg.governors.list.error
 export HCFSG_CURRENT_GOVERNOR_FILE=$UTILS_DIR_TMP/hcfsg.governors.file.current
@@ -148,18 +195,30 @@ export GOVERNOR_USERSPACE=userspace
 export GOVERNOR_PERFORMANCE=performance
 export GOVERNOR_HOTPLUG=hotplug
 
+#-------------------------------------------------------------
 # handlerFstab.sh
+#-------------------------------------------------------------
+
 export HFST_FSTAB_NAME=/etc/fstab
 export HFST_FSTAB_ORIGINAL=$UTILS_DIR_TMP/hfst.fstab.original
 export HFST_FSTAB_ENTRY=$UTILS_DIR_TMP/hfst.fstab.entry
 
+#-------------------------------------------------------------
 # handlerFilesystem.sh
+#-------------------------------------------------------------
+
 export HFS_FS_TYPE=$UTILS_DIR_TMP/hfs.fs.type
 
+#-------------------------------------------------------------
 # handlerSysFs.sh
+#-------------------------------------------------------------
+
 export HSF_SYSFS_ENTRY_NAME=$UTILS_DIR_TMP/hsf.sysfs.entry.name
 
-#handlerMemTester.sh
+#-------------------------------------------------------------
+# handlerMemTester.sh
+#-------------------------------------------------------------
+
 export HMT_MEMTESTER_LOG_FILE=$UTILS_DIR_TMP/hmt.memtester.log.file
 export HMT_MEMTESTER_FIELDS_FILE=$UTILS_DIR_TMP/hmt.memtester.fields.file
 
