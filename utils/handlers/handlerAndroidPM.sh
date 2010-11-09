@@ -206,7 +206,7 @@ case $LOCAL_OPERATION in
 	fi
 	# Check 4th parameter
 	isPositiveInteger $LOCAL_WAKEUP_TIMER
-	verifyErrorFlagverifyErrorFlag "generalUsage(): Check 4th parameter"
+	verifyErrorFlag "generalUsage(): Check 4th parameter"
 	if [ $LOCAL_TOTAL_PARAMETERS -ne 4 ]; then
 		generalUsage
 		verifyErrorFlag "generalUsage(): verify number of parameters (4)"
