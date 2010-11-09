@@ -158,10 +158,10 @@ executeAndroidProcess() {
 	# Execute process and save standard error
 	sleep 4; $android_process 2> app_err
 	# save logcat output of the execution process
-	logcat -d > process_logcat
+	logcat -d > app_logcat
 	# When an app crashes the error log is not sent to standard error
 	# output, but it can be obtained from the logcat
-	if [ `cat app_logcat | grep -rc $LOCAL_AM_ERROR_CRASH` -gt 0 ]; then
+	if [ `cat app_logcat | grep -rc "$LOCAL_AM_ERROR_CRASH"` -gt 0 ]; then
 		showInfo "ERROR: The application $LOCAL_ANDROID_INTENT" \
 			 "has stopped unexpectedly" 1>&2
 		LOCAL_ERROR=1
