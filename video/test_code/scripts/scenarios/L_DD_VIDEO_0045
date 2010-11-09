@@ -1,0 +1,68 @@
+##############################################################################
+# FILENAME      : L_DD_VIDEO_0045
+# Author        : Samreen
+# Date          : Wed Nov 3, 2010
+# Description   : Write Back Test Scenarios
+# #############################################################################
+
+# Begin "L_DD_VIDEO_0045"
+
+COMMENT comment.sh "Write Back test cases"
+COMMENT comment.sh "I/p RGB to O/p RGB"
+
+0001_SETUP_VD1 set -x; setupimage.sh 1 "RGB565 160 120"			&& exit 0 || exit 1
+0001_SETUP_VD2 set -x; setupimage.sh 2 "RGB565 160 120"			&& exit 0 || exit 1
+0001_SETUP_VD4 set -x; setupimage.sh 4 "RGB565 160 120"			&& exit 0 || exit 1
+
+0001_VD1 set -x; wbstream.sh 1 $VIDEOFILES/video_qqvga_rgb_30 2
+
+COMMENT comment.sh "WB Color Conversion"
+COMMENT comment.sh "I/p YUV to O/p RGB32"
+
+0002_SETUP_VD1 set -x; setupimage.sh 1 "YUYV 176 144"			&& exit 0 || exit 1
+0002_SETUP_VD2 set -x; setupimage.sh 2 "RGB32 176 144"			&& exit 0 || exit 1
+0002_SETUP_VD4 set -x; setupimage.sh 4 "RGB32 176 144"			&& exit 0 || exit 1
+
+0002_VD1 set -x; wbstream.sh 1 $VIDEOFILES/video_qcif_yuv_75 2
+
+COMMENT comment.sh "I/p YUV to O/p RGB16"
+
+0003_SETUP_VD1 set -x; setupimage.sh 1 "YUYV 176 144"			&& exit 0 || exit 1
+0003_SETUP_VD2 set -x; setupimage.sh 2 "RGB565 176 144"			&& exit 0 || exit 1
+0003_SETUP_VD4 set -x; setupimage.sh 4 "RGB565 176 144"			&& exit 0 || exit 1
+
+0003_VD1 set -x; wbstream.sh 1 $VIDEOFILES/video_qcif_yuv_75 2
+
+COMMENT comment.sh "Upscaling through i/p pipeline"
+
+0004_SETUP_VD1 set -x; setupimage.sh 1 "RGB565 160 120" "0 0 640 480"	&& exit 0 || exit 1
+0004_SETUP_VD2 set -x; setupimage.sh 2 "RGB565 640 480" 		&& exit 0 || exit 1
+0004_SETUP_VD4 set -x; setupimage.sh 4 "RGB565 640 480" 		&& exit 0 || exit 1
+
+0004_VD1 set -x; wbstream.sh 1 $VIDEOFILES/video_qqvga_rgb_30 2
+
+COMMENT comment.sh "Downscaling through i/p pipeline"
+
+0005_SETUP_VD1 set -x; setupimage.sh 1 "RGB565 160 120" "0 0 80 60"	&& exit 0 || exit 1
+0005_SETUP_VD2 set -x; setupimage.sh 2 "RGB565 80 60"			&& exit 0 || exit 1
+0005_SETUP_VD4 set -x; setupimage.sh 4 "RGB565 80 60"			&& exit 0 || exit 1
+
+0005_VD1 set -x; wbstream.sh 1 $VIDEOFILES/video_qqvga_rgb_30 2
+
+COMMENT comment.sh "Downscaling through WB pipeline"
+
+0006_SETUP_VD1 set -x; setupimage.sh 1 "RGB565 160 120"			&& exit 0 || exit 1
+0006_SETUP_VD2 set -x; setupimage.sh 2 "RGB565 80 60"			&& exit 0 || exit 1
+0006_SETUP_VD4 set -x; setupimage.sh 4 "RGB565 80 60"			&& exit 0 || exit 1
+
+0006_VD1 set -x; wbstream.sh 1 $VIDEOFILES/video_qqvga_rgb_30 2
+
+COMMENT comment.sh "WB N12 test"
+
+0007_SETUP_VD1 set -x; setupimage.sh 1 "NV12 352 288"  			&& exit 0 || exit 1
+0007_SETUP_VD2 set -x; setupimage.sh 2 "RGB565 352 288"                 && exit 0 || exit 1
+0007_SETUP_VD4 set -x; setupimage.sh 4 "RGB565 352 288"                 && exit 0 || exit 1
+
+0007_VD1 set -x; wbstream.sh 1 $VIDEOFILES/ice_352x288_10frames.nv12 2
+
+# End L_DD_FB_0045
