@@ -10,7 +10,7 @@ TOOLS_CFLAGS	:= -Wstrict-prototypes -Wshadow -Wpointer-arith -Wcast-qual \
 		   -Wcast-align -Wwrite-strings -Wnested-externs -Winline \
 		   -W -Wundef -Wmissing-prototypes -Iinclude
 
-TOOLS_TARGETS	:= i2cdetect i2cdump i2cset i2cget
+TOOLS_TARGETS	:= i2cdetect i2cdump i2cset i2cget i2c_access
 
 #
 # Programs
@@ -28,6 +28,9 @@ $(TOOLS_DIR)/i2cset: $(TOOLS_DIR)/i2cset.o $(TOOLS_DIR)/i2cbusses.o $(TOOLS_DIR)
 $(TOOLS_DIR)/i2cget: $(TOOLS_DIR)/i2cget.o $(TOOLS_DIR)/i2cbusses.o $(TOOLS_DIR)/util.o
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
 
+$(TOOLS_DIR)/i2c_access: $(TOOLS_DIR)/i2c_access.o $(TOOLS_DIR)/i2cbusses.o $(TOOLS_DIR)/util.o
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
+
 #
 # Objects
 #
@@ -42,6 +45,9 @@ $(TOOLS_DIR)/i2cset.o: $(TOOLS_DIR)/i2cset.c $(TOOLS_DIR)/i2cbusses.h $(TOOLS_DI
 	$(CC) $(CFLAGS) $(TOOLS_CFLAGS) -c $< -o $@
 
 $(TOOLS_DIR)/i2cget.o: $(TOOLS_DIR)/i2cget.c $(TOOLS_DIR)/i2cbusses.h $(TOOLS_DIR)/util.h
+	$(CC) $(CFLAGS) $(TOOLS_CFLAGS) -c $< -o $@
+
+$(TOOLS_DIR)/i2c_access.o: $(TOOLS_DIR)/i2c_access.c $(TOOLS_DIR)/i2cbusses.h $(TOOLS_DIR)/util.h
 	$(CC) $(CFLAGS) $(TOOLS_CFLAGS) -c $< -o $@
 
 $(TOOLS_DIR)/i2cbusses.o: $(TOOLS_DIR)/i2cbusses.c $(TOOLS_DIR)/i2cbusses.h

@@ -38,6 +38,7 @@ BINARIES := utils/i2c-tools-3.0.2/tools/i2cdump \
 		utils/i2c-tools-3.0.2/tools/i2cset \
 		utils/i2c-tools-3.0.2/tools/i2cget \
 		utils/i2c-tools-3.0.2/tools/i2cdetect \
+		utils/i2c-tools-3.0.2/tools/i2c_access \
 
 ifeq ($(SUITE_DIR),)
 SUITE_DIR:=$(PWD)
