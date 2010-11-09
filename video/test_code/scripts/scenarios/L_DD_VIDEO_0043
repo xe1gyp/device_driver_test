@@ -1,0 +1,18 @@
+##############################################################################
+# FILENAME      : L_DD_VIDEO_0043
+# Author        : Samreen
+# Date          : Wed Nov 3, 2010
+# Description   : Rolling Color Bars on Secondary LCD
+# #############################################################################
+
+# Begin "L_DD_VIDEO_0043"
+
+COMMENT comment.sh "Rolling Color Bars On LCD2"
+COMMENT comment.sh "Rolling Display on Vid2 on LCD2"
+
+0001_VD2 set -x;overlay_switch.sh 1 2 			&& exit 0 || exit 1
+0001_VD2_SAN set -x; rollingbars.sh 2 "864 480"         && exit 0 || exit 1
+
+
+# End "L_DD_VIDEO_0043"
+

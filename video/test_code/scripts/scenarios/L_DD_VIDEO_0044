@@ -1,0 +1,17 @@
+##############################################################################
+# FILENAME	: L_DD_VIDEO_0044
+# Author	: Samreen
+# Date		: Wed Nov 3, 2010
+# Description	: Rolling Color Bars on HMDI
+# #############################################################################
+
+# Begin "L_DD_VIDEO_0044"
+
+COMMENT comment.sh "Rolling Color Bars On HDMI"
+COMMENT comment.sh "Rolling Display on Vid3 on LCD3"
+
+0001_VD2 set -x;overlay_switch.sh 2 3                     && exit 0 || exit 1
+0001_VD3_SAN set -x; rollingbars.sh 3 "1920 1080"         && exit 0 || exit 1
+
+# End "L_DD_VIDEO_0044"
+

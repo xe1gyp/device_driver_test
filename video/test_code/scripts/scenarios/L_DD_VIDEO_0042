@@ -1,0 +1,16 @@
+##############################################################################
+# FILENAME      : L_DD_VIDEO_0042
+# Author        : Samreen
+# Date          : Wed Nov 3, 2010
+# Description   : Rolling Color Bars on Primary LCD
+# #############################################################################
+
+# Begin "L_DD_VIDEO_0042"
+
+COMMENT comment.sh "Rolling Color Bars On LCD1"
+COMMENT comment.sh "Rolling Display on Vid1"
+
+0001_VD1_SAN set -x; rollingbars.sh 1 "864 480" 	&& exit 0 || exit 1
+
+# End "L_DD_VIDEO_0042"
+
