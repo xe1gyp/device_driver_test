@@ -1,5 +1,5 @@
 CC := $(CROSS_COMPILE)gcc
-CFLAGS+= -I$(KDIR)/include
+CFLAGS+= -I$(KDIR)/include -I$(KDIR)/arch/arm/include/
 OBJS := showinfo setimg setwin setcrop streaming streaming_tiler setlink setrotation setmirror \
 setbgcolor settransck enablecolkey setcolorconv setdefcolcon streaming_process \
 tv_detect_app createRGB streaming_usrptr v4l2_rolling_bars
