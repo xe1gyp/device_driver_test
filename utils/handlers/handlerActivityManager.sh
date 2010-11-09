@@ -43,6 +43,7 @@ LOCAL_AM_ERROR_FILE="Failed to open file"
 LOCAL_AM_ERROR_PREPARE="prepare failed"
 LOCAL_AM_ERROR_PARAM="unsupported parameter"
 LOCAL_AM_ERROR_TIMEOUT="Launch timeout has expired"
+LOCAL_AM_ERROR_CRASH="Activity destroy timeout for HistoryRecord"
 
 # Android Shell
 LOCAL_AM_SHELL="/system/bin/sh"
@@ -154,9 +155,18 @@ executeAndroidProcess() {
 	android_process="$@"
 	# Clear logcat buffer
 	logcat -c
-	# Execute process
+	# Execute process and save standard error
 	sleep 4; $android_process 2> app_err
-	if [ `cat app_err | grep -rc "$LOCAL_AM_WARNING"` -gt 0  ]; then
+	# save logcat output of the execution process
+	logcat -d > process_logcat
+	# When an app crashes the error log is not sent to standard error
+	# output, but it can be obtained from the logcat
+	if [ `cat app_logcat | grep -rc $LOCAL_AM_ERROR_CRASH` -gt 0 ]; then
+		showInfo "ERROR: The application $LOCAL_ANDROID_INTENT" \
+			 "has stopped unexpectedly" 1>&2
+		LOCAL_ERROR=1
+		return
+	elif [ `cat app_err | grep -rc "$LOCAL_AM_WARNING"` -gt 0  ]; then
 		showInfo "WARNING: app is already running" 1>&2
 		# Keeping this warning as inonfensive by now
 		LOCAL_ERROR=0
