@@ -136,12 +136,13 @@ static int streaming_video(int od, int fd,
 	for (i = 0; i < buf_count; i++) {
 
 		filledbuffer.index = i;
+#ifndef OMAP_4430
 		if (read(fd, buffers[i].start,
 			format.fmt.pix.sizeimage) != format.fmt.pix.sizeimage) {
 			perror("read");
 			return 1;
 		}
-#ifdef OMAP_4430
+#else
 		page_width = (pix_width * bpp +	4096 - 1) & ~(4096 - 1);
 		printf("\nfirst bpp = %0x, page_width = %0x\n", bpp,
 								page_width);
@@ -341,7 +342,7 @@ static int usage(void)
 int main(int argc, char *argv[])
 {
 	int video_device, file_descriptor, output_device, result = 0;
-	int sleep_time = 0, buf_count = 4;
+	int sleep_time = 0, buf_count = 2;
 
 	if (argc < 3)
 		return usage();
