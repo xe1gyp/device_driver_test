@@ -1,0 +1,21 @@
+################################################################################
+# Scenario:    L_DD_USB_DEVICE_0001_0003
+# Author  :    Vamsi
+# Date    :    october 22th, 2010
+# Description:   Gadget Ethernet: Enumeration with a standard host
+################################################################################
+# Begin  L_DD_USB_DEVICE_0001_0003
+
+01 set -x; ssh ${HOSTIPADDR} lsusb > $USBDEVICE_LSUSB_BEFORE && exit 0 || exit 1
+
+# Mod probe to install
+02 set -x; modprobe g_ether && exit 0 || exit 1
+03 set -x; ssh ${HOSTIPADDR} lsusb > $USBDEVICE_LSUSB_AFTER && exit 0 || exit 1
+
+# Check weather loading success.
+04 set -x; grep 0525 $USBDEVICE_LSUSB_AFTER | grep a4a2 && exit 0 || exit 1
+
+# remove module
+05 set -x; rmmod g_ether && exit 0 || exit 1
+
+# End  L_DD_USB_DEVICE_0001_0003

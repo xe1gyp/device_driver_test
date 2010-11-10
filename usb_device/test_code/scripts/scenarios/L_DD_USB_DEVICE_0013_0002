@@ -1,0 +1,13 @@
+################################################################################
+# Scenario:    L_DD_USB_DEVICE_0013_0002
+# Author  :    Vamsi
+# Date    :    october 22th, 2010
+# Description: Load/Unload controller driver module continuously
+################################################################################
+# Begin  L_DD_USB_DEVICE_0013_0002
+
+01 set -x; echo "File stoarge Test"
+02 set -x; sh $USBDEVICE_DIR_HELPER/g_file_storage_enum_stress.sh && exit 0 || exit 1
+03 set -x; echo "done testing"
+
+# End  L_DD_USB_DEVICE_0013_0002

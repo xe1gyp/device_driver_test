@@ -1,0 +1,25 @@
+################################################################################
+# Scenario:    L_DD_USB_DEVICE_0010_0006
+# Author  :    Vamsi
+# Date    :    october 22th, 2010
+# Description: SMP : ProcessPriority
+################################################################################
+# Begin L_DD_USB_DEVICE_0010_0006
+
+01  set -x; echo "USB Mentor Host process priority test"
+02  set -x; sh $USBDEVICE_DIR_HELPER/g_file_storage_enum.sh
+03  set -x; ssh ${HOSTIPADDR} work/usbtest/genfile.sh test1
+04  set -x; ssh ${HOSTIPADDR} work/usbtest/genfile.sh test2
+
+05  set -x; handlerProcessPriority.sh "add" "1" "ssh ${HOSTIPADDR} sudo cp /tmp/test1.txt /tmp/media/" "+15"
+06  set -x; handlerProcessPriority.sh "add" "2" "ssh ${HOSTIPADDR} sudo cp /tmp/test2.txt /tmp/media/" "-15"
+07  set -x; handlerProcessPriority.sh "execute" "1"
+#08  set -x; handlerProcessPriority.sh "verify"
+
+09  set -x; ssh ${HOSTIPADDR} sudo umount /tmp/media
+10  set -x; ssh ${HOSTIPADDR} rm /tmp/test*.txt
+11  set -x; rmmod g_file_storage
+12  set -x; echo "done testing"
+
+
+# End L_DD_USB_HOST_0010_0006

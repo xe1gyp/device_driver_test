@@ -1,0 +1,21 @@
+################################################################################
+# Scenario:    L_DD_USB_DEVICE_0010_0007
+# Author  :    Vamsi
+# Date    :    october 22th, 2010
+# Description: SMP : CPUAffinity
+################################################################################
+# Begin  L_DD_USB_DEVICE_0010_0007
+
+01  set -x; echo "USB Mentor Host process priority test"
+02  set -x; sh $USBDEVICE_DIR_HELPER/g_file_storage_enum.sh
+03  set -x; ssh ${HOSTIPADDR} work/usbtest/genfile.sh test1
+
+04  set -x; handlerCpuAffinity.sh "clean"
+05  set -x; handlerCpuAffinity.sh "switch" "ssh ${HOSTIPADDR} sudo cp /tmp/test1.txt /tmp/media/" "10" "15" "5"
+
+06  set -x; ssh ${HOSTIPADDR} sudo umount /tmp/media
+07  set -x; ssh ${HOSTIPADDR} rm /tmp/test*.txt
+08  set -x; rmmod g_file_storage
+09  set -x; echo "done testing"
+
+# End L_DD_USB_HOST_0010_0007

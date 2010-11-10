@@ -1,0 +1,39 @@
+################################################################################
+# Scenario:    L_DD_USB_DEVICE_0006_0001
+# Author  :    Vamsi
+# Date    :    october 22th, 2010
+# Description:  Gadget Zero: Global suspend resume
+################################################################################
+# Begin  L_DD_USB_DEVICE_0006_0001
+
+01 set -x; ssh ${HOSTIPADDR} lsusb > $USBDEVICE_LSUSB_BEFORE && exit 0 || exit 1
+
+# Mod probe to install
+02 set -x; modprobe g_zero && exit 0 || exit 1
+03 set -x; ssh ${HOSTIPADDR} lsusb > $USBDEVICE_LSUSB_AFTER && exit 0 || exit 1
+
+# Check weather loading success
+04 set -x; grep 0525 $USBDEVICE_LSUSB_AFTER | grep a4a0 && exit 0 || exit 1
+05 set -x; chmod 777 /sys/power/state
+06 set -x; mkdir -p /debug
+
+# Mount the debug for wake up timer
+07 set -x; mount -t debugfs none /debug
+
+# set timer to resume from suspend state
+08 set -x; echo 5 > /debug/pm_debug/wakeup_timer_seconds
+
+# suspend the gadget
+09 set -x; echo -n mem > /sys/power/state
+10 set -x; ssh ${HOSTIPADDR} lsusb > $USBDEVICE_LSUSB_AFTER && exit 0 || exit 1
+
+# Check weather enumeration success after resume
+11 set -x; grep 0525 $USBDEVICE_LSUSB_AFTER | grep a4a0 && exit 0 || exit 1
+
+# Unmount the wakeup timer
+12 set -x; umount /debug
+
+# remove module
+13 set -x; rmmod g_zero && exit 0 || exit 1
+
+# End  L_DD_USB_DEVICE_0006_0001

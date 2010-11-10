@@ -1,42 +1,46 @@
-###############################################################################
-# Scenario    : L_DD_USB_Device_0002_0001
-# Description : USB Device | USBTEST CONTROL| IRQ Affinity
-###############################################################################
+################################################################################
+# Scenario:    L_DD_USB_DEVICE_0002_0001
+# Author  :    Vamsi
+# Date    :    october 22th, 2010
+# Description: Gadget Zero: Data transfers
+################################################################################
+# Begin  L_DD_USB_DEVICE_0002_0001
 
-# Begin L_DD_USB_Device_0002_0001
+01 set -x; ssh ${HOSTIPADDR} lsusb > $USBDEVICE_LSUSB_BEFORE
 
-01	set -x; handlerUsbDeviceSetup.sh  "create" "usbtest"
+# Mod probe the gadget
+02 set -x; modprobe g_zero && exit 0 || exit 1
+03 set -x; ssh ${HOSTIPADDR} lsusb > $USBDEVICE_LSUSB_AFTER
+04 set -x; grep 0525 $USBDEVICE_LSUSB_AFTER | grep a4a0
 
-02	echo -e "\n\n\t Testing "usbtest" suite. \n\n\t Please connect cable [ MiniA to OMAP -Std-A to Linux PC ]."   &&  sleep $DELAY1  
+# echo "testusb t1 and t2, -c 1 -s 4096"
+05 set -x; ssh ${HOSTIPADDR} work/usbtest/testusb -A /proc/bus/usb/ -t1 -c1 -s 4096
+06 set -x; ssh ${HOSTIPADDR} work/usbtest/testusb -A /proc/bus/usb/ -t2 -c1 -s 4096
 
-03	export MODE="Device"; export COMMAND="control"; export MESSAGE="Testing Control Transfers"
+# T1, T2 1000 times for 4k
+# echo "testusb t1 and t2, -c 1000 -s 4096"
+07 set -x; ssh ${HOSTIPADDR} work/usbtest/testusb -A /proc/bus/usb/ -t1 -c1000 -s 4096
+08 set -x; ssh ${HOSTIPADDR} work/usbtest/testusb -A /proc/bus/usb/ -t2 -c1000 -s 4096
 
-04	echo -e '\n\n\t Linux PC: Loading usbtest module. \n\n'; export MODULE="usbtest"  &&  $USBDEVICE_DIR_HELPER/enum.sh insertRemoteModule  &&  exit 0 || exit 1
+# T1, T2 1000 times for 8k
+# echo "testusb t1 and t2, -c 1000 -s 8192"
+09 set -x; ssh ${HOSTIPADDR} work/usbtest/testusb -A /proc/bus/usb/ -t1 -c1000 -s 8192
+10 set -x; ssh ${HOSTIPADDR} work/usbtest/testusb -A /proc/bus/usb/ -t2 -c1000 -s 8192
 
-05	echo -e '\n\n\t Linux PC: Loading usbtest module. \n\n'; export MODULE="g_zero"  &&  $USBDEVICE_DIR_HELPER/enum.sh insertRemoteModule  &&  exit 0 || exit 1
+# T1, T2 1000 times for 64k
+# echo "testusb t1 and t2, -c 1000 -s 65536"
+11 set -x; ssh ${HOSTIPADDR} work/usbtest/testusb -A /proc/bus/usb/ -t1 -c1000 -s 65536
+12 set -x; ssh ${HOSTIPADDR} work/usbtest/testusb -A /proc/bus/usb/ -t2 -c1000 -s 65536
 
-### Checking Enumeration
+# T1, T2 1000 times for 1M
+# echo "testusb t1 and t2, -c 1000 -s 1048576"
+13 set -x; ssh ${HOSTIPADDR} work/usbtest/testusb -A /proc/bus/usb/ -t1 -c1000 -s 1048576
+14 set -x; ssh ${HOSTIPADDR} work/usbtest/testusb -A /proc/bus/usb/ -t2 -c1000 -s 1048576
 
-06	echo -e '\n\n\t Checking usbtest enumeration. \n\n'  &&  export ENUM_INFO="usbtest"; $USBDEVICE_DIR_HELPER/enum.sh connectHostRemote   &&  exit 0 || exit 1
+# echo "test.sh in out control, once"
+15 set -x; ssh ${HOSTIPADDR} work/usbtest/test1.sh in out control
 
-07	echo -e '\n\n\t Checking Gadget Zero enumeration. \n\n'  &&  export ENUM_INFO="Gadget Zero"; $USBDEVICE_DIR_HELPER/enum.sh connectHostRemote  &&  exit 0 || exit 1
+# remove the gadget
+16 set -x; rmmod g_zero && exit 0 || exit 1
 
-### Running  the control transfer tests
-
-08	set -x; $USBDEVICE_DIR_HELPER/enum.sh testcontrol  &&  sleep $DELAYEXT && exit 0  || exit 0
-
-09	set -x; (TMP=`cat $USBDEVICE_DIR_LOG/log.testControlLinuxPC` && cat $TMP | grep "FAIL")  &&  echo -e "\n\n\t ERROR-4 - Found FAIL on the test ${COMMAND}. \n\n" &&  exit 1 || echo -e "\n\n\t Ok \n\n" && exit 0
-10	set -x; (TMP=`cat $USBDEVICE_DIR_LOG/log.testControlLinuxPC` && cat $TMP | grep "error") &&  echo -e "\n\n\t ERROR-4 - Found an error on the test ${COMMAND}. \n\n" &&  exit 1 || echo -e "\n\n\t Ok \n\n" && exit 0
-11	set -x; (TMP=`cat $USBDEVICE_DIR_LOG/log.testControlLinuxPC` && cat $TMP | grep "pipe")  &&  echo -e "\n\n\t ERROR-4 - Found a pipe on the test ${COMMAND}. \n\n"  &&  exit 1 || echo -e "\n\n\t Ok \n\n"  &&  exit 0
-
-12	echo -e '\n\n\t Linux PC: Removing usbtest module. \n\n'  &&  export MODULE="g_zero"  &&  $USBDEVICE_DIR_HELPER/enum.sh removeRemoteModule  && exit 0 || exit 1
-
-13	echo -e '\n\n\t Linux PC: Removing usbtest module. \n\n'  &&  export MODULE="usbtest"  &&  $USBDEVICE_DIR_HELPER/enum.sh removeRemoteModule  && exit 0 || exit 1
-
-14	set -x; ssh root@$REMOTE_IP -i $SSH_PATH rmmod net2280
-
-14	echo -e '\n\n\t Disconnect cable. \n\n'  &&  sleep $DELAY2; 
-
-15	set -x; handlerUsbDeviceSetup.sh  "remove" "usbtest"
-
-# End L_DD_USB_Device_0002_0001
+# End  L_DD_USB_DEVICE_0002_0001

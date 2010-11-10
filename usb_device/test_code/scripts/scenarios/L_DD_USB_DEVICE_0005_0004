@@ -1,0 +1,13 @@
+################################################################################
+# Scenario:    L_DD_USB_DEVICE_0005_0004
+# Author  :    Vamsi
+# Date    :    october 22th, 2010
+# Description: Gadget File Storage, Data transfer Stress test
+################################################################################
+# Begin  L_DD_USB_DEVICE_0005_0004
+
+01 set -x; echo "File stoarge stress Test"
+02 set -x; sh $USBDEVICE_DIR_HELPER/g_file_storage.sh test150m 20 && exit 0 || exit 1
+03 set -x; echo "done testing"
+
+# End L_DD_USB_DEVICE_0005_0004

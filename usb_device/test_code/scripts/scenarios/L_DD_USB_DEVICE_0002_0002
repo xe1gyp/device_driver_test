@@ -1,0 +1,16 @@
+################################################################################
+# Scenario:    L_DD_USB_DEVICE_0002_0002
+# Author  :    Vamsi
+# Date    :    october 22th, 2010
+# Description: Gadget Zero: Data transfers stress test
+################################################################################
+# Begin  L_DD_USB_DEVICE_0002_0002
+
+01 set -x; ssh ${HOSTIPADDR} lsusb > $USBDEVICE_LSUSB_BEFORE
+02 set -x; modprobe g_zero && exit 0 || exit 1
+03 set -x; ssh ${HOSTIPADDR} lsusb > $USBDEVICE_LSUSB_AFTER
+04 set -x; grep 0525 $USBDEVICE_LSUSB_AFTER | grep a4a0
+05 set -x; ssh ${HOSTIPADDR} work/usbtest/test10.sh in out control
+06 set -x; rmmod g_zero && exit 0 || exit 1
+
+# End  L_DD_USB_DEVICE_0002_0002

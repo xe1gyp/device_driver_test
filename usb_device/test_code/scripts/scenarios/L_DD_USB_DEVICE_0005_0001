@@ -1,52 +1,22 @@
-###############################################################################
-# Scenario    : L_DD_USB_Device_0005_0001
-# Description : USB Device | File Storage Gadget
-###############################################################################
+################################################################################
+# Scenario:    L_DD_USB_DEVICE_0005_0001
+# Author  :    Vamsi
+# Date    :    october 22th, 2010
+# Description: Gadget File Storage, Linux Host, RAMDISK
+################################################################################
+# Begin  L_DD_USB_DEVICE_0005_0001
 
-# Begin L_DD_USB_Device_0005_0001
+01 set -x; ssh ${HOSTIPADDR} lsusb > $USBDEVICE_LSUSB_BEFORE
+02 set -x; dd if=/dev/zero of=vfat-file bs=1M count=5 && exit 0 || exit 1
+03 set -x; fdisk vfat-file < $USBDEVICE_DIR_HELPER/fdisk-format.txt
+04 set -x; mke2fs vfat-file
+05 set -x; modprobe g_file_storage file=vfat-file stall=n removable=y && exit 0 || exit 1
+06 set -x; sleep 6
+07 set -x; ssh ${HOSTIPADDR} lsusb > $USBDEVICE_LSUSB_AFTER
+08 set -x; grep 0525 $USBDEVICE_LSUSB_AFTER | grep a4a5
+09 set -x; rmmod g_file_storage && exit 0 || exit 1
+10 set -x; rm vfat-file
 
-01	set -x; handlerUsbDeviceSetup.sh  "create" "file_storage"
+# End L_DD_USB_DEVICE_0005_0001
 
-# Checking enumeration on the Linux PC
-02	set -x; export ENUM_INFO="Storage"; $USBDEVICE_DIR_HELPER/enum.sh connectHostRemote  &&  exit 0 || exit 1
-03	set -x; export ENUM_INFO="Gadget"; $USBDEVICE_DIR_HELPER/enum.sh connectProcRemote  &&  exit 0 || exit 1
 
-#Creating the file on the Linux PC
-04	set -x; $USBDEVICE_DIR_HELPER/enum.sh creatFileRemote &&  exit 0 || exit 1
-
-#Mounting File-Storage Gadget on the Linux PC
-05	set -x; $USBDEVICE_DIR_HELPER/enum.sh mountRemote  &&  exit 0 || exit 1
-
-#Listing the content of the remote path on the Linux PC
-06	set -x; ssh root@$REMOTE_IP -i $SSH_PATH ls -lh $REMOTE_PATH
-
-#Copying files from Linux PC to the File-Storage Gadget and IRQ Affinity
-07 set -x; ssh root@$REMOTE_IP -i $SSH_PATH cp  $REMOTE_PATH/$GADGET_ST_FILE $REMOTE_PATH/mass_storage &&  sleep $DELAY2  &&  exit 0 || exit 1
-
-#Comparing files from Linux PC to the File-Storage Gadget 
-08	set -x; ssh root@$REMOTE_IP -i $SSH_PATH ls -lh $REMOTE_PATH/mass_storage/  &&  exit 0 || exit 1
-09	set -x; ssh root@$REMOTE_IP -i $SSH_PATH cmp $REMOTE_PATH/$GADGET_ST_FILE $REMOTE_PATH/mass_storage/$GADGET_ST_FILE  &&  sleep $DELAY2  &&  exit 0 || exit 1
-									     		
-#Delleting the file from the Linux PC
-10	set -x; ssh root@$REMOTE_IP -i $SSH_PATH rm $REMOTE_PATH/$GADGET_ST_FILE  &&  exit 0 || exit 1
-11	set -x; ssh root@$REMOTE_IP -i $SSH_PATH ls -lh $REMOTE_PATH/ &&  exit 0 || exit 1
-
-#Copying files from OMAP to the File-Storage Gadget
-12	set -x; ssh root@$REMOTE_IP -i $SSH_PATH cp  $REMOTE_PATH/mass_storage/$GADGET_ST_FILE  $REMOTE_PATH/  &&  sleep $DELAY2  &&  exit 0 || exit 1
-
-#Comparing files from Linux PC to the File-Storage Gadget 
-13	set -x; ssh root@$REMOTE_IP -i $SSH_PATH ls -lh $REMOTE_PATH/&&  exit 0 || exit 1
-14	set -x; ssh root@$REMOTE_IP -i $SSH_PATH cmp $REMOTE_PATH/mass_storage/$GADGET_ST_FILE $REMOTE_PATH/$GADGET_ST_FILE  &&  sleep $DELAY2 &&  exit 0 || exit 1
-									     		
-#Delleting the file from the Linux PC
-15	set -x; ssh root@$REMOTE_IP -i $SSH_PATH rm $REMOTE_PATH/$GADGET_ST_FILE  &&  exit 0 || exit 1
-
-#Delleting the file from the File-Storage Gadget
-16	set -x; ssh root@$REMOTE_IP -i $SSH_PATH rm -rf $REMOTE_PATH/mass_storage/$GADGET_ST_FILE  &&  exit 0 || exit 1
-
-#UnMounting File-Storage Gadget from the Linux PC
-17	set -x; $USBDEVICE_DIR_HELPER/enum.sh umountRemote  &&  exit 0 || exit 1
-
-18	set -x; handlerUsbDeviceSetup.sh  "remove" "file_storage"
-
-# End L_DD_USB_Device_0005_0001
