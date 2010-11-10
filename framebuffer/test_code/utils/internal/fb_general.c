@@ -451,7 +451,18 @@ int flip_to_buffer(int i)
 	int ret = 0;
 	struct fb_var_screeninfo v;
 
-	if(ret = ioctl (fd, FBIOGET_VSCREENINFO, &v))
+	ret = ioctl(fd, FBIOGET_VSCREENINFO, &v);
+	if (ret)
+		return ret;
+
+	v.yres_virtual = v.yres * 3;
+
+	ret = ioctl(fd, FBIOPUT_VSCREENINFO, &v);
+	if (ret)
+		return ret;
+
+	ret = ioctl(fd, FBIOGET_VSCREENINFO, &v);
+	if (ret)
 		return ret;
 
 	v.yoffset = v.yres * (i - 1);
