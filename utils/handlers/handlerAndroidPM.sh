@@ -11,9 +11,9 @@
 # =============================================================================
 
 LOCAL_OPERATION=$1
-LOCAL_ENVIRONMENT_TYPE=$2
-LOCAL_SUSPEND_PATH=$3
-LOCAL_WAKEUP_TIMER=$4
+LOCAL_OPERAND1=$2
+LOCAL_OPERAND2=$3
+LOCAL_OPERAND3=$4
 LOCAL_ERROR=0
 LOCAL_TOTAL_PARAMETERS=$#
 LOCAL_WAKELOCK='android_test_wakelock'
@@ -61,9 +61,9 @@ releaseWakelocks() {
 	for index in ${!wakelock_list[@]}; do
 		echo ${wakelock_list[$index]} > $SYSTEM_WAKE_UNLOCK
 		if [ `cat $SYSTEM_WAKE_LOCK | grep -wc ${wakelock_list[$index]}` -gt 0 ]; then
-			echo -e "  WAKELOCK: FAIL: "${wakelock_list[$wakelock]}" was NOT released\n"
+			echo -e "\tFAIL: <${wakelock_list[$wakelock]}> wakelock was NOT released\n"
 		else
-			echo -e "  WAKELOCK: SUCCESS: "${wakelock_list[$wakelock]}" was released\n"
+			echo -e "\tSUCCESS: <${wakelock_list[$wakelock]}> wakelock  was released\n"
 		fi
 	done
 	echo -e "\n-------------------------------------------------------------\n"
@@ -78,9 +78,9 @@ holdWakelock() {
 	echo $wakelock_name > $SYSTEM_WAKE_LOCK
 	# Verify that the wakelock is registered
 	if [ `cat $SYSTEM_WAKE_LOCK | grep -wc $wakelock_name` -gt 0 ]; then
-		showInfo "ANDROID: Wakelock $LOCAL_WAKELOCK was sucessfully registered"
+		showInfo "SUCESS: Wakelock <$wakelock_name> was registered"
 	else
-		showInfo "ERROR: ANDROID: Wakelock $LOCAL_WALELOCK"  "was NOT registered"
+		showInfo "ERROR: Wakelock <$eakelock_name> was NOT registered"
 		LOCAL_ERROR=1
 	fi
 }
@@ -112,25 +112,41 @@ generalUsage() {
 
 	SCRIPT USAGE:
 
-	    To perform a suspend task do the following:
+	    handlerAndroidPM.sh [OPERATION] [OPTIONS
 
-	    Try - handlerAndroidPM.sh suspend {android|kernel}
-	                                      {force|idle}
-	                                      {timer}"
-	        Where:
-	        - android = perform Android early suspend
-	        - kernel  = execute kernel global suspend
-	        - force   = perform a suspend through suspend path
-	        - idle    = perform a suspend through idle path
-	        - timer   = how long you want to keep the system is
+	    Where [OPERATION] can be:
+	    A) suspend
+	    B) resume
+	    C) wakelock
+
+	    A) To perform a suspend task do the following:
+
+	       Try - handlerAndroidPM.sh suspend {android|kernel}
+	                                         {force|idle}
+	                                         {timer}
+	       Where:
+	       @ android = perform Android early suspend
+	       @ kernel  = execute kernel global suspend
+	       @ force   = perform a suspend through suspend path
+	       @ idle    = perform a suspend through idle path
+	       @ timer   = how long you want to keep the system is
 	                    suspend state
-	    To perform a resume task do the following:
 
-	    Try - handlerAndroidPM.sh resume {android|kernel}
+	    B) To perform a resume task do the following:
 
-	        Where:
-	        - android = perform Android late resume
-	        - kernel  = wakeup the system till kernel prompt
+	       Try - handlerAndroidPM.sh resume {android|kernel}
+	       Where:
+	       @ android = perform Android late resume
+	       @ kernel  = wakeup the system till kernel prompt
+
+	    C) To perform a wakelock operations do the following:
+
+	       Try - handlerAndroidPM.sh wakelock {hold|release} {name}
+	       Where:
+	       @ hold    = to hold a wakelock
+	       @ release = to release a wakelock
+	       @ name    = name of the wakelock
+
 
 	###############################################################"
 
@@ -190,23 +206,24 @@ fi
 
 handlerDebugFileSystem.sh "mount"
 
-# Check Parameters and scritp usage
+# Check parameters and scritp usage
 
 case $LOCAL_OPERATION in
 "suspend")
 	# Check 2nd parameter
-	if [ `echo "android kernel" | grep -wc "$LOCAL_ENVIRONMENT_TYPE"` -ne 1 ]; then
+	if [ `echo "android kernel" | grep -wc "$LOCAL_OPERAND1"` -ne 1 ]; then
 		generalUsage
-		verifyErrorFlag "generalUsage(): Check 2nd parameter"
+		verifyErrorFlag "generalUsage(): 2nd parameter is incorrect"
 	fi
 	# Check 3rd parameter
-	if [ `echo "force idle" | grep -wc "$LOCAL_SUSPEND_PATH"` -ne 1 ]; then
+	if [ `echo "force idle" | grep -wc "$LOCAL_OPERAND2"` -ne 1 ]; then
 		generalUsage
-		verifyErrorFlag "generalUsage(): Check 3rd parameter"
+		verifyErrorFlag "generalUsage(): 3rd parameter is incorrect"
 	fi
 	# Check 4th parameter
-	isPositiveInteger $LOCAL_WAKEUP_TIMER
-	verifyErrorFlag "generalUsage(): Check 4th parameter"
+	isPositiveInteger $LOCAL_OPERAND3
+	verifyErrorFlag "generalUsage(): 4th parameter is incorrect"
+	# Verify number of parameters
 	if [ $LOCAL_TOTAL_PARAMETERS -ne 4 ]; then
 		generalUsage
 		verifyErrorFlag "generalUsage(): verify number of parameters (4)"
@@ -214,18 +231,31 @@ case $LOCAL_OPERATION in
 	;;
 "resume")
 	# Check 2nd parameter
-	if [ `echo "android kernel" | grep -wc "$LOCAL_ENVIRONMENT_TYPE"` -ne 1 ]; then
+	if [ `echo "android kernel" | grep -wc "$LOCAL_OPERAND1"` -ne 1 ]; then
 		generalUsage
-		verifyErrorFlag "generalUsage(): Check 2nd parameter"
+		verifyErrorFlag "generalUsage(): 2nd parameter is incorrect"
 	fi
+	# Verify number of parameters
 	if [ $LOCAL_TOTAL_PARAMETERS -ne 2 ]; then
 		generalUsage
 		verifyErrorFlag "generalUsage(): verify number of parameters (2)"
 	fi
 	;;
+"wakelock")
+	# Check 2nd parameter
+	if [ `echo "hold release" | grep -wc "$LOCAL_OPERAND1"` -ne 1 ]; then
+		generalUsage
+		verifyErrorFlag "generalUsage(): 2nd parameter is incorrect"
+	fi
+	# Verify number of parameters
+	if [ $LOCAL_TOTAL_PARAMETERS -ne 3 ]; then
+		generalUsage
+		verifyErrorFlag "generalUsage(): verify number of parameters (3)"
+	fi
+	;;
 *)
 	generalUsage
-	verifyErrorFlag "generalUsage(): Check LOCAL_OPERATION parameter"
+	verifyErrorFlag "generalUsage(): main operation is not valid"
 	;;
 esac
 
@@ -234,7 +264,11 @@ esac
 
 case $LOCAL_OPERATION in
 "suspend")
-	# clear dmesg buffer on suspend
+	# Set correspond variables
+	LOCAL_ENVIRONMENT_TYPE=$LOCAL_OPERAND1
+	LOCAL_SUSPEND_PATH=$LOCAL_OPERAND2
+	LOCAL_WAKEUP_TIMER=$LOCAL_OPERAND3
+	# Clear dmesg buffer on suspend
 	dmesg -c > /dev/null
 	wakeupTimer $LOCAL_WAKEUP_TIMER
 	verifyErrorFlag "wakeupTimer(): timer value $LOCAL_WAKEUP_TIMER"
@@ -259,7 +293,6 @@ case $LOCAL_OPERATION in
 			verifyErrorFlag "releaseWakelocks(): $LOCAL_SYSTEM_WAKELOCKS"
 			showInfo "KERNEL: suspending the system through suspend path"
 			echo -n mem > $SYSFS_POWER_STATE
-
 		elif [ $LOCAL_SUSPEND_PATH = "idle" ]; then
 			showInfo "KERNEL: suspending the system through idle path"
 			releaseWakelocks $LOCAL_SYSTEM_WAKELOCKS
@@ -272,6 +305,8 @@ case $LOCAL_OPERATION in
 	esac
 	;;
 "resume")
+	# Set correspond variables
+	LOCAL_ENVIRONMENT_TYPE=$LOCAL_OPERAND1
 	while [ 1 ]; do
 		if [ `dmesg | grep -wc "$HSR_SUSPEND_RESUME_MESSAGE_SUCCESS"` -gt 0 ]; then
 			break
@@ -297,6 +332,22 @@ case $LOCAL_OPERATION in
 		generalUsage
 		verifyErrorFlag "generalUsage(): testing [android|kernel] for resume"
 	esac
+	;;
+"wakelock")
+	# Set correspond variables
+	LOCAL_WAKELOCK_STATUS=$LOCAL_OPERAND1
+	LOCAL_WAKELOCK_NAME=$LOCAL_OPERAND2
+	if [ $LOCAL_WAKELOCK_STATUS = "hold" ]; then
+		holdWakelock $LOCAL_WAKELOCK_NAME
+		verifyErrorFlag "holdWakelock(): Not able to set wakelock"
+	elif [ $LOCAL_WAKELOCK_STATUS = "release" ]; then
+		releaseWakelocks $LOCAL_WAKELOCK_NAME
+		verifyErrorFlag "releaseWakelocks(): Not able to relese wakelock"
+	fi
+	;;
+*)
+	generalUsage
+	verifyErrorFlag "generalUsage(): main operation is invalid"
 	;;
 esac
 
