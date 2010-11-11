@@ -59,6 +59,7 @@ LOCAL_ANDROID_CAMERA="com.android.camera"
 LOCAL_ANDROID_RECORDER="com.android.soundrecorder"
 LOCAL_ANDROID_GEARS="luabear.gears4android"
 LOCAL_ANDROID_BROWSER="com.android.browser"
+LOCAL_ANDROID_SETTINGS="com.android.settings"
 
 # Android APPs
 LOCAL_APP_GALLERY="$LOCAL_ANDROID_MEDIA/.Gallery"
@@ -70,6 +71,7 @@ LOCAL_APP_SOUND_RECORDED="$LOCAL_ANDROID_RECORDER/.SoundRecorder"
 LOCAL_APP_AUDIO_PLAYBACK="$LOCAL_ANDROID_MUSIC/.MediaPlaybackActivity"
 LOCAL_APP_GEARS4ANDROID="$LOCAL_ANDROID_GEARS/.Gears4Android"
 LOCAL_APP_BROWSER="$LOCAL_ANDROID_BROWSER/.BrowserActivity"
+LOCAL_APP_SETTINGS="$LOCAL_ANDROID_SETTINGS/.Settings"
 
 # Execute APP commands
 LOCAL_RUN_AUDIO_PLAYBACK="$LOCAL_AM_EXECUTE $LOCAL_APP_AUDIO_PLAYBACK"
@@ -81,10 +83,11 @@ LOCAL_RUN_IMAGE_CAPTURE="$LOCAL_AM_EXECUTE $LOCAL_APP_CAMERA"
 LOCAL_RUN_IMAGE_DECODE="$LOCAL_AM_EXECUTE $LOCAL_APP_GALLERY"
 LOCAL_RUN_GEARS4ANDROID="$LOCAL_AM_EXECUTE $LOCAL_APP_GEARS4ANDROID"
 LOCAL_RUN_BROWSER="$LOCAL_AM_EXECUTE $LOCAL_APP_BROWSER"
+LOCAL_RUN_SETTINGS="$LOCAL_AM_EXECUTE $LOCAL_APP_SETTINGS"
 
 LOCAL_ANDROID_USECASE=( "audio_playback" "audio_record" "av_playback" \
 			"av_record" "image_capture" "image_capture_omap4" \
-			"image_decode" "gears4android" "browser" )
+			"image_decode" "gears4android" "browser" "settings" )
 
 # =============================================================================
 # Functions
@@ -295,6 +298,10 @@ case $LOCAL_PROCESS in
 "browser")
 	LOCAL_ANDROID_INTENT=$LOCAL_ANDROID_BROWSER
 	LOCAL_RUN=$LOCAL_RUN_BROWSER
+	;;
+"settings")
+	LOCAL_ANDROID_INTENT=$LOCAL_ANDROID_SETTINGS
+	LOCAL_RUN=$LOCAL_RUN_SETTINGS
 	;;
 *)
 	usage
