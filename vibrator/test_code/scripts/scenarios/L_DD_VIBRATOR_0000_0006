@@ -1,0 +1,19 @@
+###############################################################################
+# Scenario: L_DD_VIBRATOR_0000_0006
+# Author  : Dan Murphy
+# Date    : Wed Nov 3, 2010
+###############################################################################
+
+# Begin L_DD_VIBRATOR_0000_0006
+
+01  set -x; test -f $VIBRATOR_SYSFS_PATH/enable
+
+02  set -x; test -w $VIBRATOR_SYSFS_PATH/enable
+
+03  set -x; handlerSysFs.sh "set" $VIBRATOR_SYSFS_PATH/enable 1000
+
+04  set -x; handlerSysFs.sh "get" $VIBRATOR_SYSFS_PATH/enable 1000 > time_left.log
+
+05  set -x; $VIBRATOR_DIR_HELPER/cmp.sh "`cat time_left.log`" -lt "1000"
+
+# End L_DD_VIBRATOR_0000_0006

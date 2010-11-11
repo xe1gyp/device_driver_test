@@ -1,0 +1,13 @@
+###############################################################################
+# Scenario: L_DD_VIBRATOR_0000_0001
+# Author  : Dan Murphy
+# Date    : Wed Nov 3, 2010
+###############################################################################
+
+# Begin L_DD_VIBRATOR_0000_0001
+
+01  set -x; test -h $VIBRATOR_SYSFS_PATH
+
+02  set -x; test -d $VIBRATOR_SYSFS_PATH
+
+# End L_DD_VIBRATOR_0000_0001

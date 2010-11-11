@@ -1,0 +1,13 @@
+###############################################################################
+# Scenario: L_DD_VIBRATOR_0000_0003
+# Author  : Dan Murphy
+# Date    : Thu Jun 24 16:43:42 IST 2010
+###############################################################################
+
+# Begin L_DD_VIBRATOR_0000_0003
+
+01  set -x; handlerSysFs.sh "set" $VIBRATOR_SYSFS_PATH/enable -1
+
+02  set -x; handlerSysFs.sh "compare" $VIBRATOR_SYSFS_PATH/enable 0
+
+# End L_DD_VIBRATOR_0000_0003

@@ -1,0 +1,15 @@
+###############################################################################
+# Scenario: L_DD_VIBRATOR_0000_0004
+# Author  : Dan Murphy
+# Date    : Wed Nov 3, 2010
+###############################################################################
+
+# Begin L_DD_VIBRATOR_0000_0004
+
+01  set -x; test -f $VIBRATOR_SYSFS_PATH/enable
+
+02  set -x; test -r $VIBRATOR_SYSFS_PATH/enable
+
+03  set -x; test -w $VIBRATOR_SYSFS_PATH/enable
+
+# End L_DD_VIBRATOR_0000_0004

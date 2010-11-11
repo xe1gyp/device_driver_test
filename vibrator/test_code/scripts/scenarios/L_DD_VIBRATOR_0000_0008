@@ -1,0 +1,16 @@
+###############################################################################
+# Scenario: L_DD_VIBRATOR_0000_0008
+# Author  : Dan Murphy
+# Date    : Wed Nov 3, 2010
+###############################################################################
+
+# Begin L_DD_VIBRATOR_0000_0008
+
+01  set -x; test -f $VIBRATOR_SYSFS_PATH/enable
+
+01  set -x; test -w $VIBRATOR_SYSFS_PATH/enable
+
+02  set -x; handlerSysFs.sh "set" $VIBRATOR_SYSFS_PATH/enable 1000
+
+
+# End L_DD_VIBRATOR_0000_0008
