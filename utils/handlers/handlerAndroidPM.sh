@@ -299,9 +299,6 @@ case $LOCAL_OPERATION in
 			verifyErrorFlag "releaseWakelocks(): $LOCAL_SYSTEM_WAKELOCKS"
 		fi
 		;;
-	*)
-		generalUsage
-		verifyErrorFlag	"generalUsage(): testing [android|kernel] for suspend"
 	esac
 	;;
 "resume")
@@ -328,9 +325,6 @@ case $LOCAL_OPERATION in
 		holdWakelock $LOCAL_WAKELOCK
 		verifyErrorFlag "holdWakelock(): name $LOCAL_WAKELOCK"
 		;;
-	*)
-		generalUsage
-		verifyErrorFlag "generalUsage(): testing [android|kernel] for resume"
 	esac
 	;;
 "wakelock")
@@ -344,10 +338,6 @@ case $LOCAL_OPERATION in
 		releaseWakelocks $LOCAL_WAKELOCK_NAME
 		verifyErrorFlag "releaseWakelocks(): Not able to relese wakelock"
 	fi
-	;;
-*)
-	generalUsage
-	verifyErrorFlag "generalUsage(): main operation is invalid"
 	;;
 esac
 
