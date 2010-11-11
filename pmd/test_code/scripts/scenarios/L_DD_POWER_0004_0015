@@ -1,0 +1,47 @@
+###############################################################################
+# Scenario: L_DD_POWER_0004_0012
+# Author  : Leed Aguilar
+# Date    : 11/11/10
+# Testing : Suspend/Resume in idle path (via timeout) 200 times: Boot platform,
+#           release wakelocks, let the system go to suspend via timeout, then
+#           resume to ensure that system works properly
+# Results : At resume, you should get the console prompt back and there should
+#           be any lockup 
+###############################################################################
+
+# Begin L_DD_POWER_0004_0015
+
+# Unlock the UI by pressing Menu Key
+0001 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeMenu
+
+# Ensure that Screen timeout is set to the smallet value (15 seconds)
+0002 set -x; handlerActivityManager.sh settings start
+0003 set -x; sleep 1
+0004 set -x; handlerAndroidMonkey.sh keypad 10 0 KeyCodeDpadUp
+0005 set -x; handlerAndroidMonkey.sh keypad 3 500 KeyCodeDpadDown
+0006 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadCenter
+0007 set -x; handlerAndroidMonkey.sh keypad 3 500 KeyCodeDpadDown
+0008 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadCenter
+# Ensure you select the first option (15 seconds)
+0009 set -x; handlerAndroidMonkey.sh keypad 10 0 KeyCodeDpadUp
+0010 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadCenter
+0011 set -x; handlerAndroidMonkey.sh keypad 1 500 KeyCodeHome
+
+# Suspend/Resume for 5 seconds via timeout 200 times
+0012 set -x; handlerCmd.sh iterate "handlerAndroidPM.sh suspend android idle 5; handlerAndroidPM.sh resume android" 200 3
+
+# Set the timeout value to the max value (30 minutes) for further testing
+0015 set -x; handlerActivityManager.sh settings start
+0006 set -x; sleep 1
+0007 set -x; handlerAndroidMonkey.sh keypad 10 0 KeyCodeDpadUp
+0018 set -x; handlerAndroidMonkey.sh keypad 3 500 KeyCodeDpadDown
+0019 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadCenter
+0020 set -x; handlerAndroidMonkey.sh keypad 3 500 KeyCodeDpadDown
+0021 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadCenter
+# Ensure you select the last option (30 min)
+0022 set -x; handlerAndroidMonkey.sh keypad 10 0 KeyCodeDpadDown
+0023 set -x; handlerAndroidMonkey.sh keypad 1 500 KeyCodeDpadUp
+0024 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadCenter
+0025 set -x; handlerAndroidMonkey.sh keypad 1 500 KeyCodeHome
+
+# End L_DD_POWER_0004_0015
