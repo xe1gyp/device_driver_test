@@ -28,7 +28,7 @@ LOCAL_SYSTEM_WAKELOCKS=`cat $SYSTEM_WAKE_LOCK`
 # @ Parameters: None
 # @ Return    : None
 androidPowerKey() {
-	showInfo "\tPRESSING POWER KEY"
+	showInfo "\t      PRESSING POWER KEY"
 	# Simulate press END_CALL key
 	# OMAP4/3 Scancode for END_CALL key is 62
 	sendevent /dev/input/event0 1  62 0
@@ -41,8 +41,8 @@ androidPowerKey() {
 # @ Parameters: None
 # @ Return    : None
 androidMenukey() {
-	showInfo "\tPRESSING MENU KEY" \
-		 "unlocking Android User Interface"
+	showInfo "\t      PRESSING MENU KEY" \
+		 "\tunlocking Android User Interface"
 	# Simulate press Menu key (F1)
 	# OMAP4/3 Scancode for F1 key is 59
 	sendevent /dev/input/event0 1  59 0
@@ -57,16 +57,16 @@ androidMenukey() {
 releaseWakelocks() {
 	wakelock_list=( "$@" )
 	# Release all the wakelocks under /sys/power/wake_lock
-	echo -e "\n----------------------- ANDROID WAKELOCKS --------------------\n"
+	echo -e "\n--------------------- ANDROID WAKELOCKS ---------------------\n"
 	for index in ${!wakelock_list[@]}; do
 		echo ${wakelock_list[$index]} > $SYSTEM_WAKE_UNLOCK
 		if [ `cat $SYSTEM_WAKE_LOCK | grep -wc ${wakelock_list[$index]}` -gt 0 ]; then
-			echo -e "\n WAKELOCK: FAIL: < ${wakelock_list[$wakelock]} > was NOT released\n"
+			echo -e "  WAKELOCK: FAIL: "${wakelock_list[$wakelock]}" was NOT released\n"
 		else
-			echo -e "\n WAKELOCK: SUCCESS: < ${wakelock_list[$wakelock]} > was released\n"
+			echo -e "  WAKELOCK: SUCCESS: "${wakelock_list[$wakelock]}" was released\n"
 		fi
 	done
-	echo -e "\n--------------------------------------------------------------\n"
+	echo -e "\n-------------------------------------------------------------\n"
 }
 
 # Hold a wakelock to keep the system awake
@@ -143,7 +143,7 @@ generalUsage() {
 # @ Parameters: <message to display>
 # @ Return    : None
 showInfo() {
-	echo -e "\n\n--------------------------------------------------------------\n"
+	echo -e "\n\n---------------------- handlerAndroidPM ----------------------\n"
 	messages=( "$@" )
 	for index in ${!messages[@]}; do
 		echo -e "\t${messages[$index]}"

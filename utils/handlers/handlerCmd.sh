@@ -165,7 +165,7 @@ case $LOCAL_OPERATION in
 	while [ $LOCAL_COUNTER -lt $LOCAL_ITERATIONS ]; do
 		# print iteration number in a non zero based indexing
 		let LOCAL_ITERATION=$LOCAL_COUNTER+1
-		showInfo "\t\tITERATION: $LOCAL_ITERATION"
+		showInfo "\t      ITERATION: $LOCAL_ITERATION"
 		commands=`echo -e $LOCAL_COMMANDS | tr " " "_" | tr ';' ' '`
 		executeCommands $commands
 		verifyErrorFlag "executeCommands(): command not valid"

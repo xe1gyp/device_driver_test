@@ -129,7 +129,7 @@ generalUsage() {
 # @ Parameters: <message to display>
 # @ Return    : None
 showInfo() {
-	echo -e "\n\n--------------------------------------------------------------\n"
+	echo -e "\n\n-------------------- handlerAndroidMonkey --------------------\n"
 	messages=( "$@" )
 	for index in ${!messages[@]}; do
 		echo -e "\t${messages[$index]}"
