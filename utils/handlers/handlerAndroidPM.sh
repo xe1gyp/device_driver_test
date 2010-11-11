@@ -86,10 +86,10 @@ holdWakelock() {
 }
 
 # Set the System Wakeup timer
-# @ Function  : wakeupTimer
+# @ Function  : setWakeUpTimer
 # @ Parameters: <timer value in seconds>
 # @ Return    : Error flag value
-wakeupTimer() {
+setWakeUpTimer() {
 	timer_value=$1
 	handlerSysFs.sh set $PM_WAKEUP_TIMER_SECONDS "$timer_value"
 	handlerSysFs.sh compare $PM_WAKEUP_TIMER_SECONDS "$timer_value"
@@ -270,8 +270,8 @@ case $LOCAL_OPERATION in
 	LOCAL_WAKEUP_TIMER=$LOCAL_OPERAND3
 	# Clear dmesg buffer on suspend
 	dmesg -c > /dev/null
-	wakeupTimer $LOCAL_WAKEUP_TIMER
-	verifyErrorFlag "wakeupTimer(): timer value $LOCAL_WAKEUP_TIMER"
+	setWakeUpTimer $LOCAL_WAKEUP_TIMER
+	verifyErrorFlag "setWakeUpTimer(): timer value $LOCAL_WAKEUP_TIMER"
 	case $LOCAL_ENVIRONMENT_TYPE in
 	"android")
 		if [ $LOCAL_SUSPEND_PATH = "force" ]; then
