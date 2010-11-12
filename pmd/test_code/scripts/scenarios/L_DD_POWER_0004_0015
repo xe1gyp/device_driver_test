@@ -2,7 +2,7 @@
 # Scenario: L_DD_POWER_0004_0013
 # Author  : Leed Aguilar
 # Date    : 11/11/10
-# Testing : Suspend/Resume in idle path (via timeout) 200 times: Boot platform,
+# Testing : Suspend/Resume the system via timeout 200 times: Boot platform,
 #           release wakelocks, let the system go to suspend via timeout, then
 #           resume to ensure that system works properly
 # Results : At resume, you should get the console prompt back and there should
@@ -11,10 +11,9 @@
 
 # Begin L_DD_POWER_0004_0015
 
-# Unlock the UI by pressing Menu Key (press Menu Key twice in case the system
-# is suspended) then go to home screen
-0001 set -x; handlerAndroidMonkey.sh keypad 2 1000 KeyCodeMenu
-0002 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeHome
+# Unlock the UI by pressing Menu Key then go to home screen
+0001 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeMenu
+0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
 
 # Ensure that Screen timeout is set to the smaller value (15 seconds)
 0003 set -x; handlerActivityManager.sh settings start
