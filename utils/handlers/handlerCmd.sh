@@ -107,7 +107,7 @@ generalUsage() {
 executeCommands() {
 	toexecute=( "$@" )
 	for index in ${!toexecute[*]}; do
-		execute=`echo "${toexecute[$index]}" | tr "_" " "`
+		execute=`echo "${toexecute[$index]}" | tr "," " "`
 		eval $execute
 		if [ $? -gt 0 ]; then
 			showInfo "ERROR: [ $execute ] is not a valid command" 2>&1
@@ -152,7 +152,7 @@ fi
 case $LOCAL_OPERATION in
 "run")
 	LOCAL_COMMANDS=$LOCAL_OPERAND2
-	commands=`echo -e $LOCAL_COMMANDS | tr " " "_" | tr ';' ' '`
+	commands=`echo -e $LOCAL_COMMANDS | tr " " "," | tr ';' ' '`
 	executeCommands $commands
 	verifyErrorFlag "executeCommands(): command not valid"
 	;;
@@ -166,7 +166,7 @@ case $LOCAL_OPERATION in
 		# print iteration number in a non zero based indexing
 		let LOCAL_ITERATION=$LOCAL_COUNTER+1
 		showInfo "\t      ITERATION: $LOCAL_ITERATION"
-		commands=`echo -e $LOCAL_COMMANDS | tr " " "_" | tr ';' ' '`
+		commands=`echo -e $LOCAL_COMMANDS | tr " " "," | tr ';' ' '`
 		executeCommands $commands
 		verifyErrorFlag "executeCommands(): command not valid"
 		sleep $LOCAL_DELAY
