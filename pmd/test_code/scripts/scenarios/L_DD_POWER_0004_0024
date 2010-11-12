@@ -1,0 +1,55 @@
+###############################################################################
+# Scenario: L_DD_POWER_0004_0024
+# Author  : Leed Aguilar
+# Date    : 11/11/10
+# Testing : Run and complete Audio Record usecase then perform suspend/resume
+#           in suspend path (pressing Power/F2 key): Boot the platform, release
+#           wakelocks, press power key to suspend and then resume to ensure that
+#           system works properly
+# Results : At resume, you should get the console prompt back and there should
+#           be any lockup
+###############################################################################
+
+# Begin L_DD_POWER_0004_0024
+
+# Unlock the UI by pressing Menu Key (press Menu Key twice in case the system
+# is suspended) then go to home screen
+0001 set -x; handlerAndroidMonkey.sh keypad 2 800 KeyCodeMenu
+0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+
+# Set the screen timeout to the max value (30 minutes)
+0003 set -x; handlerActivityManager.sh settings start
+0004 set -x; sleep 1
+0005 set -x; handlerAndroidMonkey.sh keypad 11 100 KeyCodeDpadUp
+0006 set -x; handlerAndroidMonkey.sh keypad 3 800 KeyCodeDpadDown
+0007 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
+0008 set -x; handlerAndroidMonkey.sh keypad 3 800 KeyCodeDpadDown
+0009 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
+# Ensure you select the last option (30 min)
+0010 set -x; handlerAndroidMonkey.sh keypad 11 100 KeyCodeDpadDown
+0011 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadUp
+0012 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
+0013 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+0014 set -x; sleep 1
+
+# Start Audio record usecase
+0015 set -x; handlerActivityManager.sh audio_record start
+0016 set -x; sleep 1
+0017 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadUp
+0018 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
+0019 set -x; sleep 10
+
+# Stop Audio record usecase
+0020 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
+0021 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadUp
+0022 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadRight
+0023 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
+0024 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+0025 set -x; sleep 5
+
+# Suspend/Resume for 5 seconds
+0026 set -x; handlerAndroidPM.sh suspend android force 5
+0027 set -x; sleep 1
+0028 set -x; handlerAndroidPM.sh resume android
+
+# End L_DD_POWER_0004_0024
