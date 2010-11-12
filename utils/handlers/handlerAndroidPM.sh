@@ -30,10 +30,10 @@ LOCAL_SYSTEM_WAKELOCKS=`cat $SYSTEM_WAKE_LOCK`
 androidPowerKey() {
 	showInfo "\t      PRESSING POWER KEY"
 	# Simulate press END_CALL key
-	# OMAP4/3 Scancode for END_CALL key is 62
-	sendevent /dev/input/event0 1  62 0
-	sendevent /dev/input/event0 1  62 1
-	sendevent /dev/input/event0 1  62 0
+	# OMAP4/3 Scancode for END_CALL key is 107
+	sendevent /dev/input/event0 1  107 0
+	sendevent /dev/input/event0 1  107 1
+	sendevent /dev/input/event0 1  107 0
 }
 
 # Simulate the Menu key (screen unlock) press action
