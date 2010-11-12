@@ -129,13 +129,13 @@ generalUsage() {
 	    A) To perform a suspend task do the following:
 
 	       Try - handlerAndroidPM.sh suspend {android|kernel}
-	                                         {force|idle}
+	                                         {force|timeout}
 	                                         {timer}
 	       Where:
 	       @ android = perform Android early suspend
 	       @ kernel  = execute kernel global suspend
 	       @ force   = perform a suspend through suspend path
-	       @ idle    = perform a suspend through idle path
+	       @ timeout = perform a suspend through timeout path
 	       @ timer   = how long you want to keep the system is
 	                    suspend state
 
@@ -223,7 +223,7 @@ case $LOCAL_OPERATION in
 		verifyErrorFlag "generalUsage(): 2nd parameter is incorrect"
 	fi
 	# Check 3rd parameter
-	if [ `echo "force idle" | grep -wc "$LOCAL_OPERAND2"` -ne 1 ]; then
+	if [ `echo "force timeout" | grep -wc "$LOCAL_OPERAND2"` -ne 1 ]; then
 		generalUsage
 		verifyErrorFlag "generalUsage(): 3rd parameter is incorrect"
 	fi
@@ -287,8 +287,8 @@ case $LOCAL_OPERATION in
 			releaseWakelocks $LOCAL_SYSTEM_WAKELOCKS
 			verifyErrorFlag "releaseWakelocks(): $LOCAL_SYSTEM_WAKELOCKS"
 			androidPowerKey
-		elif [ $LOCAL_SUSPEND_PATH = "idle" ]; then
-			showInfo "ANDROID: Suspending system through idle path" \
+		elif [ $LOCAL_SUSPEND_PATH = "timeout" ]; then
+			showInfo "ANDROID: Suspending system via timeout" \
 				 "\tstarting Android early suspend"
 			releaseWakelocks $LOCAL_SYSTEM_WAKELOCKS
 			verifyErrorFlag "releaseWakelocks(): $LOCAL_SYSTEM_WAKELOCKS"
@@ -300,8 +300,8 @@ case $LOCAL_OPERATION in
 			verifyErrorFlag "releaseWakelocks(): $LOCAL_SYSTEM_WAKELOCKS"
 			showInfo "KERNEL: suspending the system through suspend path"
 			echo -n mem > $SYSFS_POWER_STATE
-		elif [ $LOCAL_SUSPEND_PATH = "idle" ]; then
-			showInfo "KERNEL: suspending the system through idle path"
+		elif [ $LOCAL_SUSPEND_PATH = "timeout" ]; then
+			showInfo "KERNEL: suspending the system via timeout"
 			releaseWakelocks $LOCAL_SYSTEM_WAKELOCKS
 			verifyErrorFlag "releaseWakelocks(): $LOCAL_SYSTEM_WAKELOCKS"
 		fi

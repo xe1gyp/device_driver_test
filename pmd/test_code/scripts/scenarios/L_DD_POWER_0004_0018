@@ -54,7 +54,7 @@
 0037 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
 
 # Suspend/Resume for 5 seconds via timeout
-0038 set -x; handlerAndroidPM.sh suspend android idle 5
+0038 set -x; handlerAndroidPM.sh suspend android timeout 5
 0039 set -x; sleep 2
 0040 set -x; handlerAndroidPM.sh resume android
 

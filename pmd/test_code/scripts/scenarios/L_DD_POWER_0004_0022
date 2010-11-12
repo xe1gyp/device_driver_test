@@ -57,7 +57,7 @@
 0013 set -x; sleep 1
 
 # Suspend/Resume for 5 seconds via timeout
-0013 set -x; handlerAndroidPM.sh suspend android idle 5
+0013 set -x; handlerAndroidPM.sh suspend android timeout 5
 0014 set -x; sleep 1
 0015 set -x; handlerAndroidPM.sh resume android
 
