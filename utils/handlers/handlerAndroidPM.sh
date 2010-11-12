@@ -305,9 +305,10 @@ case $LOCAL_OPERATION in
 	# Set correspond variables
 	LOCAL_ENVIRONMENT_TYPE=$LOCAL_OPERAND1
 	while [ 1 ]; do
-		if [ `dmesg | grep -wc "$HSR_SUSPEND_RESUME_MESSAGE_SUCCESS"` -gt 0 ]; then
+		if [ `dmesg -c | grep -wc "$HSR_SUSPEND_RESUME_MESSAGE_SUCCESS"` -gt 0 ]; then
 			break
 		fi
+		sleep 1
 	done
 	case $LOCAL_ENVIRONMENT_TYPE in
 	"android")
