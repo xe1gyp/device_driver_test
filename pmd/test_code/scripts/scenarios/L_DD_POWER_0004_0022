@@ -1,0 +1,78 @@
+###############################################################################
+# Scenario: L_DD_POWER_0004_0022
+# Author  : Leed Aguilar
+# Date    : 11/11/10
+# Testing : Run and complete AV playback usecase then perform suspend/resume
+#           via timeout: Boot platform, release wakelocks, let the system go
+#           to suspend via timeout, then resume to ensure that system works
+#           properly
+# Results : At resume, you should get the console prompt back and there should
+#           be any lockup
+###############################################################################
+
+# Begin L_DD_POWER_0004_0022
+
+# Unlock the UI by pressing Menu Key then go to home screen
+0001 set -x; handlerAndroidMonkey.sh keypad 2 800 KeyCodeMenu
+0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+
+# Set the screen timeout to the max value (30 minutes)
+0016 set -x; handlerActivityManager.sh settings start
+0007 set -x; sleep 1
+0018 set -x; handlerAndroidMonkey.sh keypad 11 100 KeyCodeDpadUp
+0019 set -x; handlerAndroidMonkey.sh keypad 3 800 KeyCodeDpadDown
+0020 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
+0021 set -x; handlerAndroidMonkey.sh keypad 3 800 KeyCodeDpadDown
+0022 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
+
+# Ensure you select the last option (30 min)
+0023 set -x; handlerAndroidMonkey.sh keypad 11 100 KeyCodeDpadDown
+0024 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadUp
+0025 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
+0026 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+
+# Start AV playback usecase
+0014 set -x; handlerActivityManager.sh av_playback start $MP4_FILE
+0015 set -x; sleep 15
+
+# Stop AV playback usecase by doing a "Pause" and then going to Home screen
+0016 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodePlayPause
+0017 set -x; sleep 1
+0018 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+0019 set -x; sleep 1
+
+# Ensure that Screen timeout is set to the smaller value (15 seconds)
+0003 set -x; handlerActivityManager.sh settings start
+0004 set -x; sleep 1
+0005 set -x; handlerAndroidMonkey.sh keypad 11 100 KeyCodeDpadUp
+0006 set -x; handlerAndroidMonkey.sh keypad 3 800 KeyCodeDpadDown
+0007 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
+0008 set -x; handlerAndroidMonkey.sh keypad 3 800 KeyCodeDpadDown
+0009 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
+
+# Ensure you select the first option (15 seconds)
+0010 set -x; handlerAndroidMonkey.sh keypad 11 100 KeyCodeDpadUp
+0011 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
+0012 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+0013 set -x; sleep 1
+
+# Suspend/Resume for 5 seconds via timeout
+0013 set -x; handlerAndroidPM.sh suspend android idle 5
+0014 set -x; sleep 1
+0015 set -x; handlerAndroidPM.sh resume android
+
+# Set the timeout value to the max value (30 minutes) for further testing
+0016 set -x; handlerActivityManager.sh settings start
+0007 set -x; sleep 1
+0018 set -x; handlerAndroidMonkey.sh keypad 11 100 KeyCodeDpadUp
+0019 set -x; handlerAndroidMonkey.sh keypad 3 800 KeyCodeDpadDown
+0020 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
+0021 set -x; handlerAndroidMonkey.sh keypad 3 800 KeyCodeDpadDown
+0022 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
+# Ensure you select the last option (30 min)
+0023 set -x; handlerAndroidMonkey.sh keypad 11 100 KeyCodeDpadDown
+0024 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadUp
+0025 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
+0026 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+
+# End L_DD_POWER_0004_0022
