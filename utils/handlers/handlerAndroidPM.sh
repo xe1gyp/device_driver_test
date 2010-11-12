@@ -59,11 +59,18 @@ releaseWakelocks() {
 	# Release all the wakelocks under /sys/power/wake_lock
 	echo -e "\n--------------------- ANDROID WAKELOCKS ---------------------\n"
 	for index in ${!wakelock_list[@]}; do
-		echo ${wakelock_list[$index]} > $SYSTEM_WAKE_UNLOCK
-		if [ `cat $SYSTEM_WAKE_LOCK | grep -wc ${wakelock_list[$index]}` -gt 0 ]; then
-			echo -e "\tFAIL: <${wakelock_list[$wakelock]}> wakelock was NOT released\n"
-		else
-			echo -e "\tSUCCESS: <${wakelock_list[$wakelock]}> wakelock  was released\n"
+		# Do not release PowerManagerService wakelock as it is a
+		# system wakelock and it will expire automatically
+		if [ ! ${wakelock_list[$index]} = "PowerManagerService" ]; then
+			echo ${wakelock_list[$index]} > $SYSTEM_WAKE_UNLOCK
+			if [ `cat $SYSTEM_WAKE_LOCK | \
+				grep -wc ${wakelock_list[$index]}` -gt 0 ]; then
+				echo -e "\tFAIL: <${wakelock_list[$wakelock]}>\
+						wakelock was NOT released\n"
+			else
+				echo -e "\tSUCCESS: <${wakelock_list[$wakelock]}> \
+						wakelock  was released\n"
+			fi
 		fi
 	done
 	echo -e "\n-------------------------------------------------------------\n"
