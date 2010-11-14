@@ -127,10 +127,12 @@ fi
 
 # Evaluate parameters and script usage
 
-if [[ "$LOCAL_OPERATION" = "run" && $# -ne 2 ]]; then
-	showInfo "ERROR: Number of parameters is invalid" 2>&1
-	generalUsage
-	verifyErrorFlag "generaUsage(): Number of parameters is invalid"
+if [ "$LOCAL_OPERATION" = "run" ]; then
+	if [ $# -ne 2 ]; then
+		showInfo "ERROR: Number of parameters is invalid" 2>&1
+		generalUsage
+		verifyErrorFlag "generaUsage(): Number of parameters is invalid"
+	fi
 elif [ "$LOCAL_OPERATION" = "iterate" ]; then
 	if [ $# -ne 4  ]; then
 		showInfo "ERROR: Number of parameters is invalid" 2>&1
