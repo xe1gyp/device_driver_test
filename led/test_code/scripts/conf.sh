@@ -23,6 +23,13 @@ export LED_STRESS=""
 
 export LED_SYSFS_PATH="/sys/class/leds"
 
+export LED_DISPLAY_LED_PATH="lcd-backlight"
+export LED_KEYPAD_LED_PATH="keyboard-backlight"
+export LED_BATTERY_LED_PATH="battery-led"
+export LED_RED_LED_PATH="red"
+export LED_GEEN_LED_PATH="green"
+export LED_BLUE_LED_PATH="blue"
+
 export PATH="${PATH}:${LED_ROOT}:${LED_DIR_BINARIES}:${LED_DIR_HELPER}"
 
 # Utils General Variables
