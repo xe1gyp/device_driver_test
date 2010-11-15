@@ -341,6 +341,494 @@
 
 	</test>
 
+<test id="L_DD_POWER_0004_0012">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Suspend/Resume in suspend path (pressing Power/F2 key) </description>
+			<dateofcreation> 11/15/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0012</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0014">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Suspend/Resume the system via timeout </description>
+			<dateofcreation> 11/15/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0014</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0016">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Run and complete Audio playback usecase then perform suspend/resume
+in suspend path (pressing Power/F2 key) </description>
+			<dateofcreation> 11/15/2010</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0016</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0017">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Run and complete 200 times Audio playback usecase + suspend/resume
+in suspend path (pressing Power/F2 key) </description>
+			<dateofcreation> 11/15/2010</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0017</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0018">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Run and complete Audio playback usecase then perform suspend/resume
+via timeout </description>
+			<dateofcreation> 11/15/2010</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0018</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0019">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description>  Run and complete 200 times Audio playback usecase + suspend/resume
+via timeout </description>
+			<dateofcreation> 11/15/2010</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0019</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0020">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Run and complete AV playback usecase then perform suspend/resume
+in suspend path (pressing Power/F2 key) </description>
+			<dateofcreation> 11/15/2010</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0020</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0021">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Run and complete 200 times AV playback usecase + suspend/resume
+in suspend path (pressing Power/F2 key) </description>
+			<dateofcreation> 11/15/2010</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0021</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0022">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Run and complete AV playback usecase then perform suspend/resume
+via timeout </description>
+			<dateofcreation> 11/15/2010</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0022</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0023">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description>  Run and complete 200 times AV playback usecase + suspend/resume
+via timeout </description>
+			<dateofcreation> 11/15/2010</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0023</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0024">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Run and complete Audio Record usecase then perform suspend/resume
+in suspend path (pressing Power/F2 key) </description>
+			<dateofcreation> 11/15/2010</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0024</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0025">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description>  Run and complete 200 times Audio Record usecase + suspend/resume
+in suspend path (pressing Power/F2 key) </description>
+			<dateofcreation> 11/15/2010</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0025</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0026">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Run and complete Audio record usecase then perform suspend/resume
+via timeout </description>
+			<dateofcreation> 11/15/2010</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0026</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0027">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Run and complete 200 times Audio record usecase + suspend/resume
+in idle path (via timeout) </description>
+			<dateofcreation> 11/15/2010</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0027</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
 	
 <test id="L_DD_POWER_0006_0001">
 
