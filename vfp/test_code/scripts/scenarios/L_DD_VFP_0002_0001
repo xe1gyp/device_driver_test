@@ -1,0 +1,10 @@
+###############################################################################
+# Scenario: L_DD_VFP_0002_0001
+# Author  : Tarun Kanti DebBarma
+# Date    : August 20, 2010
+# Testing : Single precision Scalar operations
+###############################################################################
+
+# Begin L_DD_VFP_0002_0001
+01 set -x; vfptest 2
+# End L_DD_VFP_0002_0001

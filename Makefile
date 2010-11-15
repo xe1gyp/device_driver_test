@@ -83,7 +83,7 @@ TESTSUITES:=all
 endif
 
 APPLICABLE_TESTS :=	benchmarks dma gpadc ethernet usb_host gpio hsuart i2c \
-			keypad mcbsp mcspi mmc  \
+			keypad mcbsp mcspi mmc vfp \
 			realtimeclock timer-32k touchscreen watchdog pmd\
 			sfh7741 accelerometer ambient_light led oskernel
 

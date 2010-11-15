@@ -1,0 +1,10 @@
+###############################################################################
+# Scenario: L_DD_VFP_0001_0001
+# Author  : Tarun Kanti DebBarma
+# Date    : August 20, 2010
+# Testing : Registers write/read test
+###############################################################################
+
+# Begin L_DD_VFP_0001_0001
+01 set -x; vfptest 1
+# End L_DD_VFP_0001_0001
