@@ -1,0 +1,39 @@
+###############################################################################
+# Scenario: L_DD_LED_0000_0010
+# Author  : Dan Murphy
+# Date    : November 10, 2010
+###############################################################################
+
+# Begin L_DD_LED_0000_0010
+
+01  set -x; test -d $LED_SYSFS_PATH
+
+02  set -x; test -d $LED_SYSFS_PATH/$LED_KEYPAD_LED_PATH
+
+03  set -x; test -f $LED_SYSFS_PATH/$LED_KEYPAD_LED_PATH/brightness
+
+04  set -x; handlerSysFs.sh "get" $LED_SYSFS_PATH/$LED_KEYPAD_LED_PATH/brightness > current.log
+
+05  set -x; handlerSysFs.sh "set" $LED_SYSFS_PATH/$LED_KEYPAD_LED_PATH/brightness "255"
+
+06  set -x; handlerSysFs.sh "compare"  $LED_SYSFS_PATH/$LED_KEYPAD_LED_PATH/brightness 255
+
+07  set -x; handlerSysFs.sh "set" $LED_SYSFS_PATH/$LED_KEYPAD_LED_PATH/brightness "128"
+
+08  set -x; handlerSysFs.sh "compare"  $LED_SYSFS_PATH/$LED_KEYPAD_LED_PATH/brightness 128
+
+09  set -x; handlerSysFs.sh "set" $LED_SYSFS_PATH/$LED_KEYPAD_LED_PATH/brightness "20"
+
+10  set -x; handlerSysFs.sh "compare"  $LED_SYSFS_PATH/$LED_KEYPAD_LED_PATH/brightness 20
+
+11  set -x; handlerSysFs.sh "set" $LED_SYSFS_PATH/$LED_KEYPAD_LED_PATH/brightness "0"
+
+12  set -x; handlerSysFs.sh "compare"  $LED_SYSFS_PATH/$LED_KEYPAD_LED_PATH/brightness 0
+
+13  set -x; handlerSysFs.sh "set" $LED_SYSFS_PATH/$LED_KEYPAD_LED_PATH/brightness "`cat current.log`"
+
+14  set -x; handlerSysFs.sh "compare"  $LED_SYSFS_PATH/$LED_KEYPAD_LED_PATH/brightness "`cat current.log`"
+
+15  rm current.log
+
+# End L_DD_LED_0000_0010

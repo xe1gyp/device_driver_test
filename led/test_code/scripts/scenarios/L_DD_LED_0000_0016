@@ -1,0 +1,71 @@
+###############################################################################
+# Scenario: L_DD_LED_0000_0015
+# Author  : Dan Murphy
+# Date    : November 10, 2010
+###############################################################################
+
+# Begin L_DD_LED_0000_0015
+
+01  set -x; test -d $LED_SYSFS_PATH
+
+02  set -x; test -d $LED_SYSFS_PATH/$LED_RED_LED_PATH
+
+03  set -x; test -f $LED_SYSFS_PATH/$LED_RED_LED_PATH/brightness
+
+04  set -x; handlerSysFs.sh "get" $LED_SYSFS_PATH/$LED_RED_LED_PATH/brightness > red.log
+
+05  set -x; handlerOutOfBounds.sh "set" $LED_SYSFS_PATH/$LED_RED_LED_PATH/brightness "-1"
+
+06  set -x; handlerSysFs.sh "compare"  $LED_SYSFS_PATH/$LED_RED_LED_PATH/brightness "`cat red.log`"
+
+07  set -x; handlerSysFs.sh "set" $LED_SYSFS_PATH/$LED_RED_LED_PATH/brightness "256"
+
+08  set -x; handlerSysFs.sh "compare"  $LED_SYSFS_PATH/$LED_RED_LED_PATH/brightness 255
+
+09  set -x; handlerSysFs.sh "set" $LED_SYSFS_PATH/$LED_RED_LED_PATH/brightness "`cat red.log`"
+
+10  set -x; handlerSysFs.sh "compare"  $LED_SYSFS_PATH/$LED_RED_LED_PATH/brightness "`cat red.log`"
+
+11  rm red.log
+
+12  set -x; test -d $LED_SYSFS_PATH/$LED_GEEN_LED_PATH
+
+13  set -x; test -f $LED_SYSFS_PATH/$LED_GEEN_LED_PATH/brightness
+
+14  set -x; handlerSysFs.sh "get" $LED_SYSFS_PATH/$LED_GEEN_LED_PATH/brightness > green.log
+
+15  set -x; handlerOutOfBounds.sh "set" $LED_SYSFS_PATH/$LED_GEEN_LED_PATH/brightness "-1"
+
+16  set -x; handlerSysFs.sh "compare"  $LED_SYSFS_PATH/$LED_GEEN_LED_PATH/brightness "`cat green.log`"
+
+17  set -x; handlerSysFs.sh "set" $LED_SYSFS_PATH/$LED_GEEN_LED_PATH/brightness "256"
+
+18  set -x; handlerSysFs.sh "compare"  $LED_SYSFS_PATH/$LED_GEEN_LED_PATH/brightness 255
+
+19  set -x; handlerSysFs.sh "set" $LED_SYSFS_PATH/$LED_GEEN_LED_PATH/brightness "`cat green.log`"
+
+20  set -x; handlerSysFs.sh "compare"  $LED_SYSFS_PATH/$LED_GEEN_LED_PATH/brightness "`cat green.log`"
+
+21  rm green.log
+
+20  set -x; test -d $LED_SYSFS_PATH/$LED_BLUE_LED_PATH
+
+21  set -x; test -f $LED_SYSFS_PATH/$LED_BLUE_LED_PATH/brightness
+
+22  set -x; handlerSysFs.sh "get" $LED_SYSFS_PATH/$LED_BLUE_LED_PATH/brightness > blue.log
+
+23  set -x; handlerOutOfBounds.sh "set" $LED_SYSFS_PATH/$LED_BLUE_LED_PATH/brightness "-1"
+
+24  set -x; handlerSysFs.sh "compare"  $LED_SYSFS_PATH/$LED_BLUE_LED_PATH/brightness "`cat blue.log`"
+
+25  set -x; handlerSysFs.sh "set" $LED_SYSFS_PATH/$LED_BLUE_LED_PATH/brightness "256"
+
+26  set -x; handlerSysFs.sh "compare"  $LED_SYSFS_PATH/$LED_BLUE_LED_PATH/brightness 255
+
+27  set -x; handlerSysFs.sh "set" $LED_SYSFS_PATH/$LED_BLUE_LED_PATH/brightness "`cat blue.log`"
+
+28  set -x; handlerSysFs.sh "compare"  $LED_SYSFS_PATH/$LED_BLUE_LED_PATH/brightness "`cat blue.log`"
+
+29  rm blue.log
+
+# End L_DD_LED_0000_0015

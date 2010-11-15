@@ -1,0 +1,31 @@
+###############################################################################
+# Scenario: L_DD_LED_0000_0023
+# Author  : Dan Murphy
+# Date    : November 10, 2010
+###############################################################################
+
+# Begin L_DD_LED_0000_0023
+
+01  set -x; test -d $LED_SYSFS_PATH
+
+02  set -x; test -d $LED_SYSFS_PATH/$LED_BATTERY_LED_PATH
+
+03  set -x; test -f $LED_SYSFS_PATH/$LED_BATTERY_LED_PATH/brightness
+
+04  set -x; handlerSysFs.sh "get" $LED_SYSFS_PATH/$LED_BATTERY_LED_PATH/brightness > current.log
+
+05  set -x; handlerOutOfBounds.sh "set" $LED_SYSFS_PATH/$LED_BATTERY_LED_PATH/brightness "-1"
+
+06  set -x; handlerSysFs.sh "compare"  $LED_SYSFS_PATH/$LED_BATTERY_LED_PATH/brightness "`cat current.log`"
+
+07  set -x; handlerSysFs.sh "set" $LED_SYSFS_PATH/$LED_BATTERY_LED_PATH/brightness "256"
+
+08  set -x; handlerSysFs.sh "compare"  $LED_SYSFS_PATH/$LED_BATTERY_LED_PATH/brightness 255
+
+09  set -x; handlerSysFs.sh "set" $LED_SYSFS_PATH/$LED_BATTERY_LED_PATH/brightness "`cat current.log`"
+
+10  set -x; handlerSysFs.sh "compare"  $LED_SYSFS_PATH/$LED_BATTERY_LED_PATH/brightness "`cat current.log`"
+
+11  rm current.log
+
+# End L_DD_LED_0000_0023
