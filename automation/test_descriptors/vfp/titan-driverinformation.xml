@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<titan>
+
+	<driverinformation>
+		<name>vfp</name>
+		<description>VFP testsuites</description>
+	</driverinformation>
+
+</titan>

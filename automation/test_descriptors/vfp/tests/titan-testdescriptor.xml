@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<titan>
+
+	<test id="L_DD_VFP_0001_0001">
+
+		<information>
+			<autor> Cristopherson Torres Martinez </autor>
+			<description> Registers write/read test </description>
+			<dateofcreation> 11/15/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/vfp/scripts/test_runner.sh L_DD_VFP_0001_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/vfp/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<timeout time="60"/>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_VFP_0002_0001">
+
+		<information>
+			<autor> Cristopherson Torres Martinez </autor>
+			<description> Single precision Scalar operations </description>
+			<dateofcreation> 11/15/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/vfp/scripts/test_runner.sh L_DD_VFP_0002_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/vfp/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<timeout time="60"/>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_VFP_0003_0001">
+
+		<information>
+			<autor> Cristopherson Torres Martinez </autor>
+			<description> Double precision Scalar operations </description>
+			<dateofcreation> 11/15/2010 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/vfp/scripts/test_runner.sh L_DD_VFP_0003_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/vfp/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<timeout time="60"/>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+</titan>
