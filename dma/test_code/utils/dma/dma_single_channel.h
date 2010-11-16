@@ -49,6 +49,13 @@
 
 #define PROC_FILE	"driver/dma_test_status"
 
+enum {
+CCR = 0, CLNK_CTRL, CICR, CSR, CSDP,
+CEN, CFN, CSSA, CDSA, CSEI, CSFI,
+CDEI, CDFI, CSAC, CDAC, CCEN, CCFN,
+COLOR, CH_END
+};
+
 /*
  * An struct that represents the buffers used for the transfer
  */
@@ -185,5 +192,7 @@ void create_dma_proc(char *proc_name);
  * Removes a proc entry from the procfs
  */
 void remove_dma_proc(char *proc_name);
+
+void dma_channel_registers_dump(int lch, u32 *reg_values);
 
 #endif

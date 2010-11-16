@@ -41,7 +41,10 @@ MODULES = dma_single_channel.o \
   dma_stop_transfer_twice.o \
   dma_thread_access.o \
   dma_chain_thread_access.o \
-  dma_chain_thread_stress.o
+  dma_chain_thread_stress.o \
+  dma_addrmode_constant_oswr.o \
+  dma_register_dump.o \
+  dma_oswr_trigger.o
 
  ifeq ($(TARGET_PLATFORM), OMAP_4430)
  MODULES += dma_dload.o \

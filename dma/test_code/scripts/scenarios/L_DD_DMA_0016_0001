@@ -1,0 +1,28 @@
+################################################################################
+# Scenario:    L_DD_DMA_0016
+# Author  :    G, Manjunath Kondaiah <manjugk@ti.com>
+# Date    :    November 16th, 2010
+# Description: OSWR testing with DMA Constant addressing mode
+################################################################################
+
+# Begin L_DD_DMA_0016
+
+0001	set -x; insmod $TESTMODS/dma_register_dump.ko
+0002	set -x; insmod $TESTMODS/dma_single_channel.ko
+0003	set -x; insmod $TESTMODS/dma_addrmode_constant_oswr.ko
+0004    set -x; echo 0 > /sys/devices/system/cpu/cpu1/online
+0005    set -x; echo mem > /sys/power/state
+0006    set -x; sleep 20
+0007	set -x; echo " "
+0007	set -x; echo " "
+0007	set -x; echo " "
+0007	set -x; echo " "
+0007	set -x; echo " "
+0007    set -x; insmod $TESTMODS/dma_oswr_trigger.ko
+0014    set -x; rmmod dma_oswr_trigger
+0008	set -x; rmmod dma_addrmode_constant_oswr
+0009    set -x; cat /proc/driver/dma_test_status | grep PASS
+0012	set -x; rmmod dma_single_channel
+0013	set -x; rmmod dma_register_dump
+
+# End L_DD_DMA_0016
