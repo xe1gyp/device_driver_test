@@ -12,9 +12,10 @@
 # Variables
 # =============================================================================
 
-LOCAL_INPUT_DEVICE=$1
+LOCAL_OPERATION=$1
 LOCAL_REPEAT=$2
 LOCAL_CMD_DELAY=$3
+LOCAL_MONKEY_SCRIPT=$3
 LOCAL_KEY_EVENT=$4
 LOCAL_X_COORD=$4
 LOCAL_Y_COORD=$5
@@ -101,6 +102,10 @@ generalUsage() {
 
 	 Script Usage:
 
+	 To execute an Monkey script
+
+	   $ handlerAndroidMonkey.sh run {repeat} <monkey script>
+
 	 To excute a key event use the following:
 
 	   $ handlerAndroidMonkey.sh keypad {repeat} {delay} {keyevent}
@@ -175,31 +180,18 @@ fi
 
 # Check Parameters and scritp usage
 
-# Check 1st parameter and total number of parameters
-if [[ "$LOCAL_INPUT_DEVICE" = "keypad" && $# -ne 4 ]]; then
-	generalUsage
-	verifyErrorFlag
-fi
-
-# Check 1st parameter and total number of parameters
-if [[ "$LOCAL_INPUT_DEVICE" = "touchscreen" && $# -ne 5 ]]; then
-	generalUsage
-	verifyErrorFlag "generalUsage(): Checking 1st parameter"
-fi
-
-# Check 2nd parameter
-isPositiveInteger $LOCAL_REPEAT
-verifyErrorFlag "generalUsage(): Checking 2nd parameter"
-
-# Check 3rd  parameter
-isPositiveInteger $LOCAL_CMD_DELAY
-verifyErrorFlag "generalUsage(): Checking 3rd parameter"
-
-# Check 4th and 5th parameter for keypad and touchscreen cases
-# toucscreen = LOCAL_X_COORD
-# keypad     = LOCAL_KEY_EVENT
-case $LOCAL_INPUT_DEVICE in
+case $LOCAL_OPERATION in
 "keypad")
+	if [ $# -ne 4 ]; then
+		generalUsage
+		verifyErrorFlag "Number of parameters for 'keypad' operation is incorrect"
+	fi
+	# Check 2nd parameter
+	isPositiveInteger $LOCAL_REPEAT
+	verifyErrorFlag "generalUsage(): Checking 2nd parameter"
+	# Check 3rd  parameter
+	isPositiveInteger $LOCAL_CMD_DELAY
+	verifyErrorFlag "generalUsage(): Checking 3rd parameter"
 	echo `expr match $LOCAL_KEY_EVENT 'KeyCode'` > match_value
 	if [ `cat match_value` = "7" ]; then
 		eval "eval 'echo "\$$LOCAL_KEY_EVENT"'" > tmp_val
@@ -216,16 +208,38 @@ case $LOCAL_INPUT_DEVICE in
 	fi
 	;;
 "touchscreen")
-	isPositiveInteger $LOCAL_Y_COORD
+	if [ $# -ne 5 ]; then
+		generalUsage
+		verifyErrorFlag "Number of parameters for 'touchscreen' operation is incorrect"
+	fi
+	# Check 2nd parameter
+	isPositiveInteger $LOCAL_REPEAT
+	verifyErrorFlag "generalUsage(): Checking 2nd parameter"
+	# Check 3rd  parameter
+	isPositiveInteger $LOCAL_CMD_DELAY
+	verifyErrorFlag "generalUsage(): Checking 3rd parameter"
+	# Check 4th parameter
+	isPositiveInteger $LOCAL_X_COORD
 	verifyErrorFlag "generalUsage(): Checking 4th parameter for touchscreen case"
+	# Check 5th parameter
 	isPositiveInteger $LOCAL_Y_COORD
 	verifyErrorFlag "generalUsage(): Checking 5th parameter for touchscreen case"
+	;;
+"run")
+	if [ $# -ne 3 ]; then
+		generalUsage
+		verifyErrorFlag "Number of parameters for 'run' operation is incorrect"
+	fi
+	;;
+*)
+	generalUsage
+	verifyErrorFlag "generalUsage(): Checking 1st parameter"
 	;;
 esac
 
 # Run Android Monkey commands
 
-case $LOCAL_INPUT_DEVICE in
+case $LOCAL_OPERATION in
 
 "keypad")
 	createPressKeyScript $LOCAL_KEY_EVENT $LOCAL_CMD_DELAY
@@ -247,9 +261,17 @@ case $LOCAL_INPUT_DEVICE in
 		verifyErrorFlag "Android monkey execution for touchscreen"
 	fi
 	;;
+"run")
+	monkey -f $LOCAL_MONKEY_SCRIPT $LOCAL_REPEAT 2> err
+	if [ $? -gt 0 ]; then
+		showInfo "ERROR: Monkey command failed for the following reason:\n" "`cat err`"
+		LOCAL_ERROR=1
+		verifyErrorFlag "Android monkey execution failed"
+	fi
+	;;
 *)
 	generalUsage
-	verifyErrorFlag "generalUsage(): verifying LOCAL_INPUT_DEVICE parameter"
+	verifyErrorFlag "generalUsage(): verifying LOCAL_OPERATION parameter"
 	;;
 esac
 
