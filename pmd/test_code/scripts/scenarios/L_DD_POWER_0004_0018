@@ -16,61 +16,26 @@
 0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
 
 # Set the screen timeout to the max value (30 minutes)
-0003 set -x; handlerActivityManager.sh settings start
-0004 set -x; sleep 1
-0005 set -x; handlerAndroidMonkey.sh keypad 11 100 KeyCodeDpadUp
-0006 set -x; handlerAndroidMonkey.sh keypad 3 800 KeyCodeDpadDown
-0007 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
-0008 set -x; handlerAndroidMonkey.sh keypad 3 800 KeyCodeDpadDown
-0009 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
-
-# Ensure you select the last option (30 min)
-0020 set -x; handlerAndroidMonkey.sh keypad 11 100 KeyCodeDpadDown
-0021 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadUp
-0022 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
-0023 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+0003 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
 
 # Start Audio playback usecase
-0024 set -x; handlerActivityManager.sh audio_playback start $MP3_FILE
-0025 set -x; sleep 15
+0004 set -x; handlerActivityManager.sh audio_playback start $MP3_FILE
+0005 set -x; sleep 15
 
 # Stop Audio playback usecase by doing a "Pause" and then going to Home screen
-0025 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodePlayPause
-0026 set -x; sleep 1
-0027 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+0006 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodePlayPause
+0007 set -x; sleep 1
+0008 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
 
 # Ensure that Screen timeout is set to the smaller value (15 seconds)
-0028 set -x; handlerActivityManager.sh settings start
-0029 set -x; sleep 1
-0030 set -x; handlerAndroidMonkey.sh keypad 11 100 KeyCodeDpadUp
-0031 set -x; handlerAndroidMonkey.sh keypad 3 800 KeyCodeDpadDown
-0032 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
-0033 set -x; handlerAndroidMonkey.sh keypad 3 800 KeyCodeDpadDown
-0034set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
-
-# Ensure you select the first option (15 seconds)
-0035 set -x; handlerAndroidMonkey.sh keypad 11 100 KeyCodeDpadUp
-0036 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
-0037 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+0009 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.min.screen.timeout.value
 
 # Suspend/Resume for 5 seconds via timeout
-0038 set -x; handlerAndroidPM.sh suspend android timeout 5
-0039 set -x; sleep 2
-0040 set -x; handlerAndroidPM.sh resume android
+0010 set -x; handlerAndroidPM.sh suspend android timeout 5
+0011 set -x; sleep 2
+0012 set -x; handlerAndroidPM.sh resume android
 
 # Set the timeout value to the max value (30 minutes) for further testing
-0041 set -x; handlerActivityManager.sh settings start
-0042 set -x; sleep 1
-0043 set -x; handlerAndroidMonkey.sh keypad 11 100 KeyCodeDpadUp
-0044 set -x; handlerAndroidMonkey.sh keypad 3 800 KeyCodeDpadDown
-0045 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
-0046 set -x; handlerAndroidMonkey.sh keypad 3 800 KeyCodeDpadDown
-0047 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
-
-# Ensure you select the last option (30 min)
-0048 set -x; handlerAndroidMonkey.sh keypad 11 100 KeyCodeDpadDown
-0049 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadUp
-0050 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
-0051 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+0013 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
 
 # End L_DD_POWER_0004_0018

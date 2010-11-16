@@ -16,20 +16,8 @@
 0001 set -x; handlerAndroidMonkey.sh keypad 2 800 KeyCodeMenu
 0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
 
-# Set the screen timeout to the max value (30 minutes) to avoid the system go
-# to suspend in the midle of the test
-0003 set -x; handlerActivityManager.sh settings start
-0004 set -x; sleep 1
-0005 set -x; handlerAndroidMonkey.sh keypad 11 100 KeyCodeDpadUp
-0006 set -x; handlerAndroidMonkey.sh keypad 3 800 KeyCodeDpadDown
-0007 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
-0008 set -x; handlerAndroidMonkey.sh keypad 3 800 KeyCodeDpadDown
-0009 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
-# Ensure you select the last option (30 min)
-0010 set -x; handlerAndroidMonkey.sh keypad 11 100 KeyCodeDpadDown
-0011 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadUp
-0012 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
-0013 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+# Set the screen timeout to the max value (30 minutes)
+0003 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
 
 # Iterate 200 times the following process:
 # a) start audio playback usecase
@@ -37,6 +25,6 @@
 # c) suspend the system through suspend path
 # d) resume and verify that system works fine
 
-0014 set -x; handlerCmd.sh iterate 'handlerActivityManager.sh audio_playback start $MP3_FILE; sleep 15; handlerAndroidMonkey.sh keypad 1 800 KeyCodePlayPause; sleep 1; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome; sleep 2; handlerAndroidPM.sh suspend android idle 5; handlerAndroidPM.sh resume android' 200 2
+0004 set -x; handlerCmd.sh iterate 'handlerActivityManager.sh audio_playback start $MP3_FILE; sleep 15; handlerAndroidMonkey.sh keypad 1 800 KeyCodePlayPause; sleep 1; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome; sleep 2; handlerAndroidPM.sh suspend android force 5; handlerAndroidPM.sh resume android' 200 2
 
 # End L_DD_POWER_0004_0017

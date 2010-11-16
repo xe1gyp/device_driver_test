@@ -30,6 +30,7 @@ export UTILS_DIR=$PMD_ROOT/../../utils/
 export UTILS_DIR_BIN=$UTILS_DIR/bin
 export UTILS_DIR_HANDLERS=$UTILS_DIR/handlers
 export UTILS_DIR_SCRIPTS=$UTILS_DIR/scripts
+export UTILS_DIR_MONKEY=$UTILS_DIR/monkey
 
 . $UTILS_DIR/configuration/general.configuration
 
