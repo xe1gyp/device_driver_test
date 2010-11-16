@@ -183,6 +183,7 @@ $(TESTROOT)/$(notdir $(UTILSDIR)): $(UTILSDIR)
 	@cp -r $</configuration $@
 	@cp -r $</bin $@
 	@cp -r $</handlers $@
+	@cp -r $</monkey $@
 	@echo
 	@echo "=========Installed utils directory in \"$(TESTROOT)\"=========";
 	@echo
