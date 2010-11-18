@@ -64,7 +64,7 @@ if [ $? -eq 1 ]; then
 	exit 1
 fi
 
-handlerSysFs.sh "compare" $SYSFS_CPU_ONLINE  "0-1"
+handlerSysFs.sh "verify" $SYSFS_CPU_ONLINE  "0-1"
 if [ $? -eq 0 ]; then
 	LOCAL_MULTICORE=1
 else

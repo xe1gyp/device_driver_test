@@ -39,7 +39,7 @@ elif [ "$LOCAL_COMMAND" = "get" ]; then
 
 	cat $LOCAL_SYSFS_ENTRY_NAME
 
-elif [ "$LOCAL_COMMAND" = "compare" ]; then
+elif [ "$LOCAL_COMMAND" = "compare" ] || [ "$LOCAL_COMMAND" = "verify" ]; then
 
 	LOCAL_SYSFS_ENTRY_VALUE=$3
 
@@ -52,7 +52,9 @@ elif [ "$LOCAL_COMMAND" = "compare" ]; then
 		exit 0
 	else
 		echo "Fail: handlerSysFs.sh, comparison failed"
-		handlerError.sh "log" "1" "halt" "handlerSysFs.sh"
+		if [ "$LOCAL_COMMAND" = "compare" ]; then
+			handlerError.sh "log" "1" "halt" "handlerSysFs.sh"
+		fi
 		exit 1
 	fi
 
