@@ -56,6 +56,10 @@ do
 				j=""
 			fi 
 			insmod $McBSP_MODULE $COMMAND$j $COMMAND2$k $COMMAND3$l test_mcbsp_id=$i
+			if [ "$?" = "1" ]
+			then
+				exit 1
+			fi	
 			TEMP=`cat /proc/driver/mcbsp_test/status | grep "$TAG" | awk '{print $6}'`
 			TRANSFER=`cat /proc/driver/mcbsp_test/status | grep "Number of transfers" | awk '{print $5}'`
 			print "Starting Transmission : \"echo start > /proc/driver/mcbsp_test/transmission\""

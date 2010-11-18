@@ -37,6 +37,10 @@ do
 #	rmmod $MODNAME
 #    fi
     insmod $McBSP_MODULE $COMMAND$j test_mcbsp_id=$i
+    if [ "$?" = "1" ]
+    then
+	exit 1
+    fi	
     TEMP=`cat /proc/driver/mcbsp_test/status | grep "$TAG" | awk '{print $6}'`
     print "Starting Transmission"
     sleep $MESSAGE_DELAY

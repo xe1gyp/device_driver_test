@@ -22,6 +22,10 @@ do
   print "----- Parameter \"$TAG\"" 
   print "----- Available values .: $VARIABLE :."  
   insmod $McBSP_MODULE $COMMAND$VALUE test_mcbsp_id=$i
+  if [ "$?" = "1" ]
+  then
+    exit 1
+  fi	
   print "Suspending Driver..."
   print "echo suspend > /proc/driver/mcbsp_test/transmission"
   sleep $MESSAGE_DELAY
