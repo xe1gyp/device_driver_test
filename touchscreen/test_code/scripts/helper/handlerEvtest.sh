@@ -46,7 +46,7 @@ elif [ "$LOCAL_OPERATION" = "test" ]; then
 
 	if [ "$LOCAL_MODE" = "noevents" ]; then
 
-		echo -e "\n\n\nINFO: Please DO NOT interact with $LOCAL_CONTROLLER Touchscreen, wait for process to finish"
+		echo -e "\n\n\nINFO: Please DO NOT INTERACT with $LOCAL_CONTROLLER Touchscreen, wait for process to finish"
 		echo -e "INFO: Working with $LOCAL_DEVFS_NODE\n\n\n"
 		sleep 5
 		eval $TOUCHSCREEN_DIR_BINARIES/evtest $LOCAL_DEVFS_NODE $LOCAL_NUMBER_ITERATIONS | grep Event | grep time | grep type | grep code > $LOCAL_TEMP_FILE &
