@@ -1,7 +1,9 @@
 # Begin L_DD_ETHERNET_0002_0003
 
-01  set -x; handlerIfconfig.sh "set" "mode" "promisc" && exit 0 || exit 1
-02  set -x; handlerIfconfig.sh "unset" "mode" "promisc" && exit 0 || exit 1
+01  set -x; handlerIfconfig.sh "interface" "up"
+
+02  set -x; handlerIfconfig.sh "set" "mode" "promisc"
+03  set -x; handlerIfconfig.sh "unset" "mode" "promisc"
 
 # End L_DD_ETHERNET_0002_0003
 

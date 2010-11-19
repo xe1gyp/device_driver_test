@@ -1,15 +1,17 @@
 # Begin L_DD_ETHERNET_0003_0001
 
+01  set -x; handlerIfconfig.sh "interface" "up"
+
 # Valid values
-01  set -x; handlerIfconfig.sh "set" "mtu" 500  && exit 0 || exit 1
-02  set -x; handlerIfconfig.sh "set" "mtu" 1000 && exit 0 || exit 1
-03  set -x; handlerIfconfig.sh "set" "mtu" 1500 && exit 0 || exit 1
+02  set -x; handlerIfconfig.sh "set" "mtu" 500
+03  set -x; handlerIfconfig.sh "set" "mtu" 1000
+04  set -x; handlerIfconfig.sh "set" "mtu" 1500
 
 # Range of valid values
-04  set -x; for i in `seq 500 1500`; do handlerIfconfig.sh "set" "mtu" $i; done && exit 0 || exit 1
+05  set -x; for i in `seq 500 1500`; do handlerIfconfig.sh "set" "mtu" $i; done
 
 # Default Value
-05  set -x; handlerIfconfig.sh "set" "mtu" 1500 && exit 0 || exit 1
+06  set -x; handlerIfconfig.sh "set" "mtu" 1500
 
 # End L_DD_ETHERNET_0003_0001
 
