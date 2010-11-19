@@ -27,6 +27,11 @@ if [ "$LOCAL_COMMAND" = "get" ]; then
 
 	if [ "$LOCAL_FIELD" = "ipaddr" ]; then
 
+		ifconfig $ETHERNET_INTERFACE | grep addr: | sed -e 's@inet addr:@@' | sed q | awk '{print $1}'
+		if [ $? -eq 1 ]; then
+			handlerError.sh "log" "1" "halt" "handlerIfconfig.sh | get operation | ipaddr field"
+		fi
+
 		ifconfig $ETHERNET_INTERFACE | grep addr: | sed -e 's@inet addr:@@' | sed q | awk '{print $1}' > $ETHERNET_IFCONFIG_IPADDR
 		if [ -z $TESTER_ADDRESS ]; then
 			cat $ETHERNET_IFCONFIG_IPADDR > $ETHERNET_EXTERNAL_HOST_IPADDR
@@ -35,7 +40,12 @@ if [ "$LOCAL_COMMAND" = "get" ]; then
 		fi
 
 	elif [ "$LOCAL_FIELD" = "hwaddr" ]; then
-		ifconfig | grep HWaddr | awk '{print $5}' > $ETHERNET_IFCONFIG_HWADDR
+
+		ifconfig $ETHERNET_INTERFACE | grep HWaddr | awk '{print $5}' > $ETHERNET_IFCONFIG_HWADDR
+		if [ $? -eq 1 ]; then
+			handlerError.sh "log" "1" "halt" "handlerIfconfig.sh | get operation | hwaddr field"
+		fi
+
 	fi
 
 elif [ "$LOCAL_COMMAND" = "set" ]; then
@@ -69,7 +79,7 @@ elif [ "$LOCAL_COMMAND" = "interface" ]; then
 		ifconfig $ETHERNET_INTERFACE up
 		ifconfig | grep $ETHERNET_INTERFACE
 		if [ $? -eq 1 ]; then
-			handlerError.sh "log" "1" "halt" "handlerIfconfig.sh"
+			handlerError.sh "log" "1" "halt" "handlerIfconfig.sh | interface operation | up field"
 		fi
 
 	elif [ "$LOCAL_FIELD" = "down" ]; then
@@ -77,10 +87,14 @@ elif [ "$LOCAL_COMMAND" = "interface" ]; then
 		ifconfig $ETHERNET_INTERFACE down
 		ifconfig | grep $ETHERNET_INTERFACE
 		if [ $? -eq 0 ]; then
-			handlerError.sh "log" "1" "halt" "handlerIfconfig.sh"
+			handlerError.sh "log" "1" "halt" "handlerIfconfig.sh | interface operation | down field"
 		fi
+
 	fi
 
 fi
+
+echo -e "\nEthernet Interface\n"
+ifconfig $ETHERNET_INTERFACE
 
 # End of file
