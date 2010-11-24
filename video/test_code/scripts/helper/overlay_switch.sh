@@ -6,6 +6,8 @@ RESULT=0
 
 #Usage: ./overlay_switch.sh <DisplayDevice> <VideoPipeline>
 
+echo "0" > /sys/devices/platform/omapdss/display$DISPLAY/enabled
+sleep 2
 echo "1" > /sys/devices/platform/omapdss/display$DISPLAY/enabled
 sleep 1
 if [ "$DISPLAY" = "0" ];then
