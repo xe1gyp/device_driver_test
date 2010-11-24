@@ -20,17 +20,29 @@
 
 static int usage(void)
 {
-	printf("Usage: setwin <video_device> <left> <top> <width> <height>\n");
+	printf("Usage: setwin <video_device> <left> <top> <width> <height> [pix_field] \n");
+	printf("[pix_field] is optional, set this to 5 for interlace support"
+			"or set 1 for progressive \n");
 	return 1;
 }
 
 int main(int argc, char *argv[])
 {
 	int video_device, file_descriptor, result;
+	int pix_field = V4L2_FIELD_NONE;
 	struct v4l2_format format;
 
 	if (argc < 6)
 		return usage();
+
+	if (argc == 7) {
+		if ((atoi(argv[6])== 5) || (atoi(argv[6]) == 1))
+			pix_field = atoi(argv[6]);
+		else {
+			printf("Invalid pix_field value: Input 1 or 5 only\n");
+			return usage();
+		}
+	}
 
 	video_device = atoi(argv[1]);
         if ((video_device != 1) && (video_device != 2) && (video_device != 3) && (video_device != 4)) {
@@ -44,6 +56,7 @@ int main(int argc, char *argv[])
 	format.fmt.win.w.width = atoi(argv[4]);
 	format.fmt.win.w.height = atoi(argv[5]);
 	format.type = V4L2_BUF_TYPE_VIDEO_OVERLAY;
+	format.fmt.win.field  = pix_field;	/*V4L2_FIELD_SEQ_TB == 5, V4L2_FIELD_NONE == 1 */
 
 	file_descriptor =
                 open((video_device == 1) ? VIDEO_DEVICE1 :
