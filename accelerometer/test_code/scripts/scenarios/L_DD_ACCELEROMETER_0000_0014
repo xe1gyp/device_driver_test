@@ -14,22 +14,26 @@
 
 04  set -x; handlerSysFs.sh "set" $ACCELEROMETER_SYSFS_PATH/delay "200"
 
-05  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/delay 200
+05  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/delay 100
 
 06  set -x; handlerSysFs.sh "set" $ACCELEROMETER_SYSFS_PATH/delay "20"
 
-07  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/delay 20
+07  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/delay 2
 
-08  set -x; handlerSysFs.sh "set" $ACCELEROMETER_SYSFS_PATH/delay "`cat delay.log`"
+08  set -x; handlerSysFs.sh "set" $ACCELEROMETER_SYSFS_PATH/delay "25"
 
-09  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/delay "`cat delay.log`"
+09  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/delay 25
 
-10  rm delay.log
+10  set -x; handlerSysFs.sh "set" $ACCELEROMETER_SYSFS_PATH/delay "`cat delay.log`"
 
-11  set -x; handlerSysFs.sh "set" $ACCELEROMETER_SYSFS_PATH/mode "`cat mode.log`"
+11  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/delay "`cat delay.log`"
 
-12  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/mode "`cat mode.log`"
+12  rm delay.log
 
-13  rm mode.log
+13  set -x; handlerSysFs.sh "set" $ACCELEROMETER_SYSFS_PATH/mode "`cat mode.log`"
+
+14  set -x; handlerSysFs.sh "compare" $ACCELEROMETER_SYSFS_PATH/mode "`cat mode.log`"
+
+15  rm mode.log
 
 # End L_DD_ACCELEROMETER_0000_0014
