@@ -1,0 +1,67 @@
+##############################################################################
+# FILENAME      : L_DD_VIDEO_0046
+# Author        : Samreen
+# Date          : Thurs Nov 25, 2010
+# Description   : Interlace & Progressive Support Testcases
+# #############################################################################
+
+# Begin "L_DD_VIDEO_0046"
+
+COMMENT comment.sh "Interlace & Progressive Support Testcases"
+COMMENT comment.sh "Includes Interlace testcases, HDMI is required"
+
+COMMENT comment.sh "Interlace To Progressive Test on LCD1..."
+
+0000_SET_VD1 set -x;overlay_switch.sh 0 1                    && exit 0 || exit 1
+
+COMMENT comment.sh "This will display a blue screen on LCD1"
+0000_VD1_STRM1 set -x; imgstream.sh 1 "RGB565 1920 1080" $VIDEOFILES/tb_blue_red_1920x1080.rgb16 "0 0 1920 1080" "0 0 1920 1080" "3" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "Progressive To Interlace Test..."
+
+0001_SET_VD3 set -x;overlay_switch.sh 2 3                    && exit 0 || exit 1
+
+COMMENT comment.sh "Set EDID timing for interlace"
+0001_SET_INR set -x;tv_settiming.sh 1                        && exit 0 || exit 1
+
+COMMENT comment.sh "This will display a pinkish blue flicking screen on HDMI"
+0001_VD3_STRM set -x; imgstream.sh 3 "RGB565 1920 1080" $VIDEOFILES/blue_red_1920x1080_intr.rgb16 "0 0 1920 1080" "0 0 1920 1080" "2" "1" && exit 0 || exit 1
+
+COMMENT comment.sh "Interlace To Interlace Test..."
+
+COMMENT comment.sh "This will display a set frames repeated number of times on HDMI"
+0002_VD3_STRM1 set -x; imgstream.sh 3 "NV12 512 384" $VIDEOFILES/bus.yuv "36 24 352 288" "0 0 704 576" "0" "5"	&& exit 0 || exit 1
+
+COMMENT comment.sh "This will display a frame with flowers on HDMI"
+0002_VD3_STRM2 set -x; imgstream.sh 3 "RGB565 1920 1080" $VIDEOFILES/ilace_flower.rgb16 "0 0 1920 1080" "0 0 1920 1080" "2" "5"	&& exit 0 || exit 1
+
+COMMENT comment.sh "This will display a pinkish blue flicking screen on HDMI"
+0002_VD3_STRM3 set -x; imgstream.sh 3 "RGB565 1920 1080" $VIDEOFILES/tb_blue_red_1920x1080.rgb16 "0 0 1920 1080" "0 0 1920 1080" "2" "5"   exit 0 || exit 1
+
+COMMENT comment.sh "Interlace To Progressive Test..."
+
+COMMENT comment.sh "Set EDID timing for progressive"
+0003_SET_PROG  set -x;tv_settiming.sh 0                        && exit 0 || exit 1
+
+COMMENT comment.sh "This will display a set frames repeated number of times on HDMI"
+0003_VD3_STRM1 set -x; imgstream.sh 3 "NV12 512 384" $VIDEOFILES/bus.yuv "36 24 352 288" "0 0 704 576" "0" "5"  && exit 0 || exit 1
+
+COMMENT comment.sh "This will display a frame with flowers on HDMI"
+0003_VD3_STRM2 set -x; imgstream.sh 3 "RGB565 1920 1080" $VIDEOFILES/ilace_flower.rgb16 "0 0 1920 1080" "0 0 1920 1080" "2" "5" 	&& exit 0 || exit 1
+
+COMMENT comment.sh "This will display a pinkish blue flicking screen on HDMI"
+0003_VD3_STRM3 set -x; imgstream.sh 3 "RGB565 1920 1080" $VIDEOFILES/tb_blue_red_1920x1080.rgb16 "0 0 1920 1080" "0 0 1920 1080" "2" "5"  && exit 0 || exit 1
+
+COMMENT comment.sh "Progressive To Progressive Test..."
+
+COMMENT comment.sh "This will display a frame with red and blue band on HDMI"
+0004_VD3_STRM1 set -x; imgstream.sh 3 "RGB565 1920 1080" $VIDEOFILES/tb_blue_red_1920x1080.rgb16 "0 0 1920 1080" "0 0 1920 1080" "2" "1" && exit 0 || exit 1
+
+COMMENT comment.sh "Interlace To Progressive Test on LCD2..."
+
+0005_SET_VD2 set -x;overlay_switch.sh 1 2                    && exit 0 || exit 1
+
+COMMENT comment.sh "This will display a blue screen on LCD2"
+0005_VD2_STRM1 set -x; imgstream.sh 2 "RGB565 1920 1080" $VIDEOFILES/tb_blue_red_1920x1080.rgb16 "0 0 1920 1080" "0 0 1920 1080" "3" "5" && exit 0 || exit 1
+
+# End "L_DD_VIDEO_0046"
