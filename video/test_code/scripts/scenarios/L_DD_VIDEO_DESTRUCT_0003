@@ -1,0 +1,55 @@
+#####################
+# FILENAME: L_DD_VIDEO_DESTRUCT_0003
+# Author  : Umesh D A
+# Date    : Thursday Nov 18, 2010
+# Description: Cropping destructive test
+
+# Begin "L_DD_VIDEO_DESTRUCT_0003"
+
+COMMENT comment.sh "Verify different destructive cropping, on all 3 video pipelines on primary display"
+
+SETUP_VD1 set -x; setupimage.sh 1 "RGB565 160 120" && exit 0 || exit 1
+SETUP_VD2 set -x; setupimage.sh 2 "RGB565 160 120" && exit 0 || exit 1
+SETUP_VD3 set -x; setupimage.sh 3 "RGB565 160 120" && exit 0 || exit 1
+
+0001_VD1_SAN1 set -x; cropstream.sh 1 "0 0 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0001_VD1_SAN2 set -x; cropstream.sh 1 "0 0 16 16" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0001_VD1_SAN3 set -x; cropstream.sh 1 "0 0 -160 -120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0001_VD1_SAN4 set -x; cropstream.sh 1 "0 0 xx yy" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0001_VD1_SAN5 set -x; cropstream.sh 1 "0 0 2050 2050" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0001_VD1_SAN6 set -x; cropstream.sh 1 "0 0 1 1" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0001_VD1_SAN7 set -x; cropstream.sh 1 "0 0 5000 5000" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0001_VD1_SAN8 set -x; cropstream.sh 1 "-10 -10 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0001_VD1_SAN9 set -x; cropstream.sh 1 "xx yy 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0001_VD1_SAN10 set -x; cropstream.sh 1 "2050 2050 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0001_VD1_SAN11 set -x; cropstream.sh 1 "5000 5000 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0001_VD1_SAN12 set -x; cropstream.sh 1 "-5000 -5000 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+
+0002_VD2_SAN1 set -x; cropstream.sh 2 "0 0 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0002_VD2_SAN2 set -x; cropstream.sh 2 "0 0 16 16" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0002_VD2_SAN3 set -x; cropstream.sh 2 "0 0 -160 -120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0002_VD2_SAN4 set -x; cropstream.sh 2 "0 0 xx yy" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0002_VD2_SAN5 set -x; cropstream.sh 2 "0 0 2050 2050" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0002_VD2_SAN6 set -x; cropstream.sh 2 "0 0 1 1" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0002_VD2_SAN7 set -x; cropstream.sh 2 "0 0 5000 5000" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0002_VD2_SAN8 set -x; cropstream.sh 2 "-10 -10 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0002_VD2_SAN9 set -x; cropstream.sh 2 "xx yy 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0002_VD2_SAN10 set -x; cropstream.sh 2 "2050 2050 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0002_VD2_SAN11 set -x; cropstream.sh 2 "5000 5000 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0002_VD2_SAN12 set -x; cropstream.sh 2 "-5000 -5000 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+
+0003_VD3_SAN1 set -x; cropstream.sh 3 "0 0 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0003_VD3_SAN2 set -x; cropstream.sh 3 "0 0 16 16" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0003_VD3_SAN3 set -x; cropstream.sh 3 "0 0 -160 -120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0003_VD3_SAN4 set -x; cropstream.sh 3 "0 0 xx yy" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0003_VD3_SAN5 set -x; cropstream.sh 3 "0 0 2050 2050" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0003_VD3_SAN6 set -x; cropstream.sh 3 "0 0 1 1" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0003_VD3_SAN7 set -x; cropstream.sh 3 "0 0 5000 5000" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0003_VD3_SAN8 set -x; cropstream.sh 3 "-10 -10 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0003_VD3_SAN9 set -x; cropstream.sh 3 "xx yy 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0003_VD3_SAN10 set -x; cropstream.sh 3 "2050 2050 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0003_VD3_SAN11 set -x; cropstream.sh 3 "5000 5000 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0003_VD3_SAN12 set -x; cropstream.sh 3 "-5000 -5000 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+
+
+# End "L_DD_VIDEO_DESTRUCT_0003"
