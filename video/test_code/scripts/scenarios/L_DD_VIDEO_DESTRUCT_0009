@@ -1,0 +1,25 @@
+#####################
+# FILENAME: L_DD_VIDEO_DESTRUCT_0009
+# Author  : Umesh D A
+# Date    : Friday Nov 19, 2010
+# Description: Pixel format destructive test
+
+# Begin "L_DD_VIDEO_DESTRUCT_0009"
+
+COMMENT comment.sh "Verify different destructive pixel formats"
+
+0001_VD1_SAN1 set -x; imgstream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+0001_VD1_SAN2 set -x; imgstream.sh 1 "XYZ565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+0001_VD1_SAN3 set -x; imgstream.sh 1 "RGB4324 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+0001_VD1_SAN4 set -x; imgstream.sh 1 "YUYV256 176 144"   $VIDEOFILES/video_qcif_yuv_75			&& exit 0 || exit 1
+0001_VD1_SAN5 set -x; imgstream.sh 1 "NV12812 128 96" $VIDEOFILES/2.nv12                        && exit 0 || exit 1
+0001_VD1_SAN6 set -x; imgstream.sh 1 "UYVY6954 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv			&& exit 0 || exit 1
+
+0002_VD2_SAN1 set -x; imgstream.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+0002_VD2_SAN2 set -x; imgstream.sh 2 "XYZ565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+0002_VD2_SAN3 set -x; imgstream.sh 2 "RGB4324 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+0002_VD2_SAN4 set -x; imgstream.sh 2 "YUYV256 176 144"   $VIDEOFILES/video_qcif_yuv_75			&& exit 0 || exit 1
+0002_VD2_SAN5 set -x; imgstream.sh 2 "NV12812 128 96" $VIDEOFILES/2.nv12                        && exit 0 || exit 1
+0002_VD2_SAN6 set -x; imgstream.sh 2 "UYVY6954 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv			&& exit 0 || exit 1
+
+# End "L_DD_VIDEO_DESTRUCT_0009"
