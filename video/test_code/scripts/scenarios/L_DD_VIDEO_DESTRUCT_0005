@@ -1,0 +1,128 @@
+#####################
+# FILENAME: L_DD_VIDEO_DESTRUCT_0005
+# Author  : Umesh D A
+# Date    : Thursday Nov 18, 2010
+# Description: Mirroring destructive test
+
+# Begin "L_DD_VIDEO_DESTRUCT_0005"
+
+COMMENT comment.sh "Verify destructive mirrored on video 1 pipeline"
+COMMENT comment.sh "Display on Vid1 on LCD1"
+
+0001_VD1 set -x;overlay_switch.sh 0 1  
+0001_SETIP_VD1 set -x; $TESTBIN/setimg 1 RGB565 160 120 && exit 0 || exit 1
+0001_SETOP_VD1 set -x; $TESTBIN/setwin 1 0 0 160 120 && exit 0 || exit 1
+
+0001_VD1_SAN1 set -x; mirrorstream.sh 1 0  $VIDEOFILES/video_qqvga_rgb_30	 && exit 0 || exit 1
+0001_VD1_SAN2 set -x; mirrorstream.sh 1 1  $VIDEOFILES/video_qqvga_rgb_30	 && exit 0 || exit 1
+0001_VD1_SAN3 set -x; mirrorstream.sh 1 5  $VIDEOFILES/video_qqvga_rgb_30	 && exit 0 || exit 1
+0001_VD1_SAN4 set -x; mirrorstream.sh 1 -8  $VIDEOFILES/video_qqvga_rgb_30	 && exit 0 || exit 1
+0001_VD1_SAN5 set -x; mirrorstream.sh 1 xy  $VIDEOFILES/video_qqvga_rgb_30	 && exit 0 || exit 1
+
+COMMENT comment.sh "Verify destructive mirrored on video 2 pipeline "
+COMMENT comment.sh "Display on Vid2 on LCD1"
+
+0002_VD2 set -x;overlay_switch.sh 0 2  
+0002_SETIP_VD2 set -x; $TESTBIN/setimg 2 NV12 640 480 && exit 0 || exit 1
+0002_SETOP_VD2 set -x; $TESTBIN/setwin 2 0 0 640 480 && exit 0 || exit 1
+
+0002_VD2_SAN1 set -x; mirrorstream.sh 2 0   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0002_VD2_SAN2 set -x; mirrorstream.sh 2 1   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0002_VD2_SAN3 set -x; mirrorstream.sh 2 5   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0002_VD2_SAN4 set -x; mirrorstream.sh 2 -8   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0002_VD2_SAN5 set -x; mirrorstream.sh 2 xy   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+
+COMMENT comment.sh "Verify destructive mirrored on video 2 pipeline "
+COMMENT comment.sh "Display on Vid3 on LCD1"
+
+0003_VD3 set -x;overlay_switch.sh 0 3  
+0003_SETIP_VD3 set -x; $TESTBIN/setimg 3 NV12 640 480 && exit 0 || exit 1
+0003_SETOP_VD3 set -x; $TESTBIN/setwin 3 0 0 640 480 && exit 0 || exit 1
+
+0003_VD3_SAN1 set -x; mirrorstream.sh 3 0   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0003_VD3_SAN2 set -x; mirrorstream.sh 3 1   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0003_VD3_SAN3 set -x; mirrorstream.sh 3 5   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0003_VD3_SAN4 set -x; mirrorstream.sh 3 -8   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0003_VD3_SAN5 set -x; mirrorstream.sh 3 xy   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+
+
+COMMENT comment.sh "Verify destructive mirrored on video 1 pipeline"
+COMMENT comment.sh "Display on Vid1 on LCD2"
+
+0004_VD1 set -x;overlay_switch.sh 1 1  
+0004_SETIP_VD1 set -x; $TESTBIN/setimg 1 RGB565 160 120 && exit 0 || exit 1
+0004_SETOP_VD1 set -x; $TESTBIN/setwin 1 0 0 160 120 && exit 0 || exit 1
+
+0004_VD1_SAN1 set -x; mirrorstream.sh 1 0  $VIDEOFILES/video_qqvga_rgb_30	 && exit 0 || exit 1
+0004_VD1_SAN2 set -x; mirrorstream.sh 1 1  $VIDEOFILES/video_qqvga_rgb_30	 && exit 0 || exit 1
+0004_VD1_SAN3 set -x; mirrorstream.sh 1 5  $VIDEOFILES/video_qqvga_rgb_30	 && exit 0 || exit 1
+0004_VD1_SAN4 set -x; mirrorstream.sh 1 -8  $VIDEOFILES/video_qqvga_rgb_30	 && exit 0 || exit 1
+0004_VD1_SAN5 set -x; mirrorstream.sh 1 xy  $VIDEOFILES/video_qqvga_rgb_30	 && exit 0 || exit 1
+
+COMMENT comment.sh "Verify destructive mirrored on video 2 pipeline "
+COMMENT comment.sh "Display on Vid2 on LCD2"
+
+0005_VD2 set -x;overlay_switch.sh 1 2  
+0005_SETIP_VD2 set -x; $TESTBIN/setimg 2 NV12 640 480 && exit 0 || exit 1
+0005_SETOP_VD2 set -x; $TESTBIN/setwin 2 0 0 640 480 && exit 0 || exit 1
+
+0005_VD2_SAN1 set -x; mirrorstream.sh 2 0   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0005_VD2_SAN2 set -x; mirrorstream.sh 2 1   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0005_VD2_SAN3 set -x; mirrorstream.sh 2 5   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0005_VD2_SAN4 set -x; mirrorstream.sh 2 -8   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0005_VD2_SAN5 set -x; mirrorstream.sh 2 xy   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+
+COMMENT comment.sh "Verify destructive mirrored on video 2 pipeline "
+COMMENT comment.sh "Display on Vid3 on LCD2"
+
+0006_VD3 set -x;overlay_switch.sh 1 3  
+0006_SETIP_VD3 set -x; $TESTBIN/setimg 3 NV12 640 480 && exit 0 || exit 1
+0006_SETOP_VD3 set -x; $TESTBIN/setwin 3 0 0 640 480 && exit 0 || exit 1
+
+0006_VD3_SAN1 set -x; mirrorstream.sh 3 0   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0006_VD3_SAN2 set -x; mirrorstream.sh 3 1   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0006_VD3_SAN3 set -x; mirrorstream.sh 3 5   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0006_VD3_SAN4 set -x; mirrorstream.sh 3 -8   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0006_VD3_SAN5 set -x; mirrorstream.sh 3 xy   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+
+
+COMMENT comment.sh "Verify destructive mirrored on video 1 pipeline"
+COMMENT comment.sh "Display on Vid1 on TV"
+
+0007_VD1 set -x;overlay_switch.sh 2 1 
+0007_SETIP_VD1 set -x; $TESTBIN/setimg 1 RGB565 160 120 && exit 0 || exit 1
+0007_SETOP_VD1 set -x; $TESTBIN/setwin 1 0 0 160 120 && exit 0 || exit 1
+
+0007_VD1_SAN1 set -x; mirrorstream.sh 1 0  $VIDEOFILES/video_qqvga_rgb_30	 && exit 0 || exit 1
+0007_VD1_SAN2 set -x; mirrorstream.sh 1 1  $VIDEOFILES/video_qqvga_rgb_30	 && exit 0 || exit 1
+0007_VD1_SAN3 set -x; mirrorstream.sh 1 5  $VIDEOFILES/video_qqvga_rgb_30	 && exit 0 || exit 1
+0007_VD1_SAN4 set -x; mirrorstream.sh 1 -8  $VIDEOFILES/video_qqvga_rgb_30	 && exit 0 || exit 1
+0007_VD1_SAN5 set -x; mirrorstream.sh 1 xy  $VIDEOFILES/video_qqvga_rgb_30	 && exit 0 || exit 1
+
+COMMENT comment.sh "Verify destructive mirrored on video 2 pipeline "
+COMMENT comment.sh "Display on Vid2 on TV"
+
+0008_VD2 set -x;overlay_switch.sh 2 2  
+0008_SETIP_VD2 set -x; $TESTBIN/setimg 2 NV12 640 480 && exit 0 || exit 1
+0008_SETOP_VD2 set -x; $TESTBIN/setwin 2 0 0 640 480 && exit 0 || exit 1
+
+0008_VD2_SAN1 set -x; mirrorstream.sh 2 0   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0008_VD2_SAN2 set -x; mirrorstream.sh 2 1   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0008_VD2_SAN3 set -x; mirrorstream.sh 2 5   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0008_VD2_SAN4 set -x; mirrorstream.sh 2 -8   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0008_VD2_SAN5 set -x; mirrorstream.sh 2 xy   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+
+COMMENT comment.sh "Verify destructive mirrored on video 2 pipeline "
+COMMENT comment.sh "Display on Vid3 on TV"
+
+0009_VD3 set -x;overlay_switch.sh 2 3  
+0009_SETIP_VD3 set -x; $TESTBIN/setimg 3 NV12 640 480 && exit 0 || exit 1
+0009_SETOP_VD3 set -x; $TESTBIN/setwin 3 0 0 640 480 && exit 0 || exit 1
+
+0009_VD3_SAN1 set -x; mirrorstream.sh 3 0   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0009_VD3_SAN2 set -x; mirrorstream.sh 3 1   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0009_VD3_SAN3 set -x; mirrorstream.sh 3 5   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0009_VD3_SAN4 set -x; mirrorstream.sh 3 -8   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+0009_VD3_SAN5 set -x; mirrorstream.sh 3 xy   $VIDEOFILES/xena_p640x480_30fps_420nv12_443fr.yuv	&& exit 0 || exit 1
+
+# End "L_DD_VIDEO_DESTRUCT_0005"
