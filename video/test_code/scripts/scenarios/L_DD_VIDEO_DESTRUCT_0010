@@ -1,0 +1,16 @@
+#####################
+# FILENAME: L_DD_VIDEO_DESTRUCT_0010
+# Author  : Umesh D A
+# Date    : Friday Nov 19, 2010
+# Description: Video pipeline destructive test
+
+# Begin "L_DD_VIDEO_DESTRUCT_0010"
+
+COMMENT comment.sh "Verify different video pipelines "
+
+0001_VDPL_SET1 set -x; imgstream.sh 8 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30			&& exit 0 || exit 1
+0001_VDPL_SET2 set -x; cropstream.sh xy "0 0 160 120" $VIDEOFILES/video_qqvga_rgb_30 "RGB565 160 120" && exit 0 || exit 1
+0001_VDPL_SET3 set -x; rotation_destruct.sh -3 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30	"0 0 160 120"  90	&& exit 0 || exit 1
+0001_VDPL_SET4 set -x; mirrorstream.sh 0 0 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30	 && exit 0 || exit 1
+
+# End "L_DD_VIDEO_DESTRUCT_0010"
