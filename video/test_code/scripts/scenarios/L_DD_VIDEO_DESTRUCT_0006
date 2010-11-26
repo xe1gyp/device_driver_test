@@ -1,0 +1,41 @@
+#####################
+# FILENAME: L_DD_VIDEO_DESTRUCT_0006
+# Author  : Umesh D A
+# Date    : Thursday Nov 18, 2010
+# Description: alpha blending destructive test
+
+# Begin "L_DD_VIDEO_DESTRUCT_0006"
+
+
+COMMENT comment.sh "Verify destructive parameters for the alpha blending functionality"
+
+COMMENT comment.sh "Parameters: ALPHA=enabled; OUTPUT=LCD; GFX ALPHA=255; VD2 ALPHA=50"
+
+0001_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "LCD" "255" "50" "ON" && exit 0 || exit 1
+0002_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "LCD" "255" "255" "ON" && exit 0 || exit 1
+0003_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "LCD" "255" "983454200" "ON" && exit 0 || exit 1
+0004_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "LCD" "255" "-200" "ON"  && exit 0 || exit 1
+0005_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "LCD" "255" "xyz" "ON"  && exit 0 || exit 1
+0006_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "LCD" "255" "100" "OFF"  && exit 0 || exit 1
+0007_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "LCD" "255" "255" "ON" && exit 0 || exit 1
+0008_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "LCD" "4342354343" "255" "ON" && exit 0 || exit 1
+0009_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "LCD" "-255" "255" "ON"  && exit 0 || exit 1
+0010_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "LCD" "xtz" "255" "ON"  && exit 0 || exit 1
+0011_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "LCD" "100" "255" "OFF"  && exit 0 || exit 1
+
+
+COMMENT comment.sh "Parameters: ALPHA=enabled; OUTPUT=TV; GFX ALPHA=255; VD2 ALPHA=50"
+
+0012_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "TV" "255" "50" "ON" && exit 0 || exit 1
+0013_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "TV" "255" "255" "ON" && exit 0 || exit 1
+0014_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "TV" "255" "9534854200" "ON" && exit 0 || exit 1
+0015_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "TV" "255" "-200" "ON"  && exit 0 || exit 1
+0016_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "TV" "255" "xyz" "ON"  && exit 0 || exit 1
+0017_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "TV" "255" "100" "OFF"  && exit 0 || exit 1
+0018_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "TV" "255" "255" "ON" && exit 0 || exit 1
+0019_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "TV" "434234343" "255" "ON" && exit 0 || exit 1
+0020_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "TV" "-255" "255" "ON"  && exit 0 || exit 1
+0021_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "TV" "xtz" "255" "ON"  && exit 0 || exit 1
+0022_ALPHA_SET -x; alpha_blending.sh "GLOBAL" "TV" "100" "255" "OFF"  && exit 0 || exit 1
+
+# End "L_DD_VIDEO_DESTRUCT_0006"
