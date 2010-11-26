@@ -1,0 +1,28 @@
+#####################
+# FILENAME: L_DD_VIDEO_DESTRUCT_0007
+# Author  : Umesh D A
+# Date    : Friday Nov 19, 2010
+# Description: Background colour destructive test
+
+# Begin "L_DD_VIDEO_DESTRUCT_0007"
+
+
+COMMENT comment.sh "Verify destructive parameters for background colour"
+COMMENT comment.sh "Parameters: <1=LCD/2=TV> <Background colour>"
+
+0001_BGCLR_SET1 set -x; background.sh 1 0 && exit 0 || exit 1
+0001_BGCLR_SET2 set -x; background.sh 1 255 && exit 0 || exit 1
+0001_BGCLR_SET3 set -x; background.sh 1 123456 && exit 0 || exit 1
+0001_BGCLR_SET4 set -x; background.sh 1 1245454453456 && exit 0 || exit 1
+0001_BGCLR_SET5 set -x; background.sh 1 -432343 && exit 0 || exit 1
+0001_BGCLR_SET6 set -x; background.sh 1 xyzxyz && exit 0 || exit 1
+
+0002_BGCLR_SET1 set -x; background.sh 2 0 && exit 0 || exit 1
+0002_BGCLR_SET2 set -x; background.sh 2 255 && exit 0 || exit 1
+0002_BGCLR_SET3 set -x; background.sh 2 123456 && exit 0 || exit 1
+0002_BGCLR_SET4 set -x; background.sh 2 1245454453456 && exit 0 || exit 1
+0002_BGCLR_SET5 set -x; background.sh 2 -432343 && exit 0 || exit 1
+0002_BGCLR_SET6 set -x; background.sh 2 xyzxyz && exit 0 || exit 1
+
+
+# End "L_DD_VIDEO_DESTRUCT_0007"
