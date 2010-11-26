@@ -1,0 +1,116 @@
+#####################
+# FILENAME: L_DD_VIDEO_DESTRUCT_0002
+# Author  : Umesh D A
+# Date    : Thursday Nov 18, 2010
+# Description: Output window resolution destructive test
+
+# Begin "L_DD_VIDEO_DESTRUCT_0002"
+
+COMMENT comment.sh "Verify different output destructive resolution formats rendered on video 1 2 and 3 pipelines on primary"
+
+0001_VD1_SAN1 set -x; imgstream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 "" "0 0 160 120"		&& exit 0 || exit 1
+0001_VD1_SAN2 set -x; imgstream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 "" "0 0 -160 -120"		&& exit 0 || exit 1
+0001_VD1_SAN3 set -x; imgstream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30	"" "0 0 x y"			&& exit 0 || exit 1
+0001_VD1_SAN4 set -x; imgstream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30	"" "0 0 2050 2050"		&& exit 0 || exit 1
+0001_VD1_SAN5 set -x; imgstream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30	"" "0 0 1 1"			&& exit 0 || exit 1
+0001_VD1_SAN6 set -x; imgstream.sh 1 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30	"" "0 0 5000 5000"		&& exit 0 || exit 1
+
+0002_VD2_SAN1 set -x; imgstream.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 "" "0 0 160 120"		&& exit 0 || exit 1
+0002_VD2_SAN2 set -x; imgstream.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 "" "0 0 -160 -120"		&& exit 0 || exit 1
+0002_VD2_SAN3 set -x; imgstream.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30	"" "0 0 x y"			&& exit 0 || exit 1
+0002_VD2_SAN4 set -x; imgstream.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30	"" "0 0 2050 2050"		&& exit 0 || exit 1
+0002_VD2_SAN5 set -x; imgstream.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30	"" "0 0 1 1"			&& exit 0 || exit 1
+0002_VD2_SAN6 set -x; imgstream.sh 2 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30	"" "0 0 5000 5000"		&& exit 0 || exit 1
+
+0003_VD3_SAN1 set -x; imgstream.sh 3 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 "" "0 0 160 120"		&& exit 0 || exit 1
+0003_VD3_SAN2 set -x; imgstream.sh 3 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30 "" "0 0 -160 -120"		&& exit 0 || exit 1
+0003_VD3_SAN3 set -x; imgstream.sh 3 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30	"" "0 0 x y"			&& exit 0 || exit 1
+0003_VD3_SAN4 set -x; imgstream.sh 3 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30	"" "0 0 2050 2050"		&& exit 0 || exit 1
+0003_VD3_SAN5 set -x; imgstream.sh 3 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30	"" "0 0 1 1"			&& exit 0 || exit 1
+0003_VD3_SAN6 set -x; imgstream.sh 3 "RGB565 160 120" $VIDEOFILES/video_qqvga_rgb_30	"" "0 0 5000 5000"		&& exit 0 || exit 1
+
+0004_VD1_SAN1 set -x; imgstream.sh 1 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75 "" "0 0 176 144"		&& exit 0 || exit 1
+0004_VD1_SAN2 set -x; imgstream.sh 1 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75 "" "0 0 -176 -144"	&& exit 0 || exit 1
+0004_VD1_SAN3 set -x; imgstream.sh 1 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75	"" "0 0 x y"		&& exit 0 || exit 1
+0004_VD1_SAN4 set -x; imgstream.sh 1 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75 "" "0 0 2050 2050"	&& exit 0 || exit 1
+0004_VD1_SAN5 set -x; imgstream.sh 1 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75 "" "0 0 1 1"			&& exit 0 || exit 1
+0004_VD1_SAN6 set -x; imgstream.sh 1 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75 "" "0 0 5000 5000"	&& exit 0 || exit 1
+
+0005_VD2_SAN1 set -x; imgstream.sh 2 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75 "" "0 0 176 144"		&& exit 0 || exit 1
+0005_VD2_SAN2 set -x; imgstream.sh 2 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75 "" "0 0 -176 -144"	&& exit 0 || exit 1
+0005_VD2_SAN3 set -x; imgstream.sh 2 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75	"" "0 0 x y"		&& exit 0 || exit 1
+0005_VD2_SAN4 set -x; imgstream.sh 2 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75 "" "0 0 2050 2050"	&& exit 0 || exit 1
+0005_VD2_SAN5 set -x; imgstream.sh 2 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75 "" "0 0 1 1"			&& exit 0 || exit 1
+0005_VD2_SAN6 set -x; imgstream.sh 2 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75 "" "0 0 5000 5000"	&& exit 0 || exit 1
+
+0006_VD3_SAN1 set -x; imgstream.sh 3 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75 "" "0 0 176 144"		&& exit 0 || exit 1
+0006_VD3_SAN2 set -x; imgstream.sh 3 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75 "" "0 0 -176 -144"	&& exit 0 || exit 1
+0006_VD3_SAN3 set -x; imgstream.sh 3 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75	"" "0 0 x y"		&& exit 0 || exit 1
+0006_VD3_SAN4 set -x; imgstream.sh 3 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75 "" "0 0 2050 2050"	&& exit 0 || exit 1
+0006_VD3_SAN5 set -x; imgstream.sh 3 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75 "" "0 0 1 1"			&& exit 0 || exit 1
+0006_VD3_SAN6 set -x; imgstream.sh 3 "YUYV 176 144"   $VIDEOFILES/video_qcif_yuv_75 "" "0 0 5000 5000"	&& exit 0 || exit 1
+
+0007_VD1_SAN1 set -x; imgstream.sh 1 "NV12 128 96" $VIDEOFILES/2.nv12  "" "0 0 128 96"		&& exit 0 || exit 1
+0007_VD1_SAN2 set -x; imgstream.sh 1 "NV12 128 96" $VIDEOFILES/2.nv12  "" "0 0 -128 -96"		&& exit 0 || exit 1
+0007_VD1_SAN3 set -x; imgstream.sh 1 "NV12 128 96" $VIDEOFILES/2.nv12  "" "0 0 x y"			&& exit 0 || exit 1
+0007_VD1_SAN4 set -x; imgstream.sh 1 "NV12 128 96" $VIDEOFILES/2.nv12  "" "0 0 2050 2050"	&& exit 0 || exit 1
+0007_VD1_SAN5 set -x; imgstream.sh 1 "NV12 128 96" $VIDEOFILES/2.nv12  "" "0 0 1 1"			&& exit 0 || exit 1
+0007_VD1_SAN6 set -x; imgstream.sh 1 "NV12 128 96" $VIDEOFILES/2.nv12  "" "0 0 5000 5000"	&& exit 0 || exit 1
+
+0008_VD2_SAN1 set -x; imgstream.sh 2 "NV12 128 96" $VIDEOFILES/2.nv12  "" "0 0 128 96"		&& exit 0 || exit 1
+0008_VD2_SAN2 set -x; imgstream.sh 2 "NV12 128 96" $VIDEOFILES/2.nv12  "" "0 0 -128 -96"		&& exit 0 || exit 1
+0008_VD2_SAN3 set -x; imgstream.sh 2 "NV12 128 96" $VIDEOFILES/2.nv12  "" "0 0 x y"			&& exit 0 || exit 1
+0008_VD2_SAN4 set -x; imgstream.sh 2 "NV12 128 96" $VIDEOFILES/2.nv12  "" "0 0 2050 2050"	&& exit 0 || exit 1
+0008_VD2_SAN5 set -x; imgstream.sh 2 "NV12 128 96" $VIDEOFILES/2.nv12  "" "0 0 1 1"			&& exit 0 || exit 1
+0008_VD2_SAN6 set -x; imgstream.sh 2 "NV12 128 96" $VIDEOFILES/2.nv12  "" "0 0 5000 5000"	&& exit 0 || exit 1
+
+0009_VD3_SAN1 set -x; imgstream.sh 3 "NV12 128 96" $VIDEOFILES/2.nv12  "" "0 0 128 96"		&& exit 0 || exit 1
+0009_VD3_SAN2 set -x; imgstream.sh 3 "NV12 128 96" $VIDEOFILES/2.nv12  "" "0 0 -128 -96"		&& exit 0 || exit 1
+0009_VD3_SAN3 set -x; imgstream.sh 3 "NV12 128 96" $VIDEOFILES/2.nv12  "" "0 0 x y"			&& exit 0 || exit 1
+0009_VD3_SAN4 set -x; imgstream.sh 3 "NV12 128 96" $VIDEOFILES/2.nv12  "" "0 0 2050 2050"	&& exit 0 || exit 1
+0009_VD3_SAN5 set -x; imgstream.sh 3 "NV12 128 96" $VIDEOFILES/2.nv12  "" "0 0 1 1"			&& exit 0 || exit 1
+0009_VD3_SAN6 set -x; imgstream.sh 3 "NV12 128 96" $VIDEOFILES/2.nv12  "" "0 0 5000 5000"	&& exit 0 || exit 1
+
+0010_VD1_SAN1 set -x; imgstream.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "" "0 0 352 288"		&& exit 0 || exit 1
+0010_VD1_SAN2 set -x; imgstream.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "" "0 0 -352 -288"		&& exit 0 || exit 1
+0010_VD1_SAN3 set -x; imgstream.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "" "0 0 x y"			&& exit 0 || exit 1
+0010_VD1_SAN4 set -x; imgstream.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "" "0 0 2050 2050"		&& exit 0 || exit 1
+0010_VD1_SAN5 set -x; imgstream.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "" "0 0 1 1"			&& exit 0 || exit 1
+0010_VD1_SAN6 set -x; imgstream.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "" "0 0 5000 5000"		&& exit 0 || exit 1
+
+0011_VD2_SAN1 set -x; imgstream.sh 2 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "" "0 0 352 288"		&& exit 0 || exit 1
+0011_VD2_SAN2 set -x; imgstream.sh 2 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "" "0 0 -352 -288"		&& exit 0 || exit 1
+0011_VD2_SAN3 set -x; imgstream.sh 2 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "" "0 0 x y"			&& exit 0 || exit 1
+0011_VD2_SAN4 set -x; imgstream.sh 2 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "" "0 0 2050 2050"		&& exit 0 || exit 1
+0011_VD2_SAN5 set -x; imgstream.sh 2 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "" "0 0 1 1"			&& exit 0 || exit 1
+0011_VD2_SAN6 set -x; imgstream.sh 2 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "" "0 0 5000 5000"		&& exit 0 || exit 1
+
+0012_VD3_SAN1 set -x; imgstream.sh 3 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "" "0 0 352 288"		&& exit 0 || exit 1
+0012_VD3_SAN2 set -x; imgstream.sh 3 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "" "0 0 -352 -288"		&& exit 0 || exit 1
+0012_VD3_SAN3 set -x; imgstream.sh 3 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "" "0 0 x y"			&& exit 0 || exit 1
+0012_VD3_SAN4 set -x; imgstream.sh 3 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "" "0 0 2050 2050"		&& exit 0 || exit 1
+0012_VD3_SAN5 set -x; imgstream.sh 3 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "" "0 0 1 1"			&& exit 0 || exit 1
+0012_VD3_SAN6 set -x; imgstream.sh 3 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "" "0 0 5000 5000"		&& exit 0 || exit 1
+
+0013_VD1_SAN1 set -x; imgstream.sh 1 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv "" "0 0 320 480"		&& exit 0 || exit 1
+0013_VD1_SAN2 set -x; imgstream.sh 1 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv "" "0 0 -320 -480"	&& exit 0 || exit 1
+0013_VD1_SAN3 set -x; imgstream.sh 1 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv "" "0 0 x y"			&& exit 0 || exit 1
+0013_VD1_SAN4 set -x; imgstream.sh 1 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv "" "0 0 2050 2050"	&& exit 0 || exit 1
+0013_VD1_SAN5 set -x; imgstream.sh 1 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv "" "0 0 1 1"			&& exit 0 || exit 1
+0013_VD1_SAN6 set -x; imgstream.sh 1 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv "" "0 0 5000 5000"	&& exit 0 || exit 1
+
+0014_VD2_SAN1 set -x; imgstream.sh 2 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv "" "0 0 320 480"		&& exit 0 || exit 1
+0014_VD2_SAN2 set -x; imgstream.sh 2 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv "" "0 0 -320 -480"	&& exit 0 || exit 1
+0014_VD2_SAN3 set -x; imgstream.sh 2 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv "" "0 0 x y"			&& exit 0 || exit 1
+0014_VD2_SAN4 set -x; imgstream.sh 2 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv "" "0 0 2050 2050"	&& exit 0 || exit 1
+0014_VD2_SAN5 set -x; imgstream.sh 2 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv "" "0 0 1 1"			&& exit 0 || exit 1
+0014_VD2_SAN6 set -x; imgstream.sh 2 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv "" "0 0 5000 5000"	&& exit 0 || exit 1
+
+0015_VD3_SAN1 set -x; imgstream.sh 3 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv "" "0 0 320 480"		&& exit 0 || exit 1
+0015_VD3_SAN2 set -x; imgstream.sh 3 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv "" "0 0 -320 -480"	&& exit 0 || exit 1
+0015_VD3_SAN3 set -x; imgstream.sh 3 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv "" "0 0 x y"			&& exit 0 || exit 1
+0015_VD3_SAN4 set -x; imgstream.sh 3 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv "" "0 0 2050 2050"	&& exit 0 || exit 1
+0015_VD3_SAN5 set -x; imgstream.sh 3 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv "" "0 0 1 1"			&& exit 0 || exit 1
+0015_VD3_SAN6 set -x; imgstream.sh 3 "UYVY 320 480" $VIDEOFILES/flower_UYVY_YUV422_320_480.yuv "" "0 0 5000 5000"	&& exit 0 || exit 1
+
+# End "L_DD_VIDEO_DESTRUCT_0002"
