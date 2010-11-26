@@ -1,0 +1,43 @@
+#####################
+# FILENAME: L_DD_VIDEO_DESTRUCT_0008
+# Author  : Umesh D A
+# Date    : Friday Nov 19, 2010
+# Description: TRANSPARENCY AND COLOUR KEY DESTRUCTIVE TEST
+
+# Begin "L_DD_VIDEO_DESTRUCT_0008"
+
+
+0001 echo "lcd" > /sys/devices/platform/omapdss/overlay0/manager
+0002 echo "2lcd" > /sys/devices/platform/omapdss/overlay1/manager
+
+COMMENT comment.sh "Verify that Video driver supports video source transparency color key setting"
+
+0001_VD1 set -x; transparency.sh 1 "RGB565 160 120" "1 1 63489" "1 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
+0002_VD2 set -x; transparency.sh 2 "RGB565 160 120" "1 1 63489" "1 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
+
+0003_VD1 set -x; transparency.sh 1 "RGB565 160 120" "4 1 63489" "1 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
+0004_VD2 set -x; transparency.sh 2 "RGB565 160 120" "1 5 63489" "1 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
+
+0005_VD1 set -x; transparency.sh 1 "RGB565 160 120" "xx 1 63489" "1 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
+0006_VD2 set -x; transparency.sh 2 "RGB565 160 120" "1 yy 63489" "1 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
+
+0007_VD1 set -x; transparency.sh 1 "RGB565 160 120" "-1 1 63489" "1 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
+0008_VD2 set -x; transparency.sh 2 "RGB565 160 120" "1 -1 63489" "1 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
+
+0009_VD1 set -x; transparency.sh 1 "RGB565 160 120" "1 1 5345349863489" "1 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
+0010_VD2 set -x; transparency.sh 2 "RGB565 160 120" "1 1 5345349863489" "1 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
+
+0011_VD1 set -x; transparency.sh 1 "RGB565 160 120" "1 1 -63489" "1 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
+0012_VD2 set -x; transparency.sh 2 "RGB565 160 120" "1 1 -63489" "1 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
+
+0013_VD1 set -x; transparency.sh 1 "RGB565 160 120" "1 1 63489" "3 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
+0014_VD2 set -x; transparency.sh 2 "RGB565 160 120" "1 1 63489" "4 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
+
+0015_VD1 set -x; transparency.sh 1 "RGB565 160 120" "1 1 63489" "x 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
+0016_VD2 set -x; transparency.sh 2 "RGB565 160 120" "1 1 63489" "y 1" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
+
+0017_VD1 set -x; transparency.sh 1 "RGB565 160 120" "1 1 63489" "1 x" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
+0018_VD2 set -x; transparency.sh 2 "RGB565 160 120" "1 1 63489" "1 y" "$VIDEOFILES/f801.txt 1" && exit 0 || exit 1
+
+
+# End "L_DD_VIDEO_DESTRUCT_0008"
