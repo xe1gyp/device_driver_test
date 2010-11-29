@@ -2,7 +2,7 @@ CC := $(CROSS_COMPILE)gcc
 CFLAGS+= -I$(KDIR)/include -I$(KDIR)/arch/arm/include/
 OBJS := showinfo setimg setwin setcrop streaming streaming_tiler setlink setrotation setmirror \
 setbgcolor settransck enablecolkey setcolorconv setdefcolcon streaming_process \
-tv_detect_app createRGB streaming_usrptr v4l2_rolling_bars
+tv_detect_app createRGB streaming_usrptr v4l2_rolling_bars streaming_tear
 
 ifeq ($(TARGET_PLATFORM), OMAP_4430)
 	OBJS += streaming_wb
@@ -61,6 +61,9 @@ streaming_wb: streaming_wb.c
 
 v4l2_rolling_bars: v4l2_rolling_bars.c
 	$(CC) $(CFLAGS) -g v4l2_rolling_bars.c lib.c -o v4l2_rolling_bars
+
+streaming_tear: streaming_tear.c
+	$(CC) $(CFLAGS) -g streaming_tear.c lib.c -o streaming_tear
 
 tv_detect_app: tv_detect_app.c lib.h
 	$(CC) $(CFLAGS) -g $< -o $@

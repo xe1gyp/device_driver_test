@@ -1,0 +1,14 @@
+##############################################################################
+# FILENAME      : L_DD_VIDEO_0047
+# Author        : Samreen
+# Date          : Mon Nov 29, 2010
+# Description   : V4l2 Streaming Tearing Testcases
+# #############################################################################
+
+# Begin "L_DD_VIDEO_0047"
+
+COMMENT comment.sh "V4l2 Streaming Tearing Testcases"
+
+0000_VD1_STRM set -x; streaming_tear.sh 1 "RGB565 1920 1080" "0 0 1920 1080" "0 0 1920 1080" "00" "FF" && exit 0 || exit 1
+
+# End "L_DD_VIDEO_0047"
