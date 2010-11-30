@@ -1,0 +1,16 @@
+#!/bin/sh
+
+################################################################################
+# Scenario:    L_DD_SWDEV_0003_0001 and L_DD_SW004_0001
+# Author  :    Ricardo Perez Olivares
+# Date    :    November 19, 2010
+# Description: Checking for Printing Errors and Kernel Version
+################################################################################
+
+# Begin L_DD_SWDEV_0003_0001
+
+01  set -x; $TESTSCRIPT/module_inserter.sh
+
+
+# End L_DD_SWDEV_0003_0001
+

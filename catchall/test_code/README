@@ -1,0 +1,25 @@
+Testsuite execution
+-------------------
+1. Go to 'scripts' subdirectory inside the testsuite directory.
+2. Execute the main script 'test_runner.sh -p 'scenario_id'.(without .sh extension).
+   * The scenarios IDs can be found under script/scenarios/
+3. Results will be reported showing Scenario-TestCase IDs and the result of each
+   test.
+   * 0 - Successful
+   * Any other value different of 0 - Failure
+
+NOTE: All scripts under scenarios/ folder which contain the .sh extension have to be
+executed under kernel-omap4/ folder.
+
+These scripts are made to validate scenarios:
+
+L_DD_SWDEV_0001_0001 Compile Time Warnings
+L_DD_SWDEV_0002_0001 Debug Support 
+
+Requirements
+------------
+The file system on which the testsuite is going to be executed needs to have the
+following utilities:
+* sh
+* bash
+
