@@ -52,33 +52,6 @@ static void check_test_passed(void){
 }
 
 /*
- * Function used to verify the source an destination buffers of a dma transfer
- * are equal in content
- */
-int verify_buffers(struct dma_buffers_info *buffers) {
-    int i;
-    u8 *src_address = (u8*) buffers->src_buf;
-    u8 *dest_address = (u8*) buffers->dest_buf;
-
-    /* Iterate through the source and destination buffers byte per byte */
-    for (i = 0; i < buffers->buf_size; i++) {
-        /* Compare the data in the source and destination */
-        if (*src_address != *dest_address) {
-            printk("Source buffer at 0x%x = %d , Destination buffer at 0x%x"
-                   " = %d\n", buffers->src_buf, *src_address, buffers->dest_buf,
-                   *dest_address);
-           return 1; /* error, buffers differ */
-        }
-        /*
-         * Increment the pointer to the next data, only the destination
-         * since we are using the constant addressing
-         */
-        dest_address++;
-    }
-    return 0;
-}
-
-/*
  * Callback function that dma framework will invoke after transfer is done
  */
 void dma_callback(int transfer_id, u16 transfer_status, void *data) {
@@ -289,7 +262,8 @@ static int __init dma_module_init(void) {
            transfers[i].data_burst = OMAP_DMA_DATA_BURST_DIS;
            transfers[i].data_type = OMAP_DMA_DATA_TYPE_S8;
            transfers[i].endian_type = DMA_TEST_LITTLE_ENDIAN;
-           transfers[i].addressing_mode = OMAP_DMA_AMODE_CONSTANT;
+           transfers[i].addressing_mode = OMAP_DMA_AMODE_POST_INC;
+           transfers[i].dst_addressing_mode = OMAP_DMA_AMODE_POST_INC;
            transfers[i].priority = DMA_CH_PRIO_HIGH;
            transfers[i].buffers.buf_size = (10240 * (i+1)*(i+1)) + i % 2;
 	   /* Request a dma transfer */
