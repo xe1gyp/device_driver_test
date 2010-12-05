@@ -1,12 +1,12 @@
 #!/bin/sh
 
-`insmod $TESTMODS/dmtimer_test_all.ko`
+`insmod $TIMER_DIR_MODULES/dmtimer_test_all.ko`
 RET=$?
 
 if [ "$RET" = "1" ]; then
 	exit 1
 else
-	`rmmod $TIMER_DIR_MODULES/dmtimer_test_all.ko`
+	`rmmod dmtimer_test_all`
 	exit $?
 fi
 

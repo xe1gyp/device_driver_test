@@ -8,7 +8,7 @@ RET=$?
 if [ "$RET" = "1" ]; then
 	exit 1
 else
-	`rmmod $TIMER_DIR_MODULES/gptimer_request.ko`
+	`rmmod gptimer_request`
 	exit $?
 fi
 

@@ -8,7 +8,7 @@ RET=$?
 if [ "$RET" = "1" ]; then
 	exit 1
 else
-	`rmmod $TIMER_DIR_MODULES/timer32value.ko`
+	`rmmod timer32value`
 	exit $?
 fi
 
