@@ -28,14 +28,16 @@ if [ "$LOCAL_COMMAND" = "create" ]; then
 
 	if [ "$LOCAL_PARTITIONS" = "1" ]; then
 
-		echo "Command: p\np\nn\np\n1\n${MMCSD_SECTOR_START}\n${MMCSD_SECTOR_END}\nw\n | fdisk $MMCSD_DEVFS_ENTRY"
-		echo -e "p\np\nn\np\n1\n${MMCSD_SECTOR_START}\n${MMCSD_SECTOR_END}\nw\n" | fdisk $MMCSD_DEVFS_ENTRY
+		PARTITION_OPTIONS="p\np\nn\np\n1\n${MMCSD_SECTOR_START}\n${MMCSD_SECTOR_END}\nw\n"
+		echo "Command: $PARTITION_OPTIONS | fdisk $MMCSD_DEVFS_ENTRY"
+		echo -e $PARTITION_OPTIONS | fdisk $MMCSD_DEVFS_ENTRY
 		mount | grep $MMCSD_DEVFS_PARTITION_1 && umount $MMCSD_DEVFS_PARTITION_1
 
 	elif [ "$LOCAL_PARTITIONS" = "2" ]; then
 
-		echo "Command: p\np\nn\np\n1\n$MMC_SECTOR_START\n$MMC_SECTOR_MIDDLE\nn\np\n2\n$(echo $MMC_SECTOR_MIDDLE+1|bc)\n$MMC_SECTOR_END\nw\n | fdisk $MMCSD_DEVFS_ENTRY"
-		echo -e "p\np\nn\np\n1\n${MMCSD_SECTOR_START}\n${MMCSD_SECTOR_MIDDLE}\nn\np\n2\n${MMCSD_SECTOR2_START}\n${MMCSD_SECTOR_END}\nw\n" | fdisk $MMCSD_DEVFS_ENTRY
+		PARTITION_OPTIONS="p\np\nn\np\n1\n${MMCSD_SECTOR_START}\n${MMCSD_SECTOR_MIDDLE}\nn\np\n2\n${MMCSD_SECTOR2_START}\n$MMCSD_SECTOR_END\nw\n"
+		echo "Command: $PARTITION_OPTIONS | fdisk $MMCSD_DEVFS_ENTRY"
+		echo -e $PARTITION_OPTIONS | fdisk $MMCSD_DEVFS_ENTRY
 
 		mount | grep $MMCSD_DEVFS_PARTITION_1 && umount $MMCSD_DEVFS_PARTITION_1
 		mount | grep $MMCSD_DEVFS_PARTITION_2 && umount $MMCSD_DEVFS_PARTITION_2
@@ -48,14 +50,16 @@ elif [ "$LOCAL_COMMAND" = "remove" ]; then
 	if [ "$LOCAL_PARTITIONS" = "1" ]; then
 
 		mount | grep $MMCSD_DEVFS_ENTRY && umount $MMCSD_DEVFS_ENTRY* | awk '{print $3}'
-		echo "Command: p\np\nd\nw\n | fdisk $MMCSD_DEVFS_ENTRY"
-		echo -e "p\np\nd\nw\n" | fdisk $MMCSD_DEVFS_ENTRY
+		PARTITION_OPTIONS="p\np\nd\nw\n"
+		echo "Command: $PARTITION_OPTIONS | fdisk $MMCSD_DEVFS_ENTRY"
+		echo -e $PARTITION_OPTIONS | fdisk $MMCSD_DEVFS_ENTRY
 
 	elif [ "$LOCAL_PARTITIONS" = "2" ]; then
 
 		mount | grep $MMCSD_DEVFS_ENTRY && umount $MMCSD_DEVFS_ENTRY* | awk '{print $3}'
-		echo "Command: p\np\nd\n1\nd\nw\n | fdisk $MMCSD_DEVFS_ENTRY"
-		echo -e "p\np\nd\n1\nd\nw\n" | fdisk $MMCSD_DEVFS_ENTRY
+		PARTITION_OPTIONS="p\np\nd\n1\nd\nw\n"
+		echo "Command: $PARTITION_OPTIONS | fdisk $MMCSD_DEVFS_ENTRY"
+		echo -e $PARTITION_OPTIONS | fdisk $MMCSD_DEVFS_ENTRY
 
 	fi
 else
