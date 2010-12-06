@@ -201,6 +201,7 @@ static int __init dma_module_init(void) {
            }
 		
 		printk("\n Linking transfer ID %d with itself \n", transfers[i].transfer_id);
+		dma_link_lch(&transfers[i]);
            /* Request 2 buffer for the transfer and fill them */
            error = create_transfer_buffers(&(transfers[i].buffers));
            if( error ){
