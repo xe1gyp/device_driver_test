@@ -1,14 +1,16 @@
 ################################################################################
-# Scenario:    L_DD_DMA_0033
+# Scenario:    L_DD_DMA_0033_0001
 # Author  :    Shilpa Maddi
 # Date    :    February 8th, 2010
 # Description: DMA trying to unlink channels before stopping them.
 ################################################################################
 
-# Begin L_DD_DMA_0033
+# Begin L_DD_DMA_0033_0001
+
 0001	set -x; insmod $TESTMODS/dma_single_channel.ko
 0002	set -x; insmod $TESTMODS/dma_unlink_before_stop_channels.ko
-0004	set -x; rmmod dma_unlink_before_stop_channels
-0003	set -x; cat /proc/driver/dma_test_status | grep FAIL
+0003	set -x; rmmod dma_unlink_before_stop_channels
+0004	set -x; cat /proc/driver/dma_test_status | grep FAIL
 0005	set -x; rmmod dma_single_channel
-# End L_DD_DMA_0033
+
+# End L_DD_DMA_0033_0001

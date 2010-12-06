@@ -1,13 +1,16 @@
 ################################################################################
-# Scenario:    L_DD_DMA_0024
+# Scenario:    L_DD_DMA_0024_0001
 # Author  :    David Miramontes
 # Date    :    February 16th, 2010
 # Description: DMA Releasing a non-existing channel
 ################################################################################
-# Begin L_DD_DMA_0024
+
+# Begin L_DD_DMA_0024_0001
+
 0001	set -x; insmod $TESTMODS/dma_single_channel.ko
 0002	set -x; insmod $TESTMODS/dma_stop_transfer_invalid.ko
 0003	set -x; rmmod dma_stop_transfer_invalid
 0004	set -x; cat /proc/driver/dma_test_status | grep PASS
 0005	set -x; rmmod dma_single_channel
-# End L_DD_DMA_0024
+
+# End L_DD_DMA_0024_0001

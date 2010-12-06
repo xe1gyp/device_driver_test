@@ -1,15 +1,17 @@
 ################################################################################
-# Scenario:    L_DD_DMA_0031
+# Scenario:    L_DD_DMA_0031_0001
 # Author  :    Maddi Shilpa
 # Date    :    February 2nd, 2010
 # Description: This test suit tests the Satic self linking DMA scenario in which a channel is linked to itself and does the transfer
 ################################################################################
 
-# Begin L_DD_DMA_0031
-0001 set -x; echo DMA Static Self linking
-0002 set -x; insmod $TESTMODS/dma_single_channel.ko
-0003 set -x; insmod $TESTMODS/dma_static_self_link.ko
-0004 set -x; cat /proc/driver/dma_test_status | grep PASS
-0005 set -x; rmmod dma_static_self_link
-0006 set -x; rmmod dma_single_channel
-# Begin L_DD_DMA_0031
+# Begin L_DD_DMA_0031_0001
+
+0001	set -x; echo DMA Static Self linking
+0002	set -x; insmod $TESTMODS/dma_single_channel.ko
+0003	set -x; insmod $TESTMODS/dma_static_self_link.ko
+0004	set -x; rmmod dma_static_self_link
+0005	set -x; cat /proc/driver/dma_test_status | grep PASS
+0006	set -x; rmmod dma_single_channel
+
+# End L_DD_DMA_0031_0001

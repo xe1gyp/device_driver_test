@@ -1,10 +1,13 @@
 ################################################################################
-# Scenario:    L_DD_DMA_0029
+# Scenario:    L_DD_DMA_0027_0001
 # Author  :    David Miramontes
 # Date    :    February 16th, 2010
 # Description: Descriptor loading -
 #              supply a unspecified type descriptor in descriptor list
 ################################################################################
-# Begin L_DD_DMA_0029
-0001    set -x; insmod $TESTMODS/dma_dload_bad_descriptor.ko && exit 1 || exit 0;
-# End L_DD_DMA_0029
+
+# Begin L_DD_DMA_0027_0001
+
+0001	set -x; insmod $TESTMODS/dma_dload_bad_descriptor.ko && exit 1 || exit 0;
+
+# End L_DD_DMA_0027_0001

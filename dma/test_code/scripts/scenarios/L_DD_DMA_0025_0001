@@ -1,14 +1,16 @@
 ################################################################################
-# Scenario:	L_DD_DMA_0025
+# Scenario:	L_DD_DMA_0025_0001
 # Author  :     Adria Lizeth Caldeon Almodovar
 # Date    :	February 11th, 2010
 # Description:  Remove a link from a chain transfer when it is ongoing
 ################################################################################
 
-# Begin L_DD_DMA_0025
-0001    set -x; insmod $TESTMODS/dma_chain_transfer.ko
-0002    set -x; insmod $TESTMODS/dma_chain_dynamic_break.ko
-0004    set -x; rmmod dma_chain_dynamic_break
-0003  set -x;  cat /proc/driver/dma_test_status | grep PASS
-0008    set -x; rmmod dma_chain_transfer
-# End L_DD_DMA_0025
+# Begin L_DD_DMA_0025_0001
+
+0001	set -x; insmod $TESTMODS/dma_chain_transfer.ko
+0002	set -x; insmod $TESTMODS/dma_chain_dynamic_break.ko
+0003	set -x; rmmod dma_chain_dynamic_break
+0004	set -x;  cat /proc/driver/dma_test_status | grep PASS
+0005	set -x; rmmod dma_chain_transfer
+
+# End L_DD_DMA_0025_0001

@@ -1,18 +1,20 @@
 ################################################################################
-# Scenario:	L_DD_DMA_0026
+# Scenario:	L_DD_DMA_0026_0001
 # Author  :     Adria Lizeth Caldeon Almodovar
 # Modified:	Shilpa Maddi
 # Date    :	February 12 th, 2010
 # Description: Remove a link from a chain transfer, the link belongs to another chain
 ################################################################################
 
-# Begin L_DD_DMA_0026
-0001    set -x; insmod $TESTMODS/dma_chain_transfer.ko
-0002    set -x; insmod $TESTMODS/dma_chain_dynamic_removed.ko
-0004    set -x; rmmod dma_chain_dynamic_removed
-0003    set -x;  cat /proc/driver/dma_test_status | grep PASS
-0005    set -x; insmod $TESTMODS/dma_chain_static_removed.ko
-0007    set -x; rmmod dma_chain_static_removed
-0006    set -x; cat /proc/driver/dma_test_status | grep PASS
-0008    set -x; rmmod dma_chain_transfer
-# End L_DD_DMA_0026
+# Begin L_DD_DMA_0026_0001
+
+0001	set -x; insmod $TESTMODS/dma_chain_transfer.ko
+0002	set -x; insmod $TESTMODS/dma_chain_dynamic_removed.ko
+0003	set -x; rmmod dma_chain_dynamic_removed
+0004	set -x;  cat /proc/driver/dma_test_status | grep PASS
+0005	set -x; insmod $TESTMODS/dma_chain_static_removed.ko
+0006	set -x; rmmod dma_chain_static_removed
+0007	set -x; cat /proc/driver/dma_test_status | grep PASS
+0008	set -x; rmmod dma_chain_transfer
+
+# End L_DD_DMA_0026_0001
