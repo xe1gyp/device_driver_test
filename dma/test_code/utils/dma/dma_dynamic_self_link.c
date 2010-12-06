@@ -59,27 +59,14 @@ void dma_callback(int transfer_id, u16 transfer_status, void *data) {
        int error = 1;
        transfer->data_correct = 0;
        transfer->finished = 1;
-       if ((transfer1)>=1)
+       if (transfer1 >= 1 || transfer2 >= 1)
 	{
 	   transfer->data_correct = 1;
            transfer->finished = 1;
            stop_dma_selflink_transfer(transfer->transfer_id);
 	}
-	else if ((transfer1)<1)
-	{
-	 transfer1++;	
-	}
-
-	if ((transfer2)>=1)
-	{
-	   transfer->data_correct = 1;
-           transfer->finished = 1;
-           stop_dma_selflink_transfer(transfer->transfer_id);
-	}
-	else if ((transfer2)<1)
-	{
-	 transfer2++;	
-	}
+	transfer1 += (transfer1 == 0);
+	transfer2 += (transfer2 == 0);
 
 	printk("\n The transfer for link for %d is stopped", transfer->transfer_id);
         printk("\n Transfer complete for id %d, checking destination buffer\n",
