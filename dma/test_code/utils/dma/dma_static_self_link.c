@@ -102,11 +102,6 @@ static int get_transfers_finished(void){
 }
 
 /*
- * Setup the source, destination and global transfer parameters
- */
-
-
-/*
  * Requests a dma transfer
  */
 int request_dma(struct dma_transfer *transfer){
