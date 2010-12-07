@@ -7,7 +7,7 @@
 
 # Begin L_DD_I2C_0010_0001
 
-01 set -x; $UTILSCRIPTS/filesystemtype.sh; runtestcase.sh 6
+01 set -x; $UTILS_DIR_SCRIPTS/filesystemtype.sh; runtestcase.sh 6
 02 set -x; rm -f /tmp/result.tmp; ls /tmp | grep result.tmp | exit 0 || exit 1;
 
 # End L_DD_I2C_0010_0001
