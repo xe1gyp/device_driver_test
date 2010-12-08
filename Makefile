@@ -163,12 +163,6 @@ $(addprefix $(TESTROOT)/,$(TESTSUITES)): $$(notdir $$@)/$(CODE_DIR)
 	fi;
 	@mkdir -p $@/scripts/tmp
 	@mkdir -p $@/scripts/test
-	@if [ '$(findstring $(notdir $@), $(APPLICABLE_TESTS))' = '' ]]; then \
-		echo "WARNING: Testsuite $(notdir $@) is not applicable "\
-		"for specified kernel!"; \
-		echo "No scenario files will be placed in output folder.";\
-		rm -rf $@/$(SCENARIOS); \
-	fi;
 	@echo
 	@echo "====Installed \"$(notdir $@)\" testsuite in \"$(TESTROOT)\"===="
 	@echo
