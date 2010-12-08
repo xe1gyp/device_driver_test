@@ -4,19 +4,28 @@ if [ $# -lt 3 ]; then
 	exit 1
 fi
 
+ROW_ADD=2
+DELAY=0
 BUS=$1
 shift
 REG=$1
 shift
 DATA=$1
-shift
-OPTIONS=$*
 
-if [ "$OPTIONS" = "-h" ]; then
-	ROW_ADD=3
-else
-	ROW_ADD=2
-fi
+while true
+do
+	shift
+	OPTIONS=$1
+
+	if [ "$OPTIONS" = "-h" ]; then
+		ROW_ADD=3
+	elif [ "$OPTIONS" = "-d" ]; then
+		shift 
+		DELAY=$1
+	elif [ -z "$OPTIONS" ]; then
+		break;		
+	fi	
+done
 
 DATA_DEC=`printf "%d" $DATA`
 COL=`echo "( $DATA_DEC %16)+2"|bc`
@@ -56,4 +65,5 @@ do
 		exit 3
 	fi
 	count=`expr $count + 1`
+	sleep $DELAY
 done

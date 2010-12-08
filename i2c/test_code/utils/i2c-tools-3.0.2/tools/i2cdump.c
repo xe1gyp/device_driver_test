@@ -33,7 +33,7 @@
 static void help(void)
 {
 	fprintf(stderr,
-		"Usage: i2cdump [-f] [-y] [-r first-last] "
+		"Usage: i2cdump [-f] [-y] [-d] [-r first-last] "
 		"I2CBUS ADDRESS  [MODE [BANK [BANKREG]]]\n"
 		"  I2CBUS is an integer or an I2C bus name\n"
 		"  ADDRESS is an integer (0x03 - 0x77)\n"
@@ -118,6 +118,7 @@ int main(int argc, char *argv[])
 	int pec = 0, even = 0;
 	int flags = 0;
 	int force = 0, yes = 0, version = 0;
+	int delaytime = 0;
 	const char *range = NULL;
 	int first = 0x00, last = 0xff;
 	int index, loopcount = 1;
@@ -129,6 +130,7 @@ int main(int argc, char *argv[])
 		case 'f': force = 1; break;
 		case 'r': range = argv[1+(++flags)]; break;
 		case 'y': yes = 1; break;
+		case 'd': delaytime = 1; break;
 		default:
 			fprintf(stderr, "Error: Unsupported option "
 				"\"%s\"!\n", argv[1+flags]);
@@ -459,6 +461,7 @@ int main(int argc, char *argv[])
 					printf("%c", res & 0xff);
 			}
 			printf("\n");
+			sleep(delaytime);
 		}
 		}
 	} else {
@@ -486,6 +489,7 @@ int main(int argc, char *argv[])
 					printf("%04x ", res & 0xffff);
 			}
 			printf("\n");
+			sleep(delaytime);
 		}
 	}
 	}
