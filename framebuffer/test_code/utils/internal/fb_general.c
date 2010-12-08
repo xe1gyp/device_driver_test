@@ -516,7 +516,7 @@ int test_triple_buffer()
 	return 0;
 }
 
-int mmap_test()
+int mmap_test(int increment)
 {
 	int width=0, height=0;
 	int i=0, j=0, k=0;
@@ -545,12 +545,17 @@ int mmap_test()
 
 	printf("Unmmap'ed - %d x %d  of %d\n", width, height, fix.smem_len);
 
-	printf("Trying to mmap %d of %d\n", fix.smem_len, fix.smem_len);
+	printf("Trying to mmap %d of %d\n", fix.smem_len + increment, fix.smem_len);
 	data = (unsigned char *)mmap (0,
-				fix.smem_len,
+				fix.smem_len + increment,
 				(PROT_READ|PROT_WRITE),
 				MAP_SHARED, fd, 0) ;
-	printf("Mmap'ed %d of %d\n", fix.smem_len, fix.smem_len);
+	if (!data) {
+		printf("MMap failed for %d of %d\n", fix.smem_len + increment, fix.smem_len);
+		return -ENOMEM;
+	} else {
+		printf("Mmap'ed %d of %d\n", fix.smem_len + increment, fix.smem_len);
+	}
 /*	for(i=0; i<fix.smem_len; i++) 	// whole mmap'ed space
 		data[i*fix.line_length + j*var.bits_per_pixel/8 + k] = 0x1f;
 	printf("wrote whole mmap'ed space %d\n", fix.smem_len);
@@ -642,7 +647,11 @@ int main(int argc, char **argv)
 #endif
 
 #ifdef FUNCTION_MMAP
-	mmap_test();
+	int increment = 0;
+	if (argv[1]) {
+		increment = strtoul(argv[1], NULL, 10);
+	}
+	mmap_test(increment);
 #endif
 
 #ifdef FUNCTION_SIZE
