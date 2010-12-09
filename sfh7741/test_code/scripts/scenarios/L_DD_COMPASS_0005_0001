@@ -1,0 +1,19 @@
+##############################################################################
+# Scenario    : L_DD_COMPASS_0005_0001
+# Author      : Ricardo Perez Olivares
+# Date        : Dec 12 2010
+# Description : Process Parallelism No Delay
+###############################################################################
+
+# Begin L_DD_COMPASS_0005_0001
+
+01  set -x; handlerProcessParallelism.sh "clean"
+02  set -x; handlerProcessParallelism.sh "add" multimeasurement.sh
+03  set -x; handlerProcessParallelism.sh "add" multimeasurement.sh
+04  set -x; handlerProcessParallelism.sh "add" multimeasurement.sh
+05  set -x; handlerProcessParallelism.sh "add" multimeasurement.sh
+06  set -x; handlerProcessParallelism.sh "add" multimeasurement.sh
+07  set -x; handlerProcessParallelism.sh "execute" "withrandomdelay"
+
+# End L_DD_COMPASS_0005_0001
+
