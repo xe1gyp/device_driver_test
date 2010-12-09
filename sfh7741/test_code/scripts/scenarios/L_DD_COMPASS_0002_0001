@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_COMPASS_0002_0001
+# Author  : Ricardo Perez Olivares
+# Date    : Dec 07 2010
+# Description: Dinamic Voltage and Frequency Scaling
+###############################################################################
+
+# Begin L_DD_COMPASS_0002_0001
+
+01 set -x; compass_dvfs.sh
+
+# End L_DD_COMPASS_0002_0001
