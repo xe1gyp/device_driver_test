@@ -35,6 +35,14 @@ export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
 # General variables
 export DMESG_FILE=/var/log/dmesg
+export DIGITAL_COMPASS_SYSFS=/sys/devices/platform/i2c_omap.4/i2c-4/4-001e/device0
+export DIGITAL_COMPASS_OM=$DIGITAL_COMPASS_SYSFS/operating_mode
+export DIGITAL_COMPASS_X_AXIS=$DIGITAL_COMPASS_SYSFS/magn_x_raw
+export DIGITAL_COMPASS_Y_AXIS=$DIGITAL_COMPASS_SYSFS/magn_y_raw
+export DIGITAL_COMPASS_Z_AXIS=$DIGITAL_COMPASS_SYSFS/magn_z_raw
+export DIGITAL_COMPASS_ALL_AXIS=$DIGITAL_COMPASS_SYSFS/magn_*_raw
+export DIGITAL_COMPASS_SINGLE_MODE=1
+export DIGITAL_COMPASS_MULTI_MODE=0
 
 # Sensor devfs node
 TEMP_EVENT=`ls /sys/class/input/ | grep event`
