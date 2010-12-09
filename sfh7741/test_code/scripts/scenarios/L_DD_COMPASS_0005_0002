@@ -1,0 +1,12 @@
+#########################################################################################
+# Scenario    : L_DD_COMPASS_0005_0002
+# Author      : Ricardo Perez Olivares
+# Date        : Dec 12 2010
+# Description : SMP CPU Affinity
+#########################################################################################
+
+# Begin L_DD_COMPASS_0005_0002
+
+01  set -x; handlerCpuAffinity.sh "switch" multimeasurement.sh "6" "6"
+
+# End L_DD_COMPASS_0005_0002
