@@ -1,0 +1,14 @@
+#########################################################################################
+# Scenario    : L_DD_COMPASS_0003_0001
+# Author      : Ricardo Perez Olivares
+# Date        : Dec 12 2010
+# Description : Suspend Resume, "suspend" operation
+#########################################################################################
+
+# Begin L_DD_COMPASS_0003_0001
+
+01  set -x; handlerSuspendResume.sh "suspend" 10
+02  set -x; handlerCmd.sh "run" multimeasurement.sh
+03  set -x; handlerSuspendResume.sh "run" 5 multimeasurement.sh
+
+# End L_DD_COMPASS_0003_0001
