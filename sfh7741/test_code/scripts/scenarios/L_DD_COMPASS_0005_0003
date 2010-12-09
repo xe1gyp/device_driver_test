@@ -1,0 +1,12 @@
+#########################################################################################
+# Scenario    : L_DD_COMPASS_0005_0003
+# Author      : Ricardo Perez Olivares
+# Date        : Dec 12 2010
+# Description : SMP IRQ Affinity
+#########################################################################################
+
+# Begin L_DD_COMPASS_0005_0003
+
+01  set -x; handlerIrqAffinity.sh "switch" multimeasurement.sh "6" "6" "344"
+
+# End L_DD_COMPASS_0005_0003
