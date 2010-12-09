@@ -1,14 +1,12 @@
 ###############################################################################
 # Scenario: L_DD_COMPASS_0000_0002
 # Author  : Shubhro
-#
 # Date    : July 08 16:43:35 CDT 2010
+# Description: Configuration of a Single Measurement
 ###############################################################################
 
 # Begin L_DD_COMPASS_0000_0002
 
-01 set -x; echo 1 >  /sys/bus/iio/devices/device0/operating_mode
-02 set -x; cat /sys/bus/iio/devices/device0/magn_x_raw ;  cat /sys/bus/iio/devices/device0/magn_y_raw;  cat /sys/bus/iio/devices/device0/magn_z_raw;
-03 set -x; echo 0 >  /sys/bus/iio/devices/device0/operating_mode
+01 set -x; singlemeasurement.sh
 
 # End L_DD_COMPASS_0000_0002
