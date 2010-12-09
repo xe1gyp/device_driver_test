@@ -132,7 +132,7 @@
 
 		<information>
 			<autor> Jyothi PK </autor>
-			<description> tbd description </description>
+			<description> Digital Compass Sysfs Tests </description>
 			<dateofcreation> 07/12/2010 </dateofcreation>
 		</information>
 
@@ -163,7 +163,7 @@
 
 		<information>
 			<autor> Jyothi PK </autor>
-			<description> tbd description </description>
+			<description> Digital Compass Single Measurement Test </description>
 			<dateofcreation> 07/12/2010 </dateofcreation>
 		</information>
 
@@ -194,7 +194,7 @@
 
 		<information>
 			<autor> Jyothi PK </autor>
-			<description> tbd description </description>
+			<description> Digital Compass Multi Measurement Test </description>
 			<dateofcreation> 07/12/2010 </dateofcreation>
 		</information>
 
@@ -221,6 +221,166 @@
 		</fail>
 
 	</test>
+
+        <test id="L_DD_COMPASS_0002_0001">
+
+                <information>
+                        <autor> Ricardo Perez Olivares </autor>
+                        <description> DVFS Tests </description>
+                        <dateofcreation> 08/12/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_COMPASS_0002_0001</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/sfh7741/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="300"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+        <test id="L_DD_COMPASS_0003_0001">
+
+                <information>
+                        <autor> Ricardo Perez Olivares </autor>
+                        <description> Suspend / Resume Power Management Tests </description>
+                        <dateofcreation> 08/12/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_COMPASS_0003_0001</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/sfh7741/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="300"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+        <test id="L_DD_COMPASS_0005_0001">
+
+                <information>
+                        <autor> Ricardo Perez Olivares </autor>
+                        <description> Process Parallelism Tests </description>
+                        <dateofcreation> 08/12/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_COMPASS_0005_0001</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/sfh7741/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="300"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+        <test id="L_DD_COMPASS_0005_0002">
+
+                <information>
+                        <autor> Ricardo Perez Olivares </autor>
+                        <description> SMP CPU Affinity Tests </description>
+                        <dateofcreation> 08/12/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_COMPASS_0005_0002</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/sfh7741/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="300"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
+        <test id="L_DD_COMPASS_0005_0003">
+
+                <information>
+                        <autor> Ricardo Perez Olivares </autor>
+                        <description> SMP IRQ Affinity Tests </description>
+                        <dateofcreation> 08/12/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/sfh7741/scripts/test_runner.sh L_DD_COMPASS_0005_0003</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/sfh7741/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="300"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
 
         <test id="L_DD_PRESS_0000_0002">
 
