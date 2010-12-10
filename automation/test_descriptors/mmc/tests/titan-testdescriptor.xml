@@ -1056,4 +1056,36 @@
 
 	</test>
 
+        <test id="L_DD_MMC_0022_0001">
+
+                <information>
+                        <autor> Ricardo Perez Olivares </autor>
+                        <description> Enable Page Swapping </description>
+                        <dateofcreation> 12/09/2010 </dateofcreation>
+                </information>
+
+                <run>
+                        <action>
+                                <command>/testsuites/mmc/scripts/test_runner.sh L_DD_MMC_SD_0022_0001</command>
+                        </action>
+                        <action>
+                                <command>rm /testsuites/mmc/scripts/log.*</command>
+                        </action>
+                </run>
+
+                <pass>
+                        <output>
+                                <value>stat=0</value>
+                        </output>
+                </pass>
+
+                <fail>
+                        <timeout time="300"/>
+                        <output>
+                                <regularexpression>stat=[^0]\d*</regularexpression>
+                        </output>
+                </fail>
+
+        </test>
+
 </titan>
