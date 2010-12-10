@@ -76,6 +76,11 @@ export PROCFS_DEVICES=/proc/devices
 export PROCFS_INTERRUPTS=/proc/interrupts
 export PROCFS_PARTITIONS=/proc/partitions
 export SYS_MMC_HOST=/sys/class/mmc_host
+export PROCFS_SWAPS=/proc/swaps
+export SWAP_FILENAME=/mmc_swapfile
+export SWAP_FILENAME_SIZE=32
+export SWAP_FILENAME_PRIORITY=32767
+export SWAP_FILENAME_GREP=SWAPSPACE2 
 
 # Check if bc is available, otherwise abort
 if [ ! `echo 1+1 | bc` ]; then
