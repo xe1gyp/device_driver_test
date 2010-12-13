@@ -18,8 +18,8 @@
 
 struct child_args {
 	int priority;
-	int value;
 	int file_descriptor;
+	void *value;
 };
 
 void set_control(void *process_args)
@@ -27,7 +27,7 @@ void set_control(void *process_args)
 	int which = PRIO_PROCESS;
 	int result;
 	struct child_args *args;
-	int degree;
+	int *degree = (int *)args->value;
 	struct v4l2_control control;
 	memset(&control, 0 , sizeof(control));
 	control.id = V4L2_CID_ROTATE;
@@ -36,9 +36,7 @@ void set_control(void *process_args)
 
 	printf("New process created\n");
 
-	degree = args->value;
-	control.value = degree;
-
+	control.value = *degree;
 	args = (struct child_args *)process_args;
 
 	id_t pid;
@@ -57,6 +55,43 @@ void set_control(void *process_args)
 		args->priority, args->value);
 }
 
+void set_win(void *process_args)
+{
+	int which = PRIO_PROCESS;
+	int result;
+	struct child_args *args;
+	int degree;
+	struct v4l2_format *format;
+	int pix_field = V4L2_FIELD_NONE;
+
+	args = (struct child_args *)process_args;
+
+	printf("New process created\n");
+
+	format = (struct v4l2_format *)args->value;
+
+	format->type = V4L2_BUF_TYPE_VIDEO_OVERLAY;
+
+	/*V4L2_FIELD_SEQ_TB == 5, V4L2_FIELD_NONE == 1 */
+	(format->fmt).win.field  = pix_field;
+
+	args = (struct child_args *)process_args;
+
+	id_t pid;
+	pid = getpid();
+	result = setpriority(which, pid, args->priority);
+
+	while (1) {
+		result = ioctl(args->file_descriptor, VIDIOC_S_FMT, format);
+
+		if (result != 0)
+			perror("VIDIOC_S_FMT");
+	}
+	printf("Process with priority=%d and value=%d closed\n",
+		args->priority, args->value);
+}
+
+
 static int streaming_video(int output_device, int file_descriptor,
 	int sleep_time, int priority1, int priority2)
 {
@@ -70,7 +105,7 @@ static int streaming_video(int output_device, int file_descriptor,
 	} *buffers;
 
 	struct v4l2_capability capability;
-	struct v4l2_format format;
+	struct v4l2_format format, format_child1, format_child2;
 	struct v4l2_buffer filledbuffer;
 	struct v4l2_requestbuffers reqbuf;
 	int i, count, result;
@@ -83,12 +118,25 @@ static int streaming_video(int output_device, int file_descriptor,
 		exit(1);
 	}
 
+	format_child1.type = V4L2_BUF_TYPE_VIDEO_OVERLAY;
+	result = ioctl(output_device, VIDIOC_G_FMT, &format_child1);
+	if (result != 0) {
+		perror("VIDIOC_G_FMT");
+		return 1;
+	}
+
+	format_child2.fmt.win.w.left = format_child1.fmt.win.w.left;
+	format_child2.fmt.win.w.top = format_child1.fmt.win.w.top +
+					format_child1.fmt.win.w.height + 20;
+	format_child2.fmt.win.w.width = format_child1.fmt.win.w.width;
+	format_child2.fmt.win.w.height = format_child1.fmt.win.w.height;
+
 	t_args1.priority = priority1;
-	t_args1.value = 0;
+	t_args1.value = (void *) &format_child1;
 	t_args1.file_descriptor = output_device;
 
 	t_args2.priority = priority2;
-	t_args2.value = 180;
+	t_args2.value = (void *)&format_child2;
 	t_args2.file_descriptor = output_device;
 
 	result = ioctl(output_device, VIDIOC_QUERYCAP, &capability);
@@ -109,6 +157,7 @@ static int streaming_video(int output_device, int file_descriptor,
 		perror("VIDIOC_G_FMT");
 		return 1;
 	}
+
 	reqbuf.type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
 	reqbuf.memory = V4L2_MEMORY_MMAP;
 	reqbuf.count = 4;
@@ -181,7 +230,7 @@ static int streaming_video(int output_device, int file_descriptor,
 
 		if (count == 10) {
 			printf("Invoking clone for child1\n");
-			child1_pid = clone((void *)&set_control, child1_stack,
+			child1_pid = clone((void *)&set_win, child1_stack,
 				SIGCHLD | CLONE_FS | CLONE_FILES |
 				CLONE_SIGHAND | CLONE_VM, (void *)&t_args1);
 			if (child1_pid == -1) {
@@ -192,7 +241,7 @@ static int streaming_video(int output_device, int file_descriptor,
 
 		if (count == 15) {
 			printf("Invoking clone for child2\n");
-			child2_pid = clone((void *)&set_control, child2_stack,
+			child2_pid = clone((void *)&set_win, child2_stack,
 				SIGCHLD | CLONE_FS | CLONE_FILES |
 				CLONE_SIGHAND | CLONE_VM, (void *)&t_args2);
 			if (child2_pid == -1) {
@@ -232,10 +281,6 @@ static int streaming_video(int output_device, int file_descriptor,
 		count++;
 	}
 
-	/* Killing child process*/
-	kill(child1_pid, SIGKILL);
-	printf("Child process 1 killed\n");
-
 	result = ioctl(output_device, VIDIOC_DQBUF, &filledbuffer);
 	if (result != 0) {
 		perror("VIDIOC_DQBUF2");
@@ -243,6 +288,10 @@ static int streaming_video(int output_device, int file_descriptor,
 	}
 
 exit:
+	/* Killing child process*/
+	kill(child1_pid, SIGKILL);
+	printf("Child process 1 killed\n");
+
 	for (i = 0; i < reqbuf.count; i++) {
 		if (buffers[i].start)
 			munmap(buffers[i].start, buffers[i].length);

@@ -8,6 +8,6 @@
 COMMENT comment.sh "Verify that device driver shall ensure thread safety against scheduler preemption."
 COMMENT comment.sh "Both pipelines will be rendered at the same time with a specific priority."
 
-0001 set -x; preemption_streaming.sh 1 "RGB565 160 120" "$VIDEOFILES/video_qqvga_rgb_30 0 -20 20" && exit 0 || exit 1
+0001 set -x; preemption_streaming.sh 1 "RGB565 160 120" "100 100 160 120" "$VIDEOFILES/video_qqvga_rgb_30 1 -10 -10" && exit 0 || exit 1
 
 # End "L_DD_VIDEO_0025"
