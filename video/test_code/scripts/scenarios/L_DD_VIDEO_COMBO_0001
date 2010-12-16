@@ -1,0 +1,144 @@
+##############################################################################
+# FILENAME      : L_DD_VIDEO_COMBO_0001
+# Author        : Samreen, John Jayan
+# Date          : Thurs Dec 16, 2010
+# Description   : Rotation - Mirroring Combo Testcase For RGB16 on LCD1
+# #############################################################################
+
+# Begin "L_DD_VIDEO_COMBO_0001"
+
+COMMENT comment.sh "Rotation - Mirroring Combo Testcase for RGB16 on LCD1"
+ 
+0000_SET_VD1 set -x;overlay_switch.sh 0 1                    && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:0"
+0011_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "0 0 320 320" "0" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:90"
+0012_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "0 0 320 320" "90" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:180"
+0013_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "0 0 320 320" "180" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:270"
+0014_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "0 0 320 320" "270" "5" && exit 0 || exit 1
+
+
+COMMENT comment.sh "RGB16-Mirror:1"
+0020_VD1_STRM1 set -x; mirrorstream.sh 1 1 $VIDEOFILES/park_vga.rgb16 "2" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:0"
+0021_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "0 0 320 320" "0" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:90"
+0022_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "0 0 320 320" "90" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:180"
+0023_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "0 0 320 320" "180" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:270"
+0024_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "0 0 320 320" "270" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Mirror:0"
+0025_VD1_STRM1 set -x; mirrorstream.sh 1 0 $VIDEOFILES/park_vga.rgb16 "2" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "************Changing Position*************"
+
+COMMENT comment.sh "RGB16-Rotation:0"
+0031_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "544 0 320 320" "0" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:90"
+0032_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "544 0 320 320" "90" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:180"
+0033_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "544 0 320 320" "180" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:270"
+0034_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "544 0 320 320" "270" "5" && exit 0 || exit 1
+
+
+COMMENT comment.sh "RGB16-Mirror:1"
+0040_VD1_STRM1 set -x; mirrorstream.sh 1 1 $VIDEOFILES/park_vga.rgb16 "2" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:0"
+0041_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "544 0 320 320" "0" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:90"
+0042_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "544 0 320 320" "90" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:180"
+0043_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "544 0 320 320" "180" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:270"
+0044_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "544 0 320 320" "270" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Mirror:0"
+0045_VD1_STRM1 set -x; mirrorstream.sh 1 0 $VIDEOFILES/park_vga.rgb16 "2" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "************Changing Position*************"
+
+COMMENT comment.sh "RGB16-Rotation:0"
+0051_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "544 160 320 320" "0" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:90"
+0052_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "544 160 320 320" "90" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:180"
+0053_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "544 160 320 320" "180" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:270"
+0054_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "544 160 320 320" "270" "5" && exit 0 || exit 1
+
+
+COMMENT comment.sh "RGB16-Mirror:1"
+0060_VD1_STRM1 set -x; mirrorstream.sh 1 1 $VIDEOFILES/park_vga.rgb16 "2" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:0"
+0061_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "544 160 320 320" "0" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:90"
+0062_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "544 160 320 320" "90" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:180"
+0063_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "544 160 320 320" "180" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:270"
+0064_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "544 160 320 320" "270" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Mirror:0"
+0065_VD1_STRM1 set -x; mirrorstream.sh 1 0 $VIDEOFILES/park_vga.rgb16 "2" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "************Changing Position*************"
+
+COMMENT comment.sh "RGB16-Rotation:0"
+0071_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "0 160 320 320" "0" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:90"
+0072_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "0 160 320 320" "90" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:180"
+0073_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "0 160 320 320" "180" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:270"
+0074_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "0 160 320 320" "270" "5" && exit 0 || exit 1
+
+
+COMMENT comment.sh "RGB16-Mirror:1"
+0080_VD1_STRM1 set -x; mirrorstream.sh 1 1 $VIDEOFILES/park_vga.rgb16 "2" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:0"
+0081_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "0 160 320 320" "0" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:90"
+0082_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "0 160 320 320" "90" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:180"
+0083_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "0 160 320 320" "180" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Rotation:270"
+0084_VD1_STRM1 set -x; rotation_destruct.sh 1 "RGB565 640 480" $VIDEOFILES/park_vga.rgb16 "0 160 320 320" "270" "5" && exit 0 || exit 1
+
+COMMENT comment.sh "RGB16-Mirror:0"
+0085_VD1_STRM1 set -x; mirrorstream.sh 1 0 $VIDEOFILES/park_vga.rgb16 "2" "5" && exit 0 || exit 1
+
+# End "L_DD_VIDEO_COMBO_0001"

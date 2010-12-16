@@ -1,0 +1,145 @@
+##############################################################################
+# FILENAME      : L_DD_VIDEO_COMBO_0009
+# Author        : Samreen, John Jayan
+# Date          : Thurs Dec 16, 2010
+# Description   : Rotation - Mirroring Combo Testcase For NV12 on HDMI
+# #############################################################################
+
+# Begin "L_DD_VIDEO_COMBO_0009"
+
+COMMENT comment.sh "Rotation - Mirroring Combo Testcase for NV12 on HDMI"
+COMMENT comment.sh "HDMI needs to be connected"
+ 
+0000_SET_VD1 set -x;overlay_switch.sh 2 1                    && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:0"
+0011_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "0 0 640 640" "0" && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:90"
+0012_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "0 0 640 640" "90"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:180"
+0013_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "0 0 640 640" "180"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:270"
+0014_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "0 0 640 640" "270"  && exit 0 || exit 1
+
+
+COMMENT comment.sh "NV12-Mirror:1"
+0020_VD1_STRM1 set -x; mirrorstream.sh 1 1 $VIDEOFILES/ice_352x288_10frames.nv12 "2"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:0"
+0021_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "0 0 640 640" "0"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:90"
+0022_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "0 0 640 640" "90"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:180"
+0023_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "0 0 640 640" "180"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:270"
+0024_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "0 0 640 640" "270"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Mirror:0"
+0025_VD1_STRM1 set -x; mirrorstream.sh 1 0 $VIDEOFILES/ice_352x288_10frames.nv12 "2"  && exit 0 || exit 1
+
+COMMENT comment.sh "************Changing Position*************"
+
+COMMENT comment.sh "NV12-Rotation:0"
+0031_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "1280 0 640 640" "0"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:90"
+0032_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "1280 0 640 640" "90"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:180"
+0033_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "1280 0 640 640" "180"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:270"
+0034_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "1280 0 640 640" "270"  && exit 0 || exit 1
+
+
+COMMENT comment.sh "NV12-Mirror:1"
+0040_VD1_STRM1 set -x; mirrorstream.sh 1 1 $VIDEOFILES/ice_352x288_10frames.nv12 "2"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:0"
+0041_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "1280 0 640 640" "0"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:90"
+0042_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "1280 0 640 640" "90"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:180"
+0043_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "1280 0 640 640" "180"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:270"
+0044_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "1280 0 640 640" "270"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Mirror:0"
+0045_VD1_STRM1 set -x; mirrorstream.sh 1 0 $VIDEOFILES/ice_352x288_10frames.nv12 "2"  && exit 0 || exit 1
+
+COMMENT comment.sh "************Changing Position*************"
+
+COMMENT comment.sh "NV12-Rotation:0"
+0051_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "1280 440 640 640" "0"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:90"
+0052_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "1280 440 640 640" "90"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:180"
+0053_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "1280 440 640 640" "180"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:270"
+0054_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "1280 440 640 640" "270"  && exit 0 || exit 1
+
+
+COMMENT comment.sh "NV12-Mirror:1"
+0060_VD1_STRM1 set -x; mirrorstream.sh 1 1 $VIDEOFILES/ice_352x288_10frames.nv12 "2"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:0"
+0061_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "1280 440 640 640" "0"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:90"
+0062_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "1280 440 640 640" "90"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:180"
+0063_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "1280 440 640 640" "180"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:270"
+0064_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "1280 440 640 640" "270"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Mirror:0"
+0065_VD1_STRM1 set -x; mirrorstream.sh 1 0 $VIDEOFILES/ice_352x288_10frames.nv12 "2"  && exit 0 || exit 1
+
+COMMENT comment.sh "************Changing Position*************"
+
+COMMENT comment.sh "NV12-Rotation:0"
+0071_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "0 440 640 640" "0"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:90"
+0072_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "0 440 640 640" "90"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:180"
+0073_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "0 440 640 640" "180"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:270"
+0074_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "0 440 640 640" "270"  && exit 0 || exit 1
+
+
+COMMENT comment.sh "NV12-Mirror:1"
+0080_VD1_STRM1 set -x; mirrorstream.sh 1 1 $VIDEOFILES/ice_352x288_10frames.nv12 "2"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:0"
+0081_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "0 440 640 640" "0"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:90"
+0082_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "0 440 640 640" "90"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:180"
+0083_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "0 440 640 640" "180"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Rotation:270"
+0084_VD1_STRM1 set -x; rotation_destruct.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "0 440 640 640" "270"  && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-Mirror:0"
+0085_VD1_STRM1 set -x; mirrorstream.sh 1 0 $VIDEOFILES/ice_352x288_10frames.nv12 "2"  && exit 0 || exit 1
+
+# End "L_DD_VIDEO_COMBO_0009"
