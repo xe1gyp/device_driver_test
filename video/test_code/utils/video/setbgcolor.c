@@ -18,15 +18,16 @@
 
 #include "lib.h"
 
+#define V4L2_CID_BG_COLOR (V4L2_CID_BASE+35)
 static int usage(void)
 {
-	printf("Usage: setbgcolor <output device [1: LCD 2: TV]> <24 bit RGB value>\n");
+	printf("Usage: setbgcolor <video device> <24 bit RGB value>\n");
 	return 1;
 }
 
 int main(int argc, char *argv[])
 {
-	int output_device, file_descriptor, result;
+	int video_device, file_descriptor, result;
 	unsigned int bgcolor = 0;
 	struct v4l2_control control;
 	memset(&control, 0 , sizeof(control));
@@ -35,22 +36,24 @@ int main(int argc, char *argv[])
 	if (argc < 3)
 		return usage();
 
-	output_device = atoi(argv[1]) + 3;
-	
-	if ((output_device != OMAP24XX_OUTPUT_LCD) &&
-		(output_device != OMAP24XX_OUTPUT_TV)) {
-		printf("Output device should be 1 for LCD or 2 for TV \n");
+	video_device = atoi(argv[1]);
+	if ((video_device != 1) && (video_device != 2) && (video_device != 3)) {
+		printf("video_device has to be 1 or 2 or 3! video_device=%d, "
+			"argv[1]=%s\n", video_device, argv[1]);
 		return usage();
 	}
 
-	file_descriptor = open(VIDEO_DEVICE1, O_RDONLY);
+	file_descriptor = open((video_device == 1) ? VIDEO_DEVICE1 :
+		((video_device == 2) ? VIDEO_DEVICE2 : VIDEO_DEVICE3), O_RDWR);
 	if (file_descriptor <= 0) {
-		printf("Could not open %s\n",VIDEO_DEVICE1);
+		printf("Could not open %s\n",
+			(video_device == 1) ? VIDEO_DEVICE1 :
+			((video_device == 2) ? VIDEO_DEVICE2 : VIDEO_DEVICE3));
 		return 1;
-	} else {
-		printf("openned %s\n", VIDEO_DEVICE1);
-	}
-
+	} else
+		printf("openned %s\n",
+			(video_device == 1) ? VIDEO_DEVICE1 :
+			((video_device == 2) ? VIDEO_DEVICE2 : VIDEO_DEVICE3));
 
 	bgcolor = atoi(argv[2]);
 	control.value = bgcolor;
