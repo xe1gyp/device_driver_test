@@ -1,0 +1,458 @@
+##############################################################################
+# FILENAME      : L_DD_VIDEO_DECI_0002
+# Author        : Samreen
+# Date          : Mon Jan 3, 2011
+# Description   : Decimation Testcases on HDMI-With Height Variations
+# #############################################################################
+
+# Begin "L_DD_VIDEO_DECI_0002"
+COMMENT comment.sh "Decimation Testcases on HDMI-With Height Variations"
+COMMENT comment.sh "***********Width Fixed and height variable for NV12************"
+
+0000_SET_VD2 set -x;overlay_switch.sh 2 1                    && exit 0 || exit 1
+0000_SET_VD2 set -x;overlay_switch.sh 2 2                    && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-1920:1080"
+0011_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 1920 1080" "2" "1"	&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-1920 :540"
+0012_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 960 1080" "0 0 1920 540" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-1920 :360"
+0013_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 1920 360" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-1920 :270"
+0014_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 1920 270" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-1920 :216"
+0015_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 1920 216" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-1920 :180"
+0016_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 960 1080" "0 0 1920 180" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-1920 :154"
+0017_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 1920 154" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-1920 :134"
+0018_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 1920 134" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-1920 :120"
+0019_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 1920 120" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-1920 :108"
+0020_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 960 1080" "0 0 1920 108" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-1920 :98"
+0021_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 1920 98" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-1920 :90"
+0022_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 1920 90" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-1920 :82"
+0023_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 1920 82" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-1920 :76"
+0024_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 960 1080" "0 0 1920 76" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-1920 :72"
+0025_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 1920 72" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-1920 :66"
+0026_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 1920 66" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "***********Width fixed and height variable for RGB32************"
+
+COMMENT comment.sh "RGB32-1920:1080"
+0001_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"				&& exit 0 || exit 1
+0001_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080"			&& exit 0 || exit 1
+0001_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"			&& exit 0 || exit 1
+0001_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-1920:540"
+0002_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0002_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 1920 540"               	&& exit 0 || exit 1
+0002_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0002_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-1920:360"
+0003_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0003_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 1920 360"               	&& exit 0 || exit 1
+0003_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0003_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-1920:270"
+0004_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0004_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 1920 270"               	&& exit 0 || exit 1
+0004_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0004_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-1920:216"
+0005_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0005_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 1920 216"               	&& exit 0 || exit 1
+0005_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0005_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-1920:180"
+0006_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0006_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 1920 180"               	&& exit 0 || exit 1
+0006_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0006_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-1920:154"
+0007_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0007_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 1920 154"               	&& exit 0 || exit 1
+0007_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0007_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-1920:134"
+0008_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0008_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 1920 134"               	&& exit 0 || exit 1
+0008_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0008_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-1920:120"
+0009_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0009_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 1920 120"               	&& exit 0 || exit 1
+0009_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0009_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-1920:108"
+0010_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0010_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 1920 108"               	&& exit 0 || exit 1
+0010_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0010_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-1920:98"
+0011_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0011_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 1920 98"               	&& exit 0 || exit 1
+0011_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0011_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-1920:90"
+0012_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0012_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 1920 90"               	&& exit 0 || exit 1
+0012_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0012_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-1920:82"
+0013_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0013_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 1920 82"               	&& exit 0 || exit 1
+0013_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0013_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-1920:76"
+0014_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0014_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 1920 76"               	&& exit 0 || exit 1
+0014_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0014_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-1920:72"
+0015_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0015_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 1920 72"               	&& exit 0 || exit 1
+0015_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0015_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-1920:66"
+0016_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0016_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 1920 66"               	&& exit 0 || exit 1
+0016_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0016_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+
+
+COMMENT comment.sh "***********Width fixed and height variable for RGB16************"
+
+
+COMMENT comment.sh "RGB565-1920:1080"
+0001_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"				&& exit 0 || exit 1
+0001_RGB565_VD2 set -x; setupimage.sh 2 "RGB565 1920 1080"			&& exit 0 || exit 1
+0001_RGB565_VD4 set -x; setupimage.sh 4 "RGB565 1920 1080"			&& exit 0 || exit 1
+0001_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB565-1920:540"
+0002_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0002_RGB565_VD2 set -x; setupimage.sh 2 "RGB565 1920 1080" "0 0 1920 540"              	&& exit 0 || exit 1
+0002_RGB565_VD4 set -x; setupimage.sh 4 "RGB565 1920 1080"                 		&& exit 0 || exit 1
+0002_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB565-1920:360"
+0003_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0003_RGB565_VD2 set -x; setupimage.sh 2 "RGB565 1920 1080" "0 0 1920 360"              	&& exit 0 || exit 1
+0003_RGB565_VD4 set -x; setupimage.sh 4 "RGB565 1920 1080"                 		&& exit 0 || exit 1
+0003_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB565-1920:270"
+0004_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0004_RGB565_VD2 set -x; setupimage.sh 2 "RGB565 1920 1080" "0 0 1920 270"              	&& exit 0 || exit 1
+0004_RGB565_VD4 set -x; setupimage.sh 4 "RGB565 1920 1080"                 		&& exit 0 || exit 1
+0004_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB565-1920:216"
+0005_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0005_RGB565_VD2 set -x; setupimage.sh 2 "RGB565 1920 1080" "0 0 1920 216"              	&& exit 0 || exit 1
+0005_RGB565_VD4 set -x; setupimage.sh 4 "RGB565 1920 1080"                 		&& exit 0 || exit 1
+0005_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB565-1920:180"
+0006_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0006_RGB565_VD2 set -x; setupimage.sh 2 "RGB565 1920 1080" "0 0 1920 180"              	&& exit 0 || exit 1
+0006_RGB565_VD4 set -x; setupimage.sh 4 "RGB565 1920 1080"                 		&& exit 0 || exit 1
+0006_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB565-1920:154"
+0007_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0007_RGB565_VD2 set -x; setupimage.sh 2 "RGB565 1920 1080" "0 0 1920 154"              	&& exit 0 || exit 1
+0007_RGB565_VD4 set -x; setupimage.sh 4 "RGB565 1920 1080"                 		&& exit 0 || exit 1
+0007_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB565-1920:134"
+0008_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0008_RGB565_VD2 set -x; setupimage.sh 2 "RGB565 1920 1080" "0 0 1920 134"              	&& exit 0 || exit 1
+0008_RGB565_VD4 set -x; setupimage.sh 4 "RGB565 1920 1080"                 		&& exit 0 || exit 1
+0008_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB565-1920:120"
+0009_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0009_RGB565_VD2 set -x; setupimage.sh 2 "RGB565 1920 1080" "0 0 1920 120"              	&& exit 0 || exit 1
+0009_RGB565_VD4 set -x; setupimage.sh 4 "RGB565 1920 1080"                 		&& exit 0 || exit 1
+0009_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB565-1920:108"
+0010_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0010_RGB565_VD2 set -x; setupimage.sh 2 "RGB565 1920 1080" "0 0 1920 108"              	&& exit 0 || exit 1
+0010_RGB565_VD4 set -x; setupimage.sh 4 "RGB565 1920 1080"                 		&& exit 0 || exit 1
+0010_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB565-1920:98"
+0011_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0011_RGB565_VD2 set -x; setupimage.sh 2 "RGB565 1920 1080" "0 0 1920 98"              	&& exit 0 || exit 1
+0011_RGB565_VD4 set -x; setupimage.sh 4 "RGB565 1920 1080"                 		&& exit 0 || exit 1
+0011_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB565-1920:90"
+0012_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0012_RGB565_VD2 set -x; setupimage.sh 2 "RGB565 1920 1080" "0 0 1920 90"              	&& exit 0 || exit 1
+0012_RGB565_VD4 set -x; setupimage.sh 4 "RGB565 1920 1080"                 		&& exit 0 || exit 1
+0012_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB565-1920:82"
+0013_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0013_RGB565_VD2 set -x; setupimage.sh 2 "RGB565 1920 1080" "0 0 1920 82"              	&& exit 0 || exit 1
+0013_RGB565_VD4 set -x; setupimage.sh 4 "RGB565 1920 1080"                 		&& exit 0 || exit 1
+0013_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB565-1920:76"
+0014_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0014_RGB565_VD2 set -x; setupimage.sh 2 "RGB565 1920 1080" "0 0 1920 76"              	&& exit 0 || exit 1
+0014_RGB565_VD4 set -x; setupimage.sh 4 "RGB565 1920 1080"                 		&& exit 0 || exit 1
+0014_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB565-1920:72"
+0015_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0015_RGB565_VD2 set -x; setupimage.sh 2 "RGB565 1920 1080" "0 0 1920 72"              	&& exit 0 || exit 1
+0015_RGB565_VD4 set -x; setupimage.sh 4 "RGB565 1920 1080"                 		&& exit 0 || exit 1
+0015_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB565-1920:66"
+0016_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0016_RGB565_VD2 set -x; setupimage.sh 2 "RGB565 1920 1080" "0 0 1920 66"              	&& exit 0 || exit 1
+0016_RGB565_VD4 set -x; setupimage.sh 4 "RGB565 1920 1080"                 		&& exit 0 || exit 1
+0016_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "***********Width fixed and height variable for UYVY************"
+
+COMMENT comment.sh "UYVY-1280:1080"
+0001_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"				&& exit 0 || exit 1
+0001_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 1080"				&& exit 0 || exit 1
+0001_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 1080"				&& exit 0 || exit 1
+0001_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-1280:540"
+0007_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0007_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 1280 540"               	&& exit 0 || exit 1
+0007_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0007_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-1280:360"
+0002_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0002_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 1280 360"               	&& exit 0 || exit 1
+0002_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0002_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-1280:270"
+0003_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0003_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 1280 270"               	&& exit 0 || exit 1
+0003_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0003_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-1280:216"
+0004_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0004_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 1280 216"               	&& exit 0 || exit 1
+0004_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0004_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-1280:180"
+0005_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0005_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 1280 180"               	&& exit 0 || exit 1
+0005_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0005_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-1280:154"
+0006_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0006_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 1280 154"               	&& exit 0 || exit 1
+0006_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0006_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-1280:134"
+0008_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0008_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 1280 134"               	&& exit 0 || exit 1
+0008_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0008_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-1280:120"
+0009_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0009_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 1280 120"               	&& exit 0 || exit 1
+0009_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0009_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-1280:108"
+0010_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0010_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 1280 108"               	&& exit 0 || exit 1
+0010_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0010_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-1280:98"
+0011_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0011_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 1280 98"               	&& exit 0 || exit 1
+0011_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0011_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-1280:90"
+0012_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0012_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 1280 90"               	&& exit 0 || exit 1
+0012_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0012_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-1280:82"
+0013_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0013_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 1280 82"               	&& exit 0 || exit 1
+0013_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0013_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-1280:76"
+0014_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0014_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 1280 76"               	&& exit 0 || exit 1
+0014_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0014_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-1280:72"
+0015_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0015_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 1280 72"               	&& exit 0 || exit 1
+0015_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0015_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-1280:66"
+0016_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0016_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 1280 66"               	&& exit 0 || exit 1
+0016_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0016_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "***********Width fixed and height variable for YUYV************"
+
+COMMENT comment.sh "YUYV-1280:1080"
+0001_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"				&& exit 0 || exit 1
+0001_YUYV_VD2 set -x; setupimage.sh 2 "YUYV 1280 1080"				&& exit 0 || exit 1
+0001_YUYV_VD4 set -x; setupimage.sh 4 "YUYV 1280 1080"				&& exit 0 || exit 1
+0001_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "YUYV-1280:540"
+0002_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0002_YUYV_VD2 set -x; setupimage.sh 2 "YUYV 1280 720" "0 0 1280 540"               	&& exit 0 || exit 1
+0002_YUYV_VD4 set -x; setupimage.sh 4 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0002_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "YUYV-1280:360"
+0003_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0003_YUYV_VD2 set -x; setupimage.sh 2 "YUYV 1280 720" "0 0 1280 360"               	&& exit 0 || exit 1
+0003_YUYV_VD4 set -x; setupimage.sh 4 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0003_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "YUYV-1280:270"
+0004_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0004_YUYV_VD2 set -x; setupimage.sh 2 "YUYV 1280 720" "0 0 1280 270"               	&& exit 0 || exit 1
+0004_YUYV_VD4 set -x; setupimage.sh 4 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0004_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "YUYV-1280:216"
+0005_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0005_YUYV_VD2 set -x; setupimage.sh 2 "YUYV 1280 720" "0 0 1280 216"               	&& exit 0 || exit 1
+0005_YUYV_VD4 set -x; setupimage.sh 4 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0005_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "YUYV-1280:180"
+0006_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0006_YUYV_VD2 set -x; setupimage.sh 2 "YUYV 1280 720" "0 0 1280 180"               	&& exit 0 || exit 1
+0006_YUYV_VD4 set -x; setupimage.sh 4 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0006_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "YUYV-1280:154"
+0007_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0007_YUYV_VD2 set -x; setupimage.sh 2 "YUYV 1280 720" "0 0 1280 154"               	&& exit 0 || exit 1
+0007_YUYV_VD4 set -x; setupimage.sh 4 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0007_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "YUYV-1280:134"
+0008_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0008_YUYV_VD2 set -x; setupimage.sh 2 "YUYV 1280 720" "0 0 1280 134"               	&& exit 0 || exit 1
+0008_YUYV_VD4 set -x; setupimage.sh 4 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0008_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "YUYV-1280:120"
+0009_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0009_YUYV_VD2 set -x; setupimage.sh 2 "YUYV 1280 720" "0 0 1280 120"               	&& exit 0 || exit 1
+0009_YUYV_VD4 set -x; setupimage.sh 4 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0009_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "YUYV-1280:108"
+0010_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0010_YUYV_VD2 set -x; setupimage.sh 2 "YUYV 1280 720" "0 0 1280 108"               	&& exit 0 || exit 1
+0010_YUYV_VD4 set -x; setupimage.sh 4 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0010_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "YUYV-1280:98"
+0011_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0011_YUYV_VD2 set -x; setupimage.sh 2 "YUYV 1280 720" "0 0 1280 98"               	&& exit 0 || exit 1
+0011_YUYV_VD4 set -x; setupimage.sh 4 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0011_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "YUYV-1280:90"
+0012_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0012_YUYV_VD2 set -x; setupimage.sh 2 "YUYV 1280 720" "0 0 1280 90"               	&& exit 0 || exit 1
+0012_YUYV_VD4 set -x; setupimage.sh 4 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0012_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "YUYV-1280:82"
+0013_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0013_YUYV_VD2 set -x; setupimage.sh 2 "YUYV 1280 720" "0 0 1280 82"               	&& exit 0 || exit 1
+0013_YUYV_VD4 set -x; setupimage.sh 4 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0013_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "YUYV-1280:76"
+0014_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0014_YUYV_VD2 set -x; setupimage.sh 2 "YUYV 1280 720" "0 0 1280 76"               	&& exit 0 || exit 1
+0014_YUYV_VD4 set -x; setupimage.sh 4 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0014_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "YUYV-1280:72"
+0015_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0015_YUYV_VD2 set -x; setupimage.sh 2 "YUYV 1280 720" "0 0 1280 72"               	&& exit 0 || exit 1
+0015_YUYV_VD4 set -x; setupimage.sh 4 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0015_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "YUYV-1280:66"
+0016_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0016_YUYV_VD2 set -x; setupimage.sh 2 "YUYV 1280 720" "0 0 1280 66"               	&& exit 0 || exit 1
+0016_YUYV_VD4 set -x; setupimage.sh 4 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0016_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+# End "L_DD_VIDEO_DECI_0002"
