@@ -1,0 +1,420 @@
+##############################################################################
+# FILENAME      : L_DD_VIDEO_COMBOROT_0004
+# Author        : Samreen
+# Date          : Mon Jan 3, 2011
+# Description   : Rotation and Scaling Combo Testcases - UYVY Width Variable
+# #############################################################################
+
+# Begin "L_DD_VIDEO_COMBOROT_0004"
+COMMENT comment.sh "Rotation and Scaling Combo Testcases"
+COMMENT comment.sh "***********Width variable and height fixed for UYVY************"
+COMMENT comment.sh "***********Scaling with No Rotation for UYVY************"
+
+0000_SET_VD1 set -x;overlay_switch.sh 0 1                    && exit 0 || exit 1
+0000_SET_VD2 set -x;overlay_switch.sh 0 2                    && exit 0 || exit 1
+
+COMMENT comment.sh "UYVY-480:480"
+0001_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"				&& exit 0 || exit 1
+0001_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 480 480"				&& exit 0 || exit 1
+0001_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 480 480"				&& exit 0 || exit 1
+0001_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-432:480"
+0002_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0002_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 432 480"               	&& exit 0 || exit 1
+0002_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0002_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-288:480"
+0003_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0003_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 288 480"               	&& exit 0 || exit 1
+0003_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0003_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-216:480"
+0004_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0004_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 216 480"               	&& exit 0 || exit 1
+0004_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0004_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-172:480"
+0005_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0005_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 172 480"               	&& exit 0 || exit 1
+0005_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0005_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-144:480"
+0006_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0006_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 144 480"               	&& exit 0 || exit 1
+0006_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0006_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-122:480"
+0007_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0007_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 122 480"               	&& exit 0 || exit 1
+0007_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0007_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-108:480"
+0008_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0008_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 108 480"               	&& exit 0 || exit 1
+0008_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0008_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-96:480"
+0009_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0009_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 96 480"               	&& exit 0 || exit 1
+0009_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0009_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-86:480"
+0010_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0010_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 86 480"               	&& exit 0 || exit 1
+0010_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0010_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-78:480"
+0011_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0011_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 78 480"               	&& exit 0 || exit 1
+0011_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0011_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-72:480"
+0012_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0012_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 72 480"               	&& exit 0 || exit 1
+0012_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0012_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-66:480"
+0013_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0013_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 66 480"               	&& exit 0 || exit 1
+0013_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0013_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-60:480"
+0014_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0014_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 60 480"               	&& exit 0 || exit 1
+0014_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0014_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-56:480"
+0015_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0015_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 56 480"               	&& exit 0 || exit 1
+0015_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0015_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-54:480"
+0016_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0016_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 54 480"               	&& exit 0 || exit 1
+0016_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0016_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "***********Width variable and height fixed for UYVY************"
+COMMENT comment.sh "***********Scaling with 90 Rotation for UYVY************"
+
+0010_VD2_ROT set -x; setrotation.sh 2 "UYVY 1280 720" 90                     && exit 0 || exit 1
+
+COMMENT comment.sh "UYVY-480:480"
+0001_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"				&& exit 0 || exit 1
+0001_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 480 480"				&& exit 0 || exit 1
+0001_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 480 480"				&& exit 0 || exit 1
+0001_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-432:480"
+0002_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0002_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 432 480"               	&& exit 0 || exit 1
+0002_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0002_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-288:480"
+0003_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0003_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 288 480"               	&& exit 0 || exit 1
+0003_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0003_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-216:480"
+0004_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0004_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 216 480"               	&& exit 0 || exit 1
+0004_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0004_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-172:480"
+0005_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0005_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 172 480"               	&& exit 0 || exit 1
+0005_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0005_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-144:480"
+0006_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0006_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 144 480"               	&& exit 0 || exit 1
+0006_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0006_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-122:480"
+0007_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0007_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 122 480"               	&& exit 0 || exit 1
+0007_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0007_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-108:480"
+0008_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0008_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 108 480"               	&& exit 0 || exit 1
+0008_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0008_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-96:480"
+0009_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0009_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 96 480"               	&& exit 0 || exit 1
+0009_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0009_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-86:480"
+0010_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0010_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 86 480"               	&& exit 0 || exit 1
+0010_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0010_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-78:480"
+0011_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0011_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 78 480"               	&& exit 0 || exit 1
+0011_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0011_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-72:480"
+0012_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0012_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 72 480"               	&& exit 0 || exit 1
+0012_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0012_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-66:480"
+0013_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0013_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 66 480"               	&& exit 0 || exit 1
+0013_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0013_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-60:480"
+0014_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0014_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 60 480"               	&& exit 0 || exit 1
+0014_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0014_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-56:480"
+0015_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0015_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 56 480"               	&& exit 0 || exit 1
+0015_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0015_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-54:480"
+0016_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0016_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 54 480"               	&& exit 0 || exit 1
+0016_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0016_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "***********Width variable and height fixed for UYVY************"
+COMMENT comment.sh "***********Scaling with 180 Rotation for UYVY************"
+
+0020_VD2_ROT set -x; setrotation.sh 2 "UYVY 1280 720" 180                     && exit 0 || exit 1
+
+COMMENT comment.sh "UYVY-480:480"
+0001_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"				&& exit 0 || exit 1
+0001_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 480 480"				&& exit 0 || exit 1
+0001_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 480 480"				&& exit 0 || exit 1
+0001_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-432:480"
+0002_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0002_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 432 480"               	&& exit 0 || exit 1
+0002_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0002_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-288:480"
+0003_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0003_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 288 480"               	&& exit 0 || exit 1
+0003_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0003_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-216:480"
+0004_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0004_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 216 480"               	&& exit 0 || exit 1
+0004_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0004_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-172:480"
+0005_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0005_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 172 480"               	&& exit 0 || exit 1
+0005_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0005_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-144:480"
+0006_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0006_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 144 480"               	&& exit 0 || exit 1
+0006_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0006_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-122:480"
+0007_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0007_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 122 480"               	&& exit 0 || exit 1
+0007_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0007_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-108:480"
+0008_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0008_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 108 480"               	&& exit 0 || exit 1
+0008_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0008_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-96:480"
+0009_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0009_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 96 480"               	&& exit 0 || exit 1
+0009_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0009_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-86:480"
+0010_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0010_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 86 480"               	&& exit 0 || exit 1
+0010_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0010_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-78:480"
+0011_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0011_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 78 480"               	&& exit 0 || exit 1
+0011_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0011_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-72:480"
+0012_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0012_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 72 480"               	&& exit 0 || exit 1
+0012_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0012_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-66:480"
+0013_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0013_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 66 480"               	&& exit 0 || exit 1
+0013_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0013_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-60:480"
+0014_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0014_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 60 480"               	&& exit 0 || exit 1
+0014_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0014_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-56:480"
+0015_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0015_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 56 480"               	&& exit 0 || exit 1
+0015_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0015_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-54:480"
+0016_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0016_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 54 480"               	&& exit 0 || exit 1
+0016_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0016_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+
+COMMENT comment.sh "***********Width variable and height fixed for UYVY************"
+COMMENT comment.sh "***********Scaling with 270 Rotation for UYVY************"
+
+0030_VD2_ROT set -x; setrotation.sh 2 "UYVY 1280 720" 270                     && exit 0 || exit 1
+
+COMMENT comment.sh "UYVY-480:480"
+0001_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"				&& exit 0 || exit 1
+0001_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 480 480"				&& exit 0 || exit 1
+0001_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 480 480"				&& exit 0 || exit 1
+0001_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-432:480"
+0002_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0002_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 432 480"               	&& exit 0 || exit 1
+0002_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0002_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-288:480"
+0003_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0003_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 288 480"               	&& exit 0 || exit 1
+0003_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0003_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-216:480"
+0004_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0004_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 216 480"               	&& exit 0 || exit 1
+0004_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0004_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-172:480"
+0005_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0005_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 172 480"               	&& exit 0 || exit 1
+0005_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0005_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-144:480"
+0006_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0006_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 144 480"               	&& exit 0 || exit 1
+0006_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0006_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-122:480"
+0007_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0007_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 122 480"               	&& exit 0 || exit 1
+0007_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0007_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-108:480"
+0008_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0008_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 108 480"               	&& exit 0 || exit 1
+0008_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0008_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-96:480"
+0009_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0009_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 96 480"               	&& exit 0 || exit 1
+0009_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0009_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-86:480"
+0010_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0010_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 86 480"               	&& exit 0 || exit 1
+0010_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0010_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-78:480"
+0011_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0011_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 78 480"               	&& exit 0 || exit 1
+0011_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0011_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-72:480"
+0012_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0012_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 72 480"               	&& exit 0 || exit 1
+0012_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0012_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-66:480"
+0013_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0013_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 66 480"               	&& exit 0 || exit 1
+0013_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0013_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-60:480"
+0014_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0014_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 60 480"               	&& exit 0 || exit 1
+0014_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0014_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-56:480"
+0015_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0015_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 56 480"               	&& exit 0 || exit 1
+0015_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0015_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "UYVY-54:480"
+0016_YUYV_VD1 set -x; setupimage.sh 1 "YUYV 1280 720"                 		&& exit 0 || exit 1
+0016_UYVY_VD2 set -x; setupimage.sh 2 "UYVY 1280 720" "0 0 54 480"               	&& exit 0 || exit 1
+0016_UYVY_VD4 set -x; setupimage.sh 4 "UYVY 1280 720"                 		&& exit 0 || exit 1
+0016_VD1 set -x; wbstream.sh 1 $VIDEOFILES/720p.yuv 2
+
+COMMENT comment.sh "***********Set Rotation to '0'************"
+
+0040_VD2_ROT set -x; setrotation.sh 2 "UYVY 1280 720" 0                     && exit 0 || exit 1
+
+# End "L_DD_VIDEO_COMBOROT_0004"

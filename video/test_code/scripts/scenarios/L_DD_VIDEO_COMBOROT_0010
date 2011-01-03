@@ -1,0 +1,228 @@
+##############################################################################
+# FILENAME      : L_DD_VIDEO_COMBOROT_0010
+# Author        : Samreen
+# Date          : Mon Jan 3, 2011
+# Description   : Rotation and Scaling Combo Testcases - YUYV Height Variable
+# #############################################################################
+
+# Begin "L_DD_VIDEO_COMBOROT_0010"
+COMMENT comment.sh "Rotation and Scaling Combo Testcases"
+COMMENT comment.sh "***********Width fixed and height variable for YUYV ************"
+COMMENT comment.sh "***********Scaling with No Rotation for YUYV ************"
+
+0000_SET_VD2 set -x;overlay_switch.sh 0 1                    && exit 0 || exit 1
+0000_SET_VD2 set -x;overlay_switch.sh 0 2                    && exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:480"
+0011_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:240"
+0012_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 240" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:160"
+0013_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 160" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:120"
+0014_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 120" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:96"
+0015_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 96" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:80"
+0016_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 80" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:68"
+0017_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 68" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:60"
+0018_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 60" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:52"
+0019_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 52" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:48"
+0020_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 48" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:42"
+0021_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 42" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:40"
+0022_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 40" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:36"
+0023_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 36" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:34"
+0024_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 34" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:32"
+0025_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 32" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:30"
+0026_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 30" "2" "1"		&& exit 0 || exit 1
+
+
+COMMENT comment.sh "***********Width fixed and height variable for YUYV ************"
+COMMENT comment.sh "***********Scaling with 90 Rotation for YUYV ************"
+
+0010_VD1_ROT set -x; setrotation.sh 1 "YUYV 480 480" 90                     && exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:480"
+0011_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:240"
+0012_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 240" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:160"
+0013_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 160" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:120"
+0014_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 120" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:96"
+0015_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 96" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:80"
+0016_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 80" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:68"
+0017_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 68" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:60"
+0018_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 60" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:52"
+0019_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 52" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:48"
+0020_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 48" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:42"
+0021_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 42" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:40"
+0022_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 40" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:36"
+0023_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 36" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:34"
+0024_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 34" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:32"
+0025_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 32" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:30"
+0026_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 30" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "***********Width fixed and height variable for YUYV ************"
+COMMENT comment.sh "***********Scaling with 180 Rotation for YUYV ************"
+
+0020_VD1_ROT set -x; setrotation.sh 1 "YUYV 480 480" 180                     && exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:480"
+0011_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:240"
+0012_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 240" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:160"
+0013_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 160" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:120"
+0014_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 120" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:96"
+0015_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 96" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:80"
+0016_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 80" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:68"
+0017_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 68" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:60"
+0018_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 60" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:52"
+0019_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 52" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:48"
+0020_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 48" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:42"
+0021_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 42" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:40"
+0022_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 40" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:36"
+0023_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 36" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:34"
+0024_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 34" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:32"
+0025_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 32" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:30"
+0026_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 30" "2" "1"		&& exit 0 || exit 1
+COMMENT comment.sh "***********Width fixed and height variable for YUYV ************"
+COMMENT comment.sh "***********Scaling with 270 Rotation for YUYV ************"
+
+0030_VD1_ROT set -x; setrotation.sh 1 "YUYV 480 480" 270                     && exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:480"
+0011_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:240"
+0012_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 240" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:160"
+0013_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 160" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:120"
+0014_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 120" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:96"
+0015_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 96" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:80"
+0016_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 80" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:68"
+0017_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 68" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:60"
+0018_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 60" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:52"
+0019_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 52" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:48"
+0020_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 48" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:42"
+0021_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 42" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:40"
+0022_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 40" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:36"
+0023_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 36" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:34"
+0024_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 34" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:32"
+0025_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 32" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "YUYV-480:30"
+0026_VD1_STRM1 set -x; imgstream.sh 1 "YUYV 864 480" $VIDEOFILES/wvga_video.yuv "0 0 864 480" "0 0 480 30" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "***********SetRotation to '0'************"
+
+0040_VD1_ROT set -x; setrotation.sh 1 "YUYV 480 480" 0                     && exit 0 || exit 1
+
+
+# End "L_DD_VIDEO_COMBOROT_0010"

@@ -1,0 +1,229 @@
+##############################################################################
+# FILENAME      : L_DD_VIDEO_COMBOROT_0001
+# Author        : Samreen
+# Date          : Mon Jan 3, 2011
+# Description   : Rotation and Scaling Combo Testcases - NV12 Width Variable
+# #############################################################################
+
+# Begin "L_DD_VIDEO_COMBOROT_0001"
+COMMENT comment.sh "Rotation and Scaling Combo Testcases"
+COMMENT comment.sh "***********Width variable and height fixed for NV12************"
+COMMENT comment.sh "***********Scaling with No Rotation for NV12************"
+
+0000_SET_VD1 set -x;overlay_switch.sh 0 1                    && exit 0 || exit 1
+0000_SET_VD2 set -x;overlay_switch.sh 0 2                    && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-480:480"
+0011_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 480 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-432:480"
+0012_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 432 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-288:480"
+0013_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 288 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-216:480"
+0014_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 216 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-172:480"
+0015_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 172 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-144:480"
+0016_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 144 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-122:480"
+0017_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 122 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-108:480"
+0018_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 108 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-96:480"
+0019_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 96 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-86:480"
+0020_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 86 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-78:480"
+0021_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 78 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-72:480"
+0022_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 72 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-66:480"
+0023_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 66 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-60:480"
+0024_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 60 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-56:480"
+0025_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 56 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-54:480"
+0026_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 54 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "***********Width variable and height fixed for NV12************"
+COMMENT comment.sh "***********Scaling with 90 Rotation for NV12************"
+
+0010_VD1_ROT set -x; setrotation.sh 1 "NV12 1920 1080" 90                     && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-480:480"
+0011_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 480 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-432:480"
+0012_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 432 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-288:480"
+0013_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 288 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-216:480"
+0014_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 216 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-172:480"
+0015_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 172 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-144:480"
+0016_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 144 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-122:480"
+0017_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 122 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-108:480"
+0018_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 108 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-96:480"
+0019_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 96 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-86:480"
+0020_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 86 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-78:480"
+0021_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 78 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-72:480"
+0022_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 72 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-66:480"
+0023_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 66 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-60:480"
+0024_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 60 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-56:480"
+0025_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 56 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-54:480"
+0026_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 54 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "***********Width variable and height fixed for NV12************"
+COMMENT comment.sh "***********Scaling with 180 Rotation for NV12************"
+
+0020_VD1_ROT set -x; setrotation.sh 1 "NV12 1920 1080" 180                     && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-480:480"
+0011_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 480 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-432:480"
+0012_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 432 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-288:480"
+0013_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 288 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-216:480"
+0014_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 216 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-172:480"
+0015_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 172 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-144:480"
+0016_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 144 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-122:480"
+0017_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 122 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-108:480"
+0018_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 108 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-96:480"
+0019_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 96 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-86:480"
+0020_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 86 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-78:480"
+0021_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 78 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-72:480"
+0022_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 72 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-66:480"
+0023_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 66 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-60:480"
+0024_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 60 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-56:480"
+0025_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 56 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-54:480"
+0026_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 54 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "***********Width variable and height fixed for NV12************"
+COMMENT comment.sh "***********Scaling with 270 Rotation for NV12************"
+
+0030_VD1_ROT set -x; setrotation.sh 1 "NV12 1920 1080" 270                     && exit 0 || exit 1
+
+COMMENT comment.sh "NV12-480:480"
+0011_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 480 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-432:480"
+0012_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 432 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-288:480"
+0013_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 288 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-216:480"
+0014_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 216 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-172:480"
+0015_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 172 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-144:480"
+0016_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 144 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-122:480"
+0017_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 122 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-108:480"
+0018_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 108 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-96:480"
+0019_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 96 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-86:480"
+0020_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 86 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-78:480"
+0021_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 78 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-72:480"
+0022_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 72 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-66:480"
+0023_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 66 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-60:480"
+0024_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 60 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-56:480"
+0025_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 56 480" "2" "1"		&& exit 0 || exit 1
+
+COMMENT comment.sh "NV12-54:480"
+0026_VD1_STRM1 set -x; imgstream.sh 1 "NV12 1920 1080" $VIDEOFILES/1080p.NV12 "0 0 1920 1080" "0 0 54 480" "2" "1"		&& exit 0 || exit 1
+
+
+COMMENT comment.sh "***********SetRotation to '0'************"
+
+0040_VD1_ROT set -x; setrotation.sh 1 "NV12 1920 1080" 0                     && exit 0 || exit 1
+
+# End "L_DD_VIDEO_COMBOROT_0001"
+

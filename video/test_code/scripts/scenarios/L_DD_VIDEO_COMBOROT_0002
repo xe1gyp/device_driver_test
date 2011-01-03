@@ -1,0 +1,420 @@
+##############################################################################
+# FILENAME      : L_DD_VIDEO_COMBOROT_0002
+# Author        : Samreen
+# Date          : Mon Jan 3, 2011
+# Description   : Rotation and Scaling Combo Testcases - RGB32 Width Variable
+# #############################################################################
+
+# Begin "L_DD_VIDEO_COMBOROT_0002"
+COMMENT comment.sh "Rotation and Scaling Combo Testcases"
+COMMENT comment.sh "***********Width variable and height fixed for RGB32************"
+COMMENT comment.sh "***********Scaling with No Rotation for RGB32************"
+
+0000_SET_VD1 set -x;overlay_switch.sh 0 1                    && exit 0 || exit 1
+0000_SET_VD2 set -x;overlay_switch.sh 0 2                    && exit 0 || exit 1
+
+COMMENT comment.sh "RGB32-480:480"
+0001_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"				&& exit 0 || exit 1
+0001_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 480 480"				&& exit 0 || exit 1
+0001_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 480 480"				&& exit 0 || exit 1
+0001_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-432:480"
+0002_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0002_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 432 480"               	&& exit 0 || exit 1
+0002_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0002_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-288:480"
+0003_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0003_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 288 480"               	&& exit 0 || exit 1
+0003_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0003_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-216:480"
+0004_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0004_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 216 480"               	&& exit 0 || exit 1
+0004_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0004_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-172:480"
+0005_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0005_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 172 480"               	&& exit 0 || exit 1
+0005_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0005_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-144:480"
+0006_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0006_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 144 480"               	&& exit 0 || exit 1
+0006_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0006_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-122:480"
+0007_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0007_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 122 480"               	&& exit 0 || exit 1
+0007_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0007_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-108:480"
+0008_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0008_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 108 480"               	&& exit 0 || exit 1
+0008_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0008_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-96:480"
+0009_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0009_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 96 480"               	&& exit 0 || exit 1
+0009_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0009_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-86:480"
+0010_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0010_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 86 480"               	&& exit 0 || exit 1
+0010_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0010_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-78:480"
+0011_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0011_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 78 480"               	&& exit 0 || exit 1
+0011_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0011_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-72:480"
+0016_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0016_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 72 480"               	&& exit 0 || exit 1
+0016_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0016_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-66:480"
+0012_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0012_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 66 480"               	&& exit 0 || exit 1
+0012_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0012_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-60:480"
+0013_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0013_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 60 480"               	&& exit 0 || exit 1
+0013_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0013_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-56:480"
+0014_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0014_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 56 480"               	&& exit 0 || exit 1
+0014_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0014_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-54:480"
+0015_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0015_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 54 480"               	&& exit 0 || exit 1
+0015_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0015_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+
+COMMENT comment.sh "***********Width variable and height fixed for RGB32************"
+COMMENT comment.sh "***********Scaling with 90 Rotation for  RGB32************"
+
+0010_VD2_ROT set -x; setrotation.sh 2 "RGB32 864 1080" 90                     && exit 0 || exit 1
+
+COMMENT comment.sh "RGB32-480:480"
+0001_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"				&& exit 0 || exit 1
+0001_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 480 480"				&& exit 0 || exit 1
+0001_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 480 480"				&& exit 0 || exit 1
+0001_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-432:480"
+0002_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0002_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 432 480"               	&& exit 0 || exit 1
+0002_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0002_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-288:480"
+0003_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0003_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 288 480"               	&& exit 0 || exit 1
+0003_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0003_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-216:480"
+0004_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0004_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 216 480"               	&& exit 0 || exit 1
+0004_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0004_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-172:480"
+0005_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0005_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 172 480"               	&& exit 0 || exit 1
+0005_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0005_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-144:480"
+0006_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0006_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 144 480"               	&& exit 0 || exit 1
+0006_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0006_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-122:480"
+0007_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0007_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 122 480"               	&& exit 0 || exit 1
+0007_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0007_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-108:480"
+0008_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0008_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 108 480"               	&& exit 0 || exit 1
+0008_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0008_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-96:480"
+0009_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0009_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 96 480"               	&& exit 0 || exit 1
+0009_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0009_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-86:480"
+0010_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0010_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 86 480"               	&& exit 0 || exit 1
+0010_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0010_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-78:480"
+0011_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0011_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 78 480"               	&& exit 0 || exit 1
+0011_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0011_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-72:480"
+0016_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0016_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 72 480"               	&& exit 0 || exit 1
+0016_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0016_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-66:480"
+0012_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0012_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 66 480"               	&& exit 0 || exit 1
+0012_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0012_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-60:480"
+0013_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0013_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 60 480"               	&& exit 0 || exit 1
+0013_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0013_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-56:480"
+0014_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0014_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 56 480"               	&& exit 0 || exit 1
+0014_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0014_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-54:480"
+0015_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0015_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 54 480"               	&& exit 0 || exit 1
+0015_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0015_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "***********Width variable and height fixed for  RGB32************"
+COMMENT comment.sh "***********Scaling with 180 Rotation for  RGB32************"
+
+0020_VD2_ROT set -x; setrotation.sh 2 "RGB32 864 1080" 180                     && exit 0 || exit 1
+
+COMMENT comment.sh "RGB32-480:480"
+0001_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"				&& exit 0 || exit 1
+0001_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 480 480"				&& exit 0 || exit 1
+0001_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 480 480"				&& exit 0 || exit 1
+0001_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-432:480"
+0002_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0002_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 432 480"               	&& exit 0 || exit 1
+0002_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0002_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-288:480"
+0003_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0003_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 288 480"               	&& exit 0 || exit 1
+0003_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0003_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-216:480"
+0004_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0004_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 216 480"               	&& exit 0 || exit 1
+0004_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0004_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-172:480"
+0005_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0005_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 172 480"               	&& exit 0 || exit 1
+0005_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0005_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-144:480"
+0006_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0006_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 144 480"               	&& exit 0 || exit 1
+0006_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0006_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-122:480"
+0007_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0007_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 122 480"               	&& exit 0 || exit 1
+0007_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0007_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-108:480"
+0008_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0008_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 108 480"               	&& exit 0 || exit 1
+0008_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0008_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-96:480"
+0009_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0009_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 96 480"               	&& exit 0 || exit 1
+0009_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0009_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-86:480"
+0010_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0010_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 86 480"               	&& exit 0 || exit 1
+0010_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0010_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-78:480"
+0011_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0011_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 78 480"               	&& exit 0 || exit 1
+0011_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0011_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-72:480"
+0016_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0016_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 72 480"               	&& exit 0 || exit 1
+0016_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0016_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-66:480"
+0012_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0012_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 66 480"               	&& exit 0 || exit 1
+0012_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0012_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-60:480"
+0013_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0013_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 60 480"               	&& exit 0 || exit 1
+0013_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0013_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-56:480"
+0014_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0014_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 56 480"               	&& exit 0 || exit 1
+0014_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0014_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-54:480"
+0015_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0015_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 54 480"               	&& exit 0 || exit 1
+0015_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0015_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "***********Width variable and height fixed for  RGB32************"
+COMMENT comment.sh "***********Scaling with 270 Rotation for RGB32************"
+
+0030_VD2_ROT set -x; setrotation.sh 2 "RGB32 864 1080" 270                     && exit 0 || exit 1
+
+COMMENT comment.sh "RGB32-480:480"
+0001_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"				&& exit 0 || exit 1
+0001_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 480 480"				&& exit 0 || exit 1
+0001_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 480 480"				&& exit 0 || exit 1
+0001_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-432:480"
+0002_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0002_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 432 480"               	&& exit 0 || exit 1
+0002_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0002_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-288:480"
+0003_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0003_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 288 480"               	&& exit 0 || exit 1
+0003_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0003_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-216:480"
+0004_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0004_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 216 480"               	&& exit 0 || exit 1
+0004_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0004_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-172:480"
+0005_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0005_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 172 480"               	&& exit 0 || exit 1
+0005_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0005_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-144:480"
+0006_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0006_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 144 480"               	&& exit 0 || exit 1
+0006_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0006_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-122:480"
+0007_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0007_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 122 480"               	&& exit 0 || exit 1
+0007_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0007_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-108:480"
+0008_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0008_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 108 480"               	&& exit 0 || exit 1
+0008_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0008_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-96:480"
+0009_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0009_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 96 480"               	&& exit 0 || exit 1
+0009_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0009_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-86:480"
+0010_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0010_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 86 480"               	&& exit 0 || exit 1
+0010_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0010_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-78:480"
+0011_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0011_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 78 480"               	&& exit 0 || exit 1
+0011_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0011_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-72:480"
+0016_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0016_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 72 480"               	&& exit 0 || exit 1
+0016_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0016_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-66:480"
+0012_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0012_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 66 480"               	&& exit 0 || exit 1
+0012_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0012_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-60:480"
+0013_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0013_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 60 480"               	&& exit 0 || exit 1
+0013_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0013_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-56:480"
+0014_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0014_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 56 480"               	&& exit 0 || exit 1
+0014_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0014_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "RGB32-54:480"
+0015_NV12_VD1 set -x; setupimage.sh 1 "NV12 1920 1080"                 		&& exit 0 || exit 1
+0015_RGB32_VD2 set -x; setupimage.sh 2 "RGB32 1920 1080" "0 0 54 480"               	&& exit 0 || exit 1
+0015_RGB32_VD4 set -x; setupimage.sh 4 "RGB32 1920 1080"                 		&& exit 0 || exit 1
+0015_VD1 set -x; wbstream.sh 1 $VIDEOFILES/1080p.NV12 2
+
+COMMENT comment.sh "***********Set Rotation to '0'************"
+
+0040_VD2_ROT set -x; setrotation.sh 2 "RGB32 864 1080" 0                     && exit 0 || exit 1
+
+# End "L_DD_VIDEO_COMBOROT_0002"
