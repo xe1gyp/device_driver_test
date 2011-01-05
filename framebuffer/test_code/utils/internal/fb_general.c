@@ -16,6 +16,12 @@ int fd;
 struct fb_var_screeninfo var;
 struct fb_fix_screeninfo fix;
 
+#define OMAP_IOW(num, dtype)    _IOW('O', num, dtype)
+
+#define OMAPFB_SETUP_PLANE	OMAP_IOW(52, struct omapfb_plane_info)
+#define OMAPFB_QUERY_PLANE	OMAP_IOW(53, struct omapfb_plane_info)
+#define OMAPFB_SETUP_MEM	OMAP_IOW(55, struct omapfb_mem_info)
+#define OMAPFB_QUERY_MEM	OMAP_IOW(56, struct omapfb_mem_info)
 int width, height;
 char* data;
 
@@ -321,53 +327,104 @@ int change_mode(int bpp, int verbose)
 {
 	int ret = 0;
 	struct fb_var_screeninfo v;
+	struct omapfb_plane_info pi;
+	struct omapfb_mem_info mi;
 
-	if(ret = ioctl (fd, FBIOGET_VSCREENINFO, &v))
+	ret = ioctl(fd, FBIOGET_VSCREENINFO, &v);
+	if (ret)
+		return ret;
+
+	/* Query allocate memory */
+	ret = ioctl(fd, OMAPFB_QUERY_MEM, &mi);
+	if (ret)
 		return ret;
 
 	switch (bpp) {
-		case 8:
-			v.bits_per_pixel= 8;
-			v.grayscale	= 0;
-			v.red		= (struct fb_bitfield) {0, 8, 0};
-			v.green		= (struct fb_bitfield) {0, 8, 0};
-			v.blue		= (struct fb_bitfield) {0, 8, 0};
-			v.transp	= (struct fb_bitfield) {0, 0, 0};
-			break;
-		case 24:
-			v.bits_per_pixel= 32;
-			v.grayscale	= 0;
-			v.red		= (struct fb_bitfield) {16, 8, 0};
-			v.green		= (struct fb_bitfield) {8, 8, 0};
-			v.blue		= (struct fb_bitfield) {0, 8, 0};
-			v.transp	= (struct fb_bitfield) {0, 0, 0};
-			break;
-		case 32:
-			v.bits_per_pixel= 32;
-			v.grayscale	= 0;
-			v.red		= (struct fb_bitfield) {24, 8, 0};
-			v.green		= (struct fb_bitfield) {16, 8, 0};
-			v.blue		= (struct fb_bitfield) {8, 8, 0};
-			v.transp	= (struct fb_bitfield) {0, 8, 0};
-			break;			
-		case 16:
-		default:
-			v.bits_per_pixel= 16;
-			v.grayscale	= 0;
-			v.red		= (struct fb_bitfield) {11, 5, 0};
-			v.green		= (struct fb_bitfield) {5, 6, 0};
-			v.blue		= (struct fb_bitfield) {0, 5, 0};
-			v.transp	= (struct fb_bitfield) {0, 0, 0};
-			break;
+	case 2:
+		v.bits_per_pixel = 2;
+		v.grayscale	 = 0;
+		v.red		 = (struct fb_bitfield) {1, 8, 0};
+		v.green		 = (struct fb_bitfield) {0, 8, 0};
+		v.blue		 = (struct fb_bitfield) {0, 8, 0};
+		v.transp	 = (struct fb_bitfield) {0, 0, 0};
+		break;
+	case 4:
+		v.bits_per_pixel = 4;
+		v.grayscale	 = 0;
+		v.red		 = (struct fb_bitfield) {2, 8, 0};
+		v.green		 = (struct fb_bitfield) {1, 8, 0};
+		v.blue		 = (struct fb_bitfield) {0, 0, 0};
+		v.transp	 = (struct fb_bitfield) {0, 0, 0};
+		break;
+	case 8:
+		v.bits_per_pixel = 8;
+		v.grayscale	 = 0;
+		v.red		 = (struct fb_bitfield) {4, 8, 0};
+		v.green		 = (struct fb_bitfield) {2, 8, 0};
+		v.blue		 = (struct fb_bitfield) {0, 0, 0};
+		v.transp	 = (struct fb_bitfield) {6, 0, 0};
+		break;
+	case 12:
+		v.bits_per_pixel = 12;
+		v.grayscale	 = 0;
+		v.red		 = (struct fb_bitfield) {4, 8, 0};
+		v.green		 = (struct fb_bitfield) {2, 8, 0};
+		v.blue		 = (struct fb_bitfield) {0, 0, 0};
+		v.transp	 = (struct fb_bitfield) {6, 0, 0};
+		break;
+	case 24:
+		v.bits_per_pixel = 32;
+		v.grayscale	 = 0;
+		v.red		 = (struct fb_bitfield) {16, 8, 0};
+		v.green		 = (struct fb_bitfield) {8, 8, 0};
+		v.blue		 = (struct fb_bitfield) {0, 8, 0};
+		v.transp	 = (struct fb_bitfield) {0, 0, 0};
+		break;
+	case 32:
+		v.bits_per_pixel = 32;
+		v.grayscale	 = 0;
+		v.red		 = (struct fb_bitfield) {24, 8, 0};
+		v.green		 = (struct fb_bitfield) {16, 8, 0};
+		v.blue		 = (struct fb_bitfield) {8, 8, 0};
+		v.transp	 = (struct fb_bitfield) {0, 8, 0};
+		break;
+	case 16:
+	default:
+		v.bits_per_pixel = 16;
+		v.grayscale	 = 0;
+		v.red		 = (struct fb_bitfield) {11, 5, 0};
+		v.green		 = (struct fb_bitfield) {5, 6, 0};
+		v.blue		 = (struct fb_bitfield) {0, 5, 0};
+		v.transp	 = (struct fb_bitfield) {0, 0, 0};
+		break;
 	}
-	printf("Change mode - trying \n");
-	if(ret = ioctl(fd, FBIOPUT_VSCREENINFO, &v))
+
+	if (v.bits_per_pixel >> 0x3)
+		mi.size = v.xres * v.yres * (v.bits_per_pixel >> 0x3) * 4;
+	else
+		mi.size = v.xres * v.yres * (8 / v.bits_per_pixel) * 4;
+
+	ret = ioctl(fd, FBIOPUT_VSCREENINFO, &v);
+	if (ret)
 		return ret;
-	if(ret = ioctl (fd, FBIOGET_VSCREENINFO, &v))
+
+	ret = ioctl(fd, FBIOGET_VSCREENINFO, &v);
+	if (ret)
 		return ret;
+
+	/* Reallocate memory depending on the changed bpp */
+	ret = ioctl(fd, OMAPFB_SETUP_MEM, &mi);
+	if (ret)
+		return ret;
+
+	ret = ioctl(fd, FBIOGET_VSCREENINFO, &v);
+	if (ret)
+		return ret;
+
 	if(verbose)
 		show_screeninfo(&v, &fix);
-	printf("Change mode successful \n");
+
+	printf("Change mode successful\n");
 	return ret;
 }
 
@@ -732,10 +789,20 @@ set_display_size(864, 480, 1, 1);
 		bpp = 24;
 	else if (!strcmp(argv[1], "32"))
 		bpp = 32;		
+	else if (!strcmp(argv[1], "4"))
+		bpp = 4;
+	else if (!strcmp(argv[1], "2"))
+		bpp = 2;
+	else if (!strcmp(argv[1], "12"))
+		bpp = 16;
+	else if (!strcmp(argv[1], "18"))
+		bpp = 32;
 	else
 		bpp = 16;
-	if (change_mode(bpp, VERBOSE) < 0)
-		printf("Change mode failed \n");
+	bpp = change_mode(bpp, VERBOSE);
+	printf("\n returned %d ", bpp);
+	if (bpp < 0)
+		printf("Change mode failed\n");
 #endif
 
 #ifdef FUNCTION_CMAP

@@ -542,6 +542,24 @@ struct fb_cursorstate {
 	__u16 mode;
 };
 
+struct omapfb_plane_info {
+	__u32 pos_x;
+	__u32 pos_y;
+	__u8  enabled;
+	__u8  channel_out;
+	__u8  mirror;
+	__u8  mem_idx;
+	__u32 out_width;
+	__u32 out_height;
+	__u32 reserved2[12];
+};
+
+struct omapfb_mem_info {
+	__u32 size;
+	__u8  type;
+	__u8  reserved[3];
+};
+
 #define FB_CURSOR_OFF		0
 #define FB_CURSOR_ON		1
 #define FB_CURSOR_FLASH		2
