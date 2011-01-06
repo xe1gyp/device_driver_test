@@ -58,6 +58,6 @@ Method 2
 
 cd /fb_testsuites/framebuffer/scripts
 
- ./test_runner.sh  scenario_name
+ ./test_runner.sh  -S scenario_name
 #Example
 ./test_runner.sh -S L_DD_FB_0001 
