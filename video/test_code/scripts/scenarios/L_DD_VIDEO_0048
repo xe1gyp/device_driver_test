@@ -1,0 +1,16 @@
+##############################################################################
+# FILENAME      : L_DD_VIDEO_0048
+# Author        : Samreen
+# Date          : Tue Dec 4, 2011
+# Description   : Repeated streaming Testcase
+# #############################################################################
+
+# Begin "L_DD_VIDEO_0048"
+
+COMMENT comment.sh "Repeated Streaming Testcase"
+
+0000_VD1_STRM1 set -x; streaming_repeat.sh 1 "YUYV 176 144" $VIDEOFILES/video_qcif_yuv_75 "" "" "10" && exit 0 || exit 1
+0000_VD1_STRM2 set -x; streaming_repeat.sh 1 "RGB565 1920 1080" $VIDEOFILES/tb_blue_red_1920x1080.rgb16 "" "" "20" && exit 0 || exit 1
+0000_VD1_STRM3 set -x; streaming_repeat.sh 1 "NV12 352 288" $VIDEOFILES/ice_352x288_10frames.nv12 "" "" "10" && exit 0 || exit 1
+
+# End "L_DD_VIDEO_0048"

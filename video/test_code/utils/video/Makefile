@@ -3,6 +3,7 @@ CFLAGS+= -I$(KDIR)/include -I$(KDIR)/arch/arm/include/
 OBJS := showinfo setimg setwin setcrop streaming streaming_tiler setlink setrotation setmirror \
 setbgcolor settransck enablecolkey setcolorconv setdefcolcon streaming_process \
 tv_detect_app createRGB streaming_usrptr v4l2_rolling_bars streaming_tear v4l2_ramdomcolorblocks \
+streaming_repeat \
 
 ifeq ($(TARGET_PLATFORM), OMAP_4430)
 	OBJS += streaming_wb
@@ -64,6 +65,9 @@ v4l2_rolling_bars: v4l2_rolling_bars.c
 
 streaming_tear: streaming_tear.c
 	$(CC) $(CFLAGS) -g streaming_tear.c lib.c -o streaming_tear
+
+streaming_repeat: streaming_repeat.c
+	$(CC) $(CFLAGS) -g streaming_repeat.c lib.c -o streaming_repeat
 
 v4l2_ramdomcolorblocks: v4l2_ramdomcolorblocks.c
 	$(CC) $(CFLAGS) -g v4l2_ramdomcolorblocks.c lib.c -o v4l2_ramdomcolorblocks
