@@ -1,0 +1,19 @@
+# #############################################################################
+# Scenario    : L_DD_FB_0030
+# Author      : Mayuresh Janorkar
+# Date        : Fri Jan 7, 2011
+# Description : Framebuffer (FB) bits per pixel tests
+# #############################################################################
+
+# Begin L_DD_FB_0030
+
+COMMENT comment.sh "Test that the Input pattern of RGB is displayed on LCD2"
+
+0001 set -x; lcd.sh  && exit 0 || exit 1
+0002 set -x; confbpp.sh 2 && exit 0 || exit 1
+0004 set -x; confbpp.sh 4 && exit 0 || exit 1
+0005 set -x; confbpp.sh 8 && exit 0 || exit 1
+0006 set -x; confbpp.sh 16 && exit 0 || exit 1
+0007 set -x; confbpp.sh 32 && exit 0 || exit 1
+
+# End L_DD_FB_0031
