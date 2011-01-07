@@ -1,0 +1,16 @@
+##############################################################################
+# FILENAME      : L_DD_VIDEO_COMBO_0011
+# Author        : Samreen, John Jayan
+# Date          : Tue Dec 21, 2010
+# Description   : Random Color Bars on Secondary LCD
+# #############################################################################
+
+# Begin "L_DD_VIDEO_COMBO_0011"
+
+COMMENT comment.sh "Random Color Bars On LCD2"
+COMMENT comment.sh "Random Color Bars using Vid2"
+
+0001_SWTH_VD2 set -x; overlay_switch.sh 1 2                     && exit 0 || exit 1
+0001_STRM_VD2 set -x; ramdomcolorbars.sh "2" "4" "4"	 	&& exit 0 || exit 1
+
+# End "L_DD_VIDEO_COMBO_0011"

@@ -1,0 +1,16 @@
+##############################################################################
+# FILENAME      : L_DD_VIDEO_COMBO_0012
+# Author        : Samreen, John Jayan
+# Date          : Tue Dec 21, 2010
+# Description   : Random Color Bars on HDMI
+# #############################################################################
+
+# Begin "L_DD_VIDEO_COMBO_0012"
+
+COMMENT comment.sh "Random Color Bars On HDMI"
+COMMENT comment.sh "Random Color Bars using Vid3"
+
+0001_SWTH_VD3 set -x; overlay_switch.sh 2 3             	        && exit 0 || exit 1
+0001_STRM_VD3 set -x; ramdomcolorbars.sh "3" "1.5" "1.5"	 	&& exit 0 || exit 1
+
+# End "L_DD_VIDEO_COMBO_0012"
