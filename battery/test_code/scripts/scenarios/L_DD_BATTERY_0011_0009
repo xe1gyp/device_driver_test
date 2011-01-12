@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_BATTERY_0011_0009
+# Author  : J Keerthy
+# Date    : December 1, 2010
+# Description: Battery capacity reportng
+###############################################################################
+
+# Begin L_DD_BATTERY_0011_0009
+
+01 set -x; battery_common.sh 119
+
+# End L_DD_BATTERY_0011_0009

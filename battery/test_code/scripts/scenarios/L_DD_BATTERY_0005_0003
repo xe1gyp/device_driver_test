@@ -1,0 +1,13 @@
+###############################################################################
+# Scenario: L_DD_BATTERY_0005_0003
+# Author  : J Keerthy
+# Date    : December 1, 2010
+# Description: Notification when battery discharging is started
+###############################################################################
+
+# Begin L_DD_BATTERY_0005_0003
+
+01 set -x; battery_common.sh 531 && exit 0 || exit 1
+02 set -x; battery_common.sh 532 && exit 0 || exit 1
+
+# End L_DD_BATTERY_0005_0003

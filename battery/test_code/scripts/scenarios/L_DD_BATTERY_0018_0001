@@ -1,0 +1,13 @@
+###############################################################################
+# Scenario: L_DD_BATTERY_0018_0001
+# Author  : J Keerthy
+# Date    : December 1, 2010
+# Description: FG Paramters
+###############################################################################
+
+# Begin L_DD_BATTERY_0018_0001
+
+01 set -x; battery_common.sh 181 && exit 0 || exit 1
+
+# End L_DD_BATTERY_0018_0001
+

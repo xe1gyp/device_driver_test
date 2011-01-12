@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_BATTERY_0006_0001
+# Author  : J Keerthy
+# Date    : December 1, 2010
+# Description: Support AC Charger
+###############################################################################
+
+# Begin L_DD_BATTERY_0006_0001
+
+01 set -x; battery_common.sh 61
+
+# End L_DD_BATTERY_0006_0001

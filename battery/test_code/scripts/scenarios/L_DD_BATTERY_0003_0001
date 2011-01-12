@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_BATTERY_0003_0001
+# Author  : J Keerthy
+# Date    : December 1, 2010
+# Description: Power level of the main battery
+###############################################################################
+
+# Begin L_DD_BATTERY_0003_0001
+
+01 set -x; battery_common.sh 31 && exit 0 || exit 1
+
+# End L_DD_BATTERY_0003_0001

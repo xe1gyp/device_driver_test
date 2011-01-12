@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_BATTERY_0004_0001
+# Author  : J Keerthy
+# Date    : December 1, 2010
+# Description: Retrieving current and power values of the main battery
+###############################################################################
+
+# Begin L_DD_BATTERY_0004_0001
+
+01 set -x; battery_common.sh 41
+
+# End L_DD_BATTERY_0004_0001

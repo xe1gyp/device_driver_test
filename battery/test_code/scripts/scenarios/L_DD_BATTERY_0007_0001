@@ -1,0 +1,13 @@
+###############################################################################
+# Scenario: L_DD_BATTERY_0007_0001
+# Author  : J Keerthy
+# Date    : December 1, 2010
+# Description: Support battery charging mode
+###############################################################################
+
+# Begin L_DD_BATTERY_0007_0001
+
+01 set -x; battery_common.sh 711 && exit 0 || exit 1
+02 set -x; battery_common.sh 712 && exit 0 || exit 1
+
+# End L_DD_BATTERY_0007_0001

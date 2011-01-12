@@ -1,0 +1,14 @@
+###############################################################################
+# Scenario: L_DD_BATTERY_0005_0002
+# Author  : J Keerthy
+# Date    : December 1, 2010
+# Description: Notification when battery charging is started
+###############################################################################
+
+# Begin L_DD_BATTERY_0005_0002
+
+01 set -x; battery_common.sh 521 && exit 0 || exit 1
+02 set -x; battery_common.sh 522 && exit 0 || exit 1
+
+# End L_DD_BATTERY_0005_0002
+

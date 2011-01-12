@@ -1,0 +1,15 @@
+###############################################################################
+# Scenario: L_DD_BATTERY_0002_0001
+# Author  : J Keerthy
+# Date    : December 1, 2010
+# Description: Indicate if USB or AC Charger is connected
+###############################################################################
+
+# Begin L_DD_BATTERY_0002_0001
+
+01 set -x; battery_common.sh 211 && exit 0 || exit 1
+02 set -x; battery_common.sh 212 && exit 0 || exit 1
+03 set -x; battery_common.sh 213 && exit 0 || exit 1
+04 set -x; battery_common.sh 214 && exit 0 || exit 1
+
+# End L_DD_BATTERY_0002_0001

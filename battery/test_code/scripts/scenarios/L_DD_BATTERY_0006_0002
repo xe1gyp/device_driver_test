@@ -1,0 +1,12 @@
+###############################################################################
+# Scenario: L_DD_BATTERY_0006_0002
+# Author  : J Keerthy
+# Date    : December 1, 2010
+# Description: Support USB Charger
+###############################################################################
+
+# Begin L_DD_BATTERY_0006_0002
+
+01 set -x; battery_common.sh 62 && exit 0 || exit 1
+
+# End L_DD_BATTERY_0006_0002
