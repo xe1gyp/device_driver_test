@@ -1,34 +1,51 @@
 #!/bin/bash
 
 #
-# Android Suspend and Resume Handler
-# @author: Leed Aguilar
+#  Android Suspend and Resume Handler
+#
+#  Copyright (c) 2010 Texas Instruments
+#
+#  Author: Leed Aguilar <leed.aguilar@ti.com>
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License as
+#  published by the Free Software Foundation; either version 2 of the
+#  License, or (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+#  USA
 #
 
-#
 # =============================================================================
-# Variables
+# Local Variables
 # =============================================================================
 
-LOCAL_OPERATION=$1
-LOCAL_OPERAND1=$2
-LOCAL_OPERAND2=$3
-LOCAL_OPERAND3=$4
-LOCAL_ERROR=0
-LOCAL_TOTAL_PARAMETERS=$#
-LOCAL_WAKELOCK='android_test_wakelock'
-LOCAL_SYSTEM_WAKELOCKS=`cat $SYSTEM_WAKE_LOCK`
+operation=$1
+operand1=$2
+operand2=$3
+operand3=$4
+error_val=0
+total_parameters=$#
+wakelock='android_test_wakelock'
+system_wakelocks=`cat $SYSTEM_WAKE_LOCK`
 
 # =============================================================================
 # Functions
 # =============================================================================
 
 # Simulate the END_CALL key press action
-# @ Function  : androidPowerKey
+# @ Function: androidPowerKey
 # @ Parameters: None
-# @ Return    : None
+# @ Return: None
 androidPowerKey() {
-	showInfo "\t      PRESSING POWER KEY"
+	showInfo "DEBUG: Pressing End-Call key"
 	# Simulate press END_CALL key
 	# OMAP4/3 Scancode for END_CALL key is 107
 	sendevent /dev/input/event0 1  107 0
@@ -37,12 +54,12 @@ androidPowerKey() {
 }
 
 # Simulate the Menu key (screen unlock) press action
-# @ Function  : androidMenuKey
+# @ Function: androidMenuKey
 # @ Parameters: None
-# @ Return    : None
+# @ Return: None
 androidMenukey() {
-	showInfo "\t      PRESSING MENU KEY" \
-		 "\tunlocking Android User Interface"
+	showInfo "DEBUG: Pressing Menu key" \
+		 "Unlocking Android User Interface"
 	# Simulate press Menu key (F1)
 	# OMAP4/3 Scancode for F1 key is 59
 	sendevent /dev/input/event0 1  59 0
@@ -51,75 +68,77 @@ androidMenukey() {
 
 # This function release all the wakelocks
 # given in the wakelock list
-# @ Function  : releaseWakelocks
+# @ Function: releaseWakelocks
 # @ Parameters: <wakelock list>
-# @ Return    : None
+# @ Return: None
 releaseWakelocks() {
-	wakelock_list=( "$@" )
+	wakelocks=( "$@" )
 	# Release all the wakelocks under /sys/power/wake_lock
-	echo -e "\n--------------------- ANDROID WAKELOCKS ---------------------\n"
-	for index in ${!wakelock_list[@]}; do
+	echo -e "\n################### Wakelock Manager ###################\n"
+	for index in ${!wakelocks[@]}; do
 		# Do not release PowerManagerService wakelock as it is a
 		# system wakelock and it will expire automatically
-		if [ ! ${wakelock_list[$index]} = "PowerManagerService" ]; then
-			echo ${wakelock_list[$index]} > $SYSTEM_WAKE_UNLOCK
+		if [ ! ${wakelocks[$index]} = "PowerManagerService" ]; then
+			echo ${wakelocks[$index]} > $SYSTEM_WAKE_UNLOCK
 			if [ `cat $SYSTEM_WAKE_LOCK | \
-				grep -wc ${wakelock_list[$index]}` -gt 0 ]; then
-				echo -e "\tFAIL: <${wakelock_list[$wakelock]}>\
-						wakelock was NOT released\n"
+				grep -wc ${wakelocks[$index]}` -gt 0 ]; then
+				echo -e " Fail: <${wakelocks[$index]}> " \
+						"wakelock was not released\n"
+				error_val=1
 			else
-				echo -e "\tSUCCESS: <${wakelock_list[$wakelock]}> \
-						wakelock  was released\n"
+				echo -e " Success: <${wakelocks[$index]}> " \
+						"wakelock was released\n"
 			fi
 		fi
 	done
-	echo -e "\n-------------------------------------------------------------\n"
+	echo -e "################### Wakelock Manager ###################\n"
 }
 
 # Hold a wakelock to keep the system awake
-# @ Function  : holdWakelock
+# @ Function: holdWakelock
 # @ Parameters: <wakelock name>
-# @ Return    : Error flag value
+# @ Return: Error flag value
 holdWakelock() {
-	wakelock_name=$1
-	echo $wakelock_name > $SYSTEM_WAKE_LOCK
+	wakelock_to_hold=$1
+	echo $wakelock_to_hold > $SYSTEM_WAKE_LOCK
 	# Verify that the wakelock is registered
-	if [ `cat $SYSTEM_WAKE_LOCK | grep -wc $wakelock_name` -gt 0 ]; then
-		showInfo "SUCESS: Wakelock <$wakelock_name> was registered"
+	if [ `cat $SYSTEM_WAKE_LOCK | grep -wc $wakelock_to_hold` -gt 0 ]; then
+		showInfo "SUCCESS: Wakelock <$wakelock_to_hold> was registered"
 	else
-		showInfo "ERROR: Wakelock <$eakelock_name> was NOT registered"
-		LOCAL_ERROR=1
+		showInfo "ERROR: Wakelock <$wakelock_to_hold> wasn't registered"
+		error_val=1
 	fi
 }
 
 # Set the System Wakeup timer
-# @ Function  : setWakeUpTimer
+# @ Function: setWakeUpTimer
 # @ Parameters: <timer value in seconds>
-# @ Return    : Error flag value
+# @ Return: Error flag value
 setWakeUpTimer() {
 	timer_value=$1
 	handlerSysFs.sh set $PM_WAKEUP_TIMER_SECONDS "$timer_value"
 	handlerSysFs.sh compare $PM_WAKEUP_TIMER_SECONDS "$timer_value"
 	if [ $? = 1 ]; then
-		showInfo "ERROR: wakeup timer was NOT registered"
-		LOCAL_ERROR=1
+		showInfo "ERROR: wakeup timer was not registered"
+		error_val=1
 	else
-		showInfo "SUCCESS: wakeup timer of $LOCAL_WAKEUP_TIMER seconds was registered"
+		showInfo "SUCCESS: wakeup timer of $timer_value" \
+					 "seconds was registered"
 	fi
 }
 
 # Display the script usage
-# @ Function  : generalUsage
+# @ Function: generalUsage
 # @ parameters: None
-# @ Return    : Error flag value
-generalUsage() {
+# @ Return: Error flag value
+usage() {
 	cat <<-EOF >&1
 
-	################################################################"
+	####################### handlerAndroidPM.sh #######################"
 
 	SCRIPT USAGE:
 
-	    handlerAndroidPM.sh [OPERATION] [OPTIONS
+	    handlerAndroidPM.sh [OPERATION] {OPTIONS}
 
 	    Where [OPERATION] can be:
 	    A) suspend
@@ -155,50 +174,48 @@ generalUsage() {
 	       @ name    = name of the wakelock
 
 
-	###############################################################"
+	####################### handlerAndroidPM.sh #######################"
 
 	EOF
-	LOCAL_ERROR=1
+	error_val=1
 }
 
 # Prints a message with a specific format
-# @ Function  : showInfo
+# @ Function: showInfo
 # @ Parameters: <message to display>
-# @ Return    : None
+# @ Return: None
 showInfo() {
-	echo -e "\n\n---------------------- handlerAndroidPM ----------------------\n"
 	messages=( "$@" )
 	for index in ${!messages[@]}; do
-		echo -e "\t${messages[$index]}"
+		echo -e "[ handlerAndroidPM ] ${messages[$index]}"
 	done
-	echo -e "\n--------------------------------------------------------------\n\n"
 }
 
-# Verify LOCAL_ERROR flag
+# Verify error_val flag
 # if flag is set to '1' exit the script and register the failure
 # The message parameter helps to debug the script
-# @ Function  : verifyErrorFlag
+# @ Function: verifyErrorFlag
 # @ Parameters: <debug message>
-# @ Return    : None
+# @ Return: None
 verifyErrorFlag() {
 	debug_message=$1
-	if [ $LOCAL_ERROR -eq 1 ]; then
+	if [ $error_val -eq 1 ]; then
 		handlerError.sh "log" "1" "halt" "handlerAndroidPM.sh"
 		handlerDebugFileSystem.sh "umount"
-		showInfo "DEBUG: LOCAL ERROR DETECTED:" "$debug_message"  1>&2
-		exit $LOCAL_ERROR
+		showInfo "Debug: local error detected:" "$debug_message"  1>&2
+		exit $error_val
 	fi
 }
 
 # Verify is the parameter is a valid number (integer)
-# @ Function  : isPositiveInteger
+# @ Function: isPositiveInteger
 # @ Parameters: <number>
-# @ Return    : Error flag value
+# @ Return: Error flag value
 isPositiveInteger() {
-	num=$1
-	if ! [[ $num =~ ^[0-9]+$ ]]; then
-		showInfo "ERROR: $num is not a number" 1>&2
-		LOCAL_ERROR=1
+	val=$1
+	if ! [[ $val =~ ^[0-9]+$ ]]; then
+		showInfo "ERROR: $val is not a number" 1>&2
+		error_val=1
 	fi
 }
 
@@ -215,142 +232,146 @@ handlerDebugFileSystem.sh "mount"
 
 # Check parameters and scritp usage
 
-case $LOCAL_OPERATION in
+case $operation in
 "suspend")
-	# Check 2nd parameter
-	if [ `echo "android kernel" | grep -wc "$LOCAL_OPERAND1"` -ne 1 ]; then
+	# Verify number of parameters
+	if [ $total_parameters -ne 4 ]; then
 		generalUsage
-		verifyErrorFlag "generalUsage(): 2nd parameter is incorrect"
+		verifyErrorFlag "Verify number of parameters (4)"
+	fi
+	# Check 2nd parameter
+	if [ `echo "android kernel" | grep -wc "$operand1"` -ne 1 ]; then
+		generalUsage
+		verifyErrorFlag "2nd parameter is incorrect"
 	fi
 	# Check 3rd parameter
-	if [ `echo "force timeout" | grep -wc "$LOCAL_OPERAND2"` -ne 1 ]; then
+	if [ `echo "force timeout" | grep -wc "$operand2"` -ne 1 ]; then
 		generalUsage
-		verifyErrorFlag "generalUsage(): 3rd parameter is incorrect"
+		verifyErrorFlag  "3rd parameter is incorrect"
 	fi
 	# Check 4th parameter
-	isPositiveInteger $LOCAL_OPERAND3
-	verifyErrorFlag "generalUsage(): 4th parameter is incorrect"
-	# Verify number of parameters
-	if [ $LOCAL_TOTAL_PARAMETERS -ne 4 ]; then
-		generalUsage
-		verifyErrorFlag "generalUsage(): verify number of parameters (4)"
-	fi
+	isPositiveInteger $operand3
+	verifyErrorFlag "4th parameter is incorrect"
+
 	;;
 "resume")
-	# Check 2nd parameter
-	if [ `echo "android kernel" | grep -wc "$LOCAL_OPERAND1"` -ne 1 ]; then
-		generalUsage
-		verifyErrorFlag "generalUsage(): 2nd parameter is incorrect"
-	fi
 	# Verify number of parameters
-	if [ $LOCAL_TOTAL_PARAMETERS -ne 2 ]; then
+	if [ $total_parameters -ne 2 ]; then
 		generalUsage
-		verifyErrorFlag "generalUsage(): verify number of parameters (2)"
+		verifyErrorFlag "Verify number of parameters (2)"
+	fi
+	# Check 2nd parameter
+	if [ `echo "android kernel" | grep -wc "$operand1"` -ne 1 ]; then
+		generalUsage
+		verifyErrorFlag "usage(): 2nd parameter is incorrect"
 	fi
 	;;
 "wakelock")
-	# Check 2nd parameter
-	if [ `echo "hold release" | grep -wc "$LOCAL_OPERAND1"` -ne 1 ]; then
-		generalUsage
-		verifyErrorFlag "generalUsage(): 2nd parameter is incorrect"
-	fi
 	# Verify number of parameters
-	if [ $LOCAL_TOTAL_PARAMETERS -ne 3 ]; then
+	if [ $total_parameters -ne 3 ]; then
 		generalUsage
-		verifyErrorFlag "generalUsage(): verify number of parameters (3)"
+		verifyErrorFlag "usage(): verify number of parameters (3)"
+	fi
+	# Check 2nd parameter
+	if [ `echo "hold release" | grep -wc "$operand1"` -ne 1 ]; then
+		generalUsage
+		verifyErrorFlag "usage(): 2nd parameter is incorrect"
 	fi
 	;;
 *)
 	generalUsage
-	verifyErrorFlag "generalUsage(): main operation is not valid"
+	verifyErrorFlag "usage(): parameters introduced are not valid"
 	;;
 esac
 
 
 # Start Script functionalities
 
-case $LOCAL_OPERATION in
+case $operation in
 "suspend")
 	# Set correspond variables
-	LOCAL_ENVIRONMENT_TYPE=$LOCAL_OPERAND1
-	LOCAL_SUSPEND_PATH=$LOCAL_OPERAND2
-	LOCAL_WAKEUP_TIMER=$LOCAL_OPERAND3
+	environment_type=$operand1
+	suspend_method=$operand2
+	wakeup_timer=$operand3
+
 	# Clear dmesg buffer on suspend
 	dmesg -c > /dev/null
-	setWakeUpTimer $LOCAL_WAKEUP_TIMER
-	verifyErrorFlag "setWakeUpTimer(): timer value $LOCAL_WAKEUP_TIMER"
-	case $LOCAL_ENVIRONMENT_TYPE in
+	setWakeUpTimer $wakeup_timer
+	verifyErrorFlag "setWakeUpTimer(): timer value $wakeup_timer"
+
+	case $environment_type in
 	"android")
-		if [ $LOCAL_SUSPEND_PATH = "force" ]; then
-			showInfo "ANDROID: suspending system through suspend path" \
-				 "\tstarting Android early suspend"
-			releaseWakelocks $LOCAL_SYSTEM_WAKELOCKS
-			verifyErrorFlag "releaseWakelocks(): $LOCAL_SYSTEM_WAKELOCKS"
+		if [ $suspend_method = "force" ]; then
+			showInfo "Suspending system through suspend path" \
+				 "Starting Android early suspend"
+			releaseWakelocks $system_wakelocks
+			verifyErrorFlag "Fail to release wakelock list"
 			androidPowerKey
-		elif [ $LOCAL_SUSPEND_PATH = "timeout" ]; then
-			showInfo "ANDROID: Suspending system via timeout" \
-				 "\tstarting Android early suspend"
-			releaseWakelocks $LOCAL_SYSTEM_WAKELOCKS
-			verifyErrorFlag "releaseWakelocks(): $LOCAL_SYSTEM_WAKELOCKS"
+		elif [ $suspend_method = "timeout" ]; then
+			showInfo "Suspending system via timeout" \
+				 "Starting Android early suspend"
+			releaseWakelocks $system_wakelocks
+			verifyErrorFlag "Fail to release wakelock list"
 		fi
 		;;
 	"kernel")
-		if [ $LOCAL_SUSPEND_PATH = "force" ]; then
-			releaseWakelocks $LOCAL_SYSTEM_WAKELOCKS
-			verifyErrorFlag "releaseWakelocks(): $LOCAL_SYSTEM_WAKELOCKS"
-			showInfo "KERNEL: suspending the system through suspend path"
+		if [ $suspend_method = "force" ]; then
+			releaseWakelocks $system_wakelocks
+			verifyErrorFlag "Fail to release wakelock list"
+			showInfo "Suspending the system through suspend path"
 			echo -n mem > $SYSFS_POWER_STATE
-		elif [ $LOCAL_SUSPEND_PATH = "timeout" ]; then
-			showInfo "KERNEL: suspending the system via timeout"
-			releaseWakelocks $LOCAL_SYSTEM_WAKELOCKS
-			verifyErrorFlag "releaseWakelocks(): $LOCAL_SYSTEM_WAKELOCKS"
+		elif [ $suspend_method = "timeout" ]; then
+			showInfo "Suspending the system via timeout"
+			releaseWakelocks $system_wakelocks
+			verifyErrorFlag "Fail to release wakelock list"
 		fi
 		;;
 	esac
 	;;
 "resume")
 	# Set correspond variables
-	LOCAL_ENVIRONMENT_TYPE=$LOCAL_OPERAND1
+	environment_type=$operand1
 	while [ 1 ]; do
-		if [ `dmesg -c | grep -wc "$HSR_SUSPEND_RESUME_MESSAGE_SUCCESS"` -gt 0 ]; then
+		if [ `dmesg -c | grep -wc \
+			"$HSR_SUSPEND_RESUME_MESSAGE_SUCCESS"` -gt 0 ]; then
 			break
 		fi
-		sleep 1
+		sleep 2
 	done
-	case $LOCAL_ENVIRONMENT_TYPE in
+	case $environment_type in
 	"android")
 		sleep 2
-		showInfo "\tANDROID: resuming the system" \
-			 "\tstarting Android late resume"
+		showInfo "Android: resuming the system" \
+			 "starting Android late resume"
 		androidPowerKey
 		sleep 2
 		androidMenukey
-		holdWakelock $LOCAL_WAKELOCK
-		verifyErrorFlag "holdWakelock(): name $LOCAL_WAKELOCK"
+		holdWakelock $wakelock
+		verifyErrorFlag "Not able to set wakelock"
 		;;
 	"kernel")
-		showInfo "\tKERNEL: resuming the system"
-		holdWakelock $LOCAL_WAKELOCK
-		verifyErrorFlag "holdWakelock(): name $LOCAL_WAKELOCK"
+		showInfo "Kernel: resuming the system"
+		holdWakelock $wakelock
+		verifyErrorFlag "Not able to set wakelock"
 		;;
 	esac
 	;;
 "wakelock")
 	# Set correspond variables
-	LOCAL_WAKELOCK_STATUS=$LOCAL_OPERAND1
-	LOCAL_WAKELOCK_NAME=$LOCAL_OPERAND2
-	if [ $LOCAL_WAKELOCK_STATUS = "hold" ]; then
-		holdWakelock $LOCAL_WAKELOCK_NAME
-		verifyErrorFlag "holdWakelock(): Not able to set wakelock"
-	elif [ $LOCAL_WAKELOCK_STATUS = "release" ]; then
-		releaseWakelocks $LOCAL_WAKELOCK_NAME
-		verifyErrorFlag "releaseWakelocks(): Not able to relese wakelock"
+	wakelock_status=$operand1
+	wakelock_name=$operand2
+	if [ $wakelock_status = "hold" ]; then
+		holdWakelock $wakelock_name
+		verifyErrorFlag "Not able to set wakelock"
+	elif [ $wakelock_status = "release" ]; then
+		releaseWakelocks $wakelock_name
+		verifyErrorFlag "Not able to release wakelock"
 	fi
 	;;
 esac
 
 handlerDebugFileSystem.sh "umount"
-exit $LOCAL_ERROR
+exit $error_val
 
 # End of file
 
