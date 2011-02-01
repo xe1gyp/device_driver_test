@@ -28,14 +28,21 @@
 # Variables
 # =============================================================================
 
-LOCAL_OPERATION=$1
-LOCAL_ERROR=0
+operation=$1
+error_val=0
 
 # =============================================================================
 # Functions
 # =============================================================================
 
-# None
+# Prints a message with a specific format
+# @ Function: showInfo
+# @ Parameters: <message to display>
+# @ Return: None
+showInfo() {
+	message="$@"
+	echo "[ handlerPowerTransitionStats ] $message"
+}
 
 # =============================================================================
 # Main
@@ -48,57 +55,63 @@ fi
 
 handlerDebugFileSystem.sh "mount"
 
-if [ "$LOCAL_OPERATION" = "log" ]; then
+if [ "$operation" = "log" ]; then
 
-	LOCAL_POWER_DOMAIN=$2
-	LOCAL_STATE=$3
-	LOCAL_VALUE=$4
-	LOCAL_STATE_PLACE=0
+	pwrdm=$2
+	pwr_state=$3
+	log_name=$4
+	pwr_state_place=0
 
-	if [ "$LOCAL_STATE" = "OFF" ]; then
-		LOCAL_STATE_PLACE=2
-	elif [ "$LOCAL_STATE" = "RET" ]; then
-		LOCAL_STATE_PLACE=3
-	elif [ "$LOCAL_STATE" = "INA" ]; then
-		LOCAL_STATE_PLACE=4
-	elif [ "$LOCAL_STATE" = "ON" ]; then
-		LOCAL_STATE_PLACE=5
-	elif [ "$LOCAL_STATE" = "RET-LOGIC-OFF" ]; then
-		LOCAL_STATE_PLACE=6
+	if [ "$pwr_state" = "OFF" ]; then
+		pwr_state_place=2
+	elif [ "$pwr_state" = "RET" ]; then
+		pwr_state_place=3
+	elif [ "$pwr_state" = "INA" ]; then
+		pwr_state_place=4
+	elif [ "$pwr_state" = "ON" ]; then
+		pwr_state_place=5
+	elif [ "$pwr_state" = "RET-LOGIC-OFF" ]; then
+		pwr_state_place=6
 	fi
 
-	LOCAL_TEMP=`cat $PM_COUNT | grep ^$LOCAL_POWER_DOMAIN | cut -d "," -f $LOCAL_STATE_PLACE`
-	echo "Info: Powerdomain requested: $LOCAL_POWER_DOMAIN"
-	echo "Info: Powerdomain transition statistic requested: $LOCAL_TEMP"
-	LOCAL_RESULT=`echo $LOCAL_TEMP | cut -d ":" -f 2`
-	echo $LOCAL_RESULT > $UTILS_DIR_TMP/pts.$LOCAL_STATE.$LOCAL_VALUE
+	pwrdm_stat=`cat $PM_COUNT | grep ^$pwrdm | \
+                cut -d "," -f $pwr_state_place`
+	showInfo "Power domain stats requested: $pwrdm: $pwrdm_stat"
+	pwrdm_value=`echo $pwrdm_stat | cut -d ":" -f 2`
+	echo $pwrdm_value > $UTILS_DIR_TMP/pts.$pwrdm.$pwr_state.$log_name
 
-elif [ "$LOCAL_OPERATION" = "compare" ]; then
+elif [ "$operation" = "compare" ]; then
 
-	LOCAL_STATE=$2
-	LOCAL_VALUE_ONE=$3
-	LOCAL_VALUE_TWO=$4
+	pwrdm=$2
+	pwr_state=$3
+	log_name_before=$4
+	log_name_after=$5
+	val_before=`cat $UTILS_DIR_TMP/pts.$pwrdm.$pwr_state.$log_name_before`
+	val_after=`cat $UTILS_DIR_TMP/pts.$pwrdm.$pwr_state.$log_name_after`
 
-	echo "Info: $LOCAL_POWER_DOMAIN Initial Value -> `cat $UTILS_DIR_TMP/pts.$LOCAL_STATE.$LOCAL_VALUE_ONE`"
-	echo "Info: $LOCAL_POWER_DOMAIN Final Value -> `cat $UTILS_DIR_TMP/pts.$LOCAL_STATE.$LOCAL_VALUE_TWO`"
+	showInfo "$pwrdm: Initial Value -> $pwr_state: $val_before"
+	showInfo "$pwrdm: Final Value -> $pwr_state: $val_after"
 
-	sleep 5
+	# Verify the power domain counter increases
+	showInfo "Verifying $pwrdm: $pwr_state counter increases ..."
+	sleep 3
 
-	diff $UTILS_DIR_TMP/pts.$LOCAL_STATE.$LOCAL_VALUE_ONE $UTILS_DIR_TMP/pts.$LOCAL_STATE.$LOCAL_VALUE_TWO
-
-	if [ $? -eq 0 ]; then
-		echo "Error: $LOCAL_STATE values does match, counter did not increase"
-		LOCAL_ERROR=1
+	if [ $val_before -eq $val_after ]; then
+		showInfo "ERROR: $pwrdm: $pwr_state counters did not increase"
+		showInfo "TEST FAILED"
+		error_val=1
+	elif [ $val_after -gt $val_before ]; then
+		showInfo "SUCCESS: $pwrdm: $pwr_state counters increased"
+		showInfo "TEST PASSED"
+		error_val=0
 	else
-		echo "Info: $LOCAL_STATE values do not match, counter was increased"
-		echo "TEST PASSED"
-		LOCAL_ERROR=0
+		showInfo "FATAL: Please review power states counters"
+		error_val=1
 	fi
-
 fi
 
 handlerDebugFileSystem.sh "umount"
 
-exit $LOCAL_ERROR
+exit $error_val
 
 # End of file
