@@ -62,7 +62,9 @@ if [ "$operation" = "log" ]; then
 	log_name=$4
 	pwr_state_place=0
 
-	if [ "$pwr_state" = "OFF" ]; then
+	if [ "$pwr_state" = "DEVICE-OFF" ]; then
+		pwr_state_place=1
+	elif [ "$pwr_state" = "OFF" ]; then
 		pwr_state_place=2
 	elif [ "$pwr_state" = "RET" ]; then
 		pwr_state_place=3
