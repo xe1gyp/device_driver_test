@@ -18,28 +18,28 @@
 # Variables
 # =============================================================================
 
-LOCAL_OPERATION=$1
-LOCAL_DOMAIN=$2
-LOCAL_FILE1=$3
-LOCAL_FILE2=$4
-LOCAL_COMPARE=$5
-LOCAL_TMP1="value1.log"
-LOCAL_TMP2="value2.log'"
-LOCAL_OMAPCONF_EXECUTE=()
-LOCAL_OMAPCONF_DOMAIN=()
-LOCAL_OUTPUT_COLUMN=0
-LOCAL_FLAG_DIFFER=0
-LOCAL_FLAG_DOMAIN_CHANGE=0
-LOCAL_ERROR=0
-LOCAL_OMAPCONF="$UTILS_DIR_BIN/omapconf"
+command=$1
+domain=$2
+log_one=$3
+log_two=$4
+compare_flag=$5
+var1="value1.log"
+var2="value2.log'"
+omapconf_params=()
+omapconf_dm=()
+output_column=0
+flag_differ=0
+flag_val_change=0
+error_val=0
+omapconf_tool="$UTILS_DIR_BIN/omapconf"
 
 # =============================================================================
 # OMAPCONF test domains
 # =============================================================================
 
-LOCAL_OMAPCONF_DOMAINS=( VOLTAGE FREQUENCY CLOCKS )
+omapconf_audit=( VOLTAGE FREQUENCY CLOCKS )
 
-LOCAL_CLOCK_DOMAINS=( WKUP_L4_ICLK2 WKUP_32K_GFCLK GPT1_FCLK WKUP_32K_GFCLK \
+clock_domains=( WKUP_L4_ICLK2 WKUP_32K_GFCLK GPT1_FCLK WKUP_32K_GFCLK \
 		     FUNC_32K_CLK L4_ICLK2 CORE_DPLL_EMU_CLK MPU_DPLL_CLK \
 		     AESS_FCLK DMIC_ABE_FCLK ABE_ICLK2 MCASP1_FCLK MCBSP1_FCLK \
 		     MCBSP2_FCLK MCBSP3_FCLK PAD_CLKS SLIMBUS_UCLKS \
@@ -55,21 +55,21 @@ LOCAL_CLOCK_DOMAINS=( WKUP_L4_ICLK2 WKUP_32K_GFCLK GPT1_FCLK WKUP_32K_GFCLK \
 		     GPT11_FCLK PER_32K_GFCLK PER_48M_FCLK SLIMBUS_CORE_UCLKS \
 		     PER_L4_ICLK 12M_FCLK PER_MCBSP4_FCLK )
 
-LOCAL_FREQ_DOMAINS=( "MPU" "TESLA" "IVAHD" "ABE" "L3" "DMM/EMIF" "DLL" \
+freq_domains=( "MPU" "TESLA" "IVAHD" "ABE" "L3" "DMM/EMIF" "DLL" \
                      "DDRPHY" "L4" "SGX" "FDIF" "DUCATI" "DSS" "HSI" )
 
-LOCAL_VOLT_DOMAINS=( VDD_MPU VDD_IVA VDD_CORE )
+voltage_domains=( VDD_MPU VDD_IVA VDD_CORE )
 
 # =============================================================================
 # Functions
 # =============================================================================
 
 # Display the script usage
-# @ Function  : generalUsage
+# @ Function: generalUsage
 # @ parameters: None
-# @ Return    : Error flag value
-generalUsage() {
-	echo -e "\n  -------------------------------------------------\n"
+# @ Return: Error flag value
+usage() {
+	echo -e "\n################# handlerOmapconf #################\n"
 	echo -e "  Try - handlerOmapconf.sh {run|compare} <OPTIONS>\n"
 	echo -e "  Example with "run" command:"
 	echo -e "  ./handlerOmapconf run <function>\n"
@@ -78,19 +78,19 @@ generalUsage() {
 		"\n\t\t    {match|differ}\n"
 	echo -e "  Where:\n"
 	echo -e "  <function> can be:"
-	for index in ${!LOCAL_OMAPCONF_OPERATIOvN[*]}; do
-		echo "	- ${LOCAL_OMAPCONF_DOMAINS[$index]}"
+	for index in ${!omapconf_audit[*]}; do
+		echo "	- ${omapconf_audit[$index]}"
 	done
 	echo -e "  {match|differ} are comparison flags"
-	echo -e "\n  -------------------------------------------------\n"
-	LOCAL_ERROR=1
+	echo -e "\n################# handlerOmapconf #################\n"
+	error_val=1
 }
 
 # This function checks if a parameter
 # is declared inside of an array
-# @ Function  : checkParamInArray
+# @ Function: checkParamInArray
 # @ Parameters: <parameter> <array>
-# @ Return    : Error flag value
+# @ Return: Error flag value
 checkParamInArray() {
 	param=$1
 	array_name=$2
@@ -98,21 +98,21 @@ checkParamInArray() {
 	eval "eval 'echo "\${$array_name[@]}"'" > temp
 	if [ ! `cat temp | grep -wc $param` -gt 0 ]; then
 		echo -e "\nERROR: $param is not declared in $array_name array\n"
-		LOCAL_ERROR=1
+		error_val=1
 	fi
 	rm temp
 }
 
 # This function verify is the file(s) given exist
-# @ Function  : verifyFiles
+# @ Function: verifyFiles
 # @ Parameters: <file1> <file2> <...>
-# @ Return    : Error flag value
+# @ Return: Error flag value
 verifyFiles() {
 	files=( "$@" )
 	for index in ${!files[@]}; do
 		if [ ! -f ${files[$index]} ]; then
 			showInfo "ERROR: ${files[$index]}  does not exist" 1>&2
-			LOCAL_ERROR=1
+			error_val=1
 		fi
 	done
 }
@@ -122,82 +122,72 @@ verifyFiles() {
 # - OMAPCONF domain array
 # - Two logs containing omapconf tables
 # - Column number inside of the table
-# @ Function  : compareOmapconfResults
+# @ Function: compareOmapconfResults
 # @ Parameters: None
-# @ Return    : Error flag value
+# @ Return: Error flag value
 compareOmapconfResults() {
-	echo -e "\n\n------------------- COMPARING $LOCAL_DOMAIN DOMAINS -------------------\n"
-	for index in ${!LOCAL_OMAPCONF_DOMAIN[*]}; do
-		grep -m 1 -w "${LOCAL_OMAPCONF_DOMAIN[$index]}" $LOCAL_FILE1 \
-				| awk '{printf$'$LOCAL_OUTPUT_COLUMN'}' > $LOCAL_TMP1
-		grep -m 1 -w "${LOCAL_OMAPCONF_DOMAIN[$index]}" $LOCAL_FILE2 \
-				| awk '{printf$'$LOCAL_OUTPUT_COLUMN'}' > $LOCAL_TMP2
-		val1=`cat $LOCAL_TMP1`
-		val2=`cat $LOCAL_TMP2`
+	echo -e "\n################# handlerOmapconf #################\n"
+	for idx in ${!omapconf_dm[*]}; do
+		grep -m 1 -w "${omapconf_dm[$idx]}" $log_one \
+				| awk '{printf$'$output_column'}' > $var1
+		grep -m 1 -w "${omapconf_dm[$idx]}" $log_two \
+				| awk '{printf$'$output_column'}' > $var2
+		val1=`cat $var1`
+		val2=`cat $var2`
 		if [ $val1 != $val2 ]; then
-			LOCAL_FLAG_DOMAIN_CHANGE=1
-			if [ "$LOCAL_COMPARE" == "match" ]; then
-				echo -e "\t\tFAIL | [${LOCAL_OMAPCONF_DOMAIN[$index]}] domain differ"
-				echo -e "\t\t     | Current  value: $val1"
-				echo -e "\t\t     | Expected value: $val2\n"
-				LOCAL_ERROR=1
-			elif [ "$LOCAL_COMPARE" == "differ" ]; then
-				echo -e "\t\tPASS | [${LOCAL_OMAPCONF_DOMAIN[$index]}] domain scaled"
-				echo -e "\t\t     | Previous value: $val1"
-				echo -e "\t\t     | Curent value  : $val2\n"
-				LOCAL_FLAG_DIFFER=1
+			flag_val_change=1
+			if [ "$compare_flag" == "match" ]; then
+				echo -e " FAIL | [${omapconf_dm[$idx]}] domain differ"
+				echo -e "      | Current  value: $val1"
+				echo -e "      | Expected value: $val2\n"
+				error_val=1
+			elif [ "$compare_flag" == "differ" ]; then
+				echo -e " PASS | [${omapconf_dm[$idx]}] domain scaled"
+				echo -e "      | Previous value: $val1"
+				echo -e "      | Curent value  : $val2\n"
+				flag_differ=1
 			fi
 		fi
 	done
-	echo -e "\n-------------------------------------------------------------------\n\n"
-	if [[ "$LOCAL_COMPARE" == "differ" && $LOCAL_FLAG_DIFFER -eq 0 ]]; then
-		echo ""
-		echo " #########################################################################"
-		echo " #                                                                       #"
-		echo " #   ERROR: None of the [$LOCAL_DOMAIN] domains scaled during the test  "
-		echo " #                                                                       #"
-		echo " #########################################################################"
-		echo ""
-		LOCAL_ERROR=1
+	echo -e "\n################# handlerOmapconf #################\n"
+	if [[ "$compare_flag" == "differ" && $flag_differ -eq 0 ]]; then
+		echo -e "\n################# handlerOmapconf #################\n"
+		echo -e " ERROR:None of the [$domain] domains scaled"
+		echo -e "\n################# handlerOmapconf #################\n"
+		error_val=1
 	fi
-	if [[ "$LOCAL_COMPARE" == "match" && $LOCAL_FLAG_DOMAIN_CHANGE -eq 0 ]]; then
-		echo ""
-		echo " #########################################################################"
-		echo " #                                                                       #"
-		echo " #          PASS: All the [$LOCAL_DOMAIN] domains values match          "
-		echo " #                                                                       #"
-		echo " #########################################################################"
-		echo ""
+	if [[ "$compare_flag" == "match" && $flag_val_change -eq 0 ]]; then
+		echo -e "\n################# handlerOmapconf #################\n"
+		echo -e " PASS: All the [$domain] domains values match"
+		echo -e "\n################# handlerOmapconf #################\n"
 	fi
-	rm $LOCAL_TMP1 $LOCAL_TMP2
+	rm $var1 $var2
 }
 
 # Prints a message with a specific format
-# @ Function  : showInfo
+# @ Function: showInfo
 # @ Parameters: <message to display>
-# @ Return    : None
+# @ Return: None
 showInfo() {
-	echo -e "\n\n---------------------- handlerOmapconf ----------------------\n"
 	messages=( "$@" )
 	for index in ${!messages[@]}; do
-		echo -e "\t${messages[$index]}"
+		echo "[ handlerOmapconf ] ${messages[$index]}"
 	done
-	echo -e "\n--------------------------------------------------------------\n\n"
 }
 
-# Verify LOCAL_ERROR flag
+# Verify error_val flag
 # if flag is set to '1' exit the script and register the failure
 # The message parameter helps to debug the script
-# @ Function  : verifyErrorFlag
+# @ Function: verifyErrorFlag
 # @ Parameters: <debug message>
-# @ Return    : None
+# @ Return: None
 verifyErrorFlag() {
 	debug_message=$1
-	if [ $LOCAL_ERROR -eq 1 ]; then
+	if [ $error_val -eq 1 ]; then
 		handlerError.sh "log" "1" "halt" "handlerOmapconf.sh"
 		handlerDebugFileSystem.sh "umount"
 		showInfo "DEBUG: LOCAL ERROR DETECTED:" "$debug_message" 1>&2
-		exit $LOCAL_ERROR
+		exit $error_val
 	fi
 }
 
@@ -214,63 +204,64 @@ handlerDebugFileSystem.sh "mount"
 
 # Verify script usage and parameters
 
-if [[ $LOCAL_OPERATION == "run" && $# -eq 2  ]]; then
-	checkParamInArray $LOCAL_DOMAIN LOCAL_OMAPCONF_DOMAINS
+if [[ $command == "run" && $# -eq 2  ]]; then
+	checkParamInArray $domain omapconf_audit
 	verifyErrorFlag "checkParamInArray(): verify 'run' parameter"
-elif [[ $LOCAL_OPERATION == "compare" && $# -eq 5 ]]; then
-	checkParamInArray $LOCAL_DOMAIN LOCAL_OMAPCONF_DOMAINS
+elif [[ $command == "compare" && $# -eq 5 ]]; then
+	checkParamInArray $domain omapconf_audit
 	verifyErrorFlag "checkParamInArray(): verify 'compare' parameter"
-	verifyFiles $LOCAL_FILE1 $LOCAL_FILE2
+	verifyFiles $log_one $log_two
 	verifyErrorFlag "verifyFiles(): Verifying log files"
-	if [ `echo "match differ" | grep -wc "$LOCAL_COMPARE"` -ne 1 ]; then
+	if [ `echo "match differ" | grep -wc "$compare_flag"` -ne 1 ]; then
 		showInfo "ERROR: Provide a correct compare parameter" \
 			 "Try - "match" or "differ"" 1>&2
-		LOCAL_ERROR=1
-		verifyErrorFlag "generalUsage(): Verifying [match|differ] parameters"
+		error_val=1
+		verifyErrorFlag "usage(): Verifying [match|differ] parameters"
 	fi
 else
 	generalUsage
-	verifyErrorFlag "generalUsage(): Verifying log files"
+	verifyErrorFlag "usage(): Verifying log files"
 fi
 
 # Check if omapconf tool is available
-if [[ ! -f $LOCAL_OMAPCONF ]]; then
+if [[ ! -f $omapconf_tool ]]; then
 	showInfo "FATAL: omapconf tool is not available at $UTILS_DIR_BIN" 1>&2
-	LOCAL_ERROR=1
+	error_val=1
 	verifyErrorFlag "Verify that omapconf tool is available"
 fi
 
 # Execute OMAPCONF operations
 
-case $LOCAL_DOMAIN in
+case $domain in
 "FREQUENCY")
-	LOCAL_OMAPCONF_EXECUTE="opp"
-	LOCAL_OMAPCONF_DOMAIN=("${LOCAL_FREQ_DOMAINS[@]}")
-	LOCAL_OUTPUT_COLUMN=5
+	omapconf_params="opp"
+	omapconf_dm=("${freq_domains[@]}")
+	output_column=5
 	;;
 "CLOCKS")
-	LOCAL_OMAPCONF_EXECUTE="audit clkspeed"
-	LOCAL_OMAPCONF_DOMAIN=("${LOCAL_CLOCK_DOMAINS[@]}")
-	LOCAL_OUTPUT_COLUMN=6
+	omapconf_params="audit clkspeed"
+	omapconf_dm=("${clock_domains[@]}")
+	output_column=6
 	;;
 "VOLTAGE")
-	LOCAL_OMAPCONF_EXECUTE="opp"
-	LOCAL_OMAPCONF_DOMAIN=("${LOCAL_VOLT_DOMAINS[@]}")
-	LOCAL_OUTPUT_COLUMN=6
+	omapconf_params="opp"
+	omapconf_dm=("${voltage_domains[@]}")
+	output_column=6
 	;;
 *)
 	generalUsage
-	verifyErrorFlag "generalUsage(): Verifying LOCAL_DOMAIN"
+	verifyErrorFlag "usage(): Verifying domain"
 	;;
 esac
 
-case $LOCAL_OPERATION in
+case $command in
 "run")
-	# Every time test_runner is called to execute a command, there is an
-	# increment in voltage and frequency. A small sleep will allow the system
-	# to return to previous state. This will allow us to take valid measurements.
-	sleep 4; $LOCAL_OMAPCONF $LOCAL_OMAPCONF_EXECUTE
-	showInfo "DEBUG: Running 'omapconf $LOCAL_OMAPCONF_EXECUTE'"
+	# Every time test_runner is called to execute a command
+    # there is an increment in voltage and frequency. A small
+    # sleep will allow the system to return to previous state.
+    # This will allow us to take valid measurements
+	sleep 4; $omapconf_tool $omapconf_params
+	showInfo "DEBUG: Running 'omapconf $omapconf_params'"
 	;;
 "compare")
 	compareOmapconfResults
@@ -278,11 +269,11 @@ case $LOCAL_OPERATION in
 	;;
 *)
 	generalUsage
-	verifyErrorFlag "generalUsage(): Verifying LOCAL_OPERATION"
+	verifyErrorFlag "usage(): Verifying command"
 	;;
 esac
 
 handlerDebugFileSystem.sh "umount"
-exit $LOCAL_ERROR
+exit $error_val
 
 # End of file
