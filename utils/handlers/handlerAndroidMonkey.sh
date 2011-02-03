@@ -239,28 +239,31 @@ case $main_operation in
 "keypad")
 	createPressKeyScript $key_event $command_delay
 	# execute monkey command
-	monkey -f keypadScript $repeat_counter 2> err
+	monkey -f keypadScript $repeat_counter 1> /dev/null 2> err
 	if [ $? -gt 0 ]; then
 		showInfo "ERROR: Monkey command failed for the following reason:\n" "`cat err`"
 		error_val=1
+		rm err
 		verifyErrorFlag "Android monkey execution for keypad"
 	fi
 	;;
 "touchscreen")
         createPressKeyScript $x_coord $y_coord $command_delay
         # execute monkey command
-        monkey -f touchscreenScript $repeat_counter 2> err
+        monkey -f touchscreenScript $repeat_counter 1> /dev/null 2> err
 	if [ $? -gt 0 ]; then
 		showInfo "ERROR: Monkey command failed for the following reason:\n" "`cat err`"
 		error_val=1
+		rm err
 		verifyErrorFlag "Android monkey execution for touchscreen"
 	fi
 	;;
 "run")
-	monkey -f $monkey_script $repeat_counter 2> err
+	monkey -f $monkey_script $repeat_counter 1> /dev/null 2> err
 	if [ $? -gt 0 ]; then
 		showInfo "ERROR: Monkey command failed for the following reason:\n" "`cat err`"
 		error_val=1
+		rm err
 		verifyErrorFlag "Android monkey execution failed"
 	fi
 	;;
