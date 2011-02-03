@@ -3,10 +3,11 @@
 # Author  : Leed Aguilar
 # Author  : Axel Haslam
 # Date    : 11/08/10
-# Testing : DVFS with AV playback: Measure clocks and frequency values before,
-#	    during and after running the AV playback usecase. Voltage values
-#	    will be measure manually by now to get more accurate results.
-# Results : Clocks and Frequency domains should be the same before and after
+# Testing : DVFS with AV playback: Check for the OPPs (Operating Points)and
+#	    measure the frequency domains values before, during and after an AV
+#	    playback usecase. Voltage domain values will be measure manually
+#	    for now to get more accurate results.
+# Results : Frequency values in each domains should be the same before and after
 #	    the test, but during the test some domains must scale. if these
 #	    two validation criterias are met, then the testcase pass
 ###############################################################################
@@ -14,48 +15,35 @@
 # Begin L_DD_POWER_1005_1
 
 # Taking Frequency and Clocks measurements before AV playback usecase
-0001 set +x; handlerOmapconf.sh run FREQUENCY > T0
-0002 set +x; sleep 2
-0003 set +x; handlerOmapconf.sh run CLOCKS >> T0
-0004 set +x; sleep 2
-0005 set +x; cat T0
-0006 set +x; sleep 2
+0001 set -x; sleep 10
+0002 set -x; handlerOmapconf.sh run FREQUENCY > BEFORE
+0003 set -x; cat BEFORE
 
 # Start AV playback usecase
-0007 set -x; handlerActivityManager.sh av_playback start $MP4_FILE
-0008 set -x; sleep 10
+0004 set -x; handlerActivityManager.sh av_playback start $MP4_FILE
+0005 set -x; sleep 10
 
 # Taking Frequency and Clocks measurements during AV playback usecase
-0009 set -x; handlerOmapconf.sh run FREQUENCY > T1
-0010 set -x; sleep 2
-0011 set -x; handlerOmapconf.sh run CLOCKS >> T1
-0012 set -x; sleep 2
-0013 set -x; cat T1
-0014 set -x; sleep 2
+0006 set -x; handlerOmapconf.sh run FREQUENCY > DURING
+0007 set -x; cat DURING
 
 # Stop AV playback usecase by doing a "Pause" and then going to Home screen
-0015 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodePlayPause
-0016 set -x; sleep 1
-0017 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeHome
-0018 set -x; sleep 5
+0008 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodePlayPause
+0009 set -x; sleep 1
+0010 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeHome
+0011 set -x; sleep 10
 
 # Taking Frequency and Clocks measurements after AV playback usecase
-0019 set -x; handlerOmapconf.sh run FREQUENCY > T2
-0020 set -x; sleep 2
-0021 set -x; handlerOmapconf.sh run CLOCKS >> T2
-0022 set -x; sleep 2
-0023 set -x; cat T2
-0024 set -x; sleep 2
+0012 set -x; handlerOmapconf.sh run FREQUENCY > AFTER
+0013 set -x; cat AFTER
 
 # Domains should scale during the test
-0025 set -x; handlerOmapconf.sh compare FREQUENCY T0 T1 differ
-0026 set -x; handlerOmapconf.sh compare CLOCKS T0 T1 differ
+0014 set -x; handlerOmapconf.sh compare FREQUENCY BEFORE DURING differ
 
 # Domains should be the same before and after the test
-0027 set -x; handlerOmapconf.sh compare FREQUENCY T0 T2 match
-0028 set -x; handlerOmapconf.sh compare CLOCKS T0 T2 match
+0015 set -x; handlerOmapconf.sh compare FREQUENCY BEFORE AFTER match
 
 # Cleaning log files
-0029 set -x; rm T0 T1 T2
+0016 set -x; rm BEFORE DURING AFTER
 
 # End L_DD_POWER_1005_1
