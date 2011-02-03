@@ -1,55 +1,54 @@
 #!/bin/bash
 
 #
-# Android Monkey handler
-# @author: Leed Aguilar
+#  Android Monkey Tool handler
+#
+#  Copyright (c) 2010 Texas Instruments
+#
+#  Author: Leed Aguilar <leed.aguilar@ti.com>
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License as
+#  published by the Free Software Foundation; either version 2 of the
+#  License, or (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+#  USA
+#
+
 #
 # For more information about Android Monkey, visit:
 # http://developer.android.com/guide/developing/tools/monkey.html
 #
 
 # =============================================================================
-# Variables
+# Local Variables
 # =============================================================================
 
-LOCAL_OPERATION=$1
-LOCAL_REPEAT=$2
-LOCAL_CMD_DELAY=$3
-LOCAL_MONKEY_SCRIPT=$3
-LOCAL_KEY_EVENT=$4
-LOCAL_X_COORD=$4
-LOCAL_Y_COORD=$5
-LOCAL_ERROR=0
+main_operation=$1
+repeat_counter=$2
+command_delay=$3
+monkey_script=$3
+key_event=$4
+x_coord=$4
+y_coord=$5
+error_val=0
 
 # =============================================================================
 # Functions
 # =============================================================================
 
-# Available Monkey Functions:
-
-# A) DispatchPointer(long downTime,  long eventTime, int action,
-#  		  float x, float y, float pressure, float size, int metaState,
-#		  float xPrecision, float yPrecision, int device, int edgeFlags)
-#
-# B) DispatchTrackball same as DispatchPointer
-#
-# C) DispatchKey(long downTime, long eventTime, int action, int code,
-#	      int repeat, int metaState, int device, int scancode)
-#
-# D) DispatchFlip(boolean keyboardOpen)
-#
-# E) DispatchPress(int keyCode)
-#
-# F) LaunchActivity(String pkg_name, String cl_name)
-#
-# G) UserWait(long sleeptime)
-#
-# H) LongPress()
-
 # Creates a keypad script for Android Monkey
-# @ Function  : createPressKeyScript
+# @ Function: createPressKeyScript
 # @ parameters: {androidKeyCode} {delay}
-# @ Return    : None
+# @ Return: None
 createPressKeyScript() {
 	androidKeyCode=$1
 	delay=$2
@@ -70,9 +69,9 @@ createPressKeyScript() {
 }
 
 # Creates a touchscreen script for Android Monkey
-# @ Function  : createTouchScreenScript
+# @ Function: createTouchScreenScript
 # @ parameters: {coordX} {coordY} {delay}
-# @ Return    : None
+# @ Return: None
 createTouchScreenScript() {
 	coordX=$1
 	coordY=$2
@@ -92,9 +91,9 @@ createTouchScreenScript() {
 }
 
 # Display the script usage
-# @ Function  : generalUsage
+# @ Function: generalUsage
 # @ parameters: None
-# @ Return    : Error flag value
+# @ Return: Error flag value
 generalUsage() {
 	cat <<-EOF >&1
 
@@ -112,60 +111,56 @@ generalUsage() {
 
 	 To excute a touchscreen event use the following:
 
-	   $ handlerAndroidMonkey.sh touchscreen {repeat} {delay} {x coord} {y coord}
-
+	   $ handlerAndroidMonkey.sh touchscreen {repeat} {delay}
+						 {x coord} {y coord}
 	   Where:
 	   @ keyevent = Android UI KeyEvent**
 	   @ x coord  = X coordinate value in the display
 	   @ y coord  = Y coordinate value in the display
 	   @ repeat   = Repeat the event N times
-	   @ delay    = Android User delay for any operation
+	   @ delay    = Android User delay in any operation
 
 	   ** Check Android UI Key Codes at:
 	   frameworks/base/include/ui/KeycodeLabels.h
 
 	################################################################
 	EOF
-	LOCAL_ERROR=1
+	error_val=1
 }
 
 # Prints a message with a specific format
-# @ Function  : showInfo
+# @ Function: showInfo
 # @ Parameters: <message to display>
-# @ Return    : None
+# @ Return: None
 showInfo() {
-	echo -e "\n\n-------------------- handlerAndroidMonkey --------------------\n"
-	messages=( "$@" )
-	for index in ${!messages[@]}; do
-		echo -e "\t${messages[$index]}"
-	done
-	echo -e "\n--------------------------------------------------------------\n\n"
+	messages="$@"
+	echo -e "[ handlerAndroidMonkey ] $messages"
 }
 
-# Verify LOCAL_ERROR flag
+# Verify error_val flag
 # if flag is set to '1' exit the script and register the failure
 # The message parameter helps to debug the script
-# @ Function  : verifyErrorFlag
+# @ Function: verifyErrorFlag
 # @ Parameters: <debug message>
-# @ Return    : None
+# @ Return: None
 verifyErrorFlag() {
 	debug_message=$1
-	if [ $LOCAL_ERROR -eq 1 ]; then
+	if [ $error_val -eq 1 ]; then
 		handlerError.sh "log" "1" "halt" "handlerAndroidMonkey.sh"
 		showInfo "DEBUG: LOCAL ERROR DETECTED:" "$debug_message"  1>&2
-		exit $LOCAL_ERROR
+		exit $error_val
 	fi
 }
 
 # Verify is the parameter is a valid number (integer)
-# @ Function  : isPositiveInteger
+# @ Function: isPositiveInteger
 # @ Parameters: <number>
-# @ Return    : Error flag value
+# @ Return: Error flag value
 isPositiveInteger() {
 	num=$1
 	if ! [[ $num =~ ^[0-9]+$ ]]; then
 		showInfo "ERROR: $num is not a number" 1>&2
-		LOCAL_ERROR=1
+		error_val=1
 	fi
 }
 
@@ -180,21 +175,21 @@ fi
 
 # Check Parameters and scritp usage
 
-case $LOCAL_OPERATION in
+case $main_operation in
 "keypad")
 	if [ $# -ne 4 ]; then
 		generalUsage
 		verifyErrorFlag "Number of parameters for 'keypad' operation is incorrect"
 	fi
 	# Check 2nd parameter
-	isPositiveInteger $LOCAL_REPEAT
+	isPositiveInteger $repeat_counter
 	verifyErrorFlag "generalUsage(): Checking 2nd parameter"
 	# Check 3rd  parameter
-	isPositiveInteger $LOCAL_CMD_DELAY
+	isPositiveInteger $command_delay
 	verifyErrorFlag "generalUsage(): Checking 3rd parameter"
-	echo `expr match $LOCAL_KEY_EVENT 'KeyCode'` > match_value
+	echo `expr match $key_event 'KeyCode'` > match_value
 	if [ `cat match_value` = "7" ]; then
-		eval "eval 'echo "\$$LOCAL_KEY_EVENT"'" > tmp_val
+		eval "eval 'echo "\$$key_event"'" > tmp_val
 		key_value=`cat tmp_val`
 		if [ -z $key_value ]; then
 			showInfo "ERROR: Introduce a valid KeyEvent"
@@ -213,16 +208,16 @@ case $LOCAL_OPERATION in
 		verifyErrorFlag "Number of parameters for 'touchscreen' operation is incorrect"
 	fi
 	# Check 2nd parameter
-	isPositiveInteger $LOCAL_REPEAT
+	isPositiveInteger $repeat_counter
 	verifyErrorFlag "generalUsage(): Checking 2nd parameter"
 	# Check 3rd  parameter
-	isPositiveInteger $LOCAL_CMD_DELAY
+	isPositiveInteger $command_delay
 	verifyErrorFlag "generalUsage(): Checking 3rd parameter"
 	# Check 4th parameter
-	isPositiveInteger $LOCAL_X_COORD
+	isPositiveInteger $x_coord
 	verifyErrorFlag "generalUsage(): Checking 4th parameter for touchscreen case"
 	# Check 5th parameter
-	isPositiveInteger $LOCAL_Y_COORD
+	isPositiveInteger $y_coord
 	verifyErrorFlag "generalUsage(): Checking 5th parameter for touchscreen case"
 	;;
 "run")
@@ -239,42 +234,42 @@ esac
 
 # Run Android Monkey commands
 
-case $LOCAL_OPERATION in
+case $main_operation in
 
 "keypad")
-	createPressKeyScript $LOCAL_KEY_EVENT $LOCAL_CMD_DELAY
+	createPressKeyScript $key_event $command_delay
 	# execute monkey command
-	monkey -f keypadScript $LOCAL_REPEAT 2> err
+	monkey -f keypadScript $repeat_counter 2> err
 	if [ $? -gt 0 ]; then
 		showInfo "ERROR: Monkey command failed for the following reason:\n" "`cat err`"
-		LOCAL_ERROR=1
+		error_val=1
 		verifyErrorFlag "Android monkey execution for keypad"
 	fi
 	;;
 "touchscreen")
-        createPressKeyScript $LOCAL_X_COORD $LOCAL_Y_COORD $LOCAL_CMD_DELAY
+        createPressKeyScript $x_coord $y_coord $command_delay
         # execute monkey command
-        monkey -f touchscreenScript $LOCAL_REPEAT 2> err
+        monkey -f touchscreenScript $repeat_counter 2> err
 	if [ $? -gt 0 ]; then
 		showInfo "ERROR: Monkey command failed for the following reason:\n" "`cat err`"
-		LOCAL_ERROR=1
+		error_val=1
 		verifyErrorFlag "Android monkey execution for touchscreen"
 	fi
 	;;
 "run")
-	monkey -f $LOCAL_MONKEY_SCRIPT $LOCAL_REPEAT 2> err
+	monkey -f $monkey_script $repeat_counter 2> err
 	if [ $? -gt 0 ]; then
 		showInfo "ERROR: Monkey command failed for the following reason:\n" "`cat err`"
-		LOCAL_ERROR=1
+		error_val=1
 		verifyErrorFlag "Android monkey execution failed"
 	fi
 	;;
 *)
 	generalUsage
-	verifyErrorFlag "generalUsage(): verifying LOCAL_OPERATION parameter"
+	verifyErrorFlag "generalUsage(): verifying main_operation parameter"
 	;;
 esac
 
-exit $LOCAL_ERROR
+exit $error_val
 
 # End of file
