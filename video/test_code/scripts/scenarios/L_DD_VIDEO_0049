@@ -1,0 +1,123 @@
+##############################################################################
+# FILENAME      : L_DD_VIDEO_0049
+# Author        : Samreen
+# Date          : Fri Feb 4, 2011
+# Description   : Write Back Test Scenarios - DownScaling
+# #############################################################################
+
+# Begin "L_DD_VIDEO_0049"
+
+COMMENT comment.sh "Moving Video2 to LCD1.."
+
+0000_SET_VD1 set -x;overlay_switch.sh 0 1                    && exit 0 || exit 1
+0000_SET_VD2 set -x;overlay_switch.sh 0 2                    && exit 0 || exit 1
+
+COMMENT comment.sh "Disable the decimation"
+0000_DECI_X echo "1..1" > /sys/devices/platform/omapdss/overlay0/x_decim
+0000_DECI_Y echo "1..1" > /sys/devices/platform/omapdss/overlay0/y_decim
+0001_DECI_X echo "1..1" > /sys/devices/platform/omapdss/overlay1/x_decim
+0001_DECI_Y echo "1..1" > /sys/devices/platform/omapdss/overlay1/y_decim
+0002_DECI_X echo "1..1" > /sys/devices/platform/omapdss/overlay2/x_decim
+0002_DECI_Y echo "1..1" > /sys/devices/platform/omapdss/overlay2/y_decim
+0003_DECI_X echo "1..1" > /sys/devices/platform/omapdss/overlay3/x_decim
+0003_DECI_Y echo "1..1" > /sys/devices/platform/omapdss/overlay3/y_decim
+
+COMMENT comment.sh "Write Back test cases-RGB DownScaling on LCD1"
+COMMENT comment.sh "Without any Scaling"
+
+0001_SETUP_VD1 set -x; setupimage.sh 1 "RGB565 640 480"			&& exit 0 || exit 1
+0001_SETUP_VD2 set -x; setupimage.sh 2 "RGB565 640 480"			&& exit 0 || exit 1
+0001_SETUP_VD4 set -x; setupimage.sh 4 "RGB565 640 480"			&& exit 0 || exit 1
+
+0001_VD1 set -x; wbstream.sh 1 $VIDEOFILES/video_vga_rgb565 2
+
+COMMENT comment.sh "1\2 Scaling for X only through WB"
+
+0002_SETUP_VD1 set -x; setupimage.sh 1 "RGB565 640 480"                 && exit 0 || exit 1
+0002_SETUP_VD2 set -x; setupimage.sh 2 "RGB565 320 480"                 && exit 0 || exit 1
+0002_SETUP_VD4 set -x; setupimage.sh 4 "RGB565 320 480"                 && exit 0 || exit 1
+
+0002_VD1 set -x; wbstream.sh 1 $VIDEOFILES/video_vga_rgb565 2
+
+COMMENT comment.sh "1\2 Scaling for X only through I/P pipeline"
+
+0003_SETUP_VD1 set -x; setupimage.sh 1 "RGB565 640 480" "0 0 320 480"   && exit 0 || exit 1
+0003_SETUP_VD2 set -x; setupimage.sh 2 "RGB565 320 480"                 && exit 0 || exit 1
+0003_SETUP_VD4 set -x; setupimage.sh 4 "RGB565 320 480"                 && exit 0 || exit 1
+
+0003_VD1 set -x; wbstream.sh 1 $VIDEOFILES/video_vga_rgb565 2
+
+COMMENT comment.sh "1\4 Scaling for X only through I/P pipeline"
+
+0004_SETUP_VD1 set -x; setupimage.sh 1 "RGB565 640 480" "0 0 160 480"	&& exit 0 || exit 1
+0004_SETUP_VD2 set -x; setupimage.sh 2 "RGB565 160 480" 		&& exit 0 || exit 1
+0004_SETUP_VD4 set -x; setupimage.sh 4 "RGB565 160 480" 		&& exit 0 || exit 1
+
+0004_VD1 set -x; wbstream.sh 1 $VIDEOFILES/video_vga_rgb565 2
+
+COMMENT comment.sh "1\2 Scaling for X only through O/P pipeline"
+
+0005_SETUP_VD1 set -x; setupimage.sh 1 "RGB565 640 480" 		&& exit 0 || exit 1
+0005_SETUP_VD2 set -x; setupimage.sh 2 "RGB565 640 480" "0 0 320 480"	&& exit 0 || exit 1
+0005_SETUP_VD4 set -x; setupimage.sh 4 "RGB565 640 480"			&& exit 0 || exit 1
+
+0005_VD1 set -x; wbstream.sh 1 $VIDEOFILES/video_vga_rgb565 2
+
+COMMENT comment.sh "1\4 Scaling for X only through O/P pipeline"
+
+0006_SETUP_VD1 set -x; setupimage.sh 1 "RGB565 640 480"                 && exit 0 || exit 1
+0006_SETUP_VD2 set -x; setupimage.sh 2 "RGB565 640 480" "0 0 160 480"   && exit 0 || exit 1
+0006_SETUP_VD4 set -x; setupimage.sh 4 "RGB565 640 480"                 && exit 0 || exit 1
+
+0006_VD1 set -x; wbstream.sh 1 $VIDEOFILES/video_vga_rgb565 2
+
+COMMENT comment.sh "1\2 Scaling for Y only through WB"
+
+0007_SETUP_VD1 set -x; setupimage.sh 1 "RGB565 640 480"                 && exit 0 || exit 1
+0007_SETUP_VD2 set -x; setupimage.sh 2 "RGB565 640 240"                 && exit 0 || exit 1
+0007_SETUP_VD4 set -x; setupimage.sh 4 "RGB565 640 240"                 && exit 0 || exit 1
+
+0007_VD1 set -x; wbstream.sh 1 $VIDEOFILES/video_vga_rgb565 2
+
+
+COMMENT comment.sh "1\4 Scaling for Y only through WB"
+
+0008_SETUP_VD1 set -x; setupimage.sh 1 "RGB565 640 480"                 && exit 0 || exit 1
+0008_SETUP_VD2 set -x; setupimage.sh 2 "RGB565 640 120"                 && exit 0 || exit 1
+0008_SETUP_VD4 set -x; setupimage.sh 4 "RGB565 640 120"                 && exit 0 || exit 1
+
+0008_VD1 set -x; wbstream.sh 1 $VIDEOFILES/video_vga_rgb565 2
+
+COMMENT comment.sh "1\2 Scaling for Y only through I/P pipeline"
+
+0009_SETUP_VD1 set -x; setupimage.sh 1 "RGB565 640 480" "0 0 640 240"   && exit 0 || exit 1
+0009_SETUP_VD2 set -x; setupimage.sh 2 "RGB565 640 240"                 && exit 0 || exit 1
+0009_SETUP_VD4 set -x; setupimage.sh 4 "RGB565 640 240"                 && exit 0 || exit 1
+
+0009_VD1 set -x; wbstream.sh 1 $VIDEOFILES/video_vga_rgb565 2
+
+COMMENT comment.sh "1\4 Scaling for Y only through I/P pipeline"
+
+0010_SETUP_VD1 set -x; setupimage.sh 1 "RGB565 640 480" "0 0 640 120"   && exit 0 || exit 1
+0010_SETUP_VD2 set -x; setupimage.sh 2 "RGB565 640 120"                 && exit 0 || exit 1
+0010_SETUP_VD4 set -x; setupimage.sh 4 "RGB565 640 120"                 && exit 0 || exit 1
+
+0010_VD1 set -x; wbstream.sh 1 $VIDEOFILES/video_vga_rgb565 2
+
+COMMENT comment.sh "1\2 Scaling for Y only through O/P pipeline"
+
+0011_SETUP_VD1 set -x; setupimage.sh 1 "RGB565 640 480" 		&& exit 0 || exit 1
+0011_SETUP_VD2 set -x; setupimage.sh 2 "RGB565 640 480"                 && exit 0 || exit 1
+0011_SETUP_VD4 set -x; setupimage.sh 4 "RGB565 640 480" "0 0 640 240"   && exit 0 || exit 1
+
+0011_VD1 set -x; wbstream.sh 1 $VIDEOFILES/video_vga_rgb565 2
+
+COMMENT comment.sh "1\4 Scaling for Y only through O/P pipeline"
+
+0012_SETUP_VD1 set -x; setupimage.sh 1 "RGB565 640 480"                 && exit 0 || exit 1
+0012_SETUP_VD2 set -x; setupimage.sh 2 "RGB565 640 480"                 && exit 0 || exit 1
+0012_SETUP_VD4 set -x; setupimage.sh 4 "RGB565 640 480" "0 0 640 120"   && exit 0 || exit 1
+
+0012_VD1 set -x; wbstream.sh 1 $VIDEOFILES/video_vga_rgb565 2
+
+# End L_DD_FB_0049
