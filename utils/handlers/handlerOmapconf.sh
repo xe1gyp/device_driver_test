@@ -260,7 +260,7 @@ case $command in
     # there is an increment in voltage and frequency. A small
     # sleep will allow the system to return to previous state.
     # This will allow us to take valid measurements
-	sleep 4; $omapconf_tool $omapconf_params
+	sleep 8; $omapconf_tool $omapconf_params
 	showInfo "DEBUG: Running 'omapconf $omapconf_params'"
 	;;
 "compare")
