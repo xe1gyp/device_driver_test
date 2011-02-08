@@ -49,12 +49,14 @@
 
 #define PROC_FILE	"driver/dma_test_status"
 
+#ifdef CONFIG_ANDROID
 enum {
 CCR = 0, CLNK_CTRL, CICR, CSR, CSDP,
 CEN, CFN, CSSA, CDSA, CSEI, CSFI,
 CDEI, CDFI, CSAC, CDAC, CCEN, CCFN,
 COLOR, CH_END
 };
+#endif
 
 /*
  * An struct that represents the buffers used for the transfer

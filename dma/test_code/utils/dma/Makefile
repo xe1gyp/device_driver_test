@@ -13,7 +13,6 @@ SUITE_DIR:=$(PWD)
 endif
 
 MODULES = dma_single_channel.o \
-  dma_chain_transfer.o \
   dma_priority_high.o \
   dma_priority_low.o \
   dma_stop_transfer.o \
@@ -25,30 +24,34 @@ MODULES = dma_single_channel.o \
   dma_burst_mode4.o \
   dma_burst_mode8.o \
   dma_burst_mode16.o \
+  dma_static_self_link.o \
+  dma_dynamic_self_link.o \
+  dma_unlink_nonlinked_channels.o  \
+  dma_unlink_before_stop_channels.o \
+  dma_stop_transfer_invalid.o \
+  dma_stop_transfer_twice.o \
+  dma_thread_access.o
+
+ ifeq ($(TARGET_PLATFORM), OMAP2PLUS)
+ MODULES +=  dma_chain_transfer.o \
   dma_chain_static.o \
   dma_chain_dynamic.o \
   dma_chain_dynamic_removed.o \
   dma_chain_static_removed.o \
   dma_chain_static_invalid.o \
   dma_chain_dynamic_invalid.o \
-  dma_static_self_link.o \
-  dma_dynamic_self_link.o \
-  dma_unlink_nonlinked_channels.o  \
-  dma_unlink_before_stop_channels.o \
-  dma_stop_transfer_invalid.o \
   dma_chain_dynamic_break.o \
   dma_chain_static_break.o \
-  dma_stop_transfer_twice.o \
-  dma_thread_access.o \
   dma_chain_thread_access.o \
-  dma_chain_thread_stress.o \
-  dma_addrmode_constant_oswr.o \
-  dma_register_dump.o \
-  dma_oswr_trigger.o
+  dma_chain_thread_stress.o
+ endif
 
- ifeq ($(TARGET_PLATFORM), OMAP_4430)
+ ifeq ($(TARGET_FILESYSTEM), ANDROID)
  MODULES += dma_dload.o \
-	    dma_dload_thread_access.o
+  	    dma_addrmode_constant_oswr.o \
+	    dma_dload_thread_access.o \
+            dma_oswr_trigger.o \
+            dma_register_dump.o
  endif
 
 obj-m:=$(MODULES)

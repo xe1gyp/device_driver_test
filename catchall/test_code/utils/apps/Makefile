@@ -14,10 +14,6 @@ endif
 
 MODULES = debug_module_test.o
 
-ifeq ($(TARGET_PLATFORM), OMAP_4430)
-MODULES += debug_module_test.o
-endif
-
 obj-m:=$(MODULES)
 
 all: $(TARGETS)
