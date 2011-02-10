@@ -13,8 +13,8 @@
 # Begin L_DD_POWER_0004_0028
 
 # Unlock the UI by pressing Menu Key then go to home screen
-0001 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeMenu
-0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+0001 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyMenu
+0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyHome
 
 # Set the screen timeout to the max value (30 minutes)
 0003 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
@@ -27,13 +27,13 @@
 # Start AV Record usecase
 0007 set -x; handlerActivityManager.sh  av_record start
 0008 set -x; sleep 2
-0009 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadCenter
+0009 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyMonkeyDpadCenter
 0010 set -x; sleep 10
 
 # Stop AV record usecase by pressing "OK" key and then going to Home screen
-0011 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadCenter
+0011 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyMonkeyDpadCenter
 0012 set -x; sleep 1
-0013 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeHome
+0013 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyMonkeyHome
 
 # Suspend/Resume for 5 seconds
 0014 set -x; handlerAndroidPM.sh suspend android force 5

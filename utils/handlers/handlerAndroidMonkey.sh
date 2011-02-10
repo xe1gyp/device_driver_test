@@ -187,8 +187,8 @@ case $main_operation in
 	# Check 3rd  parameter
 	isPositiveInteger $command_delay
 	verifyErrorFlag "generalUsage(): Checking 3rd parameter"
-	echo `expr match $key_event 'KeyCode'` > match_value
-	if [ `cat match_value` = "7" ]; then
+	echo `expr match $key_event 'KeyMonkey'` > match_value
+	if [ `cat match_value` = "9" ]; then
 		eval "eval 'echo "\$$key_event"'" > tmp_val
 		key_value=`cat tmp_val`
 		if [ -z $key_value ]; then

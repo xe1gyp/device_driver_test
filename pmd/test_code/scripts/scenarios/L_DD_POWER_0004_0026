@@ -14,8 +14,8 @@
 
 # Unlock the UI by pressing Menu Key (press Menu Key twice in case the system
 # is suspended) then go to home screen
-0001 set -x; handlerAndroidMonkey.sh keypad 2 800 KeyCodeMenu
-0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+0001 set -x; handlerAndroidMonkey.sh keypad 2 800 KeyMonkeyMenu
+0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyHome
 
 # Set the screen timeout to the max value (30 minutes)
 0003 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
@@ -28,16 +28,16 @@
 # Start Audio record usecase
 0007 set -x; handlerActivityManager.sh audio_record start
 0008 set -x; sleep 1
-0009 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadUp
-0010 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
+0009 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadUp
+0010 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadCenter
 0011 set -x; sleep 10
 
 # Stop Audio record usecase
-0012 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
-0013 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadUp
-0014 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadRight
-0015 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeDpadCenter
-0016 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+0012 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadCenter
+0013 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadUp
+0014 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadRight
+0015 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadCenter
+0016 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyHome
 0017 set -x; sleep 1
 
 # Ensure that Screen timeout is set to the smaller value (15 seconds)

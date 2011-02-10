@@ -13,8 +13,8 @@
 # Begin L_DD_POWER_0004_0031
 
 # Unlock the UI by pressing Menu Key then go to home screen
-0001 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeMenu
-0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+0001 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyMenu
+0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyHome
 
 # Iterate 200 times the following process:
 # a) set screen timeout to the max value
@@ -24,7 +24,7 @@
 # e) resume and verify that system works fine
 # f) check for OSWR and Device OFF counters
 
-0003 set -x; handlerCmd.sh iterate 'handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "before"; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "before"; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "before"; handlerActivityManager.sh  av_record start; sleep 2; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadCenter; sleep 10; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadCenter; sleep 1; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeHome; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.min.screen.timeout.value; handlerAndroidPM.sh suspend android timeout 5; sleep 2; handlerAndroidPM.sh resume android; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "after"; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "after"; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "after"; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET-LOGIC-OFF" "before" "after"; handlerPowerTransitionStats.sh compare "DEVICE-OFF" "DEVICE-OFF" "before" "after"' 200 2
+0003 set -x; handlerCmd.sh iterate 'handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "before"; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "before"; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "before"; handlerActivityManager.sh  av_record start; sleep 2; handlerAndroidMonkey.sh keypad 1 1000 KeyMonkeyDpadCenter; sleep 10; handlerAndroidMonkey.sh keypad 1 1000 KeyMonkeyDpadCenter; sleep 1; handlerAndroidMonkey.sh keypad 1 1000 KeyMonkeyHome; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.min.screen.timeout.value; handlerAndroidPM.sh suspend android timeout 5; sleep 2; handlerAndroidPM.sh resume android; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "after"; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "after"; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "after"; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET-LOGIC-OFF" "before" "after"; handlerPowerTransitionStats.sh compare "DEVICE-OFF" "DEVICE-OFF" "before" "after"' 200 2
 
 0004 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
 

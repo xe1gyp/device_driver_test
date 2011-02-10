@@ -15,8 +15,8 @@
 # Begin L_DD_POWER_1005_3
 
 # Unlock the UI by pressing Menu Key then go to home screen
-0001 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeMenu
-0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+0001 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyMenu
+0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyHome
 
 # Set the timeout value to the max value (30 minutes)
 0003 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
@@ -31,7 +31,7 @@
 0008 set -x; sleep 2
 
 # Starting AV record by pressing "OK" key
-0009 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadCenter
+0009 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyMonkeyDpadCenter
 0010 set -x; sleep 5
 
 # Taking Frequency and Clocks measurements during AV record usecase
@@ -39,9 +39,9 @@
 0012 set -x; cat DURING
 
 # Stop AV record usecase by pressing "OK" key and then going to Home screen
-0013 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadCenter
+0013 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyMonkeyDpadCenter
 0014 set -x; sleep 1
-0015 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeHome
+0015 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyMonkeyHome
 0016 set -x; sleep 10
 
 # Taking Frequency and Clocks measurements after AV record usecase

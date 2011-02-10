@@ -12,8 +12,8 @@
 # Begin L_DD_POWER_0004_0018
 
 # Unlock the UI by pressing Menu Key then go to home screen
-0001 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeMenu
-0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+0001 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyMenu
+0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyHome
 
 # Set the screen timeout to the max value (30 minutes)
 0003 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
@@ -28,9 +28,9 @@
 0005 set -x; sleep 15
 
 # Stop Audio playback usecase by doing a "Pause" and then going to Home screen
-0006 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodePlayPause
+0006 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyPlayPause
 0007 set -x; sleep 1
-0008 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+0008 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyHome
 
 # Ensure that Screen timeout is set to the smaller value (15 seconds)
 0009 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.min.screen.timeout.value
