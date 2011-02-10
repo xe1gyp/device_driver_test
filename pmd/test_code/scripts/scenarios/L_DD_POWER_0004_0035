@@ -1,0 +1,31 @@
+###############################################################################
+# Scenario: L_DD_POWER_0004_0035
+# Author  : Leed Aguilar
+# Date    : 02/10/11
+# Testing : Run and complete Image Capture usecase then perform suspend/resume
+#           via timeout: Boot the platform, release wakelocks, let the system
+#	    go to suspend via timeout and then resume to ensure that system
+#	    works properly. Repeat this process 200 times
+# Results : At resume, you should get the console prompt back and there should
+#           be any lockup and OSWR and DEVICE-OFF counters should increase
+###############################################################################
+
+# Begin L_DD_POWER_0004_0035
+
+# Unlock the UI by pressing Menu Key then go to home screen
+0001 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeMenu
+0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+
+# Iterate 200 times the following process:
+# a) set screen timeout to the max value
+# b) start/stop Image Capture usecase
+# c) set screen timeout the minimun value
+# d) suspend the system via timeout
+# e) resume and verify that system works fine
+# f) check for OSWR and Device OFF counters
+
+0003 set -x; handlerCmd.sh iterate 'handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "before"; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "before"; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "before"; handlerActivityManager.sh image_capture start; sleep 5; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadCenter; sleep 5; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeHome; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.min.screen.timeout.value; handlerAndroidPM.sh suspend android timeout 5; sleep 2; handlerAndroidPM.sh resume android; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "after"; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "after"; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "after"; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET" "before" "after"; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET-LOGIC-OFF" "before" "after"; handlerPowerTransitionStats.sh compare "DEVICE-OFF" "DEVICE-OFF" "before" "after"' 200 2
+
+0004 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
+
+# End L_DD_POWER_0004_0035

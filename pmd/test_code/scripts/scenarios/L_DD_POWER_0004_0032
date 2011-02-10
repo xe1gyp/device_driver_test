@@ -1,0 +1,51 @@
+###############################################################################
+# Scenario: L_DD_POWER_0004_0032
+# Author  : Leed Aguilar
+# Date    : 02/10/11
+# Testing : Run and complete Image Capture usecase then perform suspend/resume
+#           in suspend path (pressing Power/F2 key): Boot the platform, release
+#           wakelocks, press power key to suspend and then resume to ensure that
+#           system works properly
+# Results : At resume, you should get the console prompt back and there should
+#           be any lockup and OSWR and DEVICE-OFF counters should increase
+###############################################################################
+
+# Begin L_DD_POWER_0004_0032
+
+# Unlock the UI by pressing Menu Key then go to home screen
+0001 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeMenu
+0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyCodeHome
+
+# Set the screen timeout to the max value (30 minutes)
+0003 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
+
+# Save OSWR and DEVICE-OFF stats before the MM usecase
+0004 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "before"
+0005 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "before"
+0006 set -x; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "before"
+
+# Start Image Capture usecase
+0007 set -x; handlerActivityManager.sh image_capture start
+0008 set -x; sleep 5
+
+# Take a picture and then go to home Screen
+0009 set -x;  handlerAndroidMonkey.sh keypad 1 1000 KeyCodeDpadCenter
+0010 set -x; sleep 5
+0011 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyCodeHome
+
+# Suspend/Resume for 5 seconds
+0012 set -x; handlerAndroidPM.sh suspend android force 5
+0013 set -x; sleep 2
+0014 set -x; handlerAndroidPM.sh resume android
+
+# Save OSWR and DEVICE-OFF stats after the MM usecase
+0015 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "after"
+0016 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "after"
+0017 set -x; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "after"
+
+# Verify OSWR and DEVICE-OFF counters increased after suspend/resume
+0018 set -x; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET" "before" "after"
+0019 set -x; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET-LOGIC-OFF" "before" "after"
+0020 set -x; handlerPowerTransitionStats.sh compare "DEVICE-OFF" "DEVICE-OFF" "before" "after"
+
+# End L_DD_POWER_0004_0032
