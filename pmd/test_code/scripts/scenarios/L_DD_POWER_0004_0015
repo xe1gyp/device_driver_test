@@ -12,16 +12,18 @@
 # Begin L_DD_POWER_0004_0015
 
 # Unlock the UI by pressing Menu Key then go to home screen
-0001 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyMenu
-0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyHome
+0001 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeF1" 1 1 1
+0002 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 
 # Ensure that Screen timeout is set to the smaller value (15 seconds)
 0003 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.min.screen.timeout.value
+0004 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 
 # Suspend/Resume for 5 seconds via timeout 200 times
-0004 set -x; handlerCmd.sh iterate "handlerAndroidPM.sh suspend android timeout 5; handlerAndroidPM.sh resume android" 200 2
+0005 set -x; handlerCmd.sh iterate "handlerAndroidPM.sh suspend android timeout 5; handlerAndroidPM.sh resume android" 200 2
 
 # Set the timeout value to the max value (30 minutes) for further testing
-0005 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
+0006 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
+0007 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 
 # End L_DD_POWER_0004_0015

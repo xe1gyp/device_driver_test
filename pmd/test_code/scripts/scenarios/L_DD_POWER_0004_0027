@@ -14,8 +14,8 @@
 
 # Unlock the UI by pressing Menu Key (press Menu Key twice in case the system
 # is suspended) then go to home screen
-0001 set -x; handlerAndroidMonkey.sh keypad 2 800 KeyMonkeyMenu
-0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyHome
+0001 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeF1" 1 1 1
+0002 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 
 # Iterate the following process 200 times
 # a) start audio record usecase
@@ -23,8 +23,10 @@
 # c) suspend the system via timeout
 # d) resume the system
 
-0003 set -x; handlerCmd.sh iterate 'handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value; handlerActivityManager.sh audio_record start; sleep 1; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadUp; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadCenter; sleep 10; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadCenter; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadUp; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadRight; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadCenter; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyHome; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.min.screen.timeout.value; handlerAndroidPM.sh suspend android timeout 5; sleep 1; handlerAndroidPM.sh resume android' 200 2
+0003 set -x; handlerCmd.sh iterate 'handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1; handlerActivityManager.sh audio_record start; sleep 1; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadUp; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadCenter; sleep 10; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadCenter; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadUp; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadRight; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadCenter; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.min.screen.timeout.value; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1; handlerAndroidPM.sh suspend android timeout 5; sleep 1; handlerAndroidPM.sh resume android' 200 2
+
 # Set the screen timeout to the max value (30 minutes)
 0004 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
+0005 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 
 # End L_DD_POWER_0004_0027

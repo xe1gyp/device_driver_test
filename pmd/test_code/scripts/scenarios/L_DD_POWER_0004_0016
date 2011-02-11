@@ -13,25 +13,26 @@
 # Begin L_DD_POWER_0004_0016
 
 # Unlock the UI by pressing Menu Key then go to home screen
-0001 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyMenu
-0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyHome
+0001 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeF1" 1 1 1
+0002 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 
 # Set the screen timeout to the max value (30 minutes)
 0003 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
+0004 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 
 # Save OSWR and DEVICE-OFF stats before the MM usecase
-0004 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "before"
-0005 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "before"
-0006 set -x; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "before"
+0005 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "before"
+0006 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "before"
+0007 set -x; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "before"
 
 # Start Audio playback usecase
-0007 set -x; handlerActivityManager.sh audio_playback start $MP3_FILE
+0008 set -x; handlerActivityManager.sh audio_playback start $MP3_FILE
 0009 set -x; sleep 20
 
 # Stop Audio playback usecase by doing a "Pause" and then going to Home screen
 0010 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyPlayPause
 0011 set -x; sleep 1
-0012 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyHome
+0012 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 0013 set -x; sleep 2
 
 # Suspend/Resume for 5 seconds

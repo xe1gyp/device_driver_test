@@ -14,11 +14,12 @@
 
 # Unlock the UI by pressing Menu Key (press Menu Key twice in case the system
 # is suspended) then go to home screen
-0001 set -x; handlerAndroidMonkey.sh keypad 2 800 KeyMonkeyMenu
-0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyHome
+0001 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeF1" 1 1 1
+0002 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 
 # Set the screen timeout to the max value (30 minutes)
 0003 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
+0004 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 
 # Iterate 200 times the following process:
 # a) start AV playback usecase
@@ -26,6 +27,6 @@
 # c) suspend the system through suspend path
 # d) resume and verify that system works fine
 
-0004 set -x; handlerCmd.sh iterate 'handlerActivityManager.sh av_playback start $MP4_FILE; sleep 15; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyPlayPause; sleep 1; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyHome; sleep 1; handlerAndroidPM.sh suspend android force 5; handlerAndroidPM.sh resume android' 200 2
+0005 set -x; handlerCmd.sh iterate 'handlerActivityManager.sh av_playback start $MP4_FILE; sleep 15; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyPlayPause; sleep 1; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1; sleep 1; handlerAndroidPM.sh suspend android force 5; handlerAndroidPM.sh resume android' 200 2
 
 # End L_DD_POWER_0004_0021

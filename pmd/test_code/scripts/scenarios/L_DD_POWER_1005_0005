@@ -15,11 +15,12 @@
 # Begin L_DD_POWER_1005_5
 
 # Unlock the UI by pressing Menu Key then go to home screen
-0001 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyMenu
-0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyHome
+0001 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeF1" 1 1 1
+0002 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 
 # Set the timeout value to the max value (30 minutes)
 0003 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
+0004 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 
 # Taking Frequency and Clocks measurements before Image capture usecase
 0004 set -x; sleep 10
@@ -35,7 +36,7 @@
 0010 set -x; cat DURING
 
 # Stop Image capture usecase by going to Home screen
-0011 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyMonkeyHome
+0011 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 0012 set -x; sleep 10
 
 # Taking Frequency and Clocks measurements after Image capture usecase

@@ -14,52 +14,55 @@
 
 # Unlock the UI by pressing Menu Key (press Menu Key twice in case the system
 # is suspended) then go to home screen
-0001 set -x; handlerAndroidMonkey.sh keypad 2 800 KeyMonkeyMenu
-0002 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyHome
+0001 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeF1" 1 1 1
+0002 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 
 # Set the screen timeout to the max value (30 minutes)
 0003 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
+0004 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 
 # Save OSWR and DEVICE-OFF stats before the MM usecase
-0004 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "before"
-0005 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "before"
-0006 set -x; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "before"
+0005 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "before"
+0006 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "before"
+0007 set -x; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "before"
 
 # Start Audio record usecase
-0007 set -x; handlerActivityManager.sh audio_record start
-0008 set -x; sleep 1
-0009 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadUp
-0010 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadCenter
-0011 set -x; sleep 10
+0008 set -x; handlerActivityManager.sh audio_record start
+0009 set -x; sleep 1
+0010 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadUp
+0011 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadCenter
+0012 set -x; sleep 15
 
 # Stop Audio record usecase
-0012 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadCenter
-0013 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadUp
-0014 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadRight
-0015 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadCenter
-0016 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyHome
-0017 set -x; sleep 1
+0013 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadCenter
+0014 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadUp
+0015 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadRight
+0016 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyDpadCenter
+0017 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
+0018 set -x; sleep 1
 
 # Ensure that Screen timeout is set to the smaller value (15 seconds)
-0018 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.min.screen.timeout.value
-0019 set -x; sleep 1
+0019 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.min.screen.timeout.value
+0020 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
+0021 set -x; sleep 1
 
 # Suspend/Resume for 5 seconds via timeout
-0020 set -x; handlerAndroidPM.sh suspend android timeout 5
-0021 set -x; sleep 1
-0022 set -x; handlerAndroidPM.sh resume android
+0022 set -x; handlerAndroidPM.sh suspend android timeout 5
+0023 set -x; sleep 1
+0024 set -x; handlerAndroidPM.sh resume android
 
 # Save OSWR and DEVICE-OFF stats after the MM usecase
-0022 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "after"
-0023 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "after"
-0024 set -x; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "after"
+0025 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "after"
+0026 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "after"
+0027 set -x; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "after"
 
 # Verify OSWR and DEVICE-OFF counters increased after suspend/resume
-0025 set -x; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET" "before" "after"
-0026 set -x; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET-LOGIC-OFF" "before" "after"
-0027 set -x; handlerPowerTransitionStats.sh compare "DEVICE-OFF" "DEVICE-OFF" "before" "after"
+0028 set -x; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET" "before" "after"
+0029 set -x; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET-LOGIC-OFF" "before" "after"
+0030 set -x; handlerPowerTransitionStats.sh compare "DEVICE-OFF" "DEVICE-OFF" "before" "after"
 
 # Set the timeout value to the max value (30 minutes) for further testing
-0028 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
+0031 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
+0032 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 
 # End L_DD_POWER_0004_0026
