@@ -8,12 +8,12 @@
 
 <pre>
 type= raw data
-count=10
-speed= 250
+count= 10
+speed= 1.0
 start data >>
 # Go to home screen
-captureDispatchKey(0,0,1,3,0,0,0,0)
 captureDispatchKey(0,0,0,3,0,0,0,0)
+captureDispatchKey(0,0,1,3,0,0,0,0)
 UserWait(150)
 # Start Setting app
 LaunchActivity(com.android.settings, com.android.settings.Settings)
@@ -118,7 +118,14 @@ UserWait(150)
 captureDispatchKey(0,0,0,23,0,0,0,0)
 captureDispatchKey(0,0,1,23,0,0,0,0)
 UserWait(150)
-# Go to Home Screen
-captureDispatchKey(0,0,0,3,0,0,0,0)
-captureDispatchKey(0,0,1,3,0,0,0,0)
+# Perform 3 BACK key presses
+captureDispatchKey(0,0,0,4,0,0,0,0)
+captureDispatchKey(0,0,1,4,0,0,0,0)
+UserWait(150)
+captureDispatchKey(0,0,0,4,0,0,0,0)
+captureDispatchKey(0,0,1,4,0,0,0,0)
+UserWait(150)
+captureDispatchKey(0,0,0,4,0,0,0,0)
+captureDispatchKey(0,0,1,4,0,0,0,0)
+UserWait(150)
 quit
