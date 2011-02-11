@@ -832,7 +832,278 @@ in idle path (via timeout) </description>
 		</fail>
 
 </test>
-	
+<test id="L_DD_POWER_0004_0028">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Run and complete AV Record usecase then perform suspend/resume in suspend path (pressing Power/F2 key): Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase </description>
+			<dateofcreation> 02/11/2011</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0028</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="480"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0029">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Run and complete AV Record usecase then perform suspend/resume in suspend path (pressing Power/F2 key): Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase. Repeat this process 200 times </description>
+			<dateofcreation> 02/11/2011</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0029</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="20400"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0030">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Run and complete AV Record usecase then perform suspend/resume via timeout: Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase </description>
+			<dateofcreation> 02/11/2011</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0030</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="480"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0031">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Run and complete AV Record usecase then perform suspend/resume via timeout: Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase. Repeat this process 200 times </description>
+			<dateofcreation> 02/11/2011</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0031</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="20400"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0032">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Run and complete Image Capture usecase then perform suspend/resume in suspend path (pressing Power/F2 key): Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase </description>
+			<dateofcreation> 02/11/2011</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0032</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="480"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0033">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Run and complete Image Capture usecase then perform suspend/resume in suspend path (pressing Power/F2 key): Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase. Repeat this process 200 times </description>
+			<dateofcreation> 02/11/2011</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0033</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="20400"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0034">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Run and complete Image Capture usecase then perform suspend/resume via timeout: Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase </description>
+			<dateofcreation> 02/11/2011</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0034</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="480"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0035">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Run and complete Image Capture usecase then perform suspend/resume via timeout: Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase. Repeat this process 200 times </description>
+			<dateofcreation> 02/11/2011</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0035</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="20400"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
 <test id="L_DD_POWER_0006_0001">
 
 		<information>
