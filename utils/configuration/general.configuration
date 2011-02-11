@@ -326,5 +326,53 @@ export KeyMonkeyRewind=89
 export KeyMonkeyForward=90
 export KeyMonkeyMute=91
 
+#-------------------------------------------------------------
+# handlerInputSubsystem.sh
+#-------------------------------------------------------------
+
+# Sensors
+export sensorsEvent="/dev/input/event9"
+
+# Pressure Sensor: BMP085
+export pressureEvent="/dev/input/event7"
+
+# Digital Compass Sensor: HMC5843
+export digitalCompassEvent="/dev/input/event6"
+
+# Ambient Light sensor:  BH1780GLI
+export ambientLightEvent="/dev/input/event5"
+
+# Accelerometer sensor: cma3000
+export accelerometerEvent="/dev/input/event3"
+
+# Headset Jack for SDP4430
+export headsetJackEvent="/dev/input/event8"
+
+# Omap Keypad for SDP4430
+export omapKeypadEvent="/dev/input/event0"
+
+# Proximity Sensor: SFH7741
+export proximityEvent="/dev/input/event2"
+
+# Synaptics Touchscreen:TM12XX
+export touchPoint1Event="/dev/input/event1"
+export touchPoint2Event="/dev/input/event4"
+
+# TODO: Export all the available key codes
+
+export KeyCodeHome=102
+export KeyCodeBack=158
+export KeyCodeCall=231
+export KeyCodeEndCall=107
+export KeyCodeDpadUp=103
+export KeyCodeDpadDown=108
+export KeyCodeDpadLeft=105
+export KeyCodeDpadRight=106
+export KeyCodeDpadCenter=352
+export KeyCodeVolumeUp=115
+export KeyCodeVolumeDown=114
+export KeyCodeF1=59
+export KeyCodeDLP=67
+
 # End of file
 
