@@ -40,32 +40,6 @@ system_wakelocks=`cat $SYSTEM_WAKE_LOCK`
 # Functions
 # =============================================================================
 
-# Simulate the END_CALL key press action
-# @ Function: androidPowerKey
-# @ Parameters: None
-# @ Return: None
-androidPowerKey() {
-	showInfo "DEBUG: Pressing End-Call key"
-	# Simulate press END_CALL key
-	# OMAP4/3 Scancode for END_CALL key is 107
-	sendevent /dev/input/event0 1  107 0
-	sendevent /dev/input/event0 1  107 1
-	sendevent /dev/input/event0 1  107 0
-}
-
-# Simulate the Menu key (screen unlock) press action
-# @ Function: androidMenuKey
-# @ Parameters: None
-# @ Return: None
-androidMenukey() {
-	showInfo "DEBUG: Pressing Menu key" \
-		 "Unlocking Android User Interface"
-	# Simulate press Menu key (F1)
-	# OMAP4/3 Scancode for F1 key is 59
-	sendevent /dev/input/event0 1  59 0
-	sendevent /dev/input/event0 1  59 1
-}
-
 # This function release all the wakelocks
 # given in the wakelock list
 # @ Function: releaseWakelocks
@@ -306,7 +280,7 @@ case $operation in
 				 "Starting Android early suspend"
 			releaseWakelocks $system_wakelocks
 			verifyErrorFlag "Fail to release wakelock list"
-			androidPowerKey
+			handlerInputSubsystem.sh "keypad" "KeyCodeEndCall" 1 1 1
 		elif [ $suspend_method = "timeout" ]; then
 			showInfo "Suspending system via timeout" \
 				 "Starting Android early suspend"
@@ -343,9 +317,9 @@ case $operation in
 		sleep 2
 		showInfo "Android: resuming the system" \
 			 "starting Android late resume"
-		androidPowerKey
+		handlerInputSubsystem.sh "keypad" "KeyCodeEndCall" 1 1 1
 		sleep 2
-		androidMenukey
+		handlerInputSubsystem.sh "keypad" "KeyCodeF1" 1 1 1
 		holdWakelock $wakelock
 		verifyErrorFlag "Not able to set wakelock"
 		;;
