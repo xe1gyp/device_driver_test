@@ -5,15 +5,15 @@
 
 		<information>
 			<autor> Jyothi PK </autor>
-			<description> tdb</description>
+			<description> Variable Scheduling timeouts: check that system time is maintained with dynamic tick. Verify Result after 10 minutes </description>
 			<dateofcreation> 08/05/2010</dateofcreation>
 		</information>
 
 		<run>
 			<action>
-				<command>sleep 600</command>
+				 <deviceundertest>reboot</deviceundertest>
 			</action>
-				<action>
+			<action>
 				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0001_0001</command>
 			</action>
 			<action>
