@@ -1,13 +1,16 @@
 ################################################################################
-# Scenario:	L_DD_POWER_0001_0001
-# Author  :	Lesly A M
-# Date    :	June 29th, 2010
-# Description: PM - system time check for 10 min
+# Scenario: L_DD_POWER_0001_0001
+# Author  : Lesly A M
+# Date    : June 29th, 2010
+# Testing : Variable Scheduling timeouts: Use RTC to check that system time is
+#	    maintained with dynamic tick. This test case does sleep for 600
+# 	    seconds (10 min)
+# Results : The time elapsed should be equal to the time difference calculated
 ################################################################################
 
 # Begin L_DD_POWER_0001_0001
 
-0001  set -x; system_time 600 >&1 | grep PASSED
+0001  set -x; system_time 600 && exit 0 || exit 1
 
 # End L_DD_POWER_0001_0001
 

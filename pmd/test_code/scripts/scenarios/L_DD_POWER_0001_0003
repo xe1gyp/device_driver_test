@@ -1,13 +1,16 @@
 ################################################################################
-# Scenario:	L_DD_POWER_0001_0003
-# Author  :	Lesly A M
-# Date    :	June 29th, 2010
-# Description: PM - system time check for 24 hrs
+# Scenario: L_DD_POWER_0001_0003
+# Author  : Lesly A M
+# Date    : June 29th, 2010
+# Testing : Variable Scheduling timeouts: Boot the system with tick suppression
+#	    enabled. Keep the board booted up for 24 hours and use RTC to check
+#	    if there is any drift in time after 24 hours
+# Results : There should be no drift in time after 24 hours
 ################################################################################
 
 # Begin L_DD_POWER_0001_0003
 
-0001	set -x; system_time 86400 >&1 | grep PASSED
+0001	set -x; system_time 86400 && exit 0 || exit 1
 
 # End L_DD_POWER_0001_0003
 

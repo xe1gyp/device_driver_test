@@ -1,12 +1,18 @@
 ################################################################################
-# Scenario:	L_DD_POWER_0001_0002
-# Author  :	Lesly A M
-# Date    :	June 29th, 2010
-# Description: PM - testing tick suppression
+# Scenario: L_DD_POWER_0001_0002
+# Author  : Lesly A M
+# Date    : June 29th, 2010
+# Testing : Variable Scheduling timeouts: Test to check that tick suppression is
+#	    happenning during a window of 30 seconds
+# Results : Make sure that number of interrupts received is < 1500
 ################################################################################
 
 # Begin L_DD_POWER_0001_0002
 
-0001  set -x; x=`cat /proc/interrupts | grep LOC | awk '{print $2}'`; sleep 30; y=`cat /proc/interrupts | grep LOC | awk '{print $2}'`; intrCount.sh $x $y | grep PASSED
+0001 set -x; cat /proc/interrupts | grep LOC | awk '{print $2}' > loc_init_val
+0002 set -x; sleep 30
+0003 set -x; cat /proc/interrupts | grep LOC | awk '{print $2}' > loc_final_val
+0004 set -x; intrCount.sh `cat loc_init_val` `cat loc_final_val`
+0005 set -x; rm loc_init_val loc_final_val
 
 # End L_DD_POWER_0001_0002

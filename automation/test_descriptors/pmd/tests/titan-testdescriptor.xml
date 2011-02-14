@@ -41,13 +41,13 @@
 
 		<information>
 			<autor> Jyothi PK </autor>
-			<description> tdb</description>
+			<description> Variable Scheduling timeouts: Test to check that tick suppression is happenning during a window of 30 seconds </description>
 			<dateofcreation> 08/05/2010</dateofcreation>
 		</information>
 
 		<run>
 			<action>
-				<command>sleep 600</command>
+				<deviceundertest>reboot</deviceundertest>
 			</action>
 				<action>
 				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0001_0002</command>
@@ -64,7 +64,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="800"/>
+			<timeout time="180"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -76,12 +76,15 @@
 
 		<information>
 			<autor> Jyothi PK </autor>
-			<description> PM - system time check</description>
+			<description> Variable Scheduling timeouts: Boot the system with tick suppression enabled. Keep the board booted up for 24 hours and use RTC to check if there is any drift in time after 24 hours</description>
 			<dateofcreation> 07/01/2010</dateofcreation>
 		</information>
 
 		<run>
-				<action>
+			<action>
+				<deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
 				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0001_0003</command>
 			</action>
 			<action>
@@ -96,7 +99,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="300"/>
+			<timeout time="86580"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
