@@ -920,6 +920,7 @@ int main(int argc, char **argv)
 		/************************************************************/
 		/* Subscribe to internal SCM AEWB_DONE event */
 
+                memset(&cam_sub, 0x00, sizeof(cam_sub));
 		cam_sub.type = V4L2_EVENT_OMAP3ISP_AEWB;
 
 		ret = ioctl(out_fd, VIDIOC_SUBSCRIBE_EVENT, &cam_sub);
