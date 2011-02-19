@@ -1,8 +1,9 @@
 ################################################################################
-# Scenario:	L_DD_POWER_0002_0002
-# Author  :	Lesly A M
-# Date    :	June 29th, 2010
-# Description: PM - clock framework test_2
+# Scenario: L_DD_POWER_0002_0002
+# Author  : Lesly A M
+# Date    : June 29th, 2010
+# Testing : Clock Framework: tests the following clk framework api's:
+#           clk_get_rate/clk_set_rate/clk_round_rate/clk_set_parent
 ################################################################################
 
 # Begin L_DD_POWER_0002_0002

@@ -1,8 +1,8 @@
 ################################################################################
-# Scenario:	L_DD_POWER_0002_0004
-# Author  :	Lesly A M
-# Date    :	June 29th, 2010
-# Description: PM - clock framework test_4
+# Scenario: L_DD_POWER_0002_0004
+# Author  : Lesly A M
+# Date    : June 29th, 2010
+# Testing : Clock Framework: Negative tests for all clk api's
 ################################################################################
 
 # Begin L_DD_POWER_0002_0004

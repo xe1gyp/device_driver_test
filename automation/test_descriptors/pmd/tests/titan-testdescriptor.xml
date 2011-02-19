@@ -111,7 +111,7 @@
 
 		<information>
 			<autor> Jyothi PK </autor>
-			<description> PM - clock framework test_1 </description>
+			<description> Clock Framework: Tests clk get/enable/disable/put api's </description>
 			<dateofcreation> 07/01/2010</dateofcreation>
 		</information>
 
@@ -145,7 +145,7 @@
 
 		<information>
 			<autor> Jyothi PK </autor>
-			<description> PM - clock framework test_2 </description>
+			<description> Clock Framework: Tests clk get_rate/set_rate/round_rate/set_parent api's </description>
 			<dateofcreation> 07/01/2010</dateofcreation>
 		</information>
 
@@ -180,7 +180,7 @@
 
 		<information>
 			<autor> Jyothi PK </autor>
-			<description> PM - clock framework test_3 </description>
+			<description> Clock Framework: Tests clock get_rate/set_rate/round_rate (DPLL api's)</description>
 			<dateofcreation> 07/01/2010</dateofcreation>
 		</information>
 
@@ -215,7 +215,7 @@
 
 		<information>
 			<autor> Jyothi PK </autor>
-			<description> PM - clock framework test_4 </description>
+			<description> Clock Framework: Negative tests for all clk api's </description>
 			<dateofcreation> 07/01/2010</dateofcreation>
 		</information>
 

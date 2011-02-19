@@ -1,8 +1,9 @@
 ################################################################################
-# Scenario:	L_DD_POWER_0002_0001
-# Author  :	Lesly A M
-# Date    :	June 29th, 2010
-# Description: PM - clock framework test_1
+# Scenario: L_DD_POWER_0002_0001
+# Author  : Lesly A M
+# Date    : June 29th, 2010
+# Testing : Clock Framework: tests all the basic clk framework api's like
+#	    clk_get/clk_put/clk_enable/clk_disable
 ################################################################################
 
 # Begin L_DD_POWER_0002_0001
