@@ -5,7 +5,7 @@ setbgcolor settransck enablecolkey setcolorconv setdefcolcon streaming_process \
 tv_detect_app createRGB streaming_usrptr v4l2_rolling_bars streaming_tear v4l2_ramdomcolorblocks \
 streaming_repeat \
 
-ifeq ($(TARGET_BOARD), OMAP_4430)
+ifeq ($(TARGET_PLATFORM), OMAP_4430)
 	OBJS += streaming_wb
 endif
 
