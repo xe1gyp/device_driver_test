@@ -310,18 +310,17 @@ case $operation in
 			"$HSR_SUSPEND_RESUME_MESSAGE_SUCCESS"` -gt 0 ]; then
 			break
 		fi
-		sleep 2
+		sleep 1
 	done
 	case $environment_type in
 	"android")
-		sleep 2
+		holdWakelock $wakelock
+		verifyErrorFlag "Not able to set wakelock"
 		showInfo "Android: resuming the system" \
 			 "starting Android late resume"
 		handlerInputSubsystem.sh "keypad" "KeyCodeEndCall" 1 1 1
-		sleep 2
+		sleep 1
 		handlerInputSubsystem.sh "keypad" "KeyCodeF1" 1 1 1
-		holdWakelock $wakelock
-		verifyErrorFlag "Not able to set wakelock"
 		;;
 	"kernel")
 		showInfo "Kernel: resuming the system"
