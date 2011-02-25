@@ -34,7 +34,6 @@ export UTILS_DIR_SCRIPTS=$UTILS_DIR/scripts
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
 # General variables
-export CHIP_NAME=twl
 export PROCFS_RTC=/proc/driver/rtc
 
 # rtc devfs node autodetection
