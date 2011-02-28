@@ -8,7 +8,8 @@
 
 # Begin L_DD_GPIO_0000_0001
 
-01  set -x; filesystemtype.sh
-02  set -x; cat /tmp/result.tmp | grep -i "gpio"
+0001 set -x; $UTILS_DIR_SCRIPTS/system_message_buffer.sh "system.log" && exit 0 || exit 1
+0002 set -x; cat "system.log" | grep -i "gpio" && exit 0 || exit 1
+0003 set -x; rm "system.log" && exit 0 || exit 1
 
 # End L_DD_GPIO_0000_0001

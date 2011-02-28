@@ -6,13 +6,9 @@
 
 # Begin L_DD_NAND_0001_0001
 
-# Check if MTD device is registered while booting
-01  set -x; $UTILSCRIPTS/filesystemtype.sh; cat /tmp/result.tmp | grep $TYPE && exit 0 || exit 1
-
-# Check if the MTD FSs are registered
-02  set -x; cat /proc/devices | grep mtd && exit 0 || exit 1
-
-# Erasing the temporary file to get the filesystem type
-03 set -x; rm -f /tmp/result.tmp; ls /tmp | grep result.tmp | exit 0 || exit 1;
+0001 set -x; $UTILS_DIR_SCRIPTS/system_message_buffer.sh "system.log" && exit 0 || exit 1
+0002 set -x; cat "system.log" | grep $TYPE && exit 0 || exit 1
+0003 set -x; cat /proc/devices | grep mtd && exit 0 || exit 1
+0004 set -x; rm "system.log" && exit 0 || exit 1
 
 # End L_DD_NAND_0001_0001

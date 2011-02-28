@@ -9,6 +9,6 @@
 
 # Begin L_DD_I2C_0011_0001
 
-01 set -x; i2cset -f -y $I2C_ADAPTER_1 $I2C_REG_1 0x100 $I2C_REG_1_VALUE_INITIAL 2>&1 | grep 'Data address invalid!'
+0001 set -x; i2cset -f -y $I2C_ADAPTER_1 $I2C_REG_1 0x100 $I2C_REG_1_VALUE_INITIAL 2>&1 | grep 'Data address invalid!'
 
 # End L_DD_I2C_0011_0001
