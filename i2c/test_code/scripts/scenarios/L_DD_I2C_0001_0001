@@ -8,9 +8,15 @@
 
 0001 set -x; $UTILS_DIR_SCRIPTS/system_message_buffer.sh "system.log" && exit 0 || exit 1
 0002 set -x; cat "system.log" | grep i2c && exit 0 || exit 1
-0003 set -x; for i in $I2C_ADAPTERS; do cat "system.log" | egrep -i bus.*$i || exit 1; done && exit 0
-0004 set -x; rm "system.log" && exit 0 || exit 1
+
+# Detect i2c buses
+0003 set -x; for i in $I2C_ADAPTERS; do cat "system.log" | grep -E "bus[ \t]1" || exit 1; done && exit 0
+
+# Detect i2c controllers
+0004 set -x; for i in $I2C_ADAPTERS; do cat "system.log" | grep -E i2c[[:punct:][:alnum:]]*$i || exit 1; done && exit 0
+
 0005 set -x; for i in $I2C_ADAPTERS; do i2cdetect -l | grep i2c-$i || exit 1; done && exit 0
 0006 set -x; for i in $I2C_ADDRESSES; do i2cdump -f -y $I2C_ADAPTER_1 $i b || exit 1; done && exit 0
+0007 set -x; rm "system.log" && exit 0 || exit 1
 
 # End L_DD_I2C_0001_0001
