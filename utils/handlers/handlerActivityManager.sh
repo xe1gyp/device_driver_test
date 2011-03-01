@@ -80,6 +80,8 @@ android_sound_recorder_process="com.android.soundrecorder"
 android_gears_process="luabear.gears4android"
 android_browser_process="com.android.browser"
 android_setings_process="com.android.settings"
+android_launcher_process="com.android.launcher"
+android_wallpaper_picker="com.android.wallpaper.livepicker"
 
 # Android APPs
 app_gallery="$android_media_process/.Gallery"
@@ -92,6 +94,8 @@ app_media_playback="$android_music_process/.MediaPlaybackActivity"
 app_gears4android="$android_gears_process/.Gears4Android"
 app_browser="$android_browser_process/.BrowserActivity"
 app_setting="$android_setings_process/.Settings"
+app_wallpaper_chooser="$android_launcher_process/com.android.launcher2.WallpaperChooser"
+app_live_wallpaper_picker="$android_wallpaper_picker/.LiveWallpaperListActivity"
 
 # Execute APP commands
 run_media_playback="$am_process_execute $app_media_playback"
@@ -104,10 +108,13 @@ run_gallery="$am_process_execute $app_gallery"
 run_gears4android="$am_process_execute $app_gears4android"
 run_browser="$am_process_execute $app_browser"
 run_settings="$am_process_execute $app_setting"
+run_wallpaper_chooser="$am_process_execute $app_wallpaper_chooser"
+run_live_wallpaper_picker="$am_process_execute $app_live_wallpaper_picker"
 
 usecase_list=( "audio_playback" "audio_record" "av_playback" \
 			"av_record" "image_capture" "image_capture_omap4" \
-			"image_decode" "gears4android" "browser" "settings" )
+			"image_decode" "gears4android" "browser" "settings" \
+			"wallpaper2D" "wallpaper3D" )
 
 # =============================================================================
 # Functions
@@ -319,6 +326,14 @@ case $android_usecase in
 "settings")
 	android_intent=$android_setings_process
 	execute=$run_settings
+	;;
+"wallpaper2D")
+	android_intent=$android_launcher_process
+	execute=$run_wallpaper_chooser
+	;;
+"wallpaper3D")
+	android_intent=$android_wallpaper_picker
+	execute=$run_live_wallpaper_picker
 	;;
 *)
 	usage
