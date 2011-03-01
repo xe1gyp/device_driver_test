@@ -1,0 +1,17 @@
+###############################################################################
+# Scenario: L_GFX_Android_Wallpaper_0001
+# Author  : Leed Aguilar
+# Date    : 02/28/2001
+# Testing : Setting all the Available Android Wallpapers
+# Results : No system crash or lock-up should happen
+###############################################################################
+
+# Begin L_GFX_Android_Wallpaper_0001
+
+# Unlock the UI by pressing Menu Key then go to home screen
+0001 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeF1" 1 1 1
+0002 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
+
+0003 set -x; select_android_wallpaper.sh "2D" "multi" $SGX_TOTAL_WALLPAPERS
+
+# End L_GFX_Android_Wallpaper_0001
