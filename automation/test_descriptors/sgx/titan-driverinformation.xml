@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<titan>
+
+	<driverinformation>
+		<name>sgx</name>
+		<description>SGX driver testsuites</description>
+	</driverinformation>
+
+</titan>
