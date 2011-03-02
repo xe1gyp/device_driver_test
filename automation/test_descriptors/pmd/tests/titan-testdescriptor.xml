@@ -378,6 +378,40 @@
 		</fail>
 
 </test>
+<test id="L_DD_POWER_0004_0013">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Suspend/Resume in suspend path (pressing Power/F2 key) 200 times </description>
+			<dateofcreation> 03/02/2011 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0013</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="14400"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
 <test id="L_DD_POWER_0004_0014">
 
 		<information>
@@ -406,6 +440,40 @@
 
 		<fail>
 			<timeout time="500"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+<test id="L_DD_POWER_0004_0015">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Suspend/Resume the system via timeout 200 times</description>
+			<dateofcreation> 03/02/2011 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_POWER_0004_0015</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="14400"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>

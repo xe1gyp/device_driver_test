@@ -20,7 +20,7 @@
 0004 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 
 # Suspend/Resume for 5 seconds via timeout 200 times
-0005 set -x; handlerCmd.sh iterate "handlerAndroidPM.sh suspend android timeout 5; handlerAndroidPM.sh resume android" 200 2
+0005 set -x; handlerCmd.sh iterate 'handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "before"; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "before"; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "before"; handlerAndroidPM.sh suspend android force 5; handlerAndroidPM.sh resume android; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "after"; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "after"; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "after"; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET" "before" "after"; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET-LOGIC-OFF" "before" "after"; handlerPowerTransitionStats.sh compare "DEVICE-OFF" "DEVICE-OFF" "before" "after"; rm before after && exit 0 || exit 1' 200 2
 
 # Set the timeout value to the max value (30 minutes) for further testing
 0006 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
