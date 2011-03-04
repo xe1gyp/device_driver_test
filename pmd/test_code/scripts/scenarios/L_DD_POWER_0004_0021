@@ -12,6 +12,8 @@
 
 # Begin L_DD_POWER_0004_0021
 
+0000 set -x; is_android_ready.sh
+
 # Unlock the UI by pressing Menu Key (press Menu Key twice in case the system
 # is suspended) then go to home screen
 0001 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeF1" 1 1 1

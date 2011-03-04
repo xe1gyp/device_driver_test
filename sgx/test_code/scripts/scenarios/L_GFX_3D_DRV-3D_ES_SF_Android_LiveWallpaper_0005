@@ -8,10 +8,12 @@
 
 # Begin L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0005
 
-# Unlock the UI by pressing Menu Key then go to home screen
-0001 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeF1" 1 1 1
-0002 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
+0001 set -x; is_android_ready.sh
 
-0003 set -x; select_android_wallpaper.sh "3D" "single" $SGX_LIVE_WALLPAPER_NEXUS
+# Unlock the UI by pressing Menu Key then go to home screen
+0002 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeF1" 1 1 1
+0003 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
+
+0004 set -x; select_android_wallpaper.sh "3D" "single" $SGX_LIVE_WALLPAPER_NEXUS
 
 # End L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0005
