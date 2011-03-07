@@ -144,7 +144,7 @@ static int __init dma_module_init(void) {
            transfers[i].addressing_mode = OMAP_DMA_AMODE_POST_INC;
 	   transfers[i].dst_addressing_mode = OMAP_DMA_AMODE_POST_INC;	
            transfers[i].priority = DMA_CH_PRIO_HIGH;
-           transfers[i].buffers.buf_size = (10240 * (i+1)*(i+1)) + i % 2;
+	   transfers[i].buffers.buf_size = (1024 * 1024);
 	   transfers[i].dest_ei = 0;
 	   transfers[i].dest_fi = 0;
 	   transfers[i].src_ei = 1;
