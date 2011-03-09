@@ -104,14 +104,13 @@ while [ `ps | grep -wc $android_launcher` -lt 2 ]; do
 		verifyErrorFlag "Error: Launcher timeout has expired"
 	fi
 	sleep 1
-	echo "LAUNCHER = $launcher_time"
 	let launcher_time=$launcher_time+1
 done
 
 showInfo "Android Launcher [$android_launcher] is running"
 
 while [ `ps | grep -wc $android_animation` -gt 1 ]; do
-	if [ $animation_time -gt $animatio_timeout ]; then
+	if [ $animation_time -gt $animation_timeout ]; then
 		# If Android Animation process is not killed before
 		# the timeout expired, exit and report failure
 		showInfo "Error: $android_animation is still available"
@@ -119,7 +118,6 @@ while [ `ps | grep -wc $android_animation` -gt 1 ]; do
 		verifyErrorFlag "Error: Animation timeout has expired"
 	fi
 	sleep 1
-	echo "ANIMATION = $animation_time"
 	let animation_time=$animation_time+1
 done
 
