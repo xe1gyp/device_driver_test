@@ -25,7 +25,6 @@ MODULES = dma_single_channel.o \
   dma_burst_mode8.o \
   dma_burst_mode16.o \
   dma_static_self_link.o \
-  dma_dynamic_self_link.o \
   dma_unlink_nonlinked_channels.o  \
   dma_unlink_before_stop_channels.o \
   dma_stop_transfer_invalid.o \
