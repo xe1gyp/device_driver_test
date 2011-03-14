@@ -100,8 +100,8 @@ export SYSFS_CPU0_STATS_TIME_IN_STATE=$SYSFS_CPU0_CPUFREQ/stats/time_in_state
 
 export SYSFS_KERNEL_UEVENT_HELPER=/sys/kernel/uevent_helper
 export SYSFS_KERNEL_UEVENT_SEQNUM=/sys/kernel/uevent_seqnum
+export SYSFS_KERNEL_DEBUG=/sys/kernel/debug
 
-# /sys/kernel/debug
 # /sys/kernel/ipv4
 # /sys/kernel/mm
 # /sys/kernel/slab
