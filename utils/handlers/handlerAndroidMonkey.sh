@@ -248,7 +248,7 @@ case $main_operation in
 	fi
 	;;
 "touchscreen")
-        createPressKeyScript $x_coord $y_coord $command_delay
+        createTouchScreenScript $x_coord $y_coord $command_delay
         # execute monkey command
         monkey -f touchscreenScript $repeat_counter 1> /dev/null 2> err
 	if [ $? -gt 0 ]; then
