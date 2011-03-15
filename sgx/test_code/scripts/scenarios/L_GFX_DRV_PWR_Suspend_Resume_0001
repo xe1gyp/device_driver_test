@@ -1,0 +1,25 @@
+###############################################################################
+# Scenario: L_GFX_DRV_PWR_Suspend_Resume_0001
+# Author  : Leed Aguilar
+# Date    : 03/15/2011
+# Testing : Suspend and Resume the system 10 times by pressing the END_CALL key
+# Results : At resume, you should get the console prompt back and there should
+#           be any lockup and OSWR and DEVICE-OFF counters should increase
+###############################################################################
+
+# Begin L_GFX_DRV_PWR_Suspend_Resume_0001
+
+0001 set -x; is_android_ready.sh
+
+# Unlock the UI by pressing Menu Key then go to home screen
+0002 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeF1" 1 1 1
+0003 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
+
+# Set the timeout value to the max value (30 minutes)
+0004 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
+0005 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
+
+# Suspend/Resume the system for 5 seconds. Repeat this 10 times
+0006 set -x; handlerCmd.sh iterate 'handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "before"; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "before"; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "before"; handlerAndroidPM.sh suspend android force 5; handlerAndroidPM.sh resume android; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "after"; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "after"; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "after"; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET" "before" "after"; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET-LOGIC-OFF" "before" "after"; handlerPowerTransitionStats.sh compare "DEVICE-OFF" "DEVICE-OFF" "before" "after"' 10 2
+
+# End L_GFX_DRV_PWR_Suspend_Resume_0001

@@ -352,4 +352,68 @@
 
 	</test>
 
+	<test id="L_GFX_DRV_PWR_Suspend_Resume_0001">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Suspend/Resume the board 10 times (suspend path) while running a Live Wallpaper</description>
+			<dateofcreation> 03/15/2011 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/sgx/scripts/test_runner.sh L_GFX_DRV_PWR_Suspend_Resume_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/sgx/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<timeout time="1200"/>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_GFX_DRV_PWR_Suspend_Resume_0002">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Suspend/Resume the board 10 times in suspend path</description>
+			<dateofcreation> 03/15/2011 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/sgx/scripts/test_runner.sh L_GFX_DRV_PWR_Suspend_Resume_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/sgx/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<timeout time="1200"/>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
 </titan>
