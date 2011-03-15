@@ -1,17 +1,304 @@
 <?xml version="1.0"?>
 <titan>
+	<test id="L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0001">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Preview/Set of the Galaxy Live Wallpaper </description>
+			<dateofcreation> 03/15/2011 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/sgx/scripts/test_runner.sh L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/sgx/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<timeout time="180"/>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0002">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Preview/Set of the Grass Live Wallpaper </description>
+			<dateofcreation> 03/15/2011 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/sgx/scripts/test_runner.sh L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0002</command>
+			</action>
+			<action>
+				<command>rm /testsuites/sgx/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<timeout time="180"/>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0003">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Preview/Set of the Magic Smoke Live Wallpaper </description>
+			<dateofcreation> 03/15/2011 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/sgx/scripts/test_runner.sh L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0003</command>
+			</action>
+			<action>
+				<command>rm /testsuites/sgx/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<timeout time="180"/>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0004">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Preview/Set of the Many Live Wallpaper </description>
+			<dateofcreation> 03/15/2011 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/sgx/scripts/test_runner.sh L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0004</command>
+			</action>
+			<action>
+				<command>rm /testsuites/sgx/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<timeout time="180"/>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
 
 	<test id="L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0005">
 
 		<information>
 			<autor> Leed Aguilar </autor>
 			<description> Preview/Set of the Nexus Live Wallpaper </description>
-			<dateofcreation> 02/29/2011 </dateofcreation>
+			<dateofcreation> 03/15/2011 </dateofcreation>
 		</information>
 
 		<run>
 			<action>
 				<command>/testsuites/sgx/scripts/test_runner.sh L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0005</command>
+			</action>
+			<action>
+				<command>rm /testsuites/sgx/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<timeout time="180"/>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0006">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Preview/Set of the Polar Clock Live Wallpaper </description>
+			<dateofcreation> 03/15/2011 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/sgx/scripts/test_runner.sh L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0006</command>
+			</action>
+			<action>
+				<command>rm /testsuites/sgx/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<timeout time="180"/>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0007">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Preview/Set of the Spectrum Live Wallpaper </description>
+			<dateofcreation> 03/15/2011 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/sgx/scripts/test_runner.sh L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0007</command>
+			</action>
+			<action>
+				<command>rm /testsuites/sgx/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<timeout time="180"/>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0008">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Preview/Set of the VU Meter Live Wallpaper </description>
+			<dateofcreation> 03/15/2011 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/sgx/scripts/test_runner.sh L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0008</command>
+			</action>
+			<action>
+				<command>rm /testsuites/sgx/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<timeout time="180"/>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0009">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Preview/Set of the Water Live Wallpaper </description>
+			<dateofcreation> 03/15/2011 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/sgx/scripts/test_runner.sh L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0009</command>
+			</action>
+			<action>
+				<command>rm /testsuites/sgx/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<timeout time="180"/>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0010">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description> Preview/Set of the Waveform Live Wallpaper </description>
+			<dateofcreation> 03/15/2011 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/sgx/scripts/test_runner.sh L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0010</command>
 			</action>
 			<action>
 				<command>rm /testsuites/sgx/scripts/log.*</command>

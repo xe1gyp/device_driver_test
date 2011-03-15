@@ -1,14 +1,14 @@
 ###############################################################################
-# Scenario: L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0005
+# Scenario: L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0004
 # Author  : Leed Aguilar
 # Date    : 03/15/2011
-# Testing : Select/Set Nexus Live Wallpaper.
+# Testing : Select/Set Many Live Wallpaper.
 #           Uses Surface Flinger window system
 # Results : Wallpaper must be set correclty and not produce any unexpected
 #           results. No system crash or lock-up should happen
 ###############################################################################
 
-# Begin L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0005
+# Begin L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0004
 
 0001 set -x; is_android_ready.sh
 
@@ -16,6 +16,6 @@
 0002 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeF1" 1 1 1
 0003 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 
-0004 set -x; select_android_wallpaper.sh "3D" "single" $SGX_LIVE_WALLPAPER_NEXUS
+0004 set -x; select_android_wallpaper.sh "3D" "single" $SGX_LIVE_WALLPAPER_MANY
 
-# End L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0005
+# End L_GFX_3D_DRV-3D_ES_SF_Android_LiveWallpaper_0004
