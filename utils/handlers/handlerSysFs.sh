@@ -45,13 +45,14 @@ elif [ "$LOCAL_COMMAND" = "compare" ] || [ "$LOCAL_COMMAND" = "verify" ]; then
 
 	LOCAL_SYSFS_ENTRY_CURRENT=`cat $LOCAL_SYSFS_ENTRY_NAME`
 
-	echo "Desired Value: $LOCAL_SYSFS_ENTRY_VALUE | Current Value: $LOCAL_SYSFS_ENTRY_CURRENT"
+	echo "[ handlerSysFs ] Desired Value: $LOCAL_SYSFS_ENTRY_VALUE" \
+				"| Current Value: $LOCAL_SYSFS_ENTRY_CURRENT"
 
 	if [ "$LOCAL_SYSFS_ENTRY_VALUE" = "$LOCAL_SYSFS_ENTRY_CURRENT" ]; then
-		echo "Pass: handlerSysFs.sh, comparison succeeded"
+		echo "[ handlerSysFs ] PASS: comparison succeeded"
 		exit 0
 	else
-		echo "Fail: handlerSysFs.sh, comparison failed"
+		echo "[ handlerSysFs ] FAIL: comparison failed" 1>&2
 		if [ "$LOCAL_COMMAND" = "compare" ]; then
 			handlerError.sh "log" "1" "halt" "handlerSysFs.sh"
 		fi
