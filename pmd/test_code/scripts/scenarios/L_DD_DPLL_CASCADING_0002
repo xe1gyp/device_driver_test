@@ -1,0 +1,30 @@
+###############################################################################
+# Scenario: L_DD_DPLL_CASCADING_0002
+# Author  : Leed Aguilar
+# Date    : March 26th 2011
+# Testing : Verify Voltage domains enter to opp OPP50_98 in DPLL cascade mode
+#           with Audio playback usecase for 1000 iterations
+# Results : VDD_MPU, VDD_IVA, VDD_CORE must enter to opp OPP50_98
+###############################################################################
+
+# Begin L_DD_DPLL_CASCADING_0002
+
+0000 set -x; is_android_ready.sh
+
+# Unlock the UI by pressing Menu Key then go to home screen
+0001 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeF1" 1 1 1
+0002 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
+
+# Set the screen timeout to the max value (30 minutes)
+0003 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
+0004 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
+
+# Start Audio playback usecase
+0004 set -x; handlerActivityManager.sh audio_playback start $MP3_FILE
+
+0005 set -x; handlerCmd.sh iterate "sleep 10; handlerInputSubsystem.sh keypad KeyCodeEndCall 1 1 1; sleep 10;  handlerSysFs.sh verify $SYSFS_CPU1_ONLINE 0; handlerOmapconf.sh run FREQUENCY > opp.log; [ \`cat opp.log | grep -m 1 -w VDD_IVA  | awk '{printf\$10}'\` = OPP50_98 ]; [ \`cat opp.log | grep -m 1 -w VDD_CORE | awk '{printf\$10}'\` = OPP50_98 ];  handlerInputSubsystem.sh keypad KeyCodeF1 1 2 1; rm opp.log; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyPreviousSong" 1000 2
+
+# Stop Audio playback app
+0007 set -x; handlerActivityManager.sh audio_playback stop
+
+# End L_DD_DPLL_CASCADING_0002

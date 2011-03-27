@@ -1,0 +1,47 @@
+###############################################################################
+# Scenario: L_DD_DPLL_CASCADING_0001
+# Author  : Leed Aguilar
+# Date    : March 26th 2011
+# Testing : Verify Voltage domains enter to opp OPP50_98 in DPLL cascade mode
+#           with Audio playback usecase
+# Results : VDD_MPU, VDD_IVA, VDD_CORE must enter to opp OPP50_98
+###############################################################################
+
+# Begin L_DD_DPLL_CASCADING_0001
+
+0000 set -x; is_android_ready.sh
+
+# Unlock the UI by pressing Menu Key then go to home screen
+0001 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeF1" 1 1 1
+0002 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
+
+# Set the screen timeout to the max value (30 minutes)
+0003 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
+0004 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
+
+# Start Audio playback usecase
+0004 set -x; handlerActivityManager.sh audio_playback start $MP3_FILE && sleep 10
+
+# Enter to DPLL cascade mode
+0006 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeEndCall" 1 1 1 && sleep 10
+
+# Verify CPU1 is shutdown
+0008 set -x; handlerSysFs.sh "verify" $SYSFS_CPU1_ONLINE "0"
+
+# Verify that Voltage domains enter to opp OPP50_98
+0009 set -x; handlerOmapconf.sh run "FREQUENCY" > opp.log
+# omapconf is reporting "UNKNOWN" state for VDD_MPU when DPLL cascading happens
+# 0010 set -x; [ `cat opp.log | grep -m 1 -w "VDD_MPU"  | awk '{printf$10}'` = "OPP50_98" ]
+0011 set -x; [ `cat opp.log | grep -m 1 -w "VDD_IVA"  | awk '{printf$10}'` = "OPP50_98" ]
+0012 set -x; [ `cat opp.log | grep -m 1 -w "VDD_CORE" | awk '{printf$10}'` = "OPP50_98" ]
+
+# Unlock the UI to return to the Audio playback app
+0013 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeF1" 1 2 1
+
+# Stop Audio playback app
+0015 set -x; handlerActivityManager.sh audio_playback stop
+
+# Remove all the testcase log files
+0016 set -x; echo "removing log files" && rm opp.log
+
+# End L_DD_DPLL_CASCADING_0001
