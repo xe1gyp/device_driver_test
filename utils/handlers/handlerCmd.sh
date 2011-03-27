@@ -50,7 +50,7 @@ error_val=0
 showInfo() {
 	messages=( "$@" )
 	for index in ${!messages[@]}; do
-		echo  "[ handlerCmd ]: ${messages[$index]}"
+		echo  "[ handlerCmd ] ${messages[$index]}"
 	done
 }
 
@@ -129,9 +129,10 @@ executeCommands() {
 	toexecute=( "$@" )
 	for index in ${!toexecute[*]}; do
 		execute=`echo "${toexecute[$index]}" | tr "," " "`
+		showInfo "Executing >>> $execute"
 		eval $execute
 		if [ $? -gt 0 ]; then
-			showInfo "ERROR: < $execute > execution failed" 2>&1
+			showInfo "ERROR: >>> $execute <<< execution failed" 2>&1
 			error_val=1
 		fi
 	done
