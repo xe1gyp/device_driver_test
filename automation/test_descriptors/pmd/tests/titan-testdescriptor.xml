@@ -1,6 +1,108 @@
 <?xml version="1.0"?>
 <titan>
 
+<test id="L_DD_DPLL_CASCADING_0001">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description>  Verify Voltage domains enter to opp OPP50_98 in DPLL cascade mode with Audio playback usecase </description>
+			<dateofcreation> 03/27/2011 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_DPLL_CASCADING_0001</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="150"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+
+<test id="L_DD_DPLL_CASCADING_0002">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description>  Verify Voltage domains enter to opp OPP50_98 in DPLL cascade mode with Audio playback usecase for 1000 iterations </description>
+			<dateofcreation> 03/27/2011 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_DPLL_CASCADING_0002</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="40080"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+
+<test id="L_DD_DPLL_CASCADING_0002DB">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description>  Verify Voltage domains enter to opp OPP50_98 in DPLL cascade mode with Audio playback usecase for 50 iterations </description>
+			<dateofcreation> 03/27/2011 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				 <deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/pmd/scripts/test_runner.sh L_DD_DPLL_CASCADING_0002DB</command>
+			</action>
+			<action>
+				<command>rm log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="2080"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+</test>
+
 <test id="L_DD_POWER_0001_0001">
 
 		<information>
