@@ -51,7 +51,6 @@ elif [ "$LOCAL_COMMAND" = "set" ]; then
 elif [ "$LOCAL_COMMAND" = "umount" ]; then
 
 	umount $HDFS_DEBUG_FILESYSTEM_DIRECTORY
-	rmdir $HDFS_DEBUG_FILESYSTEM_DIRECTORY
 
 fi
 
