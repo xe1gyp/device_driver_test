@@ -134,7 +134,7 @@ export HF_TEXT_PATTERN=$UTILS_DIR_SCRIPTS/text.pattern
 # handlerDebugFileSystem.sh
 #-------------------------------------------------------------
 
-export HDFS_DEBUG_FILESYSTEM_DIRECTORY=/debug/
+export HDFS_DEBUG_FILESYSTEM_DIRECTORY=/sys/kernel/debug
 export PM_ENABLE=1
 export PM_DISABLE=0
 export PM_WAKEUP_TIMER_DEFAULT=1
