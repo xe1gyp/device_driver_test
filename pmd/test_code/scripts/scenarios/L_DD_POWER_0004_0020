@@ -28,28 +28,24 @@
 0007 set -x; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "before"
 
 # Start AV playback usecase
-0008 set -x; handlerActivityManager.sh av_playback start $MP4_FILE
-0009 set -x; sleep 15
+0008 set -x; handlerActivityManager.sh av_playback start $MP4_FILE && sleep 15
 
 # Stop AV playback usecase by doing a "Pause" and then going to Home screen
-0010 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyPlayPause
-0011 set -x; sleep 1
-0012 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
-0013 set -x; sleep 1
+0009 set -x; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyPlayPause && sleep 1
+0010 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1 && sleep 1
 
 # Suspend/Resume for 5 seconds
-0014 set -x; handlerAndroidPM.sh suspend android force 5
-0015 set -x; sleep 1
-0016 set -x; handlerAndroidPM.sh resume android
+0011 set -x; handlerAndroidPM.sh suspend android force 5
+0012 set -x; handlerAndroidPM.sh resume android
 
 # Save OSWR and DEVICE-OFF stats after the MM usecase
-0017 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "after"
-0018 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "after"
-0019 set -x; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "after"
+0013 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "after"
+0014 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "after"
+0015 set -x; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "after"
 
 # Verify OSWR and DEVICE-OFF counters increased after suspend/resume
-0020 set -x; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET" "before" "after"
-0021 set -x; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET-LOGIC-OFF" "before" "after"
-0022 set -x; handlerPowerTransitionStats.sh compare "DEVICE-OFF" "DEVICE-OFF" "before" "after"
+0016 set -x; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET" "before" "after"
+0017 set -x; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET-LOGIC-OFF" "before" "after"
+0018 set -x; handlerPowerTransitionStats.sh compare "DEVICE-OFF" "DEVICE-OFF" "before" "after"
 
 # End L_DD_POWER_0004_0020

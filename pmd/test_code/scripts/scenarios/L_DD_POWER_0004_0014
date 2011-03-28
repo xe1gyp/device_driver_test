@@ -28,21 +28,20 @@
 
 # Suspend/Resume for 5 seconds via timeout
 0008 set -x; handlerAndroidPM.sh suspend android timeout 5
-0009 set -x; sleep 2
-0010 set -x; handlerAndroidPM.sh resume android
+0009 set -x; handlerAndroidPM.sh resume android
 
 # Save OSWR and DEVICE-OFF stats after suspend/resume
-0011 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "after"
-0012 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "after"
-0013 set -x; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "after"
+0010 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "after"
+0011 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "after"
+0012 set -x; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "after"
 
 # Verify OSWR and DEVICE-OFF counters increased after suspend/resume
-0014 set -x; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET" "before" "after"
-0015 set -x; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET-LOGIC-OFF" "before" "after"
-0016 set -x; handlerPowerTransitionStats.sh compare "DEVICE-OFF" "DEVICE-OFF" "before" "after"
+0013 set -x; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET" "before" "after"
+0014 set -x; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET-LOGIC-OFF" "before" "after"
+0015 set -x; handlerPowerTransitionStats.sh compare "DEVICE-OFF" "DEVICE-OFF" "before" "after"
 
 # Set the timeout value to the max value (30 minutes) for further testing
-0017 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
-0008 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
+0016 set -x; handlerAndroidMonkey.sh run 1 $UTILS_DIR_MONKEY/set.max.screen.timeout.value
+0007 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 
 # End L_DD_POWER_0004_0014

@@ -28,29 +28,25 @@
 0007 set -x; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "before"
 
 # Start AV Record usecase
-0008 set -x; handlerActivityManager.sh  av_record start
-0009 set -x; sleep 3
-0010 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyMonkeyDpadCenter
-0011 set -x; sleep 10
+0008 set -x; handlerActivityManager.sh  av_record start && sleep 3
+0009 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyMonkeyDpadCenter && sleep 10
 
 # Stop AV record usecase by pressing "OK" key and then going to Home screen
-0012 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyMonkeyDpadCenter
-0013 set -x; sleep 1
-0014 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
+0010 set -x; handlerAndroidMonkey.sh keypad 1 1000 KeyMonkeyDpadCenter && sleep 1
+0011 set -x; handlerInputSubsystem.sh "keypad" "KeyCodeHome" 1 1 1
 
 # Suspend/Resume for 5 seconds
-0015 set -x; handlerAndroidPM.sh suspend android force 5
-0016 set -x; sleep 2
-0017 set -x; handlerAndroidPM.sh resume android
+0012 set -x; handlerAndroidPM.sh suspend android force 5
+0013 set -x; handlerAndroidPM.sh resume android
 
 # Save OSWR and DEVICE-OFF stats after the MM usecase
-0018 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "after"
-0019 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "after"
-0020 set -x; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "after"
+0014 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET" "after"
+0015 set -x; handlerPowerTransitionStats.sh log "core_pwrdm" "RET-LOGIC-OFF" "after"
+0016 set -x; handlerPowerTransitionStats.sh log "DEVICE-OFF" "DEVICE-OFF" "after"
 
 # Verify OSWR and DEVICE-OFF counters increased after suspend/resume
-0021 set -x; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET" "before" "after"
-0022 set -x; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET-LOGIC-OFF" "before" "after"
-0023 set -x; handlerPowerTransitionStats.sh compare "DEVICE-OFF" "DEVICE-OFF" "before" "after"
+0017 set -x; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET" "before" "after"
+0018 set -x; handlerPowerTransitionStats.sh compare "core_pwrdm" "RET-LOGIC-OFF" "before" "after"
+0019 set -x; handlerPowerTransitionStats.sh compare "DEVICE-OFF" "DEVICE-OFF" "before" "after"
 
 # End L_DD_POWER_0004_0028

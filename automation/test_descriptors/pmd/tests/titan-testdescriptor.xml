@@ -450,7 +450,7 @@
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Suspend/Resume in suspend path (pressing Power/F2 key) </description>
+			<description>Suspend/Resume in suspend path (pressing Power/F2 key). At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase</description>
 			<dateofcreation> 11/15/2010 </dateofcreation>
 		</information>
 
@@ -473,7 +473,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="500"/>
+			<timeout time="360"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -484,7 +484,7 @@
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Suspend/Resume in suspend path (pressing Power/F2 key) 200 times </description>
+			<description>Suspend/Resume in suspend path (pressing Power/F2 key) 200 times. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase</description>
 			<dateofcreation> 03/02/2011 </dateofcreation>
 		</information>
 
@@ -518,7 +518,7 @@
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Suspend/Resume the system via timeout </description>
+			<description>Suspend/Resume the system via timeout. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase</description>
 			<dateofcreation> 11/15/2010 </dateofcreation>
 		</information>
 
@@ -541,7 +541,7 @@
 		</pass>
 
 		<fail>
-			<timeout time="500"/>
+			<timeout time="360"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -552,7 +552,7 @@
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Suspend/Resume the system via timeout 200 times</description>
+			<description>Suspend/Resume the system via timeout 200 times. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase</description>
 			<dateofcreation> 03/02/2011 </dateofcreation>
 		</information>
 
@@ -586,8 +586,7 @@
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Run and complete Audio playback usecase then perform suspend/resume
-in suspend path (pressing Power/F2 key) </description>
+			<description>Run and complete Audio playback usecase then perform suspend/resume in suspend path (pressing Power/F2 key): Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase</description>
 			<dateofcreation> 11/15/2010</dateofcreation>
 		</information>
 
@@ -610,7 +609,7 @@ in suspend path (pressing Power/F2 key) </description>
 		</pass>
 
 		<fail>
-			<timeout time="500"/>
+			<timeout time="360"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -621,8 +620,7 @@ in suspend path (pressing Power/F2 key) </description>
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Run and complete 200 times Audio playback usecase + suspend/resume
-in suspend path (pressing Power/F2 key) </description>
+			<description>Run and complete Audio playback usecase then perform suspend/resume in suspend path (pressing Power/F2 key): Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase. Repeat this process 200 times</description>
 			<dateofcreation> 11/15/2010</dateofcreation>
 		</information>
 
@@ -645,7 +643,7 @@ in suspend path (pressing Power/F2 key) </description>
 		</pass>
 
 		<fail>
-			<timeout time="500"/>
+			<timeout time="20400"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -656,8 +654,7 @@ in suspend path (pressing Power/F2 key) </description>
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Run and complete Audio playback usecase then perform suspend/resume
-via timeout </description>
+			<description>Run and complete Audio playback usecase then perform suspend/resume via timeout: Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase</description>
 			<dateofcreation> 11/15/2010</dateofcreation>
 		</information>
 
@@ -680,7 +677,7 @@ via timeout </description>
 		</pass>
 
 		<fail>
-			<timeout time="500"/>
+			<timeout time="360"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -691,8 +688,7 @@ via timeout </description>
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description>  Run and complete 200 times Audio playback usecase + suspend/resume
-via timeout </description>
+			<description>Run and complete Audio playback usecase then perform suspend/resume via timeout: Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase. Repeat this process 200 times</description>
 			<dateofcreation> 11/15/2010</dateofcreation>
 		</information>
 
@@ -715,7 +711,7 @@ via timeout </description>
 		</pass>
 
 		<fail>
-			<timeout time="500"/>
+			<timeout time="20400"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -726,8 +722,7 @@ via timeout </description>
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Run and complete AV playback usecase then perform suspend/resume
-in suspend path (pressing Power/F2 key) </description>
+			<description>Run and complete AV playback usecase then perform suspend/resume in suspend path (pressing Power/F2 key): Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase</description>
 			<dateofcreation> 11/15/2010</dateofcreation>
 		</information>
 
@@ -750,7 +745,7 @@ in suspend path (pressing Power/F2 key) </description>
 		</pass>
 
 		<fail>
-			<timeout time="500"/>
+			<timeout time="360"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -761,8 +756,7 @@ in suspend path (pressing Power/F2 key) </description>
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Run and complete 200 times AV playback usecase + suspend/resume
-in suspend path (pressing Power/F2 key) </description>
+			<description>Run and complete AV playback usecase then perform suspend/resume in suspend path (pressing Power/F2 key): Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase. Repeat this process 200 times</description>
 			<dateofcreation> 11/15/2010</dateofcreation>
 		</information>
 
@@ -785,7 +779,7 @@ in suspend path (pressing Power/F2 key) </description>
 		</pass>
 
 		<fail>
-			<timeout time="500"/>
+			<timeout time="20400"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -796,8 +790,7 @@ in suspend path (pressing Power/F2 key) </description>
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Run and complete AV playback usecase then perform suspend/resume
-via timeout </description>
+			<description>Run and complete AV playback usecase then perform suspend/resume via timeout: Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase</description>
 			<dateofcreation> 11/15/2010</dateofcreation>
 		</information>
 
@@ -820,7 +813,7 @@ via timeout </description>
 		</pass>
 
 		<fail>
-			<timeout time="500"/>
+			<timeout time="360"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -831,8 +824,7 @@ via timeout </description>
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description>  Run and complete 200 times AV playback usecase + suspend/resume
-via timeout </description>
+			<description>Run and complete AV playback usecase then perform suspend/resume via timeout: Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase. Repeat this process 200 times</description>
 			<dateofcreation> 11/15/2010</dateofcreation>
 		</information>
 
@@ -855,7 +847,7 @@ via timeout </description>
 		</pass>
 
 		<fail>
-			<timeout time="500"/>
+			<timeout time="20400"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -866,8 +858,7 @@ via timeout </description>
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Run and complete Audio Record usecase then perform suspend/resume
-in suspend path (pressing Power/F2 key) </description>
+			<description>Run and complete Audio Record usecase then perform suspend/resume in suspend path (pressing Power/F2 key): Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase</description>
 			<dateofcreation> 11/15/2010</dateofcreation>
 		</information>
 
@@ -890,7 +881,7 @@ in suspend path (pressing Power/F2 key) </description>
 		</pass>
 
 		<fail>
-			<timeout time="500"/>
+			<timeout time="360"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -901,8 +892,7 @@ in suspend path (pressing Power/F2 key) </description>
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description>  Run and complete 200 times Audio Record usecase + suspend/resume
-in suspend path (pressing Power/F2 key) </description>
+			<description>Run and complete Audio Record usecase then perform suspend/resume in suspend path (pressing Power/F2 key): Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase. Repeat this process 200 times</description>
 			<dateofcreation> 11/15/2010</dateofcreation>
 		</information>
 
@@ -925,7 +915,7 @@ in suspend path (pressing Power/F2 key) </description>
 		</pass>
 
 		<fail>
-			<timeout time="500"/>
+			<timeout time="20400"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -936,8 +926,7 @@ in suspend path (pressing Power/F2 key) </description>
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Run and complete Audio record usecase then perform suspend/resume
-via timeout </description>
+			<description>Run and complete Audio Record usecase then perform suspend/resume via timeout: Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase</description>
 			<dateofcreation> 11/15/2010</dateofcreation>
 		</information>
 
@@ -960,7 +949,7 @@ via timeout </description>
 		</pass>
 
 		<fail>
-			<timeout time="500"/>
+			<timeout time="360"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -971,8 +960,7 @@ via timeout </description>
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Run and complete 200 times Audio record usecase + suspend/resume
-in idle path (via timeout) </description>
+			<description>Run and complete Audio Record usecase then perform suspend/resume via timeout: Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase. Repeat this process 200 times</description>
 			<dateofcreation> 11/15/2010</dateofcreation>
 		</information>
 
@@ -995,7 +983,7 @@ in idle path (via timeout) </description>
 		</pass>
 
 		<fail>
-			<timeout time="500"/>
+			<timeout time="20400"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -1006,7 +994,7 @@ in idle path (via timeout) </description>
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Run and complete AV Record usecase then perform suspend/resume in suspend path (pressing Power/F2 key): Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase </description>
+			<description>Run and complete AV Record usecase then perform suspend/resume in suspend path (pressing Power/F2 key): Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase</description>
 			<dateofcreation> 02/11/2011</dateofcreation>
 		</information>
 
@@ -1029,7 +1017,7 @@ in idle path (via timeout) </description>
 		</pass>
 
 		<fail>
-			<timeout time="480"/>
+			<timeout time="360"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -1040,7 +1028,7 @@ in idle path (via timeout) </description>
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Run and complete AV Record usecase then perform suspend/resume in suspend path (pressing Power/F2 key): Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase. Repeat this process 200 times </description>
+			<description>Run and complete AV Record usecase then perform suspend/resume in suspend path (pressing Power/F2 key): Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase. Repeat this process 200 times</description>
 			<dateofcreation> 02/11/2011</dateofcreation>
 		</information>
 
@@ -1074,7 +1062,7 @@ in idle path (via timeout) </description>
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Run and complete AV Record usecase then perform suspend/resume via timeout: Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase </description>
+			<description>Run and complete AV Record usecase then perform suspend/resume via timeout: Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase</description>
 			<dateofcreation> 02/11/2011</dateofcreation>
 		</information>
 
@@ -1097,7 +1085,7 @@ in idle path (via timeout) </description>
 		</pass>
 
 		<fail>
-			<timeout time="480"/>
+			<timeout time="360"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -1108,7 +1096,7 @@ in idle path (via timeout) </description>
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Run and complete AV Record usecase then perform suspend/resume via timeout: Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase. Repeat this process 200 times </description>
+			<description>Run and complete AV Record usecase then perform suspend/resume via timeout: Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase. Repeat this process 200 times</description>
 			<dateofcreation> 02/11/2011</dateofcreation>
 		</information>
 
@@ -1142,7 +1130,7 @@ in idle path (via timeout) </description>
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Run and complete Image Capture usecase then perform suspend/resume in suspend path (pressing Power/F2 key): Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase </description>
+			<description>Run and complete Image Capture usecase then perform suspend/resume in suspend path (pressing Power/F2 key): Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase</description>
 			<dateofcreation> 02/11/2011</dateofcreation>
 		</information>
 
@@ -1165,7 +1153,7 @@ in idle path (via timeout) </description>
 		</pass>
 
 		<fail>
-			<timeout time="480"/>
+			<timeout time="360"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -1176,7 +1164,7 @@ in idle path (via timeout) </description>
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Run and complete Image Capture usecase then perform suspend/resume in suspend path (pressing Power/F2 key): Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase. Repeat this process 200 times </description>
+			<description>Run and complete Image Capture usecase then perform suspend/resume in suspend path (pressing Power/F2 key): Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase. Repeat this process 200 times</description>
 			<dateofcreation> 02/11/2011</dateofcreation>
 		</information>
 
@@ -1210,7 +1198,7 @@ in idle path (via timeout) </description>
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Run and complete Image Capture usecase then perform suspend/resume via timeout: Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase </description>
+			<description>Run and complete Image Capture usecase then perform suspend/resume via timeout: Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase</description>
 			<dateofcreation> 02/11/2011</dateofcreation>
 		</information>
 
@@ -1233,7 +1221,7 @@ in idle path (via timeout) </description>
 		</pass>
 
 		<fail>
-			<timeout time="480"/>
+			<timeout time="360"/>
 			<output>
 				<regularexpression>stat=[^0]\d*</regularexpression>
 			</output>
@@ -1244,7 +1232,7 @@ in idle path (via timeout) </description>
 
 		<information>
 			<autor> Leed Aguilar </autor>
-			<description> Run and complete Image Capture usecase then perform suspend/resume via timeout: Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase. Repeat this process 200 times </description>
+			<description>Run and complete Image Capture usecase then perform suspend/resume via timeout: Boot the platform, release wakelocks, press power key to suspend and then resume to ensure that system works properly. At resume, you should get the console prompt back and there should be any lockup and OSWR and DEVICE-OFF counters should increase. Repeat this process 200 times</description>
 			<dateofcreation> 02/11/2011</dateofcreation>
 		</information>
 
