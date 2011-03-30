@@ -64,6 +64,7 @@ am_error_prepare="prepare failed"
 am_error_param="unsupported parameter"
 am_error_timeout="Launch timeout has expired"
 am_error_crash="Activity destroy timeout for HistoryRecord"
+am_error_open_file="Failed to open file for playback"
 
 # Android Shell
 am_shell="/system/bin/sh"
@@ -223,6 +224,10 @@ executeAndroidProcess() {
 		return
 	elif [ `cat app_err  | grep -rc "$am_error_timeout"` -gt 0 ]; then
 		showInfo "ERROR: unsupported parameter" 1>&2
+		error_val=1
+		return
+	elif [ `cat app_err  | grep -rc "$am_error_open_file"` -gt 0 ]; then
+		showInfo "ERROR: Failed to open file for playback" 1>&2
 		error_val=1
 		return
 	else
