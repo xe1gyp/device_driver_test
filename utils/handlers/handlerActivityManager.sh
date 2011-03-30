@@ -187,46 +187,44 @@ executeAndroidProcess() {
 	# Clear logcat buffer
 	logcat -c
 	# Execute process and save standard error
-	sleep 4; $android_process 2> app_err
+	sleep 3 && $android_process
 	# save logcat output of the execution process
-	logcat -d > app_logcat
-	# When an app crashes the error log is not sent to standard error
-	# output, but it can be obtained from the logcat
+	sleep 3 && logcat -d > app_logcat
 	if [ `cat app_logcat | grep -rc "$am_error_crash"` -gt 0 ]; then
 		showInfo "ERROR: The application $android_intent" \
 			 "has stopped unexpectedly" 1>&2
 		error_val=1
 		return
-	elif [ `cat app_err | grep -rc "$am_warning"` -gt 0  ]; then
+	elif [ `cat app_logcat | grep -rc "$am_warning"` -gt 0  ]; then
 		showInfo "WARNING: app is already running" 1>&2
 		# Keeping this warning as inonfensive by now
 		error_val=0
 		return
-	elif [ `cat app_err  | grep -rc "$am_error_class"` -gt 0 ]; then
+	elif [ `cat app_logcat | grep -rc "$am_error_class"` -gt 0 ]; then
 		showInfo "ERROR: Activity class does not exist" 1>&2
 		error_val=1
 		return
-	elif [ `cat app_err | grep -rc "$am_error_name"` -gt 0 ]; then
+	elif [ `cat app_logcat | grep -rc "$am_error_name"` -gt 0 ]; then
 		showInfo "ERROR: bad component name" 1>&2
 		error_val=1
 		return
-	elif [ `cat app_err  | grep -rc "$am_error_file"` -gt 0 ]; then
+	elif [ `cat app_logcat | grep -rc "$am_error_file"` -gt 0 ]; then
 		showInfo "ERROR: Failed to open file" 1>&2
 		error_val=1
 		return
-	elif [ `cat app_err  | grep -rc "$am_error_prepare"` -gt 0 ]; then
+	elif [ `cat app_logcat | grep -rc "$am_error_prepare"` -gt 0 ]; then
 		showInfo "ERROR: prepare failed: -17" 1>&2
 		error_val=1
 		return
-	elif [ `cat app_err  | grep -rc "$am_error_param"` -gt 0 ]; then
+	elif [ `cat app_logcat | grep -rc "$am_error_param"` -gt 0 ]; then
 		showInfo "ERROR: unsupported parameter" 1>&2
 		error_val=1
 		return
-	elif [ `cat app_err  | grep -rc "$am_error_timeout"` -gt 0 ]; then
+	elif [ `cat app_logcat | grep -rc "$am_error_timeout"` -gt 0 ]; then
 		showInfo "ERROR: unsupported parameter" 1>&2
 		error_val=1
 		return
-	elif [ `cat app_err  | grep -rc "$am_error_open_file"` -gt 0 ]; then
+	elif [ `cat app_logcat | grep -rc "$am_error_open_file"` -gt 0 ]; then
 		showInfo "ERROR: Failed to open file for playback" 1>&2
 		error_val=1
 		return
