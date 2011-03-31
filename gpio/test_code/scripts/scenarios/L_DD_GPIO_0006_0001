@@ -1,13 +1,12 @@
 ###############################################################################
-# Scenario    : L_DD_GPIO_0009_0001
+# Scenario    : L_DD_GPIO_0006_0001
 # Author      : Leed Aguilar
 # Date        : 04/01/2011
-# Description : GPIO driver shall support reverting of the GPIO pins back to
-#               their reset configuration when they are free
+# Description : The driver must reset the module at initialization
 ###############################################################################
 
-# Begin L_DD_GPIO_0009_0001
+# Begin L_DD_GPIO_0006_0001
 
 0001  set -x; echo "To be implemented" && exit 1
 
-# End L_DD_GPIO_0009_0001
+# End L_DD_GPIO_0006_0001

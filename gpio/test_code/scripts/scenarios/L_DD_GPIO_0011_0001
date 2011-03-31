@@ -1,14 +1,12 @@
 ################################################################################
-# Scenario    : L_DD_GPIO_0002_0001
+# Scenario    : L_DD_GPIO_0011_0001
 # Author      : Leed Aguilar
 # Date        : 04/01/2011
-# Description : GPIO driver shall support GPIO wakeup capability
+# Description : GPIO driver shall allow DVFS during data transfer Sequence
 ################################################################################
 
-# Begin L_DD_GPIO_0002_0001
+# Begin L_DD_GPIO_0011_0001
 
 0001  set -x; echo "To be implemented" && exit 1
 
-# End L_DD_GPIO_0002_0001
-
-
+# End L_DD_GPIO_0011_0001

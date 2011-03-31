@@ -1,9 +1,9 @@
 ##############################################################################
 # Scenario    : L_DD_GPIO_0000_0001
-# Author      : Cristopherson Torres
+# Author      : Cristopherson Torres | Leed Aguilar
 # Date        : 02 Frebuary 2010
-# Description : GPIO driver shall support all the GPIO hardware
-#               modules available
+# Description : Device Controller: GPIO driver shall support all the GPIO
+#               hardware modules available
 ##############################################################################
 
 # Begin L_DD_GPIO_0000_0001

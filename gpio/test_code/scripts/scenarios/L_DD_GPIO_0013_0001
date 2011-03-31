@@ -1,12 +1,14 @@
 ###############################################################################
 # Scenario    : L_DD_GPIO_0013_0001
-# Author      : Charulatha V, Datta Shubhrajyoti
-# Date        : Fri Sep 03 12:35:33 IST 2010
-# Description : GPIO Thread saftey
+# Author      : Charulatha V | Datta Shubhrajyoti
+# Date        : 04/06/10
+# Description : Thread Safety: GPIO driver (including any DFCs/DPCs) shall
+#               ensure thread safety against scheduler preemption using kernel
+#               locks or mutexes
 ###############################################################################
 
 # Begin L_DD_GPIO_0013_0001
 
-01  set -x; handlerGpioTest.sh "run" 13
+0001  set -x; handlerGpioTest.sh "run" 13
 
 # End L_DD_GPIO_0013_0001

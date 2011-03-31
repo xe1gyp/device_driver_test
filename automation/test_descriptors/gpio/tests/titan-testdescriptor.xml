@@ -4,8 +4,8 @@
 	<test id="L_DD_GPIO_0000_0001">
 
 		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
+			<autor>Cristopherson Torres | Leed Aguilar</autor>
+			<description>Device Controller: GPIO driver shall support all the GPIO hardware modules available</description>
 			<dateofcreation> 04/06/10 </dateofcreation>
 		</information>
 
@@ -39,9 +39,9 @@
 	<test id="L_DD_GPIO_0001_0001">
 
 		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/10 </dateofcreation>
+			<autor>Moiz Sonasath</autor>
+			<description>Verify if GPIO driver supports reserve and free of GPIO lines</description>
+			<dateofcreation>04/06/10</dateofcreation>
 		</information>
 
 		<run>
@@ -74,9 +74,9 @@
 	<test id="L_DD_GPIO_0001_0002">
 
 		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/10 </dateofcreation>
+			<autor>Moiz Sonasath</autor>
+			<description>GPIO driver shall support GPIO wakeup capability</description>
+			<dateofcreation>04/06/10</dateofcreation>
 		</information>
 
 		<run>
@@ -109,9 +109,9 @@
 	<test id="L_DD_GPIO_0002_0001">
 
 		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/10 </dateofcreation>
+			<autor>Leed Aguilar</autor>
+			<description>GPIO driver shall support GPIO wakeup capability</description>
+			<dateofcreation>04/01/2011</dateofcreation>
 		</information>
 
 		<run>
@@ -141,11 +141,81 @@
 
 	</test>
 
+	<test id="L_DD_GPIO_0003_0001">
+
+		<information>
+			<autor>Moiz Sonasath</autor>
+			<description>Input/Output Configuration: GPIO driver shall support configuration of the GPIO pin direction (Input or output)</description>
+			<dateofcreation>04/01/10</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/gpio/scripts/test_runner.sh L_DD_GPIO_0003_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/gpio/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="360"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_GPIO_0004_0001">
+
+		<information>
+			<autor>Abraham Arce</autor>
+			<description>Input Line Read: GPIO driver shall support read on the GPIO input pin Sequence</description>
+			<dateofcreation>06/25/2010</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/gpio/scripts/test_runner.sh L_DD_GPIO_0004_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/gpio/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="360"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
 	<test id="L_DD_GPIO_0004_0002">
 
 		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
+			<autor>Abraham Arce</autor>
+			<description>GPIO read/write for long duration (500 iterations per GPIO)</description>
 			<dateofcreation> 04/06/10 </dateofcreation>
 		</information>
 
@@ -179,9 +249,9 @@
 
 	<test id="L_DD_GPIO_0005_0001">
 		<information>
-			<autor> Cristopherson Torres </autor>
-			<description>Verify if GPIO driver supports reserve and free of GPIO lines</description>
-			<dateofcreation> 06/30/2009 </dateofcreation>
+			<autor>Charulatha V</autor>
+			<description>Output Line Set: GPIO driver shall support write on the GPIO output pin</description>
+			<dateofcreation>06/30/2009</dateofcreation>
 		</information>
 
 		<run>
@@ -211,12 +281,81 @@
 
 	</test>
 
+	<test id="L_DD_GPIO_0006_0001">
+		<information>
+			<autor>Leed Aguilar</autor>
+			<description>The driver must reset the module at initialization</description>
+			<dateofcreation>04/01/2011</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/gpio/scripts/test_runner.sh L_DD_GPIO_0006_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/gpio/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="360"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_GPIO_0007_0001">
+
+		<information>
+			<autor>Abraham Arce</autor>
+			<description>Verify if GPIO driver supports reserve and free of GPIO lines</description>
+			<dateofcreation>04/06/10</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/gpio/scripts/test_runner.sh L_DD_GPIO_0007_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/gpio/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="360"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
 	<test id="L_DD_GPIO_0007_0002">
 
 		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/10 </dateofcreation>
+			<autor>CharuLatha V</autor>
+			<description>Verify if the driver does not reserve a line that was already reserved</description>
+			<dateofcreation>04/06/10</dateofcreation>
 		</information>
 
 		<run>
@@ -249,8 +388,8 @@
 <test id="L_DD_GPIO_0007_0003">
 
 		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
+			<autor>Datta Shubhrojyoti | Charulatha V</autor>
+			<description>Reserve a gpio line that does not exist and test</description>
 			<dateofcreation> 09/21/2010 </dateofcreation>
 		</information>
 
@@ -284,9 +423,9 @@
 	<test id="L_DD_GPIO_0008_0001">
 
 		<information>
-			<autor> Cristopherson Torres </autor>
-			<description>Verify if GPIO driver supports reserve and free of GPIO lines</description>
-			<dateofcreation> 06/30/2009 </dateofcreation>
+			<autor>Moiz Sonasath | Aharon Campos</autor>
+			<description>GPIO driver shall support configuration of the interrupt edge sensitivity (rising, falling)</description>
+			<dateofcreation>10/23/2009</dateofcreation>
 		</information>
 
 		<run>
@@ -316,12 +455,152 @@
 
 	</test>
 
+	<test id="L_DD_GPIO_0009_0001">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description>Default Configuration: GPIO driver shall support reverting of the GPIO pins back to their reset configuration when they are free Sequence</description>
+			<dateofcreation>04/01/2011</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/gpio/scripts/test_runner.sh L_DD_GPIO_0009_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/gpio/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1800"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_GPIO_0010_0001">
+
+		<information>
+			<autor>Charulatha V</autor>
+			<description>Verify if GPIO driver disables a GPIO module when all the pins of the GPIO module are inactive</description>
+			<dateofcreation>10/23/2009</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/gpio/scripts/test_runner.sh L_DD_GPIO_0010_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/gpio/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="360"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_GPIO_0011_0001">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description>Dynamic Voltage Frequency Scaling: GPIO driver shall allow DVFS during data transfer</description>
+			<dateofcreation> 04/01/11 </dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/gpio/scripts/test_runner.sh L_DD_GPIO_0011_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/gpio/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="360"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
+	<test id="L_DD_GPIO_0012_0001">
+
+		<information>
+			<autor> Leed Aguilar </autor>
+			<description>Power Management: GPIO driver shall use clocks, power domain, voltage domain on a need basis and relinquish when not needed, via the respective manager</description>
+			<dateofcreation>04/01/2011</dateofcreation>
+		</information>
+
+		<run>
+			<action>
+				<deviceundertest>reboot</deviceundertest>
+			</action>
+			<action>
+				<command>/testsuites/gpio/scripts/test_runner.sh L_DD_GPIO_0009_0001</command>
+			</action>
+			<action>
+				<command>rm /testsuites/gpio/scripts/log.*</command>
+			</action>
+		</run>
+
+		<pass>
+			<output>
+				<value>stat=0</value>
+			</output>
+		</pass>
+
+		<fail>
+			<timeout time="1800"/>
+			<output>
+				<regularexpression>stat=[^0]\d*</regularexpression>
+			</output>
+		</fail>
+
+	</test>
+
 	<test id="L_DD_GPIO_0013_0001">
 
 		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/10 </dateofcreation>
+			<autor>Charulatha V | Datta Shubhrajyoti</autor>
+			<description>Thread Safety: GPIO driver (including any DFCs/DPCs) shall ensure thread safety against scheduler preemption using kernel locks or mutexes</description>
+			<dateofcreation>04/06/10</dateofcreation>
 		</information>
 
 		<run>
@@ -355,9 +634,9 @@
 	<test id="L_DD_GPIO_0014_0001">
 
 		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/10 </dateofcreation>
+			<autor>Moiz Sonasath | Datta Shubhrajyoti</autor>
+			<description>Verify that the GPIO driver read is working in SMP environment</description>
+			<dateofcreation>04/06/10</dateofcreation>
 		</information>
 
 		<run>
@@ -390,9 +669,9 @@
 	<test id="L_DD_GPIO_0014_0002">
 
 		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/10 </dateofcreation>
+			<autor>Moiz Sonasath | Datta Shubhrajyoti</autor>
+			<description>Verify that the GPIO driver write is working when CPU affinity is switched</description>
+			<dateofcreation>04/06/10</dateofcreation>
 		</information>
 
 		<run>
@@ -425,9 +704,9 @@
 	<test id="L_DD_GPIO_0014_0003">
 
 		<information>
-			<autor> tbd author </autor>
-			<description> tbd description </description>
-			<dateofcreation> 04/06/10 </dateofcreation>
+			<autor>Datta Shubhrajyoti | Charulatha V</autor>
+			<description>SMP Safety of GPIO operations with different threads binded to different processors</description>
+			<dateofcreation>11/03/2010</dateofcreation>
 		</information>
 
 		<run>

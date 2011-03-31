@@ -1,12 +1,12 @@
 ###############################################################################
 # Scenario    : L_DD_GPIO_0007_0003
-# Author      : Datta Shubhrojyoti, Charulatha V
+# Author      : Datta Shubhrojyoti | Charulatha V
 # Date        : Fri Sep 03 12:30:33 IST 2010
 # Description : Reserve a gpio line that does not exist and test
 ###############################################################################
 
 # Begin L_DD_GPIO_0007_0003
 
-01  set -x; handlerGpioTest.sh "run" 12
+0001  set -x; handlerGpioTest.sh "run" 12
 
 # End L_DD_GPIO_0007_0003

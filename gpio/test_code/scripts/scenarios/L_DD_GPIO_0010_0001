@@ -8,6 +8,6 @@
 
 # Begin L_DD_GPIO_0010_0001
 
-01  set -x; handlerGpioTest.sh "run" 9
+0001  set -x; handlerGpioTest.sh "run" 9
 
 # End L_DD_GPIO_0010_0001

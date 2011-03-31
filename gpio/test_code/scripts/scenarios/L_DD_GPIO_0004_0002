@@ -1,12 +1,12 @@
 ###############################################################################
 # Scenario    : L_DD_GPIO_0004_0002
 # Author      : Abraham Arce
-# Date        : Fri Jun 25 14:08:11 CDT 2010
-# Description : GPIO read/write for long duration
+# Date        : 06/25/2010
+# Description : GPIO read/write for long duration (500 iterations per GPIO)
 ###############################################################################
 
 # Begin L_DD_GPIO_0004_0002
 
-01  set -x; handlerGpioTest.sh "run" 11
+0001  set -x; handlerGpioTest.sh "run" 11
 
 # End L_DD_GPIO_0004_0002

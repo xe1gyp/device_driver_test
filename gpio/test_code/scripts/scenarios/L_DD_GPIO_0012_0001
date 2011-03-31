@@ -1,0 +1,14 @@
+################################################################################
+# Scenario    : L_DD_GPIO_0012_0001
+# Author      : Leed Aguilar
+# Date        : 04/01/2011
+# Description : Power Management: GPIO driver shall use clocks, power domain,
+#               voltage domain on a need basis and relinquish when not needed,
+#               via the respective manager
+################################################################################
+
+# Begin L_DD_GPIO_0012_0001
+
+0001  set -x; echo "To be implemented" && exit 1
+
+# End L_DD_GPIO_0012_0001
