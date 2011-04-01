@@ -38,17 +38,16 @@ if [ "$LOCAL_OPERATION" = "switch" ]; then
 	LOCAL_COMMAND_PID=`echo $!`
 
 	count=1
+	LOCAL_PROCESSOR=1
 
 	while [ $count -le $LOCAL_COMMAND_REPEATABILITY ]
 	do
 
-		echo -e "\nInfo: PID $LOCAL_COMMAND_PID | Processor $processor | Count $count of $LOCAL_COMMAND_REPEATABILITY"
+		echo -e "\nInfo: PID $LOCAL_COMMAND_PID | Processor $LOCAL_PROCESSOR | Count $count of $LOCAL_COMMAND_REPEATABILITY"
 		if [ ! -d "/proc/$LOCAL_COMMAND_PID" ]
 		then
 			break
 		fi
-
-		LOCAL_PROCESSOR=1
 
 		rem=$(( $count % 2 ))
 		if [ $rem -eq 1 ]
@@ -58,10 +57,10 @@ if [ "$LOCAL_OPERATION" = "switch" ]; then
 			fi
 		fi
 
-		taskset -p $processor $LOCAL_COMMAND_PID
+		taskset -p $LOCAL_PROCESSOR $LOCAL_COMMAND_PID
 		if [ $? -ne 0 ]
 		then
-			echo -e "Error: Could not set cpu affinity for processor $processor!"
+			echo -e "Error: Could not set cpu affinity for processor $LOCAL_PROCESSOR!"
 			exit 1
 		fi
 
