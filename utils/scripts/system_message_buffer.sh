@@ -70,9 +70,6 @@ if [ -f /var/log/dmesg ]; then
         alias dmesg='cat /var/log/dmesg'
 fi
 
-echo ""
-echo "[ Testsuites ] System Messages are saved at: $kernel_message_file"
-echo ""
 dmesg > $kernel_message_file
 
 exit $error_val
