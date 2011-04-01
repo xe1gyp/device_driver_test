@@ -1,0 +1,481 @@
+From 0bb8f619f28c2758bfd77e38f4b0e9ca56b2d1f1 Mon Sep 17 00:00:00 2001
+From: sricharan <r.sricharan@ti.com>
+Date: Fri, 1 Apr 2011 17:00:47 +0530
+Subject: [PATCH] test: dma: Test file changes required for virtio.
+
+The test cases has been down sized, by reducing the
+buffer sizes, number of channels tested to
+reduce the run time on Virtio and Zebu platforms.
+
+Signed-off-by: sricharan <r.sricharan@ti.com>
+---
+ dma/test_code/utils/dma/dma_addrmode_constant.c    |    4 ++--
+ dma/test_code/utils/dma/dma_addrmode_doubleidx.c   |    4 ++--
+ dma/test_code/utils/dma/dma_addrmode_postinc.c     |    4 ++--
+ dma/test_code/utils/dma/dma_addrmode_singleidx.c   |    4 ++--
+ dma/test_code/utils/dma/dma_burst_disabled.c       |    4 ++--
+ dma/test_code/utils/dma/dma_burst_mode16.c         |    4 ++--
+ dma/test_code/utils/dma/dma_burst_mode4.c          |    4 ++--
+ dma/test_code/utils/dma/dma_burst_mode8.c          |    4 ++--
+ dma/test_code/utils/dma/dma_chain_dynamic.c        |    2 +-
+ dma/test_code/utils/dma/dma_chain_dynamic_break.c  |    6 +++---
+ .../utils/dma/dma_chain_dynamic_invalid.c          |    6 +++---
+ .../utils/dma/dma_chain_dynamic_removed.c          |    6 +++---
+ dma/test_code/utils/dma/dma_chain_static.c         |    8 ++++----
+ dma/test_code/utils/dma/dma_chain_static_break.c   |    8 ++++----
+ dma/test_code/utils/dma/dma_chain_static_invalid.c |    8 ++++----
+ dma/test_code/utils/dma/dma_chain_static_removed.c |    8 ++++----
+ dma/test_code/utils/dma/dma_chain_thread_access.c  |    6 +++---
+ dma/test_code/utils/dma/dma_chain_thread_stress.c  |    8 ++++----
+ dma/test_code/utils/dma/dma_chain_transfer.c       |    2 +-
+ dma/test_code/utils/dma/dma_dynamic_self_link.c    |    4 ++--
+ dma/test_code/utils/dma/dma_priority_high.c        |    2 +-
+ dma/test_code/utils/dma/dma_priority_low.c         |    2 +-
+ dma/test_code/utils/dma/dma_static_self_link.c     |    4 ++--
+ dma/test_code/utils/dma/dma_thread_access.c        |    6 +++---
+ .../utils/dma/dma_unlink_before_stop_channels.c    |    7 ++++---
+ .../utils/dma/dma_unlink_nonlinked_channels.c      |    7 ++++---
+ 26 files changed, 67 insertions(+), 65 deletions(-)
+
+diff --git a/dma/test_code/utils/dma/dma_addrmode_constant.c b/dma/test_code/utils/dma/dma_addrmode_constant.c
+index 958425c..c7188be 100644
+--- a/dma/test_code/utils/dma/dma_addrmode_constant.c
++++ b/dma/test_code/utils/dma/dma_addrmode_constant.c
+@@ -23,7 +23,7 @@
+ #include "dma_single_channel.h"
+ 
+ #define TRANSFER_COUNT 13
+-#define TRANSFER_POLL_COUNT 60
++#define TRANSFER_POLL_COUNT 6000
+ #define TRANSFER_POLL_TIME 1500
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+@@ -159,7 +159,7 @@ static int __init dma_module_init(void) {
+ 		transfers[i].data_burst = OMAP_DMA_DATA_BURST_DIS;
+ 		transfers[i].data_type = OMAP_DMA_DATA_TYPE_S8;
+ 		transfers[i].endian_type = DMA_TEST_LITTLE_ENDIAN;
+-		transfers[i].addressing_mode = OMAP_DMA_AMODE_POST_INC;
++		transfers[i].addressing_mode = OMAP_DMA_AMODE_CONSTANT;
+ 		transfers[i].dst_addressing_mode = OMAP_DMA_AMODE_POST_INC;
+ 		transfers[i].priority = DMA_CH_PRIO_HIGH;
+ 		transfers[i].buffers.buf_size = (128 * (i+1)*(i+1)) + i % 2;
+diff --git a/dma/test_code/utils/dma/dma_addrmode_doubleidx.c b/dma/test_code/utils/dma/dma_addrmode_doubleidx.c
+index 3100e3e..5e7e60e 100644
+--- a/dma/test_code/utils/dma/dma_addrmode_doubleidx.c
++++ b/dma/test_code/utils/dma/dma_addrmode_doubleidx.c
+@@ -22,8 +22,8 @@
+ 
+ #include "dma_single_channel.h"
+ 
+-#define TRANSFER_COUNT 13
+-#define TRANSFER_POLL_COUNT 60
++#define TRANSFER_COUNT 14
++#define TRANSFER_POLL_COUNT 6000
+ #define TRANSFER_POLL_TIME 1500
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+diff --git a/dma/test_code/utils/dma/dma_addrmode_postinc.c b/dma/test_code/utils/dma/dma_addrmode_postinc.c
+index 016f5b3..b6e0ac9 100644
+--- a/dma/test_code/utils/dma/dma_addrmode_postinc.c
++++ b/dma/test_code/utils/dma/dma_addrmode_postinc.c
+@@ -22,8 +22,8 @@
+ 
+ #include "dma_single_channel.h"
+ 
+-#define TRANSFER_COUNT 13
+-#define TRANSFER_POLL_COUNT 60
++#define TRANSFER_COUNT 2
++#define TRANSFER_POLL_COUNT 6000
+ #define TRANSFER_POLL_TIME 1500
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+diff --git a/dma/test_code/utils/dma/dma_addrmode_singleidx.c b/dma/test_code/utils/dma/dma_addrmode_singleidx.c
+index a08a63d..66d624e 100644
+--- a/dma/test_code/utils/dma/dma_addrmode_singleidx.c
++++ b/dma/test_code/utils/dma/dma_addrmode_singleidx.c
+@@ -22,8 +22,8 @@
+ 
+ #include "dma_single_channel.h"
+ 
+-#define TRANSFER_COUNT 13
+-#define TRANSFER_POLL_COUNT 60
++#define TRANSFER_COUNT 2
++#define TRANSFER_POLL_COUNT 6000
+ #define TRANSFER_POLL_TIME 1500
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+diff --git a/dma/test_code/utils/dma/dma_burst_disabled.c b/dma/test_code/utils/dma/dma_burst_disabled.c
+index 16a514f..853d841 100644
+--- a/dma/test_code/utils/dma/dma_burst_disabled.c
++++ b/dma/test_code/utils/dma/dma_burst_disabled.c
+@@ -22,8 +22,8 @@
+ 
+ #include "dma_single_channel.h"
+ 
+-#define TRANSFER_COUNT 3
+-#define TRANSFER_POLL_COUNT 60
++#define TRANSFER_COUNT 2
++#define TRANSFER_POLL_COUNT 6000
+ #define TRANSFER_POLL_TIME 1500
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+diff --git a/dma/test_code/utils/dma/dma_burst_mode16.c b/dma/test_code/utils/dma/dma_burst_mode16.c
+index 8dc371f..e013d19 100644
+--- a/dma/test_code/utils/dma/dma_burst_mode16.c
++++ b/dma/test_code/utils/dma/dma_burst_mode16.c
+@@ -22,8 +22,8 @@
+ 
+ #include "dma_single_channel.h"
+ 
+-#define TRANSFER_COUNT 3
+-#define TRANSFER_POLL_COUNT 60
++#define TRANSFER_COUNT 2
++#define TRANSFER_POLL_COUNT 6000
+ #define TRANSFER_POLL_TIME 1500
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+diff --git a/dma/test_code/utils/dma/dma_burst_mode4.c b/dma/test_code/utils/dma/dma_burst_mode4.c
+index 845f895..51c6d2d 100644
+--- a/dma/test_code/utils/dma/dma_burst_mode4.c
++++ b/dma/test_code/utils/dma/dma_burst_mode4.c
+@@ -20,8 +20,8 @@
+  */
+ #include "dma_single_channel.h"
+ 
+-#define TRANSFER_COUNT 3
+-#define TRANSFER_POLL_COUNT 60
++#define TRANSFER_COUNT 2
++#define TRANSFER_POLL_COUNT 6000
+ #define TRANSFER_POLL_TIME 1500
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+diff --git a/dma/test_code/utils/dma/dma_burst_mode8.c b/dma/test_code/utils/dma/dma_burst_mode8.c
+index af0c754..ab69487 100644
+--- a/dma/test_code/utils/dma/dma_burst_mode8.c
++++ b/dma/test_code/utils/dma/dma_burst_mode8.c
+@@ -22,8 +22,8 @@
+ 
+ #include "dma_single_channel.h"
+ 
+-#define TRANSFER_COUNT 3
+-#define TRANSFER_POLL_COUNT 60
++#define TRANSFER_COUNT 2
++#define TRANSFER_POLL_COUNT 6000
+ #define TRANSFER_POLL_TIME 1500
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+diff --git a/dma/test_code/utils/dma/dma_chain_dynamic.c b/dma/test_code/utils/dma/dma_chain_dynamic.c
+index f6e565b..4bc6318 100644
+--- a/dma/test_code/utils/dma/dma_chain_dynamic.c
++++ b/dma/test_code/utils/dma/dma_chain_dynamic.c
+@@ -24,7 +24,7 @@
+ 
+ #include "dma_chain_transfer.h"
+ 
+-#define TRANSFER_COUNT 10
++#define TRANSFER_COUNT 4
+ #define TRANSFER_POLL_COUNT 60
+ #define TRANSFER_POLL_TIME 1500
+ 
+diff --git a/dma/test_code/utils/dma/dma_chain_dynamic_break.c b/dma/test_code/utils/dma/dma_chain_dynamic_break.c
+index 5522b4d..5075c01 100644
+--- a/dma/test_code/utils/dma/dma_chain_dynamic_break.c
++++ b/dma/test_code/utils/dma/dma_chain_dynamic_break.c
+@@ -25,9 +25,9 @@
+ 
+ #include "dma_chain_transfer.h"
+ 
+-#define TRANSFER_COUNT 10
+-#define TRANSFER_POLL_COUNT 60
+-#define TRANSFER_POLL_TIME 1500
++#define TRANSFER_COUNT 2
++#define TRANSFER_POLL_COUNT 6000
++#define TRANSFER_POLL_TIME 15000
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+ static struct dma_chain chain;
+diff --git a/dma/test_code/utils/dma/dma_chain_dynamic_invalid.c b/dma/test_code/utils/dma/dma_chain_dynamic_invalid.c
+index c2b9a4d..d84f03e 100644
+--- a/dma/test_code/utils/dma/dma_chain_dynamic_invalid.c
++++ b/dma/test_code/utils/dma/dma_chain_dynamic_invalid.c
+@@ -24,9 +24,9 @@
+ 
+ #include "dma_chain_transfer.h"
+ 
+-#define TRANSFER_COUNT 40
+-#define TRANSFER_POLL_COUNT 60
+-#define TRANSFER_POLL_TIME 1500
++#define TRANSFER_COUNT 5
++#define TRANSFER_POLL_COUNT 6000
++#define TRANSFER_POLL_TIME 15000
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+ static struct dma_chain chain;
+diff --git a/dma/test_code/utils/dma/dma_chain_dynamic_removed.c b/dma/test_code/utils/dma/dma_chain_dynamic_removed.c
+index c10eb7b..f4df5d8 100644
+--- a/dma/test_code/utils/dma/dma_chain_dynamic_removed.c
++++ b/dma/test_code/utils/dma/dma_chain_dynamic_removed.c
+@@ -25,9 +25,9 @@
+ 
+ #include "dma_chain_transfer.h"
+ 
+-#define TRANSFER_COUNT 10
+-#define TRANSFER_POLL_COUNT 60
+-#define TRANSFER_POLL_TIME 1500
++#define TRANSFER_COUNT 4
++#define TRANSFER_POLL_COUNT 6000
++#define TRANSFER_POLL_TIME 15000
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+ static struct dma_chain chain;
+diff --git a/dma/test_code/utils/dma/dma_chain_static.c b/dma/test_code/utils/dma/dma_chain_static.c
+index 76b2331..8c2fa44 100644
+--- a/dma/test_code/utils/dma/dma_chain_static.c
++++ b/dma/test_code/utils/dma/dma_chain_static.c
+@@ -24,10 +24,10 @@
+ 
+ #include "dma_chain_transfer.h"
+ 
+-#define TRANSFER_ROUNDS 5
+-#define TRANSFER_COUNT 4
+-#define TRANSFER_POLL_COUNT 60
+-#define TRANSFER_POLL_TIME 1500
++#define TRANSFER_ROUNDS 2
++#define TRANSFER_COUNT 2
++#define TRANSFER_POLL_COUNT 6000
++#define TRANSFER_POLL_TIME 15000
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+ static struct dma_chain chain;
+diff --git a/dma/test_code/utils/dma/dma_chain_static_break.c b/dma/test_code/utils/dma/dma_chain_static_break.c
+index 0029d19..2512a7a 100644
+--- a/dma/test_code/utils/dma/dma_chain_static_break.c
++++ b/dma/test_code/utils/dma/dma_chain_static_break.c
+@@ -24,10 +24,10 @@
+ 
+ #include "dma_chain_transfer.h"
+ 
+-#define TRANSFER_ROUNDS 5
+-#define TRANSFER_COUNT 4
+-#define TRANSFER_POLL_COUNT 60
+-#define TRANSFER_POLL_TIME 1500
++#define TRANSFER_ROUNDS 2
++#define TRANSFER_COUNT 2
++#define TRANSFER_POLL_COUNT 6000
++#define TRANSFER_POLL_TIME 15000
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+ static struct dma_chain chain;
+diff --git a/dma/test_code/utils/dma/dma_chain_static_invalid.c b/dma/test_code/utils/dma/dma_chain_static_invalid.c
+index 14904db..e62e932 100644
+--- a/dma/test_code/utils/dma/dma_chain_static_invalid.c
++++ b/dma/test_code/utils/dma/dma_chain_static_invalid.c
+@@ -24,10 +24,10 @@
+ 
+ #include "dma_chain_transfer.h"
+ 
+-#define TRANSFER_ROUNDS 5
+-#define TRANSFER_COUNT 25
+-#define TRANSFER_POLL_COUNT 60
+-#define TRANSFER_POLL_TIME 1500
++#define TRANSFER_ROUNDS 2
++#define TRANSFER_COUNT 5
++#define TRANSFER_POLL_COUNT 6000
++#define TRANSFER_POLL_TIME 15000
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+ static struct dma_chain chain;
+diff --git a/dma/test_code/utils/dma/dma_chain_static_removed.c b/dma/test_code/utils/dma/dma_chain_static_removed.c
+index cc8f1e8..8490e93 100644
+--- a/dma/test_code/utils/dma/dma_chain_static_removed.c
++++ b/dma/test_code/utils/dma/dma_chain_static_removed.c
+@@ -25,10 +25,10 @@
+ 
+ #include "dma_chain_transfer.h"
+ 
+-#define TRANSFER_ROUNDS 5
+-#define TRANSFER_COUNT 4
+-#define TRANSFER_POLL_COUNT 60
+-#define TRANSFER_POLL_TIME 1500
++#define TRANSFER_ROUNDS 2
++#define TRANSFER_COUNT 2
++#define TRANSFER_POLL_COUNT 6000
++#define TRANSFER_POLL_TIME 15000
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+ static struct dma_chain chain;
+diff --git a/dma/test_code/utils/dma/dma_chain_thread_access.c b/dma/test_code/utils/dma/dma_chain_thread_access.c
+index 096d84f..4e60314 100644
+--- a/dma/test_code/utils/dma/dma_chain_thread_access.c
++++ b/dma/test_code/utils/dma/dma_chain_thread_access.c
+@@ -26,9 +26,9 @@
+ #include <linux/syscalls.h>
+ #include "dma_chain_transfer.h"
+ 
+-#define TRANSFER_COUNT 10
+-#define TRANSFER_POLL_COUNT 60
+-#define TRANSFER_POLL_TIME 1500
++#define TRANSFER_COUNT 4
++#define TRANSFER_POLL_COUNT 6000
++#define TRANSFER_POLL_TIME 15000
+ 
+ struct chain_transfer {
+ 	struct dma_transfer transfers[TRANSFER_COUNT];
+diff --git a/dma/test_code/utils/dma/dma_chain_thread_stress.c b/dma/test_code/utils/dma/dma_chain_thread_stress.c
+index 6f6dc27..e9476e2 100644
+--- a/dma/test_code/utils/dma/dma_chain_thread_stress.c
++++ b/dma/test_code/utils/dma/dma_chain_thread_stress.c
+@@ -28,10 +28,10 @@
+ 
+ 
+ #define MAX_THREADS		2
+-#define STRESS_COUNT		100
+-#define TRANSFER_COUNT		14
+-#define TRANSFER_POLL_COUNT	60
+-#define TRANSFER_POLL_TIME	1500
++#define STRESS_COUNT		2
++#define TRANSFER_COUNT		2
++#define TRANSFER_POLL_COUNT	6000
++#define TRANSFER_POLL_TIME	150000
+ 
+ struct chain_transfer {
+ 	struct dma_transfer transfers[TRANSFER_COUNT];
+diff --git a/dma/test_code/utils/dma/dma_chain_transfer.c b/dma/test_code/utils/dma/dma_chain_transfer.c
+index 0f833cc..fbadd73 100644
+--- a/dma/test_code/utils/dma/dma_chain_transfer.c
++++ b/dma/test_code/utils/dma/dma_chain_transfer.c
+@@ -22,7 +22,7 @@
+ 
+ #include "dma_chain_transfer.h"
+ 
+-#define TEST_FINISHED_POLL_TIME 1000
++#define TEST_FINISHED_POLL_TIME 10000
+ 
+ static int test_passed = -1;
+ static volatile int chained_id = 0;
+diff --git a/dma/test_code/utils/dma/dma_dynamic_self_link.c b/dma/test_code/utils/dma/dma_dynamic_self_link.c
+index 5a0683a..a8ea6ae 100644
+--- a/dma/test_code/utils/dma/dma_dynamic_self_link.c
++++ b/dma/test_code/utils/dma/dma_dynamic_self_link.c
+@@ -23,8 +23,8 @@
+ #include "dma_single_channel.h"
+ 
+ #define TRANSFER_COUNT 2
+-#define TRANSFER_POLL_COUNT 60
+-#define TRANSFER_POLL_TIME 1500
++#define TRANSFER_POLL_COUNT 6000
++#define TRANSFER_POLL_TIME 15000
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+ static int transfer1 = 0;
+diff --git a/dma/test_code/utils/dma/dma_priority_high.c b/dma/test_code/utils/dma/dma_priority_high.c
+index 8b058f4..83e31e6 100644
+--- a/dma/test_code/utils/dma/dma_priority_high.c
++++ b/dma/test_code/utils/dma/dma_priority_high.c
+@@ -28,7 +28,7 @@
+ #include "dma_single_channel.h"
+ 
+ #define TRANSFER_COUNT 4
+-#define TRANSFER_POLL_COUNT 60
++#define TRANSFER_POLL_COUNT 6000
+ #define TRANSFER_POLL_TIME 1500
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+diff --git a/dma/test_code/utils/dma/dma_priority_low.c b/dma/test_code/utils/dma/dma_priority_low.c
+index ac23e32..f8d6074 100644
+--- a/dma/test_code/utils/dma/dma_priority_low.c
++++ b/dma/test_code/utils/dma/dma_priority_low.c
+@@ -28,7 +28,7 @@
+ #include "dma_single_channel.h"
+ 
+ #define TRANSFER_COUNT 4
+-#define TRANSFER_POLL_COUNT 60
++#define TRANSFER_POLL_COUNT 6000
+ #define TRANSFER_POLL_TIME 1500
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+diff --git a/dma/test_code/utils/dma/dma_static_self_link.c b/dma/test_code/utils/dma/dma_static_self_link.c
+index 005c33a..94c1b12 100644
+--- a/dma/test_code/utils/dma/dma_static_self_link.c
++++ b/dma/test_code/utils/dma/dma_static_self_link.c
+@@ -23,8 +23,8 @@
+ #include "dma_single_channel.h"
+ 
+ #define TRANSFER_COUNT 2
+-#define TRANSFER_POLL_COUNT 60
+-#define TRANSFER_POLL_TIME 1500
++#define TRANSFER_POLL_COUNT 6000
++#define TRANSFER_POLL_TIME 15000
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+ 
+diff --git a/dma/test_code/utils/dma/dma_thread_access.c b/dma/test_code/utils/dma/dma_thread_access.c
+index 51abe5e..759cb79 100644
+--- a/dma/test_code/utils/dma/dma_thread_access.c
++++ b/dma/test_code/utils/dma/dma_thread_access.c
+@@ -22,9 +22,9 @@
+ #include <linux/syscalls.h>
+ 
+ 
+-#define TRANSFER_COUNT 13
+-#define TRANSFER_POLL_COUNT 60
+-#define TRANSFER_POLL_TIME 1500
++#define TRANSFER_COUNT 3
++#define TRANSFER_POLL_COUNT 6000
++#define TRANSFER_POLL_TIME 15000
+ 
+ static struct dma_transfer gtransfers[TRANSFER_COUNT];
+ static struct dma_transfer gtransfers2[TRANSFER_COUNT];
+diff --git a/dma/test_code/utils/dma/dma_unlink_before_stop_channels.c b/dma/test_code/utils/dma/dma_unlink_before_stop_channels.c
+index 13e20d6..7d99f6f 100644
+--- a/dma/test_code/utils/dma/dma_unlink_before_stop_channels.c
++++ b/dma/test_code/utils/dma/dma_unlink_before_stop_channels.c
+@@ -23,8 +23,8 @@
+ #include "dma_single_channel.h"
+ 
+ #define TRANSFER_COUNT 2
+-#define TRANSFER_POLL_COUNT 60
+-#define TRANSFER_POLL_TIME 1500
++#define TRANSFER_POLL_COUNT 6000
++#define TRANSFER_POLL_TIME 15000
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+ 
+@@ -169,7 +169,8 @@ static int __init dma_module_init(void) {
+            transfers[i].data_burst = OMAP_DMA_DATA_BURST_DIS;
+            transfers[i].data_type = OMAP_DMA_DATA_TYPE_S8;
+            transfers[i].endian_type = DMA_TEST_LITTLE_ENDIAN;
+-           transfers[i].addressing_mode = OMAP_DMA_AMODE_CONSTANT;
++           transfers[i].addressing_mode = OMAP_DMA_AMODE_POST_INC;
++	   transfers[i].dst_addressing_mode = OMAP_DMA_AMODE_POST_INC;
+            transfers[i].priority = DMA_CH_PRIO_HIGH;
+            transfers[i].buffers.buf_size = (10240 * (i+1)*(i+1)) + i % 2;
+ 	   /* Request a dma transfer */
+diff --git a/dma/test_code/utils/dma/dma_unlink_nonlinked_channels.c b/dma/test_code/utils/dma/dma_unlink_nonlinked_channels.c
+index 52bca30..87d4091 100644
+--- a/dma/test_code/utils/dma/dma_unlink_nonlinked_channels.c
++++ b/dma/test_code/utils/dma/dma_unlink_nonlinked_channels.c
+@@ -23,8 +23,8 @@
+ #include "dma_single_channel.h"
+ 
+ #define TRANSFER_COUNT 2
+-#define TRANSFER_POLL_COUNT 60
+-#define TRANSFER_POLL_TIME 1500
++#define TRANSFER_POLL_COUNT 6000
++#define TRANSFER_POLL_TIME 15000
+ 
+ static struct dma_transfer transfers[TRANSFER_COUNT];
+ 
+@@ -169,7 +169,8 @@ static int __init dma_module_init(void) {
+            transfers[i].data_burst = OMAP_DMA_DATA_BURST_DIS;
+            transfers[i].data_type = OMAP_DMA_DATA_TYPE_S8;
+            transfers[i].endian_type = DMA_TEST_LITTLE_ENDIAN;
+-           transfers[i].addressing_mode = OMAP_DMA_AMODE_CONSTANT;
++           transfers[i].addressing_mode = OMAP_DMA_AMODE_POST_INC;
++	   transfers[i].dst_addressing_mode = OMAP_DMA_AMODE_POST_INC;
+            transfers[i].priority = DMA_CH_PRIO_HIGH;
+            transfers[i].buffers.buf_size = (10240 * (i+1)*(i+1)) + i % 2;
+ 	   /* Request a dma transfer */
+-- 
+1.7.0.4
+
