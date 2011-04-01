@@ -34,9 +34,6 @@ export UTILS_DIR_SCRIPTS=$UTILS_DIR/scripts
 
 export PATH="$PATH:$UTILS_DIR_BIN:$UTILS_DIR_HANDLERS:$UTILS_DIR_SCRIPTS"
 
-# Platform
-export DMESG_FILE=/tmp/result.tmp
-
 # Driver specific
 export WATCHDOG_DEVFS=/dev/watchdog
 export WATCHDOG_MODALIAS=watchdog

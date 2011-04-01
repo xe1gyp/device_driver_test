@@ -1,12 +1,13 @@
 ###############################################################################
 # Scenario: L_DD_WATCHDOG_0001_0001
-# Author  : Misael Lopez Cruz, Abraham Arce
+# Author  : Misael Lopez Cruz | Abraham Arce | Leed Aguilar
 # Date    : August 4, 2009
 ###############################################################################
 
 # Begin L_DD_WATCHDOG_0001_0001
 
-01 set -x; filesystemtype.sh;
-01 set -x; cat $DMESG_FILE | grep -i $WATCHDOG_MODALIAS
+0001 set -x; $UTILS_DIR_SCRIPTS/system_message_buffer.sh "system.log" && exit 0 || exit
+0002 set -x; cat "system.log" | grep -i $WATCHDOG_MODALIAS && exit 0 || exit 1
+0003 set -x; rm "system.log" && exit 0 || exit 1
 
 # End L_DD_WATCHDOG_0001_0001
