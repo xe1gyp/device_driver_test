@@ -93,7 +93,6 @@ export TRANSFER_CANCELLATION=4
 export INTERRUPT_MODE=5
 
 # General variables
-export DMESG_PATH=/var/log/dmesg
 export PROCFS_INTERRUPTS=/proc/interrupts
 export INTERRUPT_PREFIX=i2c_omap
 export TEMP_FILE_1=i2c.test.file.1
