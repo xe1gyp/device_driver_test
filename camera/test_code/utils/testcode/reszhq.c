@@ -260,6 +260,8 @@ int main(int argc, char *argv[])
 	memset(&v4l2_req, 0, sizeof(v4l2_req));
 	memset(&src_ubuf, 0, sizeof(src_ubuf));
 	memset(&dst_ubuf, 0, sizeof(dst_ubuf));
+	void * inBuf;
+	void * outBuf;
 
 	/* V4L2 Memory map type */
 	v4l2_req.memory	= V4L2_MEMORY_USERPTR;
@@ -288,8 +290,14 @@ int main(int argc, char *argv[])
 	}
 
 	/* allocate input data buffer */
-	posix_memalign((void **) &src_ubuf.m.userptr, PAGE_SIZE,
-				   src_ubuf.length);
+	inBuf =  malloc(src_ubuf.length + PAGE_SIZE);
+	if (inBuf == NULL ) {
+		perror("input: Can't allocate memory");
+		exit(errno);
+	}
+
+	src_ubuf.m.userptr = (unsigned long)(ALIGN(inBuf, PAGE_SIZE));
+
 	if (!src_ubuf.m.userptr) {
 		perror("input: Can't allocate memory");
 		exit(errno);
@@ -346,8 +354,15 @@ int main(int argc, char *argv[])
 	dst_ubuf.m.userptr = (unsigned long) (ALIGN(dst_ubuf.maddr, PAGE_SIZE));
 #else
 	/* allocate input data buffer */
-	posix_memalign((void **) &dst_ubuf.m.userptr, PAGE_SIZE,
-				   dst_ubuf.length);
+
+	outBuf =  malloc(dst_ubuf.length + PAGE_SIZE);
+	if (outBuf == NULL ) {
+		perror("input: Can't allocate memory");
+		exit(errno);
+	}
+
+	dst_ubuf.m.userptr = (unsigned long)(ALIGN(outBuf, PAGE_SIZE));
+
 	if (!dst_ubuf.m.userptr) {
 		perror("input: Can't allocate memory");
 		exit(errno);
@@ -393,9 +408,10 @@ int main(int argc, char *argv[])
 
 	/* release allocated buffers */
 	if (src_ubuf.m.userptr)
-		free((void *) src_ubuf.m.userptr);
+		free(inBuf);
+
 	if (dst_ubuf.m.userptr)
-		free((void *) dst_ubuf.m.userptr);
+		free(outBuf);
 
 	if (rz_fd)
 		close(rz_fd);
