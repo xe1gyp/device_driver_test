@@ -13,7 +13,7 @@ SUITE_DIR:=$(PWD)
 endif
 
 TARGETS=system_time
-obj-m := clock_test.o pd_test.o cd_test.o dvfs_func_test.o dvfs_test.o
+obj-m := clock_test.o pd_test.o cd_test.o
 
 
 all:
@@ -24,8 +24,6 @@ install:
 	cp -vf clock_test.ko ../../modules
 	cp -vf pd_test.ko ../../modules
 	cp -vf cd_test.ko ../../modules
-	cp -vf dvfs_func_test.ko ../../modules
-	cp -vf dvfs_test.ko ../../modules
 	cp -vf $(TARGETS) ../../bin
 
 clean:

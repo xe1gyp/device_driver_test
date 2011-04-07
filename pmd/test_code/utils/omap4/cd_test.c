@@ -120,14 +120,14 @@ extern int clkdm_read_sleepdep(struct clockdomain *clkdm1, struct clockdomain *c
 extern int clkdm_clear_all_sleepdeps(struct clockdomain *clkdm);
  */
 
-extern void omap2_clkdm_allow_idle(struct clockdomain *clkdm);
-extern void omap2_clkdm_deny_idle(struct clockdomain *clkdm);
+extern void clkdm_allow_idle(struct clockdomain *clkdm);
+extern void clkdm_deny_idle(struct clockdomain *clkdm);
 
-extern int omap2_clkdm_wakeup(struct clockdomain *clkdm);
-extern int omap2_clkdm_sleep(struct clockdomain *clkdm);
+extern int clkdm_wakeup(struct clockdomain *clkdm);
+extern int clkdm_sleep(struct clockdomain *clkdm);
 
-extern int omap2_clkdm_clk_enable(struct clockdomain *clkdm, struct clk *clk);
-extern int omap2_clkdm_clk_disable(struct clockdomain *clkdm, struct clk *clk);
+extern int clkdm_clk_enable(struct clockdomain *clkdm, struct clk *clk);
+extern int clkdm_clk_disable(struct clockdomain *clkdm, struct clk *clk);
 
 void clock_domain_test(void);
 static int clock_dm_test_1(void);
@@ -186,7 +186,7 @@ static int clock_dm_test_1()
 
 	printk("\n\nEntered Clock Domain Test 1.....\n\n");
 
-	val = omap2_clkdm_clk_enable(cd = clkdm_omap, &dummy_clk1);
+	val = clkdm_clk_enable(cd = clkdm_omap, &dummy_clk1);
 	if (val == 0)
 		printk(KERN_INFO "Enabled Clock for %s\n", cd->name);
 	else if (val == -EINVAL)
@@ -196,7 +196,7 @@ static int clock_dm_test_1()
 		ret = -1;
 	}
 
-	val = omap2_clkdm_clk_disable(cd = clkdm_omap, &dummy_clk1);
+	val = clkdm_clk_disable(cd = clkdm_omap, &dummy_clk1);
 	if (val == 0)
 		printk(KERN_INFO "Disabled Clock for %s\n", cd->name);
 	else if (val == -EINVAL)
@@ -229,11 +229,11 @@ static int clock_dm_test_2()
 
 	printk("\n\nEntered Clock Domain Test 2.....\n\n");
 
-	omap2_clkdm_allow_idle(clkdm_omap);
+	clkdm_allow_idle(clkdm_omap);
 
-	omap2_clkdm_deny_idle(clkdm_omap);
+	clkdm_deny_idle(clkdm_omap);
 
-	val = omap2_clkdm_wakeup(cd = clkdm_omap);
+	val = clkdm_wakeup(cd = clkdm_omap);
 	if (val == 0)
 		printk(KERN_INFO "Forced %s to Wake up\n", cd->name);
 	else if (val == -EINVAL)
@@ -243,7 +243,7 @@ static int clock_dm_test_2()
 		ret = -1;
 	}
 
-	val = omap2_clkdm_sleep(cd = clkdm_omap);
+	val = clkdm_sleep(cd = clkdm_omap);
 	if (val == 0)
 		printk(KERN_INFO "Forced %s Sleep\n", cd->name);
 	else if (val == -EINVAL)

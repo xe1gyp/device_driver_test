@@ -1,45 +1,121 @@
-From 109e9a3f3a123781e3a8be2036ae329b00ebf800 Mon Sep 17 00:00:00 2001
-From: Abhijit Pagare <abhijitpagare@ti.com>
-Date: Wed, 10 Feb 2010 18:48:55 +0530
-Subject: [PATCH] ARM: OMAP4: powerdomains: Export Power Domain APIs.
+From 72abd86967d331aba7768ed2dde5dfe1095d83c1 Mon Sep 17 00:00:00 2001
+From: Lesly A M <leslyam@ti.com>
+Date: Thu, 7 Apr 2011 19:11:57 +0530
+Subject: [PATCH 1/2] ARM: OMAP4: powerdomains: Export Power Domain APIs.
 
 Export API's for testing the power domain framework
 
 Signed-off-by: Abhijit Pagare <abhijitpagare@ti.com>
-
---
- arch/arm/plat-omap/include/plat/powerdomain.h |   70 +++++++++++++-------------
- arch/arm/plat-omap/powerdomain.c              |   10 +++
- 2 files changed, 45 insertions(+), 35 deletions(-)
 ---
+ arch/arm/mach-omap2/powerdomain.c |   10 ++++++++++
+ arch/arm/mach-omap2/powerdomain.h |   20 ++++++++++----------
+ 2 files changed, 20 insertions(+), 10 deletions(-)
 
-Index: kernel-omap4/arch/arm/plat-omap/include/plat/powerdomain.h
-===================================================================
---- kernel-omap4.orig/arch/arm/plat-omap/include/plat/powerdomain.h	2010-08-17 12:55:20.604167595 +0530
-+++ kernel-omap4/arch/arm/plat-omap/include/plat/powerdomain.h	2010-08-17 12:55:39.120177811 +0530
-@@ -139,49 +139,49 @@
-	int (*pwrdm_wait_transition)(struct powerdomain *pwrdm);
- };
+diff --git a/arch/arm/mach-omap2/powerdomain.c b/arch/arm/mach-omap2/powerdomain.c
+index 49c6513..d9180ac 100644
+--- a/arch/arm/mach-omap2/powerdomain.c
++++ b/arch/arm/mach-omap2/powerdomain.c
+@@ -237,6 +237,7 @@ struct powerdomain *pwrdm_lookup(const char *name)
  
--void pwrdm_init(struct powerdomain **pwrdm_list, struct pwrdm_functions *custom_funcs);
-+extern void pwrdm_init(struct powerdomain **pwrdm_list, struct pwrdm_functions *custom_funcs);
+ 	return pwrdm;
+ }
++EXPORT_SYMBOL(pwrdm_lookup);
+ 
+ /**
+  * pwrdm_for_each - call function on each registered clockdomain
+@@ -313,6 +314,7 @@ int pwrdm_add_clkdm(struct powerdomain *pwrdm, struct clockdomain *clkdm)
+ pac_exit:
+ 	return ret;
+ }
++EXPORT_SYMBOL(pwrdm_add_clkdm);
+ 
+ /**
+  * pwrdm_del_clkdm - remove a clockdomain from a powerdomain
+@@ -353,6 +355,7 @@ int pwrdm_del_clkdm(struct powerdomain *pwrdm, struct clockdomain *clkdm)
+ pdc_exit:
+ 	return ret;
+ }
++EXPORT_SYMBOL(pwrdm_del_clkdm);
+ 
+ /**
+  * pwrdm_for_each_clkdm - call function on each clkdm in a pwrdm
+@@ -396,6 +399,7 @@ int pwrdm_get_mem_bank_count(struct powerdomain *pwrdm)
+ 
+ 	return pwrdm->banks;
+ }
++EXPORT_SYMBOL(pwrdm_get_mem_bank_count);
+ 
+ /**
+  * pwrdm_set_next_pwrst - set next powerdomain power state
+@@ -431,6 +435,7 @@ int pwrdm_set_next_pwrst(struct powerdomain *pwrdm, u8 pwrst)
+ 
+ 	return ret;
+ }
++EXPORT_SYMBOL(pwrdm_set_next_pwrst);
+ 
+ /**
+  * pwrdm_read_next_pwrst - get next powerdomain power state
+@@ -452,6 +457,7 @@ int pwrdm_read_next_pwrst(struct powerdomain *pwrdm)
+ 
+ 	return ret;
+ }
++EXPORT_SYMBOL(pwrdm_read_next_pwrst);
+ 
+ /**
+  * pwrdm_read_pwrst - get current powerdomain power state
+@@ -473,6 +479,7 @@ int pwrdm_read_pwrst(struct powerdomain *pwrdm)
+ 
+ 	return ret;
+ }
++EXPORT_SYMBOL(pwrdm_read_pwrst);
+ 
+ /**
+  * pwrdm_read_prev_pwrst - get previous powerdomain power state
+@@ -524,6 +531,7 @@ int pwrdm_set_logic_retst(struct powerdomain *pwrdm, u8 pwrst)
+ 
+ 	return ret;
+ }
++EXPORT_SYMBOL(pwrdm_set_logic_retst);
+ 
+ /**
+  * pwrdm_set_mem_onst - set memory power state while powerdomain ON
+@@ -621,6 +629,7 @@ int pwrdm_read_logic_pwrst(struct powerdomain *pwrdm)
+ 
+ 	return ret;
+ }
++EXPORT_SYMBOL(pwrdm_read_logic_pwrst);
+ 
+ /**
+  * pwrdm_read_prev_logic_pwrst - get previous powerdomain logic power state
+@@ -663,6 +672,7 @@ int pwrdm_read_logic_retst(struct powerdomain *pwrdm)
+ 
+ 	return ret;
+ }
++EXPORT_SYMBOL(pwrdm_read_logic_retst);
+ 
+ /**
+  * pwrdm_read_mem_pwrst - get current memory bank power state
+diff --git a/arch/arm/mach-omap2/powerdomain.h b/arch/arm/mach-omap2/powerdomain.h
+index 027f40b..6ed6784 100644
+--- a/arch/arm/mach-omap2/powerdomain.h
++++ b/arch/arm/mach-omap2/powerdomain.h
+@@ -164,34 +164,34 @@ struct pwrdm_ops {
+ 
+ void pwrdm_init(struct powerdomain **pwrdm_list, struct pwrdm_ops *custom_funcs);
  
 -struct powerdomain *pwrdm_lookup(const char *name);
 +extern struct powerdomain *pwrdm_lookup(const char *name);
  
--int pwrdm_for_each(int (*fn)(struct powerdomain *pwrdm, void *user),
-+extern int pwrdm_for_each(int (*fn)(struct powerdomain *pwrdm, void *user),
+ int pwrdm_for_each(int (*fn)(struct powerdomain *pwrdm, void *user),
  			void *user);
--int pwrdm_for_each_nolock(int (*fn)(struct powerdomain *pwrdm, void *user),
-+extern int pwrdm_for_each_nolock(int (*fn)(struct powerdomain *pwrdm, void *user),
+ int pwrdm_for_each_nolock(int (*fn)(struct powerdomain *pwrdm, void *user),
  			void *user);
  
 -int pwrdm_add_clkdm(struct powerdomain *pwrdm, struct clockdomain *clkdm);
 -int pwrdm_del_clkdm(struct powerdomain *pwrdm, struct clockdomain *clkdm);
--int pwrdm_for_each_clkdm(struct powerdomain *pwrdm,
 +extern int pwrdm_add_clkdm(struct powerdomain *pwrdm, struct clockdomain *clkdm);
 +extern int pwrdm_del_clkdm(struct powerdomain *pwrdm, struct clockdomain *clkdm);
-+extern int pwrdm_for_each_clkdm(struct powerdomain *pwrdm,
+ int pwrdm_for_each_clkdm(struct powerdomain *pwrdm,
  			 int (*fn)(struct powerdomain *pwrdm,
  				   struct clockdomain *clkdm));
  
@@ -49,140 +125,25 @@ Index: kernel-omap4/arch/arm/plat-omap/include/plat/powerdomain.h
 -int pwrdm_set_next_pwrst(struct powerdomain *pwrdm, u8 pwrst);
 -int pwrdm_read_next_pwrst(struct powerdomain *pwrdm);
 -int pwrdm_read_pwrst(struct powerdomain *pwrdm);
--int pwrdm_read_prev_pwrst(struct powerdomain *pwrdm);
--int pwrdm_clear_all_prev_pwrst(struct powerdomain *pwrdm);
--
--int pwrdm_set_logic_retst(struct powerdomain *pwrdm, u8 pwrst);
--int pwrdm_set_mem_onst(struct powerdomain *pwrdm, u8 bank, u8 pwrst);
--int pwrdm_set_mem_retst(struct powerdomain *pwrdm, u8 bank, u8 pwrst);
--
--int pwrdm_read_logic_pwrst(struct powerdomain *pwrdm);
--int pwrdm_read_prev_logic_pwrst(struct powerdomain *pwrdm);
--int pwrdm_read_logic_retst(struct powerdomain *pwrdm);
--int pwrdm_read_mem_pwrst(struct powerdomain *pwrdm, u8 bank);
--int pwrdm_read_prev_mem_pwrst(struct powerdomain *pwrdm, u8 bank);
--int pwrdm_read_mem_retst(struct powerdomain *pwrdm, u8 bank);
--
--int pwrdm_enable_hdwr_sar(struct powerdomain *pwrdm);
--int pwrdm_disable_hdwr_sar(struct powerdomain *pwrdm);
--bool pwrdm_has_hdwr_sar(struct powerdomain *pwrdm);
--
--int pwrdm_wait_transition(struct powerdomain *pwrdm);
--
--int pwrdm_state_switch(struct powerdomain *pwrdm);
--int pwrdm_clkdm_state_switch(struct clockdomain *clkdm);
--int pwrdm_pre_transition(void);
--int pwrdm_post_transition(void);
 +extern int pwrdm_set_next_pwrst(struct powerdomain *pwrdm, u8 pwrst);
 +extern int pwrdm_read_next_pwrst(struct powerdomain *pwrdm);
 +extern int pwrdm_read_pwrst(struct powerdomain *pwrdm);
-+extern int pwrdm_read_prev_pwrst(struct powerdomain *pwrdm);
-+extern int pwrdm_clear_all_prev_pwrst(struct powerdomain *pwrdm);
-+
-+extern int pwrdm_set_logic_retst(struct powerdomain *pwrdm, u8 pwrst);
-+extern int pwrdm_set_mem_onst(struct powerdomain *pwrdm, u8 bank, u8 pwrst);
-+extern int pwrdm_set_mem_retst(struct powerdomain *pwrdm, u8 bank, u8 pwrst);
-+
-+extern int pwrdm_read_logic_pwrst(struct powerdomain *pwrdm);
-+extern int pwrdm_read_prev_logic_pwrst(struct powerdomain *pwrdm);
-+extern int pwrdm_read_logic_retst(struct powerdomain *pwrdm);
-+extern int pwrdm_read_mem_pwrst(struct powerdomain *pwrdm, u8 bank);
-+extern int pwrdm_read_prev_mem_pwrst(struct powerdomain *pwrdm, u8 bank);
-+extern int pwrdm_read_mem_retst(struct powerdomain *pwrdm, u8 bank);
-+
-+extern int pwrdm_enable_hdwr_sar(struct powerdomain *pwrdm);
-+extern int pwrdm_disable_hdwr_sar(struct powerdomain *pwrdm);
-+extern bool pwrdm_has_hdwr_sar(struct powerdomain *pwrdm);
-+
-+extern int pwrdm_wait_transition(struct powerdomain *pwrdm);
-+
-+extern int pwrdm_state_switch(struct powerdomain *pwrdm);
-+extern int pwrdm_clkdm_state_switch(struct clockdomain *clkdm);
-+extern int pwrdm_pre_transition(void);
-+extern int pwrdm_post_transition(void);
+ int pwrdm_read_prev_pwrst(struct powerdomain *pwrdm);
+ int pwrdm_clear_all_prev_pwrst(struct powerdomain *pwrdm);
  
- #endif
-Index: kernel-omap4/arch/arm/plat-omap/powerdomain.c
-===================================================================
---- kernel-omap4.orig/arch/arm/plat-omap/powerdomain.c	2010-08-17 12:56:03.368188689 +0530
-+++ kernel-omap4/arch/arm/plat-omap/powerdomain.c	2010-08-17 12:56:23.180178275 +0530
-@@ -206,6 +206,7 @@
+-int pwrdm_set_logic_retst(struct powerdomain *pwrdm, u8 pwrst);
++extern int pwrdm_set_logic_retst(struct powerdomain *pwrdm, u8 pwrst);
+ int pwrdm_set_mem_onst(struct powerdomain *pwrdm, u8 bank, u8 pwrst);
+ int pwrdm_set_mem_retst(struct powerdomain *pwrdm, u8 bank, u8 pwrst);
+ 
+-int pwrdm_read_logic_pwrst(struct powerdomain *pwrdm);
++extern int pwrdm_read_logic_pwrst(struct powerdomain *pwrdm);
+ int pwrdm_read_prev_logic_pwrst(struct powerdomain *pwrdm);
+-int pwrdm_read_logic_retst(struct powerdomain *pwrdm);
++extern int pwrdm_read_logic_retst(struct powerdomain *pwrdm);
+ int pwrdm_read_mem_pwrst(struct powerdomain *pwrdm, u8 bank);
+ int pwrdm_read_prev_mem_pwrst(struct powerdomain *pwrdm, u8 bank);
+ int pwrdm_read_mem_retst(struct powerdomain *pwrdm, u8 bank);
+-- 
+1.7.1
 
-	return pwrdm;
- }
-+EXPORT_SYMBOL(pwrdm_lookup);
-
- /**
-  * pwrdm_for_each - call function on each registered clockdomain
-@@ -282,6 +283,7 @@
- pac_exit:
-	return ret;
- }
-+EXPORT_SYMBOL(pwrdm_add_clkdm);
-
- /**
-  * pwrdm_del_clkdm - remove a clockdomain from a powerdomain
-@@ -322,6 +324,7 @@
- pdc_exit:
-	return ret;
- }
-+EXPORT_SYMBOL(pwrdm_del_clkdm);
-
- /**
-  * pwrdm_for_each_clkdm - call function on each clkdm in a pwrdm
-@@ -365,6 +368,7 @@
-
-	return pwrdm->banks;
- }
-+EXPORT_SYMBOL(pwrdm_get_mem_bank_count);
-
- /**
-  * pwrdm_set_next_pwrst - set next powerdomain power state
-@@ -395,6 +399,7 @@
-
-	return ret;
- }
-+EXPORT_SYMBOL(pwrdm_set_next_pwrst);
-
- /**
-  * pwrdm_read_next_pwrst - get next powerdomain power state
-@@ -416,6 +421,7 @@
-
-	return ret;
- }
-+EXPORT_SYMBOL(pwrdm_read_next_pwrst);
-
- /**
-  * pwrdm_read_pwrst - get current powerdomain power state
-@@ -437,6 +443,7 @@
-
-	return ret;
- }
-+EXPORT_SYMBOL(pwrdm_read_pwrst);
-
- /**
-  * pwrdm_read_prev_pwrst - get previous powerdomain power state
-@@ -488,6 +495,7 @@
-
-	return ret;
- }
-+EXPORT_SYMBOL(pwrdm_set_logic_retst);
-
- /**
-  * pwrdm_set_mem_onst - set memory power state while powerdomain ON
-@@ -585,6 +593,7 @@
-
-	return ret;
- }
-+EXPORT_SYMBOL(pwrdm_read_logic_pwrst);
-
- /**
-  * pwrdm_read_prev_logic_pwrst - get previous powerdomain logic power state
-@@ -627,6 +636,7 @@
-
-	return ret;
- }
-+EXPORT_SYMBOL(pwrdm_read_logic_retst);
-
- /**
-  * pwrdm_read_mem_pwrst - get current memory bank power state
