@@ -31,7 +31,7 @@ MODULES = dma_single_channel.o \
   dma_stop_transfer_twice.o \
   dma_thread_access.o
 
- ifeq ($(TARGET_PLATFORM), OMAP2PLUS)
+ ifeq ($(TARGET_PLATFORM), $(filter $(TARGET_PLATFORM), OMAP2PLUS OMAP_4430))
  MODULES +=  dma_chain_transfer.o \
   dma_chain_static.o \
   dma_chain_dynamic.o \
