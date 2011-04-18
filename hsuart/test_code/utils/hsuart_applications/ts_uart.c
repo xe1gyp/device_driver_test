@@ -20,7 +20,6 @@
 
 #include "common.h"
 
-#define TIOCMSET 0x5418
 #define TIOCM_LOOP 0x8000
 
 int main(int argc, char **argv)
@@ -108,7 +107,7 @@ int main(int argc, char **argv)
 		while (1) {
 			FD_ZERO(&readFds);
 			FD_SET(ut.fd, &readFds);
-			respTime.tv_sec = 30;
+			respTime.tv_sec = 60;
 			respTime.tv_usec = 0;
 
 			/*
