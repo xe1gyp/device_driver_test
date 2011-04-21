@@ -1,0 +1,13 @@
+<pre>
+type= point
+count=10
+speed= 1.0
+start data >>
+
+captureDispatchPointer(10,10,0,760,375,1,0,0,0,0,0,0)
+captureDispatchPointer(10,10,2,450,375,1,0,0,0,0,0,0)
+captureDispatchPointer(10,10,1,450,375,1,0,0,0,0,0,0)
+
+captureDispatchFlip(true)
+
+quit
