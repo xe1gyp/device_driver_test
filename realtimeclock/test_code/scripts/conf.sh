@@ -106,7 +106,7 @@ export ALARM_SEC='1'
 export ALARM_VALUE=5
 
 # IRQ value
-IRQ_FILE=$TMPBASE/irq_temp
+IRQ_FILE=$RTC_DIR_TMP/irq_temp
 handlerIrq.sh "get" "irq" "rtc" "$IRQ_FILE"
 export IRQ_VALUE=`cat $IRQ_FILE`
 
