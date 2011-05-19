@@ -22,7 +22,7 @@
 # Start Audio playback usecase
 0004 set -x; handlerActivityManager.sh audio_playback start $MP3_FILE
 
-0005 set -x; handlerCmd.sh iterate "sleep 10; handlerInputSubsystem.sh keypad KeyCodeEndCall 1 1 1; sleep 10;  handlerSysFs.sh verify $SYSFS_CPU1_ONLINE 0; handlerOmapconf.sh run FREQUENCY > opp.log; [ \`cat opp.log | grep -m 1 -w VDD_IVA  | awk '{printf\$10}'\` = OPP50_98 ]; [ \`cat opp.log | grep -m 1 -w VDD_CORE | awk '{printf\$10}'\` = OPP50_98 ];  handlerInputSubsystem.sh keypad KeyCodeF1 1 2 1; rm opp.log; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyPreviousSong" 50 2
+0005 set -x; handlerCmd.sh iterate "sleep 10; handlerInputSubsystem.sh keypad KeyCodeEndCall 1 1 1; sleep 10;  handlerSysFs.sh verify $SYSFS_CPU1_ONLINE 0; handlerOmapconf.sh run FREQUENCY > opp.log; [ \`cat opp.log | grep -m 1 -w VDD_IVA  | awk '{printf\$10}'\` = DPLL_CASC ]; [ \`cat opp.log | grep -m 1 -w VDD_CORE | awk '{printf\$10}'\` = DPLL_CASC ];  handlerInputSubsystem.sh keypad KeyCodeF1 1 2 1; rm opp.log; handlerAndroidMonkey.sh keypad 1 800 KeyMonkeyPreviousSong" 50 2
 
 # Stop Audio playback app
 0007 set -x; handlerActivityManager.sh audio_playback stop
