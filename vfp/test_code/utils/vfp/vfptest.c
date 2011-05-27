@@ -67,7 +67,7 @@ static double double_expected_result[] = {
 	[vfpAdd]        =       5.2371e-322,
 	[vfpSub]        =       0,
 	[vfpMul]        =       3.11261e-322,
-	[vfpNMul]       =       -6.56182e-92,
+	[vfpNMul]       =       -6.5618244e-92,
 	[vfpDiv]        =       1,
 	[vfpMac]        =       6.76f,
 	[vfpNMac]       =       -6.76f,
@@ -289,7 +289,7 @@ void VfpRegWrite64(double value, __u32 reg)
 
 float VfpRegRead32(__u32 reg)
 {
-	float retval = 0;
+	float retval;
 
 	switch(reg){
 		case 0:
